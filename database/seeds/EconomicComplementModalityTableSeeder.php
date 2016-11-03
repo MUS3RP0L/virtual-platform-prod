@@ -45,8 +45,8 @@ class EconomicComplementModalityTableSeeder extends Seeder
             ['eco_com_type_id' => '3', 'name' => 'Orfandad', 'description' => 'Renta asociada con el (la) huérfano (o) del titular'],
             ['eco_com_type_id' => '1', 'name' => 'RENT-1COMP-VEJ', 'description' => 'Un solo componente'],
             ['eco_com_type_id' => '2', 'name' => 'RENT-1COMP-VIU', 'description' => 'Un solo componente'],
-            ['eco_com_type_id' => '1', 'name' => 'RENT-1COMP-M2000-VEJ', 'description' => 'Un solo componente y menor a Bs. 2000,00'],
-            ['eco_com_type_id' => '2', 'name' => 'RENT-1COMP-M2000-VIU', 'description' => 'Un solo componente y menor a Bs. 2000,00'],
+            ['eco_com_type_id' => '1', 'name' => 'RENT-1COM-M2000-VEJ', 'description' => 'Un solo componente y menor a Bs. 2000,00'],
+            ['eco_com_type_id' => '2', 'name' => 'RENT-1COM-M2000-VIU', 'description' => 'Un solo componente y menor a Bs. 2000,00'],
             ['eco_com_type_id' => '1', 'name' => 'RENT-M2000-VEJ', 'description' => 'Renta menor a Bs. 2000,00'],
             ['eco_com_type_id' => '2', 'name' => 'RENT-M2000-VIU', 'description' => 'Renta menor a Bs. 2000,00']
 

@@ -3,6 +3,7 @@
 namespace Muserpol;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EconomicComplement extends Model
 {
