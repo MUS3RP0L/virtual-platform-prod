@@ -1,0 +1,27 @@
+{
+  "name": "Muserpol",
+  "homepage": "https://github.com/MUS3RP0L/project-dev",
+  "authors": [
+    "erickguis <aleguis@icloud.com>"
+  ],
+  "description": "Paquetes Front-end",
+  "main": "",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "knockout": "^3.4.0",
+    "bootstrap-combobox": "^1.1.6",
+    "Chart.js": "^1.0.2"
+  }
+}

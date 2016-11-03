@@ -1,0 +1,238 @@
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+a {
+  color: #5D6975;
+  text-decoration: underline;
+}
+
+p {
+  font-size: 1.2em;
+}
+
+#legal {
+  position: relative;
+  width: 34cm;
+  height: 21.59cm;
+  margin: -40px -20px auto;
+  color: #001028;
+  background: #FFFFFF;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-family: Arial;
+}
+#carta {
+  position: relative;
+  width: 21cm;
+  height: 29.7cm;
+  margin: -40px -20px auto;
+  color: #001028;
+  background: #FFFFFF;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-family: Arial;
+}
+body {
+
+
+
+
+
+}
+
+header {
+  padding: 10px 0;
+}
+
+#logo {
+  text-align: left;
+  margin-bottom: 5px;
+}
+#logo2 {
+  text-align: right;
+  margin-bottom: 5px;
+  margin-right: 15px;
+}
+
+#logo img {
+  width: 140px;
+}
+
+#logo2 img {
+  width: 65px;
+}
+
+h1 {
+
+  font-size: 1.3em;
+  line-height: 1.2em;
+  font-weight: normal;
+  text-align: center;
+  margin: 0 0 -5px 0;
+
+}
+h3 {
+  color: #000;
+  font-size: 1.0em;
+  line-height: 1.2em;
+  font-weight: normal;
+  text-align: center;
+  margin: 0 0 0 0;
+}
+h4 {
+  color: #000;
+  font-size: 0.8em;
+  line-height: 1.2em;
+  font-weight: normal;
+  text-align: center;
+  margin: 0 0 0 0;
+}
+
+#project {
+  float: left;
+}
+
+#project span {
+  color: #5D6975;
+  text-align: right;
+  width: 240px;
+  margin-right: 10px;
+  display: inline-block;
+  font-size: 1em;
+}
+
+#company {
+  float: right;
+  text-align: right;
+}
+
+#project div,
+#company div {
+  white-space: nowrap;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 8px;
+}
+
+.tableh {
+  width: 100%;
+  border-top: 1px solid  #5D6975;
+  border-bottom: 1px solid  #5D6975;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 5px;
+}
+
+.tablet {
+  width: 100%;
+  border-spacing: 0;
+  margin-top: -5px;
+  margin-bottom: -10px;
+}
+
+table tr:nth-child(2n-1) td {
+  /*background: #F5F5F5;*/
+}
+
+table th,
+table td {
+  text-align: center;
+}
+
+table th {
+  padding: 3px 3px 1px 6px;
+  color: #000;
+  border: 1px solid #C1CED9;
+  white-space: nowrap;
+  font-weight: normal;
+}
+
+table .service,
+table .desc {
+  text-align: left;
+}
+
+table td {
+  padding: 3px 6px 1px 6px;
+  text-align: left;
+  border: 1px solid #C1CED9;
+}
+
+table td.service,
+table td.desc {
+  vertical-align: top;
+}
+
+table td.unit,
+table td.qty,
+table td.total {
+  font-size: 1.2em;
+  text-align: right;
+  width: 50%;
+
+}
+
+table td.info {
+  font-size: 1.2em;
+}
+
+table td.cert {
+  font-size: 1.2em;
+  text-align: center;
+}
+
+table td.certitle {
+  font-weight: bold;
+  font-size: 0.8em;
+  text-align: center;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+}
+table td.certitle2 {
+  border-top: 0px;
+  border-bottom: 0px;
+}
+
+table td.grand {
+  background: #F5F5F5;
+  font-weight: bold;
+}
+
+table th.grand {
+  background: #F5F5F5;
+  text-align: center;
+}
+
+#notices .notice {
+  color: #000;
+  font-size: 1.2em;
+}
+
+.title {
+  margin-bottom: 2px;
+  font-size: 1.2em;
+}
+
+footer {
+  color: #5D6975;
+  width: 100%;
+  height: -15px;
+  position: absolute;
+  bottom: 0;
+  border-top: 1px solid #C1CED9;
+  padding: 8px 0;
+  text-align: center;
+}
+
+.page-break {
+    page-break-after: always;
+}

@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: Muserpol
+        psr4_prefix: Muserpol
+        src_path: app

@@ -1,0 +1,4 @@
+/vendor
+/public/file_to_import
+/storage/exports
+.env

@@ -1,0 +1,56 @@
+{
+    "name": "MUS3RP0L/project-muserpol",
+    "description": "Virtual Platform Muserpol",
+    "keywords": ["Muserpol", "laravel"],
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": ">=5.5.9",
+        "laravel/framework": "5.1.*",
+        "acacha/admin-lte-template-laravel": "1.*",
+        "laravelcollective/html": "5.1.*",
+        "maatwebsite/excel": "~2.1.0",
+        "barryvdh/laravel-debugbar": "^2.2",
+        "yajra/laravel-datatables-oracle": "~6.0",
+        "barryvdh/laravel-dompdf": "^0.7.0",
+        "davejamesmiller/laravel-breadcrumbs": "^3.0"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "~1.4",
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "~4.0",
+        "phpspec/phpspec": "~2.1"
+    },
+    "autoload": {
+        "classmap": [
+            "database"
+        ],
+        "psr-4": {
+            "Muserpol\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/TestCase.php"
+        ]
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "php -r \"copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "php artisan key:generate"
+        ],
+        "post-install-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postInstall",
+            "php artisan optimize"
+        ],
+        "post-update-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+            "php artisan optimize"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist"
+    }
+}
