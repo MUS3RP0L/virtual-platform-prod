@@ -24,14 +24,25 @@ class CreateAffiliatesTable extends Migration
 
         });
 
+        Schema::create('hierarchies', function (Blueprint $table) {
+
+            $table->bigIncrements('id');
+            $table->string('code');
+            $table->string('name');
+            $table->timestamps();
+
+        });
+
         Schema::create('degrees', function (Blueprint $table) {
 
             $table->bigIncrements('id');
-            $table->string('code_level');
-            $table->string('code_degree');
+            $table->UnsignedBigInteger('hierarchy_id');
+            $table->string('code');
             $table->string('name');
             $table->string('shortened');
             $table->timestamps();
+            $table->foreign('hierarchy_id')->references('id')->on('hierarchies');
+
 
         });
 
@@ -226,6 +237,7 @@ class CreateAffiliatesTable extends Migration
         Schema::dropIfExists('units');
         Schema::dropIfExists('breakdowns');
         Schema::dropIfExists('degrees');
+        Schema::dropIfExists('hierarchies');
         Schema::dropIfExists('cities');
     }
 }

@@ -9,12 +9,12 @@ class Degree extends Model
     protected $table = 'degrees';
 
 	protected $fillable = [
-	
-		'code_level',
-		'code_degree',
+
+		'hierarchy_id',
+		'code',
 		'name',
 		'shortened'
-	
+
 	];
 
 	protected $guarded = ['id'];
