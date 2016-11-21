@@ -53,6 +53,7 @@ class CreateEconomicComplementsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
+            $table->foreign('eco_com_modality_id')->references('id')->on('eco_com_modalities');
             $table->foreign('city_id')->references('id')->on('cities');
 
         });
