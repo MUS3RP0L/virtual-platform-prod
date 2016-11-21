@@ -48,6 +48,7 @@ class DegreeTableSeeder extends Seeder
             ['hierarchy_id' => '1', 'code' => '02', 'name' => 'SUBCOMANDANTE', 'shortened' => 'SBCMTE. GRAL.'],
             ['hierarchy_id' => '1', 'code' => '03', 'name' => 'INSPECTOR GENERAL', 'shortened' => 'INSP. GRAL.'],
             ['hierarchy_id' => '1', 'code' => '04', 'name' => 'DIRECTOR GENERAL', 'shortened' => 'DIR. GRAL.'],
+
             ['hierarchy_id' => '2', 'code' => '01', 'name' => 'CORONEL CON SUELDO DE GENERAL', 'shortened' => 'CNL.'],
             ['hierarchy_id' => '2', 'code' => '02', 'name' => 'CORONEL', 'shortened' => 'CNL.'],
             ['hierarchy_id' => '2', 'code' => '03', 'name' => 'TENIENTE CORONEL', 'shortened' => 'TCNL.'],
@@ -55,12 +56,14 @@ class DegreeTableSeeder extends Seeder
             ['hierarchy_id' => '2', 'code' => '05', 'name' => 'CAPITAN', 'shortened' => 'CAP.'],
             ['hierarchy_id' => '2', 'code' => '06', 'name' => 'TENIENTE', 'shortened' => 'TTE.'],
             ['hierarchy_id' => '2', 'code' => '07', 'name' => 'SUBTENIENTE', 'shortened' => 'SBTTE.'],
+
             ['hierarchy_id' => '3', 'code' => '02', 'name' => 'CORONEL ADMINISTRATIVO', 'shortened' => 'CNL. ADM.'],
             ['hierarchy_id' => '3', 'code' => '03', 'name' => 'TENIENTE CORONEL ADMINISTRATIVO', 'shortened' => 'TCNL. ADM.'],
             ['hierarchy_id' => '3', 'code' => '04', 'name' => 'MAYOR ADMINISTRATIVO', 'shortened' => 'MY. ADM.'],
             ['hierarchy_id' => '3', 'code' => '05', 'name' => 'CAPITAN ADMINISTRATIVO', 'shortened' => 'CAP. ADM.'],
             ['hierarchy_id' => '3', 'code' => '06', 'name' => 'TENIENTE ADMINISTRATIVO', 'shortened' => 'TTE. ADM.'],
             ['hierarchy_id' => '3', 'code' => '07', 'name' => 'SUBTENIENTE ADMINISTRATIVO', 'shortened' => 'SBTTE. ADM.'],
+
             ['hierarchy_id' => '4', 'code' => '08', 'name' => 'SUBOFICIAL SUPERIOR', 'shortened' => 'SOF. SUP.'],
             ['hierarchy_id' => '4', 'code' => '09', 'name' => 'SUBOFICIAL MAYOR', 'shortened' => 'SOF. MY.'],
             ['hierarchy_id' => '4', 'code' => '10', 'name' => 'SUBOFICIAL PRIMERO', 'shortened' => 'SOF. 1RO.'],
@@ -69,6 +72,7 @@ class DegreeTableSeeder extends Seeder
             ['hierarchy_id' => '4', 'code' => '13', 'name' => 'SARGENTO SEGUNDO', 'shortened' => 'SGTO. 2DO.'],
             ['hierarchy_id' => '4', 'code' => '14', 'name' => 'CABO', 'shortened' => 'CBO.'],
             ['hierarchy_id' => '4', 'code' => '15', 'name' => 'POLICIA', 'shortened' => 'POL.'],
+
             ['hierarchy_id' => '5', 'code' => '08', 'name' => 'SUBOFICIAL SUPERIOR ADMINISTRATIVO', 'shortened' => 'SOF. SUP. ADM.'],
             ['hierarchy_id' => '5', 'code' => '09', 'name' => 'SUBOFICIAL MAYOR ADMINISTRATIVO', 'shortened' => 'SOF. MY. ADM.'],
             ['hierarchy_id' => '5', 'code' => '10', 'name' => 'SUBOFICIAL PRIMERO ADMINISTRATIVO', 'shortened' => 'SOF. 1RO. ADM.'],
