@@ -31,6 +31,39 @@ class CreateEconomicComplementsTable extends Migration
 
         });
 
+        Schema::create('eco_com_rents', function(Blueprint $table) {
+
+            $table->bigIncrements('id');
+            $table->UnsignedBigInteger('user_id');
+            $table->UnsignedBigInteger('degree_id');
+            $table->UnsignedBigInteger('eco_com_type_id');
+            $table->date('month_year')->required();
+            $table->enum('semester', ['F', 'S'])->required();
+            $table->decimal('minor', 13, 2);
+            $table->decimal('higher', 13, 2);
+            $table->decimal('average', 13, 2);
+            $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('degree_id')->references('id')->on('degrees');
+            $table->foreign('eco_com_type_id')->references('id')->on('eco_com_types');
+
+        });
+
+        Schema::create('eco_com_factors', function(Blueprint $table) {
+
+            $table->bigIncrements('id');
+            $table->UnsignedBigInteger('user_id');
+            $table->UnsignedBigInteger('hierarchy_id');
+            $table->date('month_year')->required();
+            $table->enum('semester', ['F', 'S'])->required();
+            $table->decimal('old_age', 13, 2);
+            $table->decimal('widowhood', 13, 2);
+            $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('hierarchy_id')->references('id')->on('hierarchies');
+
+        });
+
         Schema::create('economic_complements', function (Blueprint $table) {
 
             $table->bigIncrements('id');
@@ -38,18 +71,14 @@ class CreateEconomicComplementsTable extends Migration
             $table->UnsignedBigInteger('eco_com_modality_id')->nullable();
             $table->UnsignedBigInteger('city_id')->nullable();
             $table->date('first_ticket_month_id');
-            $table->date('second_ticket_month_id')->nullable();
+            $table->date('second_ticket_month_id');
             $table->string('code')->unique()->required();
             $table->date('reception_date')->nullable();
             $table->date('review_date')->nullable();
             $table->enum('semester', ['F', 'S']);
 
-            // $table->decimal('total_quotable', 13, 2);
-            // $table->decimal('total_additional_quotable', 13, 2);
-            // $table->decimal('subtotal', 13, 2);
-            // $table->decimal('performance', 13, 2);
-            // $table->decimal('total', 13, 2);
-            // $table->string('comment');
+            $table->decimal('total', 13, 2);
+            $table->string('comment');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
@@ -113,38 +142,6 @@ class CreateEconomicComplementsTable extends Migration
 
         });
 
-        Schema::create('eco_com_factors', function(Blueprint $table) {
-
-            $table->bigIncrements('id');
-            $table->UnsignedBigInteger('user_id');
-            $table->UnsignedBigInteger('hierarchy_id');
-            $table->date('month_year')->required();
-            $table->enum('semester', ['F', 'S'])->required();
-            $table->decimal('old_age', 13, 2);
-            $table->decimal('widowhood', 13, 2);
-            $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('hierarchy_id')->references('id')->on('hierarchies');
-
-        });
-
-        Schema::create('eco_com_rents', function(Blueprint $table) {
-
-            $table->bigIncrements('id');
-            $table->UnsignedBigInteger('user_id');
-            $table->UnsignedBigInteger('degree_id');
-            $table->UnsignedBigInteger('eco_com_type_id');
-            $table->date('month_year')->required();
-            $table->enum('semester', ['F', 'S'])->required();
-            $table->decimal('minor', 13, 2);
-            $table->decimal('higher', 13, 2);
-            $table->decimal('average', 13, 2);
-            $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('degree_id')->references('id')->on('degrees');
-            $table->foreign('eco_com_type_id')->references('id')->on('eco_com_types');
-
-        });
     }
 
     /**
