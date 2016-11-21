@@ -130,7 +130,7 @@ class CreateEconomicComplementsTable extends Migration
 
             $table->bigIncrements('id');
             $table->UnsignedBigInteger('user_id');
-            $table->UnsignedBigInteger('degree_id');
+            $table->UnsignedBigInteger('hierarchy_id');
             $table->UnsignedBigInteger('eco_com_type_id');
             $table->date('month_year')->required();
             $table->enum('semester', ['F', 'S'])->nullable();
@@ -139,7 +139,7 @@ class CreateEconomicComplementsTable extends Migration
             $table->decimal('average', 13, 2);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('degree_id')->references('id')->on('degrees');
+            $table->foreign('hierarchy_id')->references('id')->on('hierarchies');
             $table->foreign('eco_com_type_id')->references('id')->on('eco_com_types');
 
         });
