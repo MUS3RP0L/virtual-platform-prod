@@ -152,6 +152,8 @@ class CreateEconomicComplementsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('eco_com_rents');
+        Schema::dropIfExists('eco_com_complementarity_factors');
         Schema::dropIfExists('eco_com_applicants');
         Schema::dropIfExists('eco_com_applicant_types');
         Schema::dropIfExists('eco_com_submitted_documents');
