@@ -70,20 +70,34 @@ class CreateEconomicComplementsTable extends Migration
             $table->UnsignedBigInteger('affiliate_id');
             $table->UnsignedBigInteger('eco_com_modality_id')->nullable();
             $table->UnsignedBigInteger('city_id')->nullable();
+            $table->UnsignedBigInteger('category_id')->nullable();
+            $table->UnsignedBigInteger('base_wage_id')->nullable();
+            $table->UnsignedBigInteger('eco_com_factor_id')->nullable();
+
             $table->date('first_ticket_month_id');
             $table->date('second_ticket_month_id');
+
             $table->string('code')->unique()->required();
             $table->date('reception_date')->nullable();
             $table->date('review_date')->nullable();
             $table->enum('semester', ['F', 'S']);
 
+            $table->decimal('total_rent', 13, 2);
+            $table->decimal('seniority', 13, 2);
+            $table->decimal('quotable', 13, 2);
+
             $table->decimal('total', 13, 2);
+
             $table->string('comment');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
             $table->foreign('eco_com_modality_id')->references('id')->on('eco_com_modalities');
             $table->foreign('city_id')->references('id')->on('cities');
+            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('base_wage_id')->references('id')->on('base_wages');
+            $table->foreign('eco_com_factor_id')->references('id')->on('economic_complements');
+
 
         });
 
