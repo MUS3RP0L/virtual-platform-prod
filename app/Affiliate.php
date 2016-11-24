@@ -131,6 +131,10 @@ class Affiliate extends Model
     {
         return Util::ucw($this->first_name) . ' ' . Util::ucw($this->second_name)  . ' ' . Util::ucw($this->last_name) . ' ' . Util::ucw($this->mothers_last_name) . ' ' . Util::ucw($this->surname_husband);
     }
+    public function getTittleNamePrint()
+    {
+        return $this->degree->shortened . ' ' . $this->last_name . ' ' . $this->mothers_last_name . ' ' . $this->surname_husband . ' ' . $this->first_name . ' ' . $this->second_name;
+    }
 
     public function getShortBirthDate()
     {

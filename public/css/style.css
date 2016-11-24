@@ -10,13 +10,12 @@ a {
 }
 
 p {
-  font-size: 1.2em;
+  font-size: 0.9em;
 }
 
 #legal {
   position: relative;
-  width: 34cm;
-  height: 21.59cm;
+
   margin: -40px -20px auto;
   color: #001028;
   background: #FFFFFF;
@@ -26,20 +25,20 @@ p {
 }
 #carta {
   position: relative;
-  width: 21cm;
-  height: 29.7cm;
+
   margin: -40px -20px auto;
-  color: #001028;
+  
+
   background: #FFFFFF;
   font-family: Arial, sans-serif;
   font-size: 12px;
   font-family: Arial;
 }
 body {
-
-
-
-
+  position: relative;
+  margin: -10px -10px auto;
+  color: #001028;
+  background: #FFFFFF;
 
 }
 
@@ -88,6 +87,14 @@ h4 {
   line-height: 1.2em;
   font-weight: normal;
   text-align: center;
+  margin: 0 0 0 0;
+}
+h5 {
+  color: #000;
+  font-size: 0.8em;
+  line-height: 1.2em;
+  font-weight: normal;
+  text-align: left;
   margin: 0 0 0 0;
 }
 
@@ -144,6 +151,7 @@ table tr:nth-child(2n-1) td {
 table th,
 table td {
   text-align: center;
+  font-size: 0.99em;
 }
 
 table th {
@@ -168,6 +176,7 @@ table td {
 table td.service,
 table td.desc {
   vertical-align: top;
+  font-size: 0.78em;
 }
 
 table td.unit,
@@ -218,19 +227,25 @@ table th.grand {
 }
 
 .title {
-  margin-bottom: 2px;
-  font-size: 1.2em;
+  margin-bottom: 0px;
+  font-size: 0.9em;
+}
+.title2 {
+  margin-bottom: 0px;
+  font-size: 0.9em;
+  text-align: right;
 }
 
 footer {
   color: #5D6975;
   width: 100%;
-  height: -15px;
+  height: 90px;
   position: absolute;
   bottom: 0;
   border-top: 1px solid #C1CED9;
   padding: 8px 0;
   text-align: center;
+  font-size: 0.8em;
 }
 
 .page-break {
