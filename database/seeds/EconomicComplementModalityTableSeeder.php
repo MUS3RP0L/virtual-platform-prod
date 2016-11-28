@@ -65,8 +65,7 @@ class EconomicComplementModalityTableSeeder extends Seeder
 
             ['name' => 'Entregado'],
             ['name' => 'Aprobado'],
-            ['name' => 'Pagado en Banco'],
-            ['name' => 'Pagado con Cheque'],
+            ['name' => 'Pagado'],
             ['name' => 'Excluido'],
             ['name' => 'Suspendido']
 
@@ -75,6 +74,23 @@ class EconomicComplementModalityTableSeeder extends Seeder
         foreach ($statuses as $status) {
 
             Muserpol\EconomicComplementStateType::create($status);
+        }
+    }
+
+    private function EconomicComplementStates()
+    {
+        $statuses = [
+
+            ['eco_com_state_id' => '1', 'name' => 'Entregado'],
+            ['eco_com_state_id' => '2', 'name' => 'Aprobado'],
+            ['eco_com_state_id' => '3', 'name' => 'Pagado en Banco'],
+            ['eco_com_state_id' => '3', 'name' => 'Pagado con Cheque'],
+            ['eco_com_state_id' => '3', 'name' => 'Pagado con Cheque'],
+        ];
+
+        foreach ($statuses as $status) {
+
+            Muserpol\EconomicComplementModality::create($status);
         }
     }
 }
