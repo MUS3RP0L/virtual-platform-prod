@@ -68,21 +68,24 @@ class CreateEconomicComplementsTable extends Migration
 
             $table->bigIncrements('id');
             $table->UnsignedBigInteger('affiliate_id');
-            $table->UnsignedBigInteger('eco_com_modality_id')->nullable();
-            $table->UnsignedBigInteger('city_id')->nullable();
-            $table->UnsignedBigInteger('category_id')->nullable();
+            $table->UnsignedBigInteger('eco_com_modality_id');
+            $table->UnsignedBigInteger('city_id');
+            $table->UnsignedBigInteger('category_id');
             $table->UnsignedBigInteger('base_wage_id')->nullable();
             $table->UnsignedBigInteger('eco_com_factor_id')->nullable();
 
-            $table->date('first_ticket_month_id');
-            $table->date('second_ticket_month_id');
+            $table->date('first_ticket_month_id')->nullable();
+            $table->date('second_ticket_month_id')->nullable();
 
             $table->string('code')->unique()->required();
             $table->date('reception_date')->nullable();
             $table->date('review_date')->nullable();
             $table->enum('semester', ['F', 'S']);
 
-            $table->decimal('total_rent', 13, 2);
+            $table->decimal('sub_total_rent', 13, 2);
+            $table->decimal('dignity_pension', 13, 2);
+            $table->decimal('reimbursement', 13, 2);
+            $table->decimal('christmas_bonus', 13, 2);
             $table->decimal('seniority', 13, 2);
             $table->decimal('quotable', 13, 2);
 
