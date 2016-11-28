@@ -31,6 +31,14 @@ class CreateEconomicComplementsTable extends Migration
 
         });
 
+        Schema::create('eco_com_state_types', function(Blueprint $table) {
+
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->timestamps();
+
+        });
+
         Schema::create('eco_com_rents', function(Blueprint $table) {
 
             $table->bigIncrements('id');
@@ -69,6 +77,7 @@ class CreateEconomicComplementsTable extends Migration
             $table->bigIncrements('id');
             $table->UnsignedBigInteger('affiliate_id');
             $table->UnsignedBigInteger('eco_com_modality_id');
+            $table->UnsignedBigInteger('eco_com_state_type_id');
             $table->UnsignedBigInteger('city_id');
             $table->UnsignedBigInteger('category_id');
             $table->UnsignedBigInteger('base_wage_id')->nullable();
@@ -96,6 +105,7 @@ class CreateEconomicComplementsTable extends Migration
             $table->softDeletes();
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
             $table->foreign('eco_com_modality_id')->references('id')->on('eco_com_modalities');
+            $table->foreign('eco_com_state_type_id')->references('id')->on('eco_com_state_types');
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('base_wage_id')->references('id')->on('base_wages');
@@ -168,13 +178,14 @@ class CreateEconomicComplementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('eco_com_rents');
-        Schema::dropIfExists('eco_com_factors');
         Schema::dropIfExists('eco_com_applicants');
         Schema::dropIfExists('eco_com_applicant_types');
         Schema::dropIfExists('eco_com_submitted_documents');
         Schema::dropIfExists('eco_com_requirements');
         Schema::dropIfExists('economic_complements');
+        Schema::dropIfExists('eco_com_factors');
+        Schema::dropIfExists('eco_com_rents');
+        Schema::dropIfExists('eco_com_state_types');
         Schema::dropIfExists('eco_com_modalities');
         Schema::dropIfExists('eco_com_types');
     }

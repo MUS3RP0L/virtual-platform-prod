@@ -11,8 +11,7 @@ class EconomicComplementModality extends Model
 	protected $fillable = [
 
 		'name',
-		'description',
-		'shortened'
+		'description'
 	];
 
 	protected $guarded = ['id'];

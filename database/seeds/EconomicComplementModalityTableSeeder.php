@@ -16,6 +16,7 @@ class EconomicComplementModalityTableSeeder extends Seeder
 
         $this->EconomicComplementTypes();
         $this->EconomicComplementModalities();
+        $this->EconomicComplementStateTypes();
 
         Eloquent::reguard();
     }
@@ -55,6 +56,25 @@ class EconomicComplementModalityTableSeeder extends Seeder
         foreach ($statuses as $status) {
 
             Muserpol\EconomicComplementModality::create($status);
+        }
+    }
+
+    private function EconomicComplementStateTypes()
+    {
+        $statuses = [
+
+            ['name' => 'Entregado'],
+            ['name' => 'Aprobado'],
+            ['name' => 'Pagado en Banco'],
+            ['name' => 'Pagado con Cheque'],
+            ['name' => 'Excluido'],
+            ['name' => 'Suspendido']
+
+        ];
+
+        foreach ($statuses as $status) {
+
+            Muserpol\EconomicComplementStateType::create($status);
         }
     }
 }
