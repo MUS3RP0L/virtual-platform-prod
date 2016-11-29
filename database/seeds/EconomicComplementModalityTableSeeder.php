@@ -17,6 +17,7 @@ class EconomicComplementModalityTableSeeder extends Seeder
         $this->EconomicComplementTypes();
         $this->EconomicComplementModalities();
         $this->EconomicComplementStateTypes();
+        $this->EconomicComplementStates();
 
         Eloquent::reguard();
     }
@@ -65,9 +66,10 @@ class EconomicComplementModalityTableSeeder extends Seeder
 
             ['name' => 'Entregado'],
             ['name' => 'Aprobado'],
+            ['name' => 'Derivado'],
             ['name' => 'Pagado'],
-            ['name' => 'Excluido'],
-            ['name' => 'Suspendido']
+            ['name' => 'Suspendido'],
+            ['name' => 'Excluido']
 
         ];
 
@@ -81,16 +83,31 @@ class EconomicComplementModalityTableSeeder extends Seeder
     {
         $statuses = [
 
-            ['eco_com_state_id' => '1', 'name' => 'Entregado'],
-            ['eco_com_state_id' => '2', 'name' => 'Aprobado'],
-            ['eco_com_state_id' => '3', 'name' => 'Pagado en Banco'],
-            ['eco_com_state_id' => '3', 'name' => 'Pagado con Cheque'],
-            ['eco_com_state_id' => '3', 'name' => 'Pagado con Cheque'],
+            ['eco_com_state_type_id' => '1', 'name' => 'Entregado'],
+            ['eco_com_state_type_id' => '2', 'name' => 'Aprobado'],
+            ['eco_com_state_type_id' => '3', 'name' => 'Presupuesto'],
+            ['eco_com_state_type_id' => '3', 'name' => 'Contabilidad'],
+            ['eco_com_state_type_id' => '3', 'name' => 'Tesoreria'],
+            ['eco_com_state_type_id' => '4', 'name' => 'Pagado en Banco'],
+            ['eco_com_state_type_id' => '4', 'name' => 'Pagado con Cheque'],
+            ['eco_com_state_type_id' => '5', 'name' => 'Juridica'],
+            ['eco_com_state_type_id' => '5', 'name' => 'Contabilidad'],
+            ['eco_com_state_type_id' => '5', 'name' => 'Préstamos'],
+            ['eco_com_state_type_id' => '5', 'name' => 'Doble Percepción'],
+            ['eco_com_state_type_id' => '5', 'name' => 'Denuncia'],
+            ['eco_com_state_type_id' => '5', 'name' => 'Falta de Requisitos'],
+            ['eco_com_state_type_id' => '6', 'name' => 'Invalidez'],
+            ['eco_com_state_type_id' => '6', 'name' => 'Menor a 16 años de Servicio'],
+            ['eco_com_state_type_id' => '6', 'name' => 'Proceso judicial'],
+            ['eco_com_state_type_id' => '6', 'name' => 'Salario mayor del activo'],
+            ['eco_com_state_type_id' => '6', 'name' => 'Baja'],
+            ['eco_com_state_type_id' => '6', 'name' => 'Matrimonio de hecho']
+
         ];
 
         foreach ($statuses as $status) {
 
-            Muserpol\EconomicComplementModality::create($status);
+            Muserpol\EconomicComplementState::create($status);
         }
     }
 }

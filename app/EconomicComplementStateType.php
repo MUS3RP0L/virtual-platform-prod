@@ -15,8 +15,4 @@ class EconomicComplementStateType extends Model
 
     protected $guarded = ['id'];
 
-    public function economic_complements(){
-
-        return $this->hasMany('Muserpol\EconomicComplement');
-    }
 }
