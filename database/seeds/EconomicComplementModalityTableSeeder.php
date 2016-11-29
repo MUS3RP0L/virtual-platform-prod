@@ -64,8 +64,8 @@ class EconomicComplementModalityTableSeeder extends Seeder
     {
         $statuses = [
 
-            ['name' => 'Entregado'],
-            ['name' => 'Aprobado'],
+            ['name' => 'Recepción'],
+            ['name' => 'Revisión'],
             ['name' => 'Derivado'],
             ['name' => 'Pagado'],
             ['name' => 'Suspendido'],
