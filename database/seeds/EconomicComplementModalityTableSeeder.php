@@ -64,8 +64,8 @@ class EconomicComplementModalityTableSeeder extends Seeder
     {
         $statuses = [
 
-            ['name' => 'Recepción'],
-            ['name' => 'Revisión'],
+            ['name' => 'Recepcionado'],
+            ['name' => 'Revisado'],
             ['name' => 'Derivado'],
             ['name' => 'Pagado'],
             ['name' => 'Suspendido'],
@@ -83,8 +83,8 @@ class EconomicComplementModalityTableSeeder extends Seeder
     {
         $statuses = [
 
-            ['eco_com_state_type_id' => '1', 'name' => 'Recepcionado'],
-            ['eco_com_state_type_id' => '2', 'name' => 'Revisado'],
+            ['eco_com_state_type_id' => '1', 'name' => 'Ventanilla'],
+            ['eco_com_state_type_id' => '2', 'name' => 'Calificación'],
             ['eco_com_state_type_id' => '3', 'name' => 'Presupuesto'],
             ['eco_com_state_type_id' => '3', 'name' => 'Contabilidad'],
             ['eco_com_state_type_id' => '3', 'name' => 'Tesoreria'],
@@ -93,6 +93,7 @@ class EconomicComplementModalityTableSeeder extends Seeder
             ['eco_com_state_type_id' => '5', 'name' => 'Juridica'],
             ['eco_com_state_type_id' => '5', 'name' => 'Contabilidad'],
             ['eco_com_state_type_id' => '5', 'name' => 'Préstamos'],
+            
             ['eco_com_state_type_id' => '5', 'name' => 'Doble Percepción'],
             ['eco_com_state_type_id' => '5', 'name' => 'Denuncia'],
             ['eco_com_state_type_id' => '5', 'name' => 'Falta de Requisitos'],
