@@ -42,6 +42,7 @@ class UserController extends Controller
 
         return Datatables::of($users)
             ->addColumn('name', function ($user) { return Util::ucw($user->first_name) . ' ' . Util::ucw($user->last_name); })
+            ->addColumn('module', function ($user) { return $user->role->module->name; })
             ->addColumn('role', function ($user) { return $user->role->name; })
             ->addColumn('status', function ($user) { return $user->status == 'active' ? 'Activo' : 'Inactivo'; })
             ->addColumn('action', function ($user) { return  $user->status == "active" ?

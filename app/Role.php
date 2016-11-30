@@ -14,4 +14,9 @@ class Role extends Model
 	];
 
 	protected $guarded = ['id'];
+
+    public function module()
+    {
+        return $this->belongsTo(Module::class);
+    }
 }

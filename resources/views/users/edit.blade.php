@@ -21,14 +21,14 @@
 										<div class="form-group">
 												{!! Form::label('first_name', 'Nombres', ['class' => 'col-md-4 control-label']) !!}
 											<div class="col-md-6">
-												{!! Form::text('first_name', $user->first_name, ['class'=> 'form-control', 'required' => 'required', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+												{!! Form::text('first_name', $user->first_name, ['class'=> 'form-control', 'required' => 'required']) !!}
 												<span class="help-block">Primer y Segundo Nombre</span>
 											</div>
 										</div>
 										<div class="form-group">
 												{!! Form::label('last_name', 'Apellidos', ['class' => 'col-md-4 control-label']) !!}
 											<div class="col-md-6">
-												{!! Form::text('last_name', $user->last_name, ['class'=> 'form-control', 'required' => 'required', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+												{!! Form::text('last_name', $user->last_name, ['class'=> 'form-control', 'required' => 'required']) !!}
 												<span class="help-block">Apellido Paterno y Apellido Materno</span>
 											</div>
 										</div>
@@ -53,7 +53,7 @@
 								<div class="row">
 									<div class="col-md-12">
 										<div class="form-group">
-												{!! Form::label('username', 'Carnet de Indentidad', ['class' => 'col-md-4 control-label']) !!}
+												{!! Form::label('username', 'Nombre de Usuario', ['class' => 'col-md-4 control-label']) !!}
 											<div class="col-md-6">
 												{!! Form::text('username', $user->username, ['class'=> 'form-control', 'required' => 'required']) !!}
 													<span class="help-block">Número de Carnet</span>
