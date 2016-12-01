@@ -4,7 +4,6 @@
 
     @include('partials.htmlheader')
 
-    <!-- <body class="skin-green sidebar-mini fixed"> -->
     <body class="skin-green sidebar-mini fixed wysihtml5-supported sidebar-collapse">
 
         <div id="myModal-error" class="modal modal-danger fade">
