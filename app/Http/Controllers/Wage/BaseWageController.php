@@ -23,7 +23,7 @@ class BaseWageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
+
     public function index()
     {
         return view('base_wages.index');
@@ -32,7 +32,7 @@ class BaseWageController extends Controller
     public function FirstLevelData()
     {
         $select = DB::raw('base_wages.month_year as month_year, c1.amount as c1, c2.amount as c2, c3.amount as c3, c4.amount as c4, c5.amount as c5, c6.amount as c6, c7.amount as c7, c8.amount as c8, c9.amount as c9, c10.amount as c10, c11.amount as c11, c12.amount as c12');
-        
+
         $base_wages = DB::table('base_wages')->select($select)
         ->leftJoin('base_wages as c1', 'c1.month_year', '=', 'base_wages.month_year')
         ->leftJoin('base_wages as c2', 'c2.month_year', '=', 'base_wages.month_year')
@@ -80,7 +80,7 @@ class BaseWageController extends Controller
     public function SecondLevelData()
     {
         $select = DB::raw('base_wages.month_year as month_year, c13.amount as c13, c14.amount as c14, c15.amount as c15, c16.amount as c16, c17.amount as c17,c18.amount as c18');
-        
+
         $base_wages = DB::table('base_wages')->select($select)
         ->leftJoin('base_wages as c13', 'c13.month_year', '=', 'base_wages.month_year')
         ->leftJoin('base_wages as c14', 'c14.month_year', '=', 'base_wages.month_year')
@@ -110,7 +110,7 @@ class BaseWageController extends Controller
     public function ThirdLevelData()
     {
         $select = DB::raw('base_wages.month_year as month_year, c19.amount as c19, c20.amount as c20, c21.amount as c21, c22.amount as c22, c23.amount as c23, c24.amount as c24, c25.amount as c25, c26.amount as c26');
-        
+
         $base_wages = DB::table('base_wages')->select($select)
         ->leftJoin('base_wages as c19', 'c19.month_year', '=', 'base_wages.month_year')
         ->leftJoin('base_wages as c20', 'c20.month_year', '=', 'base_wages.month_year')
@@ -146,7 +146,7 @@ class BaseWageController extends Controller
     public function FourthLevelData()
     {
         $select = DB::raw('base_wages.month_year as month_year, c27.amount as c27, c28.amount as c28, c29.amount as c29, c30.amount as c30, c31.amount as c31, c32.amount as c32, c33.amount as c33, c34.amount as c34');
-        
+
         $base_wages = DB::table('base_wages')->select($select)
         ->leftJoin('base_wages as c27', 'c27.month_year', '=', 'base_wages.month_year')
         ->leftJoin('base_wages as c28', 'c28.month_year', '=', 'base_wages.month_year')
@@ -200,60 +200,57 @@ class BaseWageController extends Controller
         $month_year = $request->month_year;
 
         Excel::load($filename, function($reader) {
-            
+
             global $month_year, $results;
-    
-            ini_set('upload_max_filesize', '9999M');
-            ini_set('post_max_size', '9999M');
+
+            ini_set('memory_limit', '-1');
             ini_set('max_execution_time', '-1');
             ini_set('max_input_time', '-1');
-            ini_set('memory_limit', '-1');
-            set_time_limit(36000);
+            set_time_limit('-1');
 
             $results = collect($reader->select(array('niv', 'gra','sue'))->get());
-            
+
         });
 
         $degrees = DB::table('degrees')-> orderBy('id','asc')->get();
-      
-        foreach ($degrees as $item) {
-           
+
+        foreach ($degrees as $degree) {
+
             foreach ($results as $datos) {
 
-                if($datos['niv'] == $item->niv && $datos['gra'] == $item->grad && Util::decimal($datos['sue'])<> 0)
-                {     
+                if($degree->hierarchy->code == $datos['niv']  && $degree->code == $datos['gra'] && Util::decimal($datos['sue'])<> 0)
+                {
                     $date = Util::datePickPeriod($month_year);
                     $year = Carbon::parse($date)->year;
                     $month = Carbon::parse($date)->month;
 
                     $base_wage =  DB::table('base_wages')
-                            ->select(DB::raw('base_wages.degree_id, degrees.code_level, degrees.code_degree, base_wages.month_year'))
-                            ->leftJoin('degrees', 'base_wages.degree_id', '=', 'degrees.id')
-                            ->where('code_level', '=', $item->niv)
-                            ->where('code_degree', '=', $item->grad)
-                            ->whereMonth('month_year', '=', $month)
-                            ->whereYear('month_year', '=', $year)
-                            ->first(); 
-                    
+                        ->select(DB::raw('base_wages.degree_id, degrees.code_level, degrees.code_degree, base_wages.month_year'))
+                        ->leftJoin('degrees', 'base_wages.degree_id', '=', 'degrees.id')
+                        ->where('code_level', '=', $degree->niv)
+                        ->where('code_degree', '=', $degree->grad)
+                        ->whereMonth('month_year', '=', $month)
+                        ->whereYear('month_year', '=', $year)
+                        ->first();
+
                     if(!$base_wage)
-                    { 
+                    {
                         $base_wage = new BaseWage;
                         $base_wage->user_id = Auth::user()->id;
-                        $base_wage->degree_id = $item->id;
+                        $base_wage->degree_id = $degree->id;
                         $base_wage->month_year = Util::datePickPeriod($month_year);
-                        $base_wage->amount = Util::decimal($datos['sue']); 
-                        $base_wage->save();                   
+                        $base_wage->amount = Util::decimal($datos['sue']);
+                        $base_wage->save();
                     }
-                    break; 
-                } 
-              
+                    break;
+                }
+
             }
-           
+
         }
 
         Session::flash('message', "Sueldos importados exitosamente");
         return redirect('base_wage');
-  
+
     }
 }
-

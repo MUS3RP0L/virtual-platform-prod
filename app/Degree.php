@@ -33,4 +33,14 @@ class Degree extends Model
     {
     	return $this->hasMany('Muserpol\Contribution');
     }
+
+    public function hierarchy()
+    {
+        return $this->belongsTo(Hierarchy::class);
+    }
+
+    public function scopeHierarchyidIs($query, $id)
+    {
+        return $query->where('hierarchy_id', $id);
+    }
 }
