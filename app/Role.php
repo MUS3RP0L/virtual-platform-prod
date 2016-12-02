@@ -10,6 +10,7 @@ class Role extends Model
 
 	protected $fillable = [
 
+		'module_id',
 		'name'
 	];
 
@@ -18,5 +19,10 @@ class Role extends Model
     public function module()
     {
         return $this->belongsTo(Module::class);
+    }
+
+    public function scopeModuleidIs($query, $id)
+    {
+        return $query->where('module_id', $id);
     }
 }

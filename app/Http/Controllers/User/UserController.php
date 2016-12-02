@@ -13,6 +13,7 @@ use Datatables;
 use Util;
 
 use Muserpol\User;
+use Muserpol\Module;
 use Muserpol\Role;
 
 class UserController extends Controller
@@ -50,14 +51,14 @@ class UserController extends Controller
                             <a href="user/ '.$user->id.'/edit " class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;</a>
                             <a href="" class="btn btn-primary btn-raised btn-sm dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</a>
                             <ul class="dropdown-menu">
-                                <li><a href="user/block/ '.$user->id.' " style="padding:3px 10px;"><i class="glyphicon glyphicon-ban-circle"></i> Bloquear</a></li>
+                                <li><a href="user/block/ '.$user->id.' " style="padding:3px 5px;"><i class="glyphicon glyphicon-ban-circle"></i> Bloquear</a></li>
                             </ul>
                         </div>' :
                         '<div class="btn-group" style="margin:-3px 0;">
                             <a href="user/ '.$user->id.'/edit " class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;</a>
                             <a href="" class="btn btn-primary btn-raised btn-sm dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</a>
                             <ul class="dropdown-menu">
-                                <li><a href="user/unblock/ '.$user->id.' " style="padding:3px 10px;"><i class="glyphicon glyphicon-ok-circle"></i> Activar</a></li>
+                                <li><a href="user/unblock/ '.$user->id.' " style="padding:3px 5px;"><i class="glyphicon glyphicon-ok-circle"></i> Activar</a></li>
                             </ul>
                         </div>';})->make(true);
     }
@@ -70,17 +71,24 @@ class UserController extends Controller
 
     public static function getViewModel()
     {
-        $roles = Role::all();
-        $list_roles = array('' => '');
-        foreach ($roles as $item) {
-             $list_roles[$item->id]=$item->name;
+        $modules = Module::all();
+        $list_modules = array('' => '');
+        foreach ($modules as $item) {
+             $list_modules[$item->id]=$item->name;
         }
 
         return [
-
-            'list_roles' => $list_roles
-
+            'list_modules' => $list_modules,
         ];
+    }
+
+    public function getRole(Request $request, $id)
+    {
+        if($request->ajax())
+        {
+            $roles = Role::moduleidIs($id)->get();
+            return response()->json($roles);
+        }
     }
 
     public function create()
@@ -117,9 +125,15 @@ class UserController extends Controller
 
     public function edit($user)
     {
+        $roles = Role::moduleidIs($user->role->module->id)->get();
+        foreach ($roles as $item) {
+             $list_roles[$item->id]=$item->name;
+        }
+        
         $data = [
 
-            'user' => $user
+            'user' => $user,
+            'list_roles' => $list_roles
 
         ];
 
