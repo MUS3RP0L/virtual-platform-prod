@@ -129,7 +129,7 @@ class UserController extends Controller
         foreach ($roles as $item) {
              $list_roles[$item->id]=$item->name;
         }
-        
+
         $data = [
 
             'user' => $user,
@@ -163,8 +163,8 @@ class UserController extends Controller
 
             $rules = [
 
-                'last_name' => 'required|min:3|regex:/^[A-ZÑa-záéíóúàèìòùäëïöüñ\s]+$/i',
-                'first_name' => 'required|min:3|regex:/^[A-ZÑa-záéíóúàèìòùäëïöüñ\s]+$/i',
+                'last_name' => 'required|min:3',
+                'first_name' => 'required|min:3',
                 'phone' => 'required|min:8|numeric',
                 'username' => 'required|unique:users,username,'.$user->id,
 
@@ -174,8 +174,8 @@ class UserController extends Controller
 
             $rules = [
 
-                'last_name' => 'required|min:3|regex:/^[A-ZÑa-záéíóúàèìòùäëïöüñ\s]+$/i',
-                'first_name' => 'required|min:3|regex:/^[A-ZÑa-záéíóúàèìòùäëïöüñ\s]+$/i',
+                'last_name' => 'required|min:3',
+                'first_name' => 'required|min:3',
                 'phone' => 'required|min:8|numeric',
                 'username' => 'required|unique:users,username',
                 'password' => 'required|min:6|confirmed',
@@ -188,12 +188,9 @@ class UserController extends Controller
 
             'first_name.required' => 'El campo nombre requerido',
             'first_name.min' => 'El mínimo de caracteres permitidos en nombre es 3',
-            'first_name.regex' => 'Sólo se aceptan letras para nombre',
-
 
             'last_name.required' => 'El campo apellidos es requerido',
             'last_name.min' => 'El mínimo de caracteres permitidos en apellido es 3',
-            'last_name.regex' => 'Sólo se aceptan letras para apellidos',
 
             'phone.required' => 'El campo teléfono es requerido',
             'phone.min' => 'El mínimo de caracteres permitidos en teléfono de usuario es 8',
