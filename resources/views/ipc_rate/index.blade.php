@@ -50,7 +50,7 @@
                 <div class="modal-body">
 
                     {!! Form::model($last_ipc_rate, ['method' => 'PATCH', 'route' => ['ipc_rate.update', $last_ipc_rate->id], 'class' => 'form-horizontal']) !!}
-
+                        <br>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">

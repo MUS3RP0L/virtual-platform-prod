@@ -59,6 +59,7 @@
 
                     {!! Form::model($last_contribution_rate, ['method' => 'PATCH', 'route' => ['contribution_rate.update', $last_contribution_rate->id], 'class' => 'form-horizontal']) !!}
 
+                        <br>
                         <div class="row">
                             <div class="col-md-6">
                                 <h3 class="panel-title">Sector Activo</h3>

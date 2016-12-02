@@ -55,7 +55,7 @@
                 "order": [[ 0, "desc" ]],
                 processing: true,
                 serverSide: true,
-                pageLength: 8,
+                pageLength: 10,
                 autoWidth: false,
                 ajax: '{!! route('get_user') !!}',
                 columns: [
