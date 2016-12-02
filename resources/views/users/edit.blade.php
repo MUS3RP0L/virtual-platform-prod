@@ -15,7 +15,7 @@
 	                <div class="box-header with-border">
 						<h3 class="panel-title">Datos Personales</h3>
 					</div>
-					<div class="panel-body">
+					<div class="box-body">
 						<div class="row">
 							<div class="col-md-12">
 								@can('manage')
@@ -58,7 +58,7 @@
 					<div class="box-header with-border">
 						<h3 class="panel-title">Datos de Ingreso</h3>
 					</div>
-					<div class="panel-body">
+					<div class="box-body">
 						<div class="row">
 							<div class="col-md-12">
 	                            @can('manage')
@@ -125,48 +125,48 @@
 
 @push('scripts')
 
-<script type="text/javascript">
+	<script type="text/javascript">
 
-	$(document).ready(function(){
-		$('select[name="module"]').on('change', function() {
-			var moduleID = $(this).val();
-			if(moduleID) {
-				$.ajax({
-					url: '{!! url('get_role') !!}/'+moduleID,
-					type: "GET",
-					dataType: "json",
-					success: function(data) {
-						$('select[name="role"]').empty();
-						$.each(data, function(key, value) {
-							$('select[name="role"]').append('<option value="'+ value.id +'">'+ value.name +'</option>');
-						});
-					}
-				});
-			}
-			else{
-				$('select[name="role"]').empty();
-			}
+		$(document).ready(function(){
+			$('select[name="module"]').on('change', function() {
+				var moduleID = $(this).val();
+				if(moduleID) {
+					$.ajax({
+						url: '{!! url('get_role') !!}/'+moduleID,
+						type: "GET",
+						dataType: "json",
+						success: function(data) {
+							$('select[name="role"]').empty();
+							$.each(data, function(key, value) {
+								$('select[name="role"]').append('<option value="'+ value.id +'">'+ value.name +'</option>');
+							});
+						}
+					});
+				}
+				else{
+					$('select[name="role"]').empty();
+				}
+			});
 		});
-	});
 
-	var Model = function() {
+		var Model = function() {
 
-        this.passValue = ko.observable(false);
-    };
+	        this.passValue = ko.observable(false);
+	    };
 
-    ko.bindingHandlers.fadeVisible = {
-        init: function(element, valueAccessor) {
-            var value = valueAccessor();
-            $(element).toggle(ko.unwrap(value));
-        },
-        update: function(element, valueAccessor) {
-            var value = valueAccessor();
-            ko.unwrap(value) ? $(element).fadeIn() : $(element).fadeOut();
-        }
-    };
+	    ko.bindingHandlers.fadeVisible = {
+	        init: function(element, valueAccessor) {
+	            var value = valueAccessor();
+	            $(element).toggle(ko.unwrap(value));
+	        },
+	        update: function(element, valueAccessor) {
+	            var value = valueAccessor();
+	            ko.unwrap(value) ? $(element).fadeIn() : $(element).fadeOut();
+	        }
+	    };
 
-    ko.applyBindings(new Model());
+	    ko.applyBindings(new Model());
 
-</script>
+	</script>
 
 @endpush

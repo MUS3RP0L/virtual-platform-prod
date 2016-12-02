@@ -15,7 +15,7 @@
 	                <div class="box-header with-border">
 						<h3 class="panel-title">Datos Personales</h3>
 					</div>
-					<div class="panel-body">
+					<div class="box-body">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
@@ -56,7 +56,7 @@
 	                <div class="box-header with-border">
 						<h3 class="panel-title">Datos de Ingreso</h3>
 					</div>
-					<div class="panel-body">
+					<div class="box-body">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
