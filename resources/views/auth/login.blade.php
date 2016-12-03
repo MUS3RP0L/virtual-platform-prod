@@ -20,7 +20,7 @@
                             @foreach ($errors->all() as $error)
                                 <div><h4>{{ $error }}</h4></div>
                             @endforeach
-                            <div><h4>{{Session::get('error')}}</h4></div>
+                            <div><h4>{{ Session::get('error') }}</h4></div>
                         </p>
                     </div>
                     <div class="modal-footer">
