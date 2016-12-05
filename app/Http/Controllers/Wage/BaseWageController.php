@@ -15,6 +15,8 @@ use Muserpol\Helper\Util;
 use Maatwebsite\Excel\Facades\Excel;
 
 use Muserpol\BaseWage;
+use Muserpol\Hierarchy;
+use Muserpol\Degree;
 
 class BaseWageController extends Controller
 {
@@ -61,7 +63,7 @@ class BaseWageController extends Controller
         ->groupBy('base_wages.month_year');
 
         return Datatables::of($base_wages)
-        ->editColumn('year', function ($base_wage) { return Carbon::parse($base_wage->month_year)->year; })
+        ->editColumn('month_year', function ($base_wage) { return Carbon::parse($base_wage->month_year)->year; })
         ->editColumn('c1', function ($base_wage) { return Util::formatMoney($base_wage->c1); })
         ->editColumn('c2', function ($base_wage) { return Util::formatMoney($base_wage->c2); })
         ->editColumn('c3', function ($base_wage) { return Util::formatMoney($base_wage->c3); })
@@ -97,7 +99,7 @@ class BaseWageController extends Controller
         ->groupBy('base_wages.month_year');
 
         return Datatables::of($base_wages)
-        ->editColumn('year', function ($base_wage) { return Carbon::parse($base_wage->month_year)->year; })
+        ->editColumn('month_year', function ($base_wage) { return Carbon::parse($base_wage->month_year)->year; })
         ->editColumn('c13', function ($base_wage) { return Util::formatMoney($base_wage->c13); })
         ->editColumn('c14', function ($base_wage) { return Util::formatMoney($base_wage->c14); })
         ->editColumn('c15', function ($base_wage) { return Util::formatMoney($base_wage->c15); })
@@ -131,7 +133,7 @@ class BaseWageController extends Controller
         ->groupBy('base_wages.month_year');
 
         return Datatables::of($base_wages)
-        ->editColumn('year', function ($base_wage) { return Carbon::parse($base_wage->month_year)->year; })
+        ->editColumn('month_year', function ($base_wage) { return Carbon::parse($base_wage->month_year)->year; })
         ->editColumn('c19', function ($base_wage) { return Util::formatMoney($base_wage->c19); })
         ->editColumn('c20', function ($base_wage) { return Util::formatMoney($base_wage->c20); })
         ->editColumn('c21', function ($base_wage) { return Util::formatMoney($base_wage->c21); })
@@ -167,7 +169,7 @@ class BaseWageController extends Controller
         ->groupBy('base_wages.month_year');
 
         return Datatables::of($base_wages)
-        ->editColumn('year', function ($base_wage) { return Carbon::parse($base_wage->month_year)->year; })
+        ->editColumn('month_year', function ($base_wage) { return Carbon::parse($base_wage->month_year)->year; })
         ->editColumn('c27', function ($base_wage) { return Util::formatMoney($base_wage->c27); })
         ->editColumn('c28', function ($base_wage) { return Util::formatMoney($base_wage->c28); })
         ->editColumn('c29', function ($base_wage) { return Util::formatMoney($base_wage->c29); })
@@ -193,63 +195,73 @@ class BaseWageController extends Controller
 
     public function save($request, $base_wage = false)
     {
-        global $month_year, $results;
+        global $month_year, $results, $base_wages;
 
         $reader = $request->file('archive');
         $filename = $reader->getRealPath();
-        $month_year = $request->month_year;
+
+        $date = Util::datePickPeriod($request->month_year);
+        $year = Carbon::parse($date)->year;
+        $month = Carbon::parse($date)->month;
 
         Excel::load($filename, function($reader) {
 
-            global $month_year, $results;
+            global $results;
 
             ini_set('memory_limit', '-1');
             ini_set('max_execution_time', '-1');
             ini_set('max_input_time', '-1');
             set_time_limit('-1');
 
-            $results = collect($reader->select(array('niv', 'gra','sue'))->get());
+            $results = collect($reader->select(array('mes', 'a_o', 'niv', 'gra','sue'))->get());
 
         });
 
-        $degrees = DB::table('degrees')-> orderBy('id','asc')->get();
+        $degrees = Degree::orderBy('id', 'asc')->get();
 
         foreach ($degrees as $degree) {
 
             foreach ($results as $datos) {
+                
+                if($month <>  $datos['mes'] && $year <> $datos['a_o']){
 
-                if($degree->hierarchy->code == $datos['niv']  && $degree->code == $datos['gra'] && Util::decimal($datos['sue'])<> 0)
-                {
-                    $date = Util::datePickPeriod($month_year);
-                    $year = Carbon::parse($date)->year;
-                    $month = Carbon::parse($date)->month;
+                    if($degree->hierarchy->code == $datos['niv']  && $degree->code == $datos['gra'] && Util::decimal(Util::zero($datos['sue'])) <> 0 ) {
 
-                    $base_wage =  DB::table('base_wages')
-                        ->select(DB::raw('base_wages.degree_id, degrees.code_level, degrees.code_degree, base_wages.month_year'))
-                        ->leftJoin('degrees', 'base_wages.degree_id', '=', 'degrees.id')
-                        ->where('code_level', '=', $degree->niv)
-                        ->where('code_degree', '=', $degree->grad)
-                        ->whereMonth('month_year', '=', $month)
-                        ->whereYear('month_year', '=', $year)
-                        ->first();
+                        $base_wages .= $degree->hierarchy->code . " " . $degree->code . " - " . Util::decimal(Util::zero($datos['sue'])) ."\r\n";
 
-                    if(!$base_wage)
-                    {
-                        $base_wage = new BaseWage;
-                        $base_wage->user_id = Auth::user()->id;
-                        $base_wage->degree_id = $degree->id;
-                        $base_wage->month_year = Util::datePickPeriod($month_year);
+                        $base_wage =  BaseWage::where('degree_id', '=', $degree->id)
+                                        ->whereMonth('month_year', '=', $month)->whereYear('month_year', '=', $year)->first();
+
+                        if(!$base_wage) {
+
+                            $base_wage = new BaseWage;
+                            $base_wage->user_id = Auth::user()->id;
+                            $base_wage->degree_id = $degree->id;
+                            $base_wage->month_year = $date;
+                        }
+
                         $base_wage->amount = Util::decimal($datos['sue']);
                         $base_wage->save();
+
+                        break;
                     }
-                    break;
+                }
+                else {
+
+                    Session::flash('message', "Fecha incorrecta no hay");
+
+                    return redirect('base_wage');
+
                 }
 
             }
 
         }
 
+        \Storage::disk('local')->put('BaseWage'. $date.'.txt', "Reporte de Importacion de Sueldo Básico:\r\n$base_wages");
+
         Session::flash('message', "Sueldos importados exitosamente");
+
         return redirect('base_wage');
 
     }

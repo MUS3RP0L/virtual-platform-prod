@@ -132,7 +132,7 @@
                                 <div class="form-group">
                                         {!! Form::label('archive', 'Archivo', ['class' => 'col-md-3 control-label']) !!}
                                     <div class="col-md-8">
-                                        <input type="file" id="inputFile" name="archive">
+                                        <input type="file" id="inputFile" name="archive" required>
                                         <input type="text" readonly="" class="form-control " placeholder="Formato Excel">
                                     </div>
                                 </div>
@@ -144,7 +144,7 @@
                                         {!! Form::label('month_year', 'Mes y Año', ['class' => 'col-md-3 control-label']) !!}
                                     <div class="col-md-7">
                                         <div class="input-group">
-                                            <input type="text" class="form-control datepicker" name="month_year" value="">
+                                            <input type="text" class="form-control datepicker" name="month_year" value="" required>
                                             <div class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </div>
@@ -196,7 +196,7 @@
                 autoWidth: false,
                 ajax: '{!! route('get_first_level_base_wage') !!}',
                 columns: [
-                    { data: 'year', sClass: "text-center" },
+                    { data: 'month_year', sClass: "text-center" },
                     { data: 'c1', sClass: "text-right", bSortable: false },
                     { data: 'c2', sClass: "text-right", bSortable: false },
                     { data: 'c3', sClass: "text-right", bSortable: false },
@@ -221,7 +221,7 @@
                 autoWidth: false,
                 ajax: '{!! route('get_second_level_base_wage') !!}',
                 columns: [
-                    { data: 'year', sClass: "text-center" },
+                    { data: 'month_year', sClass: "text-center" },
                     { data: 'c13', sClass: "text-right", bSortable: false },
                     { data: 'c14', sClass: "text-right", bSortable: false },
                     { data: 'c15', sClass: "text-right", bSortable: false },
@@ -240,7 +240,7 @@
                 autoWidth: false,
                 ajax: '{!! route('get_third_level_base_wage') !!}',
                 columns: [
-                    { data: 'year', sClass: "text-center" },
+                    { data: 'month_year', sClass: "text-center" },
                     { data: 'c19', sClass: "text-right", bSortable: false },
                     { data: 'c20', sClass: "text-right", bSortable: false },
                     { data: 'c21', sClass: "text-right", bSortable: false },
@@ -261,7 +261,7 @@
                 autoWidth: false,
                 ajax: '{!! route('get_fourth_level_base_wage') !!}',
                 columns: [
-                    { data: 'year', sClass: "text-center" },
+                    { data: 'month_year', sClass: "text-center" },
                     { data: 'c27', sClass: "text-right", bSortable: false },
                     { data: 'c28', sClass: "text-right", bSortable: false },
                     { data: 'c29', sClass: "text-right", bSortable: false },

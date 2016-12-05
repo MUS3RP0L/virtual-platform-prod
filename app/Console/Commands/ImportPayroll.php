@@ -307,12 +307,12 @@ class ImportPayroll extends Command
                     Total $TotalNewContri entered contributions.\n
                     Execution time $execution_time [minutes].\n");
 
-                \Storage::disk('local')->put('ImportPayroll_'. $Date.'.txt', "\n\nReport:\n\n
-                    $TotalNewAffi new affiliates.\n
-                    $TotalUpdateAffi affiliates successfully updated.\n
-                    Total $TotalAffi affiliates.\n
-                    Total $TotalNewContri entered contributions.\n
-                    Execution time $execution_time [minutes].\n");
+                \Storage::disk('local')->put('ImportPayroll_'. $Date.'.txt', "Reporte de Importacion Afiliados y Aportes:\r\n
+                    $TotalNewAffi new affiliates.\r\n
+                    $TotalUpdateAffi affiliates successfully updated.\r\n
+                    Total $TotalAffi affiliates.\r\n
+                    Total $TotalNewContri entered contributions.\r\n
+                    Execution time $execution_time [minutes].\r\n");
             }
         }
         else{
