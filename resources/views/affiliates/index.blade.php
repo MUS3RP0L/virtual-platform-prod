@@ -1,7 +1,9 @@
 @extends('app')
 
 @section('contentheader_title')
+
     {!! Breadcrumbs::render('affiliates') !!}
+
 @endsection
 
 @section('main-content')
@@ -11,10 +13,6 @@
             <div class="box box-warning">
                 <div class="box-header with-border">
                     <h3 class="box-title">Búsqueda</h3>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                        </button>
-                    </div>
                 </div>
                 <div class="box-body">
                     <div class="row">
@@ -91,9 +89,9 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table table-hover" id="affiliates-table">
+                            <table class="table table-bordered table-hover" id="affiliates-table">
                                 <thead>
-                                    <tr class="success">
+                                    <tr class="warning">
                                         <th>Núm. Carnet</th>
                                         <th>Matrícula</th>
                                         <th>Grado</th>
