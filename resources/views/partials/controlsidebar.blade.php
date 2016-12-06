@@ -12,32 +12,32 @@
                 <li>
                   <a href="{{ url('user') }}">
                     <div class="menu" style="font-size:16px;font-weight:400;color:#fff;">
-                    <i class="fa fa-wrench"></i> Usuarios
+                    Usuarios
                     </div>
                   </a>
                 </li>
                 <li>
                   <a href="{{ url('contribution_rate') }}">
                     <div class="menu" style="font-size:16px;font-weight:400;color:#fff;">
-                    <i class="fa fa-wrench"></i> Tasa Aporte
+                    Tasa Aporte
                     </div>
                   </a>
                 </li>
                 <li>
                   <a href="{{ url('ipc_rate') }}">
                     <div class="menu" style="font-size:16px;font-weight:400;color:#fff;">
-                    <i class="fa fa-wrench"></i> Tasa IPC
+                    Tasa IPC
                     </div>
                   </a>
                 </li>
                 <li>
                   <a href="{{ url('base_wage') }}">
                     <div class="menu" style="font-size:16px;font-weight:400;color:#fff;">
-                    <i class="fa fa-wrench"></i> Salario Básico
+                    Salario Básico
                     </div>
                   </a>
                 </li>
-                
+
             </ul><!-- /.control-sidebar-menu -->
 
         </div><!-- /.tab-pane -->

@@ -11,16 +11,15 @@
             <span class="sr-only">Toggle navigation</span>
         </a>
 
-
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
               <li class="dropdown user user-menu">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="hidden-xs">{!! Util::ucw(Auth::user()->first_name) !!} {!! Util::ucw(Auth::user()->last_name) !!} <span class="caret"></span></span>
+                    <span class="hidden-xs"><i class="fa fa-user"></i></span></span>
                   </a>
                   <ul class="dropdown-menu">
                     <li class="user-header">
-                      <p>
+                      <p style="color:#fff">
                         {!! Util::ucw(Auth::user()->first_name) !!} {!! Util::ucw(Auth::user()->last_name) !!}
                         <small>{!! Auth::user()->role->name !!}</small>
                       </p>
