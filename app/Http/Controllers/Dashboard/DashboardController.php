@@ -17,6 +17,8 @@ use Muserpol\AffiliateType;
 use Muserpol\Contribution;
 use Muserpol\RetirementFund;
 
+use Muserpol\User;
+
 class DashboardController extends Controller
 {
     /*
@@ -179,7 +181,46 @@ class DashboardController extends Controller
       'current_year' => $current_year
     ];
 
-     return view('dashboard.index', $data);
-      //return response()->json($totalAfiServ);
+        return view('dashboard.index', $data);
+
+	}
+
+    public function appendValue($data, $type, $element)
+	{
+		// operate on the item passed by reference, adding the element and type
+		foreach ($data as $key => & $item) {
+			$item[$element] = $type;
+		}
+		return $data;
+	}
+
+	public function appendURL($data, $prefix)
+	{
+		// operate on the item passed by reference, adding the url based on slug
+		foreach ($data as $key => & $item) {
+			$item['url'] = url($prefix.'/'.$item['id'].'/edit');
+		}
+		return $data;
+	}
+
+	public function search(Request $request)
+	{
+		$query = $request->q;
+
+		if(!$query && $query == '') return Response::json(array(), 400);
+
+		$products = User::where('first_name','like','%'.$query.'%')
+			->orderBy('first_name','asc')
+			->take(5)
+			->get(array('id', 'first_name', 'last_name'))->toArray();
+
+		$products 	= $this->appendURL($products, 'user');
+
+		// Add type of data to each item of each set of results
+		$products = $this->appendValue($products, 'user', 'class');
+
+        return response()->json(array(
+			'data'=>$products
+		));
 	}
 }

@@ -27,4 +27,6 @@
 
     {!! Html::style('bower_components/datePicker/css/bootstrap-datepicker3.css') !!}
 
+    {!! Html::style('vendor/selectize/dist/css/selectize.css') !!}
+
 </head>
