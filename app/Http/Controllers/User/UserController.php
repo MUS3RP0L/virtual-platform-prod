@@ -48,17 +48,17 @@ class UserController extends Controller
             ->addColumn('status', function ($user) { return $user->status == 'active' ? 'Activo' : 'Inactivo'; })
             ->addColumn('action', function ($user) { return  $user->status == "active" ?
                         '<div class="btn-group" style="margin:-3px 0;">
-                            <a href="user/ '.$user->id.'/edit " class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;</a>
+                            <a href="user/'.$user->id.'/edit "class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;</a>
                             <a href="" class="btn btn-primary btn-raised btn-sm dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</a>
                             <ul class="dropdown-menu">
-                                <li><a href="user/block/ '.$user->id.' " style="padding:3px 5px;"><i class="glyphicon glyphicon-ban-circle"></i> Bloquear</a></li>
+                                <li><a href="user/block/'.$user->id.' " style="padding:3px 5px;"><i class="glyphicon glyphicon-ban-circle"></i> Bloquear</a></li>
                             </ul>
                         </div>' :
                         '<div class="btn-group" style="margin:-3px 0;">
-                            <a href="user/ '.$user->id.'/edit " class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;</a>
+                            <a href="user/'.$user->id.'/edit " class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;</a>
                             <a href="" class="btn btn-primary btn-raised btn-sm dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</a>
                             <ul class="dropdown-menu">
-                                <li><a href="user/unblock/ '.$user->id.' " style="padding:3px 5px;"><i class="glyphicon glyphicon-ok-circle"></i> Activar</a></li>
+                                <li><a href="user/unblock/'.$user->id.' " style="padding:3px 5px;"><i class="glyphicon glyphicon-ok-circle"></i> Activar</a></li>
                             </ul>
                         </div>';})->make(true);
     }
