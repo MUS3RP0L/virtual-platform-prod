@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Muserpol\Affiliate;
 use Muserpol\Breakdown;
 use Muserpol\Degree;
+use Muserpol\Hierarchy;
 use Muserpol\Category;
 use Muserpol\Unit;
 use Muserpol\Contribution;
@@ -73,9 +74,9 @@ class ImportPayroll extends Command
                             !isset($result->uni) or !isset($result->desg) or !isset($result->niv) or !isset($result->gra) or
                             !isset($result->item) or !isset($result->sue) or !isset($result->cat) or !isset($result->est) or
                             !isset($result->carg) or !isset($result->fro) or !isset($result->ori) or
-                            //  !isset($result->bseg) or
+                            !isset($result->bseg) or
                             !isset($result->dfu) or !isset($result->nat) or !isset($result->lac) or !isset($result->pre) or
-                            !isset($result->sub) or !isset($result->gan) or !isset($result->afp) or !isset($result->pag) or
+                            !isset($result->sub) or !isset($result->gan) or !isset($result->afp) or !isset($result->lpag) or
                             !isset($result->nua) or !isset($result->mus)) {
                             $this->error('Missing columns in the file!');
                             exit();
@@ -150,7 +151,8 @@ class ImportPayroll extends Command
 
                         if($result->niv && $result->gra) {
                             if ($result->niv == '04' && $result->gra == '15'){$result->niv = '03';}
-                            $degree_id = Degree::select('id')->where('code_level', $result->niv)->where('code_degree', $result->gra)->first()->id;
+                            $hierarchy_id = Hierarchy::select('id')->where('code', $result->niv)->first()->id;
+                            $degree_id = Degree::select('id')->where('hierarchy_id', $hierarchy_id)->where('code', $result->gra)->first()->id;
                         }
 
                         $category_id = Category::select('id')->where('percentage', Util::CalcCategory(Util::decimal($result->cat),Util::decimal($result->sue)))->first()->id;
@@ -260,7 +262,7 @@ class ImportPayroll extends Command
                                 $contribution->subsidy = Util::decimal($result->sub);
 
                                 $contribution->gain = Util::decimal($result->gan);
-                                $contribution->payable_liquid = Util::decimal($result->pag);
+                                $contribution->payable_liquid = Util::decimal($result->lpag);
                                 $contribution->quotable = (FLOAT)$contribution->base_wage +
                                                           (FLOAT)$contribution->seniority_bonus +
                                                           (FLOAT)$contribution->study_bonus +
