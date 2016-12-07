@@ -21,7 +21,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('dashboard', ['as' => 'dashboard', 'uses' => 'Dashboard\DashboardController@showIndex']);
 	Route::get('/', ['as' => 'dashboard', 'uses' => 'Dashboard\DashboardController@showIndex']);
 	Route::get('home', ['as' => 'dashboard', 'uses' => 'Dashboard\DashboardController@showIndex']);
-	Route::get('api/search', 'Dashboard\DashboardController@search');
+	Route::get('search', 'Dashboard\DashboardController@searchAffiliate');
 
 	// User Management
 	Route::resource('user', 'User\UserController');

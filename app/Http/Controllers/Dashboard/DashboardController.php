@@ -7,17 +7,17 @@ use Muserpol\Http\Requests;
 use Muserpol\Http\Controllers\Controller;
 
 use DB;
-use Muserpol\Affiliate;
 use Muserpol\Helper\Util;
 use Carbon\Carbon;
 
 use Muserpol\Activity;
+use Muserpol\Affiliate;
+use Muserpol\Spouse;
 use Muserpol\AffiliateState;
 use Muserpol\AffiliateType;
 use Muserpol\Contribution;
 use Muserpol\RetirementFund;
 
-use Muserpol\User;
 
 class DashboardController extends Controller
 {
@@ -198,29 +198,37 @@ class DashboardController extends Controller
 	{
 		// operate on the item passed by reference, adding the url based on slug
 		foreach ($data as $key => & $item) {
-			$item['url'] = url($prefix.'/'.$item['id'].'/edit');
+			$item['url'] = url($prefix.'/'.$item['id']);
 		}
 		return $data;
 	}
 
-	public function search(Request $request)
+	public function searchAffiliate(Request $request)
 	{
 		$query = $request->q;
 
 		if(!$query && $query == '') return Response::json(array(), 400);
 
-		$products = User::where('first_name','like','%'.$query.'%')
+		$affiliates = Affiliate::where('identity_card','like', $query)
 			->orderBy('first_name','asc')
-			->take(5)
-			->get(array('id', 'first_name', 'last_name'))->toArray();
+			->take(3)
+			->get(array('id', 'identity_card', 'first_name', 'last_name'))->toArray();
 
-		$products 	= $this->appendURL($products, 'user');
+        $spouses = Spouse::where('identity_card','like', $query)
+            ->orderBy('first_name','asc')
+            ->take(3)
+            ->get(array('id', 'identity_card', 'first_name', 'last_name'))->toArray();
 
-		// Add type of data to each item of each set of results
-		$products = $this->appendValue($products, 'user', 'class');
+		$affiliates = $this->appendURL($affiliates, 'affiliate');
+        $spouses  = $this->appendURL($spouses, 'affiliate');
+
+		$affiliates = $this->appendValue($affiliates, 'affiliate', 'class');
+		$spouses = $this->appendValue($spouses, 'spouse', 'class');
+
+        $data = array_merge($affiliates, $spouses);
 
         return response()->json(array(
-			'data'=>$products
+			'data'=>$data
 		));
 	}
 }

@@ -15,7 +15,7 @@
             <ul class="nav navbar-nav">
                 <li>
                     <div class="form-group" style="padding-bottom:0px;padding-top:4px;">
-                        <select id="searchbox" name="q" placeholder="Buscar..." class="form-control" style=" content: ' ';width: 160px; top: 34px; visibility: visible;"></select>
+                        <select id="searchbox" name="q" placeholder="Buscar" class="form-control" style="width: 200px; top: 34px; visibility: visible;"></select>
                     </div>
                 </li>
                 <li class="dropdown user user-menu">
