@@ -92,15 +92,15 @@ class AffiliateController extends Controller
                 ->addColumn('names', function ($affiliate) { return Util::ucw($affiliate->first_name) .' '. Util::ucw($affiliate->second_name); })
                 ->addColumn('state', function ($affiliate) { return $affiliate->affiliate_state->name; })
                 ->addColumn('action', function ($affiliate) { return  '
-                        <div class="btn-group" style="margin:-3px 0;">
-                            <a href="affiliate/'.$affiliate->id.'" class="btn btn-success btn-raised btn-sm"><i class="glyphicon glyphicon-eye-open"></i></a>
-                            <a href="" data-target="#" class="btn btn-success btn-raised btn-sm dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="selectgestaporte/'.$affiliate->id.'" style="padding:3px 10px;"><i class="glyphicon glyphicon-plus"></i> Aporte</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="tramite_fondo_retiro/'.$affiliate->id.'" style="padding:3px 10px;"><i class="glyphicon glyphicon-plus"></i> Trámite FR</a></li>
-                            </ul>
-                        </div>';})
+                    <div class="btn-group" style="margin:-3px 0;">
+                        <a href="affiliate/'.$affiliate->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
+                        <a href="" data-target="#" class="btn btn-primary btn-raised btn-sm dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="selectgestaporte/'.$affiliate->id.'" style="padding:3px 5px;"><i class="glyphicon glyphicon-plus"></i>Aporte</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="tramite_fondo_retiro/'.$affiliate->id.'" style="padding:3px 5px;"><i class="glyphicon glyphicon-plus"></i>Fondo</a></li>
+                        </ul>
+                    </div>';})
                 ->make(true);
     }
 
