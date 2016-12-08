@@ -33,11 +33,11 @@ class CreateIpcRate extends Command
      */
 
     public function handle()
-    {   
+    {
         $last_ipcrate = IpcRate::orderBy('month_year', 'desc')->first();
 
         if (Carbon::parse($last_ipcrate->month_year)->addMonth() < $date = new Carbon()) {
-            
+
             $new_ipcrate = new IpcRate;
             $new_ipcrate->user_id = 1;
             $new_ipcrate->index = $last_ipcrate->index;
