@@ -66,6 +66,9 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('search_affiliate', array('as'=>'search_affiliate', 'uses'=>'Affiliate\AffiliateController@SearchAffiliate'));
 	Route::get('get_affiliate', array('as'=>'get_affiliate', 'uses'=>'Affiliate\AffiliateController@Data'));
 
+	// Affiliate Address
+	Route::resource('affiliate_address', 'Affiliate\AffiliateAddressController');
+
 	// Spouses
 	Route::resource('spouse', 'Affiliate\SpouseController');
 

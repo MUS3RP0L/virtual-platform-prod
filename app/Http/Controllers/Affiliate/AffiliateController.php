@@ -15,9 +15,10 @@ use Carbon\Carbon;
 use Muserpol\Helper\Util;
 
 use Muserpol\Affiliate;
+use Muserpol\AffiliateAddress;
+use Muserpol\Spouse;
 use Muserpol\Contribution;
 use Muserpol\City;
-use Muserpol\Spouse;
 
 class AffiliateController extends Controller
 {
@@ -134,8 +135,13 @@ class AffiliateController extends Controller
     public function getData($affiliate)
     {
         $affiliate = Affiliate::idIs($affiliate)->first();
+
+        $AffiliateAddress = AffiliateAddress::affiliateidIs($affiliate->id)->first();
+        if (!$AffiliateAddress) { $AffiliateAddress = new AffiliateAddress; }
+
         $spouse = Spouse::affiliateidIs($affiliate->id)->first();
         if (!$spouse) { $spouse = new Spouse; }
+
 
         if ($affiliate->gender == 'M') {
             $gender_list = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
@@ -152,12 +158,12 @@ class AffiliateController extends Controller
         }else {
             $affiliate->city_birth = '';
         }
-        if ($affiliate->city_address_id) {
-            $affiliate->city_address = City::idIs($affiliate->city_address_id)->first()->name;
+        if ($AffiliateAddress->city_address_id) {
+            $AffiliateAddress->city_address = City::idIs($AffiliateAddress->city_address_id)->first()->name;
         }else {
-            $affiliate->city_address = '';
+            $AffiliateAddress->city_address = '';
         }
-        if ($affiliate->city_address_id || $affiliate->zone || $affiliate->Street || $affiliate->number_address || $affiliate->phone || $affiliate->cell_phone) {
+        if ($AffiliateAddress->city_address_id || $AffiliateAddress->zone || $AffiliateAddress->Street || $AffiliateAddress->number_address) {
             $info_address = TRUE;
         }else{
             $info_address = FALSE;
@@ -190,6 +196,7 @@ class AffiliateController extends Controller
         $data = [
 
             'affiliate' => $affiliate,
+            'AffiliateAddress' => $AffiliateAddress,
             'spouse' => $spouse,
             'gender_list' => $gender_list,
             'info_address' => $info_address,
@@ -299,23 +306,8 @@ class AffiliateController extends Controller
 
                 break;
 
-                case 'address':
-
-                    if ($request->city_address_id) { $affiliate->city_address_id = $request->city_address_id; } else { $affiliate->city_address_id = null; }
-                    $affiliate->zone = trim($request->zone);
-                    $affiliate->street = trim($request->street);
-                    $affiliate->number_address = trim($request->number_address);
-                    $affiliate->phone = trim($request->phone);
-                    $affiliate->cell_phone = trim($request->cell_phone);
-                    $affiliate->save();
-
-                    $message = "Información de domicilio de afiliado actualizado con éxito";
-
-                break;
-
                 Session::flash('message', $message);
             }
-
 
         }
 

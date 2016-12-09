@@ -127,6 +127,18 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Teléfono
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $affiliate->phone !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                                 @if ($affiliate->surname_husband)
                                 <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
@@ -219,6 +231,18 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Celular
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $affiliate->cell_phone !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                                 @if($affiliate->reason_death)
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
@@ -272,7 +296,7 @@
                                                     Departamento
                                                 </div>
                                                 <div class="col-md-6">
-                                                    {!! $affiliate->city_address !!}
+                                                    {!! $AffiliateAddress->city_address !!}
                                                 </div>
                                             </div>
                                         </td>
@@ -284,11 +308,16 @@
                                                     Zona
                                                 </div>
                                                 <div class="col-md-6">
-                                                    {!! $affiliate->zone !!}
+                                                    {!! $AffiliateAddress->zone !!}
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
+                                </table>
+                            </div>
+
+                            <div class="col-md-6">
+                                <table class="table" style="width:100%;">
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
@@ -296,19 +325,11 @@
                                                     Calle, Avenida
                                                 </div>
                                                 <div class="col-md-6">
-                                                    {!! $affiliate->Street !!}
+                                                    {!! $AffiliateAddress->Street !!}
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
-                                </table>
-
-
-                            </div>
-
-                            <div class="col-md-6">
-
-                                <table class="table" style="width:100%;">
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
@@ -316,31 +337,7 @@
                                                     Núm Domicilio
                                                 </div>
                                                 <div class="col-md-6">
-                                                    {!! $affiliate->number_address !!}
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    Teléfono
-                                                </div>
-                                                <div class="col-md-6">
-                                                    {!! $affiliate->phone !!}
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    Celular
-                                                </div>
-                                                <div class="col-md-6">
-                                                    {!! $affiliate->cell_phone !!}
+                                                    {!! $AffiliateAddress->number_address !!}
                                                 </div>
                                             </div>
                                         </td>
@@ -360,7 +357,6 @@
                     </div>
                 </div>
             </div>
-
 
             <div class="box box-warning">
                 <div class="box-header with-border">
@@ -509,7 +505,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="col-md-6">
@@ -793,6 +788,20 @@
                                         <span class="help-block">Seleccione Departamento</span>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                        {!! Form::label('phone', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('phone', $affiliate->phone, ['class'=> 'form-control']) !!}
+                                        <span class="help-block">Escriba el Teléfono fijo</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('cell_phone', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('cell_phone', $affiliate->cell_phone, ['class'=> 'form-control']) !!}
+                                        <span class="help-block">Escriba el Teléfono Celular</span>
+                                    </div>
+                                </div>
 
                                 <div class="row">
                                     <div class="col-md-offset-5 col-md-4">
@@ -855,29 +864,28 @@
                     <h4 class="modal-title">Editar Información Domicilio</h4>
                 </div>
                 <div class="modal-body">
-
-                    {!! Form::model($affiliate, ['method' => 'PATCH', 'route' => ['affiliate.update', $affiliate], 'class' => 'form-horizontal']) !!}
+                    {!! Form::model($AffiliateAddress, ['method' => 'PATCH', 'route' => ['affiliate_address.update', $affiliate], 'class' => 'form-horizontal']) !!}
                         <input type="hidden" name="type" value="address"/>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                             {!! Form::label('city_address_id', 'Departamento', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('city_address_id', $cities_list, $affiliate->city_address_id, ['class' => 'combobox form-control']) !!}
+                                        {!! Form::select('city_address_id', $cities_list, $AffiliateAddress->city_address_id, ['class' => 'combobox form-control']) !!}
                                         <span class="help-block">Seleccione Departamento</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('zone', 'Zona', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::text('zone', $affiliate->zone, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        {!! Form::text('zone', $AffiliateAddress->zone, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                         <span class="help-block">Escriba la Zona</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('street', 'Calle, Avenida', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::text('street', $affiliate->street, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        {!! Form::text('street', $AffiliateAddress->street, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                         <span class="help-block">Escriba la Calle y/o Avenida</span>
                                     </div>
                                 </div>
@@ -886,22 +894,8 @@
                                 <div class="form-group">
                                         {!! Form::label('number_address', 'Número de Domicilio', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::text('number_address', $affiliate->number_address, ['class'=> 'form-control']) !!}
+                                        {!! Form::text('number_address', $AffiliateAddress->number_address, ['class'=> 'form-control']) !!}
                                         <span class="help-block">Escriba el Número de Domicilio</span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                        {!! Form::label('phone', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-7">
-                                        {!! Form::text('phone', $affiliate->phone, ['class'=> 'form-control']) !!}
-                                        <span class="help-block">Escriba el Teléfono fijo</span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                        {!! Form::label('cell_phone', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-7">
-                                        {!! Form::text('cell_phone', $affiliate->cell_phone, ['class'=> 'form-control']) !!}
-                                        <span class="help-block">Escriba el Teléfono Celular</span>
                                     </div>
                                 </div>
                             </div>
@@ -923,8 +917,6 @@
             </div>
         </div>
     </div>
-
-
 
     <div id="myModal-spouse" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
