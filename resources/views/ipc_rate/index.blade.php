@@ -42,7 +42,7 @@
 
     <div id="myModal-edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog">
-            <div class="modal-content panel-warning">
+            <div class="modal-content">
                 <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Editar Tasas de Índice de Precio al Consumidor</h4>
