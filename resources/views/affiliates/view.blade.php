@@ -184,7 +184,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Sexo
@@ -196,7 +196,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Estado Civil
@@ -208,7 +208,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Lugar Nacimiento
@@ -221,7 +221,7 @@
                                 </tr>
                                 @if($affiliate->reason_death)
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Motivo de Deceso
@@ -242,8 +242,8 @@
                 </div>
             </div>
 
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div class="box box-warning">
+                <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-11">
                             <h3 class="panel-title"><span class="glyphicon glyphicon-home"></span> Información de Domicilio</h3>
@@ -266,7 +266,7 @@
 
                                 <table class="table" style="width:100%;">
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Departamento
@@ -278,7 +278,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Zona
@@ -290,7 +290,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Calle, Avenida
@@ -310,7 +310,7 @@
 
                                 <table class="table" style="width:100%;">
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Núm Domicilio
@@ -322,7 +322,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Teléfono
@@ -334,7 +334,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Celular
@@ -362,8 +362,8 @@
             </div>
 
 
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div class="box box-warning">
+                <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-11">
                             <h3 class="panel-title"><span class="glyphicon glyphicon-user"></span> Información de Conyuge</h3>
@@ -513,8 +513,8 @@
         </div>
 
         <div class="col-md-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div class="box box-warning">
+                <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-11">
                             <h3 class="panel-title"><span class="glyphicon glyphicon-briefcase"></span> Información Policial Actual</h3>
@@ -656,8 +656,8 @@
                 </div>
             </div>
 
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div class="box box-warning">
+                <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-6">
                             <h3 class="panel-title"><span class="glyphicon glyphicon-usd"></span> Totales</h3>
@@ -710,7 +710,7 @@
     <div id="myModal-personal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Editar Información Personal</h4>
                 </div>

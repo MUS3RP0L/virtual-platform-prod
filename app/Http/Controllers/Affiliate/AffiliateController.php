@@ -322,39 +322,6 @@ class AffiliateController extends Controller
         return redirect('affiliate/'.$affiliate->id);
     }
 
-    public function SearchAffiliate(Request $request)
-    {
-        $rules = [
-            'identity_card' => 'required',
-        ];
-
-        $messages = [
-            'identity_card.required' => 'El campo es requerido para realizar la búsqueda del Afiliado.',
-        ];
-
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        if ($validator->fails()) {
-            return redirect("/")
-            ->withErrors($validator)
-            ->withInput();
-        }
-        else{
-
-        $affiliate = Affiliate::identitycardIs($request->identity_card)->first();
-
-            if($affiliate) {
-                return redirect("affiliate/{$affiliate->id}");
-            }
-            else {
-                $message = "No logramos encontrar al Afiliado con Carnet: ".$request->identity_card;
-                Session::flash('message', $message);
-                return redirect("affiliate");
-            }
-
-        }
-    }
-
     public function print_affiliate($affiliate)
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
