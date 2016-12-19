@@ -99,11 +99,12 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('print_voucher/{voucher_id}', 'Voucher\VoucherController@PrintVoucher');
 	Route::get('print_compromise/{afid}', 'Contribution\DirectContributionController@PrintCompromise');
 
+
+	// Retirement Fund Procedure
+	Route::resource('retirement_fund', 'RetirementFund\RetirementFundController');
+
 	// Applicant
 	Route::resource('applicant', 'RetirementFund\ApplicantController');
-
-	// Retirement Fund
-	Route::resource('retirement_fund', 'RetirementFund\RetirementFundController');
 
 	Route::get('get_retirement_fund', array('as'=>'get_retirement_fund', 'uses'=>'RetirementFund\RetirementFundController@Data'));
 
@@ -111,6 +112,13 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('retirement_fund_print_check_file/{afid}', 'RetirementFund\RetirementFundController@print_check_file');
 	Route::get('retirement_fund_print_qualification/{afid}', 'RetirementFund\RetirementFundController@print_qualification');
 	Route::get('retirement_fund_print_legal_assessment/{afid}', 'RetirementFund\RetirementFundController@print_legal_assessment');
+
+
+	// Economic Complement Procedure
+	Route::resource('complement_economic', 'EconomicComplement\EconomicComplementController');
+
+	// Complementarity factor
+	Route::resource('complementarity_factor', 'EconomicComplement\ComplementarityFactorController');
 
 });
 
