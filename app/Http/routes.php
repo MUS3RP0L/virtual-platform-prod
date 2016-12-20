@@ -34,7 +34,7 @@ Route::group(['middleware' => 'auth'], function() {
 	// Contribution Rate
 	Route::resource('contribution_rate', 'Rate\ContributionRateController');
 
-	Route::get('get_Contribution_rate', array('as'=>'get_contribution_rate', 'uses'=>'Rate\ContributionRateController@Data'));
+	Route::get('get_contribution_rate', array('as'=>'get_contribution_rate', 'uses'=>'Rate\ContributionRateController@Data'));
 
 	// IPC Rate
 	Route::resource('ipc_rate', 'Rate\IpcRateController');
@@ -117,8 +117,10 @@ Route::group(['middleware' => 'auth'], function() {
 	// Economic Complement Procedure
 	Route::resource('complement_economic', 'EconomicComplement\EconomicComplementController');
 
-	// Complementarity factor
+	// Complementarity Factor
 	Route::resource('complementarity_factor', 'EconomicComplement\ComplementarityFactorController');
+
+	Route::get('get_complementarity_factor', array('as'=>'get_complementarity_factor', 'uses'=>'EconomicComplement\ComplementarityFactorController@Data'));
 
 });
 

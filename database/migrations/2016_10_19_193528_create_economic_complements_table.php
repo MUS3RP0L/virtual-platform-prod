@@ -73,7 +73,7 @@ class CreateEconomicComplementsTable extends Migration
             $table->bigIncrements('id');
             $table->UnsignedBigInteger('user_id');
             $table->UnsignedBigInteger('hierarchy_id');
-            $table->date('month_year')->required();
+            $table->date('year')->required();
             $table->enum('semester', ['F', 'S'])->required();
             $table->decimal('old_age', 13, 2);
             $table->decimal('widowhood', 13, 2);

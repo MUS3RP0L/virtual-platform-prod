@@ -10,7 +10,9 @@ class EconomicComplementFactor extends Model
 
 	protected $fillable = [
 
-		'month_year',
+		'hierarchy_id',
+		'year',
+		'semester',
 		'old_age',
 		'widowhood'
 	];
