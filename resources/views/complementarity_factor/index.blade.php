@@ -4,7 +4,7 @@
 
     <div class="row">
         <div class="col-md-8">
-            {!! Breadcrumbs::render('base_wages') !!}
+            {!! Breadcrumbs::render('complementarity_factors') !!}
         </div>
         <div class="col-md-4 text-right">
             @can('manage')
@@ -23,25 +23,44 @@
         <div class="col-md-12">
             <div class="box box-warning">
                 <div class="box-header with-border">
-                    <h3 class="panel-title">Primer Nivel</h3>
+                    <h3 class="panel-title">Caso Vejez</h3>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-hover" id="first_level_base_wage-table">
+                    <table class="table table-bordered table-hover" id="complementarity_factor_old_age-table">
                         <thead>
                             <tr class="warning">
                                 <th>AÑO</th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="00 00 - COMANDANTE GENERAL">CMTE GRAL</div></th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="00 01 - COMANDANTE GENERAL">CMTE GRAL</div></th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="00 02 - SUBCOMANDANTE GENERAL">SBCMTE</div></th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="00 03 - INSPECTOR GENERAL">INSP GRAL</div></th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="00 04 - DIRECTOR GENERAL">DIR GRAL</div></th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="01 01 - CORONEL CON SUELDO DE GENERAL">CNL</div></th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="01 02 - CORONEL">CNL</div></th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="01 03 - TENIENTE CORONEL">TCNL</div></th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="01 04 - MAYOR">MY</div></th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="01 05 - CAPITAN">CAP</div></th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="01 06 - TENIENTE">TTE</div></th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="01 07 - SUBTENIENTE">SBTTE</div></th>
+                                <th>Semestre</th>
+                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="00 - GENERALES">GENERALES</div></th>
+                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="01 - JEFES Y OFICIALES">JEFES Y OFICIALES</div></th>
+                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="02 - JEFES Y OFICIALES ADMINISTRATIVOS">JEFES Y OFICIALES ADMINISTRATIVOS</div></th>
+                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="03 - JEFES Y OFICIALES ADMINISTRATIVOS">JEFES Y OFICIALES ADMINISTRATIVOS</div></th>
+                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="04 - SUBOFICIALES, CLASES Y POLICIAS ADMINSTRATIVOS">SUBOFICIALES, CLASES Y POLICIAS ADMINSTRATIVOS</div></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="panel-title">Caso Vejez</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-bordered table-hover" id="complementarity_factor_widowhood-table">
+                        <thead>
+                            <tr class="warning">
+                                <th>AÑO</th>
+                                <th>Semestre</th>
+                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="00 - GENERALES">GENERALES</div></th>
+                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="01 - JEFES Y OFICIALES">JEFES Y OFICIALES</div></th>
+                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="02 - JEFES Y OFICIALES ADMINISTRATIVOS">JEFES Y OFICIALES ADMINISTRATIVOS</div></th>
+                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="03 - JEFES Y OFICIALES ADMINISTRATIVOS">JEFES Y OFICIALES ADMINISTRATIVOS</div></th>
+                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="04 - SUBOFICIALES, CLASES Y POLICIAS ADMINSTRATIVOS">SUBOFICIALES, CLASES Y POLICIAS ADMINSTRATIVOS</div></th>
                             </tr>
                         </thead>
                     </table>
@@ -122,7 +141,7 @@
         });
 
         $(function() {
-            $('#first_level_base_wage-table').DataTable({
+            $('#complementarity_factor_old_age-table').DataTable({
                 "dom": '<"top">t<"bottom"p>',
                 "order": [[ 0, "desc" ]],
                 processing: true,
@@ -131,10 +150,13 @@
                 autoWidth: false,
                 ajax: '{!! route('get_complementarity_factor') !!}',
                 columns: [
-                    { data: 'month_year', sClass: "text-center" },
-                    { data: 'c1', sClass: "text-right", bSortable: false },
-                    { data: 'c2', sClass: "text-right", bSortable: false },
-                    { data: 'c3', sClass: "text-right", bSortable: false }
+                    { data: 'year', sClass: "text-center" },
+                    { data: 'semester', sClass: "text-center", bSortable: false },
+                    { data: 'cf1', sClass: "text-right", bSortable: false },
+                    { data: 'cf2', sClass: "text-right", bSortable: false },
+                    { data: 'cf3', sClass: "text-right", bSortable: false },
+                    { data: 'cf4', sClass: "text-right", bSortable: false },
+                    { data: 'cf5', sClass: "text-right", bSortable: false }
                 ]
             });
 

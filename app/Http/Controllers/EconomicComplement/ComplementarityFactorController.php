@@ -31,24 +31,31 @@ class ComplementarityFactorController extends Controller
 
     public function Data()
     {
-        $select = DB::raw('eco_com_factors.year as year, c1.old_age as c1, c2.old_age as c2, c3.old_age as c3');
+        $select = DB::raw('complementarity_factors.year as year, complementarity_factors.semester as semester, cf1.old_age as cf1, cf2.old_age as cf2, cf3.old_age as cf3, cf4.old_age as cf4, cf5.old_age as cf5');
 
-        $eco_com_factors = DB::table('eco_com_factors')->select($select)
-        ->leftJoin('eco_com_factors as c1', 'c1.year', '=', 'eco_com_factors.year')
-        ->leftJoin('eco_com_factors as c2', 'c2.year', '=', 'eco_com_factors.year')
-        ->leftJoin('eco_com_factors as c3', 'c3.year', '=', 'eco_com_factors.year')
+        $complementarity_factors = DB::table('complementarity_factors')->select($select)
+        ->leftJoin('complementarity_factors as cf1', 'cf1.year', '=', 'complementarity_factors.year')
+        ->leftJoin('complementarity_factors as cf2', 'cf2.year', '=', 'complementarity_factors.year')
+        ->leftJoin('complementarity_factors as cf3', 'cf3.year', '=', 'complementarity_factors.year')
+        ->leftJoin('complementarity_factors as cf4', 'cf4.year', '=', 'complementarity_factors.year')
+        ->leftJoin('complementarity_factors as cf5', 'cf5.year', '=', 'complementarity_factors.year')
 
-        ->where('c1.hierarchy_id', '=', '1')
-        ->where('c2.hierarchy_id', '=', '2')
-        ->where('c3.hierarchy_id', '=', '3')
+        ->where('cf1.hierarchy_id', '=', '1')
+        ->where('cf2.hierarchy_id', '=', '2')
+        ->where('cf3.hierarchy_id', '=', '3')
+        ->where('cf4.hierarchy_id', '=', '4')
+        ->where('cf5.hierarchy_id', '=', '5')
 
-        ->groupBy('eco_com_factors.year');
+        ->groupBy('complementarity_factors.year', 'complementarity_factors.semester');
 
-        return Datatables::of($eco_com_factors)
-        ->editColumn('year', function ($eco_com_factor) { return Carbon::parse($eco_com_factor->year)->year; })
-        ->editColumn('c1', function ($eco_com_factor) { return Util::formatMoney($eco_com_factor->c1); })
-        ->editColumn('c2', function ($eco_com_factor) { return Util::formatMoney($eco_com_factor->c2); })
-        ->editColumn('c3', function ($eco_com_factor) { return Util::formatMoney($eco_com_factor->c3); })
+        return Datatables::of($complementarity_factors)
+        ->editColumn('year', function ($complementarity_factor) { return Carbon::parse($complementarity_factor->year)->year; })
+        ->editColumn('semester', function ($complementarity_factor) { return $complementarity_factor->semester; })
+        ->editColumn('cf1', function ($complementarity_factor) { return Util::formatMoney($complementarity_factor->cf1); })
+        ->editColumn('cf2', function ($complementarity_factor) { return Util::formatMoney($complementarity_factor->cf2); })
+        ->editColumn('cf3', function ($complementarity_factor) { return Util::formatMoney($complementarity_factor->cf3); })
+        ->editColumn('cf4', function ($complementarity_factor) { return Util::formatMoney($complementarity_factor->cf4); })
+        ->editColumn('cf5', function ($complementarity_factor) { return Util::formatMoney($complementarity_factor->cf5); })
 
         ->make(true);
     }
