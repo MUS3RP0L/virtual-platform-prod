@@ -4,7 +4,7 @@ namespace Muserpol;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EconomicComplementFactor extends Model
+class ComplementarityFactor extends Model
 {
     protected $table = 'complementarity_factors';
 

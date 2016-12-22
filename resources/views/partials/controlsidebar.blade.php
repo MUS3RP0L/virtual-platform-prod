@@ -3,11 +3,9 @@
     <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
         <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab">Configuración</a></li>
     </ul>
-    <!-- Tab panes -->
+
     <div class="tab-content">
-        <!-- Home tab content -->
         <div class="tab-pane active" id="control-sidebar-home-tab">
-            <!-- <h3 class="control-sidebar-heading">Configuración</h3> -->
             <ul class='control-sidebar-menu'>
                 <li>
                   <a href="{{ url('user') }}">
@@ -37,13 +35,16 @@
                     </div>
                   </a>
                 </li>
-
-            </ul><!-- /.control-sidebar-menu -->
-
-        </div><!-- /.tab-pane -->
+                <li>
+                  <a href="{{ url('complementarity_factor') }}">
+                    <div class="menu" style="font-size:16px;font-weight:400;color:#fff;">
+                    Factor de Complemantación
+                    </div>
+                  </a>
+                </li>
+            </ul>
+        </div>
     </div>
-</aside><!-- /.control-sidebar -->
+</aside>
 
-<!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
 <div class='control-sidebar-bg'></div>

@@ -84,28 +84,28 @@ class ContributionRateController extends Controller
 
         $messages = [
 
-            'retirement_fund.required' => 'El campo Fondo de Retiro Sector Activo no puede ser vacío', 
+            'retirement_fund.required' => 'El campo Fondo de Retiro Sector Activo no puede ser vacío',
             'retirement_fund.numeric' => 'El campo Fondo de Retiro Sector Activo sólo se aceptan números',
 
-            'mortuary_quota.required' => 'El campo Seguro de Vida Sector Activo no puede ser vacío', 
+            'mortuary_quota.required' => 'El campo Seguro de Vida Sector Activo no puede ser vacío',
             'mortuary_quota.numeric' => 'El campo Seguro de Vida Sector Activo sólo se aceptan números',
 
-            'mortuary_aid.required' => 'El campo Seguro de Vida Sector Pasivo no puede ser vacío', 
+            'mortuary_aid.required' => 'El campo Seguro de Vida Sector Pasivo no puede ser vacío',
             'mortuary_aid.numeric' => 'El campo Seguro de Vida Sector Pasivo sólo se aceptan números',
 
         ];
-        
+
         $validator = Validator::make($request->all(), $rules, $messages);
-        
+
         if ($validator->fails()) {
 
-            return redirect('contribution_rate/'.$contribution_rate.'/edit')
+            return redirect('contribution_rate')
             ->withErrors($validator)
             ->withInput();
         }
         else{
 
-            $contribution_rate->user_id = Auth::user()->id;                 
+            $contribution_rate->user_id = Auth::user()->id;
             $contribution_rate->retirement_fund = trim($request->retirement_fund);
             $contribution_rate->mortuary_quota = trim($request->mortuary_quota);
             $contribution_rate->rate_active = trim($request->retirement_fund) + trim($request->mortuary_quota);
@@ -116,7 +116,7 @@ class ContributionRateController extends Controller
 
             Session::flash('message', $message);
         }
-        
+
         return redirect('contribution_rate');
     }
 }
