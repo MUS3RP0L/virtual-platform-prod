@@ -36,7 +36,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="{{ url('complementarity_factor') }}">
+                  <a href="{{ url('complementary_factor') }}">
                     <div class="menu" style="font-size:16px;font-weight:400;color:#fff;">
                     Factor de Complemantación
                     </div>

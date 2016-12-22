@@ -68,7 +68,7 @@ class CreateEconomicComplementsTable extends Migration
 
         });
 
-        Schema::create('complementarity_factors', function(Blueprint $table) {
+        Schema::create('complementary_factors', function(Blueprint $table) {
 
             $table->bigIncrements('id');
             $table->UnsignedBigInteger('user_id');
@@ -92,7 +92,7 @@ class CreateEconomicComplementsTable extends Migration
             $table->UnsignedBigInteger('city_id');
             $table->UnsignedBigInteger('category_id');
             $table->UnsignedBigInteger('base_wage_id')->nullable();
-            $table->UnsignedBigInteger('complementarity_factor_id')->nullable();
+            $table->UnsignedBigInteger('complementary_factor_id')->nullable();
 
             $table->date('first_ticket_month_id')->nullable();
             $table->date('second_ticket_month_id')->nullable();
@@ -120,7 +120,7 @@ class CreateEconomicComplementsTable extends Migration
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('base_wage_id')->references('id')->on('base_wages');
-            $table->foreign('complementarity_factor_id')->references('id')->on('complementarity_factors');
+            $table->foreign('complementary_factor_id')->references('id')->on('complementary_factors');
 
 
         });
@@ -194,7 +194,7 @@ class CreateEconomicComplementsTable extends Migration
         Schema::dropIfExists('eco_com_submitted_documents');
         Schema::dropIfExists('eco_com_requirements');
         Schema::dropIfExists('economic_complements');
-        Schema::dropIfExists('complementarity_factors');
+        Schema::dropIfExists('complementary_factors');
         Schema::dropIfExists('eco_com_rents');
         Schema::dropIfExists('eco_com_states');
         Schema::dropIfExists('eco_com_state_types');

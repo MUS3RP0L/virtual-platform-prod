@@ -300,6 +300,17 @@ class Util
 			return date("d", strtotime($date))." ".$meses[date("n", strtotime($date))-1]. " ".date("Y", strtotime($date));
         }
 	}
+	public static function getSemester($date)
+	{
+		if ($date) {
+			if (date("n", strtotime($date))-1 < 7) {
+				return "f";
+			}else{
+				return "s";
+			}
+        }
+	}
+
 	public static function getfullmonthYear($date)
 	{
 		if ($date) {

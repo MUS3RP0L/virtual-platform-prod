@@ -4,9 +4,11 @@ namespace Muserpol;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ComplementarityFactor extends Model
+use Muserpol\Helper\Util;
+
+class ComplementaryFactor extends Model
 {
-    protected $table = 'complementarity_factors';
+    protected $table = 'complementary_factors';
 
 	protected $fillable = [
 

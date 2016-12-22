@@ -32,6 +32,7 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('affiliate', 'Muserpol\Affiliate');
         $router->model('direct_contribution', 'Muserpol\DirectContribution');
         $router->model('voucher', 'Muserpol\Voucher');
+        $router->model('complementarity_factor', 'Muserpol\EconomicComplementFactor');
     }
 
     /**

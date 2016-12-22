@@ -51,7 +51,7 @@
                     <h3 class="panel-title">Caso Viudez</h3>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-hover" id="complementarity_factor_widowhood-table">
+                    <table class="table table-bordered table-hover" id="complementary_factor_widowhood-table">
                         <thead>
                             <tr class="warning">
                                 <th>AÑO</th>
@@ -69,40 +69,35 @@
         </div>
     </div>
 
-    <div id="myModal-import" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div id="myModal-edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Importar Archivo con Sueldos</h4>
+                    <h4 class="modal-title">Editar Factores de Complemantación</h4>
                 </div>
                 <div class="modal-body">
 
-                    {!! Form::open(['method' => 'POST', 'route' => ['base_wage.store'], 'class' => 'form-horizontal', 'files' => true ]) !!}
-
+                    {!! Form::model($complementary_factor, ['method' => 'PATCH', 'route' => ['ipc_rate.update', $complementary_factor->id], 'class' => 'form-horizontal']) !!}
                         <br>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                        {!! Form::label('archive', 'Archivo', ['class' => 'col-md-3 control-label']) !!}
-                                    <div class="col-md-8">
-                                        <input type="file" id="inputFile" name="archive" required>
-                                        <input type="text" readonly="" class="form-control " placeholder="Formato Excel">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                        {!! Form::label('month_year', 'Mes y Año', ['class' => 'col-md-3 control-label']) !!}
-                                    <div class="col-md-7">
+                                        {!! Form::label('month_year', 'Mes y Año', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-4">
                                         <div class="input-group">
-                                            <input type="text" class="form-control datepicker" name="month_year" value="" required>
+                                            <input type="text" class="form-control datepicker" name="month_year" value="{!! $complementary_factor->getMonthYearEdit() !!}">
                                             <div class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('index', 'Tasa IPC', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-3">
+                                        {!! Form::text('index', $complementary_factor->index, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                        <span class="help-block">Monto de IPC</span>
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +106,7 @@
                         <div class="row text-center">
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <a href="{!! url('base_wage') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                    <a href="{!! url('ipc_rate') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
                                     &nbsp;&nbsp;
                                     <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
                                 </div>
@@ -148,7 +143,7 @@
                 serverSide: true,
                 pageLength: 10,
                 autoWidth: false,
-                ajax: '{!! route('get_complementarity_factor_old_age') !!}',
+                ajax: '{!! route('get_complementary_factor_old_age') !!}',
                 columns: [
                     { data: 'year', sClass: "text-center" },
                     { data: 'semester', sClass: "text-center", bSortable: false },
@@ -162,14 +157,14 @@
         });
 
         $(function() {
-            $('#complementarity_factor_widowhood-table').DataTable({
+            $('#complementary_factor_widowhood-table').DataTable({
                 "dom": '<"top">t<"bottom"p>',
                 "order": [[ 0, "desc" ]],
                 processing: true,
                 serverSide: true,
                 pageLength: 10,
                 autoWidth: false,
-                ajax: '{!! route('get_complementarity_factor_widowhood') !!}',
+                ajax: '{!! route('get_complementary_factor_widowhood') !!}',
                 columns: [
                     { data: 'year', sClass: "text-center" },
                     { data: 'semester', sClass: "text-center", bSortable: false },

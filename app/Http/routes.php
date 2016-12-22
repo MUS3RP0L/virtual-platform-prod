@@ -117,12 +117,12 @@ Route::group(['middleware' => 'auth'], function() {
 	// Economic Complement Procedure
 	Route::resource('complement_economic', 'EconomicComplement\EconomicComplementController');
 
-	// Complementarity Factor
-	Route::resource('complementarity_factor', 'EconomicComplement\ComplementarityFactorController');
+	// Complementary Factor
+	Route::resource('complementary_factor', 'EconomicComplement\ComplementaryFactorController');
 
-	Route::get('get_complementarity_factor_old_age', array('as'=>'get_complementarity_factor_old_age', 'uses'=>'EconomicComplement\ComplementarityFactorController@old_ageData'));
+	Route::get('get_complementary_factor_old_age', array('as'=>'get_complementary_factor_old_age', 'uses'=>'EconomicComplement\ComplementaryFactorController@old_ageData'));
 
-	Route::get('get_complementarity_factor_widowhood', array('as'=>'get_complementarity_factor_widowhood', 'uses'=>'EconomicComplement\ComplementarityFactorController@widowhoodData'));
+	Route::get('get_complementary_factor_widowhood', array('as'=>'get_complementary_factor_widowhood', 'uses'=>'EconomicComplement\ComplementaryFactorController@widowhoodData'));
 
 });
 
