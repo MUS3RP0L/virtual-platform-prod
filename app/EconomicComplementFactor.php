@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class EconomicComplementFactor extends Model
 {
-    protected $table = 'eco_com_factors';
+    protected $table = 'complementarity_factors';
 
 	protected $fillable = [
 

@@ -68,13 +68,13 @@ class CreateEconomicComplementsTable extends Migration
 
         });
 
-        Schema::create('eco_com_factors', function(Blueprint $table) {
+        Schema::create('complementarity_factors', function(Blueprint $table) {
 
             $table->bigIncrements('id');
             $table->UnsignedBigInteger('user_id');
             $table->UnsignedBigInteger('hierarchy_id');
             $table->date('year')->required();
-            $table->enum('semester', ['F', 'S'])->required();
+            $table->enum('semester', ['Primer', 'Segundo'])->required();
             $table->decimal('old_age', 13, 2);
             $table->decimal('widowhood', 13, 2);
             $table->timestamps();
@@ -92,7 +92,7 @@ class CreateEconomicComplementsTable extends Migration
             $table->UnsignedBigInteger('city_id');
             $table->UnsignedBigInteger('category_id');
             $table->UnsignedBigInteger('base_wage_id')->nullable();
-            $table->UnsignedBigInteger('eco_com_factor_id')->nullable();
+            $table->UnsignedBigInteger('complementarity_factor_id')->nullable();
 
             $table->date('first_ticket_month_id')->nullable();
             $table->date('second_ticket_month_id')->nullable();
@@ -120,7 +120,7 @@ class CreateEconomicComplementsTable extends Migration
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('base_wage_id')->references('id')->on('base_wages');
-            $table->foreign('eco_com_factor_id')->references('id')->on('economic_complements');
+            $table->foreign('complementarity_factor_id')->references('id')->on('complementarity_factors');
 
 
         });
@@ -194,7 +194,7 @@ class CreateEconomicComplementsTable extends Migration
         Schema::dropIfExists('eco_com_submitted_documents');
         Schema::dropIfExists('eco_com_requirements');
         Schema::dropIfExists('economic_complements');
-        Schema::dropIfExists('eco_com_factors');
+        Schema::dropIfExists('complementarity_factors');
         Schema::dropIfExists('eco_com_rents');
         Schema::dropIfExists('eco_com_states');
         Schema::dropIfExists('eco_com_state_types');
