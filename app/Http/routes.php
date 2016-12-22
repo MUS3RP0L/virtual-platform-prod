@@ -120,7 +120,9 @@ Route::group(['middleware' => 'auth'], function() {
 	// Complementarity Factor
 	Route::resource('complementarity_factor', 'EconomicComplement\ComplementarityFactorController');
 
-	Route::get('get_complementarity_factor', array('as'=>'get_complementarity_factor', 'uses'=>'EconomicComplement\ComplementarityFactorController@Data'));
+	Route::get('get_complementarity_factor_old_age', array('as'=>'get_complementarity_factor_old_age', 'uses'=>'EconomicComplement\ComplementarityFactorController@old_ageData'));
+
+	Route::get('get_complementarity_factor_widowhood', array('as'=>'get_complementarity_factor_widowhood', 'uses'=>'EconomicComplement\ComplementarityFactorController@widowhoodData'));
 
 });
 

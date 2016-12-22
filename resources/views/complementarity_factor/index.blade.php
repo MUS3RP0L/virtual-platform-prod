@@ -33,9 +33,9 @@
                                 <th>Semestre</th>
                                 <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="00 - GENERALES">GENERALES</div></th>
                                 <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="01 - JEFES Y OFICIALES">JEFES Y OFICIALES</div></th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="02 - JEFES Y OFICIALES ADMINISTRATIVOS">JEFES Y OFICIALES ADMINISTRATIVOS</div></th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="03 - JEFES Y OFICIALES ADMINISTRATIVOS">JEFES Y OFICIALES ADMINISTRATIVOS</div></th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="04 - SUBOFICIALES, CLASES Y POLICIAS ADMINSTRATIVOS">SUBOFICIALES, CLASES Y POLICIAS ADMINSTRATIVOS</div></th>
+                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="02 - JEFES Y OFICIALES ADMINISTRATIVOS">JEFES Y OFICIALES ADMTVOS.</div></th>
+                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="03 - JEFES Y OFICIALES ADMINISTRATIVOS">SUBOFICIALES, CLASES Y POLICIAS</div></th>
+                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="04 - SUBOFICIALES, CLASES Y POLICIAS ADMINSTRATIVOS">SUBOFICIALES, CLASES Y POLICIAS ADMTVOS.</div></th>
                             </tr>
                         </thead>
                     </table>
@@ -48,7 +48,7 @@
         <div class="col-md-12">
             <div class="box box-warning">
                 <div class="box-header with-border">
-                    <h3 class="panel-title">Caso Vejez</h3>
+                    <h3 class="panel-title">Caso Viudez</h3>
                 </div>
                 <div class="box-body">
                     <table class="table table-bordered table-hover" id="complementarity_factor_widowhood-table">
@@ -58,9 +58,9 @@
                                 <th>Semestre</th>
                                 <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="00 - GENERALES">GENERALES</div></th>
                                 <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="01 - JEFES Y OFICIALES">JEFES Y OFICIALES</div></th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="02 - JEFES Y OFICIALES ADMINISTRATIVOS">JEFES Y OFICIALES ADMINISTRATIVOS</div></th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="03 - JEFES Y OFICIALES ADMINISTRATIVOS">JEFES Y OFICIALES ADMINISTRATIVOS</div></th>
-                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="04 - SUBOFICIALES, CLASES Y POLICIAS ADMINSTRATIVOS">SUBOFICIALES, CLASES Y POLICIAS ADMINSTRATIVOS</div></th>
+                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="02 - JEFES Y OFICIALES ADMINISTRATIVOS">JEFES Y OFICIALES ADMTVOS.</div></th>
+                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="03 - JEFES Y OFICIALES ADMINISTRATIVOS">SUBOFICIALES, CLASES Y POLICIAS</div></th>
+                                <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="04 - SUBOFICIALES, CLASES Y POLICIAS ADMINSTRATIVOS">SUBOFICIALES, CLASES Y POLICIAS ADMTVOS.</div></th>
                             </tr>
                         </thead>
                     </table>
@@ -148,7 +148,7 @@
                 serverSide: true,
                 pageLength: 10,
                 autoWidth: false,
-                ajax: '{!! route('get_complementarity_factor') !!}',
+                ajax: '{!! route('get_complementarity_factor_old_age') !!}',
                 columns: [
                     { data: 'year', sClass: "text-center" },
                     { data: 'semester', sClass: "text-center", bSortable: false },
@@ -159,7 +159,27 @@
                     { data: 'cf5', sClass: "text-right", bSortable: false }
                 ]
             });
+        });
 
+        $(function() {
+            $('#complementarity_factor_widowhood-table').DataTable({
+                "dom": '<"top">t<"bottom"p>',
+                "order": [[ 0, "desc" ]],
+                processing: true,
+                serverSide: true,
+                pageLength: 10,
+                autoWidth: false,
+                ajax: '{!! route('get_complementarity_factor_widowhood') !!}',
+                columns: [
+                    { data: 'year', sClass: "text-center" },
+                    { data: 'semester', sClass: "text-center", bSortable: false },
+                    { data: 'cf1', sClass: "text-right", bSortable: false },
+                    { data: 'cf2', sClass: "text-right", bSortable: false },
+                    { data: 'cf3', sClass: "text-right", bSortable: false },
+                    { data: 'cf4', sClass: "text-right", bSortable: false },
+                    { data: 'cf5', sClass: "text-right", bSortable: false }
+                ]
+            });
         });
 
     </script>
