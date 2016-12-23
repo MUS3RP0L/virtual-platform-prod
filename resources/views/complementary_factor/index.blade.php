@@ -68,9 +68,9 @@
             </div>
         </div>
     </div>
-    @if($complementary_factor)
-        <div id="myModal-edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-            <div class="modal-dialog">
+    @if($cf1_old_age)
+        <div id="myModal-edit" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="box-header with-border">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

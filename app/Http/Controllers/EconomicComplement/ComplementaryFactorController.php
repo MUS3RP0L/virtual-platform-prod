@@ -91,9 +91,7 @@ class ComplementaryFactorController extends Controller
             'cf5_widowhood' => $cf5_widowhood,
         ];
 
-        return $data;
-
-        // return view('complementary_factor.index', $data);
+        return view('complementary_factor.index', $data);
 
     }
 
