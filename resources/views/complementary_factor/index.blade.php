@@ -8,8 +8,8 @@
         </div>
         <div class="col-md-4 text-right">
             @can('manage')
-                <a href="" data-target="#myModal-import" class="btn btn-raised btn-success dropdown-toggle" data-toggle="modal">&nbsp;
-                    <i class="glyphicon glyphicon-import"></i>&nbsp;
+                <a href="" data-target="#myModal-edit" class="btn btn-raised btn-success dropdown-toggle" data-toggle="modal">&nbsp;
+                    <i class="glyphicon glyphicon-wrench"></i>&nbsp;
                 </a>
             @endcan
         </div>
@@ -68,57 +68,275 @@
             </div>
         </div>
     </div>
-
-    <div id="myModal-edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="box-header with-border">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Editar Factores de Complemantación</h4>
-                </div>
-                <div class="modal-body">
-
-                    {!! Form::model($complementary_factor, ['method' => 'PATCH', 'route' => ['ipc_rate.update', $complementary_factor->id], 'class' => 'form-horizontal']) !!}
-                        <br>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                        {!! Form::label('month_year', 'Mes y Año', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-4">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control datepicker" name="month_year" value="{!! $complementary_factor->getMonthYearEdit() !!}">
-                                            <div class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
+    @if($complementary_factor)
+        <div id="myModal-edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="box-header with-border">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Editar Factores de Complemantación</h4>
+                    </div>
+                    <div class="modal-body">
+                        {!! Form::open(['method' => 'POST', 'route' => ['complementary_factor.update'], 'class' => 'form-horizontal']) !!}
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                            {!! Form::label('year', 'Año', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control datepicker" name="year" value="{!! $year !!}">
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                        {!! Form::label('index', 'Tasa IPC', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-3">
-                                        {!! Form::text('index', $complementary_factor->index, ['class'=> 'form-control', 'required' => 'required']) !!}
-                                        <span class="help-block">Monto de IPC</span>
+                                    <div class="col-md-6">
+                                        <div class="radio radio-primary">
+                                            <label>
+                                                <input type="radio" name="type_applicant" value='1' data-bind='checked: typeToShow'>Primer Semestre
+                                            </label>
+                                        </div>
+                                        <div class="radio radio-primary">
+                                            <label>
+                                                <input type="radio" name="type_applicant" value='2' data-bind='checked: typeToShow'>Segundo Semestre
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row text-center">
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <a href="{!! url('ipc_rate') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
-                                    &nbsp;&nbsp;
-                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4 class="modal-title">Caso Vejez</h4>
+                                    <div class="form-group">
+                                            {!! Form::label('cf1_old_age', 'GENERALES', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf1_old_age', $cf1_old_age, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('cf2_old_age', 'JEFES Y OFICIALES', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf2_old_age', $cf2_old_age, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('cf3_old_age', 'JEFES Y OFICIALES ADMTVOS.', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf3_old_age', $cf3_old_age, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('cf4_old_age', 'SUBOFICIALES, CLASES Y POLICIAS', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf4_old_age', $cf4_old_age, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('cf5_old_age', 'SUBOFICIALES, CLASES Y POLICIAS ADMTVOS.', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf5_old_age', $cf5_old_age, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4 class="modal-title">Caso Viudez</h4>
+                                    <div class="form-group">
+                                            {!! Form::label('cf1_widowhood', 'GENERALES', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf1_widowhood', $cf1_widowhood, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('cf2_widowhood', 'JEFES Y OFICIALES', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf2_widowhood', $cf2_widowhood, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('cf3_widowhood', 'JEFES Y OFICIALES ADMTVOS.', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf3_widowhood', $cf3_widowhood, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('cf4_widowhood', 'SUBOFICIALES, CLASES Y POLICIAS', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf4_widowhood', $cf4_widowhood, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('cf5_widowhood', 'SUBOFICIALES, CLASES Y POLICIAS ADMTVOS.', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf5_widowhood', $cf5_widowhood, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="row text-center">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <a href="{!! url('ipc_rate') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                        &nbsp;&nbsp;
+                                        <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {!! Form::close() !!}
 
-                    {!! Form::close() !!}
-
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @else
+
+        <div id="myModal-edit" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="box-header with-border">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Añadir Factores de Complemantación</h4>
+                    </div>
+                    <div class="modal-body">
+                        {!! Form::open(['method' => 'POST', 'route' => ['complementary_factor.store'], 'class' => 'form-horizontal']) !!}
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                            {!! Form::label('year', 'Año', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control datepicker" name="year" value="{!! $year !!}">
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <div class="radio radio-primary">
+                                            <label>
+                                                <input type="radio" name="type_applicant" value='1' data-bind='checked: typeToShow'>Primer Semestre
+                                            </label>
+                                        </div>
+                                        <div class="radio radio-primary">
+                                            <label>
+                                                <input type="radio" name="type_applicant" value='2' data-bind='checked: typeToShow'>Segundo Semestre
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4 class="modal-title">Caso Vejez</h4>
+                                    <div class="form-group">
+                                            {!! Form::label('cf1_old_age', 'GENERALES', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf1_old_age', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('cf2_old_age', 'JEFES Y OFICIALES', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf2_old_age', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('cf3_old_age', 'JEFES Y OFICIALES ADMTVOS.', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf3_old_age', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('cf4_old_age', 'SUBOFICIALES, CLASES Y POLICIAS', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf4_old_age', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('cf5_old_age', 'SUBOFICIALES, CLASES Y POLICIAS ADMTVOS.', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf5_old_age', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4 class="modal-title">Caso Viudez</h4>
+                                    <div class="form-group">
+                                            {!! Form::label('cf1_widowhood', 'GENERALES', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf1_widowhood', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('cf2_widowhood', 'JEFES Y OFICIALES', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf2_widowhood', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('cf3_widowhood', 'JEFES Y OFICIALES ADMTVOS.', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf3_widowhood', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('cf4_widowhood', 'SUBOFICIALES, CLASES Y POLICIAS', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf4_widowhood', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('cf5_widowhood', 'SUBOFICIALES, CLASES Y POLICIAS ADMTVOS.', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            {!! Form::text('cf5_widowhood', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-center">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <a href="{!! url('ipc_rate') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                        &nbsp;&nbsp;
+                                        <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    @endif
+
 
 @endsection
 
@@ -127,9 +345,9 @@
     <script type="text/javascript">
 
         $('.datepicker').datepicker({
-            format: "mm/yyyy",
-            viewMode: "months",
-            minViewMode: "months",
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
             language: "es",
             orientation: "bottom right",
             autoclose: true

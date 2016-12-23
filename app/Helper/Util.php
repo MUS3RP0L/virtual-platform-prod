@@ -304,9 +304,9 @@ class Util
 	{
 		if ($date) {
 			if (date("n", strtotime($date))-1 < 7) {
-				return "f";
+				return "Primer";
 			}else{
-				return "s";
+				return "Segundo";
 			}
         }
 	}
