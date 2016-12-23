@@ -77,7 +77,7 @@
                         <h4 class="modal-title">Editar Factores de Complemantación</h4>
                     </div>
                     <div class="modal-body">
-                        {!! Form::open(['method' => 'POST', 'route' => ['complementary_factor.update'], 'class' => 'form-horizontal']) !!}
+                        {!! Form::open(['method' => 'POST', 'route' => ['complementary_factor.store'], 'class' => 'form-horizontal']) !!}
                             <br>
                             <div class="row">
                                 <div class="col-md-6">
@@ -97,12 +97,12 @@
                                     <div class="col-md-6">
                                         <div class="radio radio-primary">
                                             <label>
-                                                <input type="radio" name="type_applicant" value='1' data-bind='checked: typeToShow'>Primer Semestre
+                                                <input type="radio" name="semester" value='Primer'>Primer Semestre
                                             </label>
                                         </div>
                                         <div class="radio radio-primary">
                                             <label>
-                                                <input type="radio" name="type_applicant" value='2' data-bind='checked: typeToShow'>Segundo Semestre
+                                                <input type="radio" name="semester" value='Segundo'>Segundo Semestre
                                             </label>
                                         </div>
                                     </div>

@@ -245,71 +245,71 @@ class ComplementaryFactorController extends Controller
         }
         else{
 
-            $complementary_factor_cf1 = ComplementaryFactor::where('year', '=', Util::getYear($request->year))
+            $complementary_factor_cf1 = ComplementaryFactor::whereYear('year', '=', Util::getYear($request->year))
                                     ->where('semester', '=', $request->semester)->where('hierarchy_id', '=', 1)->first();
             if (!$complementary_factor_cf1) {
                 $complementary_factor_cf1 = new ComplementaryFactor();
                 $complementary_factor_cf1->user_id = Auth::user()->id;
                 $complementary_factor_cf1->hierarchy_id = 1;
-                $complementary_factor_cf1->year = Util::getYear($request->year);
+                $complementary_factor_cf1->year = Util::datePickYear($request->year);
                 $complementary_factor_cf1->semester = trim($request->semester);
             }
             $complementary_factor_cf1->old_age = trim($request->cf1_old_age);
             $complementary_factor_cf1->widowhood = trim($request->cf1_widowhood);
             $complementary_factor_cf1->save();
 
-            // $complementary_factor_cf2 = ComplementaryFactor::where('year', '=', Util::getYear($request->year))
-            //                         ->where('semester', '=', $request->semester)->where('hierarchy_id', '=', 2)->first();
-            // if (!$complementary_factor_cf2) {
-            //     $complementary_factor_cf2 = new ComplementaryFactor();
-            //     $complementary_factor_cf2->user_id = Auth::user()->id;
-            //     $complementary_factor_cf2->hierarchy_id = 2;
-            //     $complementary_factor_cf2->year = Util::getYear($request->year);
-            //     $complementary_factor_cf2->semester = trim($request->semester);
-            // }
-            // $complementary_factor_cf2->old_age = trim($request->cf2_old_age);
-            // $complementary_factor_cf2->widowhood = trim($request->cf2_widowhood);
-            // $complementary_factor_cf2->save();
-            //
-            // $complementary_factor_cf3 = ComplementaryFactor::where('year', '=', Util::getYear($request->year))
-            //                         ->where('semester', '=', $request->semester)->where('hierarchy_id', '=', 3)->first();
-            // if (!$complementary_factor_cf3) {
-            //     $complementary_factor_cf3 = new ComplementaryFactor();
-            //     $complementary_factor_cf3->user_id = Auth::user()->id;
-            //     $complementary_factor_cf3->hierarchy_id = 3;
-            //     $complementary_factor_cf3->year = Util::getYear($request->year);
-            //     $complementary_factor_cf3->semester = trim($request->semester);
-            // }
-            // $complementary_factor_cf3->old_age = trim($request->cf3_old_age);
-            // $complementary_factor_cf3->widowhood = trim($request->cf3_widowhood);
-            // $complementary_factor_cf3->save();
-            //
-            // $complementary_factor_cf4 = ComplementaryFactor::where('year', '=', Util::getYear($request->year))
-            //                         ->where('semester', '=', $request->semester)->where('hierarchy_id', '=', 4)->first();
-            // if (!$complementary_factor_cf4) {
-            //     $complementary_factor_cf4 = new ComplementaryFactor();
-            //     $complementary_factor_cf4->user_id = Auth::user()->id;
-            //     $complementary_factor_cf4->hierarchy_id = 4;
-            //     $complementary_factor_cf4->year = Util::getYear($request->year);
-            //     $complementary_factor_cf4->semester = trim($request->semester);
-            // }
-            // $complementary_factor_cf4->old_age = trim($request->cf4_old_age);
-            // $complementary_factor_cf4->widowhood = trim($request->cf4_widowhood);
-            // $complementary_factor_cf4->save();
-            //
-            // $complementary_factor_cf5 = ComplementaryFactor::where('year', '=', Util::getYear($request->year))
-            //                         ->where('semester', '=', $request->semester)->where('hierarchy_id', '=', 5)->first();
-            // if (!$complementary_factor_cf5) {
-            //     $complementary_factor_cf5 = new ComplementaryFactor();
-            //     $complementary_factor_cf5->user_id = Auth::user()->id;
-            //     $complementary_factor_cf5->hierarchy_id = 5;
-            //     $complementary_factor_cf5->year = Util::getYear($request->year);
-            //     $complementary_factor_cf5->semester = trim($request->semester);
-            // }
-            // $complementary_factor_cf5->old_age = trim($request->cf5_old_age);
-            // $complementary_factor_cf5->widowhood = trim($request->cf5_widowhood);
-            // $complementary_factor_cf5->save();
-            //
+            $complementary_factor_cf2 = ComplementaryFactor::where('year', '=', Util::getYear($request->year))
+                                    ->where('semester', '=', $request->semester)->where('hierarchy_id', '=', 2)->first();
+            if (!$complementary_factor_cf2) {
+                $complementary_factor_cf2 = new ComplementaryFactor();
+                $complementary_factor_cf2->user_id = Auth::user()->id;
+                $complementary_factor_cf2->hierarchy_id = 2;
+                $complementary_factor_cf2->year = Util::datePickYear($request->year);
+                $complementary_factor_cf2->semester = trim($request->semester);
+            }
+            $complementary_factor_cf2->old_age = trim($request->cf2_old_age);
+            $complementary_factor_cf2->widowhood = trim($request->cf2_widowhood);
+            $complementary_factor_cf2->save();
+
+            $complementary_factor_cf3 = ComplementaryFactor::where('year', '=', Util::getYear($request->year))
+                                    ->where('semester', '=', $request->semester)->where('hierarchy_id', '=', 3)->first();
+            if (!$complementary_factor_cf3) {
+                $complementary_factor_cf3 = new ComplementaryFactor();
+                $complementary_factor_cf3->user_id = Auth::user()->id;
+                $complementary_factor_cf3->hierarchy_id = 3;
+                $complementary_factor_cf3->year = Util::datePickYear($request->year);
+                $complementary_factor_cf3->semester = trim($request->semester);
+            }
+            $complementary_factor_cf3->old_age = trim($request->cf3_old_age);
+            $complementary_factor_cf3->widowhood = trim($request->cf3_widowhood);
+            $complementary_factor_cf3->save();
+
+            $complementary_factor_cf4 = ComplementaryFactor::where('year', '=', Util::getYear($request->year))
+                                    ->where('semester', '=', $request->semester)->where('hierarchy_id', '=', 4)->first();
+            if (!$complementary_factor_cf4) {
+                $complementary_factor_cf4 = new ComplementaryFactor();
+                $complementary_factor_cf4->user_id = Auth::user()->id;
+                $complementary_factor_cf4->hierarchy_id = 4;
+                $complementary_factor_cf4->year = Util::datePickYear($request->year);
+                $complementary_factor_cf4->semester = trim($request->semester);
+            }
+            $complementary_factor_cf4->old_age = trim($request->cf4_old_age);
+            $complementary_factor_cf4->widowhood = trim($request->cf4_widowhood);
+            $complementary_factor_cf4->save();
+
+            $complementary_factor_cf5 = ComplementaryFactor::where('year', '=', Util::getYear($request->year))
+                                    ->where('semester', '=', $request->semester)->where('hierarchy_id', '=', 5)->first();
+            if (!$complementary_factor_cf5) {
+                $complementary_factor_cf5 = new ComplementaryFactor();
+                $complementary_factor_cf5->user_id = Auth::user()->id;
+                $complementary_factor_cf5->hierarchy_id = 5;
+                $complementary_factor_cf5->year = Util::datePickYear($request->year);
+                $complementary_factor_cf5->semester = trim($request->semester);
+            }
+            $complementary_factor_cf5->old_age = trim($request->cf5_old_age);
+            $complementary_factor_cf5->widowhood = trim($request->cf5_widowhood);
+            $complementary_factor_cf5->save();
+
 
             $message = "Factores de Complementación actualizados con éxito";
             Session::flash('message', $message);

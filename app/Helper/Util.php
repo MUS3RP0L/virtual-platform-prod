@@ -220,6 +220,13 @@ class Util
 		}
 	}
 
+	public static function datePickYear($year)
+	{
+		if ($year) {
+			return date($year ."-1-1");
+		}
+	}
+
 	public static function zero($string)
 	{
 		if ($string) {
