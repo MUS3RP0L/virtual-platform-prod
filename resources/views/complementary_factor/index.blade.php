@@ -95,16 +95,29 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-6">
-                                        <div class="radio radio-primary">
-                                            <label>
-                                                <input type="radio" name="semester" value='Primer'>Primer Semestre
-                                            </label>
-                                        </div>
-                                        <div class="radio radio-primary">
-                                            <label>
-                                                <input type="radio" name="semester" value='Segundo'>Segundo Semestre
-                                            </label>
-                                        </div>
+                                        @if($semester == "Primer")
+                                            <div class="radio radio-primary">
+                                                <label>
+                                                    <input type="radio" name="semester" value='Primer' checked="">Primer Semestre
+                                                </label>
+                                            </div>
+                                            <div class="radio radio-primary">
+                                                <label>
+                                                    <input type="radio" name="semester" value='Segundo'>Segundo Semestre
+                                                </label>
+                                            </div>
+                                        @else
+                                            <div class="radio radio-primary">
+                                                <label>
+                                                    <input type="radio" name="semester" value='Primer'>Primer Semestre
+                                                </label>
+                                            </div>
+                                            <div class="radio radio-primary">
+                                                <label>
+                                                    <input type="radio" name="semester" value='Segundo' checked="">Segundo Semestre
+                                                </label>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

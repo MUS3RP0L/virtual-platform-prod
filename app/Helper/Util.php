@@ -220,10 +220,15 @@ class Util
 		}
 	}
 
-	public static function datePickYear($year)
+	public static function datePickYear($year, $semester)
 	{
 		if ($year) {
+			if ($semester == "Primer") {
 			return date($year ."-1-1");
+			}
+			else{
+				return date($year ."-7-1");
+			}
 		}
 	}
 
