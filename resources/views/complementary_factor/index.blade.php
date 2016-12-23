@@ -231,12 +231,12 @@
                                     <div class="col-md-6">
                                         <div class="radio radio-primary">
                                             <label>
-                                                <input type="radio" name="type_applicant" value='1' data-bind='checked: typeToShow'>Primer Semestre
+                                                <input type="radio" name="semester" value='Primer'>Primer Semestre
                                             </label>
                                         </div>
                                         <div class="radio radio-primary">
                                             <label>
-                                                <input type="radio" name="type_applicant" value='2' data-bind='checked: typeToShow'>Segundo Semestre
+                                                <input type="radio" name="semester" value='Segundo'>Segundo Semestre
                                             </label>
                                         </div>
                                     </div>
