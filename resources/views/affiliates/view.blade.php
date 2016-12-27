@@ -794,13 +794,14 @@
                                 <div class="form-group">
                                         {!! Form::label('phone', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::text('phone', $affiliate->phone, ['class'=> 'form-control']) !!}
+                                        <input type="text" id="phone" class="form-control" name="phone" value="{!! $affiliate->phone !!}" data-inputmask="'mask': '(9) 999-999'" data-mask>
                                         <span class="help-block">Escriba el Teléfono fijo</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('cell_phone', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
+                                        <input type="text" id="cell_phone" class="form-control" name="cell_phone" value="{!! $affiliate->cell_phone !!}" data-inputmask="'mask': '(999)-99999'" data-mask>
                                         {!! Form::text('cell_phone', $affiliate->cell_phone, ['class'=> 'form-control']) !!}
                                         <span class="help-block">Escriba el Teléfono Celular</span>
                                     </div>
@@ -1082,6 +1083,8 @@
             $("#birth_date_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("#date_death_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("#date_death_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+            $("#phone").inputmask();
+            $("#cell_phone").inputmask();
         });
 
         $(document).ready(function(){
