@@ -260,7 +260,7 @@ class ComplementaryFactorController extends Controller
             $complementary_factor_cf1->widowhood = trim($request->cf1_widowhood);
             $complementary_factor_cf1->save();
 
-            $complementary_factor_cf2 = ComplementaryFactor::where('year', '=', Util::getYear($request->year))
+            $complementary_factor_cf2 = ComplementaryFactor::whereYear('year', '=', Util::getYear($request->year))
                                     ->where('semester', '=', $request->semester)->where('hierarchy_id', '=', 2)->first();
             if (!$complementary_factor_cf2) {
                 $complementary_factor_cf2 = new ComplementaryFactor();
@@ -273,7 +273,7 @@ class ComplementaryFactorController extends Controller
             $complementary_factor_cf2->widowhood = trim($request->cf2_widowhood);
             $complementary_factor_cf2->save();
 
-            $complementary_factor_cf3 = ComplementaryFactor::where('year', '=', Util::getYear($request->year))
+            $complementary_factor_cf3 = ComplementaryFactor::whereYear('year', '=', Util::getYear($request->year))
                                     ->where('semester', '=', $request->semester)->where('hierarchy_id', '=', 3)->first();
             if (!$complementary_factor_cf3) {
                 $complementary_factor_cf3 = new ComplementaryFactor();
@@ -286,7 +286,7 @@ class ComplementaryFactorController extends Controller
             $complementary_factor_cf3->widowhood = trim($request->cf3_widowhood);
             $complementary_factor_cf3->save();
 
-            $complementary_factor_cf4 = ComplementaryFactor::where('year', '=', Util::getYear($request->year))
+            $complementary_factor_cf4 = ComplementaryFactor::whereYear('year', '=', Util::getYear($request->year))
                                     ->where('semester', '=', $request->semester)->where('hierarchy_id', '=', 4)->first();
             if (!$complementary_factor_cf4) {
                 $complementary_factor_cf4 = new ComplementaryFactor();
@@ -299,7 +299,7 @@ class ComplementaryFactorController extends Controller
             $complementary_factor_cf4->widowhood = trim($request->cf4_widowhood);
             $complementary_factor_cf4->save();
 
-            $complementary_factor_cf5 = ComplementaryFactor::where('year', '=', Util::getYear($request->year))
+            $complementary_factor_cf5 = ComplementaryFactor::whereYear('year', '=', Util::getYear($request->year))
                                     ->where('semester', '=', $request->semester)->where('hierarchy_id', '=', 5)->first();
             if (!$complementary_factor_cf5) {
                 $complementary_factor_cf5 = new ComplementaryFactor();
