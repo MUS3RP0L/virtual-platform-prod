@@ -1,5 +1,8 @@
 
 {!! Html::script('plugins/jQuery/jquery-2.2.3.min.js') !!}
+{!! Html::script('plugins/input-mask/jquery.inputmask.js') !!}
+{!! Html::script('plugins/input-mask/jquery.inputmask.date.extensions.js') !!}
+{!! Html::script('plugins/input-mask/jquery.inputmask.extensions.js') !!}
 {!! Html::script('bower_components/bootstrap/dist/js/bootstrap.min.js') !!}
 {!! Html::script('bower_components/bootstrap-material-design/dist/js/ripples.min.js') !!}
 {!! Html::script('bower_components/bootstrap-material-design/dist/js/material.min.js') !!}

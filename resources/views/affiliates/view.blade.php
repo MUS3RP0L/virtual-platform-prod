@@ -65,7 +65,6 @@
                 <div class="panel-body" style="font-size: 14px">
                     <div class="row">
                         <div class="col-md-6">
-
                             <table class="table table-responsive" style="width:100%;">
                                 <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
@@ -269,13 +268,15 @@
             <div class="box box-warning">
                 <div class="box-header with-border">
                     <div class="row">
-                        <div class="col-md-11">
+                        <div class="col-md-10">
                             <h3 class="panel-title"><span class="glyphicon glyphicon-home"></span> Información de Domicilio</h3>
                         </div>
                         @if($info_address)
-                            <div class="col-md-1 text-right" data-toggle="tooltip" data-placement="top" data-original-title="Editar">
-                                <div data-toggle="modal" data-target="#myModal-address">
-                                    <span class="glyphicon glyphicon-pencil"  aria-hidden="true"></span>
+                            <div class="col-md-2 text-right">
+                                <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                    <a href="" class="btn btn-raised btn-xs btn-primary" data-toggle="modal" data-target="#myModal-address">&nbsp;&nbsp;
+                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                    </a>
                                 </div>
                             </div>
                         @endif
@@ -361,13 +362,15 @@
             <div class="box box-warning">
                 <div class="box-header with-border">
                     <div class="row">
-                        <div class="col-md-11">
+                        <div class="col-md-10">
                             <h3 class="panel-title"><span class="glyphicon glyphicon-user"></span> Información de Conyuge</h3>
                         </div>
                         @if($info_spouse)
-                            <div class="col-md-1 text-right" data-toggle="tooltip" data-placement="top" data-original-title="Editar">
-                                <div data-toggle="modal" data-target="#myModal-spouse">
-                                    <span class="glyphicon glyphicon-pencil"  aria-hidden="true"></span>
+                            <div class="col-md-2 text-right">
+                                <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                    <a href="" class="btn btn-raised btn-xs btn-primary" data-toggle="modal" data-target="#myModal-spouse">&nbsp;&nbsp;
+                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                    </a>
                                 </div>
                             </div>
                         @endif
@@ -767,7 +770,7 @@
                                         {!! Form::label('birth_date', 'Fecha de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
                             			<div class="input-group">
-                                            <input type="text" class="form-control datepicker" name="birth_date" value="{!! $affiliate->getEditBirthDate() !!}">
+                                            <input type="text" id="birth_date_mask" class="form-control" name="birth_date" value="{!! $affiliate->getEditBirthDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                             <div class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </div>
@@ -821,7 +824,7 @@
                                             {!! Form::label('date_death', 'Fecha Deceso', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-7">
                                             <div class="input-group">
-                                                <input type="text" class="form-control datepicker" name="date_death" value="{!! $affiliate->getEditDateDeath() !!}">
+                                                <input type="text" id="date_death_mask" class="form-control" name="date_death" value="{!! $affiliate->getEditDateDeath() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                                 <div class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </div>
@@ -969,10 +972,10 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                        {!! Form::label('birth_date', 'FECHA NACIMIENTO', ['class' => 'col-md-5 control-label']) !!}
+                                        {!! Form::label('birth_date', 'Fecha Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
                                         <div class="input-group">
-                                            <input type="text" class="form-control datepicker" name="birth_date" value="{!! $spouse->getEditBirthDate() !!}">
+                                            <input type="text" id="birth_date_spouse_mask" class="form-control" name="birth_date" value="{!! $spouse->getEditBirthDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                             <div class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </div>
@@ -998,7 +1001,7 @@
                                             {!! Form::label('date_death', 'Fecha Deceso', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-7">
                                             <div class="input-group">
-                                                <input type="text" class="form-control datepicker" name="date_death" value="{!! $spouse->getEditDateDeath() !!}">
+                                                <input type="text" id="date_death_spouse_mask" class="form-control" name="date_death" value="{!! $spouse->getEditDateDeath() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                                 <div class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </div>
@@ -1073,6 +1076,13 @@
 @push('scripts')
 
     <script type="text/javascript">
+
+        $(document).ready(function(){
+            $("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+            $("#birth_date_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+            $("#date_death_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+            $("#date_death_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+        });
 
         $(document).ready(function(){
             $('.combobox').combobox();
