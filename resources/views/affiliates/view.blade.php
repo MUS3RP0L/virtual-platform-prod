@@ -514,12 +514,14 @@
             <div class="box box-warning">
                 <div class="box-header with-border">
                     <div class="row">
-                        <div class="col-md-11">
+                        <div class="col-md-10">
                             <h3 class="panel-title"><span class="glyphicon glyphicon-briefcase"></span> Información Policial Actual</h3>
                         </div>
-                        <div class="col-md-1 text-right" data-toggle="tooltip" data-placement="top" data-original-title="Historial">
-                            <div  data-toggle="modal" data-target="#myModal-record">
-                                <span class="glyphicon glyphicon-hourglass"  aria-hidden="true"></span>
+                        <div class="col-md-2 text-right">
+                            <div data-toggle="tooltip" data-placement="left" data-original-title="Ver Historial">
+                                <a href="" class="btn btn-raised btn-xs btn-primary" data-toggle="modal" data-target="#myModal-record">&nbsp;&nbsp;
+                                    <span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span>&nbsp;&nbsp;
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -535,8 +537,20 @@
                                             <div class="col-md-6">
                                                 Estado
                                             </div>
-                                            <div class="col-md-6" data-toggle="tooltip" data-placement="left" data-original-title="{!! $affiliate->affiliate_state->state_type->name !!}">
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->affiliate_state->state_type->name !!}">
                                                 {!! $affiliate->affiliate_state->name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Grado
+                                            </div>
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->degree->getCodHierarchyName() !!}">
+                                                {!! $affiliate->degree->shortened !!}
                                             </div>
                                         </div>
                                     </td>
@@ -556,20 +570,9 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Grado
-                                            </div>
-                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->degree->getCodHierarchyName() !!}"> {!! $affiliate->degree->shortened !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                        <div class="row">
-                                            <div class="col-md-6">
                                                 Unidad
                                             </div>
-                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->unit->name !!}">
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->unit->code . " " . $affiliate->unit->name !!}">
                                                 {!! $affiliate->unit->shortened !!}
                                             </div>
                                         </div>
@@ -658,7 +661,7 @@
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-6">
-                            <h3 class="panel-title"><span class="glyphicon glyphicon-usd"></span> Totales</h3>
+                            <h3 class="panel-title"><span class="glyphicon glyphicon-usd"></span> Aportes</h3>
                         </div>
                         <div class="col-md-6">
                             <h3 class="panel-title"style="text-align: right">Bolivianos</h3>
@@ -671,30 +674,27 @@
                         <div class="col-md-12">
                             <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
                                 <tr>
-                                    <td>Ganado</td>
+                                    <td style="width: 70%">Ganado</td>
                                     <td style="text-align: right">{{ $total_gain }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Bono de Seguridad Ciudadana</td>
+                                    <td style="width: 70%">Bono de Seguridad Ciudadana</td>
                                     <td style="text-align: right">{{ $total_public_security_bonus }}</td>
                                 </tr>
-                                <tr class="active">
-                                    <td>Cotizable</td>
+                                <tr>
+                                    <td style="width: 70%">Cotizable</td>
                                     <td style="text-align: right">{{ $total_quotable }}</td>
                                 </tr>
-                            </table>
-
-                            <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
                                 <tr>
-                                    <td>Aporte Fondo de Retiro</td>
+                                    <td style="width: 70%">Aporte Fondo de Retiro</td>
                                     <td style="text-align: right">{{ $total_retirement_fund }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Aporte Seguro de Vida</td>
+                                    <td style="width: 70%">Aporte Seguro de Vida</td>
                                     <td style="text-align: right">{{ $total_mortuary_quota }}</td>
                                 </tr>
                                 <tr class="active">
-                                    <td>Aporte Muserpol</td>
+                                    <td style="width: 70%">Aporte Muserpol</td>
                                     <td style="text-align: right">{{ $total }}</td>
                                 </tr>
                             </table>
@@ -1035,15 +1035,16 @@
         </div>
     </div>
 
-    <div id="myModal-record" class="modal fade" role="dialog">
+
+    <div id="myModal-record" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog">
-            <div class="modal-content panel-warning">
-                <div class="modal-header">
+            <div class="modal-content">
+                <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Historial</h4>
                 </div>
                 <div class="modal-body">
-                    <table class="table table-striped table-hover" id="record-table" cellspacing="0" width="100%">
+                    <table class="table table-bordered table-hover" id="record-table" width="100%">
                         <thead>
                             <tr class="success">
                                 <th>Fecha</th>
@@ -1058,7 +1059,7 @@
 
     <div id="myModal-print-affiliate" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content panel-warning">
+            <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Reporte Afiliado</h4>
@@ -1125,7 +1126,7 @@
                 "order": [[ 0, "desc" ]],
                 processing: true,
                 serverSide: true,
-                pageLength: 10,
+                pageLength: 12,
                 bFilter: false,
                 ajax: {
                     url: '{!! route('get_record') !!}',
