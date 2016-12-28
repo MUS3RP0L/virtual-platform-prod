@@ -176,7 +176,7 @@ class AffiliateController extends Controller
 
         $last_contribution = Contribution::affiliateidIs($affiliate->id)->orderBy('month_year', 'desc')->first();
 
-        $consulta = DB::table('affiliates')
+        $totals = DB::table('affiliates')
                         ->select(DB::raw('SUM(contributions.gain) as gain, SUM(contributions.public_security_bonus) as public_security_bonus,
                                         SUM(contributions.quotable) as quotable, SUM(contributions.total) as total,
                                         SUM(contributions.retirement_fund) as retirement_fund, SUM(contributions.mortuary_quota) as mortuary_quota'))
@@ -184,7 +184,7 @@ class AffiliateController extends Controller
                         ->where('affiliates.id', '=', $affiliate->id)
                         ->get();
 
-        foreach ($consulta as $item) {
+        foreach ($totals as $item) {
             $total_gain = Util::formatMoney($item->gain);
             $total_public_security_bonus = Util::formatMoney($item->public_security_bonus);
             $total_quotable = Util::formatMoney($item->quotable);
