@@ -156,11 +156,11 @@ class ContributionController extends Controller
                 ->editColumn('m12', '<?php if($m12 === 1){ ?><i class="glyphicon glyphicon-check"></i><?php } if($m12 === 0){?><i class="glyphicon glyphicon-unchecked"></i><?php } if($m12 === -1){ ?>&nbsp;<?php } ?>')
                 ->addColumn('action','
                     <?php if($status){ ?>
-                        <div class="btn-group" style="margin:-6px 0;">
-                            <a href="{{ url("calculation_contribution")}}/{{$affiliate}}/{{$year}}/normal" class="btn btn-success btn-raised btn-sm"><i class="glyphicon glyphicon-edit"></i></a>
-                            <a href="" data-target="#" class="btn btn-success btn-raised btn-sm dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                        <div class="btn-group" style="margin:-3px 0;">
+                            <a href="{{ url("calculation_contribution")}}/{{$affiliate}}/{{$year}}/normal" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-edit"></i>&nbsp;&nbsp;</a>
+                            <a href="" data-target="#" class="btn btn-primary btn-raised btn-sm dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ url("calculation_contribution")}}/{{$affiliate}}/{{$year}}/reintegro" style="padding:3px 10px;"><i class="glyphicon glyphicon-pencil"></i> reintegro</a></li>
+                                <li><a href="{{ url("calculation_contribution")}}/{{$affiliate}}/{{$year}}/reintegro" style="padding:3px 5px;"><i class="glyphicon glyphicon-pencil"></i> reintegro</a></li>
                             </ul>
                         </div>
                     <?php } ?>')
