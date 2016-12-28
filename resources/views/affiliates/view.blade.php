@@ -690,7 +690,7 @@
                                     <td style="text-align: right">{{ $total_retirement_fund }}</td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 70%">Aporte Seguro de Vida</td>
+                                    <td style="width: 70%">Aporte Cuota o Auxilio Mortuorio</td>
                                     <td style="text-align: right">{{ $total_mortuary_quota }}</td>
                                 </tr>
                                 <tr class="active">

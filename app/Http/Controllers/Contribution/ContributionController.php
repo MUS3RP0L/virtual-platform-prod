@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Muserpol\Http\Requests;
 use Muserpol\Http\Controllers\Controller;
 
+use DB;
 use Session;
 use Datatables;
 use Carbon\Carbon;
@@ -23,21 +24,46 @@ class ContributionController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function ShowContributions($affiliate_id)
+    public function getData($affiliate_id)
     {
         $affiliate = Affiliate::idIs($affiliate_id)->first();
 
-        $contribution = Contribution::affiliateidIs($affiliate->id)->first();
+        $last_contribution = Contribution::affiliateidIs($affiliate->id)->orderBy('month_year', 'desc')->first();
+
+        $totals = DB::table('affiliates')
+            ->select(DB::raw('SUM(contributions.gain) as gain, SUM(contributions.public_security_bonus) as public_security_bonus,
+                            SUM(contributions.quotable) as quotable, SUM(contributions.total) as total,
+                            SUM(contributions.retirement_fund) as retirement_fund, SUM(contributions.mortuary_quota) as mortuary_quota'))
+            ->leftJoin('contributions', 'affiliates.id', '=', 'contributions.affiliate_id')
+            ->where('affiliates.id', '=', $affiliate->id)
+            ->get();
+
+        foreach ($totals as $item) {
+            $total_retirement_fund = Util::formatMoney($item->retirement_fund);
+            $total_mortuary_quota = Util::formatMoney($item->mortuary_quota);
+            $total = Util::formatMoney($item->total);
+        }
+
+        $data = [
+
+            'affiliate' => $affiliate,
+            'last_contribution' => $last_contribution,
+            'total_retirement_fund' => $total_retirement_fund,
+            'total_mortuary_quota' => $total_mortuary_quota,
+            'total' => $total
+
+        ];
+
+        return $data;
+    }
+
+    public function ShowContributions($affiliate_id)
+    {
+        $contribution = Contribution::affiliateidIs($affiliate_id)->first();
 
         if ($contribution) {
 
-            $data = [
-
-                'affiliate' => $affiliate,
-
-            ];
-
-            return view('contributions.view', $data);
+            return view('contributions.view', self::getData($affiliate_id));
         }
         else {
 
@@ -72,15 +98,11 @@ class ContributionController extends Controller
                 ->make(true);
     }
 
+
+
     public function SelectContribution($affiliate_id)
     {
-        $affiliate = Affiliate::idIs($affiliate_id)->first();
-
-        $data = [
-            'affiliate' => $affiliate,
-        ];
-
-        return view('contributions.select', $data);
+        return view('contributions.select', self::getData($affiliate_id));
     }
 
     public function SelectData(Request $request)

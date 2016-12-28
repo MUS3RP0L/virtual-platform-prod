@@ -49,9 +49,11 @@
 			                    <tr>
 			                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
 			                            <div class="row">
-			                                <div class="col-md-6">Estado</div>
-			                                <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->affiliate_state->state_type->name !!}">
-			                                    {!! $affiliate->affiliate_state->name !!}
+			                                <div class="col-md-6">
+												Total Aporte
+											</div>
+			                                <div class="col-md-6">
+			                                    Bs {!! $total !!}
 			                                </div>
 			                            </div>
 			                        </td>
@@ -63,9 +65,11 @@
 			                    <tr>
 			                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
 			                            <div class="row">
-			                                <div class="col-md-6">Carnet Identidad</div>
+											<div class="col-md-6">
+												Total Fondo Retiro
+											</div>
 			                                <div class="col-md-6">
-			                                    {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card !!}
+			                                    Bs {!! $total_retirement_fund !!}
 			                                </div>
 			                            </div>
 			                        </td>
@@ -73,9 +77,11 @@
 			                    <tr>
 			                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
 			                            <div class="row">
-			                                <div class="col-md-6">Núm. de Matrícula</div>
+											<div class="col-md-6">
+												Total Cuota o Auxilio
+											</div>
 			                                <div class="col-md-6">
-			                                    {!! $affiliate->registration !!}
+			                                    Bs {!! $total_mortuary_quota !!}
 			                                </div>
 			                            </div>
 			                        </td>
@@ -114,7 +120,7 @@
 		                            	<th class="text-right"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Total Ganado">Ganado</div></th>
 		                            	<th class="text-right"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Total Cotizable">Cotizable</div></th>
 		                            	<th class="text-right"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Aporte Fondo de Retiro">F.R.</div></th>
-		                            	<th class="text-right"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Aporte Seguro de Vida">S.V.</div></th>
+		                            	<th class="text-right"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Aporte Cuota o Auxilio Mortuorio">C.A.M.</div></th>
 		                            	<th class="text-right"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Total Aporte Muserpol">Aporte</div></th>
 		                            </tr>
 		                        </thead>
