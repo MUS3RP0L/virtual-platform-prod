@@ -113,42 +113,42 @@
 @endsection
 
 @push('scripts')
-<script>
+    <script>
 
-    var oTable = $('#affiliates-table').DataTable({
-        "dom": '<"top">t<"bottom"p>',
-        processing: true,
-        serverSide: true,
-        pageLength: 8,
-        autoWidth: false,
-        ajax: {
-            url: '{!! route('get_affiliate') !!}',
-            data: function (d) {
-                d.last_name = $('input[name=last_name]').val();
-                d.mothers_last_name = $('input[name=mothers_last_name]').val();
-                d.first_name = $('input[name=first_name]').val();
-                d.second_name = $('input[name=second_name]').val();
-                d.registration = $('input[name=registration]').val();
-                d.identity_card = $('input[name=num_identity_card]').val();
-                d.post = $('input[name=post]').val();
-            }
-        },
-        columns: [
-            { data: 'identity_card' },
-            { data: 'registration', bSortable: false },
-            { data: 'degree', bSortable: false },
-            { data: 'names', bSortable: false },
-            { data: 'last_name', bSortable: false },
-            { data: 'mothers_last_name', bSortable: false },
-            { data: 'state', bSortable: false },
-            { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
-        ]
-    });
+        var oTable = $('#affiliates-table').DataTable({
+            "dom": '<"top">t<"bottom"p>',
+            processing: true,
+            serverSide: true,
+            pageLength: 8,
+            autoWidth: false,
+            ajax: {
+                url: '{!! route('get_affiliate') !!}',
+                data: function (d) {
+                    d.last_name = $('input[name=last_name]').val();
+                    d.mothers_last_name = $('input[name=mothers_last_name]').val();
+                    d.first_name = $('input[name=first_name]').val();
+                    d.second_name = $('input[name=second_name]').val();
+                    d.registration = $('input[name=registration]').val();
+                    d.identity_card = $('input[name=num_identity_card]').val();
+                    d.post = $('input[name=post]').val();
+                }
+            },
+            columns: [
+                { data: 'identity_card' },
+                { data: 'registration', bSortable: false },
+                { data: 'degree', bSortable: false },
+                { data: 'names', bSortable: false },
+                { data: 'last_name', bSortable: false },
+                { data: 'mothers_last_name', bSortable: false },
+                { data: 'state', bSortable: false },
+                { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
+            ]
+        });
 
-    $('#search-form').on('submit', function(e) {
-        oTable.draw();
-        e.preventDefault();
-    });
+        $('#search-form').on('submit', function(e) {
+            oTable.draw();
+            e.preventDefault();
+        });
 
-</script>
+    </script>
 @endpush
