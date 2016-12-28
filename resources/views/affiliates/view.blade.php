@@ -385,7 +385,7 @@
 
                                 <table class="table" style="width:100%;">
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Carnet Identidad
@@ -397,7 +397,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Apellido Paterno
@@ -409,7 +409,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Apellido Materno
@@ -422,7 +422,7 @@
                                     </tr>
                                     @if($spouse->date_death)
                                         <tr>
-                                            <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                            <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         Fecha Deceso
@@ -443,7 +443,7 @@
 
                                 <table class="table" style="width:100%;">
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Fecha Nacimiento
@@ -455,7 +455,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Primer Nombre
@@ -467,7 +467,7 @@
                                         </td>
                                     <tr>
                                     </tr>
-                                        <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Segundo Nombre
@@ -480,7 +480,7 @@
                                     </tr>
                                     @if($spouse->reason_death)
                                         <tr>
-                                            <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                            <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         Motivo Deceso
@@ -530,19 +530,19 @@
 
                             <table class="table" style="width:100%;">
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Estado
                                             </div>
-                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->affiliate_state->state_type->name !!}">
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="left" data-original-title="{!! $affiliate->affiliate_state->state_type->name !!}">
                                                 {!! $affiliate->affiliate_state->name !!}
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Tipo
@@ -553,18 +553,18 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Grado
                                             </div>
-                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->degree->name !!}"> {!! $affiliate->degree->shortened !!}
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->degree->getCodHierarchyName() !!}"> {!! $affiliate->degree->shortened !!}
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Unidad
@@ -577,7 +577,7 @@
                                 </tr>
                                 @if($affiliate->date_decommissioned)
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Fecha de Baja
@@ -597,7 +597,7 @@
 
                             <table class="table" style="width:100%;">
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Fecha de Ingreso
@@ -609,7 +609,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Núm. de Matrícula
@@ -621,7 +621,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Núm. de Ítem
@@ -634,7 +634,7 @@
                                 </tr>
                                 @if($affiliate->reason_decommissioned)
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Motivo Baja

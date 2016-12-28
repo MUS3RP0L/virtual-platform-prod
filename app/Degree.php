@@ -43,4 +43,9 @@ class Degree extends Model
     {
         return $query->where('hierarchy_id', $id);
     }
+
+    public function getCodHierarchyName()
+    {
+        return $this->hierarchy->code ."-". $this->code ." ". $this->name;
+    }
 }
