@@ -859,11 +859,10 @@
             </div>
         </div>
     </div>
-
     <div id="myModal-address" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content panel-warning">
-                <div class="modal-header">
+            <div class="modal-content">
+                <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Editar Información Domicilio</h4>
                 </div>
@@ -886,13 +885,6 @@
                                         <span class="help-block">Escriba la Zona</span>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                        {!! Form::label('street', 'Calle, Avenida', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-7">
-                                        {!! Form::text('street', $AffiliateAddress->street, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                                        <span class="help-block">Escriba la Calle y/o Avenida</span>
-                                    </div>
-                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -900,6 +892,13 @@
                                     <div class="col-md-7">
                                         {!! Form::text('number_address', $AffiliateAddress->number_address, ['class'=> 'form-control']) !!}
                                         <span class="help-block">Escriba el Número de Domicilio</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('street', 'Calle, Avenida', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('street', $AffiliateAddress->street, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba la Calle y/o Avenida</span>
                                     </div>
                                 </div>
                             </div>
@@ -921,11 +920,10 @@
             </div>
         </div>
     </div>
-
     <div id="myModal-spouse" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content panel-warning">
-                <div class="modal-header">
+            <div class="modal-content">
+                <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Editar Información de Conyuge</h4>
                 </div>
