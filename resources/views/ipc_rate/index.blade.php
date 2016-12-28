@@ -26,7 +26,7 @@
                     <h3 class="panel-title">Despliegue</h3>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-hover" id="afiliados-table">
+                    <table class="table table-bordered table-hover" id="ipc_rates-table">
                         <thead>
                             <tr class="warning">
                                 <th>Año</th>
@@ -107,7 +107,7 @@
         });
 
         $(function() {
-            $('#afiliados-table').DataTable({
+            $('#ipc_rates-table').DataTable({
                 "dom": '<"top">t<"bottom"p>',
                 "order": [[ 0, "desc" ]],
                 processing: true,
