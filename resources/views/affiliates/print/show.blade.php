@@ -1,108 +1,122 @@
-@extends('print')
+@extends('globalprint.print')
 @section('title2')
     <h3>(Página 1/2)</h3>
 @endsection
 @section('content')
+
+
+
+<table>
+      <tr>
+        <th style="width: 60%;border: 0px;text-align:left;">
+          <div><b>I. INFORMACIÓN PERSONAL</b></div>
+        </th>
+        <th style="width: 40%;border: 0px;text-align:left;">
+          <div><b>II. INFORMACIÓN INSTITUCIONAL</b></div>
+        </th>
+      </tr>
+</table>
+
 <table>
   <tr>
-    <td>
-      <div class="title"><b>I. INFORMACIÓN DE PERSONAL</b></div>
+    <td style="width: 60%;border: 0px;">
       <div id="project">
           <table>
             <tr>
-              <th colspan="2" class="grand service">DATOS DE TITULAR</th>
+              <th colspan="2" class="grand service"><h4><b>DATOS DEL TITULAR</b></h4></th>
             </tr>
             <tr>
-              <td class="service">NOMBRE DEL BENEFICIARIO</th>
-              <td class="info" >{!! $affiliate->getFullNametoPrint() !!}</td>
+              <th class="service" style="width: 25%;"><h5><b>NOMBRE DEL BENEFICIARIO</b></h5></th>
+              <td class="info" style="width: 75%;" ><h5>{!! $affiliate->getFullNametoPrint() !!}</h5></td>
             </tr>
             <tr>
-              <th class="service">CARNET DE IDENTIDAD</th>
-              <td class="info" >{!! $affiliate->identity_card !!}</td>
+              <th class="service" style="width: 25%;"><h5><b>CARNET DE IDENTIDAD</b></h5></th>
+              <td class="info" style="width: 75%;" ><h5>{!! $affiliate->identity_card !!}</h5></td>
             </tr>
             <tr>
-              <th class="service">FECHA DE NACIMIENTO</th>
-              <td class="info" >{!! $affiliate->getFullDateNactoPrint() !!}</td>
+              <th class="service" style="width: 25%;"><h5><b>FECHA DE NACIMIENTO</b></h5></th>
+              <td class="info" style="width: 75%;"><h5>{!! $affiliate->getFullDateNactoPrint() !!}</h5></td>
             </tr>
             <tr>
-              <th class="service">NÚMERO ÚNICO DE AFILIADO-AFP</th>
-              <td class="info" >{!! $affiliate->nua !!}</td>
+              <th class="service" style="width: 25%;"><h5><b>NRO. ÚNICO DE AFILIADO-AFP</b></h5></th>
+              <td class="info" style="width: 75%;" ><h5>{!! $affiliate->nua !!}</h5></td>
             </tr>
             <tr>
-              <th class="service">ESTADO CIVIL</th>
-              <td class="info" >{!! $affiliate->getCivilStatus() !!}</td>
+              <th class="service" style="width: 25%;"><h5><b>ESTADO CIVIL</b></h5></th>
+              <td class="info" style="width: 75%;"><h5>{!! $affiliate->getCivilStatus() !!}</h5></td>
             </tr>
             <tr>
-              <th class="service">EDAD</th>
-              <td class="info" >{!! $affiliate->getHowOld() !!}</td>
+              <th class="service" style="width: 25%;"><h5><b>EDAD</b></h5></th>
+              <td class="info" style="width: 75%;"><h5>{!! $affiliate->getHowOld() !!}</h5></td>
             </tr>
             <tr>
-              <th class="service">DIRECCIÓN DOMICILIO</th>
-              <td class="info" >{!! $affiliate->getFullDirecctoPrint() !!}</td>
+              <th class="service" style="width: 25%;"><h5><b>DIRECCIÓN DOMICILIO</b></h5></th>
+              <td class="info" style="width: 75%;"><h5>{!! $affiliate->getFullDirecctoPrint() !!}</h5></td>
             </tr>
             <tr>
-              <th class="service" >FECHA DE FALLECIMIENTO</th>
-              <td class="info">{!! $affiliate->getFull_fech_decetoPrint() !!}</td>
+              <th class="service" style="width: 25%;"><h5><b>FECHA DE FALLECIMIENTO</b></h5></th>
+              <td class="info" style="width: 75%;"><h5>{!! $affiliate->getFull_fech_decetoPrint() !!}</h5></td>
             </tr>
             <tr>
-              <th class="service" >CAUSA DE FALLECIMIENTO</th>
-              <td class="info">{!! $affiliate->reason_decommissioned !!}</td>
+              <th class="service" style="width: 25%;"><h5><b>CAUSA DE FALLECIMIENTO</b></h5></th>
+              <td class="info" style="width: 75%;"><h5>{!! $affiliate->reason_decommissioned !!}</h5></td>
             </tr>
           </table>
-      </div>
+        </div>
+
     </td>
 
-    <td>
-      <div class="title"><b>II. INFORMACIÓN INSTITUCIONAL</b></div>
-      <div id="project">
-        <table>
+    <td style="width: 40%;border: 0px;">
+
+            <table>
             <tr>
-              <th colspan="2" class="grand service">DATOS INSTITUCIONALES</th>
+              <td colspan="2" class="grand service"><center><b>DATOS INSTITUCIONALES</b></center></td>
             </tr>
             <tr>
-              <th class="service">MATRICULA</th>
-              <td class="info" >{!! $affiliate->registration !!}</td>
+              <td  style="width: 35%;"><h6><b>MATRICULA</b></h6></td>
+              <td class="info" style="width: 65%;"><h6>{!! $affiliate->registration !!}</h6></td>
             </tr>
             <tr>
-              <th class="service">ESTADO</th>
-              <td class="info" >{!! $affiliate->affiliate_state->name !!}</td>
+              <td class="service"><b>ESTADO</b></td>
+              <td class="info" ><h6>{!! $affiliate->affiliate_state->name !!}</h6></td>
             </tr>
             <tr>
-              <th class="service">GRADO</th>
-              <td class="info" >{!! $affiliate->degree->name !!}</td>
+              <td class="service"><b>GRADO</b></td>
+              <td class="info" ><h6>{!! $affiliate->degree->name !!}</h6></td>
             </tr>
             <tr>
-              <th class="service">UNIDAD</th>
-              <td class="info" >{!! $affiliate->unit->shortened !!}</td>
+              <td class="service"><b>UNIDAD</b></td>
+              <td class="info" ><h6>{!! $affiliate->unit->shortened !!}</h6></td>
             </tr>
             <tr>
-              <th class="service">TIPO</th>
-              <td class="info" >{!! $affiliate->affiliate_type->name !!}</td>
+              <td class="service"><b>TIPO</b></td>
+              <td class="info" ><h6>{!! $affiliate->affiliate_type->name !!}</h6></td>
             </tr>
             <tr>
-              <th class="service">NRO. ITEM</th>
-              <td class="info" >{!! $affiliate->item !!}</td>
+              <td class="service"><b>NRO. ITEM</b></td>
+              <td class="info" ><h6>{!! $affiliate->item !!}</td>
             </tr>
             <tr>
-              <th class="service">FECHA DE ALTA</th>
-              <td class="info">{!! $affiliate->getFullDateIngtoPrint() !!}</td>
+              <td class="service"><b>FECHA DE ALTA</b></td>
+              <td class="info"><h6>{!! $affiliate->getFullDateIngtoPrint() !!}</h6></td>
             </tr>
             <tr>
-              <th class="service">FECHA DE BAJA</th>
-              <td class="info">{!! $affiliate->getData_fech_bajatoPrint() !!}</td>
+              <td class="service"><b>FECHA DE BAJA</b></td>
+              <td class="info"><h6>{!! $affiliate->getData_fech_bajatoPrint() !!}</h6></td>
             </tr>
             <tr>
-              <th class="service">MOTIVO DE BAJA</th>
-              <td class="info">{!! $affiliate->reason_decommissioned !!}</td>
+              <td class="service"><b>MOTIVO DE BAJA</b></td>
+              <td class="info"><h6>{!! $affiliate->reason_decommissioned !!}</h6></td>
             </tr>
 
           </table>
-      </div>
+
+
     </td>
   </tr>
 </table>
 
-<div class="title"><b>III. RESUMEN DE APORTE</b></div>
+<div><b>III. RESUMEN DE APORTE</b></div>
     <div id="project">
         <table>
             <tr>
@@ -137,17 +151,17 @@
               <tr>
                 <th style="width: 25%;border: 0px;">
                   <div id="logo">
-                    <img src="assets/images/logo.jpg">
+                    <img src="img/logo.jpg">
                   </div>
                 </th>
                 <th style="width: 50%;border: 0px">
-                  <h3><b>MUTUAL DE SERVICIOS AL POLICIA<br>
+                  <h4><b>MUTUAL DE SERVICIOS AL POLICIA<br>
                       {!! $header1 !!} <br> {!! $header2 !!}
-                      </b></h3>
+                    </b></h4>
                 </th>
                 <th style="width: 25%;border: 0px">
                   <div id="logo2">
-                    <img src="assets/images/escudo.jpg">
+                    <img src="img/escudo.jpg">
                   </div>
                 </th>
               </tr>
@@ -162,7 +176,7 @@
         <br>
 </header>
 
-<div class="title"><b>IV. LISTA DE APORTES</b></div>
+<div><b>IV. LISTA DE APORTES</b></div>
       <div id="project">
         <table>
            <tr>
