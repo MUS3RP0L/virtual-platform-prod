@@ -385,7 +385,7 @@
 
                                 <table class="table" style="width:100%;">
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Carnet Identidad
@@ -397,7 +397,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Apellido Paterno
@@ -409,7 +409,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Apellido Materno
@@ -422,7 +422,7 @@
                                     </tr>
                                     @if($spouse->date_death)
                                         <tr>
-                                            <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                            <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         Fecha Deceso
@@ -443,7 +443,7 @@
 
                                 <table class="table" style="width:100%;">
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Fecha Nacimiento
@@ -455,7 +455,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Primer Nombre
@@ -467,7 +467,7 @@
                                         </td>
                                     <tr>
                                     </tr>
-                                        <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Segundo Nombre
@@ -480,7 +480,7 @@
                                     </tr>
                                     @if($spouse->reason_death)
                                         <tr>
-                                            <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                            <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         Motivo Deceso
@@ -514,12 +514,14 @@
             <div class="box box-warning">
                 <div class="box-header with-border">
                     <div class="row">
-                        <div class="col-md-11">
+                        <div class="col-md-10">
                             <h3 class="panel-title"><span class="glyphicon glyphicon-briefcase"></span> Información Policial Actual</h3>
                         </div>
-                        <div class="col-md-1 text-right" data-toggle="tooltip" data-placement="top" data-original-title="Historial">
-                            <div  data-toggle="modal" data-target="#myModal-record">
-                                <span class="glyphicon glyphicon-hourglass"  aria-hidden="true"></span>
+                        <div class="col-md-2 text-right">
+                            <div data-toggle="tooltip" data-placement="left" data-original-title="Ver Historial">
+                                <a href="" class="btn btn-raised btn-xs btn-primary" data-toggle="modal" data-target="#myModal-record">&nbsp;&nbsp;
+                                    <span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span>&nbsp;&nbsp;
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -530,7 +532,7 @@
 
                             <table class="table" style="width:100%;">
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Estado
@@ -542,7 +544,19 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Grado
+                                            </div>
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->degree->getCodHierarchyName() !!}">
+                                                {!! $affiliate->degree->shortened !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Tipo
@@ -553,23 +567,12 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                Grado
-                                            </div>
-                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->degree->name !!}"> {!! $affiliate->degree->shortened !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Unidad
                                             </div>
-                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->unit->name !!}">
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->unit->code . " " . $affiliate->unit->name !!}">
                                                 {!! $affiliate->unit->shortened !!}
                                             </div>
                                         </div>
@@ -577,7 +580,7 @@
                                 </tr>
                                 @if($affiliate->date_decommissioned)
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Fecha de Baja
@@ -597,7 +600,7 @@
 
                             <table class="table" style="width:100%;">
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Fecha de Ingreso
@@ -609,7 +612,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Núm. de Matrícula
@@ -621,7 +624,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Núm. de Ítem
@@ -634,7 +637,7 @@
                                 </tr>
                                 @if($affiliate->reason_decommissioned)
                                     <tr>
-                                        <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Motivo Baja
@@ -658,7 +661,7 @@
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-6">
-                            <h3 class="panel-title"><span class="glyphicon glyphicon-usd"></span> Totales</h3>
+                            <h3 class="panel-title"><span class="glyphicon glyphicon-usd"></span> Aportes</h3>
                         </div>
                         <div class="col-md-6">
                             <h3 class="panel-title"style="text-align: right">Bolivianos</h3>
@@ -671,30 +674,27 @@
                         <div class="col-md-12">
                             <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
                                 <tr>
-                                    <td>Ganado</td>
+                                    <td style="width: 70%">Ganado</td>
                                     <td style="text-align: right">{{ $total_gain }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Bono de Seguridad Ciudadana</td>
+                                    <td style="width: 70%">Bono de Seguridad Ciudadana</td>
                                     <td style="text-align: right">{{ $total_public_security_bonus }}</td>
                                 </tr>
-                                <tr class="active">
-                                    <td>Cotizable</td>
+                                <tr>
+                                    <td style="width: 70%">Cotizable</td>
                                     <td style="text-align: right">{{ $total_quotable }}</td>
                                 </tr>
-                            </table>
-
-                            <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
                                 <tr>
-                                    <td>Aporte Fondo de Retiro</td>
+                                    <td style="width: 70%">Aporte Fondo de Retiro</td>
                                     <td style="text-align: right">{{ $total_retirement_fund }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Aporte Seguro de Vida</td>
+                                    <td style="width: 70%">Aporte Seguro de Vida</td>
                                     <td style="text-align: right">{{ $total_mortuary_quota }}</td>
                                 </tr>
                                 <tr class="active">
-                                    <td>Aporte Muserpol</td>
+                                    <td style="width: 70%">Aporte Muserpol</td>
                                     <td style="text-align: right">{{ $total }}</td>
                                 </tr>
                             </table>
@@ -794,13 +794,14 @@
                                 <div class="form-group">
                                         {!! Form::label('phone', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::text('phone', $affiliate->phone, ['class'=> 'form-control']) !!}
+                                        <input type="text" id="phone" class="form-control" name="phone" value="{!! $affiliate->phone !!}" data-inputmask="'mask': '(9) 999-999'" data-mask>
                                         <span class="help-block">Escriba el Teléfono fijo</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('cell_phone', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
+                                        <input type="text" id="cell_phone" class="form-control" name="cell_phone" value="{!! $affiliate->cell_phone !!}" data-inputmask="'mask': '(999)-99999'" data-mask>
                                         {!! Form::text('cell_phone', $affiliate->cell_phone, ['class'=> 'form-control']) !!}
                                         <span class="help-block">Escriba el Teléfono Celular</span>
                                     </div>
@@ -858,11 +859,10 @@
             </div>
         </div>
     </div>
-
     <div id="myModal-address" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content panel-warning">
-                <div class="modal-header">
+            <div class="modal-content">
+                <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Editar Información Domicilio</h4>
                 </div>
@@ -885,13 +885,6 @@
                                         <span class="help-block">Escriba la Zona</span>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                        {!! Form::label('street', 'Calle, Avenida', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-7">
-                                        {!! Form::text('street', $AffiliateAddress->street, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                                        <span class="help-block">Escriba la Calle y/o Avenida</span>
-                                    </div>
-                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -899,6 +892,13 @@
                                     <div class="col-md-7">
                                         {!! Form::text('number_address', $AffiliateAddress->number_address, ['class'=> 'form-control']) !!}
                                         <span class="help-block">Escriba el Número de Domicilio</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('street', 'Calle, Avenida', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('street', $AffiliateAddress->street, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba la Calle y/o Avenida</span>
                                     </div>
                                 </div>
                             </div>
@@ -920,11 +920,10 @@
             </div>
         </div>
     </div>
-
     <div id="myModal-spouse" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content panel-warning">
-                <div class="modal-header">
+            <div class="modal-content">
+                <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Editar Información de Conyuge</h4>
                 </div>
@@ -1036,15 +1035,16 @@
         </div>
     </div>
 
-    <div id="myModal-record" class="modal fade" role="dialog">
+
+    <div id="myModal-record" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog">
-            <div class="modal-content panel-warning">
-                <div class="modal-header">
+            <div class="modal-content">
+                <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Historial</h4>
                 </div>
                 <div class="modal-body">
-                    <table class="table table-striped table-hover" id="record-table" cellspacing="0" width="100%">
+                    <table class="table table-bordered table-hover" id="record-table" width="100%">
                         <thead>
                             <tr class="success">
                                 <th>Fecha</th>
@@ -1059,7 +1059,7 @@
 
     <div id="myModal-print-affiliate" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content panel-warning">
+            <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Reporte Afiliado</h4>
@@ -1082,6 +1082,8 @@
             $("#birth_date_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("#date_death_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("#date_death_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+            $("#phone").inputmask();
+            $("#cell_phone").inputmask();
         });
 
         $(document).ready(function(){
@@ -1124,7 +1126,7 @@
                 "order": [[ 0, "desc" ]],
                 processing: true,
                 serverSide: true,
-                pageLength: 10,
+                pageLength: 12,
                 bFilter: false,
                 ajax: {
                     url: '{!! route('get_record') !!}',

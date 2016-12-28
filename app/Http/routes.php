@@ -58,6 +58,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 	// Affiliate
 	Route::resource('affiliate', 'Affiliate\AffiliateController');
+
 	Route::get('print_affiliate/{affiliate_id}', 'Affiliate\AffiliateController@print_affiliate');
 	Route::get('print_sworn_declaration1/{affiliate_id}', 'Affiliate\AffiliateController@print_sworn_declaration1');
 	Route::get('print_sworn_declaration2/{affiliate_id}', 'Affiliate\AffiliateController@print_sworn_declaration2');
@@ -99,7 +100,6 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('print_voucher/{voucher_id}', 'Voucher\VoucherController@PrintVoucher');
 	Route::get('print_compromise/{afid}', 'Contribution\DirectContributionController@PrintCompromise');
 
-
 	// Retirement Fund Procedure
 	Route::resource('retirement_fund', 'RetirementFund\RetirementFundController');
 
@@ -112,7 +112,6 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('retirement_fund_print_check_file/{afid}', 'RetirementFund\RetirementFundController@print_check_file');
 	Route::get('retirement_fund_print_qualification/{afid}', 'RetirementFund\RetirementFundController@print_qualification');
 	Route::get('retirement_fund_print_legal_assessment/{afid}', 'RetirementFund\RetirementFundController@print_legal_assessment');
-
 
 	// Economic Complement Procedure
 	Route::resource('complement_economic', 'EconomicComplement\EconomicComplementController');
