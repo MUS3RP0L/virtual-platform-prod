@@ -1,4 +1,4 @@
-@extends('print')
+@extends('globalprint.print')
 @section('title2')
     <h3>(Página 1/2)</h3>
 @endsection
