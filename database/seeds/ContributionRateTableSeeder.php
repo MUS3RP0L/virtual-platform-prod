@@ -402,7 +402,11 @@ class ContributionRateTableSeeder extends Seeder
 			['month_year' => '2016-5-1', 'rate_active' => '2.5000', 'retirement_fund' =>'1.8500', 'mortuary_quota'  =>'.6500', 'mortuary_aid' => '1.5000', 'user_id' => '1'],
 			['month_year' => '2016-6-1', 'rate_active' => '2.5000', 'retirement_fund' =>'1.8500', 'mortuary_quota'  =>'.6500', 'mortuary_aid' => '1.5000', 'user_id' => '1'],
 			['month_year' => '2016-7-1', 'rate_active' => '2.5000', 'retirement_fund' =>'1.8500', 'mortuary_quota'  =>'.6500', 'mortuary_aid' => '1.5000', 'user_id' => '1'],
-			['month_year' => '2016-8-1', 'rate_active' => '2.5000', 'retirement_fund' =>'1.8500', 'mortuary_quota'  =>'.6500', 'mortuary_aid' => '1.5000', 'user_id' => '1']
+			['month_year' => '2016-8-1', 'rate_active' => '2.5000', 'retirement_fund' =>'1.8500', 'mortuary_quota'  =>'.6500', 'mortuary_aid' => '1.5000', 'user_id' => '1'],
+			['month_year' => '2016-9-1', 'rate_active' => '2.5000', 'retirement_fund' =>'1.8500', 'mortuary_quota'  =>'.6500', 'mortuary_aid' => '1.5000', 'user_id' => '1'],
+			['month_year' => '2016-10-1', 'rate_active' => '2.5000', 'retirement_fund' =>'1.8500', 'mortuary_quota'  =>'.6500', 'mortuary_aid' => '1.5000', 'user_id' => '1'],
+			['month_year' => '2016-11-1', 'rate_active' => '2.5000', 'retirement_fund' =>'1.8500', 'mortuary_quota'  =>'.6500', 'mortuary_aid' => '1.5000', 'user_id' => '1'],
+			['month_year' => '2016-12-1', 'rate_active' => '2.5000', 'retirement_fund' =>'1.8500', 'mortuary_quota'  =>'.6500', 'mortuary_aid' => '1.5000', 'user_id' => '1']
         ];
 
         foreach ($statuses as $status) {

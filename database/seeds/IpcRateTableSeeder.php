@@ -400,9 +400,13 @@ class IpcRateTableSeeder extends Seeder
 			['month_year' => '2016-3-1',  'index' => '162.2500', 'user_id' => '1'],
 			['month_year' => '2016-4-1',  'index' => '162.8800', 'user_id' => '1'],
 			['month_year' => '2016-5-1',  'index' => '164.8800', 'user_id' => '1'],
-			['month_year' => '2016-6-1',  'index' => '164.8800', 'user_id' => '1'],
-			['month_year' => '2016-7-1',  'index' => '164.8800', 'user_id' => '1'],
-			['month_year' => '2016-8-1',  'index' => '164.8800', 'user_id' => '1']
+			['month_year' => '2016-6-1',  'index' => '164.0900', 'user_id' => '1'],
+			['month_year' => '2016-7-1',  'index' => '164.1400', 'user_id' => '1'],
+			['month_year' => '2016-8-1',  'index' => '164.3500', 'user_id' => '1'],
+			['month_year' => '2016-9-1',  'index' => '165.0900', 'user_id' => '1'],
+			['month_year' => '2016-10-1',  'index' => '165.6900', 'user_id' => '1'],
+			['month_year' => '2016-11-1',  'index' => '166.3800', 'user_id' => '1'],
+			['month_year' => '2016-12-1',  'index' => '166.3800', 'user_id' => '1']
 
 		];
 
