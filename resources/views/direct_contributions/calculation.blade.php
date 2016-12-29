@@ -33,7 +33,7 @@
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3 class="box-title"><span class="glyphicon glyphicon-list-alt"></span> Información de Aporte</h3>
+                            <h3 class="box-title"><span class="glyphicon glyphicon-info-sign"></span> Información Adicional</h3>
                         </div>
                     </div>
                 </div>
@@ -96,11 +96,11 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div class="box box-warning">
+                <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3 class="panel-title"><span class="glyphicon glyphicon-list-alt"></span> Cálculo de Aportes</h3>
+                            <h3 class="box-title"><span class="glyphicon glyphicon-list-alt"></span> Cálculo de Aportes</h3>
                         </div>
                     </div>
                 </div>
@@ -164,40 +164,40 @@
                             </div>
                         </div>
                         {!! Form::hidden('data', null, ['data-bind'=> 'value: ko.toJSON(model)']) !!}
-                            <div class="row text-center">
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <a href="{!! url('affiliate/' . $affiliate->id) !!}" data-target="#" class="btn btn-raised btn-warning">&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;</a>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <div class="btn-group" data-toggle="tooltip" data-placement="bottom" data-original-title="Confirmar">
-                                            <a href="" data-target="#myModal-confirm" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal">
-                                                &nbsp;<span class="glyphicon glyphicon-ok"></span>&nbsp;
-                                            </a>
-                                        </div>
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <a href="{!! url('affiliate/' . $affiliate->id) !!}" data-target="#" class="btn btn-raised btn-warning">&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;</a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div class="btn-group" data-toggle="tooltip" data-placement="bottom" data-original-title="Confirmar">
+                                        <a href="" data-target="#myModal-confirm" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal">
+                                            &nbsp;<span class="glyphicon glyphicon-ok"></span>&nbsp;
+                                        </a>
                                     </div>
                                 </div>
                             </div>
-                            <div id="myModal-confirm" class="modal fade">
-                                <div class="modal-dialog">
-                                    <div class="alert alert-dismissible alert-info">
-                                        <div class="modal-body text-center">
-                                            <p><br>
-                                                <div><h4>¿ Está seguro de guardar el Aporte de Bs. <b><span data-bind="text: sum_total()"></span></b> al afiliado {!! $affiliate->getTittleName () !!}?</h4></div>
-                                            </p>
-                                        </div>
-                                        <div class="row text-center">
-                                            <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;</button>
-                                                    &nbsp;&nbsp;&nbsp;
-                                                    <button type="submit" class="btn btn-raised btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
-                                                </div>
+                        </div>
+                        <div id="myModal-confirm" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="alert alert-dismissible alert-info">
+                                    <div class="modal-body text-center">
+                                        <p><br>
+                                            <div><h4>¿ Está seguro de guardar el Aporte de Bs. <b><span data-bind="text: sum_total()"></span></b> al afiliado {!! $affiliate->getTittleName () !!}?</h4></div>
+                                        </p>
+                                    </div>
+                                    <div class="row text-center">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;</button>
+                                                &nbsp;&nbsp;&nbsp;
+                                                <button type="submit" class="btn btn-raised btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        {!! Form::close() !!}
+                        </div>
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>
