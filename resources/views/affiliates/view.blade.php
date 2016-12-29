@@ -51,7 +51,7 @@
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-10">
-                            <h3 class="panel-title"><span class="glyphicon glyphicon-user"></span> Información Personal</h3>
+                            <h3 class="box-title"><span class="glyphicon glyphicon-user"></span> Información Personal</h3>
                         </div>
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel-body" style="font-size: 14px">
+                <div class="box-body">
                     <div class="row">
                         <div class="col-md-6">
                             <table class="table table-responsive" style="width:100%;">
@@ -269,7 +269,7 @@
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-10">
-                            <h3 class="panel-title"><span class="glyphicon glyphicon-home"></span> Información de Domicilio</h3>
+                            <h3 class="box-title"><span class="glyphicon glyphicon-home"></span> Información de Domicilio</h3>
                         </div>
                         @if($info_address)
                             <div class="col-md-2 text-right">
@@ -282,8 +282,8 @@
                         @endif
                     </div>
                 </div>
-                <div class="panel-body" style="font-size: 14px">
-                    <div class="row" style="margin-bottom:0px;">
+                <div class="box-body">
+                    <div class="row">
 
                         @if($info_address)
 
@@ -363,7 +363,7 @@
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-10">
-                            <h3 class="panel-title"><span class="glyphicon glyphicon-user"></span> Información de Conyuge</h3>
+                            <h3 class="box-title"><span class="glyphicon glyphicon-user"></span> Información de Conyuge</h3>
                         </div>
                         @if($info_spouse)
                             <div class="col-md-2 text-right">
@@ -376,8 +376,8 @@
                         @endif
                     </div>
                 </div>
-                <div class="panel-body" style="font-size: 14px">
-                    <div class="row" style="margin-bottom:0px;">
+                <div class="box-body">
+                    <div class="row">
 
                         @if($info_spouse)
 
@@ -515,7 +515,7 @@
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-10">
-                            <h3 class="panel-title"><span class="glyphicon glyphicon-briefcase"></span> Información Policial Actual</h3>
+                            <h3 class="box-title"><span class="glyphicon glyphicon-briefcase"></span> Información Policial Actual</h3>
                         </div>
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Ver Historial">
@@ -526,7 +526,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel-body" style="font-size: 14px">
+                <div class="box-body">
                     <div class="row">
                         <div class="col-md-6">
 
@@ -661,14 +661,14 @@
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-6">
-                            <h3 class="panel-title"><span class="glyphicon glyphicon-usd"></span> Aportes</h3>
+                            <h3 class="box-title"><span class="glyphicon glyphicon-usd"></span> Aportes</h3>
                         </div>
                         <div class="col-md-6">
-                            <h3 class="panel-title"style="text-align: right">Bolivianos</h3>
+                            <h3 class="panel-title" style="text-align: right">Bolivianos</h3>
                         </div>
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="box-body">
 
                     <div class="row">
                         <div class="col-md-12">

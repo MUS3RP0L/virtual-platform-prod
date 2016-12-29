@@ -30,7 +30,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel-body" style="font-size: 14px">
+                <div class="box-body">
                     <div class="row">
                         <div class="col-md-6">
                             <table class="table table-responsive" style="width:100%;">
