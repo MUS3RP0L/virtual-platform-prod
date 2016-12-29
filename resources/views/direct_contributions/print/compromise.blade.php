@@ -1,5 +1,7 @@
-@extends('print')
+@extends('globalprint.print')
+@section('title2')
 
+@endsection
 @section('content')
 
 <p align="justify">
@@ -17,32 +19,7 @@
 <p align="justify">
     <b>TERCERA.-</b> La continuidad de los aportes otorga el derecho a recibir el Beneficio Económico del Seguro de Vida.
 </p>
-<footer>
-  PLATAFORMA VIRUTAL - MUTUAL DE SERVICIOS AL POLICIA
-</footer>
-<div class="page-break"></div>
-      <header class="clearfix">
-        <table class="tableh">
-              <tr>
-                <th style="width: 25%;border: 0px;">
-                  <div id="logo">
-                    <img src="assets/images/logo.jpg">
-                  </div>
-                </th>
-                <th style="width: 50%;border: 0px">
-                  <h3><b>MUTUAL DE SERVICIOS AL POLICÍA<br>
-                     {!! $header1 !!} <br> {!! $header2 !!}
-                      </b></h3>
-                </th>
-                <th style="width: 25%;border: 0px">
-                  <div id="logo2">
-                    <img src="assets/images/escudo.jpg">
-                  </div>
-                </th>
-              </tr>
-        </table>
-        <br>
-</header>
+
 <p align="justify">
     <b>CUARTA.-</b> Declaro conocer las disposiciones legales que rigen el funcionamiento de MUSERPOL, por lo que dejo expresa constancia que me someto a ellas.
 </p>
@@ -57,7 +34,15 @@
 <br>
 <br>
 <br>
+<br>
+
 <center>
      <b>La Paz, {{ Util::getAllDate($date) }}<b>
 </center>
+<br>
+
+
+
+
+
 @endsection
