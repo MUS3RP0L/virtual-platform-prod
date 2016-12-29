@@ -1,23 +1,24 @@
-@extends('print')
+@extends('globalprint.print')
 
 @section('content')
 
 
-<div id="project">
+
     <table >
         <tr>
-            <td class="info" style="border: 0px;">N°: {{ trim($direct_contribution->code) }}  </td>
-            <td class="info" style="border: 0px;" >Titular: {{ trim($affiliate->getTittleName()) }}</td>
-            <td class="info" style="border: 0px;" >Matrícula: {{ $affiliate->registration }}</td>
+            <td class="info" style="border: 0px;"><b>N°:</b> {{ trim($direct_contribution->code) }}  </td>
+            <td class="info" style="border: 0px;"><b>Titular:</b> {{ trim($affiliate->getTittleName()) }}</td>
+
         </tr>
         <tr>
-            <td class="info" style="border: 0px;" > Tipo: {{ $affiliate->affiliate_state->name }}</td>
-            <td class="info" style="border: 0px;" > Grado: {{ $affiliate->degree->name }}</td>
+            <td class="info" style="border: 0px;" ><b>Matrícula:</b> {{ $affiliate->registration }}</td>
+            <td class="info" style="border: 0px;" ><b>Tipo:</b> {{ $affiliate->affiliate_state->name }}</td>
+            <td class="info" style="border: 0px;" ><b>Grado:</b> {{ $affiliate->degree->name }}</td>
         </tr>
     </table>
 
-</div>
-<div id="project">
+
+
     <table>
       <tr>
           <td colspan="6" class="grand service" style="text-align:center;">Periodo: {{ $direct_contribution->period() }}  </td>
@@ -58,7 +59,7 @@
     </table>
 
     <p>***Esta liquidación no es válida sin el Refrendo y Sello de Tesorería***</p>
-</div>
+
 
 
 
