@@ -1,7 +1,10 @@
-@extends('print')
-@section('content')
 
-<div id="project">
+@extends('globalprint.print')
+
+@section('content')
+  <div id="project">
+
+
     <table>
         <tr>
             <td class="grand service" style="border: 0px;">
@@ -11,9 +14,8 @@
         </tr>
 
     </table>
-</div>
+  </div>
 
-<div id="project">
     <table>
         <tr>
           <td colspan="3" class="grand service" style="text-align:center;">Periodo: {{ $direct_contribution->period() }}  </td>
@@ -46,6 +48,6 @@
           </tr>
     </table>
 
-</div>
+
 
 @endsection
