@@ -2,32 +2,22 @@
 
 @section('contentheader_title')
 
-	<div class="row">
-		<div class="col-md-10">
-			{!! Breadcrumbs::render('show_contribution', $affiliate) !!}
-		</div>
-		<div class="col-md-2 text-right">
-			<a href="{!! url('affiliate/' . $affiliate->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="top" data-original-title="Atrás">
-				&nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;
-			</a>
-		</div>
-	</div>
+	{!! Breadcrumbs::render('show_direct_contributions') !!}
 
 @endsection
 
 @section('main-content')
-<div class="container-fluid">
-    {!! Breadcrumbs::render('show_direct_contributions') !!}
+
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Despliegue</h3>
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><span class="glyphicon glyphicon-search"></span> Búsqueda</h3>
                 </div>
-                <div class="panel-body">
+                <div class="box-body">
                     <div class="row">
-                        <div class="col-md-12">
-                            <form method="POST" id="search-form" role="form">
+                        <form method="POST" id="search-form" role="form" class="form-horizontal">
+                            <div class="col-md-11">
                                 <div class="row"><br>
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -48,20 +38,22 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-group">
-                                                {!! Form::label('date', 'Fecha de Emisión', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                    			<div class="input-group">
-                                                    <input type="text" class="form-control datepicker" name="date" value="">
-                                                    <div class="input-group-addon">
-                                                        <span class="glyphicon glyphicon-calendar"></span>
-                                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('date', 'Fecha de Emisión', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-7">
+                                			<div class="input-group">
+                                                <input type="text" class="form-control datepicker" name="date" value="">
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                </div>
                                 <br>
+                            </div>
+                            <div class="col-md-12">
                                 <div class="row text-center">
                                     <div class="form-group">
                                         <div class="col-md-12">
@@ -71,14 +63,14 @@
                                     </div>
                                 </div>
                                 <br>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table table-striped table-hover" id="direct_contributions-table">
+                            <table class="table table-bordered table-hover" id="direct_contributions-table">
                                 <thead>
-                                    <tr class="success">
+                                    <tr class="warning">
                                         <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Número de Trámite">Número</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Nombre de Afiliado">Nombre de Afiliado</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Periodo">Periodo</div></th>
@@ -113,6 +105,7 @@
         processing: true,
         serverSide: true,
         pageLength: 8,
+        autoWidth: false,
         order: [0, "desc"],
         ajax: {
             url: '{!! route('get_direct_contribution') !!}',
