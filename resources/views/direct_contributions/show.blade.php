@@ -1,36 +1,43 @@
-@extends('layout')
+@extends('app')
 
-@section('content')
-<div class="container-fluid">
-    {!! Breadcrumbs::render('show_direct_contribution', $affiliate) !!}
-    <div class="row">
-        <div class="col-md-12 text-right">
-            <a href="{!! url('direct_contribution') !!}" style="margin:-6px 1px 12px;" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="top" data-original-title="Atrás">
-                &nbsp;&nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;&nbsp;
+@section('contentheader_title')
+
+	<div class="row">
+		<div class="col-md-10">
+			{!! Breadcrumbs::render('show_direct_contribution', $affiliate) !!}
+		</div>
+		<div class="col-md-2 text-right">
+            <a href="{!! url('direct_contribution') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="top" data-original-title="Atrás">
+                &nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;
             </a>
-        </div>
-    </div>
+		</div>
+	</div>
+
+@endsection
+
+@section('main-content')
 
     <div class="row">
-
-        @include('affiliates.simple_info')
 
         <div class="col-md-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            @include('affiliates.simple_info')
+        </div>
+
+        <div class="col-md-6">
+            <div class="box box-info">
+                <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3 class="panel-title"><span class="glyphicon glyphicon-list-alt"></span> Información de Aporte</h3>
+                            <h3 class="box-title"><span class="glyphicon glyphicon-info-sign"></span> Información Adicional</h3>
                         </div>
                     </div>
                 </div>
-                <div class="panel-body" style="font-size: 14px">
+                <div class="box-body" style="font-size: 14px">
                     <div class="row">
                         <div class="col-md-6">
-
                             <table class="table table-responsive" style="width:100%;">
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Gestión
@@ -42,7 +49,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Tipo Aporte
@@ -58,7 +65,7 @@
                         <div class="col-md-6">
                             <table class="table" style="width:100%;">
                                 <tr>
-                                    <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 Total
@@ -85,17 +92,16 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Despliegue</h3>
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Despliegue</h3>
                 </div>
-                <div class="panel-body">
-                    <iframe src="{!! url('print_direct_contribution/' . $direct_contribution->id) !!}" width="99%" height="1200"></iframe>
+                <div class="box-body">
+                    <iframe src="{!! url('print_direct_contribution/' . $direct_contribution->id) !!}" width="100%" height="1200"></iframe>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 @endsection
 

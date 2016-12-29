@@ -1,6 +1,21 @@
-@extends('layout')
+@extends('app')
 
-@section('content')
+@section('contentheader_title')
+
+	<div class="row">
+		<div class="col-md-10">
+			{!! Breadcrumbs::render('show_contribution', $affiliate) !!}
+		</div>
+		<div class="col-md-2 text-right">
+			<a href="{!! url('affiliate/' . $affiliate->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="top" data-original-title="Atrás">
+				&nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;
+			</a>
+		</div>
+	</div>
+
+@endsection
+
+@section('main-content')
 <div class="container-fluid">
     {!! Breadcrumbs::render('show_direct_contributions') !!}
     <div class="row">
