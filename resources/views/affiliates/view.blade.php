@@ -28,11 +28,12 @@
                     </li>
                 </ul>
             </div>
-            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir" style="margin:0px;">
-                <a href="" data-target="#myModal-print-affiliate" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal">
+            <div class="btn-group" data-toggle="tooltip" data-placement="bottom" data-original-title="Imprimir" style="margin:0px;">
+                <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
                     &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
                 </a>
             </div>
+
         </div>
         <div class="col-md-2 text-right">
             <a href="{!! url('affiliate') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="top" data-original-title="Atrás">
@@ -1057,18 +1058,8 @@
         </div>
     </div>
 
-    <div id="myModal-print-affiliate" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Reporte Afiliado</h4>
-                </div>
-                <div class="modal-body">
-                    <iframe src="{!! url('print_affiliate/' . $affiliate->id) !!}" width="99%" height="1200"></iframe>
-                </div>
-            </div>
-        </div>
+    <div class="modal fade" tabindex="-1" >
+        <iframe src="{!! url('print_affiliate/' . $affiliate->id) !!}" id="iFramePdf"></iframe>
     </div>
 
 @endsection
@@ -1076,6 +1067,12 @@
 @push('scripts')
 
     <script type="text/javascript">
+
+        function printTrigger(elementId) {
+            var getMyFrame = document.getElementById(elementId);
+            getMyFrame.focus();
+            getMyFrame.contentWindow.print();
+        }
 
         $(document).ready(function(){
             $("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
