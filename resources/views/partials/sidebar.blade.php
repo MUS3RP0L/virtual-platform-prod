@@ -15,6 +15,10 @@
             <a href="{!! url('direct_contribution') !!}"><i class='glyphicon glyphicon-list-alt'></i> <span>Aportes Directos</span></a>
             </li>
 
+            <li {!! (Request::is('voucher') ? 'class=active' : '') !!}>
+            <a href="{!! url('voucher') !!}"><i class="fa fa-fw fa-money"></i> <span>Cobros</span></a>
+            </li>
+
             <!-- <li class="treeview">
                 <a href="#"><i class='fa fa-link'></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
