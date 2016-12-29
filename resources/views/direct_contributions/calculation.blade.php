@@ -1,95 +1,101 @@
-@extends('layout')
+@extends('app')
 
-@section('content')
-<div class="container-fluid">
-    {!! Breadcrumbs::render('register_contribution', $affiliate) !!}
+@section('contentheader_title')
+
+    <div class="row">
+        <div class="col-md-6">
+            {!! Breadcrumbs::render('register_contribution', $affiliate) !!}
+        </div>
+        <div class="col-md-4">
+            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Actualizar" style="margin:0px;">
+                <a href="" data-target="#myModal-update" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal">
+                    &nbsp;<span class="glyphicon glyphicon-refresh"></span>&nbsp;
+                </a>
+            </div>
+        </div>
+        <div class="col-md-2 text-right">
+            <a href="{!! url('select_contribution/' . $affiliate->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="top" data-original-title="Atrás">
+                &nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;
+            </a>
+        </div>
+    </div>
+
+@endsection
+
+@section('main-content')
+
+    <div class="row">
+        <div class="col-md-6">
+            @include('affiliates.simple_info')
+        </div>
+        <div class="col-md-6">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="box-title"><span class="glyphicon glyphicon-list-alt"></span> Información de Aporte</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-responsive" style="width:100%;">
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Gestión
+                                            </div>
+                                            <div class="col-md-6">
+                                                 {!! $year !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Tipo Aporte
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $type !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table" style="width:100%;">
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Total
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                @if($direct_contribution)
+                                                    {!! $direct_contribution->total !!}
+                                                @else
+                                                    <span data-bind="text: sum_total()">
+                                                @endif
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-4 col-md-offset-6">
-                    <div class="btn-group" style="margin:-6px 1px 12px;" data-toggle="tooltip" data-placement="top" data-original-title="Actualizar">
-                        <a href="" data-target="#myModal-update" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal">
-                            &nbsp;<span class="glyphicon glyphicon-refresh"></span>&nbsp;
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-2 text-right">
-                    <a href="{!! url('select_contribution/' . $affiliate->id) !!}" style="margin:-6px 1px 12px;" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="top" data-original-title="Atrás">&nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;</a>
-                </div>
-            </div>
-
-            <div class="row">
-
-                @include('affiliates.simple_info')
-
-                <div class="col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h3 class="panel-title"><span class="glyphicon glyphicon-list-alt"></span> Información de Aporte</h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-body" style="font-size: 14px">
-                            <div class="row">
-                                <div class="col-md-6">
-
-                                    <table class="table table-responsive" style="width:100%;">
-                                        <tr>
-                                            <td style="border-top:1px solid #d4e4cd;">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        Gestión
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                         {!! $year !!}
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        Tipo Aporte
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        {!! $type !!}
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="col-md-6">
-                                    <table class="table" style="width:100%;">
-                                        <tr>
-                                            <td style="border-top:1px solid #d4e4cd;border-bottom:1px solid #d4e4cd;">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        Total
-                                                    </div>
-                                                    <div class="col-md-6">
-
-                                                        @if($direct_contribution)
-                                                            {!! $direct_contribution->total !!}
-                                                        @else
-                                                            <span data-bind="text: sum_total()">
-                                                        @endif
-
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="row">
@@ -98,7 +104,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="box-body">
                     {!! Form::open(['method' => 'POST', 'route' => ['direct_contribution.store'], 'class' => 'form-horizontal']) !!}
                         <input type="hidden" name="affiliate_id" value="{{ $affiliate->id }}"/>
                         <input type="hidden" name="year" value="{{ $year }}"/>
@@ -196,7 +202,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 <div id="myModal-update" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog modal-lg">
