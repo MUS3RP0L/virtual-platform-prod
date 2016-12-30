@@ -44,8 +44,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <br>
-                                <div class="row">
+                                <div class="row"><br>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}

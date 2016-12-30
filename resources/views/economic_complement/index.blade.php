@@ -55,11 +55,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <br>
                                 <div class="row"><br>
-                                    <div class="col-md-5">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                                {!! Form::label('voucher_type', 'Concepto', ['class' => 'col-md-4 control-label']) !!}
+                                                {!! Form::label('voucher_type', 'Concepto', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
                                                 {!! Form::select('voucher_type', $economic_complement_modalities_list, '', ['class' => 'combobox form-control']) !!}
                                                 <span class="help-block">Seleccione el Concepto</span>

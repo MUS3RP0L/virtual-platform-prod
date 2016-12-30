@@ -55,7 +55,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <br>
                                 <div class="row"><br>
                                     <div class="col-md-4">
                                         <div class="form-group">
