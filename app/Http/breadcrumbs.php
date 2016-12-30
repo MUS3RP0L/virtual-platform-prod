@@ -89,7 +89,7 @@
 
     // Retirement Funds
     Breadcrumbs::register('retirement_funds', function($breadcrumbs) {
-        $breadcrumbs->push('Trámites de Fondo de Retiro');
+        $breadcrumbs->push('Procesos de Pago de Fondo de Retiro');
     });
     // Retirement Fund
     Breadcrumbs::register('retirement_fund', function($breadcrumbs, $affiliate) {
@@ -100,4 +100,10 @@
     // Complementarity Factor
     Breadcrumbs::register('complementarity_factors', function($breadcrumbs) {
         $breadcrumbs->push('Factor de Complementación', URL::to('complementarity_factor'));
+    });
+
+
+    // Economic Complement
+    Breadcrumbs::register('economic_complements', function($breadcrumbs) {
+        $breadcrumbs->push('Procesos de Pago de Complemento Económico');
     });

@@ -113,9 +113,6 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('retirement_fund_print_qualification/{afid}', 'RetirementFund\RetirementFundController@print_qualification');
 	Route::get('retirement_fund_print_legal_assessment/{afid}', 'RetirementFund\RetirementFundController@print_legal_assessment');
 
-	// Economic Complement Procedure
-	Route::resource('complement_economic', 'EconomicComplement\EconomicComplementController');
-
 	// Complementary Factor
 	Route::resource('complementary_factor', 'EconomicComplement\ComplementaryFactorController');
 
@@ -123,6 +120,8 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::get('get_complementary_factor_widowhood', array('as'=>'get_complementary_factor_widowhood', 'uses'=>'EconomicComplement\ComplementaryFactorController@widowhoodData'));
 
+	// Economic Complement Procedure
+	Route::resource('economic_complement', 'EconomicComplement\EconomicComplementController');
 });
 
 define('ACCESS', 'alerick');

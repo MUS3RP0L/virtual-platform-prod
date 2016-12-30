@@ -19,6 +19,10 @@
             <a href="{!! url('voucher') !!}"><i class="fa fa-fw fa-money"></i> <span>Cobros</span></a>
             </li>
 
+            <li {!! (Request::is('economic_complement') ? 'class=active' : '') !!}>
+            <a href="{!! url('economic_complement') !!}"><i class="fa fa-fw fa-ticket"></i> <span>Complemento Económico</span></a>
+            </li>
+
             <!-- <li class="treeview">
                 <a href="#"><i class='fa fa-link'></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
