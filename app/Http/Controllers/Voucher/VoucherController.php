@@ -176,7 +176,7 @@ class VoucherController extends Controller
     public function show($voucher)
     {
         $affiliate = Affiliate::IdIs($voucher->affiliate_id)->first();
-        $voucher->total = Util::formatMoney($voucher->total);
+        $voucher->total_show = Util::formatMoney($voucher->total);
 
         $data = [
             'voucher' => $voucher,
