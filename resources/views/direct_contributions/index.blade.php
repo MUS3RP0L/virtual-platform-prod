@@ -70,7 +70,7 @@
                         <div class="col-md-12">
                             <table class="table table-bordered table-hover" id="direct_contributions-table">
                                 <thead>
-                                    <tr class="warning">
+                                    <tr class="success">
                                         <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Número de Trámite">Número</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Nombre de Afiliado">Nombre de Afiliado</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Periodo">Periodo</div></th>

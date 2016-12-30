@@ -28,13 +28,13 @@
                 <div class="box-body">
                     <table class="table table-bordered table-hover" id="contribution_rate-table">
                         <thead>
-                            <tr class="warning">
+                            <tr class="success">
                                 <th style="text-align:center;" rowspan="2">Año</th>
                                 <th style="text-align:center;" rowspan="2">Mes</th>
                                 <th style="text-align:center;" colspan="3">Sector Activo</th>
                                 <th style="text-align:center;" colspan="4">Sector Pasivo</th>
                             </tr>
-                            <tr class="warning">
+                            <tr class="success">
                                 <th>Fondo de Retiro</th>
                                 <th>Cuota mortuoria</th>
                                 <th>Total Aporte</th>

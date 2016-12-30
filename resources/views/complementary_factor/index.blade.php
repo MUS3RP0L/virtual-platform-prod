@@ -28,7 +28,7 @@
                 <div class="box-body">
                     <table class="table table-bordered table-hover" id="complementarity_factor_old_age-table">
                         <thead>
-                            <tr class="warning">
+                            <tr class="success">
                                 <th>AÑO</th>
                                 <th>Semestre</th>
                                 <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="00 - GENERALES">GENERALES</div></th>
@@ -53,7 +53,7 @@
                 <div class="box-body">
                     <table class="table table-bordered table-hover" id="complementary_factor_widowhood-table">
                         <thead>
-                            <tr class="warning">
+                            <tr class="success">
                                 <th>AÑO</th>
                                 <th>Semestre</th>
                                 <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="00 - GENERALES">GENERALES</div></th>

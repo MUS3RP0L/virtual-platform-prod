@@ -105,7 +105,7 @@
                         <div class="col-md-12">
                             <table class="table table-bordered table-hover" id="register_contribution-table">
                                 <thead>
-                                    <tr class="warning">
+                                    <tr class="success">
                                         <th>Gestión</th>
                                         <th>Enero</th>
                                         <th>Febrero</th>

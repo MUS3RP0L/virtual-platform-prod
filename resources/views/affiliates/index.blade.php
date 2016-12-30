@@ -91,7 +91,7 @@
                         <div class="col-md-12">
                             <table class="table table-bordered table-hover" id="affiliates-table">
                                 <thead>
-                                    <tr class="warning">
+                                    <tr class="success">
                                         <th>Núm. Carnet</th>
                                         <th>Matrícula</th>
                                         <th>Grado</th>

@@ -105,7 +105,7 @@
 						<div class="col-md-12">
 							<table class="table table-bordered table-hover" id="contributions-table">
 		                        <thead>
-		                            <tr class="warning">
+		                            <tr class="success">
 		                            	<th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Gestión">Gestión</div></th>
 		                            	<th class="text-right"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Grado">Grado</div></th>
 		                            	<th class="text-right"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Unidad">Unidad</div></th>

@@ -28,7 +28,7 @@
                 <div class="box-body">
                     <table class="table table-bordered table-hover" id="first_level_base_wage-table">
                         <thead>
-                            <tr class="warning">
+                            <tr class="success">
                                 <th>AÑO</th>
                                 <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="00 00 - COMANDANTE GENERAL">CMTE GRAL</div></th>
                                 <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="00 01 - COMANDANTE GENERAL">CMTE GRAL</div></th>
@@ -54,7 +54,7 @@
                 <div class="box-body">
                     <table class="table table-bordered table-hover" id="second_level_base_wage-table">
                         <thead>
-                            <tr class="warning">
+                            <tr class="success">
                                 <th>AÑO</th>
                                 <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="02 02 - CORONEL ADMINISTRATIVO">CNL. ADM.</div></th>
                                 <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="02 03 - TENIENTE CORONEL ADMINISTRATIVO ">TCNL. ADM.</div></th>
@@ -74,7 +74,7 @@
                 <div class="box-body">
                     <table class="table table-bordered table-hover" id="third_level_base_wage-table">
                         <thead>
-                            <tr class="warning">
+                            <tr class="success">
                                 <th>AÑO</th>
                                 <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="03 08 - SUBOFICIAL SUPERIOR">SOF. SUP.</div></th>
                                 <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="03 09 - SUBOFICIAL MAYOR ">SOF. MY.</div></th>
@@ -97,7 +97,7 @@
                 <div class="box-body">
                     <table class="table table-bordered table-hover" id="fourth_level_base_wage-table">
                         <thead>
-                            <tr class="warning">
+                            <tr class="success">
                                 <th>AÑO</th>
                                 <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="04 08 - SUBOFICIAL SUPERIOR ADMINISTRATIVO">SOF. SUP. ADM.</div></th>
                                 <th><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="04 09 - SUBOFICIAL MAYOR ADMINISTRATIVO ">SOF. MY. ADM.</div></th>

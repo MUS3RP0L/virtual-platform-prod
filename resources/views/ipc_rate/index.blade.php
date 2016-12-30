@@ -28,7 +28,7 @@
                 <div class="box-body">
                     <table class="table table-bordered table-hover" id="ipc_rates-table">
                         <thead>
-                            <tr class="warning">
+                            <tr class="success">
                                 <th>Año</th>
                                 <th>Mes</th>
                                 <th>Índice de Precio al Consumidor</th>

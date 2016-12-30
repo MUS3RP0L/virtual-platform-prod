@@ -26,7 +26,7 @@
                 <div class="box-body">
     				<table class="table table-bordered table-hover" id="users-table">
                         <thead>
-                            <tr class="warning">
+                            <tr class="success">
                                 <th>Nombre de Usuario</th>
                                 <th>Nombres y Apellidos</th>
                                 <th>Teléfono</th>
