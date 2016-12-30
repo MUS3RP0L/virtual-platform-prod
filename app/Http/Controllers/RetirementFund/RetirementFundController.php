@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Muserpol\Http\Requests;
 use Muserpol\Http\Controllers\Controller;
 
-use DB;
 use Auth;
 use Validator;
 use Session;
