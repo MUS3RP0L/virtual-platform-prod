@@ -42,9 +42,9 @@ class EconomicComplementModalityTableSeeder extends Seeder
     {
         $statuses = [
 
-            ['eco_com_type_id' => '1', 'name' => 'Vejez', 'description' => 'Renta asociada con el (la) beneficiario (a) titular'],
-            ['eco_com_type_id' => '2', 'name' => 'Viudedad', 'description' => 'Renta sociada con el (la) viuda (o) del titular'],
-            ['eco_com_type_id' => '3', 'name' => 'Orfandad', 'description' => 'Renta asociada con el (la) huérfano (o) del titular'],
+            ['eco_com_type_id' => '1', 'name' => 'Normal', 'description' => 'Renta asociada con el (la) beneficiario (a) titular'],
+            ['eco_com_type_id' => '2', 'name' => 'Normal', 'description' => 'Renta sociada con el (la) viuda (o) del titular'],
+            ['eco_com_type_id' => '3', 'name' => 'Normal', 'description' => 'Renta asociada con el (la) huérfano (o) del titular'],
             ['eco_com_type_id' => '1', 'name' => 'RENT-1COMP-VEJ', 'description' => 'Un solo componente'],
             ['eco_com_type_id' => '2', 'name' => 'RENT-1COMP-VIU', 'description' => 'Un solo componente'],
             ['eco_com_type_id' => '1', 'name' => 'RENT-1COM-M2000-VEJ', 'description' => 'Un solo componente y menor a Bs. 2000,00'],
@@ -93,7 +93,7 @@ class EconomicComplementModalityTableSeeder extends Seeder
             ['eco_com_state_type_id' => '5', 'name' => 'Juridica'],
             ['eco_com_state_type_id' => '5', 'name' => 'Contabilidad'],
             ['eco_com_state_type_id' => '5', 'name' => 'Préstamos'],
-            
+
             ['eco_com_state_type_id' => '5', 'name' => 'Doble Percepción'],
             ['eco_com_state_type_id' => '5', 'name' => 'Denuncia'],
             ['eco_com_state_type_id' => '5', 'name' => 'Falta de Requisitos'],
