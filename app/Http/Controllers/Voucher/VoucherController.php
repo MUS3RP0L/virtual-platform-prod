@@ -15,11 +15,6 @@ use Muserpol\Helper\Util;
 
 use Muserpol\Affiliate;
 use Muserpol\DirectContribution;
-use Muserpol\Contribution;
-use Muserpol\Category;
-use Muserpol\ContributionRate;
-use Muserpol\IpcRate;
-use Muserpol\BaseWage;
 use Muserpol\Voucher;
 use Muserpol\VoucherType;
 
@@ -59,12 +54,12 @@ class VoucherController extends Controller
                 $vouchers->where('code', 'like', "%{$code}%");
             });
         }
-        if ($request->has('affiliate_name'))
+        if ($request->has('affiliate_ci'))
         {
             $vouchers->where(function($vouchers) use ($request)
             {
-                $affiliate_name = trim($request->get('affiliate_name'));
-                $vouchers->where('affiliate_name', 'like', "%{$affiliate_name}%");
+                $affiliate_id = trim($request->get('affiliate_id'));
+                $vouchers->where('affiliate_id', 'like', "%{affiliate_id}%");
             });
         }
         if ($request->has('creation_date'))

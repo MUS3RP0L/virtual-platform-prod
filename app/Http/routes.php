@@ -122,6 +122,9 @@ Route::group(['middleware' => 'auth'], function() {
 
 	// Economic Complement Procedure
 	Route::resource('economic_complement', 'EconomicComplement\EconomicComplementController');
+
+	Route::get('get_economic_complement', array('as'=>'get_economic_complement', 'uses'=>'EconomicComplement\EconomicComplementController@Data'));
+
 	Route::get('get_economic_complement_type/{id}', array('as'=>'get_economic_complement_type', 'uses'=>'EconomicComplement\EconomicComplementController@getEconomicComplementType'));
 
 });
