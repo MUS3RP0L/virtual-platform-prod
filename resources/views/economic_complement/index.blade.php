@@ -16,7 +16,7 @@
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        <form method="POST" id="search-form" class="form-horizontal">
+                        <form method="POST" id="search-form" role="form" class="form-horizontal">
                             <div class="col-md-11">
                                 <div class="row"><br>
                                     <div class="col-md-4">
@@ -43,6 +43,18 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
+                                            {!! Form::label('eco_com_type', 'Tipo', ['class' => 'col-md-5 control-label']) !!}
+        									<div class="col-md-7">
+        										{!! Form::select('eco_com_type', $list_eco_com_types, null, ['class' => 'form-control']) !!}
+        										<span class="help-block">Selecione el tipo de Proceso</span>
+        									</div>
+    									</div>
+                                    </div>
+                                </div>
+                                <div class="row"><br>
+
+                                    <div class="col-md-4 col-md-offset-4">
+                                        <div class="form-group">
                                                 {!! Form::label('payment_date', 'Fecha de Pago', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
                                     			<div class="input-group">
@@ -54,16 +66,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row"><br>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                                {!! Form::label('voucher_type', 'Concepto', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                                {!! Form::select('voucher_type', $economic_complement_modalities_list, '', ['class' => 'combobox form-control']) !!}
-                                                <span class="help-block">Seleccione el Concepto</span>
-                                            </div>
-                                        </div>
+        									{!! Form::label('modality', 'Modalidad', ['class' => 'col-md-5 control-label']) !!}
+        									<div class="col-md-7">
+        										{!! Form::select('modality', ['clear' => ''], null, ['class' => 'form-control']) !!}
+
+        										<span class="help-block">Selecione la Modalidad</span>
+        									</div>
+        								</div>
                                     </div>
                                 </div>
                                 <br>
@@ -104,49 +115,71 @@
 @endsection
 
 @push('scripts')
-<script>
+    <script>
 
-    $(document).ready(function(){
-       $('.combobox').combobox();
-    });
+        $(document).ready(function(){
+            $('select[name="eco_com_type"]').on('change', function() {
+                var moduleID = $(this).val();
+                if(moduleID) {
+                    $.ajax({
+                        url: '{!! url('get_economic_complement_type') !!}/'+moduleID,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('select[name="modality"]').empty();
+                            $.each(data, function(key, value) {
+                                $('select[name="modality"]').append('<option value="'+ value.id +'">'+ value.name +'</option>');
+                            });
+                        }
+                    });
+                }
+                else{
+                    $('select[name="modality"]').empty();
+                }
+            });
+        });
 
-    $('.datepicker').datepicker({
-        format: "dd/mm/yyyy",
-        language: "es",
-        orientation: "bottom right",
-        daysOfWeekDisabled: "0,6",
-        autoclose: true
-    });
+        $(document).ready(function(){
+           $('.combobox').combobox();
+        });
 
-    var oTable = $('#economic_complements-table').DataTable({
-        "dom": '<"top">t<"bottom"p>',
-        processing: true,
-        serverSide: true,
-        pageLength: 8,
-        order: [0, "desc"],
-        ajax: {
-            url: '{!! route('get_retirement_fund') !!}',
-            data: function (d) {
-                d.code = $('input[name=code]').val();
-                d.affiliate_name = $('input[name=affiliate_name]').val();
-                d.creation_date = $('input[name=creation_date]').val();
-                d.voucher_type = $('input[name=voucher_type]').val();
-                d.payment_date = $('input[name=payment_date]').val();
-                d.post = $('input[name=post]').val();
-            }
-        },
-        columns: [
-            { data: 'code', sClass: "text-center" },
-            { data: 'affiliate_name', bSortable: false },
-            { data: 'total', bSortable: false },
-            { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: "text-center" }
-        ]
-    });
+        $('.datepicker').datepicker({
+            format: "dd/mm/yyyy",
+            language: "es",
+            orientation: "bottom right",
+            daysOfWeekDisabled: "0,6",
+            autoclose: true
+        });
 
-    $('#search-form').on('submit', function(e) {
-        oTable.draw();
-        e.preventDefault();
-    });
+        var oTable = $('#economic_complements-table').DataTable({
+            "dom": '<"top">t<"bottom"p>',
+            processing: true,
+            serverSide: true,
+            pageLength: 8,
+            order: [0, "desc"],
+            ajax: {
+                url: '{!! route('get_retirement_fund') !!}',
+                data: function (d) {
+                    d.code = $('input[name=code]').val();
+                    d.affiliate_name = $('input[name=affiliate_name]').val();
+                    d.creation_date = $('input[name=creation_date]').val();
+                    d.voucher_type = $('input[name=voucher_type]').val();
+                    d.payment_date = $('input[name=payment_date]').val();
+                    d.post = $('input[name=post]').val();
+                }
+            },
+            columns: [
+                { data: 'code', sClass: "text-center" },
+                { data: 'affiliate_name', bSortable: false },
+                { data: 'total', bSortable: false },
+                { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: "text-center" }
+            ]
+        });
 
-</script>
+        $('#search-form').on('submit', function(e) {
+            oTable.draw();
+            e.preventDefault();
+        });
+
+    </script>
 @endpush

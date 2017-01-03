@@ -10,6 +10,7 @@ class EconomicComplementModality extends Model
 
 	protected $fillable = [
 
+		'eco_com_type_id',
 		'name',
 		'description'
 	];
@@ -19,5 +20,15 @@ class EconomicComplementModality extends Model
 	public function economic_complements(){
 
         return $this->hasMany('Muserpol\EconomicComplement');
+    }
+
+    public function module()
+    {
+        return $this->belongsTo(EconomicComplementType::class);
+    }
+
+    public function scopeTypeidIs($query, $id)
+    {
+        return $query->where('eco_com_type_id', $id);
     }
 }
