@@ -41,7 +41,7 @@ class EconomicComplementController extends Controller
         }
 
         $data = [
-            'voucher_types_list' => $voucher_types_list,
+            'eco_com_states_list' => $eco_com_states_list,
             'list_eco_com_types' => $list_eco_com_types
         ];
 
