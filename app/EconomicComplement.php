@@ -16,18 +16,25 @@ class EconomicComplement extends Model
 	protected $fillable = [
 
         'affiliate_id',
-		'retirement_fund_modality_id',
-		'city_id',
+		'eco_com_modality_id',
+		'eco_com_state_id',
+        'city_id',
+        'category_id',
+        'base_wage_id',
+        'complementary_factor_id',
+        'first_ticket_month_id',
+        'second_ticket_month_id',
         'code',
         'reception_date',
-        'review_date'
-
-        // 'total_quotable',
-        // 'total_additional_quotable',
-        // 'subtotal',
-        // 'performance',
-        // 'total',
-        // 'comment'
+        'review_date',
+        'semester',
+        'sub_total_rent',
+        'dignity_pension',
+        'reimbursement',
+        'christmas_bonus',
+        'seniority',
+        'quotable',
+        'total'
 
 	];
 
