@@ -45,32 +45,35 @@
                                         <div class="form-group">
                                             {!! Form::label('eco_com_type', 'Tipo', ['class' => 'col-md-5 control-label']) !!}
         									<div class="col-md-7">
-        										{!! Form::select('eco_com_type', $list_eco_com_types, null, ['class' => 'form-control']) !!}
+        										{!! Form::select('eco_com_type', $eco_com_types_list, null, ['class' => 'form-control']) !!}
         										<span class="help-block">Selecione el tipo de Proceso</span>
         									</div>
     									</div>
                                     </div>
                                 </div>
                                 <div class="row"><br>
-
-                                    <div class="col-md-4 col-md-offset-4">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                                {!! Form::label('payment_date', 'Fecha de Pago', ['class' => 'col-md-5 control-label']) !!}
+                                            {!! Form::label('affiliate_identitycard', 'Número Carnet', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
-                                    			<div class="input-group">
-                                                    <input type="text" class="form-control datepicker" name="payment_date" value="">
-                                                    <div class="input-group-addon">
-                                                        <span class="glyphicon glyphicon-calendar"></span>
-                                                    </div>
-                                                </div>
+                                                {!! Form::text('affiliate_identitycard', '', ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-        									{!! Form::label('modality', 'Modalidad', ['class' => 'col-md-5 control-label']) !!}
+                                                {!! Form::label('eco_com_state_id', 'Estado', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                                {!! Form::select('eco_com_state_id', $eco_com_states_list, '', ['class' => 'combobox form-control']) !!}
+                                                <span class="help-block">Seleccione Estado</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+        									{!! Form::label('eco_com_modality_id', 'Modalidad', ['class' => 'col-md-5 control-label']) !!}
         									<div class="col-md-7">
-        										{!! Form::select('modality', ['clear' => ''], null, ['class' => 'form-control']) !!}
+        										{!! Form::select('eco_com_modality_id', ['clear' => ''], null, ['class' => 'form-control']) !!}
 
         										<span class="help-block">Selecione la Modalidad</span>
         									</div>
@@ -126,15 +129,15 @@
                         type: "GET",
                         dataType: "json",
                         success: function(data) {
-                            $('select[name="modality"]').empty();
+                            $('select[name="eco_com_modality_id"]').empty();
                             $.each(data, function(key, value) {
-                                $('select[name="modality"]').append('<option value="'+ value.id +'">'+ value.name +'</option>');
+                                $('select[name="eco_com_modality_id"]').append('<option value="'+ value.id +'">'+ value.name +'</option>');
                             });
                         }
                     });
                 }
                 else{
-                    $('select[name="modality"]').empty();
+                    $('select[name="eco_com_modality_id"]').empty();
                 }
             });
         });

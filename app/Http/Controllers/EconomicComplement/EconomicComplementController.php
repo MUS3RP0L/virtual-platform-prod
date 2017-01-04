@@ -35,14 +35,14 @@ class EconomicComplementController extends Controller
         }
 
         $eco_com_types = EconomicComplementType::all();
-        $list_eco_com_types = array('' => '');
+        $eco_com_types_list = array('' => '');
         foreach ($eco_com_types as $item) {
-            $list_eco_com_types[$item->id]=$item->name;
+            $eco_com_types_list[$item->id]=$item->name;
         }
 
         $data = [
             'eco_com_states_list' => $eco_com_states_list,
-            'list_eco_com_types' => $list_eco_com_types
+            'eco_com_types_list' => $eco_com_types_list
         ];
 
         return view('economic_complement.index', $data);
@@ -69,17 +69,6 @@ class EconomicComplementController extends Controller
                 $economic_complements->where('code', 'like', "%{$code}%");
             });
         }
-        if ($request->has('affiliate_identitycard'))
-        {
-            $economic_complements->where(function($economic_complements) use ($request)
-            {
-                $affiliate_identitycard = trim($request->get('affiliate_identitycard'));
-
-                $affiliate = Affiliate::identitycardIs($affiliate_identitycard)->first();
-
-                $economic_complements->where('affiliate_id', 'like', "%{$affiliate->id}%");
-            });
-        }
         if ($request->has('creation_date'))
         {
             $economic_complements->where(function($economic_complements) use ($request)
@@ -88,20 +77,31 @@ class EconomicComplementController extends Controller
                 $economic_complements->where('created_at', 'like', "%{$creation_date}%");
             });
         }
-        if ($request->has('eco_com_state'))
+        if ($request->has('affiliate_identitycard'))
         {
             $economic_complements->where(function($economic_complements) use ($request)
             {
-                $voucher_type = trim($request->get('voucher_type'));
-                $economic_complements->where('voucher_type_id', 'like', "%{$voucher_type}%");
+                $affiliate_identitycard = trim($request->get('affiliate_identitycard'));
+                $affiliate = Affiliate::identitycardIs($affiliate_identitycard)->first();
+                $economic_complements->where('affiliate_id', 'like', "%{$affiliate->id}%");
             });
         }
-        if ($request->has('payment_date'))
+
+        if ($request->has('eco_com_state_id'))
         {
             $economic_complements->where(function($economic_complements) use ($request)
             {
-                $payment_date = Util::datePick($request->get('payment_date'));
-                $economic_complements->where('payment_date', 'like', "%{$payment_date}%");
+                $eco_com_state_id = trim($request->get('eco_com_state_id'));
+                $economic_complements->where('eco_com_state_id', 'like', "%{$eco_com_state_id}%");
+            });
+        }
+
+        if ($request->has('eco_com_modality_id'))
+        {
+            $economic_complements->where(function($economic_complements) use ($request)
+            {
+                $eco_com_modality_id = trim($request->get('eco_com_modality_id'));
+                $economic_complements->where('eco_com_state_id', 'like', "%{$eco_com_modality_id}%");
             });
         }
 
