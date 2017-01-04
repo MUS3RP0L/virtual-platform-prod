@@ -20,4 +20,9 @@ class EconomicComplementState extends Model
 
         return $this->hasMany('Muserpol\EconomicComplement');
     }
+
+    public function scopeNameIs($query, $ci)
+    {
+        return $query->where('name', $ci);
+    }
 }

@@ -31,4 +31,9 @@ class EconomicComplementModality extends Model
     {
         return $query->where('eco_com_type_id', $id);
     }
+
+    public function scopeNameIs($query, $id)
+    {
+        return $query->where('name', $id);
+    }
 }
