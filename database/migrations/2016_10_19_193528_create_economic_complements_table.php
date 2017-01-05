@@ -102,6 +102,9 @@ class CreateEconomicComplementsTable extends Migration
             $table->date('review_date')->nullable();
             $table->enum('semester', ['F', 'S']);
 
+            $table->date('payment_date')->nullable();
+            $table->string('payment_number')->nullable();
+
             $table->decimal('sub_total_rent', 13, 2);
             $table->decimal('dignity_pension', 13, 2);
             $table->decimal('reimbursement', 13, 2);
