@@ -21,7 +21,7 @@
                                 <div class="row"><br>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            {!! Form::label('code', 'Número Trámite', ['class' => 'col-md-5 control-label']) !!}
+                                            {!! Form::label('code', 'Número Proceso', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
                                                 {!! Form::text('code', '', ['class'=> 'form-control']) !!}
                                                 <span class="help-block">Escriba el Número Trámite</span>
@@ -30,7 +30,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                                {!! Form::label('creation_date', 'Fecha de Emisión', ['class' => 'col-md-5 control-label']) !!}
+                                            {!! Form::label('creation_date', 'Fecha de Emisión', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
                                     			<div class="input-group">
                                                     <input type="text" class="form-control datepicker" name="creation_date" value="">
@@ -62,7 +62,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                                {!! Form::label('eco_com_state_id', 'Estado', ['class' => 'col-md-5 control-label']) !!}
+                                            {!! Form::label('eco_com_state_id', 'Estado', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
                                                 {!! Form::select('eco_com_state_id', $eco_com_states_list, '', ['class' => 'combobox form-control']) !!}
                                                 <span class="help-block">Seleccione Estado</span>
@@ -102,8 +102,11 @@
                                 <thead>
                                     <tr class="success">
                                         <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Número de Trámite">Número</div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Concepto de Cobro">Número de Carnet</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Nombre de Afiliado">Nombre de Afiliado</div></th>
-                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Total a Pagar">Total a Pagar</div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Total a Pagar">Fecha Emisión</div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Estado">Estado</div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Fecha de Pago">Modalidad</div></th>
                                         <th class="text-center">Acción</th>
                                     </tr>
                                 </thead>
@@ -159,22 +162,26 @@
             processing: true,
             serverSide: true,
             pageLength: 8,
+            autoWidth: false,
             order: [0, "desc"],
             ajax: {
-                url: '{!! route('get_retirement_fund') !!}',
+                url: '{!! route('get_economic_complement') !!}',
                 data: function (d) {
                     d.code = $('input[name=code]').val();
-                    d.affiliate_name = $('input[name=affiliate_name]').val();
+                    d.affiliate_identitycard = $('input[name=affiliate_identitycard]').val();
                     d.creation_date = $('input[name=creation_date]').val();
-                    d.voucher_type = $('input[name=voucher_type]').val();
-                    d.payment_date = $('input[name=payment_date]').val();
+                    d.eco_com_state_id = $('input[name=eco_com_state_id]').val();
+                    d.eco_com_modality_id = $('input[name=eco_com_modality_id]').val();
                     d.post = $('input[name=post]').val();
                 }
             },
             columns: [
                 { data: 'code', sClass: "text-center" },
+                { data: 'affiliate_identitycard', bSortable: false },
                 { data: 'affiliate_name', bSortable: false },
-                { data: 'total', bSortable: false },
+                { data: 'created_at', bSortable: false },
+                { data: 'eco_com_state', bSortable: false },
+                { data: 'eco_com_modality', bSortable: false },
                 { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: "text-center" }
             ]
         });
