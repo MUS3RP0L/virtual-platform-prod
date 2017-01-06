@@ -41,9 +41,18 @@ class EconomicComplementController extends Controller
             $eco_com_types_list[$item->id]=$item->name;
         }
 
+        $year = Util::getYear(Carbon::now());
+
+        $semestre = ['F' => 'F','S' => 'S'];
+        foreach ($semestre as $item) {
+            $list_semester[$item]=$item;
+        }
+      
         $data = [
             'eco_com_states_list' => $eco_com_states_list,
-            'eco_com_types_list' => $eco_com_types_list
+            'eco_com_types_list' => $eco_com_types_list,
+            'year' => $year,
+            'list_semester' => $list_semester
         ];
 
         return view('economic_complements.index', $data);
@@ -57,6 +66,7 @@ class EconomicComplementController extends Controller
             return response()->json($modalities);
         }
     }
+
 
     public function Data(Request $request)
     {
