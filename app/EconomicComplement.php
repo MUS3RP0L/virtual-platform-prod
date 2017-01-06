@@ -73,9 +73,7 @@ class EconomicComplement extends Model
             return $this->belongsTo('Muserpol\ComplementaryFactor');
   }
 
-  public function affiliate(){
-                 return $this->belongsTo('Muserpol\Affiliate');
-  }
+
   public function scopeIdIs($query, $id)
   {
         return $query->where('id', $id);
