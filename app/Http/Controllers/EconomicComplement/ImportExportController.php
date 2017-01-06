@@ -1,7 +1,5 @@
 <?php
-
 namespace Muserpol\Http\Controllers\EconomicComplement;
-
 use Illuminate\Http\Request;
 
 use Muserpol\Http\Requests;
@@ -25,22 +23,7 @@ class ImportExportController extends Controller
 
     public function index()
     {
-        return view('economic_complement.importexport',self::getViewModel());
-    }
 
-    public static function getViewModel()
-    {
-        $year = Util::getYear(Carbon::now());
-
-        $semestre = ['F' => 'F','S' => 'S'];
-        foreach ($semestre as $item) {
-            $list_semester[$item]=$item;
-        }
-        return [
-
-            'year' => $year,
-            'list_semester' => $list_semester
-        ];
     }
 
     public static function import_from_senasir(Request $request)
@@ -112,7 +95,7 @@ class ImportExportController extends Controller
           })->export('xlsx');
 
           Session::flash('message', "Importación Exitosa"." F:".$found." NF:".$nofound);
-          return redirect('importexport');
+          return redirect('economic_complement');
         }
         return back();
     }
@@ -178,7 +161,7 @@ class ImportExportController extends Controller
 
           })->export('xlsx');
           Session::flash('message', "Importación Exitosa"." F:".$found." NF:".$nofound);
-          return redirect('importexport');
+          return redirect('economic_complement');
     }
   }
 
@@ -204,25 +187,30 @@ class ImportExportController extends Controller
       $found=0;
       $nofound=0;
       //return response()->json($results);
-      foreach ($results as $datos){
-          $carnet = substr_replace($datos->carnet ,"",-2);
+      foreach ($results as $valor){
+          $ci = substr_replace($valor->carnet,"",-2);
+          $card = rtrim($ci);
+        //  return response()->json($card);
           $afi = DB::table('economic_complements')
             ->select(DB::raw('economic_complements.*'))
             ->join('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
-            ->where('affiliates.identity_card', '=',trim($carnet))
+            ->where('affiliates.identity_card', '=',rtrim($card))
             ->whereYear('economic_complements.review_date', '=', $year)
             ->where('economic_complements.semester', '=', $semester)
             ->where('economic_complements.eco_com_state_id', '=', 2)->first();
             if ($afi){
                 $ecomplement = EconomicComplement::where('affiliate_id','=', $afi->affiliate_id)->whereYear('review_date','=', $afi->review_date)->where('semester','=', $afi->semester)->where('eco_com_state_id','=', $afi->eco_com_state_id)->first();
                 $ecomplement->eco_com_state_id = 4;
+                $ecomplement->total = $valor->monto_asignado;
+                $ecomplement->payment_number = $valor->nro_comprobante;
+                $ecomplement->payment_date = $valor->fecha_pago;
                 $ecomplement->save();
                 $found ++;
             }
             else{
               $nofound ++;
               $i ++;
-              $list[]= $datos;
+              $list[]= $valor;
             }
         }
         //return response()->json($list);
@@ -230,13 +218,12 @@ class ImportExportController extends Controller
         Excel::create('REPORTE_BANCO_NO_ENCONTRADO', function($excel) {
             global $list, $j,$k;
             $j = 2;
+            $k=1;
             $excel->sheet('Lista_Banco', function($sheet) {
             global $list, $j,$k;
-            $k=1;
             $sheet->row(1, array('NRO', 'DEPARTAMENTO','CARNET','NOMBRE','MONTO_ASIGNADO','DESCRIPCION1','DESCRIPCION2','NRO_COMPROBANTE','FECHA_PAGO'));
-            foreach ($afi as $datos) {
-                $economic =  EconomicComplement::idIs($datos->id)->first();
-                $sheet->row($j, array($i,$economic->city->name,$datos->carnet,$datos->nombre, $datos->monto_asignado,$datos->descripcion1,$datos->descripcion2,$datos->nro_comprobante,$datos->fecha_pago));
+            foreach ($list as $datos) {
+                $sheet->row($j, array($k,$datos->departamento,$datos->carnet,$datos->nombre, $datos->monto_asignado,$datos->descripcion1,$datos->descripcion2,$datos->nro_comprobante,$datos->fecha_pago));
                 $j++;
                 $k++;
             }
@@ -245,7 +232,7 @@ class ImportExportController extends Controller
 
         })->export('xlsx');
         Session::flash('message', "Importación Exitosa"." F:".$found." NF:".$nofound);
-        return redirect('importexport');
+        return redirect('economic_complement');
   }
 
   }
@@ -256,12 +243,7 @@ class ImportExportController extends Controller
           global $year, $semester,$i,$afi;
           $year = $request->year;
           $semester = $request->semester;
-          $filename = "aps.xlsx";
-          $filePath = "/template_to_export/ecomplement/".$filename;
-          $path = public_path()."/".$filePath;
-          if (File::exists($path))
-          {     //return response()->json($afi);
-                Excel::create($path, function($excel) {
+          Excel::create('Muserpol_para_aps', function($excel) {
                     global $year,$semester, $j;
                     $j = 2;
                     $excel->sheet("AFILIADOS_PARA_APS_".$year, function($sheet) {
@@ -284,8 +266,8 @@ class ImportExportController extends Controller
                   });
               })->export('xlsx');
                 Session::flash('message', "Importación Exitosa");
-                return redirect('importexport');
-          }
+                return redirect('economic_complement');
+
     }
 
     public function export_to_bank(Request $request){
@@ -328,13 +310,14 @@ class ImportExportController extends Controller
                 }
               });
           })->export('xlsx');
-          return redirect('importexport');
+          return redirect('economic_complement');
           Session::flash('message', "Importación Exitosa");
 
       }
       else {
-        return redirect('importexport');
+
         Session::flash('message', "No existen registros para exportar");
+        return redirect('economic_complement');
 
       }
 
