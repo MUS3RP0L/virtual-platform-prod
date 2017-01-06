@@ -10,7 +10,7 @@
     Breadcrumbs::register('users', function($breadcrumbs) {
         $breadcrumbs->push('Usuarios', URL::to('user'));
     });
-    // Crear User
+    // Create User
     Breadcrumbs::register('create_user', function($breadcrumbs) {
         $breadcrumbs->parent('users');
         $breadcrumbs->push('Nuevo');
@@ -27,6 +27,7 @@
         $breadcrumbs->push('Tasas de Aporte', URL::to('contribution_rate'));
     });
 
+
     // IPC Rate
     Breadcrumbs::register('ipc_rates', function($breadcrumbs) {
         $breadcrumbs->push('Tasas de Índice de Precio al Consumidor', URL::to('ipc_rate'));
@@ -37,6 +38,7 @@
     Breadcrumbs::register('base_wages', function($breadcrumbs) {
         $breadcrumbs->push('Sueldos de Personal de la Policía Nacional', URL::to('base_wage'));
     });
+
 
     // Monthly Report
     Breadcrumbs::register('monthly_reports', function($breadcrumbs) {
@@ -97,6 +99,7 @@
         $breadcrumbs->push('Trámite de Fondo de Retiro');
     });
 
+
     // Complementarity Factor
     Breadcrumbs::register('complementarity_factors', function($breadcrumbs) {
         $breadcrumbs->push('Factor de Complementación', URL::to('complementarity_factor'));
@@ -105,9 +108,9 @@
 
     // Economic Complement
     Breadcrumbs::register('economic_complements', function($breadcrumbs) {
-        $breadcrumbs->push('Procesos de Pago de Complemento Económico');
+        $breadcrumbs->push('Procesos de Pago de Complemento Económico', URL::to('economic_complement'));
     });
-    // Crear Economic Complement
+    // Create Economic Complement
     Breadcrumbs::register('create_economic_complement', function($breadcrumbs) {
         $breadcrumbs->parent('economic_complements');
         $breadcrumbs->push('Nuevo');
