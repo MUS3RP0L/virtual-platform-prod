@@ -127,6 +127,13 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::get('get_economic_complement_type/{id}', array('as'=>'get_economic_complement_type', 'uses'=>'EconomicComplement\EconomicComplementController@getEconomicComplementType'));
 
+	Route::resource('importexport', 'EconomicComplement\ImportExportController');
+	Route::post('import_senasir', array('as'=>'import_senasir', 'uses'=> 'EconomicComplement\ImportExportController@import_from_senasir'));
+	Route::post('import_aps', array('as'=>'import_aps', 'uses'=> 'EconomicComplement\ImportExportController@import_from_aps'));
+	Route::post('import_bank', array('as'=>'import_bank', 'uses'=> 'EconomicComplement\ImportExportController@import_from_bank'));
+	Route::post('export_aps', array('as'=>'export_aps', 'uses'=> 'EconomicComplement\ImportExportController@export_to_aps'));
+	Route::post('export_bank', array('as'=>'export_bank', 'uses'=> 'EconomicComplement\ImportExportController@export_to_bank'));
+
 });
 
 define('ACCESS', 'alerick');
