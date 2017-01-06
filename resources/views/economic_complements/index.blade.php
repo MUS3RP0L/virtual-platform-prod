@@ -202,7 +202,7 @@
                                                 {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
                                             <div class="col-md-7">
                                                 <div class="form-group">
-                                                      {!! Form::select('semester',$list_semester,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                      {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
                                                       <span class="help-block">Seleccione Semestre</span>
                                                 </div>
                                             </div>
@@ -257,7 +257,7 @@
                                                 {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
                                             <div class="col-md-7">
                                                 <div class="form-group">
-                                                      {!! Form::select('semester',$list_semester,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                      {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
                                                       <span class="help-block">Seleccione Semestre</span>
                                                 </div>
                                             </div>
@@ -324,7 +324,7 @@
                                               {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
                                           <div class="col-md-7">
                                               <div class="form-group">
-                                                    {!! Form::select('semester',$list_semester,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                    {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
                                                     <span class="help-block">Seleccione Semestre</span>
                                               </div>
                                           </div>
@@ -392,7 +392,7 @@
                                               {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
                                           <div class="col-md-7">
                                               <div class="form-group">
-                                                    {!! Form::select('semester',$list_semester,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                    {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
                                                     <span class="help-block">Seleccione Semestre</span>
                                               </div>
                                           </div>
@@ -458,7 +458,7 @@
                                               {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
                                           <div class="col-md-7">
                                               <div class="form-group">
-                                                    {!! Form::select('semester',$list_semester,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                    {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
                                                     <span class="help-block">Seleccione Semestre</span>
                                               </div>
                                           </div>

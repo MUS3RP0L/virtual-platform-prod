@@ -42,17 +42,16 @@ class EconomicComplementController extends Controller
         }
 
         $year = Util::getYear(Carbon::now());
-
-        $semestre = ['F' => 'F','S' => 'S'];
+        $semestre = ['F' => 'Primer', 'S' => 'Segundo'];
         foreach ($semestre as $item) {
-            $list_semester[$item]=$item;
+            $semester_list[$item]=$item;
         }
-      
+
         $data = [
             'eco_com_states_list' => $eco_com_states_list,
             'eco_com_types_list' => $eco_com_types_list,
             'year' => $year,
-            'list_semester' => $list_semester
+            'semester_list' => $semester_list
         ];
 
         return view('economic_complements.index', $data);
