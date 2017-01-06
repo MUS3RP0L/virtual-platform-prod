@@ -17,6 +17,7 @@ use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementState;
 use Muserpol\EconomicComplementType;
 use Muserpol\EconomicComplementModality;
+use Muserpol\Affiliate;
 
 class EconomicComplementController extends Controller
 {
@@ -45,7 +46,7 @@ class EconomicComplementController extends Controller
             'eco_com_types_list' => $eco_com_types_list
         ];
 
-        return view('economic_complement.index', $data);
+        return view('economic_complements.index', $data);
     }
 
     public function getEconomicComplementType(Request $request, $id)
@@ -127,9 +128,39 @@ class EconomicComplementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+
+    public static function getViewModel()
     {
-        //
+        $eco_com_types = EconomicComplementType::all();
+        $eco_com_types_list = array('' => '');
+        foreach ($eco_com_types as $item) {
+            $eco_com_types_list[$item->id]=$item->name;
+        }
+
+        return [
+
+           'eco_com_types_list' => $eco_com_types_list
+
+        ];
+    }
+
+    public function getData($affiliate_id)
+    {
+        $affiliate = Affiliate::idIs($affiliate_id)->first();
+
+        $data = [
+
+           'affiliate' => $affiliate
+
+        ];
+
+        return array_merge($data, self::getViewModel());
+
+    }
+
+    public function ReceptionFirstStep($affiliate_id)
+    {
+        return view('economic_complements.reception_first_step', self::getData($affiliate_id));
     }
 
     /**
