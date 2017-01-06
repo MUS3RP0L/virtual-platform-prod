@@ -32,7 +32,7 @@ class Degree extends Model
     }
 
     public function hierarchy(){
-        return $this->belongsTo('Muserpol\Hierarchy')
+        return $this->belongsTo('Muserpol\Hierarchy');
     }
     public function economic_complement_rents(){
       return $this->hasMany('Muserpol\EconomicComplementRent');
