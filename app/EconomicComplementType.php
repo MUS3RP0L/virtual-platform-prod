@@ -18,6 +18,6 @@ class EconomicComplementType extends Model
 
 	public function economic_complement_modalities()
     {
-        return $this->hasMany('Muserpol\EconomicComplementModalities');
+        return $this->hasMany('Muserpol\EconomicComplementModality');
     }
 }

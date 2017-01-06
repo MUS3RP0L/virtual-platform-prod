@@ -9,12 +9,12 @@ class Category extends Model
     protected $table = 'categories';
 
 	protected $fillable = [
-	
+
 		'from',
 		'to',
 		'name',
 		'percentage'
-		
+
 	];
 
 	protected $guarded = ['id'];
@@ -27,5 +27,10 @@ class Category extends Model
     public function contribtions()
     {
     	return $this->hasMany('Muserpol\Contribution');
+    }
+
+    public function economic_complements(){
+
+          return $this->hasMany('Muserpol\EconomicComplement');
     }
 }

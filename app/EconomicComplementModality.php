@@ -22,10 +22,10 @@ class EconomicComplementModality extends Model
         return $this->hasMany('Muserpol\EconomicComplement');
     }
 
-    public function module()
-    {
-        return $this->belongsTo(EconomicComplementType::class);
-    }
+    public function economic_complement_type(){
+
+         return $this->belongsTo('Muserpol\EconomicComplementType');
+     }
 
     public function scopeTypeidIs($query, $id)
     {

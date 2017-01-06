@@ -35,7 +35,6 @@ class EconomicComplement extends Model
         'seniority',
         'quotable',
         'total'
-
 	];
 
 	protected $guarded = ['id'];
@@ -58,6 +57,21 @@ class EconomicComplement extends Model
 
          return $this->belongsTo('Muserpol\City');
      }
+
+     public function category(){
+
+          return $this->belongsTo('Muserpol\Category');
+      }
+
+      public function base_wage(){
+
+           return $this->belongsTo('Muserpol\BaseWage');
+       }
+
+       public function complementary_factor(){
+
+            return $this->belongsTo('Muserpol\ComplementaryFactor');
+        }
     public function scopeIdIs($query, $id)
     {
         return $query->where('id', $id);

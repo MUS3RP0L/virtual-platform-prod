@@ -9,7 +9,7 @@ class BaseWage extends Model
     protected $table = 'base_wages';
 
 	protected $fillable = [
-		
+
 		'user_id',
 		'degree_id',
 		'month_year',
@@ -22,4 +22,10 @@ class BaseWage extends Model
     {
         return $this->belongsTo('Muserpol\Degree');
     }
+    public function economic_complements(){
+
+          return $this->hasMany('Muserpol\EconomicComplement');
+    }
+
+
 }
