@@ -107,3 +107,8 @@
     Breadcrumbs::register('economic_complements', function($breadcrumbs) {
         $breadcrumbs->push('Procesos de Pago de Complemento Económico');
     });
+    // Crear Economic Complement
+    Breadcrumbs::register('create_economic_complement', function($breadcrumbs) {
+        $breadcrumbs->parent('economic_complements');
+        $breadcrumbs->push('Nuevo');
+    });
