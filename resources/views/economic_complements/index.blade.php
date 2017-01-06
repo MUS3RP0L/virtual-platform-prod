@@ -169,6 +169,318 @@
         </div>
     </div>
 
+    <div id="myModal-exportaps" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="box-header with-border">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Exportar Afiliados de Complemento Económico de APS</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            {!! Form::open(['method' => 'POST', 'route' => ['export_aps'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                                {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                            <div class="col-md-7">
+                                                <div class="input-group">
+                                                      {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                      <span class="help-block">Año</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                                {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                            <div class="col-md-7">
+                                                <div class="form-group">
+                                                      {!! Form::select('semester',$list_semester,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                      <span class="help-block">Seleccione Semestre</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row text-center">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                            &nbsp;&nbsp;
+                                            <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
+                </div>
+    </div>
+
+    {{-- EXPORT FOR BANK --}}
+    <div id="myModal-exportbanco" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="box-header with-border">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Exportar Afiliados de Complemento Económico - BANCO</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            {!! Form::open(['method' => 'POST', 'route' => ['export_bank'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                                {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                            <div class="col-md-7">
+                                                <div class="input-group">
+                                                      {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                      <span class="help-block">Año</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                                {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                            <div class="col-md-7">
+                                                <div class="form-group">
+                                                      {!! Form::select('semester',$list_semester,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                      <span class="help-block">Seleccione Semestre</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row text-center">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                            &nbsp;&nbsp;
+                                            <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
+                </div>
+    </div>
+
+    {{-- ##############################IMPORT AFFILIATES OF ECONOMIC COMPLEMENT ############################################ --}}
+    {{-- IMPORT FROM SENASIR --}}
+    <div id="myModal-importsenasir" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="box-header with-border">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                          <h4 class="modal-title">Importar Afiliados de Complemento Económico de SENASIR</h4>
+                      </div>
+                      <div class="modal-body">
+
+                          {!! Form::open(['method' => 'POST', 'route' => ['import_senasir'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+                              <br>
+                              <div class="row">
+                                  <div class="col-md-12">
+                                      <div class="form-group">
+                                              {!! Form::label('archive', 'Archivo', ['class' => 'col-md-3 control-label']) !!}
+                                          <div class="col-md-8">
+                                              <input type="file" id="inputFile" name="archive" required>
+                                              <input type="text" readonly="" class="form-control " placeholder="Formato Excel">
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-md-12">
+                                      <div class="form-group">
+                                              {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                          <div class="col-md-7">
+                                              <div class="input-group">
+                                                    {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                    <span class="help-block">Año</span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="row">
+                                  <div class="col-md-12">
+                                      <div class="form-group">
+                                              {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                          <div class="col-md-7">
+                                              <div class="form-group">
+                                                    {!! Form::select('semester',$list_semester,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                    <span class="help-block">Seleccione Semestre</span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row text-center">
+                                  <div class="form-group">
+                                      <div class="col-md-12">
+                                          <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                          &nbsp;&nbsp;
+                                          <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                      </div>
+                                  </div>
+                              </div>
+
+                          {!! Form::close() !!}
+
+                      </div>
+                  </div>
+              </div>
+    </div>
+
+    {{-- IMPORT FROM APS --}}
+    <div id="myModal-importaps" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="box-header with-border">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                          <h4 class="modal-title">Importar Afiliados de Complemento Económico de APS</h4>
+                      </div>
+                      <div class="modal-body">
+
+                          {!! Form::open(['method' => 'POST', 'route' => ['import_aps'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+                              <br>
+                              <div class="row">
+                                  <div class="col-md-12">
+                                      <div class="form-group">
+                                              {!! Form::label('archive', 'Archivo', ['class' => 'col-md-3 control-label']) !!}
+                                          <div class="col-md-8">
+                                              <input type="file" id="inputFile" name="archive" required>
+                                              <input type="text" readonly="" class="form-control " placeholder="Formato Excel">
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-md-12">
+                                      <div class="form-group">
+                                              {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                          <div class="col-md-7">
+                                              <div class="input-group">
+                                                    {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                    <span class="help-block">Año</span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="row">
+                                  <div class="col-md-12">
+                                      <div class="form-group">
+                                              {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                          <div class="col-md-7">
+                                              <div class="form-group">
+                                                    {!! Form::select('semester',$list_semester,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                    <span class="help-block">Seleccione Semestre</span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row text-center">
+                                  <div class="form-group">
+                                      <div class="col-md-12">
+                                          <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                          &nbsp;&nbsp;
+                                          <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                      </div>
+                                  </div>
+                              </div>
+                          {!! Form::close() !!}
+                      </div>
+                  </div>
+              </div>
+    </div>
+
+    {{-- IMPORT FROM BANK--}}
+    <div id="myModal-importbanco" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="box-header with-border">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                          <h4 class="modal-title">Importar Afiliados de Complemento Económico - BANCO</h4>
+                      </div>
+                      <div class="modal-body">
+
+                          {!! Form::open(['method' => 'POST', 'route' => ['import_bank'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+                              <br>
+                              <div class="row">
+                                  <div class="col-md-12">
+                                      <div class="form-group">
+                                              {!! Form::label('archive', 'Archivo', ['class' => 'col-md-3 control-label']) !!}
+                                          <div class="col-md-8">
+                                              <input type="file" id="inputFile" name="archive" required>
+                                              <input type="text" readonly="" class="form-control " placeholder="Formato Excel">
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-md-12">
+                                      <div class="form-group">
+                                              {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                          <div class="col-md-7">
+                                              <div class="input-group">
+                                                    {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                    <span class="help-block">Año</span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="row">
+                                  <div class="col-md-12">
+                                      <div class="form-group">
+                                              {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                          <div class="col-md-7">
+                                              <div class="form-group">
+                                                    {!! Form::select('semester',$list_semester,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                    <span class="help-block">Seleccione Semestre</span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row text-center">
+                                  <div class="form-group">
+                                      <div class="col-md-12">
+                                          <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                          &nbsp;&nbsp;
+                                          <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                      </div>
+                                  </div>
+                              </div>
+                          {!! Form::close() !!}
+                      </div>
+                  </div>
+              </div>
+    </div>
+
+
 @endsection
 
 @push('scripts')
