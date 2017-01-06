@@ -42,38 +42,42 @@ class EconomicComplement extends Model
 	public function affiliate(){
 
         return $this->belongsTo('Muserpol\Affiliate');
-    }
+  }
 
 	public function economic_complement_state(){
 
         return $this->belongsTo('Muserpol\EconomicComplementState');
-    }
+  }
 
-    public function economic_complement_modality(){
+  public function economic_complement_modality(){
 
         return $this->belongsTo('Muserpol\EconomicComplementModality');
-    }
-    public function city(){
+  }
+  public function city(){
 
          return $this->belongsTo('Muserpol\City');
-     }
+  }
 
-     public function category(){
+  public function category(){
 
           return $this->belongsTo('Muserpol\Category');
-      }
+  }
 
-      public function base_wage(){
+  public function base_wage(){
 
            return $this->belongsTo('Muserpol\BaseWage');
-       }
+  }
 
-       public function complementary_factor(){
+  public function complementary_factor(){
 
             return $this->belongsTo('Muserpol\ComplementaryFactor');
-        }
-    public function scopeIdIs($query, $id)
-    {
+  }
+
+  public function affiliate(){
+                 return $this->belongsTo('Muserpol\Affiliate');
+  }
+  public function scopeIdIs($query, $id)
+  {
         return $query->where('id', $id);
-    }
+  }
 }

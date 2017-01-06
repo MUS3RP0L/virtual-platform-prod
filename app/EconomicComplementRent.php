@@ -17,8 +17,16 @@ class EconomicComplementRent extends Model
 
 	protected $guarded = ['id'];
 
-	public function economic_complements(){
+  public function degree()
+  {
+      return $this->belongsTo('Muserpol\Degree');
+  }
 
-        return $this->hasMany('Muserpol\EconomicComplement');
-    }
+  public function economic_complement_type()
+  {
+      return $this->belongsTo('Muserpol\EconomicComplementType');
+  }
+
+
+
 }

@@ -24,5 +24,11 @@ class ComplementaryFactor extends Model
 	public function economic_complements(){
 
         return $this->hasMany('Muserpol\EconomicComplement');
-    }
+  }
+
+  public function hierarchy(){
+
+          return $this->belongsTo('Muserpol\Hierarchy');
+  }
+  
 }

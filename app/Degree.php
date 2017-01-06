@@ -7,19 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Degree extends Model
 {
     protected $table = 'degrees';
+    protected $fillable = [
 
-	protected $fillable = [
+  		'hierarchy_id',
+  		'code',
+  		'name',
+  		'shortened'
+	 ];
+	 protected $guarded = ['id'];
 
-		'hierarchy_id',
-		'code',
-		'name',
-		'shortened'
-
-	];
-
-	protected $guarded = ['id'];
-
-	public function base_wages()
+	  public function base_wages()
     {
         return $this->hasMany('Muserpol\BaseWage');
     }
@@ -34,9 +31,11 @@ class Degree extends Model
     	return $this->hasMany('Muserpol\Contribution');
     }
 
-    public function hierarchy()
-    {
-        return $this->belongsTo(Hierarchy::class);
+    public function hierarchy(){
+        return $this->belongsTo('Muserpol\Hierarchy')
+    }
+    public function economic_complement_rents(){
+      return $this->hasMany('Muserpol\EconomicComplementRent');
     }
 
     public function scopeHierarchyidIs($query, $id)

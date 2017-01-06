@@ -116,6 +116,10 @@ class Affiliate extends Model
     {
         return $this->hasMany('Muserpol\AffiliateAddress');
     }
+    public function economic_complements()
+    {
+        return $this->hasMany('Muserpol\EconomicComplement');
+    }
 
     public function scopeIdIs($query, $id)
     {

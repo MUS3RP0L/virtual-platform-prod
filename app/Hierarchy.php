@@ -16,4 +16,15 @@ class Hierarchy extends Model
 	];
 
 	protected $guarded = ['id'];
+
+  public function degrees()
+  {
+    return $this->hasMany('Muserpol\Degree');
+  }
+
+  public function complementary_factors()
+  {
+    return $this->hasMany('Muserpol\ComplementaryFactor');
+  }
+
 }
