@@ -54,4 +54,12 @@ class EconomicComplement extends Model
 
         return $this->belongsTo('Muserpol\EconomicComplementModality');
     }
+    public function city(){
+
+         return $this->belongsTo('Muserpol\City');
+     }
+    public function scopeIdIs($query, $id)
+    {
+        return $query->where('id', $id);
+    }
 }

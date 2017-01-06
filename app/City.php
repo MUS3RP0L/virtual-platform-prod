@@ -9,10 +9,10 @@ class City extends Model
     protected $table = 'cities';
 
 	protected $fillable = [
-	
+
 		'name',
 		'shortened'
-	
+
 	];
 
 	protected $guarded = ['id'];
@@ -20,6 +20,11 @@ class City extends Model
 	public function retirement_funds(){
 
         return $this->hasMany('Muserpol\RetirementFund');
+    }
+
+    public function economic_complement(){
+
+          return $this->hasMany('Muserpol\EconomicComplement');
     }
 
 	public function scopeIdIs($query, $id)
