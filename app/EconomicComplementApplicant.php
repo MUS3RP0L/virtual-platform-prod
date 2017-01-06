@@ -23,5 +23,15 @@ class EconomicComplementApplicant extends Model
   ];
   protected $guarded = ['id'];
 
+  public function economic_complement(){
+
+            return $this->belongsTo('Muserpol\EconomicComplement');
+  }
+
+  public function economic_complement_applicant_type(){
+
+            return $this->belongsTo('Muserpol\EconomicComplementApplicantType');
+  }
+
 
 }

@@ -121,6 +121,11 @@ class Affiliate extends Model
         return $this->hasMany('Muserpol\EconomicComplement');
     }
 
+    public function pension_entity()
+    {
+        return $this->belongsTo('Muserpol\PensionEntity');
+    }
+
     public function scopeIdIs($query, $id)
     {
         return $query->where('id', $id);

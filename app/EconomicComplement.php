@@ -14,7 +14,6 @@ class EconomicComplement extends Model
     protected $dates = ['deleted_at'];
 
 	protected $fillable = [
-
         'affiliate_id',
 		    'eco_com_modality_id',
 		    'eco_com_state_id',
@@ -73,6 +72,15 @@ class EconomicComplement extends Model
             return $this->belongsTo('Muserpol\ComplementaryFactor');
   }
 
+  public function economic_complement_submitted_documents(){
+
+      return $this->hasMany('Muserpol\EconomicComplementSubmittedDocument');
+  }
+
+  public function economic_complement_applicants(){
+
+      return $this->hasMany('Muserpol\EconomicComplementApplicant');
+  }
 
   public function scopeIdIs($query, $id)
   {

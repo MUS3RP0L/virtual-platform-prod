@@ -16,4 +16,15 @@ class EconomicComplementSubmittedDocument extends Model
     'comment'
   ];
   protected $guarded = ['id'];
+
+  public function economic_complement_requirement(){
+
+     return $this->belongsTo('Muserpol\EconomicComplementRequirement');
+  }
+
+  public function economic_complement(){
+
+     return $this->belongsTo('Muserpol\EconomicComplement');
+  }
+
 }

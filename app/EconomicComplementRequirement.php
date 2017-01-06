@@ -14,4 +14,15 @@ class EconomicComplementRequirement extends Model
     'shortened'
   ];
   protected $guarded = ['id'];
+
+  public function economic_complement_type(){
+
+     return $this->belongsTo('Muserpol\EconomicComplementType');
+  }
+
+  public function economic_complement_submitted_documents()
+  {
+        return $this->hasMany('Muserpol\EconomicComplementSubmittedDocument');
+  }
+
 }

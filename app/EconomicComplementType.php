@@ -24,5 +24,9 @@ class EconomicComplementType extends Model
   {
         return $this->hasMany('Muserpol\EconomicComplementRent');
   }
+  public function economic_complement_requirements()
+  {
+        return $this->hasMany('Muserpol\EconomicComplementRequirement');
+  }
 
 }

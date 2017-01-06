@@ -15,4 +15,9 @@ class EconomicComplementApplicantType extends Model
 	];
 
 	protected $guarded = ['id'];
+
+  public function economic_complement_applicants(){
+
+      return $this->hasMany('Muserpol\EconomicComplementApplicant');
+  }
 }
