@@ -5,51 +5,26 @@
         <div class="col-md-10">
             {!! Breadcrumbs::render('economic_complements') !!}
         </div>
-        <div class="col-md-2">
-
-            <div class="btn-group" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="top" data-original-title="Exportar" style="margin:0px;">
-                <a href="" class="btn btn-success btn-raised dropdown-toggle" data-toggle="dropdown">
-                    &nbsp;<span class="glyphicon glyphicon-export"></span>&nbsp;
-                </a>
-                <ul class="dropdown-menu"  role="menu">
-
+        <div class="col-md-2 text-right">
+            <div class="btn-group" style="margin:-3px 0;">
+                <a href="" class="btn btn-primary btn-raised" data-toggle="dropdown"><i class="glyphicon glyphicon-export"></i></a>
+                <a href="" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="" data-toggle="modal" data-target="#myModal-exportaps" style="padding:3px 5px;"><i class="fa fa-bank"></i>APS</a></li>
                     <li role="separator" class="divider"></li>
-                    <li>
-                      <a href="" class="btn btn-raised btn-xs btn-primary" data-toggle="modal" data-target="#myModal-exportaps">&nbsp;&nbsp;
-                          <span class="glyphicon glyphicon-export" aria-hidden="true">&nbsp;APS</span>&nbsp;&nbsp;
-                      </a>
-                    </li>
-                    <li role="separator" class="divider"></li>
-                    <li>
-                      <a href="" class="btn btn-raised btn-xs btn-primary" data-toggle="modal" data-target="#myModal-exportbanco">&nbsp;&nbsp;
-                          <span class="glyphicon glyphicon-export" aria-hidden="true">&nbsp;Banco</span>&nbsp;&nbsp;
-                      </a>
-                    </li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-exportbanco" style="padding:3px 5px;"><i class="fa fa-money"></i>Banco</a></li>
                 </ul>
             </div>
 
-            <div class="btn-group" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="top" data-original-title="Importar" style="margin:0px;">
-                <a href="" class="btn btn-success btn-raised dropdown-toggle" data-toggle="dropdown">
-                    &nbsp;<span class="glyphicon glyphicon-import"></span>&nbsp;
-                </a>
-                <ul class="dropdown-menu"  role="menu">
-                    <li>
-                      <a href="" class="btn btn-raised btn-xs btn-primary" data-toggle="modal" data-target="#myModal-importsenasir">&nbsp;&nbsp;
-                          <span class="glyphicon glyphicon-import" aria-hidden="true">&nbsp;Senasir</span>&nbsp;&nbsp;
-                      </a>
-                    </li>
+            <div class="btn-group" style="margin:-3px 0;">
+                <a href="" class="btn btn-primary btn-raised" data-toggle="dropdown"><i class="glyphicon glyphicon-import"></i></a>
+                <a href="" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="" data-toggle="modal" data-target="#myModal-importsenasir" style="padding:3px 5px;"><i class="fa fa-bank"></i>Senasir</a></li>
                     <li role="separator" class="divider"></li>
-                    <li>
-                      <a href="" class="btn btn-raised btn-xs btn-primary" data-toggle="modal" data-target="#myModal-importaps">&nbsp;&nbsp;
-                          <span class="glyphicon glyphicon-import" aria-hidden="true">&nbsp;APS</span>&nbsp;&nbsp;
-                      </a>
-                    </li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-importaps" style="padding:3px 5px;"><i class="fa fa-bank"></i>APS</a></li>
                     <li role="separator" class="divider"></li>
-                    <li>
-                      <a href="" class="btn btn-raised btn-xs btn-primary" data-toggle="modal" data-target="#myModal-importbanco">&nbsp;&nbsp;
-                          <span class="glyphicon glyphicon-import" aria-hidden="true">&nbsp;Banco</span>&nbsp;&nbsp;
-                      </a>
-                    </li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-importbanco" style="padding:3px 5px;"><i class="fa fa-money"></i>Banco</a></li>
                 </ul>
             </div>
         </div>
