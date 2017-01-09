@@ -186,6 +186,25 @@ class EconomicComplementController extends Controller
         return view('economic_complements.reception_first_step', $data);
     }
 
+    public function ReceptionSecondStep($affiliate_id)
+    {
+        $eco_com_type = false;
+        $economic_complement = new EconomicComplement;
+
+        $data = [
+
+           'eco_com_type' => $eco_com_type,
+           'economic_complement' => $economic_complement
+
+        ];
+
+        $data = array_merge($data, self::getData($affiliate_id));
+        $data = array_merge($data, self::getViewModel());
+
+        // return $data;
+        return view('economic_complements.reception_second_step', $data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -289,13 +308,16 @@ class EconomicComplementController extends Controller
 
                     $message = "Proceso creado";
 
+                    Session::flash('message', $message);
+
+                    return view('economic_complements.reception_first_step', $data);
+
                 break;
             }
-            Session::flash('message', $message);
+
 
         // }
 
-        return redirect('economic_complement/'.$affiliate_id);
     }
 
 
