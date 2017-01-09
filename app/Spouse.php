@@ -48,7 +48,7 @@ class Spouse extends Model
         return Util::getDateEdit($this->birth_date);
     }
     public function getEditDateDeath(){
-        return Util::getDateEdit($this->birth_date);
+        return Util::getDateEdit($this->date_death);
     }
 
     public function getFullNametoPrint(){
