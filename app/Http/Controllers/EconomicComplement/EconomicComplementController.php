@@ -134,12 +134,15 @@ class EconomicComplementController extends Controller
 
         $year = Util::getYear(Carbon::now());
 
+        $semester = Util::getSemester(Carbon::now());
+
         return [
 
             'eco_com_states_list' => $eco_com_states_list,
             'eco_com_types_list' => $eco_com_types_list,
             'semester_list' => $semester_list,
-            'year' => $year
+            'year' => $year,
+            'semester' => $semester
 
         ];
     }

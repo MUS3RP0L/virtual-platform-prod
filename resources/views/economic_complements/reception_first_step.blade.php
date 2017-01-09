@@ -33,7 +33,32 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-6">
-
+                            <table class="table table-responsive" style="width:100%;">
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Semestre
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $semester !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Gestión
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $year !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                         <div class="col-md-6">
 
@@ -63,11 +88,40 @@
                     <h3 class="box-title">Selecciones el Tipo de Proceso</h3>
                 </div>
                 <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-12">
-
+                    {!! Form::open(['method' => 'POST', 'route' => ['complementary_factor.store'], 'class' => 'form-horizontal']) !!}
+                        <br>
+                        <div class="row center">
+                            <div class="col-md-6 col-md-offset-5">
+                                <div class="form-group">
+                                    <div class="radio radio-primary">
+                                        <label>
+                                            {!! Form::radio('eco_com_type', '1') !!} Vejez
+                                        </label>
+                                    </div>
+                                    <div class="radio radio-primary">
+                                        <label>
+                                            {!! Form::radio('eco_com_type', '2') !!} Viudedad
+                                        </label>
+                                    </div>
+                                    <div class="radio radio-primary">
+                                        <label>
+                                            {!! Form::radio('eco_com_type', '3') !!} Orfandad
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <a href="{!! url('ipc_rate') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                    &nbsp;&nbsp;
+                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                </div>
+                            </div>
+                        </div>
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>
