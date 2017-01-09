@@ -84,12 +84,13 @@ class EconomicComplement extends Model
     }
 
 
-    public function scopeIdIs($query, $id)
-    {
+    public function scopeIdIs($query, $id){
+        
         return $query->where('id', $id);
     }
 
     public function scopeAffiliateIs($query, $id){
-          return $query->where('affiliate_id', $id);
+
+        return $query->where('affiliate_id', $id);
     }
 }
