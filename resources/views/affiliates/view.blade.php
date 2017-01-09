@@ -327,7 +327,7 @@
                                                     Calle, Avenida
                                                 </div>
                                                 <div class="col-md-6">
-                                                    {!! $AffiliateAddress->Street !!}
+                                                    {!! $AffiliateAddress->street !!}
                                                 </div>
                                             </div>
                                         </td>
