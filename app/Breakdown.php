@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Breakdown extends Model
 {
-    protected $table = 'breakdowns';
+  protected $table = 'breakdowns';
 
 	protected $fillable = [
-		
+
 		'code',
 		'name'
 
@@ -18,7 +18,7 @@ class Breakdown extends Model
 	protected $guarded = ['id'];
 
 	public function units()
-    {
+  {
         return $this->hasMany('Muserpol\Unit');
-    }
+  }
 }

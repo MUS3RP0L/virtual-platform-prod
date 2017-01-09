@@ -13,7 +13,7 @@ class EconomicComplement extends Model
 
     protected $dates = ['deleted_at'];
 
-	protected $fillable = [
+	  protected $fillable = [
         'affiliate_id',
 		    'eco_com_modality_id',
 		    'eco_com_state_id',
@@ -34,7 +34,7 @@ class EconomicComplement extends Model
         'seniority',
         'quotable',
         'total'
-	];
+	  ];
 
 	protected $guarded = ['id'];
 

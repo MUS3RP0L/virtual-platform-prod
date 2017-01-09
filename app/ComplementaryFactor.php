@@ -8,7 +8,7 @@ use Muserpol\Helper\Util;
 
 class ComplementaryFactor extends Model
 {
-    protected $table = 'complementary_factors';
+  protected $table = 'complementary_factors';
 
 	protected $fillable = [
 
@@ -30,5 +30,5 @@ class ComplementaryFactor extends Model
 
           return $this->belongsTo('Muserpol\Hierarchy');
   }
-  
+
 }

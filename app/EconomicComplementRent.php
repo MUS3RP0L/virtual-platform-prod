@@ -17,13 +17,11 @@ class EconomicComplementRent extends Model
 
 	protected $guarded = ['id'];
 
-  public function degree()
-  {
+  public function degree(){
       return $this->belongsTo('Muserpol\Degree');
   }
 
-  public function economic_complement_type()
-  {
+  public function economic_complement_type(){
       return $this->belongsTo('Muserpol\EconomicComplementType');
   }
 

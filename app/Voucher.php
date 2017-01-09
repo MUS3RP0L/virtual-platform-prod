@@ -13,7 +13,7 @@ class Voucher extends Model
 
     protected $dates = ['deleted_at'];
 
-	protected $fillable = [
+	  protected $fillable = [
 
         'user_id',
         'affiliate_id',
@@ -24,17 +24,15 @@ class Voucher extends Model
         'total',
         'payment_date'
 
-	];
+	  ];
 
-	protected $guarded = ['id'];
+	  protected $guarded = ['id'];
 
     public function affiliate() {
-
         return $this->belongsTo('Muserpol\Affiliate');
     }
 
     public function voucher_type() {
-
         return $this->belongsTo('Muserpol\VoucherType');
     }
 
@@ -43,7 +41,6 @@ class Voucher extends Model
     }
 
     public function getCreationDate() {
-
         return Util::getDateShort($this->created_at);
     }
 

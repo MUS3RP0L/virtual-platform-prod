@@ -217,8 +217,6 @@ class Affiliate extends Model
         }
     }
 
-
-
     public function getEditDateDecommissioned()
     {
         return Util::getDateEdit($this->date_decommissioned);

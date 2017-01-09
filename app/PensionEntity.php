@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PensionEntity extends Model
 {
-    protected $table = 'pension_entities';
+  protected $table = 'pension_entities';
 
 	protected $fillable = [
 
@@ -17,8 +17,8 @@ class PensionEntity extends Model
 
 	protected $guarded = ['id'];
 
-	public function affiliates()
-    {
+	public function affiliates(){
     	return $this->hasMany('Muserpol\Affiliate');
-    }
+  }
+
 }

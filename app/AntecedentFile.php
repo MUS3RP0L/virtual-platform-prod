@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class AntecedentFile extends Model
 {
-    protected $table = 'antecedent_files';
+  protected $table = 'antecedent_files';
 
 	protected $fillable = [
-	
+
 		'name',
 		'shortened'
 	];

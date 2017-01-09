@@ -16,18 +16,8 @@ class User extends Model implements AuthenticatableContract,
 {
     use Authenticatable, Authorizable, CanResetPassword;
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
     protected $table = 'users';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'rol_id',
         'first_name',
@@ -38,25 +28,18 @@ class User extends Model implements AuthenticatableContract,
         'status'
     ];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
     protected $hidden = ['password'];
 
     public function role() {
-
         return $this->belongsTo(Role::class);
     }
 
     public function scopeIdIs($query, $id) {
-
         return $query->where('id', $id);
     }
 
     public function getFullName() {
-
         return $this->first_name . ' ' . $this->last_name;
     }
+    
 }

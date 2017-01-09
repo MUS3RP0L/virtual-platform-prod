@@ -20,8 +20,7 @@ class EconomicComplementRequirement extends Model
      return $this->belongsTo('Muserpol\EconomicComplementType');
   }
 
-  public function economic_complement_submitted_documents()
-  {
+  public function economic_complement_submitted_documents(){
         return $this->hasMany('Muserpol\EconomicComplementSubmittedDocument');
   }
 

@@ -26,8 +26,7 @@ class EconomicComplementState extends Model
          return $this->belongsTo('Muserpol\EconomicComplementStateType');
      }
 
-    public function scopeNameIs($query, $ci)
-    {
+    public function scopeNameIs($query, $ci){
         return $query->where('name', $ci);
     }
 }

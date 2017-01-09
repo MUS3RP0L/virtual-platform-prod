@@ -137,7 +137,7 @@ class Activity extends Model
 		if (Auth::user())
 		{
 			$RetirementFund = RetirementFund::findOrFail($antecedent->retirement_fund_id);
-		    $affiliate = Affiliate::findOrFail($RetirementFund->affiliate_id);
+		  $affiliate = Affiliate::findOrFail($RetirementFund->affiliate_id);
 			$activity = new Activity;
 			$activity->user_id = Auth::user()->id;
 			$activity->affiliate_id = $RetirementFund->affiliate_id;
@@ -166,7 +166,7 @@ class Activity extends Model
 	{
 		if (Auth::user())
 		{
-		    $activity = new Activity;
+		  $activity = new Activity;
 			$activity->user_id = Auth::user()->id;
 			$activity->affiliate_id = $spouse->affiliate_id;
 			$activity->spouse_id = $spouse->id;
@@ -181,7 +181,7 @@ class Activity extends Model
 		if (Auth::user())
 		{
 			$RetirementFund = RetirementFund::findOrFail($applicant->retirement_fund_id);
-		    $affiliate = Affiliate::findOrFail($RetirementFund->affiliate_id);
+		  $affiliate = Affiliate::findOrFail($RetirementFund->affiliate_id);
 			$activity = new Activity;
 			$activity->user_id = Auth::user()->id;
 			$activity->affiliate_id = $RetirementFund->affiliate_id;

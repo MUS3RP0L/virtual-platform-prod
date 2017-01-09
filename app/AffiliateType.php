@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AffiliateType extends Model
 {
-    protected $table = 'affiliate_types';
+  protected $table = 'affiliate_types';
 
 	protected $fillable = [
 

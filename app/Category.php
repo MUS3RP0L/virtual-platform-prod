@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $table = 'categories';
+  protected $table = 'categories';
 
 	protected $fillable = [
 
@@ -20,17 +20,17 @@ class Category extends Model
 	protected $guarded = ['id'];
 
 	public function affiliates()
-    {
+  {
     	return $this->hasMany('Muserpol\Affiliate');
-    }
+  }
 
-    public function contribtions()
-    {
+  public function contribtions()
+  {
     	return $this->hasMany('Muserpol\Contribution');
-    }
+  }
 
-    public function economic_complements(){
+  public function economic_complements(){
 
           return $this->hasMany('Muserpol\EconomicComplement');
-    }
+  }
 }

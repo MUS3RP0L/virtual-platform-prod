@@ -8,7 +8,7 @@ use Muserpol\Helper\Util;
 
 class Applicant extends Model
 {
-    protected $table = 'applicants';
+  protected $table = 'applicants';
 
 	protected $fillable = [
 

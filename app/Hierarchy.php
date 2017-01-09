@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Hierarchy extends Model
 {
-    protected $table = 'hierarchies';
+  protected $table = 'hierarchies';
 
 	protected $fillable = [
 
@@ -17,13 +17,11 @@ class Hierarchy extends Model
 
 	protected $guarded = ['id'];
 
-  public function degrees()
-  {
+  public function degrees(){
     return $this->hasMany('Muserpol\Degree');
   }
 
-  public function complementary_factors()
-  {
+  public function complementary_factors(){
     return $this->hasMany('Muserpol\ComplementaryFactor');
   }
 
