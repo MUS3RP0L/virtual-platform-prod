@@ -88,26 +88,26 @@
                     <h3 class="box-title">Selecciones el Tipo de Proceso</h3>
                 </div>
                 <div class="box-body">
-                    {!! Form::open(['method' => 'POST', 'route' => ['complementary_factor.store'], 'class' => 'form-horizontal']) !!}
+                    {!! Form::open(['method' => 'POST', 'route' => ['economic_complement.store'], 'class' => 'form-horizontal']) !!}
                         <br>
-                        <div class="row center">
+                        <div class="row">
                             <div class="col-md-6 col-md-offset-5">
                                 <div class="form-group">
                                     <div class="radio radio-primary">
                                         <label>
-                                            {!! Form::radio('eco_com_type', '1') !!} Vejez
+                                            {!! Form::radio('eco_com_type', '1', ($eco_com_type == '1'), ['required' => 'required']) !!} Vejez
                                         </label>
-                                    </div>
+                                    </div><br>
                                     <div class="radio radio-primary">
                                         <label>
-                                            {!! Form::radio('eco_com_type', '2') !!} Viudedad
+                                            {!! Form::radio('eco_com_type', '2', ($eco_com_type == '2')) !!} Viudedad
                                         </label>
-                                    </div>
+                                    </div><br>
                                     <div class="radio radio-primary">
                                         <label>
-                                            {!! Form::radio('eco_com_type', '3') !!} Orfandad
+                                            {!! Form::radio('eco_com_type', '3', ($eco_com_type == '3')) !!} Orfandad
                                         </label>
-                                    </div>
+                                    </div><br>
                                 </div>
                             </div>
                         </div>

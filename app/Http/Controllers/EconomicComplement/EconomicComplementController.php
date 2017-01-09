@@ -163,8 +163,18 @@ class EconomicComplementController extends Controller
 
     public function ReceptionFirstStep($affiliate_id)
     {
-        $data = array_merge(self::getData($affiliate_id), self::getViewModel());
+        $eco_com_type = false;
 
+        $data = [
+
+           'eco_com_type' => $eco_com_type
+
+        ];
+
+        $data = array_merge($data, self::getData($affiliate_id));
+        $data = array_merge($data, self::getViewModel());
+
+        // return $data;
         return view('economic_complements.reception_first_step', $data);
     }
 
@@ -176,7 +186,7 @@ class EconomicComplementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $request;
     }
 
     /**
