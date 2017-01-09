@@ -29,32 +29,7 @@ class EconomicComplementController extends Controller
 
     public function index()
     {
-        $eco_com_states = EconomicComplementState::all();
-        $eco_com_states_list =  ['' => ''];
-        foreach ($eco_com_states as $item) {
-            $eco_com_states_list[$item->id]=$item->name;
-        }
-
-        $eco_com_types = EconomicComplementType::all();
-        $eco_com_types_list = array('' => '');
-        foreach ($eco_com_types as $item) {
-            $eco_com_types_list[$item->id]=$item->name;
-        }
-
-        $year = Util::getYear(Carbon::now());
-        $semestre = ['F' => 'Primer', 'S' => 'Segundo'];
-        foreach ($semestre as $item) {
-            $semester_list[$item]=$item;
-        }
-
-        $data = [
-            'eco_com_states_list' => $eco_com_states_list,
-            'eco_com_types_list' => $eco_com_types_list,
-            'year' => $year,
-            'semester_list' => $semester_list
-        ];
-
-        return view('economic_complements.index', $data);
+        return view('economic_complements.index', self::getViewModel());
     }
 
     public function getEconomicComplementType(Request $request, $id)
@@ -140,15 +115,31 @@ class EconomicComplementController extends Controller
 
     public static function getViewModel()
     {
+        $eco_com_states = EconomicComplementState::all();
+        $eco_com_states_list =  ['' => ''];
+        foreach ($eco_com_states as $item) {
+            $eco_com_states_list[$item->id]=$item->name;
+        }
+
         $eco_com_types = EconomicComplementType::all();
         $eco_com_types_list = array('' => '');
         foreach ($eco_com_types as $item) {
             $eco_com_types_list[$item->id]=$item->name;
         }
 
+        $semestre = ['F' => 'Primer', 'S' => 'Segundo'];
+        foreach ($semestre as $item) {
+            $semester_list[$item]=$item;
+        }
+
+        $year = Util::getYear(Carbon::now());
+
         return [
 
-           'eco_com_types_list' => $eco_com_types_list
+            'eco_com_states_list' => $eco_com_states_list,
+            'eco_com_types_list' => $eco_com_types_list,
+            'semester_list' => $semester_list,
+            'year' => $year
 
         ];
     }
@@ -169,7 +160,9 @@ class EconomicComplementController extends Controller
 
     public function ReceptionFirstStep($affiliate_id)
     {
-        return view('economic_complements.reception_first_step', self::getData($affiliate_id));
+        $data = array_merge(self::getData($affiliate_id), self::getViewModel());
+
+        return view('economic_complements.reception_first_step', $data);
     }
 
     /**
