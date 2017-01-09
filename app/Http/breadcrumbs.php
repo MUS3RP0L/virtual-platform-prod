@@ -100,9 +100,9 @@
     });
 
 
-    // Complementarity Factor
-    Breadcrumbs::register('complementarity_factors', function($breadcrumbs) {
-        $breadcrumbs->push('Factor de Complementación', URL::to('complementarity_factor'));
+    // Complementary Factor
+    Breadcrumbs::register('complementary_factors', function($breadcrumbs) {
+        $breadcrumbs->push('Factor de Complementación', URL::to('complementary_factor'));
     });
 
 

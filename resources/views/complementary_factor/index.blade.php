@@ -4,7 +4,7 @@
 
     <div class="row">
         <div class="col-md-8">
-            {!! Breadcrumbs::render('complementarity_factors') !!}
+            {!! Breadcrumbs::render('complementary_factors') !!}
         </div>
         <div class="col-md-4 text-right">
             @can('manage')
@@ -26,7 +26,7 @@
                     <h3 class="panel-title">Caso Vejez</h3>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-hover" id="complementarity_factor_old_age-table">
+                    <table class="table table-bordered table-hover" id="complementary_factor_old_age-table">
                         <thead>
                             <tr class="success">
                                 <th>AÑO</th>
@@ -336,7 +336,7 @@
                             <div class="row text-center">
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                        <a href="{!! url('ipc_rate') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                        <a href="{!! url('complementary_factor') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
                                         &nbsp;&nbsp;
                                         <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
                                     </div>
@@ -367,7 +367,7 @@
         });
 
         $(function() {
-            $('#complementarity_factor_old_age-table').DataTable({
+            $('#complementary_factor_old_age-table').DataTable({
                 "dom": '<"top">t<"bottom"p>',
                 "order": [[ 0, "desc" ]],
                 processing: true,
