@@ -88,10 +88,11 @@
                     <h3 class="box-title">Selecciones el Tipo de Proceso</h3>
                 </div>
                 <div class="box-body">
-                    {!! Form::open(['method' => 'POST', 'route' => ['economic_complement.store'], 'class' => 'form-horizontal']) !!}
+                    {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $affiliate->id], 'class' => 'form-horizontal']) !!}
                         <br>
+                        <input type="hidden" name="step" value="first"/>
                         <div class="row">
-                            <div class="col-md-6 col-md-offset-5">
+                            <div class="col-md-4 col-md-offset-2">
                                 <div class="form-group">
                                     <div class="radio radio-primary">
                                         <label>
@@ -110,14 +111,21 @@
                                     </div><br>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                            {!! Form::label('city', 'Ciudad', ['class' => 'col-md-4 control-label']) !!}
+                                    <div class="col-md-8">
+                                        {!! Form::select('city', $cities_list, $economic_complement->city_id, ['class' => 'combobox form-control', 'required' ]) !!}
+                                        <span class="help-block">Seleccione el departamento</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row text-center">
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <a href="{!! url('ipc_rate') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
-                                    &nbsp;&nbsp;
-                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Siguiente">&nbsp;<i class="fa fa-arrow-right"></i>&nbsp;</button>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +138,12 @@
 @endsection
 
 @push('scripts')
-    <script>
+    <script type="text/javascript">
 
+        $(document).ready(function(){
+            $('.combobox').combobox();
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        
     </script>
 @endpush

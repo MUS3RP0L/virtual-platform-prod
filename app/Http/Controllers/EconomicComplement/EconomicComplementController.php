@@ -18,6 +18,7 @@ use Muserpol\EconomicComplementState;
 use Muserpol\EconomicComplementType;
 use Muserpol\EconomicComplementModality;
 use Muserpol\Affiliate;
+use Muserpol\City;
 
 class EconomicComplementController extends Controller
 {
@@ -127,12 +128,16 @@ class EconomicComplementController extends Controller
             $eco_com_types_list[$item->id]=$item->name;
         }
 
+        $city = City::all();
+        $cities_list = array('' => '');
+        foreach ($city as $item) {
+             $cities_list[$item->id]=$item->name;
+        }
+
         $semestre = ['F' => 'Primer', 'S' => 'Segundo'];
         foreach ($semestre as $item) {
             $semester_list[$item]=$item;
         }
-
-        $year = Util::getYear(Carbon::now());
 
         $semester = Util::getSemester(Carbon::now());
 
@@ -141,7 +146,8 @@ class EconomicComplementController extends Controller
             'eco_com_states_list' => $eco_com_states_list,
             'eco_com_types_list' => $eco_com_types_list,
             'semester_list' => $semester_list,
-            'year' => $year,
+            'cities_list' => $cities_list,
+            'year' => Carbon::now()->year,
             'semester' => $semester
 
         ];
@@ -164,10 +170,12 @@ class EconomicComplementController extends Controller
     public function ReceptionFirstStep($affiliate_id)
     {
         $eco_com_type = false;
+        $economic_complement = new EconomicComplement;
 
         $data = [
 
-           'eco_com_type' => $eco_com_type
+           'eco_com_type' => $eco_com_type,
+           'economic_complement' => $economic_complement
 
         ];
 
@@ -184,9 +192,18 @@ class EconomicComplementController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function GenerateReceptionFirstStep(Request $request)
+    {
+
+
+        return $request;
+    }
+
+
     public function store(Request $request)
     {
-        return $request;
+        //
     }
 
     /**
@@ -218,10 +235,69 @@ class EconomicComplementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+
+    public function update(Request $request, $affiliate_id)
     {
-        //
+        return $this->save($request, $affiliate_id);
     }
+
+    public function save($request, $affiliate_id = false)
+    {
+        // $rules = [
+        //
+        // ];
+        //
+        // $messages = [
+        //
+        // ];
+        //
+        // $validator = Validator::make($request->all(), $rules, $messages);
+        //
+        // if ($validator->fails()){
+        //     return redirect('tramite_fondo_retiro/'.$id)
+        //     ->withErrors($validator)
+        //     ->withInput();
+        // }
+        // else{
+
+            $data = self::getViewModel();
+            $economic_complement = EconomicComplement::affiliateIs($affiliate_id)->whereYear('created_at', '=', $data['year'])->where('semester', '=', $data['semester'])->first();
+
+            if (!$economic_complement) {
+
+                $economic_complement = new EconomicComplement;
+                if ($last_economic_complement = EconomicComplement::whereYear('created_at', '=', $data['year'])->where('semester', '=', $data['semester'])->where('deleted_at', '=', null)->orderBy('id', 'desc')->first()) {
+                    $number_code = Util::separateCode($last_economic_complement->code);
+                    $code = $number_code + 1;
+                }else{
+                    $code = 1;
+                }
+                $economic_complement->code = $code . "/" . $data['year'];
+                $economic_complement->affiliate_id = $affiliate_id;
+                //add down * $economic_complement->save();
+            }
+
+            switch ($request->step) {
+
+                case 'first':
+                    $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
+                    $economic_complement->eco_com_modality_id = $eco_com_modality->id;
+                    $economic_complement->eco_com_state_id = 1;
+                    $economic_complement->city_id = trim($request->city);
+
+                    $economic_complement->save();
+
+                    $message = "Proceso creado";
+
+                break;
+            }
+            Session::flash('message', $message);
+
+        // }
+
+        return redirect('economic_complement/'.$affiliate_id);
+    }
+
 
     /**
      * Remove the specified resource from storage.
