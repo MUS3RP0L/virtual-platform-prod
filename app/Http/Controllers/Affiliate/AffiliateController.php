@@ -232,7 +232,7 @@ class AffiliateController extends Controller
     }
 
     public function save($request, $affiliate = false)
-    {
+    {   //return response()->json($request->cell_phone);
         $rules = [
 
             'last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
@@ -240,8 +240,6 @@ class AffiliateController extends Controller
             'first_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
             'second_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
             'surname_husband' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-            'phone' =>'numeric',
-            'cell_phone' =>'numeric'
 
         ];
 
@@ -261,11 +259,6 @@ class AffiliateController extends Controller
 
             'surname_husband.min' => 'El mínimo de caracteres permitidos para estado civil es 3',
             'surname_husband.regex' => 'Sólo se aceptan letras para estado civil',
-
-            'phone.numeric' => 'Sólo se aceptan números para teléfono',
-
-            'cell_phone.numeric' => 'Sólo se aceptan números para celular'
-
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -293,6 +286,8 @@ class AffiliateController extends Controller
                     $affiliate->birth_date = Util::datePick($request->birth_date);
                     $affiliate->civil_status = trim($request->civil_status);
                     if ($request->city_birth_id) { $affiliate->city_birth_id = $request->city_birth_id; } else { $affiliate->city_birth_id = null; }
+                    $affiliate->phone = trim($request->phone);
+                    $affiliate->cell_phone = trim($request->cell_phone);
                     if ($request->DateDeathAffiliateCheck == "on") {
                         $affiliate->date_death = Util::datePick($request->date_death);
                         $affiliate->reason_death = trim($request->reason_death);

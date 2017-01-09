@@ -803,7 +803,6 @@
                                         {!! Form::label('cell_phone', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
                                         <input type="text" id="cell_phone" class="form-control" name="cell_phone" value="{!! $affiliate->cell_phone !!}" data-inputmask="'mask': '(999)-99999'" data-mask>
-                                        {!! Form::text('cell_phone', $affiliate->cell_phone, ['class'=> 'form-control']) !!}
                                         <span class="help-block">Escriba el Teléfono Celular</span>
                                     </div>
                                 </div>
