@@ -392,7 +392,7 @@
                                                     Carnet Identidad
                                                 </div>
                                                 <div class="col-md-6">
-                                                     {!! $spouse->identity_card !!}
+                                                     {!! $spouse->identity_card !!} {!! $spouse->city_identity_card !!}
                                                 </div>
                                             </div>
                                         </td>
@@ -934,10 +934,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                         {!! Form::label('identity_card', ' Carnet de Identidad', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-7">
+                                    <div class="col-md-5">
                                         {!! Form::text('identity_card', $spouse->identity_card, ['class'=> 'form-control', 'required']) !!}
                                         <span class="help-block">Escriba el Carnet de Identidad</span>
                                     </div>
+                                    {!! Form::select('city_identity_card_id', $cities_list_short, $spouse->city_identity_card_id, ['class' => 'col-md-2 combobox form-control']) !!}
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}

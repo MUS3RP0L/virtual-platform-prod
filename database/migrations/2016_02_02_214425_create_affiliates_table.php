@@ -183,6 +183,7 @@ class CreateAffiliatesTable extends Migration
             $table->bigIncrements('id');
             $table->UnsignedBigInteger('user_id');
             $table->UnsignedBigInteger('affiliate_id');
+            $table->UnsignedBigInteger('city_identity_card_id')->nullable();
             $table->string('identity_card')->required();
             $table->string('last_name')->nullable();
             $table->string('mothers_last_name')->nullable();
@@ -194,6 +195,7 @@ class CreateAffiliatesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('city_identity_card_id')->references('id')->on('cities');
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
 
         });

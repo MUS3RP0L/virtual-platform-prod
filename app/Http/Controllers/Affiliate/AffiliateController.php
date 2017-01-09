@@ -141,6 +141,11 @@ class AffiliateController extends Controller
 
         $spouse = Spouse::affiliateidIs($affiliate->id)->first();
         if (!$spouse) { $spouse = new Spouse; }
+        if ($spouse->city_identity_card_id) {
+            $spouse->city_identity_card = City::idIs($spouse->city_identity_card_id)->first()->shortened;
+        }else {
+            $spouse->city_identity_card = '';
+        }
 
 
         if ($affiliate->gender == 'M') {
