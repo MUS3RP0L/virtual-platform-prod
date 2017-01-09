@@ -90,7 +90,7 @@ class CreateEconomicComplementsTable extends Migration
             $table->UnsignedBigInteger('eco_com_modality_id');
             $table->UnsignedBigInteger('eco_com_state_id');
             $table->UnsignedBigInteger('city_id');
-            $table->UnsignedBigInteger('category_id');
+            $table->UnsignedBigInteger('category_id')->nullable();
             $table->UnsignedBigInteger('base_wage_id')->nullable();
             $table->UnsignedBigInteger('complementary_factor_id')->nullable();
 
