@@ -73,9 +73,9 @@
         <div class="col-md-12">
             <div class="form-group">
                 <ul class="nav nav-pills" style="display:flex;justify-content:center;">
-                    <li class="active"><a href="#"><span class="badge">1</span> Selecciones el Tipo de Proceso</a></li>
-                    <li><a href="#"><span class="badge">2</span> Añada los Beneficiario</a></li>
-                    <li><a href="#"><span class="badge">3</span> Seleccione Requisitos</a></li>
+                    <li class="active"><a href="#"><span class="badge">1</span> Tipo de Proceso</a></li>
+                    <li><a href="#"><span class="badge">2</span> Beneficiario</a></li>
+                    <li><a href="#"><span class="badge">3</span> Requisitos</a></li>
                 </ul>
             </div>
         </div>
@@ -144,6 +144,6 @@
             $('.combobox').combobox();
             $('[data-toggle="tooltip"]').tooltip();
         });
-        
+
     </script>
 @endpush
