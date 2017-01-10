@@ -24,8 +24,7 @@ class EconomicComplementApplicantTypeTableSeeder extends Seeder
 
             ['name' => 'Titular'],
             ['name' => 'Conyuge'],
-            ['name' => 'Hijo'],
-            ['name' => 'Apoderado']
+            ['name' => 'Hijo']
 
         ];
 
