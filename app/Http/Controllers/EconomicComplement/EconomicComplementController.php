@@ -318,26 +318,19 @@ class EconomicComplementController extends Controller
                     if (!$applicant) {
 
                         $eco_com_applicant = new EconomicComplementApplicant;
-
-
                         $applicant->economic_complement_id = $economic_complement->id;
 
                         switch ($request->eco_com_type) {
                             case '1':
 
                                 $affiliate = Affiliate::idIs($affiliate_id)->first();
-
                                 $applicant->eco_com_applicant_type_id = $request->eco_com_type;
+                                $applicant->identity_card = $affiliate->identity_card;
+                                $applicant->city_identity_card_id = $request->city_identity_card_id;
+                                $applicant->last_name = $affiliate->last_name;
+                                $applicant->mothers_last_name = $affiliate->mothers_last_name;
+                                $applicant->first_name = $affiliate->first_name;
 
-                                $applicant->identity_card = $affiliate->identity_card);
-                                $applicant->last_name = trim($request->last_name);
-                                $applicant->mothers_last_name = trim($request->mothers_last_name);
-                                $applicant->first_name = trim($request->first_name);
-                                $applicant->kinship = trim($request->kinship);
-                                $applicant->home_address = trim($request->home_address);
-                                $applicant->home_phone_number = trim($request->home_phone_number);
-                                $applicant->home_cell_phone_number = trim($request->home_cell_phone_number);
-                                $applicant->work_address = trim($request->work_address);
                             break;
                             case '2':
                             # code...
@@ -350,11 +343,6 @@ class EconomicComplementController extends Controller
                         $applicant->save();
 
                     }
-
-
-
-
-
 
                     return redirect('economic_complement_reception_second_step/'.$affiliate_id);
 
