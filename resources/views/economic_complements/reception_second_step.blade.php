@@ -61,7 +61,20 @@
                             </table>
                         </div>
                         <div class="col-md-6">
-
+                            <table class="table table-responsive" style="width:100%;">
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Tipo
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $eco_com_type !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -85,14 +98,76 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="box box-warning">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Añadir Beneficiario</h3>
+                    <h3 class="box-title">Añadir {{ eco_com_applicant_type->name }}</h3>
                 </div>
                 <div class="box-body">
-                    {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $affiliate->id], 'class' => 'form-horizontal']) !!}
+                    {!! Form::model($eco_com_applicant, ['method' => 'PATCH', 'route' => ['applicant.update', $affiliate->id], 'class' => 'form-horizontal']) !!}
                         <br>
                         <input type="hidden" name="step" value="second"/>
                         <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                        {!! Form::label('identity_card', 'Carnet Identidad', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('identity_card', $eco_com_applicant->identity_card,['class'=> 'form-control', 'required', 'data-bind' => 'value: soli_identity_card']) !!}
+                                        <span class="help-block">Núm. Carnet de Identidad</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('last_name', $eco_com_applicant->last_name, ['class'=> 'form-control', 'required', 'onkeyup' => 'this.value=this.value.toUpperCase()', 'data-bind' => 'value: soli_last_name']) !!}
+                                        <span class="help-block">Escriba Apellido Paterno</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('mothers_last_name', 'Apellido Materno', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('mothers_last_name', $eco_com_applicant->mothers_last_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()', 'data-bind' => 'value: soli_mothers_last_name']) !!}
+                                        <span class="help-block">Escriba Apellido Materno</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('first_name', 'Nombre(s)', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('first_name', $eco_com_applicant->first_name, ['class'=> 'form-control', 'required', 'onkeyup' => 'this.value=this.value.toUpperCase()', 'data-bind' => 'value: soli_first_name']) !!}
+                                        <span class="help-block">Escriba los Nombre(s)</span>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        {!! Form::label('home_address', 'Domicilio  Actual', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('home_address', $eco_com_applicant->home_address, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()', 'data-bind' => 'value: soli_home_address']) !!}
+                                        <span class="help-block">Escriba Domicilio Actual</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('home_phone_number', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('home_phone_number', $eco_com_applicant->home_phone_number, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()', 'data-bind' => 'value: soli_home_phone_number']) !!}
+                                        <span class="help-block">Escriba Número Teléfono fijo</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('home_cell_phone_number', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('home_cell_phone_number', $eco_com_applicant->home_cell_phone_number, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()', 'data-bind' => 'value: soli_home_cell_phone_number']) !!}
+                                        <span class="help-block">Escriba NúmeroTeléfono Celular</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('home_address', 'Domicilio Trabajo', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('home_address', $eco_com_applicant->home_address, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba Domicilio de Trabajo</span>
+                                    </div>
+                                </div>
+
+
+                            </div>
 
                         </div>
 

@@ -17,6 +17,8 @@ use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementState;
 use Muserpol\EconomicComplementType;
 use Muserpol\EconomicComplementModality;
+use Muserpol\EconomicComplementApplicant;
+use Muserpol\EconomicComplementApplicantType;
 use Muserpol\Affiliate;
 use Muserpol\City;
 
@@ -41,7 +43,6 @@ class EconomicComplementController extends Controller
             return response()->json($modalities);
         }
     }
-
 
     public function Data(Request $request)
     {
@@ -72,7 +73,6 @@ class EconomicComplementController extends Controller
                 $economic_complements->where('affiliate_id', 'like', "%{$affiliate->id}%");
             });
         }
-
         if ($request->has('eco_com_state_id'))
         {
             $economic_complements->where(function($economic_complements) use ($request)
@@ -81,7 +81,6 @@ class EconomicComplementController extends Controller
                 $economic_complements->where('eco_com_state_id', 'like', "%{$eco_com_state_id}%");
             });
         }
-
         if ($request->has('eco_com_modality_id'))
         {
             $economic_complements->where(function($economic_complements) use ($request)
@@ -90,7 +89,6 @@ class EconomicComplementController extends Controller
                 $economic_complements->where('eco_com_state_id', 'like', "%{$eco_com_modality_id}%");
             });
         }
-
         return Datatables::of($economic_complements)
                 ->addColumn('affiliate_identitycard', function ($economic_complement) { return $economic_complement->affiliate->identity_card; })
                 ->addColumn('affiliate_name', function ($economic_complement) { return $economic_complement->affiliate->getTittleName(); })
@@ -188,18 +186,29 @@ class EconomicComplementController extends Controller
     public function ReceptionSecondStep($affiliate_id)
     {
         $data = self::getViewModel();
-        $economic_complement = EconomicComplement::affiliateIs($affiliate_id)->whereYear('created_at', '=', $data['year'])->where('semester', '=', $data['semester'])->first();
+        $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
+                                ->whereYear('created_at', '=', $data['year'])
+                                ->where('semester', '=', $data['semester'])->first();
+
+        $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
+
+        $eco_com_applicant_type = EconomicComplementApplicantType::idIs($eco_com_type->id)->first();
+
 
         $data = [
 
-           'economic_complement' => $economic_complement
+            'eco_com_type' => $eco_com_type->name,
+            'eco_com_applicant_type' => $eco_com_applicant_type,
+            'economic_complement' => $economic_complement,
+            'eco_com_applicant' => $eco_com_applicant
 
         ];
+        return $data;
 
-        $data = array_merge($data, self::getData($affiliate_id));
-        $data = array_merge($data, self::getViewModel());
+        // $data = array_merge($data, self::getData($affiliate_id));
+        // $data = array_merge($data, self::getViewModel());
 
-        return view('economic_complements.reception_second_step', $data);
+        // return view('economic_complements.reception_second_step', $data);
     }
 
     /**
@@ -278,12 +287,16 @@ class EconomicComplementController extends Controller
                 else{
 
                     $data = self::getViewModel();
-                    $economic_complement = EconomicComplement::affiliateIs($affiliate_id)->whereYear('created_at', '=', $data['year'])->where('semester', '=', $data['semester'])->first();
+                    $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
+                                                ->whereYear('created_at', '=', $data['year'])
+                                                ->where('semester', '=', $data['semester'])->first();
 
                     if (!$economic_complement) {
 
                         $economic_complement = new EconomicComplement;
-                        if ($last_economic_complement = EconomicComplement::whereYear('created_at', '=', $data['year'])->where('semester', '=', $data['semester'])->where('deleted_at', '=', null)->orderBy('id', 'desc')->first()) {
+                        if ($last_economic_complement = EconomicComplement::whereYear('created_at', '=', $data['year'])
+                                                            ->where('semester', '=', $data['semester'])
+                                                            ->where('deleted_at', '=', null)->orderBy('id', 'desc')->first()) {
                             $number_code = Util::separateCode($last_economic_complement->code);
                             $code = $number_code + 1;
                         }else{
@@ -299,14 +312,110 @@ class EconomicComplementController extends Controller
                     $economic_complement->city_id = trim($request->city);
                     $economic_complement->save();
 
-                    $message = "Proceso creado";
+
+                    $applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+
+                    if (!$applicant) {
+
+                        $eco_com_applicant = new EconomicComplementApplicant;
 
 
-                    Session::flash('message', $message);
+                        $applicant->economic_complement_id = $economic_complement->id;
+
+                        switch ($request->eco_com_type) {
+                            case '1':
+
+                                $affiliate = Affiliate::idIs($affiliate_id)->first();
+
+                                $applicant->eco_com_applicant_type_id = $request->eco_com_type;
+
+                                $applicant->identity_card = $affiliate->identity_card);
+                                $applicant->last_name = trim($request->last_name);
+                                $applicant->mothers_last_name = trim($request->mothers_last_name);
+                                $applicant->first_name = trim($request->first_name);
+                                $applicant->kinship = trim($request->kinship);
+                                $applicant->home_address = trim($request->home_address);
+                                $applicant->home_phone_number = trim($request->home_phone_number);
+                                $applicant->home_cell_phone_number = trim($request->home_cell_phone_number);
+                                $applicant->work_address = trim($request->work_address);
+                            break;
+                            case '2':
+                            # code...
+                            break;
+                            case '3':
+                            # code...
+                            break;
+                        }
+
+                        $applicant->save();
+
+                    }
+
+
+
+
+
 
                     return redirect('economic_complement_reception_second_step/'.$affiliate_id);
 
                 }
+            break;
+
+            case 'second':
+
+                $rules = [
+
+                    'identity_card' => 'min:4',
+                    'last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+                    'first_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+                    'home_phone_number' =>'numeric',
+                    'home_cell_phone_number' =>'numeric',
+                ];
+
+                $messages = [
+
+                    'identity_card.min' => 'El mínimo de caracteres permitidos para Carnet de Identidad es 4',
+                    'last_name.min' => 'El mínimo de caracteres permitidos para apellido paterno es 3',
+                    'last_name.regex' => 'Sólo se aceptan letras para apellido paterno',
+                    'first_name.min' => 'El mínimo de caracteres permitidos para nombres es 3',
+                    'first_name.regex' => 'Sólo se aceptan letras para primer nombre',
+                    'home_phone_number.numeric' => 'Sólo se aceptan números para teléfono',
+                    'home_cell_phone_number.numeric' => 'Sólo se aceptan números para celular',
+                ];
+
+                $validator = Validator::make($request->all(), $rules, $messages);
+
+                if ($validator->fails()){
+                    return redirect('retirement_fund/' . $retirement_fund_id)
+                    ->withErrors($validator)
+                    ->withInput();
+                }
+                else{
+
+                    $RetirementFund = RetirementFund::afiIs($retirement_fund_id)->where('deleted_at', '=', null)->orderBy('id', 'desc')->first();
+                    $applicant = Applicant::retirementFundIs($RetirementFund->id)->orderBy('id', 'asc')->first();
+
+                    if (!$applicant) {
+                        $applicant = new Applicant;
+                    }
+
+                    $applicant_type = ApplicantType::where('id', '=', $request->type_applicant)->first();
+                    $applicant->applicant_type_id = $applicant_type->id;
+                    $applicant->retirement_fund_id = $RetirementFund->id;
+                    $applicant->identity_card = trim($request->identity_card);
+                    $applicant->last_name = trim($request->last_name);
+                    $applicant->mothers_last_name = trim($request->mothers_last_name);
+                    $applicant->first_name = trim($request->first_name);
+                    $applicant->kinship = trim($request->kinship);
+                    $applicant->home_address = trim($request->home_address);
+                    $applicant->home_phone_number = trim($request->home_phone_number);
+                    $applicant->home_cell_phone_number = trim($request->home_cell_phone_number);
+                    $applicant->work_address = trim($request->work_address);
+
+                    $applicant->save();
+
+                }
+
             break;
         }
 
