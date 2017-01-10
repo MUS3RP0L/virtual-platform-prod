@@ -271,7 +271,7 @@ class EconomicComplementController extends Controller
                 $validator = Validator::make($request->all(), $rules, $messages);
 
                 if ($validator->fails()){
-                    return redirect('tramite_fondo_retiro/'.$id)
+                    return redirect('economic_complement_reception_second_step/'.$affiliate_id)
                     ->withErrors($validator)
                     ->withInput();
                 }
