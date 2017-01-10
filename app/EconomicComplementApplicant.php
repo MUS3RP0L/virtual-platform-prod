@@ -21,17 +21,23 @@ class EconomicComplementApplicant extends Model
       'home_cell_phone_number',
       'work_address'
     ];
-  protected $guarded = ['id'];
 
-  public function economic_complement(){
+    protected $guarded = ['id'];
 
-            return $this->belongsTo('Muserpol\EconomicComplement');
-  }
+    public function economic_complement(){
 
-  public function economic_complement_applicant_type(){
+        return $this->belongsTo('Muserpol\EconomicComplement');
+    }
 
-            return $this->belongsTo('Muserpol\EconomicComplementApplicantType');
-  }
+    public function economic_complement_applicant_type(){
+
+        return $this->belongsTo('Muserpol\EconomicComplementApplicantType');
+    }
+
+    public function scopeEconomicComplementIs($query, $id)
+    {
+        return $query->where('economic_complement_id', $id);
+    }
 
 
 }
