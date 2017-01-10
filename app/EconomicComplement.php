@@ -46,13 +46,13 @@ class EconomicComplement extends Model
 
 	public function economic_complement_state(){
 
-        return $this->belongsTo('Muserpol\EconomicComplementState');
+        return $this->belongsTo('Muserpol\EconomicComplementState', 'id');
     }
 
     public function economic_complement_modality(){
-
-        return $this->belongsTo('Muserpol\EconomicComplementModality');
+        return $this->belongsTo('Muserpol\EconomicComplementModality', 'id');
     }
+
     public function city(){
 
         return $this->belongsTo('Muserpol\City');
@@ -85,7 +85,6 @@ class EconomicComplement extends Model
 
 
     public function scopeIdIs($query, $id){
-        
         return $query->where('id', $id);
     }
 

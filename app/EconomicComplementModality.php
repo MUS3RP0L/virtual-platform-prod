@@ -22,7 +22,7 @@ class EconomicComplementModality extends Model
     }
 
     public function economic_complement_type(){
-           return $this->belongsTo('Muserpol\EconomicComplementType');
+           return $this->belongsTo('Muserpol\EconomicComplementType', 'id');
     }
 
     public function scopeTypeidIs($query, $id){
