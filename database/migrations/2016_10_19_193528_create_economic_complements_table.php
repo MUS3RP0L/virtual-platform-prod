@@ -178,6 +178,7 @@ class CreateEconomicComplementsTable extends Migration
             $table->string('last_name')->nullable();
             $table->string('mothers_last_name')->nullable();
             $table->string('first_name')->nullable();
+            $table->string('second_name')->nullable();
             $table->string('kinship')->nullable();
             $table->string('home_address')->nullable();
             $table->string('home_phone_number')->nullable();
