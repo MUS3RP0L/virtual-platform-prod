@@ -98,7 +98,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="box box-warning">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Añadir {{ eco_com_applicant_type->name }}</h3>
+                    <h3 class="box-title">Añadir {{ $eco_com_applicant_type->name }}</h3>
                 </div>
                 <div class="box-body">
                     {!! Form::model($eco_com_applicant, ['method' => 'PATCH', 'route' => ['applicant.update', $affiliate->id], 'class' => 'form-horizontal']) !!}

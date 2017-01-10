@@ -190,6 +190,9 @@ class EconomicComplementController extends Controller
                                 ->whereYear('created_at', '=', $data['year'])
                                 ->where('semester', '=', $data['semester'])->first();
 
+        $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+
+
         $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
 
         $eco_com_applicant_type = EconomicComplementApplicantType::idIs($eco_com_type->id)->first();
@@ -203,12 +206,11 @@ class EconomicComplementController extends Controller
             'eco_com_applicant' => $eco_com_applicant
 
         ];
-        return $data;
 
-        // $data = array_merge($data, self::getData($affiliate_id));
-        // $data = array_merge($data, self::getViewModel());
+        $data = array_merge($data, self::getData($affiliate_id));
+        $data = array_merge($data, self::getViewModel());
 
-        // return view('economic_complements.reception_second_step', $data);
+        return view('economic_complements.reception_second_step', $data);
     }
 
     /**
@@ -313,23 +315,23 @@ class EconomicComplementController extends Controller
                     $economic_complement->save();
 
 
-                    $applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+                    $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
 
-                    if (!$applicant) {
+                    if (!$eco_com_applicant) {
 
                         $eco_com_applicant = new EconomicComplementApplicant;
-                        $applicant->economic_complement_id = $economic_complement->id;
+                        $eco_com_applicant->economic_complement_id = $economic_complement->id;
 
                         switch ($request->eco_com_type) {
                             case '1':
 
                                 $affiliate = Affiliate::idIs($affiliate_id)->first();
-                                $applicant->eco_com_applicant_type_id = $request->eco_com_type;
-                                $applicant->identity_card = $affiliate->identity_card;
-                                $applicant->city_identity_card_id = $request->city_identity_card_id;
-                                $applicant->last_name = $affiliate->last_name;
-                                $applicant->mothers_last_name = $affiliate->mothers_last_name;
-                                $applicant->first_name = $affiliate->first_name;
+                                $eco_com_applicant->eco_com_applicant_type_id = $request->eco_com_type;
+                                $eco_com_applicant->identity_card = $affiliate->identity_card;
+                                $eco_com_applicant->city_identity_card_id = $request->city_identity_card_id;
+                                $eco_com_applicant->last_name = $affiliate->last_name;
+                                $eco_com_applicant->mothers_last_name = $affiliate->mothers_last_name;
+                                $eco_com_applicant->first_name = $affiliate->first_name;
 
                             break;
                             case '2':
@@ -340,7 +342,7 @@ class EconomicComplementController extends Controller
                             break;
                         }
 
-                        $applicant->save();
+                        $eco_com_applicant->save();
 
                     }
 
