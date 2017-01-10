@@ -182,18 +182,16 @@ class EconomicComplementController extends Controller
         $data = array_merge($data, self::getData($affiliate_id));
         $data = array_merge($data, self::getViewModel());
 
-        // return $data;
         return view('economic_complements.reception_first_step', $data);
     }
 
     public function ReceptionSecondStep($affiliate_id)
     {
-        $eco_com_type = false;
-        $economic_complement = new EconomicComplement;
+        $data = self::getViewModel();
+        $economic_complement = EconomicComplement::affiliateIs($affiliate_id)->whereYear('created_at', '=', $data['year'])->where('semester', '=', $data['semester'])->first();
 
         $data = [
 
-           'eco_com_type' => $eco_com_type,
            'economic_complement' => $economic_complement
 
         ];
@@ -201,7 +199,6 @@ class EconomicComplementController extends Controller
         $data = array_merge($data, self::getData($affiliate_id));
         $data = array_merge($data, self::getViewModel());
 
-        // return $data;
         return view('economic_complements.reception_second_step', $data);
     }
 
@@ -211,14 +208,6 @@ class EconomicComplementController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
-    public function GenerateReceptionFirstStep(Request $request)
-    {
-
-
-        return $request;
-    }
-
 
     public function store(Request $request)
     {
@@ -262,61 +251,65 @@ class EconomicComplementController extends Controller
 
     public function save($request, $affiliate_id = false)
     {
-        // $rules = [
-        //
-        // ];
-        //
-        // $messages = [
-        //
-        // ];
-        //
-        // $validator = Validator::make($request->all(), $rules, $messages);
-        //
-        // if ($validator->fails()){
-        //     return redirect('tramite_fondo_retiro/'.$id)
-        //     ->withErrors($validator)
-        //     ->withInput();
-        // }
-        // else{
 
-            $data = self::getViewModel();
-            $economic_complement = EconomicComplement::affiliateIs($affiliate_id)->whereYear('created_at', '=', $data['year'])->where('semester', '=', $data['semester'])->first();
+        switch ($request->step) {
 
-            if (!$economic_complement) {
+            case 'first':
 
-                $economic_complement = new EconomicComplement;
-                if ($last_economic_complement = EconomicComplement::whereYear('created_at', '=', $data['year'])->where('semester', '=', $data['semester'])->where('deleted_at', '=', null)->orderBy('id', 'desc')->first()) {
-                    $number_code = Util::separateCode($last_economic_complement->code);
-                    $code = $number_code + 1;
-                }else{
-                    $code = 1;
+                $rules = [
+                    'eco_com_type' => 'required',
+                    'city' => 'required',
+                ];
+
+                $messages = [
+
+                    'eco_com_type.required' => 'El campo Tipo de Trámite es requerido',
+                    'city.required' => 'El campo Ciudad es requerido',
+
+                ];
+
+                $validator = Validator::make($request->all(), $rules, $messages);
+
+                if ($validator->fails()){
+                    return redirect('tramite_fondo_retiro/'.$id)
+                    ->withErrors($validator)
+                    ->withInput();
                 }
-                $economic_complement->code = $code . "/" . $data['year'];
-                $economic_complement->affiliate_id = $affiliate_id;
-                //add down * $economic_complement->save();
-            }
+                else{
 
-            switch ($request->step) {
+                    $data = self::getViewModel();
+                    $economic_complement = EconomicComplement::affiliateIs($affiliate_id)->whereYear('created_at', '=', $data['year'])->where('semester', '=', $data['semester'])->first();
 
-                case 'first':
+                    if (!$economic_complement) {
+
+                        $economic_complement = new EconomicComplement;
+                        if ($last_economic_complement = EconomicComplement::whereYear('created_at', '=', $data['year'])->where('semester', '=', $data['semester'])->where('deleted_at', '=', null)->orderBy('id', 'desc')->first()) {
+                            $number_code = Util::separateCode($last_economic_complement->code);
+                            $code = $number_code + 1;
+                        }else{
+                            $code = 1;
+                        }
+                        $economic_complement->code = $code . "/" . $data['year'];
+                        $economic_complement->affiliate_id = $affiliate_id;
+                    }
+
                     $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
                     $economic_complement->eco_com_modality_id = $eco_com_modality->id;
                     $economic_complement->eco_com_state_id = 1;
                     $economic_complement->city_id = trim($request->city);
-
                     $economic_complement->save();
 
                     $message = "Proceso creado";
 
+
                     Session::flash('message', $message);
 
-                    return view('economic_complements.reception_first_step', $data);
+                    return redirect('economic_complement_reception_second_step/'.$affiliate_id);
 
-                break;
-            }
+                }
+            break;
+        }
 
-
-        // }
 
     }
 
