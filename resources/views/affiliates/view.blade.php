@@ -755,7 +755,7 @@
                                         <span class="help-block">Escriba el Segundo Nombre</span>
                                     </div>
                                 </div>
-                                @if ($affiliate->sex == 'F')
+                                @if ($affiliate->gender == 'F')
                                     <div class="form-group">
                                             {!! Form::label('surname_husband', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-7">
