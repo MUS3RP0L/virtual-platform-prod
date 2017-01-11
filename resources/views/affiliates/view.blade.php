@@ -725,7 +725,7 @@
                                         {!! Form::text('identity_card', $affiliate->identity_card, ['class'=> 'form-control', 'required', 'required' => 'required']) !!}
                                         <span class="help-block">Número de CI</span>
                                     </div>
-                                        {!! Form::select('city_identity_card_id', $cities_list_short, $affiliate->city_identity_card_id, ['class' => 'col-md-2 combobox form-control']) !!}
+                                        {!! Form::select('city_identity_card_id', $cities_list_short, $affiliate->city_identity_card_id, ['class' => 'col-md-2 combobox form-control','required' => 'required']) !!}
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
@@ -897,7 +897,7 @@
                                 <div class="form-group">
                                         {!! Form::label('street', 'Calle, Avenida', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::text('street', $AffiliateAddress->street, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        {!! Form::text('street', $AffiliateAddress->street, ['class'=> 'form-control', 'required' => 'required','onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                         <span class="help-block">Escriba la Calle y/o Avenida</span>
                                     </div>
                                 </div>
