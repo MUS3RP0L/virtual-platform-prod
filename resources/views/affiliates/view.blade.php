@@ -722,7 +722,7 @@
                                 <div class="form-group">
                                         {!! Form::label('identity_card', 'Carnet de Identidad', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-5">
-                                        {!! Form::text('identity_card', $affiliate->identity_card, ['class'=> 'form-control', 'required']) !!}
+                                        {!! Form::text('identity_card', $affiliate->identity_card, ['class'=> 'form-control', 'required', 'required' => 'required']) !!}
                                         <span class="help-block">Número de CI</span>
                                     </div>
                                         {!! Form::select('city_identity_card_id', $cities_list_short, $affiliate->city_identity_card_id, ['class' => 'col-md-2 combobox form-control']) !!}
@@ -874,7 +874,7 @@
                                 <div class="form-group">
                                             {!! Form::label('city_address_id', 'Departamento', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('city_address_id', $cities_list, $AffiliateAddress->city_address_id, ['class' => 'combobox form-control']) !!}
+                                        {!! Form::select('city_address_id', $cities_list, $AffiliateAddress->city_address_id, ['class' => 'combobox form-control', 'required' => 'required']) !!}
                                         <span class="help-block">Seleccione Departamento</span>
                                     </div>
                                 </div>
@@ -938,7 +938,7 @@
                                         {!! Form::text('identity_card', $spouse->identity_card, ['class'=> 'form-control', 'required']) !!}
                                         <span class="help-block">Escriba el Carnet de Identidad</span>
                                     </div>
-                                    {!! Form::select('city_identity_card_id', $cities_list_short, $spouse->city_identity_card_id, ['class' => 'col-md-2 combobox form-control']) !!}
+                                    {!! Form::select('city_identity_card_id', $cities_list_short, $spouse->city_identity_card_id, ['class' => 'col-md-2 combobox form-control','required' => 'required']) !!}
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
