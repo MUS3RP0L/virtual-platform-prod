@@ -345,7 +345,7 @@ class EconomicComplementController extends Controller
                                 $eco_com_applicant->mothers_last_name = $affiliate->mothers_last_name;
                                 $eco_com_applicant->first_name = $affiliate->first_name;
                                 $eco_com_applicant->birth_date = $affiliate->birth_date;
-
+                                $eco_com_applicant->nua = $affiliate->nua;
                                 $eco_com_applicant->gender = $affiliate->gender;
                                 $eco_com_applicant->civil_status = $affiliate->civil_status;
                                 $eco_com_applicant->phone_number = $affiliate->phone_number;
@@ -394,7 +394,7 @@ class EconomicComplementController extends Controller
                         case '1':
 
                             $eco_com_applicant->identity_card = $request->identity_card;
-                            $eco_com_applicant->city_identity_card_id = $request->city_identity_card_id;
+                            if ($request->city_identity_card_id) { $eco_com_applicant->city_identity_card_id = $request->city_identity_card_id; } else { $eco_com_applicant->city_identity_card_id = null; }
                             $eco_com_applicant->last_name = $request->last_name;
                             $eco_com_applicant->mothers_last_name = $request->mothers_last_name;
                             $eco_com_applicant->first_name = $request->first_name;
@@ -402,10 +402,11 @@ class EconomicComplementController extends Controller
                             $eco_com_applicant->civil_status = $request->civil_status;
                             $eco_com_applicant->phone_number = $request->phone_number;
                             $eco_com_applicant->cell_phone_number = $request->cell_phone_number;
+                            $eco_com_applicant->nua = $request->nua;
 
                             $affiliate = Affiliate::idIs($affiliate_id)->first();
                             $affiliate->identity_card = $request->identity_card;
-                            $affiliate->city_identity_card_id = $request->city_identity_card_id;
+                            if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
                             $affiliate->last_name = $request->last_name;
                             $affiliate->mothers_last_name = $request->mothers_last_name;
                             $affiliate->first_name = $request->first_name;
@@ -414,6 +415,7 @@ class EconomicComplementController extends Controller
                             $affiliate->civil_status = $request->civil_status;
                             $affiliate->phone_number = $request->phone_number;
                             $affiliate->cell_phone_number = $request->cell_phone_number;
+                            $eco_com_applicant->nua = $request->nua;
                             $affiliate->save();
 
                         break;
@@ -426,7 +428,7 @@ class EconomicComplementController extends Controller
                     }
 
                     $eco_com_applicant->save();
-                    
+
                     return redirect('economic_complement_reception_second_step/'.$affiliate_id);
 
                 }

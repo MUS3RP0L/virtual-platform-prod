@@ -181,6 +181,7 @@ class CreateEconomicComplementsTable extends Migration
             $table->string('second_name')->nullable();
             $table->string('surname_husband')->nullable();
             $table->date('birth_date')->nullable();
+            $table->bigInteger('nua')->nullable();
             $table->enum('gender', ['M', 'F']);
             $table->enum('civil_status', ['C', 'S', 'V', 'D'])->nullable();
             $table->string('phone_number')->nullable();
