@@ -145,8 +145,8 @@ class CreateAffiliatesTable extends Migration
             $table->date('service_start_date')->nullable();
             $table->date('service_end_date')->nullable();
             $table->date('change_date')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('cell_phone')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('cell_phone_number')->nullable();
             $table->boolean('afp')->nullable();
             $table->bigInteger('nua')->nullable();
             $table->bigInteger('item')->nullable();
