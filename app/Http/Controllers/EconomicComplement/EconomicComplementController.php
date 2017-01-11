@@ -126,10 +126,15 @@ class EconomicComplementController extends Controller
             $eco_com_types_list[$item->id]=$item->name;
         }
 
-        $city = City::all();
+        $cities = City::all();
         $cities_list = array('' => '');
-        foreach ($city as $item) {
+        foreach ($cities as $item) {
              $cities_list[$item->id]=$item->name;
+        }
+
+        $cities_list_short = ['' => ''];
+        foreach ($cities as $item) {
+            $cities_list_short[$item->id]=$item->shortened;
         }
 
         $semestre = ['F' => 'Primer', 'S' => 'Segundo'];
@@ -145,6 +150,7 @@ class EconomicComplementController extends Controller
             'eco_com_types_list' => $eco_com_types_list,
             'semester_list' => $semester_list,
             'cities_list' => $cities_list,
+            'cities_list_short' => $cities_list_short,
             'year' => Carbon::now()->year,
             'semester' => $semester
 
@@ -197,13 +203,19 @@ class EconomicComplementController extends Controller
 
         $eco_com_applicant_type = EconomicComplementApplicantType::idIs($eco_com_type->id)->first();
 
+        if ($eco_com_applicant->gender == 'M') {
+            $gender_list = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
+        }elseif ($eco_com_applicant->gender == 'F') {
+            $gender_list = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
+        }
 
         $data = [
 
             'eco_com_type' => $eco_com_type->name,
             'eco_com_applicant_type' => $eco_com_applicant_type,
             'economic_complement' => $economic_complement,
-            'eco_com_applicant' => $eco_com_applicant
+            'eco_com_applicant' => $eco_com_applicant,
+            'gender_list' => $gender_list
 
         ];
 
@@ -332,6 +344,11 @@ class EconomicComplementController extends Controller
                                 $eco_com_applicant->last_name = $affiliate->last_name;
                                 $eco_com_applicant->mothers_last_name = $affiliate->mothers_last_name;
                                 $eco_com_applicant->first_name = $affiliate->first_name;
+                                $eco_com_applicant->birth_date = $affiliate->birth_date;
+                                $eco_com_applicant->gender = $affiliate->gender;
+                                $eco_com_applicant->civil_status = $affiliate->civil_status;
+                                $eco_com_applicant->phone_number = $affiliate->phone_number;
+                                $eco_com_applicant->cell_phone_number = $affiliate->cell_phone_number;
 
                             break;
                             case '2':

@@ -98,75 +98,95 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="box box-warning">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Añadir {{ $eco_com_applicant_type->name }}</h3>
+                    <h3 class="box-title">Añadir Beneficiario - {{ $eco_com_applicant_type->name }}</h3>
                 </div>
                 <div class="box-body">
                     {!! Form::model($eco_com_applicant, ['method' => 'PATCH', 'route' => ['applicant.update', $affiliate->id], 'class' => 'form-horizontal']) !!}
                         <br>
                         <input type="hidden" name="step" value="second"/>
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                        {!! Form::label('identity_card', 'Carnet Identidad', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-7">
-                                        {!! Form::text('identity_card', $eco_com_applicant->identity_card,['class'=> 'form-control', 'required', 'data-bind' => 'value: soli_identity_card']) !!}
-                                        <span class="help-block">Núm. Carnet de Identidad</span>
+                                    <div class="col-md-12">
+                                            {!! Form::label('identity_card', 'Carnet de Identidad', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-5">
+                                            {!! Form::text('identity_card', $eco_com_applicant->identity_card, ['class'=> 'form-control', 'required']) !!}
+                                            <span class="help-block">Número de CI</span>
+                                        </div>
+                                            {!! Form::select('city_identity_card_id', $cities_list_short, $eco_com_applicant->city_identity_card_id, ['class' => 'col-md-2 combobox form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-7">
-                                        {!! Form::text('last_name', $eco_com_applicant->last_name, ['class'=> 'form-control', 'required', 'onkeyup' => 'this.value=this.value.toUpperCase()', 'data-bind' => 'value: soli_last_name']) !!}
-                                        <span class="help-block">Escriba Apellido Paterno</span>
+                                    <div class="col-md-6">
+                                        {!! Form::text('last_name', $eco_com_applicant->last_name, ['class'=> 'form-control', 'required', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Apellido Paterno</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('mothers_last_name', 'Apellido Materno', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-7">
-                                        {!! Form::text('mothers_last_name', $eco_com_applicant->mothers_last_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()', 'data-bind' => 'value: soli_mothers_last_name']) !!}
-                                        <span class="help-block">Escriba Apellido Materno</span>
+                                    <div class="col-md-6">
+                                        {!! Form::text('mothers_last_name', $eco_com_applicant->mothers_last_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Apellido Materno</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                        {!! Form::label('first_name', 'Nombre(s)', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-7">
-                                        {!! Form::text('first_name', $eco_com_applicant->first_name, ['class'=> 'form-control', 'required', 'onkeyup' => 'this.value=this.value.toUpperCase()', 'data-bind' => 'value: soli_first_name']) !!}
-                                        <span class="help-block">Escriba los Nombre(s)</span>
+                                        {!! Form::label('first_name', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('first_name', $eco_com_applicant->first_name, ['class'=> 'form-control','required', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el  Primer Nombre</span>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                        {!! Form::label('second_name', 'Segundo Nombre', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('second_name', $eco_com_applicant->second_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Segundo Nombre</span>
+                                    </div>
+                                </div>
+                                @if ($eco_com_applicant->gender == 'F')
+                                    <div class="form-group">
+                                            {!! Form::label('surname_husband', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-6">
+                                            {!! Form::text('surname_husband', $eco_com_applicant->surname_husband, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                            <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
-
                             <div class="col-md-6">
                                 <div class="form-group">
-                                        {!! Form::label('home_address', 'Domicilio  Actual', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-7">
-                                        {!! Form::text('home_address', $eco_com_applicant->home_address, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()', 'data-bind' => 'value: soli_home_address']) !!}
-                                        <span class="help-block">Escriba Domicilio Actual</span>
+                                        {!! Form::label('birth_date', 'Fecha de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                            			<div class="input-group">
+                                            <input type="text" id="birth_date_mask" class="form-control" name="birth_date" value="{!! $eco_com_applicant->getEditBirthDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                        {!! Form::label('home_phone_number', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-7">
-                                        {!! Form::text('home_phone_number', $eco_com_applicant->home_phone_number, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()', 'data-bind' => 'value: soli_home_phone_number']) !!}
-                                        <span class="help-block">Escriba Número Teléfono fijo</span>
+                                            {!! Form::label('civil_status', 'Estado Civil', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::select('civil_status', $gender_list, $eco_com_applicant->civil_status, ['class' => 'combobox form-control', 'required']) !!}
+                                        <span class="help-block">Seleccione el Estado Civil</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                        {!! Form::label('home_cell_phone_number', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-7">
-                                        {!! Form::text('home_cell_phone_number', $eco_com_applicant->home_cell_phone_number, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()', 'data-bind' => 'value: soli_home_cell_phone_number']) !!}
-                                        <span class="help-block">Escriba NúmeroTeléfono Celular</span>
+                                        {!! Form::label('phone', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        <input type="text" id="phone" class="form-control" name="phone" value="{!! $eco_com_applicant->phone !!}" data-inputmask="'mask': '(9) 999 999'" data-mask>
+                                        <span class="help-block">Escriba el Teléfono fijo</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                        {!! Form::label('home_address', 'Domicilio Trabajo', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-7">
-                                        {!! Form::text('home_address', $eco_com_applicant->home_address, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                                        <span class="help-block">Escriba Domicilio de Trabajo</span>
+                                        {!! Form::label('cell_phone', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        <input type="text" id="cell_phone" class="form-control" name="cell_phone" value="{!! $eco_com_applicant->cell_phone !!}" data-inputmask="'mask': '(999) 99999'" data-mask>
+                                        <span class="help-block">Escriba el Teléfono Celular</span>
                                     </div>
                                 </div>
-
-
                             </div>
 
                         </div>
@@ -192,6 +212,9 @@
         $(document).ready(function(){
             $('.combobox').combobox();
             $('[data-toggle="tooltip"]').tooltip();
+            $("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+            $("#phone").inputmask();
+            $("#cell_phone").inputmask();
         });
 
     </script>
