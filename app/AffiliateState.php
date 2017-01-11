@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AffiliateState extends Model
 {
-  protected $table = 'affiliate_states';
+    protected $table = 'affiliate_states';
 	protected $fillable = [
 		'state_type_id',
 		'name'
@@ -14,13 +14,11 @@ class AffiliateState extends Model
 
 	protected $guarded = ['id'];
 
-    public function state_type()
-    {
+    public function state_type(){
     	return $this->belongsTo('Muserpol\StateType');
     }
 
-    public function affiliates()
-    {
+    public function affiliates(){
     	return $this->hasMany('Muserpol\Affiliate');
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AffiliateType extends Model
 {
-  protected $table = 'affiliate_types';
+    protected $table = 'affiliate_types';
 
 	protected $fillable = [
 
@@ -16,8 +16,8 @@ class AffiliateType extends Model
 
 	protected $guarded = ['id'];
 
-	public function affiliates()
-    {
+	public function affiliates(){
     	return $this->hasMany('Muserpol\Affiliate');
     }
+    
 }
