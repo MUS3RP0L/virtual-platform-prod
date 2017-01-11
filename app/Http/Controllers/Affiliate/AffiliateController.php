@@ -236,7 +236,7 @@ class AffiliateController extends Controller
     }
 
     public function save($request, $affiliate = false)
-    {   //return response()->json($request->cell_phone);
+    {   
         $rules = [
 
             'last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
@@ -290,8 +290,8 @@ class AffiliateController extends Controller
                     $affiliate->birth_date = Util::datePick($request->birth_date);
                     $affiliate->civil_status = trim($request->civil_status);
                     if ($request->city_birth_id) { $affiliate->city_birth_id = $request->city_birth_id; } else { $affiliate->city_birth_id = null; }
-                    $affiliate->phone = trim($request->phone);
-                    $affiliate->cell_phone = trim($request->cell_phone);
+                    $affiliate->phone_number = trim($request->phone_number);
+                    $affiliate->cell_phone_number = trim($request->cell_phone_number);
                     if ($request->DateDeathAffiliateCheck == "on") {
                         $affiliate->date_death = Util::datePick($request->date_death);
                         $affiliate->reason_death = trim($request->reason_death);
