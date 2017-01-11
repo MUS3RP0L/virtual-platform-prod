@@ -33,12 +33,14 @@ class AffiliateAddressController extends Controller
         $rules = [
 
             'city_address_id' => 'required',
+            'street' => 'required'
 
         ];
 
         $messages = [
 
             'city_address_id.required' => 'El Campo es Requerido',
+            'street.required' => 'El Campo es Requerido'
 
         ];
 

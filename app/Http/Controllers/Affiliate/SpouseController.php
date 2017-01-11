@@ -32,7 +32,8 @@ class SpouseController extends Controller
     public function save($request, $id = false)
     {
         $rules = [
-
+            'identity_card' => 'required',
+            'city_identity_card_id' => 'required',
             'last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
             'mothers_last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
             'first_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
@@ -41,7 +42,8 @@ class SpouseController extends Controller
         ];
 
         $messages = [
-
+            'identity_card.required' => 'El Campo es Requerido',
+            'city_identity_card_id.required' => 'El Campo es Requerido',
             'last_name.min' => 'El mínimo de caracteres permitidos para apellido paterno es 3',
             'last_name.regex' => 'Sólo se aceptan letras para apellido paterno',
 
@@ -72,7 +74,7 @@ class SpouseController extends Controller
             $spouse->user_id = Auth::user()->id;
             $spouse->affiliate_id = $id;
             $spouse->identity_card = trim($request->identity_card);
-            if ($request->city_identity_card_id) { $spouse->city_identity_card_id = $request->city_identity_card_id; } else { $spouse->city_identity_card_id = null; }            
+            if ($request->city_identity_card_id) { $spouse->city_identity_card_id = $request->city_identity_card_id; } else { $spouse->city_identity_card_id = null; }
             $spouse->last_name = trim($request->last_name);
             $spouse->mothers_last_name = trim($request->mothers_last_name);
             $spouse->first_name = trim($request->first_name);
