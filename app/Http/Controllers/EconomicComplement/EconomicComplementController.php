@@ -294,7 +294,7 @@ class EconomicComplementController extends Controller
                 $validator = Validator::make($request->all(), $rules, $messages);
 
                 if ($validator->fails()){
-                    return redirect('economic_complement_reception_second_step/'.$affiliate_id)
+                    return redirect('economic_complement_reception_first_step/'.$affiliate_id)
                     ->withErrors($validator)
                     ->withInput();
                 }
@@ -340,7 +340,7 @@ class EconomicComplementController extends Controller
                                 $affiliate = Affiliate::idIs($affiliate_id)->first();
                                 $eco_com_applicant->eco_com_applicant_type_id = $request->eco_com_type;
                                 $eco_com_applicant->identity_card = $affiliate->identity_card;
-                                $eco_com_applicant->city_identity_card_id = $request->city_identity_card_id;
+                                $eco_com_applicant->city_identity_card_id = $affiliate->city_identity_card_id;
                                 $eco_com_applicant->last_name = $affiliate->last_name;
                                 $eco_com_applicant->mothers_last_name = $affiliate->mothers_last_name;
                                 $eco_com_applicant->first_name = $affiliate->first_name;
@@ -372,54 +372,51 @@ class EconomicComplementController extends Controller
 
                 $rules = [
 
-                    'identity_card' => 'min:4',
-                    'last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-                    'first_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-                    'home_phone_number' =>'numeric',
-                    'home_cell_phone_number' =>'numeric',
                 ];
 
                 $messages = [
 
-                    'identity_card.min' => 'El mínimo de caracteres permitidos para Carnet de Identidad es 4',
-                    'last_name.min' => 'El mínimo de caracteres permitidos para apellido paterno es 3',
-                    'last_name.regex' => 'Sólo se aceptan letras para apellido paterno',
-                    'first_name.min' => 'El mínimo de caracteres permitidos para nombres es 3',
-                    'first_name.regex' => 'Sólo se aceptan letras para primer nombre',
-                    'home_phone_number.numeric' => 'Sólo se aceptan números para teléfono',
-                    'home_cell_phone_number.numeric' => 'Sólo se aceptan números para celular',
                 ];
 
                 $validator = Validator::make($request->all(), $rules, $messages);
 
                 if ($validator->fails()){
-                    return redirect('retirement_fund/' . $retirement_fund_id)
+                    return redirect('economic_complement_reception_second_step/' . $affiliate_id)
                     ->withErrors($validator)
                     ->withInput();
                 }
                 else{
 
-                    $RetirementFund = RetirementFund::afiIs($retirement_fund_id)->where('deleted_at', '=', null)->orderBy('id', 'desc')->first();
-                    $applicant = Applicant::retirementFundIs($RetirementFund->id)->orderBy('id', 'asc')->first();
+                    $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($request->economic_complement_id)->first();
 
-                    if (!$applicant) {
-                        $applicant = new Applicant;
+                    switch ($request->eco_com_type) {
+                        case '1':
+
+                            $eco_com_applicant->identity_card = $affiliate->identity_card;
+                            $eco_com_applicant->city_identity_card_id = $affiliate->city_identity_card_id;
+                            $eco_com_applicant->last_name = $affiliate->last_name;
+                            $eco_com_applicant->mothers_last_name = $affiliate->mothers_last_name;
+                            $eco_com_applicant->first_name = $affiliate->first_name;
+                            $eco_com_applicant->birth_date = $affiliate->birth_date;
+                            $eco_com_applicant->gender = $affiliate->gender;
+                            $eco_com_applicant->civil_status = $affiliate->civil_status;
+                            $eco_com_applicant->phone_number = $affiliate->phone_number;
+                            $eco_com_applicant->cell_phone_number = $affiliate->cell_phone_number;
+
+                        break;
+                        case '2':
+                        # code...
+                        break;
+                        case '3':
+                        # code...
+                        break;
                     }
 
-                    $applicant_type = ApplicantType::where('id', '=', $request->type_applicant)->first();
-                    $applicant->applicant_type_id = $applicant_type->id;
-                    $applicant->retirement_fund_id = $RetirementFund->id;
-                    $applicant->identity_card = trim($request->identity_card);
-                    $applicant->last_name = trim($request->last_name);
-                    $applicant->mothers_last_name = trim($request->mothers_last_name);
-                    $applicant->first_name = trim($request->first_name);
-                    $applicant->kinship = trim($request->kinship);
-                    $applicant->home_address = trim($request->home_address);
-                    $applicant->home_phone_number = trim($request->home_phone_number);
-                    $applicant->home_cell_phone_number = trim($request->home_cell_phone_number);
-                    $applicant->work_address = trim($request->work_address);
+                    $eco_com_applicant->save();
 
-                    $applicant->save();
+
+                    return redirect('economic_complement_reception_second_step/'.$affiliate_id);
+
 
                 }
 
