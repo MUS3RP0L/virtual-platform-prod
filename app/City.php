@@ -6,37 +6,32 @@ use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
 {
-  protected $table = 'cities';
+    protected $table = 'cities';
 
 	protected $fillable = [
-
 		'name',
 		'shortened'
-
 	];
 
 	protected $guarded = ['id'];
 
 	public function retirement_funds(){
-
         return $this->hasMany('Muserpol\RetirementFund');
-  }
+    }
 
-  public function economic_complement(){
-
+    public function economic_complement(){
           return $this->hasMany('Muserpol\EconomicComplement');
-  }
-  public function affiliates(){
+    }
 
+    public function affiliates(){
           return $this->hasMany('Muserpol\Affiliate');
-  }
-  public function spouses(){
+    }
 
+    public function spouses(){
           return $this->hasMany('Muserpol\Spouse');
-  }
+    }
 
-	public function scopeIdIs($query, $id)
-  {
+	public function scopeIdIs($query, $id){
         return $query->where('id', $id);
-  }
+    }
 }

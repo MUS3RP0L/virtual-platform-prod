@@ -12,12 +12,11 @@ use Muserpol\Contribution;
 
 class DirectContribution extends Model
 {
-  protected $table = 'direct_contributions';
+    protected $table = 'direct_contributions';
 
-  protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at'];
 
 	protected $fillable = [
-
         'user_id',
         'affiliate_id',
         'type',
@@ -29,13 +28,11 @@ class DirectContribution extends Model
         'subtotal',
         'ipc',
         'total'
-
 	];
 
 	protected $guarded = ['id'];
 
     public function affiliate(){
-
         return $this->belongsTo('Muserpol\Affiliate');
     }
 
