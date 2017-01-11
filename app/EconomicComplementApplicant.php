@@ -4,6 +4,8 @@ namespace Muserpol;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Muserpol\Helper\Util;
+
 class EconomicComplementApplicant extends Model
 {
     protected $table = 'eco_com_applicants';
@@ -36,5 +38,9 @@ class EconomicComplementApplicant extends Model
         return $query->where('economic_complement_id', $id);
     }
 
+    public function getEditBirthDate()
+    {
+        return Util::getDateEdit($this->birth_date);
+    }
 
 }
