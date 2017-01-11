@@ -124,8 +124,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::resource('economic_complement', 'EconomicComplement\EconomicComplementController');
 
 	Route::get('economic_complement_reception_first_step/{affiliate_id}','EconomicComplement\EconomicComplementController@ReceptionFirstStep');
-	Route::get('economic_complement_reception_second_step/{affiliate_id}','EconomicComplement\EconomicComplementController@ReceptionSecondStep');
-	Route::get('economic_complement_reception_third_step/{affiliate_id}','EconomicComplement\EconomicComplementController@ReceptionThirdStep');
+	Route::get('economic_complement_reception_second_step/{economic_complement_id}','EconomicComplement\EconomicComplementController@ReceptionSecondStep');
+	Route::get('economic_complement_reception_third_step/{economic_complement_id}','EconomicComplement\EconomicComplementController@ReceptionThirdStep');
 
 	Route::get('get_economic_complement', array('as'=>'get_economic_complement', 'uses'=>'EconomicComplement\EconomicComplementController@Data'));
 

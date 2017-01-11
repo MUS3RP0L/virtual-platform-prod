@@ -189,7 +189,41 @@ class EconomicComplementController extends Controller
         return view('economic_complements.reception_first_step', $data);
     }
 
-    public function ReceptionSecondStep($affiliate_id)
+    public function ReceptionSecondStep($economic_complement_id)
+    {
+        $data = self::getViewModel();
+
+        $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+
+        $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+
+        $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
+
+        $eco_com_applicant_type = EconomicComplementApplicantType::idIs($eco_com_type->id)->first();
+
+        if ($eco_com_applicant->gender == 'M') {
+            $gender_list = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
+        }elseif ($eco_com_applicant->gender == 'F') {
+            $gender_list = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
+        }
+
+        $data = [
+
+            'eco_com_type' => $eco_com_type->name,
+            'eco_com_applicant_type' => $eco_com_applicant_type,
+            'economic_complement' => $economic_complement,
+            'eco_com_applicant' => $eco_com_applicant,
+            'gender_list' => $gender_list
+
+        ];
+
+        $data = array_merge($data, self::getData($affiliate_id));
+        $data = array_merge($data, self::getViewModel());
+
+        return view('economic_complements.reception_second_step', $data);
+    }
+
+    public function ReceptionThirdStep($affiliate_id)
     {
         $data = self::getViewModel();
         $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
@@ -267,12 +301,12 @@ class EconomicComplementController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function update(Request $request, $affiliate_id)
+    public function update(Request $request, $economic_complement_id)
     {
-        return $this->save($request, $affiliate_id);
+        return $this->save($request, $economic_complement_id);
     }
 
-    public function save($request, $affiliate_id = false)
+    public function save($request, $economic_complement_id = false)
     {
 
         switch ($request->step) {
@@ -292,16 +326,17 @@ class EconomicComplementController extends Controller
                 ];
 
                 $validator = Validator::make($request->all(), $rules, $messages);
+                $affiliate = Affiliate::idIs($economic_complement_id)->first();
 
                 if ($validator->fails()){
-                    return redirect('economic_complement_reception_first_step/'.$affiliate_id)
+                    return redirect('economic_complement_reception_first_step/'.$affiliate->id)
                     ->withErrors($validator)
                     ->withInput();
                 }
                 else{
 
                     $data = self::getViewModel();
-                    $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
+                    $economic_complement = EconomicComplement::affiliateIs($economic_complement_id)
                                                 ->whereYear('created_at', '=', $data['year'])
                                                 ->where('semester', '=', $data['semester'])->first();
 
@@ -337,7 +372,6 @@ class EconomicComplementController extends Controller
                         switch ($request->eco_com_type) {
                             case '1':
 
-                                $affiliate = Affiliate::idIs($affiliate_id)->first();
                                 $eco_com_applicant->eco_com_applicant_type_id = $request->eco_com_type;
                                 $eco_com_applicant->identity_card = $affiliate->identity_card;
                                 $eco_com_applicant->city_identity_card_id = $affiliate->city_identity_card_id;
@@ -364,7 +398,7 @@ class EconomicComplementController extends Controller
 
                     }
 
-                    return redirect('economic_complement_reception_second_step/'.$affiliate_id);
+                    return redirect('economic_complement_reception_second_step/'.$economic_complement->id);
 
                 }
             break;
@@ -382,13 +416,13 @@ class EconomicComplementController extends Controller
                 $validator = Validator::make($request->all(), $rules, $messages);
 
                 if ($validator->fails()){
-                    return redirect('economic_complement_reception_second_step/' . $affiliate_id)
+                    return redirect('economic_complement_reception_second_step/' . $economic_complement_id)
                     ->withErrors($validator)
                     ->withInput();
                 }
                 else{
-                    $economic_complement = EconomicComplement::idIs($request->economic_complement_id)->first();
-                    $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($request->economic_complement_id)->first();
+                    $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+                    $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement_id)->first();
 
                     switch ($economic_complement->economic_complement_modality->economic_complement_type->id) {
                         case '1':
@@ -429,7 +463,7 @@ class EconomicComplementController extends Controller
 
                     $eco_com_applicant->save();
 
-                    return redirect('economic_complement_reception_second_step/'.$affiliate_id);
+                    return redirect('economic_complement_reception_third_step/'.$affiliate_id);
 
                 }
 
