@@ -17,11 +17,10 @@ class RetirementFund extends Model
 
     protected $dates = ['deleted_at'];
 
-	  protected $fillable = [
-
-    		'affiliate_id',
-    		'retirement_fund_modality_id',
-    		'city_id',
+    protected $fillable = [
+        'affiliate_id',
+        'retirement_fund_modality_id',
+        'city_id',
         'code',
         'reception_date',
         'check_file_date',
@@ -37,77 +36,80 @@ class RetirementFund extends Model
         'performance',
         'total',
         'comment'
-
 	];
 
 	protected $guarded = ['id'];
 
 	public function affiliate(){
         return $this->belongsTo('Muserpol\Affiliate');
-  }
+    }
 
 	public function retirement_fund_modality(){
         return $this->belongsTo('Muserpol\RetirementFundModality');
-  }
+    }
 
-  public function city(){
+    public function city(){
         return $this->belongsTo('Muserpol\City');
-  }
+    }
 
-  public function documents(){
+    public function documents(){
         return $this->hasMany('Muserpol\Document');
-  }
+    }
 
-  public function antecedents(){
+    public function antecedents(){
         return $this->hasMany('Muserpol\Antecedent');
-  }
+    }
 
-  public function applicants(){
+    public function applicants(){
         return $this->hasMany('Muserpol\Applicant');
-  }
+    }
 
-  public function scopeIdIs($query, $id){
+    public function scopeIdIs($query, $id){
         return $query->where('id', $id)->where('deleted_at', '=', null)->orderBy('id', 'desc');
-  }
+    }
 
-  public function scopeAfiIs($query, $id){
+    public function scopeAfiIs($query, $id){
         return $query->where('affiliate_id', $id);
-  }
+    }
 
-  public function scopeTotalRetirementFund($query, $month, $year){
+    public function scopeTotalRetirementFund($query, $month, $year){
        return $query = DB::table('retirement_funds')
                     ->select(DB::raw('COUNT(*) total, month(retirement_funds.reception_date) as month'))
                     ->whereMonth('retirement_funds.reception_date', '=', $month)
                     ->whereYear('retirement_funds.reception_date', '=', $year);
-  }
+    }
 
-  public function getFull_fech_ini_anti(){
+    public function getFull_fech_ini_anti(){
         return Util::getdateabreperiod($this->fech_ini_anti);
-  }
-  public function getFull_fech_fin_anti(){
+    }
+
+    public function getFull_fech_fin_anti(){
         return Util::getdateabreperiod($this->fech_fin_anti);
-  }
-  public function getYearsAndMonths_fech_ini_anti(){
+    }
+
+    public function getYearsAndMonths_fech_ini_anti(){
         return Util::getYearsAndMonths($this->fech_ini_anti, $this->fech_fin_anti);
-  }
+    }
 
-  public function getFull_fech_ini_reco(){
+    public function getFull_fech_ini_reco(){
         return Util::getdateabreperiod($this->fech_ini_reco);
-  }
-  public function getFull_fech_fin_reco(){
-        return Util::getdateabreperiod($this->fech_fin_reco);
-  }
-  public function getYearsAndMonths_fech_ini_reco(){
-        return Util::getYearsAndMonths($this->fech_ini_reco, $this->fech_fin_reco);
-  }
+    }
 
-  public function getNumberTram(){
+    public function getFull_fech_fin_reco(){
+        return Util::getdateabreperiod($this->fech_fin_reco);
+    }
+
+    public function getYearsAndMonths_fech_ini_reco(){
+        return Util::getYearsAndMonths($this->fech_ini_reco, $this->fech_fin_reco);
+    }
+
+    public function getNumberTram(){
         if ($this->code) {
             return $this->code . "/" . Carbon::parse($this->created_at)->year;
         }
-  }
+    }
 
-  public function getStatus(){
+    public function getStatus(){
         if ($this->fech_ven && $this->fech_arc && $this->fech_cal && $this->fech_dic ) {
             return "FINALIZADO";
         }elseif ($this->fech_ven && $this->fech_arc && $this->fech_cal) {
@@ -119,8 +121,7 @@ class RetirementFund extends Model
         }else {
             return "VENTANILLA";
         }
-  }
-
+    }
 
 }
 

@@ -6,10 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reimbursement extends Model
 {
-  protected $table = 'reimbursements';
+    protected $table = 'reimbursements';
 
 	protected $fillable = [
-
 		'user_id',
 		'affiliate_id',
 		'direct_contribution_id',

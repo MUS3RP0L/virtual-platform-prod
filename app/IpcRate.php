@@ -8,7 +8,7 @@ use Muserpol\Helper\Util;
 
 class IpcRate extends Model
 {
-  protected $table = 'ipc_rates';
+    protected $table = 'ipc_rates';
 
 	protected $fillable = [
 		'month_year',
@@ -19,6 +19,6 @@ class IpcRate extends Model
 
 	public function getMonthYearEdit(){
         return Util::getdateforEditPeriod($this->month_year);
-  }
-  
+    }
+
 }

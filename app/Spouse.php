@@ -31,8 +31,7 @@ class Spouse extends Model
     public function affiliate(){
         return $this->belongsTo('Muserpol\Affiliate');
     }
-    public function city()
-    {
+    public function city(){
         return $this->belongsTo('Muserpol\City');
     }
 
