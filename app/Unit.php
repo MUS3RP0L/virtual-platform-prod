@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Unit extends Model
 {
-  protected $table = 'units';
+    protected $table = 'units';
 
 	protected $fillable = [
 		'breakdown_id',
@@ -21,14 +21,14 @@ class Unit extends Model
 
 	public function affiliates(){
     	return $this->hasMany('Muserpol\Affiliate');
-  }
+    }
 
-  public function contributions(){
+    public function contributions(){
     	return $this->hasMany('Muserpol\Contribution');
-  }
+    }
 
-  public function breakdown(){
+    public function breakdown(){
     	return $this->belongsTo('Muserpol\Breakdown');
-  }
-  
+    }
+
 }
