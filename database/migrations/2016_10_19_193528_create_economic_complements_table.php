@@ -181,6 +181,8 @@ class CreateEconomicComplementsTable extends Migration
             $table->string('second_name')->nullable();
             $table->date('birth_date')->nullable();
             $table->enum('civil_status', ['C', 'S', 'V', 'D'])->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('cell_phone_number')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('economic_complement_id')->references('id')->on('economic_complements')->onDelete('cascade');
