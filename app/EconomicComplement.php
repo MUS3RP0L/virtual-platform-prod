@@ -14,7 +14,6 @@ class EconomicComplement extends Model
     protected $dates = ['deleted_at'];
 
 	protected $fillable = [
-
         'affiliate_id',
 		'eco_com_modality_id',
 		'eco_com_state_id',
@@ -40,12 +39,10 @@ class EconomicComplement extends Model
 	protected $guarded = ['id'];
 
 	public function affiliate(){
-
         return $this->belongsTo('Muserpol\Affiliate');
     }
 
 	public function economic_complement_state(){
-
         return $this->belongsTo('Muserpol\EconomicComplementState', 'id');
     }
 
@@ -54,42 +51,34 @@ class EconomicComplement extends Model
     }
 
     public function city(){
-
         return $this->belongsTo('Muserpol\City');
     }
 
     public function category(){
-
         return $this->belongsTo('Muserpol\Category');
     }
 
     public function base_wage(){
-
         return $this->belongsTo('Muserpol\BaseWage');
     }
 
     public function complementary_factor(){
-
         return $this->belongsTo('Muserpol\ComplementaryFactor');
     }
 
     public function economic_complement_submitted_documents(){
-
         return $this->hasMany('Muserpol\EconomicComplementSubmittedDocument');
     }
 
     public function economic_complement_applicants(){
-
         return $this->hasMany('Muserpol\EconomicComplementApplicant');
     }
-
 
     public function scopeIdIs($query, $id){
         return $query->where('id', $id);
     }
 
     public function scopeAffiliateIs($query, $id){
-
         return $query->where('affiliate_id', $id);
     }
 }

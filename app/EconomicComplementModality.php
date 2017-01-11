@@ -9,13 +9,12 @@ class EconomicComplementModality extends Model
     protected $table = 'eco_com_modalities';
 
   	protected $fillable = [
-
   		'eco_com_type_id',
   		'name',
   		'description'
   	];
 
-	  protected $guarded = ['id'];
+    protected $guarded = ['id'];
 
   	public function economic_complements(){
           return $this->hasMany('Muserpol\EconomicComplement');
