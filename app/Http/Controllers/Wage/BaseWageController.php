@@ -195,73 +195,47 @@ class BaseWageController extends Controller
 
     public function save($request, $base_wage = false)
     {
-        global $month_year, $results, $base_wages;
-
+        global $results, $base_wages;
         $reader = $request->file('archive');
         $filename = $reader->getRealPath();
-
         $date = Util::datePickPeriod($request->month_year);
         $year = Carbon::parse($date)->year;
+        $newyear = substr($year, -2, 2);
         $month = Carbon::parse($date)->month;
-
+        //return response()->json($date);
         Excel::load($filename, function($reader) {
-
             global $results;
-
             ini_set('memory_limit', '-1');
             ini_set('max_execution_time', '-1');
             ini_set('max_input_time', '-1');
             set_time_limit('-1');
-
             $results = collect($reader->select(array('mes', 'a_o', 'niv', 'gra','sue'))->get());
-
         });
 
         $degrees = Degree::orderBy('id', 'asc')->get();
-
         foreach ($degrees as $degree) {
 
             foreach ($results as $datos) {
-                
-                if($month <>  $datos['mes'] && $year <> $datos['a_o']){
-
+                if($month ==  (int) $datos['mes'] && $newyear == rtrim($datos['a_o'])){
                     if($degree->hierarchy->code == $datos['niv']  && $degree->code == $datos['gra'] && Util::decimal(Util::zero($datos['sue'])) <> 0 ) {
-
                         $base_wages .= $degree->hierarchy->code . " " . $degree->code . " - " . Util::decimal(Util::zero($datos['sue'])) ."\r\n";
-
                         $base_wage =  BaseWage::where('degree_id', '=', $degree->id)
-                                        ->whereMonth('month_year', '=', $month)->whereYear('month_year', '=', $year)->first();
-
+                                        ->whereDate('month_year', '=', Util::datePickPeriod($request->month_year))->first();
                         if(!$base_wage) {
-
                             $base_wage = new BaseWage;
                             $base_wage->user_id = Auth::user()->id;
                             $base_wage->degree_id = $degree->id;
                             $base_wage->month_year = $date;
+                            $base_wage->amount = Util::decimal($datos['sue']);
+                            $base_wage->save();
                         }
-
-                        $base_wage->amount = Util::decimal($datos['sue']);
-                        $base_wage->save();
-
-                        break;
                     }
                 }
-                else {
-
-                    Session::flash('message', "Fecha incorrecta no hay");
-
-                    return redirect('base_wage');
-
-                }
-
             }
 
         }
-
         \Storage::disk('local')->put('BaseWage'. $date.'.txt', "Reporte de Importacion de Sueldo Básico:\r\n$base_wages");
-
         Session::flash('message', "Sueldos importados exitosamente");
-
         return redirect('base_wage');
 
     }
