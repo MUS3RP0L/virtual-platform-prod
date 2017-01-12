@@ -217,7 +217,7 @@ class EconomicComplementController extends Controller
 
         ];
 
-        $data = array_merge($data, self::getData($affiliate_id));
+        $data = array_merge($data, self::getData($economic_complement->affiliate_id));
         $data = array_merge($data, self::getViewModel());
 
         return view('economic_complements.reception_second_step', $data);
@@ -268,7 +268,36 @@ class EconomicComplementController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $data = self::getViewModel();
+
+        $affiliate = Affiliate::idIs($request->affiliate_id)->first();
+
+        $economic_complement = EconomicComplement::affiliateIs($affiliate->id)
+                                    ->whereYear('created_at', '=', $data['year'])
+                                    ->where('semester', '=', $data['semester'])->first();
+
+        if (!$economic_complement) {
+
+            $economic_complement = new EconomicComplement;
+            if ($last_economic_complement = EconomicComplement::whereYear('created_at', '=', $data['year'])
+                                                ->where('semester', '=', $data['semester'])
+                                                ->where('deleted_at', '=', null)->orderBy('id', 'desc')->first()) {
+                $number_code = Util::separateCode($last_economic_complement->code);
+                $code = $number_code + 1;
+            }else{
+                $code = 1;
+            }
+            $economic_complement->code = $code . "/" . $data['year'];
+            $economic_complement->affiliate_id = $affiliate->id;
+        }
+
+        $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
+        $economic_complement->eco_com_modality_id = $eco_com_modality->id;
+        $economic_complement->eco_com_state_id = 1;
+        $economic_complement->city_id = trim($request->city);
+        $economic_complement->save();
+
+        return $this->save($request, $economic_complement->id);
     }
 
     /**
@@ -308,7 +337,6 @@ class EconomicComplementController extends Controller
 
     public function save($request, $economic_complement_id = false)
     {
-
         switch ($request->step) {
 
             case 'first':
@@ -326,7 +354,7 @@ class EconomicComplementController extends Controller
                 ];
 
                 $validator = Validator::make($request->all(), $rules, $messages);
-                $affiliate = Affiliate::idIs($economic_complement_id)->first();
+                $affiliate = Affiliate::idIs($request->affiliate_id)->first();
 
                 if ($validator->fails()){
                     return redirect('economic_complement_reception_first_step/'.$affiliate->id)
@@ -335,39 +363,14 @@ class EconomicComplementController extends Controller
                 }
                 else{
 
-                    $data = self::getViewModel();
-                    $economic_complement = EconomicComplement::affiliateIs($economic_complement_id)
-                                                ->whereYear('created_at', '=', $data['year'])
-                                                ->where('semester', '=', $data['semester'])->first();
-
-                    if (!$economic_complement) {
-
-                        $economic_complement = new EconomicComplement;
-                        if ($last_economic_complement = EconomicComplement::whereYear('created_at', '=', $data['year'])
-                                                            ->where('semester', '=', $data['semester'])
-                                                            ->where('deleted_at', '=', null)->orderBy('id', 'desc')->first()) {
-                            $number_code = Util::separateCode($last_economic_complement->code);
-                            $code = $number_code + 1;
-                        }else{
-                            $code = 1;
-                        }
-                        $economic_complement->code = $code . "/" . $data['year'];
-                        $economic_complement->affiliate_id = $affiliate_id;
-                    }
-
-                    $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
-                    $economic_complement->eco_com_modality_id = $eco_com_modality->id;
-                    $economic_complement->eco_com_state_id = 1;
-                    $economic_complement->city_id = trim($request->city);
-                    $economic_complement->save();
 
 
-                    $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+                    $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement_id)->first();
 
                     if (!$eco_com_applicant) {
 
                         $eco_com_applicant = new EconomicComplementApplicant;
-                        $eco_com_applicant->economic_complement_id = $economic_complement->id;
+                        $eco_com_applicant->economic_complement_id = $economic_complement_id;
 
                         switch ($request->eco_com_type) {
                             case '1':
@@ -398,7 +401,7 @@ class EconomicComplementController extends Controller
 
                     }
 
-                    return redirect('economic_complement_reception_second_step/'.$economic_complement->id);
+                    return redirect('economic_complement_reception_second_step/'.$economic_complement_id);
 
                 }
             break;

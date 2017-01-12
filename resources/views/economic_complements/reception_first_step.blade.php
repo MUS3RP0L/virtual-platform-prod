@@ -88,9 +88,10 @@
                     <h3 class="box-title">Selecciones el Tipo de Proceso</h3>
                 </div>
                 <div class="box-body">
-                    {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $affiliate->id], 'class' => 'form-horizontal']) !!}
+                    {!! Form::model($economic_complement, ['method' => 'POST', 'route' => ['economic_complement.store'], 'class' => 'form-horizontal']) !!}
                         <br>
                         <input type="hidden" name="step" value="first"/>
+                        <input type="hidden" name="affiliate_id" value="{{ $affiliate->id }}"/>
                         <div class="row">
                             <div class="col-md-4 col-md-offset-2">
                                 <div class="form-group">
@@ -115,7 +116,7 @@
                                 <div class="form-group">
                                             {!! Form::label('city', 'Ciudad', ['class' => 'col-md-4 control-label']) !!}
                                     <div class="col-md-8">
-                                        {!! Form::select('city', $cities_list, $economic_complement->city_id, ['class' => 'combobox form-control', 'required' ]) !!}
+                                        {!! Form::select('city', $cities_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
                                         <span class="help-block">Seleccione el departamento</span>
                                     </div>
                                 </div>
