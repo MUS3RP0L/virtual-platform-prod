@@ -2,7 +2,7 @@
     <div class="box-header with-border">
         <div class="row">
             <div class="col-md-12">
-                <h3 class="box-title"><span class="glyphicon glyphicon-user"></span> Información de Afiliado</h3>
+                <h3 class="box-title"><span class="glyphicon glyphicon-user"></span> {!! $affiliate->getTittleName() !!}</h3>
             </div>
         </div>
     </div>

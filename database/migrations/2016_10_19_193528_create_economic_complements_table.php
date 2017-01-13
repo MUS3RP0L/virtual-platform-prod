@@ -148,15 +148,15 @@ class CreateEconomicComplementsTable extends Migration
         Schema::create('eco_com_submitted_documents', function (Blueprint $table) {
 
             $table->bigIncrements('id');
-            $table->UnsignedBigInteger('eco_com_requirements');
             $table->UnsignedBigInteger('economic_complement_id');
+            $table->UnsignedBigInteger('eco_com_requirement_id');
             $table->date('reception_date');
             $table->boolean('status')->default(0);
             $table->string('comment')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('eco_com_requirements')->references('id')->on('eco_com_requirements');
             $table->foreign('economic_complement_id')->references('id')->on('economic_complements')->onDelete('cascade');
+            $table->foreign('eco_com_requirement_id')->references('id')->on('eco_com_requirements');
 
         });
 
