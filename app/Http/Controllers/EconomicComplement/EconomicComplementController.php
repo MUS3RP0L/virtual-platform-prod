@@ -19,6 +19,7 @@ use Muserpol\EconomicComplementType;
 use Muserpol\EconomicComplementModality;
 use Muserpol\EconomicComplementApplicant;
 use Muserpol\EconomicComplementApplicantType;
+use Muserpol\EconomicComplementRequirement;
 use Muserpol\Affiliate;
 use Muserpol\City;
 
@@ -221,26 +222,16 @@ class EconomicComplementController extends Controller
 
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
-        $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
-
         $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
 
-        $eco_com_applicant_type = EconomicComplementApplicantType::idIs($eco_com_type->id)->first();
-
-        if ($eco_com_applicant->gender == 'M') {
-            $gender_list = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
-        }elseif ($eco_com_applicant->gender == 'F') {
-            $gender_list = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
-        }
+        $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
 
         $data = [
 
             'affiliate' => $affiliate,
-            'eco_com_type' => $eco_com_type->name,
-            'eco_com_applicant_type' => $eco_com_applicant_type,
             'economic_complement' => $economic_complement,
-            'eco_com_applicant' => $eco_com_applicant,
-            'gender_list' => $gender_list
+            'eco_com_type' => $eco_com_type->name,
+            'eco_com_requirements' => $eco_com_requirements,
 
         ];
 

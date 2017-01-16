@@ -104,7 +104,6 @@
                     {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $affiliate->id], 'class' => 'form-horizontal']) !!}
                         <br>
                         <input type="hidden" name="step" value="second"/>
-                        <input type="hidden" name="economic_complement_id" value="{{ $economic_complement->id }}"/>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">

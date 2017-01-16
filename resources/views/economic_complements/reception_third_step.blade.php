@@ -101,8 +101,9 @@
                     <h3 class="box-title">Seleccionar los Requisitos</h3>
                 </div>
                 <div class="box-body">
-                    {!! Form::model($requirements, ['method' => 'PATCH', 'route' => ['retirement_fund.update', $affiliate->id], 'class' => 'form-horizontal']) !!}
-                        <input type="hidden" name="type" value="form_document"/>
+                    {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $affiliate->id], 'class' => 'form-horizontal']) !!}
+                        <br>
+                        <input type="hidden" name="step" value="third"/>
                         <div class="row">
                             <div class="col-md-12" data-bind="event: { mouseover: enableDetails, mouseout: disableDetails }">
                                 <table class="table table-striped table-hover" style="width:100%;font-size: 14px">
