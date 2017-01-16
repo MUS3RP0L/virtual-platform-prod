@@ -157,33 +157,21 @@ class EconomicComplementController extends Controller
         ];
     }
 
-    public function getData($affiliate_id)
-    {
-        $affiliate = Affiliate::idIs($affiliate_id)->first();
-
-        $data = [
-
-           'affiliate' => $affiliate
-
-        ];
-
-        return array_merge($data, self::getViewModel());
-
-    }
-
     public function ReceptionFirstStep($affiliate_id)
     {
         $eco_com_type = false;
         $economic_complement = new EconomicComplement;
+        $affiliate = Affiliate::idIs($affiliate_id)->first();
+
 
         $data = [
 
            'eco_com_type' => $eco_com_type,
-           'economic_complement' => $economic_complement
+           'economic_complement' => $economic_complement,
+           'affiliate' => $affiliate
 
         ];
 
-        $data = array_merge($data, self::getData($affiliate_id));
         $data = array_merge($data, self::getViewModel());
 
         return view('economic_complements.reception_first_step', $data);
@@ -195,6 +183,8 @@ class EconomicComplementController extends Controller
 
         $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
 
+        $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+
         $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
 
         $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
@@ -209,6 +199,7 @@ class EconomicComplementController extends Controller
 
         $data = [
 
+            'affiliate' => $affiliate,
             'eco_com_type' => $eco_com_type->name,
             'eco_com_applicant_type' => $eco_com_applicant_type,
             'economic_complement' => $economic_complement,
@@ -217,21 +208,20 @@ class EconomicComplementController extends Controller
 
         ];
 
-        $data = array_merge($data, self::getData($economic_complement->affiliate_id));
         $data = array_merge($data, self::getViewModel());
 
         return view('economic_complements.reception_second_step', $data);
     }
 
-    public function ReceptionThirdStep($affiliate_id)
+    public function ReceptionThirdStep($economic_complement_id)
     {
         $data = self::getViewModel();
-        $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
-                                ->whereYear('created_at', '=', $data['year'])
-                                ->where('semester', '=', $data['semester'])->first();
+
+        $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+
+        $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
         $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
-
 
         $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
 
@@ -245,6 +235,7 @@ class EconomicComplementController extends Controller
 
         $data = [
 
+            'affiliate' => $affiliate,
             'eco_com_type' => $eco_com_type->name,
             'eco_com_applicant_type' => $eco_com_applicant_type,
             'economic_complement' => $economic_complement,
@@ -253,10 +244,9 @@ class EconomicComplementController extends Controller
 
         ];
 
-        $data = array_merge($data, self::getData($affiliate_id));
         $data = array_merge($data, self::getViewModel());
 
-        return view('economic_complements.reception_second_step', $data);
+        return view('economic_complements.reception_third_step', $data);
     }
 
     /**
@@ -441,7 +431,7 @@ class EconomicComplementController extends Controller
                             $eco_com_applicant->cell_phone_number = $request->cell_phone_number;
                             $eco_com_applicant->nua = $request->nua;
 
-                            $affiliate = Affiliate::idIs($affiliate_id)->first();
+                            $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
                             $affiliate->identity_card = $request->identity_card;
                             if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
                             $affiliate->last_name = $request->last_name;
@@ -466,7 +456,7 @@ class EconomicComplementController extends Controller
 
                     $eco_com_applicant->save();
 
-                    return redirect('economic_complement_reception_third_step/'.$affiliate_id);
+                    return redirect('economic_complement_reception_third_step/'.$economic_complement_id);
 
                 }
 
