@@ -216,8 +216,8 @@ class BaseWageController extends Controller
         foreach ($degrees as $degree) {
 
             foreach ($results as $datos) {
-                if($month ==  (int) $datos['mes'] && $newyear == rtrim($datos['a_o'])){
-                    if($degree->hierarchy->code == $datos['niv']  && $degree->code == $datos['gra'] && Util::decimal(Util::zero($datos['sue'])) <> 0 ) {
+                if($month ==  (int) $datos['mes'] && $newyear == rtrim($datos['a_o'])){                    
+                    if($degree->hierarchy->code == $datos['niv']  && $degree->code == $datos['gra'] && Util::decimal(Util::zero($datos['sue'])) > 0 ) {
                         $base_wages .= $degree->hierarchy->code . " " . $degree->code . " - " . Util::decimal(Util::zero($datos['sue'])) ."\r\n";
                         $base_wage =  BaseWage::where('degree_id', '=', $degree->id)
                                         ->whereDate('month_year', '=', Util::datePickPeriod($request->month_year))->first();
