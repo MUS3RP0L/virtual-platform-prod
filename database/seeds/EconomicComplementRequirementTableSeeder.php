@@ -48,7 +48,7 @@ class EconomicComplementRequirementTableSeeder extends Seeder
 
         foreach ($statuses as $status) {
 
-            Muserpol\Requirement::create($status);
+            Muserpol\EconomicComplementRequirement::create($status);
 
         }
     }

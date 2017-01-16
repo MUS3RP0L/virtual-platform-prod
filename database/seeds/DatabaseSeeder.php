@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PensionEntityTableSeeder::class);
         $this->call(EconomicComplementApplicantTypeTableSeeder::class);
         $this->call(ComplementaryFactorTableSeeder::class);
+        $this->call(EconomicComplementRequirementTableSeeder::class);
 
         Model::reguard();
     }
