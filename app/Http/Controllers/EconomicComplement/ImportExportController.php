@@ -70,6 +70,8 @@ class ImportExportController extends Controller
                 $reimbursements = $datos->rentegro_r_basica + $datos->renta_dignidad + $datos->reintegro_renta_dignidad +  $datos->aguinaldo_renta_dignidad + $datos->reintegro_aguinaldo + $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
                 $ecomplement->total = $datos->total_ganado - $reimbursements;
                 $ecomplement->save();
+                $affiliates = Affiliate::where('id','=', $afi->affiliate_id)->first();
+                $affiliates->pension_entity_id = 5;
                 $found ++;
             }
             else{
