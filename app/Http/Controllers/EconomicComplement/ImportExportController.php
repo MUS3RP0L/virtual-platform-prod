@@ -135,6 +135,20 @@ class ImportExportController extends Controller
                   $ecomplement = EconomicComplement::where('affiliate_id','=', $afi->affiliate_id)->whereYear('review_date','=', $afi->review_date)->where('semester','=', $afi->semester)->where('eco_com_state_id','=', $afi->eco_com_state_id)->first();
                   $ecomplement->total = $datos->total_pension;
                   $ecomplement->save();
+                  $affiliates = Affiliate::where('id', '=', $afi->affiliate_id)->first();
+                  if ($datos->afpea == "01") {
+                      $affiliates->pension_entity_id = 1;
+                  }
+                  elseif($datos->afpea == "02") {
+                      $affiliates->pension_entity_id = 2;
+                  }
+                  elseif($datos->afpea == "13"){
+                      $affiliates->pension_entity_id = 3;
+                  }
+                  else{
+                       $affiliates->pension_entity_id = 4;
+                  }
+                  $affiliates->save();
                   $found ++;
               }
               else{
