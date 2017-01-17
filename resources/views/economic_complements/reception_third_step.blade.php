@@ -128,7 +128,7 @@
                                 </table>
                             </div>
                         </div>
-                        {!! Form::hidden('data', null, ['data-bind'=> 'value: ko.toJSON(lastSavedJson)']) !!}
+                        {!! Form::hidden('data', null, ['data-bind'=> 'value: lastSavedJson']) !!}
                         <br>
                         <div class="row text-center">
                             <div class="form-group">
@@ -171,7 +171,7 @@
                 self.lastSavedJson(JSON.stringify(dataToSave));
             };
             self.lastSavedJson = ko.observable("");
-            
+
         };
 
         window.model = new SelectRequeriments({!! $eco_com_requirements !!});

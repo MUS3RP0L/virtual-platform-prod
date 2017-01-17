@@ -9,8 +9,8 @@ class EconomicComplementSubmittedDocument extends Model
     protected $table = 'eco_com_submitted_documents';
 
     protected $fillable = [
-        'eco_com_requirements',
         'economic_complement_id',
+        'eco_com_requirement_id',
         'reception_date',
         'status',
         'comment'
