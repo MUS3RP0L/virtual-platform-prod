@@ -74,6 +74,18 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Ciudad
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $economic_complement->city->name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -86,8 +98,8 @@
         <div class="col-md-12">
             <div class="form-group">
                 <ul class="nav nav-pills" style="display:flex;justify-content:center;">
-                    <li><a href="#"><span class="badge">1</span> Tipo de Proceso</a></li>
-                    <li><a href="#"><span class="badge">2</span> Beneficiario</a></li>
+                    <li><a href="{!! url('economic_complement_reception_first_step/' . $economic_complement->affiliate_id) !!}"><span class="badge">1</span> Tipo de Proceso</a></li>
+                    <li><a href="{!! url('economic_complement_reception_second_step/' . $economic_complement->id) !!}"><span class="badge">2</span> Beneficiario</a></li>
                     <li class="active"><a href="#"><span class="badge">3</span> Requisitos</a></li>
                 </ul>
             </div>
@@ -133,7 +145,9 @@
                         <div class="row text-center">
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-primary">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;&nbsp;&nbsp;</button>
+                                    <a href="{!! url('economic_complement_reception_second_step/' . $economic_complement->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Volver">&nbsp;<span class="fa fa-undo"></span>&nbsp;</a>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
                                 </div>
                             </div>
                         </div>

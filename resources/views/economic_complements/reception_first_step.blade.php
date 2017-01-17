@@ -7,8 +7,8 @@
 			{!! Breadcrumbs::render('create_economic_complement') !!}
         </div>
         <div class="col-md-2 text-right">
-            <a href="{!! url('affiliate/' . $affiliate->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="top" data-original-title="Atrás">
-                &nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;
+            <a href="{!! url('affiliate/' . $affiliate->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="top" data-original-title="Cancelar">
+                &nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;
             </a>
         </div>
     </div>
@@ -96,17 +96,17 @@
                             <div class="col-md-4 col-md-offset-2">
                                 <div class="form-group">
                                     <div class="radio radio-primary">
-                                        <label>
+                                        <label style="font-size: 18px">
                                             {!! Form::radio('eco_com_type', '1', ($eco_com_type == '1'), ['required' => 'required']) !!} Vejez
                                         </label>
                                     </div><br>
                                     <div class="radio radio-primary">
-                                        <label>
+                                        <label style="font-size: 18px">
                                             {!! Form::radio('eco_com_type', '2', ($eco_com_type == '2')) !!} Viudedad
                                         </label>
                                     </div><br>
                                     <div class="radio radio-primary">
-                                        <label>
+                                        <label style="font-size: 18px">
                                             {!! Form::radio('eco_com_type', '3', ($eco_com_type == '3')) !!} Orfandad
                                         </label>
                                     </div><br>
@@ -116,7 +116,7 @@
                                 <div class="form-group">
                                             {!! Form::label('city', 'Ciudad', ['class' => 'col-md-4 control-label']) !!}
                                     <div class="col-md-8">
-                                        {!! Form::select('city', $cities_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
+                                        {!! Form::select('city', $cities_list, $economic_complement->city_id, ['class' => 'combobox form-control', 'required' ]) !!}
                                         <span class="help-block">Seleccione el departamento</span>
                                     </div>
                                 </div>
