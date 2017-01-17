@@ -3,13 +3,8 @@
 @section('contentheader_title')
 
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
 			{!! Breadcrumbs::render('create_economic_complement') !!}
-        </div>
-        <div class="col-md-2 text-right">
-            <a href="{!! url('affiliate/' . $affiliate->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="top" data-original-title="Atrás">
-                &nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;
-            </a>
         </div>
     </div>
 
@@ -74,6 +69,18 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Ciudad
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $economic_complement->city->name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -86,7 +93,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <ul class="nav nav-pills" style="display:flex;justify-content:center;">
-                    <li><a href="#"><span class="badge">1</span> Tipo de Proceso</a></li>
+                    <li><a href="{!! url('economic_complement_reception_first_step/' . $economic_complement->affiliate_id) !!}"><span class="badge">1</span> Tipo de Proceso</a></li>
                     <li class="active"><a href="#"><span class="badge">2</span> Beneficiario</a></li>
                     <li><a href="#"><span class="badge">3</span> Requisitos</a></li>
                 </ul>
@@ -201,6 +208,8 @@
                         <div class="row text-center">
                             <div class="form-group">
                                 <div class="col-md-12">
+                                    <a href="{!! url('economic_complement_reception_first_step/' . $economic_complement->affiliate_id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Volver">&nbsp;<span class="fa fa-undo"></span>&nbsp;</a>
+                                    &nbsp;&nbsp;&nbsp;
                                     <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Siguiente">&nbsp;<i class="fa fa-arrow-right"></i>&nbsp;</button>
                                 </div>
                             </div>
