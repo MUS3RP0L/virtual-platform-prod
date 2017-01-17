@@ -20,6 +20,7 @@ use Muserpol\EconomicComplementModality;
 use Muserpol\EconomicComplementApplicant;
 use Muserpol\EconomicComplementApplicantType;
 use Muserpol\EconomicComplementRequirement;
+use Muserpol\EconomicComplementSubmittedDocument;
 use Muserpol\Affiliate;
 use Muserpol\City;
 
@@ -446,6 +447,50 @@ class EconomicComplementController extends Controller
                     }
 
                     $eco_com_applicant->save();
+
+                    return redirect('economic_complement_reception_third_step/'.$economic_complement_id);
+
+                }
+
+            break;
+
+            case 'third':
+
+                $rules = [
+
+                ];
+
+                $messages = [
+
+                ];
+
+                $validator = Validator::make($request->all(), $rules, $messages);
+
+                if ($validator->fails()){
+                    return redirect('economic_complement_reception_second_step/' . $economic_complement_id)
+                    ->withErrors($validator)
+                    ->withInput();
+                }
+                else{
+
+                    foreach (json_decode($request->data) as $item)
+                    {
+                        $eco_com_submitted_document = EconomicComplementSubmittedDocument::where('economic_complement_id', '=', $economic_complement_id)
+                                    ->where('eco_com_requirement_id', '=', $item->id)->first();
+
+                        if (!$eco_com_submitted_document) {
+                            $eco_com_submitted_document = new EconomicComplementSubmittedDocument;
+                            $eco_com_submitted_document->economic_complement_id = $economic_complement_id;
+                            $eco_com_submitted_document->eco_com_requirement_id = $item->id;
+                        }
+                        $eco_com_submitted_document->status = $item->status;
+                        $eco_com_submitted_document->reception_date = date('Y-m-d');
+                        $eco_com_submitted_document->save();
+
+                        $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+                        $economic_complement->reception_date = date('Y-m-d');
+                        $economic_complement->save();
+                    }
 
                     return redirect('economic_complement_reception_third_step/'.$economic_complement_id);
 
