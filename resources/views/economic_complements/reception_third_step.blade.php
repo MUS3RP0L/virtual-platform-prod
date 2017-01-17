@@ -101,7 +101,7 @@
                     <h3 class="box-title">Seleccionar los Requisitos</h3>
                 </div>
                 <div class="box-body">
-                    {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $affiliate->id], 'class' => 'form-horizontal']) !!}
+                    {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
 
                         <input type="hidden" name="step" value="third"/>
                         <div class="row">
