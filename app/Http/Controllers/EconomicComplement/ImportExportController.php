@@ -72,6 +72,7 @@ class ImportExportController extends Controller
                 $ecomplement->save();
                 $affiliates = Affiliate::where('id','=', $afi->affiliate_id)->first();
                 $affiliates->pension_entity_id = 5;
+                $affiliates->save();
                 $found ++;
             }
             else{
@@ -129,7 +130,6 @@ class ImportExportController extends Controller
               ->select(DB::raw('economic_complements.*'))
               ->join('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
               ->where('affiliates.identity_card', '=', Util::zero($datos->nro_identificacion))
-              ->where('affiliates.pension_entity_id','<>', 5)
               ->whereYear('economic_complements.review_date', '=', $year)
               ->where('economic_complements.semester', '=', $semester)
               ->where('economic_complements.eco_com_state_id', '=', 2)->first();
