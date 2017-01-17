@@ -513,4 +513,73 @@ class EconomicComplementController extends Controller
     {
         //
     }
+
+    public function print_sworn_declaration1($economic_complement_id)
+    {
+      $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+      $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+      $title = "FORMULARIO DE DECLARACIÓN JURADA VOLUNTARIA";
+      $date = Util::getDateEdit(date('Y-m-d'));
+      $current_date = Carbon::now();
+      $hour = Carbon::parse($current_date)->toTimeString();
+      $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+      $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+      $view = \View::make('economic_complements.print.sworn_declaration1', compact('header1','header2','title','date','hour','affiliate','economic_complement'))->render();
+      $pdf = \App::make('dompdf.wrapper');
+      $pdf->loadHTML($view)->setPaper('legal');
+      return $pdf->stream();
+
+    }
+
+    public function print_sworn_declaration2($economic_complement_id)
+    {
+      $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+      $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+      $title = "FORMULARIO DE DECLARACIÓN JURADA VOLUNTARIA";
+      $date = Util::getDateEdit(date('Y-m-d'));
+      $current_date = Carbon::now();
+      $hour = Carbon::parse($current_date)->toTimeString();
+      $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+      $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+      $spouse  = Spouse::where('affiliate_id', '=', $affiliate->id )->first();
+      $view = \View::make('economic_complements.print.sworn_declaration2', compact('header1','header2','title','date','hour','affiliate','spouse','economic_complement'))->render();
+      $pdf = \App::make('dompdf.wrapper');
+      $pdf->loadHTML($view)->setPaper('legal');
+      return $pdf->stream();
+
+    }
+
+    public function print_inclusion_solicitude($economic_complement_id)
+    {
+      $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+      $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+      $title = "";
+      $date = Util::getDateEdit(date('Y-m-d'));
+      $current_date = Carbon::now();
+      $hour = Carbon::parse($current_date)->toTimeString();
+      $data = $this->getData($affiliate);
+      $affiliate = $data['affiliate'];
+      //$documents = EconomicComplementSubmittedDocument::select(['id', 'eco_com_requirements','economic_complement_id', 'status'])->where('economic_complement_id', $economic_complement->id)->get();
+      $view = \View::make('economic_complements.print.inclusion_solicitude', compact('header1','header2','title','date','hour','affiliate'))->render();
+      $pdf = \App::make('dompdf.wrapper');
+      $pdf->loadHTML($view)->setPaper('letter');
+      return $pdf->stream();
+    }
+
+    public function print_pay_solicitude($economic_complement_id)
+    {
+      $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+      $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+      $title = "";
+      $date = Util::getDateEdit(date('Y-m-d'));
+      $current_date = Carbon::now();
+      $hour = Carbon::parse($current_date)->toTimeString();
+      $data = $this->getData($affiliate);
+      $affiliate = $data['affiliate'];
+      //$documents = EconomicComplementSubmittedDocument::select(['id', 'eco_com_requirements','economic_complement_id', 'status'])->where('economic_complement_id', $economic_complement->id)->get();
+      $view = \View::make('economic_complements.print.pay_solicitude', compact('header1','header2','title','date','hour','affiliate'))->render();
+      $pdf = \App::make('dompdf.wrapper');
+      $pdf->loadHTML($view)->setPaper('letter');
+      return $pdf->stream();
+    }
 }

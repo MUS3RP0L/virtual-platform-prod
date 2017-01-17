@@ -60,10 +60,6 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::resource('affiliate', 'Affiliate\AffiliateController');
 
 	Route::get('print_affiliate/{affiliate_id}', 'Affiliate\AffiliateController@print_affiliate');
-	Route::get('print_sworn_declaration1/{affiliate_id}', 'Affiliate\AffiliateController@print_sworn_declaration1');
-	Route::get('print_sworn_declaration2/{affiliate_id}', 'Affiliate\AffiliateController@print_sworn_declaration2');
-	Route::get('print_inclusion_solicitude/{affiliate_id}', 'Affiliate\AffiliateController@print_inclusion_solicitude');
-	Route::get('print_pay_solicitude/{affiliate_id}', 'Affiliate\AffiliateController@print_pay_solicitude');
 	Route::post('search_affiliate', array('as'=>'search_affiliate', 'uses'=>'Affiliate\AffiliateController@SearchAffiliate'));
 	Route::get('get_affiliate', array('as'=>'get_affiliate', 'uses'=>'Affiliate\AffiliateController@Data'));
 
@@ -128,8 +124,12 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('economic_complement_reception_third_step/{economic_complement_id}','EconomicComplement\EconomicComplementController@ReceptionThirdStep');
 
 	Route::get('get_economic_complement', array('as'=>'get_economic_complement', 'uses'=>'EconomicComplement\EconomicComplementController@Data'));
-
 	Route::get('get_economic_complement_type/{id}', array('as'=>'get_economic_complement_type', 'uses'=>'EconomicComplement\EconomicComplementController@getEconomicComplementType'));
+
+	Route::get('print_sworn_declaration1/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_sworn_declaration1');
+	Route::get('print_sworn_declaration2/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_sworn_declaration2');
+	Route::get('print_inclusion_solicitude/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_inclusion_solicitude');
+	Route::get('print_pay_solicitude/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_pay_solicitude');
 
 	Route::resource('importexport', 'EconomicComplement\ImportExportController');
 	Route::post('import_senasir', array('as'=>'import_senasir', 'uses'=> 'EconomicComplement\ImportExportController@import_from_senasir'));

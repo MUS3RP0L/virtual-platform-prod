@@ -98,9 +98,13 @@ class Affiliate extends Model
         return $this->belongsTo('Muserpol\AffiliateState');
     }
 
-    public function city()
+    public function city_identity_card()
     {
-        return $this->belongsTo('Muserpol\City');
+        return $this->hasOne('Muserpol\City', 'id','city_identity_card_id'); }
+
+    public function city_birth()
+    {
+        return $this->hasOne('Muserpol\City', 'id','city_birth_id');
     }
 
     public function retirement_fund()
@@ -143,6 +147,11 @@ class Affiliate extends Model
     public function getTittleNamePrint()
     {
         return $this->degree->shortened . ' ' . $this->last_name . ' ' . $this->mothers_last_name . ' ' . $this->surname_husband . ' ' . $this->first_name . ' ' . $this->second_name;
+    }
+
+    public function getTitleNameFull()
+    {
+        return $this->last_name . ' ' . $this->mothers_last_name . ' ' . $this->surname_husband . ' ' . $this->first_name . ' ' . $this->second_name;
     }
 
     public function getShortBirthDate()

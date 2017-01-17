@@ -23,10 +23,6 @@ class City extends Model
           return $this->hasMany('Muserpol\EconomicComplement');
     }
 
-    public function affiliates(){
-          return $this->hasMany('Muserpol\Affiliate');
-    }
-
     public function spouses(){
           return $this->hasMany('Muserpol\Spouse');
     }
