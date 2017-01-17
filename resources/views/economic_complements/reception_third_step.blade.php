@@ -102,24 +102,24 @@
                 </div>
                 <div class="box-body">
                     {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $affiliate->id], 'class' => 'form-horizontal']) !!}
-                        <br>
+
                         <input type="hidden" name="step" value="third"/>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12" data-bind="event: {mouseover: save, mouseout: save}">
                                 <table class="table table-bordered table-hover" style="font-size: 16px">
                                     <thead>
-                                        <tr>
-                                            <th>Requisitos</th>
-                                            <th>Estado</th>
+                                        <tr class="success">
+                                            <th class="text-center">Requisitos</th>
+                                            <th class="text-center">Estado</th>
                                         </tr>
                                     </thead>
-                                    <tbody data-bind="foreach: requirement">
+                                    <tbody data-bind="foreach: requirements">
                                         <tr>
-                                            <td data-bind='text: requiname'></td>
+                                            <td data-bind='text: name'></td>
                                             <td>
                                                 <div class="row text-center">
                                                     <div class="checkbox">
-                                                        <label><input type="checkbox" data-bind="checked: booleanValue"></label>
+                                                        <label><input type="checkbox" data-bind='checked: status, valueUpdate: "afterkeydown"'/></label>
                                                     </div>
                                                 </div>
                                             </td>
@@ -128,9 +128,8 @@
                                 </table>
                             </div>
                         </div>
-
-                        <input type="hidden" name="data" data-bind="value: lastSavedJson"/>
-
+                        {!! Form::hidden('data', null, ['data-bind'=> 'value: ko.toJSON(lastSavedJson)']) !!}
+                        <br>
                         <div class="row text-center">
                             <div class="form-group">
                                 <div class="col-md-12">
@@ -154,34 +153,29 @@
             $('[data-toggle="tooltip"]').tooltip();
         });
 
-        var Model = function(requirement) {
+        function SelectRequeriments(requirements) {
 
-            this.requirement = ko.observableArray(ko.utils.arrayMap(requirement, function(document) {
-            return { requirement_id: document.id, requiname: document.name, booleanValue: false };
+            var self = this;
+            self.requirements = ko.observableArray(ko.utils.arrayMap(requirements, function(document) {
+            return { id: document.id, name: document.shortened, status: false };
             }));
 
-            this.enableDetails = function() {
-                this.lastSavedJson(JSON.stringify(ko.toJS(this.requirement), null, 2));
+            self.save = function() {
+                var dataToSave = $.map(self.requirements(), function(requirement) {
+                    return  {
+                        id: requirement.id,
+                        name: requirement.name,
+                        status: requirement.status
+                    }
+                });
+                self.lastSavedJson(JSON.stringify(dataToSave));
             };
-            this.disableDetails = function() {
-                this.lastSavedJson(JSON.stringify(ko.toJS(this.requirement), null, 2));
-            };
-            this.lastSavedJson = ko.observable("");
-
+            self.lastSavedJson = ko.observable("");
+            
         };
 
-        ko.bindingHandlers.fadeVisible = {
-            init: function(element, valueAccessor) {
-                var value = valueAccessor();
-                $(element).toggle(ko.unwrap(value));
-            },
-            update: function(element, valueAccessor) {
-                var value = valueAccessor();
-                ko.unwrap(value) ? $(element).fadeIn() : $(element).fadeOut();
-            }
-        };
-
-        ko.applyBindings(new Model({!! $eco_com_requirements !!}));
+        window.model = new SelectRequeriments({!! $eco_com_requirements !!});
+        ko.applyBindings(model);
 
     </script>
 
