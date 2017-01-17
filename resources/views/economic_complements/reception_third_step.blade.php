@@ -87,8 +87,8 @@
             <div class="form-group">
                 <ul class="nav nav-pills" style="display:flex;justify-content:center;">
                     <li><a href="#"><span class="badge">1</span> Tipo de Proceso</a></li>
-                    <li class="active"><a href="#"><span class="badge">2</span> Beneficiario</a></li>
-                    <li><a href="#"><span class="badge">3</span> Requisitos</a></li>
+                    <li><a href="#"><span class="badge">2</span> Beneficiario</a></li>
+                    <li class="active"><a href="#"><span class="badge">3</span> Requisitos</a></li>
                 </ul>
             </div>
         </div>
@@ -105,8 +105,8 @@
                         <br>
                         <input type="hidden" name="step" value="third"/>
                         <div class="row">
-                            <div class="col-md-12" data-bind="event: { mouseover: enableDetails, mouseout: disableDetails }">
-                                <table class="table table-striped table-hover" style="width:100%;font-size: 14px">
+                            <div class="col-md-12">
+                                <table class="table table-bordered table-hover" style="font-size: 16px">
                                     <thead>
                                         <tr>
                                             <th>Requisitos</th>
@@ -134,7 +134,6 @@
                         <div class="row text-center">
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <a href="{!! url('retirement_fund/' . $affiliate->id) !!}" data-target="#" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
                                     &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-primary">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;&nbsp;&nbsp;</button>
                                 </div>
                             </div>
@@ -155,5 +154,35 @@
             $('[data-toggle="tooltip"]').tooltip();
         });
 
+        var Model = function(requirement) {
+
+            this.requirement = ko.observableArray(ko.utils.arrayMap(requirement, function(document) {
+            return { requirement_id: document.id, requiname: document.name, booleanValue: false };
+            }));
+
+            this.enableDetails = function() {
+                this.lastSavedJson(JSON.stringify(ko.toJS(this.requirement), null, 2));
+            };
+            this.disableDetails = function() {
+                this.lastSavedJson(JSON.stringify(ko.toJS(this.requirement), null, 2));
+            };
+            this.lastSavedJson = ko.observable("");
+
+        };
+
+        ko.bindingHandlers.fadeVisible = {
+            init: function(element, valueAccessor) {
+                var value = valueAccessor();
+                $(element).toggle(ko.unwrap(value));
+            },
+            update: function(element, valueAccessor) {
+                var value = valueAccessor();
+                ko.unwrap(value) ? $(element).fadeIn() : $(element).fadeOut();
+            }
+        };
+
+        ko.applyBindings(new Model({!! $eco_com_requirements !!}));
+
     </script>
+
 @endpush
