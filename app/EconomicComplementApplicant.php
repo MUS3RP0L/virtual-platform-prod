@@ -13,6 +13,7 @@ class EconomicComplementApplicant extends Model
     protected $fillable = [
       'economic_complement_id',
       'eco_com_applicant_type_id',
+      'city_identity_card_id',
       'identity_card',
       'last_name',
       'mothers_last_name',
@@ -34,7 +35,11 @@ class EconomicComplementApplicant extends Model
         return $this->belongsTo('Muserpol\EconomicComplementApplicantType');
     }
 
-    public function scopeEconomicComplementIs($query, $id){
+    public function city_identity_card() {
+        return $this->hasOne('Muserpol\City', 'id','city_identity_card_id');
+    }
+
+    public function scopeEconomicComplementIs($query, $id) {
         return $query->where('economic_complement_id', $id);
     }
 
