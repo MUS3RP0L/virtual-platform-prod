@@ -190,6 +190,18 @@ class Affiliate extends Model
         }
     }
 
+    public function getPhone() {
+        if($this->phone_number && $this->cell_phone_number) {
+            return $this->phone_number."-".$this->cell_phone_number;
+        }
+        else if($this->phone_number){
+            return $this->phone_number;
+        }
+        else if($this->cell_phone_number){
+            return $this->cell_phone_number;
+        }
+    }
+
     public function getCivilStatus()
     {
         if ($this->civil_status == 'S') {

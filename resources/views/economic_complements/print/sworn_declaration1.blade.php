@@ -6,7 +6,7 @@ Formulario Nº 1
 
 @section('content')
 
-<div class="title2"><b>Registro: Nº {!! $affiliate->registration !!}/{!! Util::getYear(date('Y-m-d')) !!}</div>
+<div class="title2"><b>Registro: Nº {!! $economic_complement->code !!} </div>
 <div id="project">
   <table>
               <tr>
@@ -82,7 +82,7 @@ Formulario Nº 1
 
           </tr>
           <tr>
-            <th class="info" style="border: 0px;text-align:center;">{!! $affiliate->getTitleNameFull() !!}<br>C.I. {!! $affiliate->identity_card !!} Telefono. {!! $affiliate->phone !!}</th>
+            <th class="info" style="border: 0px;text-align:center;">{!! $affiliate->getTitleNameFull() !!}<br>C.I. {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card->shortened !!} Telefono. {!! $affiliate->getPhone() !!}</th>
             <th class="info" style="border: 0px;text-align:center;">Huella Digital Pulgar Derecho</th>
             <th class="info" style="border: 0px;text-align:center;width: 15%;"></th>
           </tr>
