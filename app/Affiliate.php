@@ -100,7 +100,8 @@ class Affiliate extends Model
 
     public function city_identity_card()
     {
-        return $this->hasOne('Muserpol\City', 'id','city_identity_card_id'); }
+        return $this->hasOne('Muserpol\City', 'id','city_identity_card_id');
+    }
 
     public function city_birth()
     {
