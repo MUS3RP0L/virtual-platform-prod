@@ -39,7 +39,7 @@
                             <div class="row">
                                 <div class="col-md-6">Carnet Identidad</div>
                                 <div class="col-md-6">
-                                    {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card->shortened !!}
+                                    {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card ? $affiliate->city_identity_card->shortened : '' !!}
                                 </div>
                             </div>
                         </td>
