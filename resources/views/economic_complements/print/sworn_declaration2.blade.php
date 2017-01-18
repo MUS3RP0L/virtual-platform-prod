@@ -5,7 +5,7 @@ Formulario Nº 2
 @endsection
 
 @section('content')
-<div class="title2"><b>Registro: Nº {!! $affiliate->registration !!}/{!! Util::getYear(date('Y-m-d')) !!}</div>
+<div class="title2"><b>Registro: Nº {!! $economic_complement->code !!}</div>
 <div id="project">
   <table>
   <tr>
@@ -20,11 +20,11 @@ Formulario Nº 2
 
   </tr>
   <tr>
-  <th class="info" style="text-align:center;"><h4>{!! $affiliate->b_identity_card !!} {!! $affiliate->b_city_identity_card !!}</h4></th>
-  <th class="info" style="text-align:center;"><h4>{!! $affiliate->b_name !!}</h4></th>
-  <th class="info" style="text-align:center;width: 16%;"><h4> FECHA NAC. B</h4></th>
-  <th class="info" style="text-align:center;"><h4>VEJEZ</h4></th>
-  <th class="info" style="text-align:center;"><h4>{!! $affiliate->b_nua !!}</h4></th>
+  <th class="info" style="text-align:center;"><h4>{!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->shortened !!} </h4></th>
+  <th class="info" style="text-align:center;"><h4>{!! $eco_com_applicant->getTitleNameFull() !!}</h4></th>
+  <th class="info" style="text-align:center;width: 16%;"><h4>{!! $eco_com_applicant->getShortBirthDate() !!}</h4></th>
+  <th class="info" style="text-align:center;"><h4> {!! $eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->name !!}</h4></th>
+  <th class="info" style="text-align:center;"><h4>{!! $affiliate->nua !!}</h4></th>
 
   </tr
 
@@ -42,17 +42,17 @@ Formulario Nº 2
 
   </tr>
   <tr>
-  <th class="info" style="text-align:center;"><h4>{!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card !!}</h4></th>
+  <th class="info" style="text-align:center;"><h4>{!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card->shortened !!} </h4></th>
   <th class="info" style="text-align:center;"><h4>{!! $affiliate->getTittleNamePrint() !!}</h4></th>
-  <th class="info" style="text-align:center;width: 16%;"><h4>{!! $affiliate->getFullDateNactoPrint() !!}</h4></th>
-  <th class="info" style="text-align:center;"><h4>VEJEZ</h4></th>
+  <th class="info" style="text-align:center;width: 16%;"><h4>{!! $affiliate->getShortBirthDate() !!}</h4></th>
+  <th class="info" style="text-align:center;"><h4>{!! $economic_complement->economic_complement_modality->economic_complement_type->name !!}</h4></th>
   <th class="info" style="text-align:center;"><h4>{!! $affiliate->nua !!}</h4></th>
 
   </tr>
 
 </table>
-  <p align="justify">Yo, <b>{!! $affiliate->b_name !!}</b> boliviano (a) de nacimiento con Cédula de Identidad <b>N° {!! $affiliate->b_identity_card !!} {!! $affiliate->b_city_identity_card !!}</b> .
-    con estado civil <b>{!! $affiliate->b_civil_status !!}</b> y con residencia actualmente en el Departamento de <b>{!! $affiliate->b_city_birth !!}</b>.; mayor de edad,
+  <p align="justify">Yo, <b>{!! $eco_com_applicant->getTitleNameFull() !!}</b> boliviano (a) de nacimiento con Cédula de Identidad <b>N° {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->shortened !!} </b> .
+    con estado civil <b>{!! $eco_com_applicant->getCivilStatus() !!}</b> y con residencia actualmente en el Departamento de <b>{!! $economic_complement->city->name !!}</b>.; mayor de edad,
     y hábil por derecho; consiente de la responsabilidad que asumo ante la Mutual de Servicios al Policía – MUSERPOL,
     de manera voluntaria y sin que medie ningún tipo de presión, mediante la presente, <b>DECLARO LO SIGUIENTE:</b>
   </p>
@@ -96,7 +96,7 @@ Formulario Nº 2
       <td style="text-align:justify;font-size:0.9em;">De presentarse una tercera persona que acredite igual o mayor derecho para acceder al Beneficio del Complemento Económico por mi causahabiente, estoy de acuerdo en que la Mutual de Servicios al Policía no se hace responsable por la suspensión del mencionado Beneficio y estoy de acuerdo a realizar devolución de montos cobrados.</td>
     </tr>
   </table>
-<p align="justify">En mérito de los datos registrados en forma precedente, el interesado aprueba y ratifica su tenor de manera íntegra, quien en señal de conformidad en forma expresa y voluntaria firma el presente documento en la ciudad de La Paz, {!! Util::getfulldate(date('Y-m-d')) !!}.</p>
+<p align="justify">En mérito de los datos registrados en forma precedente, el interesado aprueba y ratifica su tenor de manera íntegra, quien en señal de conformidad en forma expresa y voluntaria firma el presente documento en la ciudad de La Paz, {!! Util::getfulldate($economic_complement->reception_date)!!}.</p>
 
 <table>
           <tr>
@@ -106,7 +106,7 @@ Formulario Nº 2
 
           </tr>
           <tr>
-            <th class="info" style="border: 0px;text-align:center;">{!! $affiliate->b_name !!}<br>C.I. {!! $affiliate->b_identity_card !!} Telefono. {!! $affiliate->phone !!}</th>
+            <th class="info" style="border: 0px;text-align:center;">{!! $eco_com_applicant->getTitleNameFull() !!} <br>C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->shortened !!} Telefono. {!! $eco_com_applicant->getPhone() !!}</th>
             <th class="info" style="border: 0px;text-align:center;">Huella Digital Pulgar Derecho</th>
             <th class="info" style="border: 0px;text-align:center;width: 10%;"></th>
           </tr>
