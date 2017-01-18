@@ -21,7 +21,7 @@ class EconomicComplementSubmittedDocument extends Model
     protected $guarded = ['id'];
 
     public function economic_complement_requirement(){
-        return $this->belongsTo('Muserpol\EconomicComplementRequirement');
+        return $this->belongsTo('Muserpol\EconomicComplementRequirement', 'eco_com_requirement_id');
     }
 
     public function economic_complement(){

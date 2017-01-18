@@ -170,9 +170,16 @@
         function SelectRequeriments(requirements) {
 
             var self = this;
-            self.requirements = ko.observableArray(ko.utils.arrayMap(requirements, function(document) {
-            return { id: document.id, name: document.shortened, status: false };
-            }));
+
+            @if ($status_documents)
+                self.requirements = ko.observableArray(ko.utils.arrayMap(requirements, function(document) {
+                return { id: document.id, name: document.economic_complement_requirement.id, status: document.status };
+                }));
+            @else
+                self.requirements = ko.observableArray(ko.utils.arrayMap(requirements, function(document) {
+                return { id: document.id, name: document.shortened, status: false };
+                }));
+            @endif
 
             self.save = function() {
                 var dataToSave = $.map(self.requirements(), function(requirement) {
@@ -188,7 +195,12 @@
 
         };
 
-        window.model = new SelectRequeriments({!! $eco_com_requirements !!});
+        @if ($status_documents)
+            window.model = new SelectRequeriments({!! $eco_com_submitted_documents !!});
+        @else
+            window.model = new SelectRequeriments({!! $eco_com_requirements !!});
+        @endif
+
         ko.applyBindings(model);
 
     </script>

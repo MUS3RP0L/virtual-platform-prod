@@ -187,8 +187,6 @@ class EconomicComplementController extends Controller
 
     public function ReceptionSecondStep($economic_complement_id)
     {
-        $data = self::getViewModel();
-
         $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
 
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
@@ -223,8 +221,6 @@ class EconomicComplementController extends Controller
 
     public function ReceptionThirdStep($economic_complement_id)
     {
-        $data = self::getViewModel();
-
         $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
 
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
@@ -233,8 +229,13 @@ class EconomicComplementController extends Controller
 
         $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
 
-        $documents = Document::retirementFundIs($retirement_fund->id)->get();
+        $eco_com_submitted_documents = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
 
+        if (EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->first()) {
+            $status_documents = TRUE;
+        }else{
+            $status_documents = FALSE;
+        }
 
         $data = [
 
@@ -242,6 +243,8 @@ class EconomicComplementController extends Controller
             'economic_complement' => $economic_complement,
             'eco_com_type' => $eco_com_type->name,
             'eco_com_requirements' => $eco_com_requirements,
+            'eco_com_submitted_documents' => $eco_com_submitted_documents,
+            'status_documents' => $status_documents
 
         ];
 
