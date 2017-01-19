@@ -301,7 +301,26 @@ class EconomicComplementController extends Controller
      */
     public function show($id)
     {
-        //
+        $affiliate = Affiliate::idIs($id)->first();
+
+        $economic_complement = EconomicComplement::idIs($id)->first();
+
+        $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
+
+        $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($economic_complement->id)->get();
+
+        $data = [
+
+            'affiliate' => $affiliate,
+            'economic_complement' => $economic_complement,
+            'eco_com_type' => $eco_com_type->name,
+            'eco_com_submitted_documents' => $eco_com_submitted_documents,
+
+        ];
+
+        $data = array_merge($data, self::getViewModel());
+
+        return view('economic_complements.view', $data);
     }
 
     /**
