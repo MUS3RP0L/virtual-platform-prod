@@ -33,7 +33,7 @@ class User extends Model implements AuthenticatableContract,
     protected $hidden = ['password'];
 
     public function role()
-    <{
+    {
         return $this->belongsTo('Muserpol\Role');
     }
 

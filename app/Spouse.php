@@ -45,7 +45,7 @@ class Spouse extends Model
     }
 
     public function getShortBirthDate()
-
+    {
         return Util::getDateShort($this->birth_date);
     }
 
