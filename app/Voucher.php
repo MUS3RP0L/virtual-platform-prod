@@ -13,6 +13,7 @@ class Voucher extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
+
         'user_id',
         'affiliate_id',
         'voucher_type_id',
@@ -26,19 +27,23 @@ class Voucher extends Model
 
     protected $guarded = ['id'];
 
-    public function affiliate() {
+    public function affiliate()
+    {
         return $this->belongsTo('Muserpol\Affiliate');
     }
 
-    public function voucher_type() {
+    public function voucher_type()
+    {
         return $this->belongsTo('Muserpol\VoucherType');
     }
 
-    public function scopeIdIs($query, $id) {
+    public function scopeIdIs($query, $id)
+    {
         return $query->where('id', $id);
     }
 
-    public function getCreationDate() {
+    public function getCreationDate()
+    {
         return Util::getDateShort($this->created_at);
     }
 
