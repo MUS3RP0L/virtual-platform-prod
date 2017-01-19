@@ -4,7 +4,6 @@ namespace Muserpol;
 
 use Illuminate\Database\Eloquent\Model;
 
-use Carbon\Carbon;
 use Muserpol\Helper\Util;
 
 class Voucher extends Model

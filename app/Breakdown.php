@@ -9,13 +9,16 @@ class Breakdown extends Model
     protected $table = 'breakdowns';
 
 	protected $fillable = [
+
 		'code',
 		'name'
+
 	];
 
 	protected $guarded = ['id'];
 
-	public function units(){
+	public function units()
+    {
         return $this->hasMany('Muserpol\Unit');
     }
 }

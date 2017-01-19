@@ -9,14 +9,17 @@ class AntecedentFile extends Model
     protected $table = 'antecedent_files';
 
 	protected $fillable = [
+
 		'name',
 		'shortened'
+        
 	];
 
 	protected $guarded = ['id'];
 
-	public function antecedents(){
+	public function antecedents()
+    {
         return $this->hasMany('Muserpol\Antecedent');
     }
-    
+
 }

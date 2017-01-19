@@ -9,25 +9,31 @@ class City extends Model
     protected $table = 'cities';
 
 	protected $fillable = [
+
 		'name',
 		'shortened'
+
 	];
 
 	protected $guarded = ['id'];
 
-	public function retirement_funds(){
+	public function retirement_funds()
+    {
         return $this->hasMany('Muserpol\RetirementFund');
     }
 
-    public function economic_complement(){
-          return $this->hasMany('Muserpol\EconomicComplement');
+    public function economic_complement()
+    {
+        return $this->hasMany('Muserpol\EconomicComplement');
     }
 
-    public function spouses(){
-          return $this->hasMany('Muserpol\Spouse');
+    public function spouses()
+    {
+        return $this->hasMany('Muserpol\Spouse');
     }
 
-	public function scopeIdIs($query, $id){
+	public function scopeIdIs($query, $id)
+    {
         return $query->where('id', $id);
     }
 }

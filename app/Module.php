@@ -9,7 +9,9 @@ class Module extends Model
     protected $table = 'modules';
 
 	protected $fillable = [
+
 		'name'
+        
 	];
 
 	protected $guarded = ['id'];

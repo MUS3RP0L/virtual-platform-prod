@@ -9,13 +9,16 @@ class PensionEntity extends Model
     protected $table = 'pension_entities';
 
 	protected $fillable = [
+
 		'code',
 		'name'
+
 	];
 
 	protected $guarded = ['id'];
 
-	public function affiliates(){
+	public function affiliates()
+    {
     	return $this->hasMany('Muserpol\Affiliate');
     }
 

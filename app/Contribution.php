@@ -16,6 +16,7 @@ class Contribution extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
+
         'user_id',
     	'affiliate_id',
         'contribution_type_id',
@@ -48,45 +49,55 @@ class Contribution extends Model
         'subtotal',
         'ipc',
         'total'
+
 	];
 
     protected $guarded = ['id'];
 
-    public function affiliate(){
+    public function affiliate()
+    {
         return $this->belongsTo('Muserpol\Affiliate');
     }
 
-    public function degree(){
+    public function degree()
+    {
         return $this->belongsTo('Muserpol\Degree');
     }
-    public function unit(){
+    public function unit()
+    {
         return $this->belongsTo('Muserpol\Unit');
     }
 
-    public function contribution_type(){
+    public function contribution_type()
+    {
         return $this->belongsTo('Muserpol\ContributionType');
     }
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo('Muserpol\Category');
     }
 
-    public function scopeIdIs($query, $id){
+    public function scopeIdIs($query, $id)
+    {
         return $query->where('id', $id);
     }
 
-    public function scopeAffiliateidIs($query, $id){
+    public function scopeAffiliateidIs($query, $id)
+    {
         return $query->where('affiliate_id', $id);
     }
 
-    public function scopeAfiContribution($query, $year){
+    public function scopeAfiContribution($query, $year)
+    {
         return $query = DB::table('contributions')
                     ->select(DB::raw('SUM(contributions.total) total, year(contributions.month_year) as month_year'))
                     ->whereYear('contributions.month_year', '=', $year);
     }
 
-    public function scopeVoluntaryContribution($query, $month, $year){
-       return $query = DB::table('contributions')
+    public function scopeVoluntaryContribution($query, $month, $year)
+    {
+        return $query = DB::table('contributions')
                     ->select(DB::raw('COUNT(*) total, month(contributions.month_year) as month'))
                     ->where('contributions.contribution_type_id', '=', 2)
                     ->whereMonth('contributions.month_year', '=', $month)

@@ -5,6 +5,8 @@ namespace Muserpol;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use Muserpol\Helper\Util;
+
 class EconomicComplement extends Model
 {
     use SoftDeletes;
@@ -14,6 +16,7 @@ class EconomicComplement extends Model
     protected $dates = ['deleted_at'];
 
 	protected $fillable = [
+
         'affiliate_id',
 		'eco_com_modality_id',
 		'eco_com_state_id',
@@ -34,51 +37,68 @@ class EconomicComplement extends Model
         'seniority',
         'quotable',
         'total'
+
 	];
 
 	protected $guarded = ['id'];
 
-	public function affiliate(){
+	public function affiliate()
+    {
         return $this->belongsTo('Muserpol\Affiliate');
     }
 
-	public function economic_complement_state(){
+	public function economic_complement_state()
+    {
         return $this->belongsTo('Muserpol\EconomicComplementState', 'eco_com_state_id');
     }
 
-    public function economic_complement_modality(){
+    public function economic_complement_modality()
+    {
         return $this->belongsTo('Muserpol\EconomicComplementModality', 'eco_com_modality_id');
     }
 
-    public function city(){
+    public function city()
+    {
         return $this->belongsTo('Muserpol\City');
     }
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo('Muserpol\Category');
     }
 
-    public function base_wage(){
+    public function base_wage()
+    {
         return $this->belongsTo('Muserpol\BaseWage');
     }
 
-    public function complementary_factor(){
+    public function complementary_factor()
+    {
         return $this->belongsTo('Muserpol\ComplementaryFactor');
     }
 
-    public function economic_complement_submitted_documents(){
+    public function economic_complement_submitted_documents()
+    {
         return $this->hasMany('Muserpol\EconomicComplementSubmittedDocument');
     }
 
-    public function economic_complement_applicants(){
+    public function economic_complement_applicants()
+    {
         return $this->hasMany('Muserpol\EconomicComplementApplicant');
     }
 
-    public function scopeIdIs($query, $id){
+    public function scopeIdIs($query, $id)
+    {
         return $query->where('id', $id);
     }
 
-    public function scopeAffiliateIs($query, $id){
+    public function scopeAffiliateIs($query, $id)
+    {
         return $query->where('affiliate_id', $id);
+    }
+
+    public function getCreationDate()
+    {
+        return Util::getDateShort($this->created_at);
     }
 }

@@ -17,6 +17,7 @@ class DirectContribution extends Model
     protected $dates = ['deleted_at'];
 
 	protected $fillable = [
+
         'user_id',
         'affiliate_id',
         'type',
@@ -28,21 +29,25 @@ class DirectContribution extends Model
         'subtotal',
         'ipc',
         'total'
+
 	];
 
 	protected $guarded = ['id'];
 
-    public function affiliate(){
+    public function affiliate()
+    {
         return $this->belongsTo('Muserpol\Affiliate');
     }
 
-    public function scopeIdIs($query, $id){
+    public function scopeIdIs($query, $id)
+    {
         return $query->where('id', $id);
     }
 
-    public function period(){
-       $second = Contribution::select('month_year')->where('contributions.direct_contribution_id', '=', $this->id)->orderBy('id', 'desc')->first();
-       $first = Contribution::select('month_year')->where('contributions.direct_contribution_id', '=', $this->id)->orderBy('id', 'asc')->first();
-       return "De " . Util::getDateAbrePeriod($first->month_year) ." a " . Util::getDateAbrePeriod($second->month_year);
+    public function period()
+    {
+        $second = Contribution::select('month_year')->where('contributions.direct_contribution_id', '=', $this->id)->orderBy('id', 'desc')->first();
+        $first = Contribution::select('month_year')->where('contributions.direct_contribution_id', '=', $this->id)->orderBy('id', 'asc')->first();
+        return "De " . Util::getDateAbrePeriod($first->month_year) ." a " . Util::getDateAbrePeriod($second->month_year);
     }
 }

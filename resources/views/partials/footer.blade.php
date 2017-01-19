@@ -1,6 +1,6 @@
 <!-- Main Footer -->
 <footer class="main-footer">
     <div class="text-right">
-        <strong>Mutual de Servicios al Policía</strong> - 2016
+        <strong>Plataforma Virtual de la Mutual de Servicios al Policía</strong> - 2017
     </div>
 </footer>

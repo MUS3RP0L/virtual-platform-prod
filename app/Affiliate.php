@@ -185,19 +185,20 @@ class Affiliate extends Model
         if ($this->gender == 'M') {
             return "MASCULINO";
         }
-        else if ($this->gender == 'F'){
+        else if ($this->gender == 'F') {
             return "FEMENINO";
         }
     }
 
-    public function getPhone() {
+    public function getPhone()
+    {
         if($this->phone_number && $this->cell_phone_number) {
             return $this->phone_number."-".$this->cell_phone_number;
         }
-        else if($this->phone_number){
+        else if($this->phone_number) {
             return $this->phone_number;
         }
-        else if($this->cell_phone_number){
+        else if($this->cell_phone_number) {
             return $this->cell_phone_number;
         }
     }
@@ -209,23 +210,23 @@ class Affiliate extends Model
             if ($this->gender == 'M') {
                 return "SOLTERO";
             }
-            else{
+            else {
                 return "SOLTERA";
             }
         }
-        else if ($this->civil_status == 'C'){
+        else if ($this->civil_status == 'C') {
             if ($this->gender == 'M') {
                 return "CASADO";
             }
-            else{
+            else {
                 return "CASADA";
             }
         }
-        else if ($this->civil_status == 'V'){
+        else if ($this->civil_status == 'V') {
             if ($this->gender == 'M') {
                 return "VIUDO";
             }
-            else{
+            else {
                 return "VIUDA";
             }
         }
@@ -233,7 +234,7 @@ class Affiliate extends Model
             if ($this->gender == 'M') {
                 return "DIVORCIADO";
             }
-            else{
+            else {
                 return "DIVORCIADA";
             }
         }
@@ -426,7 +427,7 @@ class Affiliate extends Model
     {
         if ($this->fech_fin_reco) {
             return $this->fech_fin_reco;
-        }else{
+        }else {
             $lastAporte = Aporte::afiliadoId($this->id)->orderBy('gest', 'desc')->first();
             return $lastAporte->gest;
         }

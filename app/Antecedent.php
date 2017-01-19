@@ -16,27 +16,33 @@ class Antecedent extends Model
     	'status',
     	'reception_date',
     	'code'
+        
     ];
 
     protected $guarded = ['id'];
 
-    public function retirement_fund(){
+    public function retirement_fund()
+    {
         return $this->belongsTo('Muserpol\RetirementFund');
     }
 
-    public function antecedent_file(){
+    public function antecedent_file()
+    {
         return $this->belongsTo('Muserpol\AntecedentFile');
     }
 
-    public function scopeRetirementFundIs($query, $id){
+    public function scopeRetirementFundIs($query, $id)
+    {
         return $query->where('retirement_fund_id', $id);
     }
 
-    public function getData_fech_requi(){
+    public function getData_fech_requi()
+    {
         return Util::getdateabre($this->fech_pres);
     }
 
-    public function getDataEdit(){
+    public function getDataEdit()
+    {
         return Util::getdateforEdit($this->fecha);
     }
 

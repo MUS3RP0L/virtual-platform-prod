@@ -15,6 +15,7 @@ class AffiliateAddress extends Model
         'zone',
         'street',
         'number_address'
+        
     ];
 
     protected $guarded = ['id'];

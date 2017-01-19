@@ -15,11 +15,13 @@ class Role extends Model
 
 	protected $guarded = ['id'];
 
-    public function module(){
+    public function module()
+    {
         return $this->belongsTo(Module::class);
     }
 
-    public function scopeModuleidIs($query, $id){
+    public function scopeModuleidIs($query, $id)
+    {
         return $query->where('module_id', $id);
     }
 

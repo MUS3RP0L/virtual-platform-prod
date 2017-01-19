@@ -9,6 +9,7 @@ class Reimbursement extends Model
     protected $table = 'reimbursements';
 
 	protected $fillable = [
+
 		'user_id',
 		'affiliate_id',
 		'direct_contribution_id',
@@ -29,6 +30,7 @@ class Reimbursement extends Model
 		'subtotal',
 		'ipc',
 		'total'
+
 	];
 
 	protected $guarded = ['id'];

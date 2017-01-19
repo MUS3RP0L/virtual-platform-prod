@@ -20,15 +20,18 @@ class EconomicComplementSubmittedDocument extends Model
 
     protected $guarded = ['id'];
 
-    public function economic_complement_requirement(){
+    public function economic_complement_requirement()
+    {
         return $this->belongsTo('Muserpol\EconomicComplementRequirement', 'eco_com_requirement_id');
     }
 
-    public function economic_complement(){
+    public function economic_complement()
+    {
         return $this->belongsTo('Muserpol\EconomicComplement');
     }
 
-    public function scopeEconomicComplementIs($query, $id){
+    public function scopeEconomicComplementIs($query, $id)
+    {
         return $query->where('economic_complement_id', $id);
     }
 

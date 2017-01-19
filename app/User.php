@@ -19,6 +19,7 @@ class User extends Model implements AuthenticatableContract,
     protected $table = 'users';
 
     protected $fillable = [
+
         'rol_id',
         'first_name',
         'last_name',
@@ -26,20 +27,24 @@ class User extends Model implements AuthenticatableContract,
         'username',
         'password',
         'status'
+
     ];
 
     protected $hidden = ['password'];
 
-    public function role() {
-        return $this->belongsTo(Role::class);
+    public function role()
+    <{
+        return $this->belongsTo('Muserpol\Role');
     }
 
-    public function scopeIdIs($query, $id) {
+    public function scopeIdIs($query, $id)
+    {
         return $query->where('id', $id);
     }
 
-    public function getFullName() {
+    public function getFullName()
+    {
         return $this->first_name . ' ' . $this->last_name;
     }
-    
+
 }
