@@ -229,8 +229,8 @@ class EconomicComplementController extends Controller
 
         $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
 
-        $eco_com_submitted_documents = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
-        
+        $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($economic_complement->id)->get();
+
         if (EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->first()) {
             $status_documents = TRUE;
         }else{

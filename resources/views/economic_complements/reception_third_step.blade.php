@@ -173,7 +173,7 @@
 
             @if ($status_documents)
                 self.requirements = ko.observableArray(ko.utils.arrayMap(requirements, function(document) {
-                return { id: document.id, name: document.economic_complement_requirement.id, status: document.status };
+                return { id: document.id, name: document.economic_complement_requirement.shortened, status: document.status };
                 }));
             @else
                 self.requirements = ko.observableArray(ko.utils.arrayMap(requirements, function(document) {
