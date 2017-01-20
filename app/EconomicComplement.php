@@ -82,9 +82,9 @@ class EconomicComplement extends Model
         return $this->hasMany('Muserpol\EconomicComplementSubmittedDocument');
     }
 
-    public function economic_complement_applicants()
+    public function economic_complement_applicant()
     {
-        return $this->hasMany('Muserpol\EconomicComplementApplicant');
+        return $this->hasOne('Muserpol\EconomicComplementApplicant');
     }
 
     public function scopeIdIs($query, $id)

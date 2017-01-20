@@ -118,5 +118,5 @@
     // Show Economic Complement
     Breadcrumbs::register('show_economic_complement', function($breadcrumbs, $economic_complement) {
         $breadcrumbs->parent('economic_complements');
-        $breadcrumbs->push($economic_complement->id, URL::to('economic_complement/'.$economic_complement->id));
+        $breadcrumbs->push($economic_complement->economic_complement_applicant->getTittleName(), URL::to('economic_complement/'.$economic_complement->id));
     });
