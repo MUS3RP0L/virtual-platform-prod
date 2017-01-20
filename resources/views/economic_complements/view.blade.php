@@ -7,7 +7,7 @@
 			{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
 		</div>
 		<div class="col-md-2 text-right">
-			<a href="{!! url('affiliate/' . $affiliate->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="top" data-original-title="Atrás">
+			<a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="top" data-original-title="Atrás">
 				&nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;
 			</a>
 		</div>

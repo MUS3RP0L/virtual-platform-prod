@@ -108,7 +108,7 @@
 
     // Economic Complements
     Breadcrumbs::register('economic_complements', function($breadcrumbs) {
-        $breadcrumbs->push('Procesos de Pago de Complemento Económico', URL::to('economic_complement'));
+        $breadcrumbs->push('Pago de Complemento Económico', URL::to('economic_complement'));
     });
     // Create Economic Complement
     Breadcrumbs::register('create_economic_complement', function($breadcrumbs) {
@@ -118,5 +118,5 @@
     // Show Economic Complement
     Breadcrumbs::register('show_economic_complement', function($breadcrumbs, $economic_complement) {
         $breadcrumbs->parent('economic_complements');
-        $breadcrumbs->push($economic_complement->economic_complement_applicant->getTittleName(), URL::to('economic_complement/'.$economic_complement->id));
+        $breadcrumbs->push($economic_complement->getCode(), URL::to('economic_complement/'.$economic_complement->id));
     });

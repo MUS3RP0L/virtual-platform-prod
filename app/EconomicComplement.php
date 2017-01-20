@@ -101,4 +101,9 @@ class EconomicComplement extends Model
     {
         return Util::getDateShort($this->created_at);
     }
+
+    public function getCode()
+    {
+        return "Proceso N° " . $this->code;
+    }
 }
