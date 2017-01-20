@@ -14,13 +14,13 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <li>
-                    <div class="form-group" style="padding-bottom:0px;padding-top:4px;">
+                    <div class="form-group" style="padding-bottom:0px;padding-top:4px;padding-right:12px;">
                         <select id="searchbox" name="q" placeholder="Buscar" class="form-control" style="width: 200px; top: 34px; visibility: visible;"></select>
                     </div>
                 </li>
                 <li class="dropdown user user-menu">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="hidden-xs"><i class="fa fa-user"></i></span></span>
+                    <span class="hidden-xs"><i class="fa fa-user fa-fw fa-lg"></i></span></span>
                   </a>
                   <ul class="dropdown-menu">
                     <li class="user-header">
@@ -41,7 +41,7 @@
                   </ul>
                 </li>
                 <li>
-                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-cog"></i></a>
+                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-cog fa-fw fa-lg"></i></a>
                 </li>
             </ul>
         </div>

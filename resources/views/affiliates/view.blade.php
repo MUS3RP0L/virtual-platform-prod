@@ -7,9 +7,15 @@
             {!! Breadcrumbs::render('show_affiliate', $affiliate) !!}
         </div>
         <div class="col-md-4">
-            <a href="{!! url('retirement_fund/' . $affiliate->id) !!}" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="top" data-original-title="Fondo Retiro">
-                &nbsp;<span class="glyphicon glyphicon-piggy-bank"></span>&nbsp;
-            </a>
+
+            <div class="btn-group" style="margin:-3px 0;">
+                <a href="" class="btn btn-success btn-raised" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
+                <a href="" data-target="#" class="btn btn-success btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                <ul class="dropdown-menu" >
+                    <li><a href="{!! url('economic_complement_reception_first_step/' . $affiliate->id) !!}"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
+                </ul>
+            </div>
+
             <div class="btn-group" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="top" data-original-title="Aportes" style="margin:0px;">
                 <a href="" class="btn btn-success btn-raised dropdown-toggle" data-toggle="dropdown">
                     &nbsp;<span class="glyphicon glyphicon-th-list"></span>&nbsp;
