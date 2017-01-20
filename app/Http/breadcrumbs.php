@@ -78,11 +78,11 @@
     });
 
 
-    //Show vouchers
+    // vouchers
     Breadcrumbs::register('show_vouchers', function($breadcrumbs) {
         $breadcrumbs->push('Comprobantes de Cobros', URL::to('voucher'));
     });
-    //Show Voucher
+    // Show Voucher
     Breadcrumbs::register('show_voucher', function($breadcrumbs, $affiliate) {
         $breadcrumbs->parent('show_affiliate', $affiliate);
         $breadcrumbs->push('Comprobante de Cobro', URL::to('voucher'));
@@ -93,20 +93,20 @@
     Breadcrumbs::register('retirement_funds', function($breadcrumbs) {
         $breadcrumbs->push('Procesos de Pago de Fondo de Retiro');
     });
-    // Retirement Fund
+    // Show Retirement Fund
     Breadcrumbs::register('retirement_fund', function($breadcrumbs, $affiliate) {
         $breadcrumbs->parent('show_affiliate', $affiliate);
         $breadcrumbs->push('Trámite de Fondo de Retiro');
     });
 
 
-    // Complementary Factor
+    // Complementary Factors
     Breadcrumbs::register('complementary_factors', function($breadcrumbs) {
         $breadcrumbs->push('Factor de Complementación', URL::to('complementary_factor'));
     });
 
 
-    // Economic Complement
+    // Economic Complements
     Breadcrumbs::register('economic_complements', function($breadcrumbs) {
         $breadcrumbs->push('Procesos de Pago de Complemento Económico', URL::to('economic_complement'));
     });
@@ -114,4 +114,9 @@
     Breadcrumbs::register('create_economic_complement', function($breadcrumbs) {
         $breadcrumbs->parent('economic_complements');
         $breadcrumbs->push('Nuevo');
+    });
+    // Show Economic Complement
+    Breadcrumbs::register('show_economic_complement', function($breadcrumbs, $economic_complement) {
+        $breadcrumbs->parent('economic_complements');
+        $breadcrumbs->push($economic_complement->id, URL::to('economic_complement/'.$economic_complement->id));
     });
