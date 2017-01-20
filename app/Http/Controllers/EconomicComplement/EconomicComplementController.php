@@ -556,7 +556,7 @@ class EconomicComplementController extends Controller
                         $economic_complement->save();
                     }
 
-                    return redirect('economic_complement_reception_third_step/'.$economic_complement_id);
+                    return redirect('economic_complement/'.$economic_complement_id);
 
                 }
 
