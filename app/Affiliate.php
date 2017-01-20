@@ -83,6 +83,11 @@ class Affiliate extends Model
         return $this->belongsTo('Muserpol\Degree');
     }
 
+    public function category(){
+
+        return $this->belongsTo('Muserpol\Category');
+    }
+
     public function unit(){
 
         return $this->belongsTo('Muserpol\Unit');

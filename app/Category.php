@@ -14,7 +14,7 @@ class Category extends Model
 		'to',
 		'name',
 		'percentage'
-        
+
 	];
 
 	protected $guarded = ['id'];
@@ -32,6 +32,11 @@ class Category extends Model
     public function economic_complements()
     {
         return $this->hasMany('Muserpol\EconomicComplement');
+    }
+
+    public function getPercentage()
+    {
+        return $this->percentage*100 . " %";
     }
 
 }

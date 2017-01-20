@@ -73,7 +73,7 @@
                                     Categoría
                                 </div>
                                 <div class="col-md-6">
-                                    {!! $affiliate->category_id !!}
+                                    {!! $affiliate->category->getPercentage() !!}
                                 </div>
                             </div>
                         </td>
