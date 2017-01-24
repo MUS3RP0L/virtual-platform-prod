@@ -554,11 +554,11 @@ class EconomicComplementController extends Controller
                         $eco_com_submitted_document->status = $item->status;
                         $eco_com_submitted_document->reception_date = date('Y-m-d');
                         $eco_com_submitted_document->save();
-
-                        $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
-                        $economic_complement->reception_date = date('Y-m-d');
-                        $economic_complement->save();
                     }
+
+                    $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+                    $economic_complement->reception_date = date('Y-m-d');
+                    $economic_complement->save();
 
                     return redirect('economic_complement/'.$economic_complement_id);
 
