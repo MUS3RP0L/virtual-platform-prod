@@ -98,7 +98,7 @@
 									<td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
 										<div class="row">
 											<div class="col-md-6">
-												Lugar
+												Por
 											</div>
                                             <div class="col-md-6">
 												{!! $economic_complement->economic_complement_state->name !!}

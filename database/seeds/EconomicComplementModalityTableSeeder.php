@@ -84,12 +84,16 @@ class EconomicComplementModalityTableSeeder extends Seeder
         $statuses = [
 
             ['eco_com_state_type_id' => '1', 'name' => 'Ventanilla'],
+
             ['eco_com_state_type_id' => '2', 'name' => 'Calificación'],
+
             ['eco_com_state_type_id' => '3', 'name' => 'Presupuesto'],
             ['eco_com_state_type_id' => '3', 'name' => 'Contabilidad'],
             ['eco_com_state_type_id' => '3', 'name' => 'Tesoreria'],
+
             ['eco_com_state_type_id' => '4', 'name' => 'En Banco'],
             ['eco_com_state_type_id' => '4', 'name' => 'Con Cheque'],
+
             ['eco_com_state_type_id' => '5', 'name' => 'Juridica'],
             ['eco_com_state_type_id' => '5', 'name' => 'Contabilidad'],
             ['eco_com_state_type_id' => '5', 'name' => 'Préstamos'],
@@ -97,6 +101,7 @@ class EconomicComplementModalityTableSeeder extends Seeder
             ['eco_com_state_type_id' => '5', 'name' => 'Doble Percepción'],
             ['eco_com_state_type_id' => '5', 'name' => 'Denuncia'],
             ['eco_com_state_type_id' => '5', 'name' => 'Falta de Requisitos'],
+            
             ['eco_com_state_type_id' => '6', 'name' => 'Invalidez'],
             ['eco_com_state_type_id' => '6', 'name' => 'Menor a 16 años de Servicio'],
             ['eco_com_state_type_id' => '6', 'name' => 'Proceso judicial'],
