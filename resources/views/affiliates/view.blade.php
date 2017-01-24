@@ -140,7 +140,7 @@
                                                 Teléfono
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $affiliate->phone__number !!}
+                                                {!! $affiliate->phone_number !!}
                                             </div>
                                         </div>
                                     </td>

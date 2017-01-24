@@ -213,16 +213,16 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                        {!! Form::label('phone', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
+                                        {!! Form::label('phone_number', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
-                                        <input type="text" id="phone" class="form-control" name="phone" value="{!! $eco_com_applicant->phone !!}" data-inputmask="'mask': '(9) 999 999'" data-mask>
+                                        <input type="text" id="phone_number" class="form-control" name="phone_number" value="{!! $eco_com_applicant->phone_number !!}" data-inputmask="'mask': '(9) 999 999'" data-mask>
                                         <span class="help-block">Escriba el Teléfono fijo</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                        {!! Form::label('cell_phone', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
+                                        {!! Form::label('cell_phone_number', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
-                                        <input type="text" id="cell_phone" class="form-control" name="cell_phone" value="{!! $eco_com_applicant->cell_phone !!}" data-inputmask="'mask': '(999) 99999'" data-mask>
+                                        <input type="text" id="cell_phone_number" class="form-control" name="cell_phone_number" value="{!! $eco_com_applicant->cell_phone_number !!}" data-inputmask="'mask': '(999) 99999'" data-mask>
                                         <span class="help-block">Escriba el Teléfono Celular</span>
                                     </div>
                                 </div>
@@ -254,8 +254,8 @@
             $('.combobox').combobox();
             $('[data-toggle="tooltip"]').tooltip();
             $("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
-            $("#phone").inputmask();
-            $("#cell_phone").inputmask();
+            $("#phone_number").inputmask();
+            $("#cell_phone_number").inputmask();
         });
 
     </script>

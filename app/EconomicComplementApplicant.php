@@ -5,6 +5,7 @@ namespace Muserpol;
 use Illuminate\Database\Eloquent\Model;
 
 use Muserpol\Helper\Util;
+use Carbon\Carbon;
 
 class EconomicComplementApplicant extends Model
 {
@@ -61,7 +62,7 @@ class EconomicComplementApplicant extends Model
     public function getPhone()
     {
         if($this->phone_number && $this->cell_phone_number) {
-            return $this->phone_number."-".$this->cell_phone_number;
+            return $this->phone_number." - ".$this->cell_phone_number;
         }
         else if($this->phone_number) {
             return $this->phone_number;
@@ -74,6 +75,16 @@ class EconomicComplementApplicant extends Model
     public function getShortBirthDate()
     {
         return Util::getDateShort($this->birth_date);
+    }
+
+    public function getHowOld()
+    {
+        if ($this->date_death) {
+            return Util::getHowOldF($this->birth_date, $this->date_death) . " AÑOS";
+        }
+        else{
+            return Carbon::parse($this->birth_date)->age . " AÑOS";
+        }
     }
 
     public function getTittleName()

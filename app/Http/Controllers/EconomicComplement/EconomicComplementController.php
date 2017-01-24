@@ -307,6 +307,8 @@ class EconomicComplementController extends Controller
 
         $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
 
+        $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+
         $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($economic_complement->id)->get();
 
         $data = [
@@ -314,7 +316,9 @@ class EconomicComplementController extends Controller
             'affiliate' => $affiliate,
             'economic_complement' => $economic_complement,
             'eco_com_type' => $eco_com_type->name,
-            'eco_com_submitted_documents' => $eco_com_submitted_documents,
+            'eco_com_applicant' => $eco_com_applicant,
+            'eco_com_submitted_documents' => $eco_com_submitted_documents
+
 
         ];
 
@@ -460,6 +464,7 @@ class EconomicComplementController extends Controller
                     $eco_com_applicant->phone_number = $request->phone_number;
                     $eco_com_applicant->cell_phone_number = $request->cell_phone_number;
                     $eco_com_applicant->nua = $request->nua;
+                    $eco_com_applicant->save();
 
                     switch ($economic_complement->economic_complement_modality->economic_complement_type->id) {
 
@@ -485,7 +490,8 @@ class EconomicComplementController extends Controller
                             $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
                             $affiliate->phone_number = $request->phone_number;
                             $affiliate->cell_phone_number = $request->cell_phone_number;
-                            $affiliate->nua = $request->nua;
+                            // $affiliate->nua = $request->nua;
+                            $affiliate->save();
                             $spouse = Spouse::affiliateidIs($affiliate->id)->first();
                             $spouse->identity_card = $request->identity_card;
                             if ($request->city_identity_card_id) { $spouse->city_identity_card_id = $request->city_identity_card_id; } else { $spouse->city_identity_card_id = null; }
@@ -509,8 +515,6 @@ class EconomicComplementController extends Controller
 
                         break;
                     }
-
-                    $eco_com_applicant->save();
 
                     return redirect('economic_complement_reception_third_step/'.$economic_complement_id);
 
