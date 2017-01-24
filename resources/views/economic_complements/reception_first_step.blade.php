@@ -90,6 +90,15 @@
 										</div>
 									</td>
 								</tr>
+                                <tr>
+									<td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+										<div class="row">
+											<div class="col-md-6">
+												Lugar
+											</div>
+										</div>
+									</td>
+								</tr>
                             </table>
                         </div>
                     </div>

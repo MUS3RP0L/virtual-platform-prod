@@ -24,8 +24,8 @@ class EconomicComplementState extends Model
 
     public function economic_complement_state_type()
     {
-        return $this->belongsTo('Muserpol\EconomicComplementStateType');
-     }
+        return $this->belongsTo('Muserpol\EconomicComplementStateType', 'eco_com_state_type_id');
+    }
 
     public function scopeNameIs($query, $ci)
     {

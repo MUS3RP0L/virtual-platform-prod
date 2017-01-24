@@ -87,7 +87,20 @@
 											<div class="col-md-6">
 												Estado
 											</div>
+
+                                            <div class="col-md-6">
+												{!! $economic_complement->economic_complement_state->economic_complement_state_type->name !!}
+											</div>
+										</div>
+									</td>
+								</tr>
+                                <tr>
+									<td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+										<div class="row">
 											<div class="col-md-6">
+												Lugar
+											</div>
+                                            <div class="col-md-6">
 												{!! $economic_complement->economic_complement_state->name !!}
 											</div>
 										</div>
@@ -132,7 +145,7 @@
                                             {!! Form::text('identity_card', $eco_com_applicant->identity_card, ['class'=> 'form-control', 'required']) !!}
                                             <span class="help-block">Número de CI</span>
                                         </div>
-                                            {!! Form::select('city_identity_card_id', $cities_list_short, $eco_com_applicant->city_identity_card_id, ['class' => 'col-md-2 combobox form-control']) !!}
+                                            {!! Form::select('city_identity_card_id', $cities_list_short, $eco_com_applicant->city_identity_card_id, ['class' => 'col-md-2 combobox form-control', 'required']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -149,6 +162,15 @@
                                         <span class="help-block">Escriba el Apellido Materno</span>
                                     </div>
                                 </div>
+                                @if ($eco_com_applicant->gender == 'F')
+                                    <div class="form-group">
+                                            {!! Form::label('surname_husband', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-6">
+                                            {!! Form::text('surname_husband', $eco_com_applicant->surname_husband, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                            <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
+                                        </div>
+                                    </div>
+                                @endif
                                 <div class="form-group">
                                         {!! Form::label('first_name', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
@@ -163,15 +185,6 @@
                                         <span class="help-block">Escriba el Segundo Nombre</span>
                                     </div>
                                 </div>
-                                @if ($eco_com_applicant->gender == 'F')
-                                    <div class="form-group">
-                                            {!! Form::label('surname_husband', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-6">
-                                            {!! Form::text('surname_husband', $eco_com_applicant->surname_husband, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                                            <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
-                                        </div>
-                                    </div>
-                                @endif
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
