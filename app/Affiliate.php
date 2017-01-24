@@ -384,12 +384,12 @@ class Affiliate extends Model
 
     public function getFullName()
     {
-    return $this->degree->name . ' ' . $this->first_name . ' ' . $this->second_name . ' ' . $this->last_name. ' ' . $this->mothers_last_name;
+    return $this->degree->name . ' ' . $this->last_name. ' ' . $this->mothers_last_name . ' ' . $this->surname_husband . ' ' . $this->first_name . ' ' . $this->second_name;
     }
 
     public function getFullNametoPrint()
     {
-        return $this->first_name . ' ' . $this->second_name . ' ' . $this->last_name. ' ' . $this->mothers_last_name;
+        return $this->last_name. ' ' . $this->mothers_last_name . ' ' . $this->surname_husband . ' ' . $this->first_name . ' ' . $this->second_name;
     }
 
     public function getFullDirecctoPrint()
