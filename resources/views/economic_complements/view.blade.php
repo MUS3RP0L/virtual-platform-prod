@@ -58,11 +58,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <table class="table table-responsive" style="width:100%;">
-                                <tr>
+								<tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -74,6 +70,10 @@
                                         </div>
                                     </td>
                                 </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-responsive" style="width:100%;">
                                 <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
@@ -86,6 +86,18 @@
                                         </div>
                                     </td>
                                 </tr>
+								<tr>
+									<td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+										<div class="row">
+											<div class="col-md-6">
+												Estado
+											</div>
+											<div class="col-md-6">
+												{!! $economic_complement->economic_complement_state->name !!}
+											</div>
+										</div>
+									</td>
+								</tr>
                             </table>
                         </div>
                     </div>
