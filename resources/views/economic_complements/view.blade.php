@@ -272,6 +272,55 @@
 					</div>
 				</div>
 			</div>
+			<div class="box box-warning">
+                <div class="box-header with-border">
+					<h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span> Requisitos Presentados</h3>
+				</div>
+				<div class="box-body">
+					<div class="row">
+						<div class="col-md-12">
+							<table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+								<thead>
+									<tr>
+										<th>Nombre de Requisito</th>
+										<th class="text-center">Estado</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach ($eco_com_submitted_documents as $item)
+										<tr>
+											<td>{!! $item->economic_complement_requirement->shortened !!}</td>
+											<td>
+												<div class="text-center">
+													@if($item->status)
+													<span class="fa fa-check-square-o fa-lg"></span>
+													@else
+													<span class="fa fa-square-o fa-lg"></span>
+													@endif
+												</div>
+											</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="box box-warning">
+                <div class="box-header with-border">
+					<h3 class="box-title"><span class="fa fa-money"></span> Cálculo de Totales</h3>
+				</div>
+				<div class="box-body">
+					<div class="row">
+						<div class="col-md-12">
+
+                        </div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
