@@ -138,12 +138,12 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">Seleccionar los Requisitos</h3>
                 </div>
-                <div class="box-body">
+                <div class="box-body" data-bind="event: {mouseover: save, mouseout: save}">
                     {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
 
                         <input type="hidden" name="step" value="third"/>
                         <div class="row">
-                            <div class="col-md-12" data-bind="event: {mouseover: save, mouseout: save}">
+                            <div class="col-md-12">
                                 <table class="table table-bordered table-hover" style="font-size: 16px">
                                     <thead>
                                         <tr class="success">
