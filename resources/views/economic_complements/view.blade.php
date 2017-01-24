@@ -316,6 +316,14 @@
 				<div class="box-body">
 					<div class="row">
 						<div class="col-md-12">
+							<table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+								<tbody>
+									<tr>
+										<td>Renta Total Cotizable</td>
+										<td>{!! $sub_total_rent!!}</td>
+									</tr>
+								</tbody>
+							</table>
 
                         </div>
 					</div>
