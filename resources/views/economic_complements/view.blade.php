@@ -320,7 +320,39 @@
 								<tbody>
 									<tr>
 										<td>Renta Total Cotizable</td>
-										<td>{!! $sub_total_rent!!}</td>
+										<td>{!! $sub_total_rent !!}</td>
+									</tr>
+									<tr>
+										<td>Referente Salarial</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>Antigüedad</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>Salario Cotizable</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>Diferencia</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>Meses de Pago</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>Total Semestre</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>Factor de Complementación</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>Total a Cancelar</td>
+										<td></td>
 									</tr>
 								</tbody>
 							</table>

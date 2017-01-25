@@ -24,6 +24,8 @@ use Muserpol\EconomicComplementSubmittedDocument;
 use Muserpol\Affiliate;
 use Muserpol\Spouse;
 use Muserpol\City;
+use Muserpol\BaseWage;
+use Muserpol\ComplementaryFactor;
 
 class EconomicComplementController extends Controller
 {
@@ -286,6 +288,16 @@ class EconomicComplementController extends Controller
 
         $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
         $economic_complement->eco_com_modality_id = $eco_com_modality->id;
+
+        $economic_complement->category_id = $affiliate->category_id;
+
+        $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
+        $economic_complement->base_wage_id = $base_wage->id;
+
+        $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
+                                    ->whereYear('created_at', '=', $data['year'])->first();
+        $economic_complement->complementary_factor_id = $complementary_factor->id;
+
         $economic_complement->eco_com_state_id = 1;
         $economic_complement->city_id = trim($request->city);
         $economic_complement->save();
