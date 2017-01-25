@@ -284,7 +284,7 @@ class EconomicComplementController extends Controller
             $economic_complement = new EconomicComplement;
             if ($last_economic_complement = EconomicComplement::whereYear('year', '=', $data['year'])
                                                 ->where('semester', '=', $data['semester'])
-                                                ->where('deleted_at', '=', null)->orderBy('id', 'desc')->first()) {
+                                                ->whereNull('deleted_at')->orderBy('id', 'desc')->first()) {
                 $number_code = Util::separateCode($last_economic_complement->code);
                 $code = $number_code + 1;
             }else{
@@ -292,7 +292,7 @@ class EconomicComplementController extends Controller
             }
             $economic_complement->code = $code . "/" . $data['year'];
             $economic_complement->affiliate_id = $affiliate->id;
-            $economic_complement->year = $data['year'];
+            $economic_complement->year = Util::datePickYear($data['year'], $data['semester']);
             $economic_complement->semester = $data['semester'];
             $economic_complement->eco_com_state_id = 1;
         }
