@@ -130,3 +130,15 @@ class EconomicComplementApplicant extends Model
     }
 
 }
+
+EconomicComplementApplicant::created(function($ec_applicant)
+{
+    Activity::createdEconomicComplementApplicant($ec_applicant);
+
+});
+
+EconomicComplementApplicant::updated(function($ec_applicant)
+{
+    Activity::updateEconomicComplementApplicant($ec_applicant);
+
+});
