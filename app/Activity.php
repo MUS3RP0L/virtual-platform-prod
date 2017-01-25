@@ -277,5 +277,41 @@ class Activity extends Model
 		}
 	}
 
+    public static function createdEconomicComplementSubmittedDocument($ec_submittedDocument)
+	{
+		if (Auth::user())
+		{
+            $economic_complement = EconomicComplement::findOrFail($ec_submittedDocument->economic_complement_id);
+            $affiliate = Affiliate::findOrFail($economic_complement->affiliate_id);
+			$activity = new Activity;
+			$activity->user_id = Auth::user()->id;
+			$activity->affiliate_id = $economic_complement->affiliate_id;
+			$activity->economic_complement_id = $economic_complement->id;
+            $activity->eco_com_applicant_id = $ec_submittedDocument->id;
+            $activity->eco_com_submitted_document_id = $ec_submittedDocument->id;
+			$activity->activity_type_id = ACTIVITY_TYPE_CREATE_ECO_COM_SUBMITTED_DOCUMENT;
+			$activity->message = Util::encodeActivity(Auth::user(), 'Creó Documentos Presentados para Complemento Económico', $affiliate);
+			$activity->save();
+		}
+	}
+
+    public static function updateEconomicComplementSubmittedDocument($ec_submittedDocument)
+	{
+		if (Auth::user())
+		{
+            $economic_complement = EconomicComplement::findOrFail($ec_submittedDocument->economic_complement_id);
+            $affiliate = Affiliate::findOrFail($economic_complement->affiliate_id);
+			$activity = new Activity;
+			$activity->user_id = Auth::user()->id;
+			$activity->affiliate_id = $economic_complement->affiliate_id;
+			$activity->economic_complement_id = $economic_complement->id;
+            $activity->eco_com_applicant_id = $ec_submittedDocument->id;
+            $activity->eco_com_submitted_document_id = $ec_submittedDocument->id;
+			$activity->activity_type_id = ACTIVITY_TYPE_UPDATE_ECO_COM_SUBMITTED_DOCUMENT;
+			$activity->message = Util::encodeActivity(Auth::user(), 'Actualizó Documentos Presentados para Complemento Económico', $affiliate);
+			$activity->save();
+		}
+	}
+
 
 }

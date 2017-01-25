@@ -36,3 +36,15 @@ class EconomicComplementSubmittedDocument extends Model
     }
 
 }
+
+EconomicComplementSubmittedDocument::created(function($ec_submittedDocument)
+{
+    Activity::createdEconomicComplementSubmittedDocument($ec_submittedDocument);
+
+});
+
+EconomicComplementSubmittedDocument::updated(function($ec_submittedDocument)
+{
+    Activity::updateEconomicComplementSubmittedDocument($ec_submittedDocument);
+
+});
