@@ -284,22 +284,21 @@ class EconomicComplementController extends Controller
             }
             $economic_complement->code = $code . "/" . $data['year'];
             $economic_complement->affiliate_id = $affiliate->id;
+            $economic_complement->year = $data['year'];
+            $economic_complement->semester = $data['semester'];
+            $economic_complement->eco_com_state_id = 1;
         }
 
         $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
-        $economic_complement->eco_com_modality_id = $eco_com_modality->id;
-
-        $economic_complement->category_id = $affiliate->category_id;
-
         $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
-        $economic_complement->base_wage_id = $base_wage->id;
-
         $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
                                     ->whereYear('year', '=', $data['year'])
                                     ->where('semester', '=', $data['semester'])->first();
-        $economic_complement->complementary_factor_id = $complementary_factor->id;
 
-        $economic_complement->eco_com_state_id = 1;
+        $economic_complement->eco_com_modality_id = $eco_com_modality->id;
+        $economic_complement->category_id = $affiliate->category_id;
+        $economic_complement->base_wage_id = $base_wage->id;
+        $economic_complement->complementary_factor_id = $complementary_factor->id;
         $economic_complement->city_id = trim($request->city);
         $economic_complement->save();
 
