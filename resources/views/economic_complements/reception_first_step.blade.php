@@ -152,6 +152,13 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
+                                            {!! Form::label('pension_entity', 'Ente Gestor', ['class' => 'col-md-4 control-label']) !!}
+                                    <div class="col-md-8">
+                                        {!! Form::select('pension_entity', $pension_entities_list, $affiliate->pension_entity_id, ['class' => 'combobox form-control', 'required' ]) !!}
+                                        <span class="help-block">Seleccione el departamento</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                             {!! Form::label('city', 'Ciudad', ['class' => 'col-md-4 control-label']) !!}
                                     <div class="col-md-8">
                                         {!! Form::select('city', $cities_list, $economic_complement->city_id, ['class' => 'combobox form-control', 'required' ]) !!}

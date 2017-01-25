@@ -23,6 +23,7 @@ use Muserpol\EconomicComplementRequirement;
 use Muserpol\EconomicComplementSubmittedDocument;
 use Muserpol\Affiliate;
 use Muserpol\Spouse;
+use Muserpol\PensionEntity;
 use Muserpol\City;
 use Muserpol\BaseWage;
 use Muserpol\ComplementaryFactor;
@@ -137,6 +138,12 @@ class EconomicComplementController extends Controller
              $cities_list[$item->id]=$item->name;
         }
 
+        $pension_entities = PensionEntity::all();
+        $pension_entities_list = array('' => '');
+        foreach ($pension_entities as $item) {
+             $pension_entities_list[$item->id]=$item->name;
+        }
+
         $cities_list_short = ['' => ''];
         foreach ($cities as $item) {
             $cities_list_short[$item->id]=$item->shortened;
@@ -154,6 +161,7 @@ class EconomicComplementController extends Controller
             'eco_com_states_list' => $eco_com_states_list,
             'eco_com_types_list' => $eco_com_types_list,
             'semester_list' => $semester_list,
+            'pension_entities_list' => $pension_entities_list,
             'cities_list' => $cities_list,
             'cities_list_short' => $cities_list_short,
             'year' => Carbon::now()->year,
@@ -392,6 +400,8 @@ class EconomicComplementController extends Controller
 
                     $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement_id)->first();
                     $affiliate = Affiliate::idIs($request->affiliate_id)->first();
+                    $affiliate->pension_entity_id = $request->pension_entity;
+                    $affiliate->save();
 
                     if (!$eco_com_applicant) {
 
