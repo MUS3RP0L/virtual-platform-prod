@@ -268,13 +268,13 @@ class EconomicComplementController extends Controller
         $affiliate = Affiliate::idIs($request->affiliate_id)->first();
 
         $economic_complement = EconomicComplement::affiliateIs($affiliate->id)
-                                    ->whereYear('created_at', '=', $data['year'])
+                                    ->whereYear('year', '=', $data['year'])
                                     ->where('semester', '=', $data['semester'])->first();
 
         if (!$economic_complement) {
 
             $economic_complement = new EconomicComplement;
-            if ($last_economic_complement = EconomicComplement::whereYear('created_at', '=', $data['year'])
+            if ($last_economic_complement = EconomicComplement::whereYear('year', '=', $data['year'])
                                                 ->where('semester', '=', $data['semester'])
                                                 ->where('deleted_at', '=', null)->orderBy('id', 'desc')->first()) {
                 $number_code = Util::separateCode($last_economic_complement->code);
@@ -295,7 +295,8 @@ class EconomicComplementController extends Controller
         $economic_complement->base_wage_id = $base_wage->id;
 
         $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
-                                    ->whereYear('created_at', '=', $data['year'])->first();
+                                    ->whereYear('year', '=', $data['year'])
+                                    ->where('semester', '=', $data['semester'])->first();
         $economic_complement->complementary_factor_id = $complementary_factor->id;
 
         $economic_complement->eco_com_state_id = 1;
