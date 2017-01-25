@@ -32,4 +32,9 @@ class ComplementaryFactor extends Model
         return $this->belongsTo('Muserpol\Hierarchy');
     }
 
+    public function scopeHierarchyIs($query, $id)
+    {
+        return $query->where('hierarchy_id', $id);
+    }
+
 }

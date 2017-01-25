@@ -29,5 +29,9 @@ class BaseWage extends Model
         return $this->hasMany('Muserpol\EconomicComplement');
     }
 
+    public function scopeDegreeIs($query, $id)
+    {
+        return $query->where('degree_id', $id);
+    }
 
 }
