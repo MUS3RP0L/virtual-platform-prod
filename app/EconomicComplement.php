@@ -107,3 +107,15 @@ class EconomicComplement extends Model
         return "Proceso N° " . $this->code;
     }
 }
+
+EconomicComplement::created(function($ecomplement)
+{
+    Activity::createdEconomicComplement($ecomplement);
+
+});
+
+EconomicComplement::updated(function($ecomplement)
+{
+    Activity::updateEconomicComplement($ecomplement);
+
+});

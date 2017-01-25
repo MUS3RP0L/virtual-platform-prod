@@ -214,7 +214,35 @@ class Activity extends Model
 			$activity->message = Util::encodeActivity(Auth::user(), 'Creó al Solicitante', $applicant);
 			$activity->save();
 		}
-	}   
+	}
+
+    public static function createdEconomicComplement($ecomplement)
+	{
+		if (Auth::user())
+		{   $affiliate = Affiliate::findOrFail($ecomplement->affiliate_id);
+			$activity = new Activity;
+			$activity->user_id = Auth::user()->id;
+			$activity->affiliate_id = $ecomplement->affiliate_id;
+			$activity->economic_complement_id = $ecomplement->id;
+			$activity->activity_type_id = ACTIVITY_TYPE_CREATE_ECONOMIC_COMPLEMENT;
+			$activity->message = Util::encodeActivity(Auth::user(), 'Creó al Complemento Económico', $affiliate);
+			$activity->save();
+		}
+	}
+
+    public static function updateEconomicComplement($ecomplement)
+	{
+		if (Auth::user())
+		{   $affiliate = Affiliate::findOrFail($ecomplement->affiliate_id);
+			$activity = new Activity;
+			$activity->user_id = Auth::user()->id;
+			$activity->affiliate_id = $ecomplement->affiliate_id;
+			$activity->economic_complement_id = $ecomplement->id;
+			$activity->activity_type_id = ACTIVITY_TYPE_UPDATE_ECONOMIC_COMPLEMENT;
+			$activity->message = Util::encodeActivity(Auth::user(), 'Actualizó Complemento Económico', $affiliate);
+			$activity->save();
+		}
+	}
 
 
 }
