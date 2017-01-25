@@ -128,13 +128,17 @@ class ImportExportController extends Controller
         foreach ($results as $datos){
             $afi = DB::table('economic_complements')
               ->select(DB::raw('economic_complements.*'))
-              ->join('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
-              ->where('affiliates.identity_card', '=', Util::zero($datos->nro_identificacion))
+              ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+              ->where('affiliates.nua', '=', rtrim(Util::zero($datos->cua_titular)))
+              ->where('affiliates.identity_card', '=', rtrim(Util::zero($datos->nro_identificacion)))
+              ->whereIn('affiliates.pension_entity_id', [1, 2, 3, 4])
               ->whereYear('economic_complements.review_date', '=', $year)
-              ->where('economic_complements.semester', '=', $semester)
-              ->where('economic_complements.eco_com_state_id', '=', 2)->first();
+              ->where('economic_complements.semester', '=', rtrim($semester))
+              ->where('economic_complements.eco_com_state_id', '=', 2)
+              ->whereNull('economic_complements.deleted_at')->first();
               if ($afi){
-                  $ecomplement = EconomicComplement::where('affiliate_id','=', $afi->affiliate_id)->whereYear('review_date','=', $afi->review_date)->where('semester','=', $afi->semester)->where('eco_com_state_id','=', $afi->eco_com_state_id)->first();
+                  //return response()->json($afi);
+                  $ecomplement = EconomicComplement::where('id','=', $afi->id)->first();
                   $ecomplement->total = $datos->total_pension;
                   $ecomplement->save();
                   $affiliates = Affiliate::where('id', '=', $afi->affiliate_id)->first();
