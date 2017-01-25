@@ -13,12 +13,18 @@ define("ACTIVITY_TYPE_UPDATE_DOCUMENT", 4);
 define("ACTIVITY_TYPE_UPDATE_ANTECEDENT", 5);
 define("ACTIVITY_TYPE_UPDATE_SPOUSE", 6);
 define("ACTIVITY_TYPE_UPDATE_APPLICANT", 7);
+define("ACTIVITY_TYPE_UPDATE_ECONOMIC_COMPLEMENT", 8);
+define("ACTIVITY_TYPE_UPDATE_ECO_COM_APPLICANT", 9);
+define("ACTIVITY_TYPE_UPDATE_ECO_COM_SUBMITTED_DOCUMENT", 10);
 
-define("ACTIVITY_TYPE_CREATE_SPOUSE", 8);
-define("ACTIVITY_TYPE_CREATE_APPLICANT", 9);
-define("ACTIVITY_TYPE_CREATE_RETIREMENT_FUND", 10);
-define("ACTIVITY_TYPE_CREATE_DOCUMENT", 11);
-define("ACTIVITY_TYPE_CREATE_ANTECEDENT", 12);
+define("ACTIVITY_TYPE_CREATE_SPOUSE", 11);
+define("ACTIVITY_TYPE_CREATE_APPLICANT", 12);
+define("ACTIVITY_TYPE_CREATE_RETIREMENT_FUND", 13);
+define("ACTIVITY_TYPE_CREATE_DOCUMENT", 14);
+define("ACTIVITY_TYPE_CREATE_ANTECEDENT", 15);
+define("ACTIVITY_TYPE_CREATE_ECONOMIC_COMPLEMENT", 16);
+define("ACTIVITY_TYPE_CREATE_ECO_COM_APPLICANT", 17);
+define("ACTIVITY_TYPE_CREATE_ECO_COM_SUBMITTED_DOCUMENT", 18);
 
 class Activity extends Model
 {
@@ -32,6 +38,7 @@ class Activity extends Model
 			$activity = new Activity;
 			$activity->user_id = Auth::user()->id;
 			$activity->affiliate_id = $affiliate->id;
+            $affiliate->registration = Util::CalcRegistration($affiliate->birth_date, $affiliate->last_name, $affiliate->mothers_last_name, $affiliate->first_name, $affiliate->gender);
 			$activity->activity_type_id = ACTIVITY_TYPE_UPDATE_AFFILIATE;
 			$activity->message = Util::encodeActivity(Auth::user(), 'actualizó al Afiliado', $affiliate);
 			$activity->save();
@@ -207,7 +214,7 @@ class Activity extends Model
 			$activity->message = Util::encodeActivity(Auth::user(), 'Creó al Solicitante', $applicant);
 			$activity->save();
 		}
-	}
+	}   
 
 
 }

@@ -29,6 +29,10 @@ class CreateActivitiesTable extends Migration
             $table->UnsignedBigInteger('ipc_rate_id');
             $table->UnsignedBigInteger('contribution_rate_id');
             $table->UnsignedBigInteger('base_wage_id');
+            $table->UnsignedBigInteger('complementary_factor_id');
+            $table->UnsignedBigInteger('economic_complement_id');
+            $table->UnsignedBigInteger('eco_com_applicant_id');
+            $table->UnsignedBigInteger('eco_com_submitted_document_id');
             $table->text('message');
             $table->integer('activity_type_id');
             $table->foreign('user_id')->references('id')->on('users');
