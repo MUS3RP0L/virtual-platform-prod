@@ -123,7 +123,18 @@
         <div class="col-md-6">
 			<div class="box box-warning">
                 <div class="box-header with-border">
-					<h3 class="box-title"><span class="fa fa-user-plus"></span> Información de Beneficiario</h3>
+					<div class="row">
+                        <div class="col-md-10">
+							<h3 class="box-title"><span class="fa fa-user-plus"></span> Información de Beneficiario</h3>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                <a href="" class="btn btn-raised btn-xs btn-primary" data-toggle="modal" data-target="#myModal-applicant">&nbsp;&nbsp;
+                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 				</div>
 				<div class="box-body">
 					<div class="row">
@@ -364,12 +375,136 @@
 		</div>
 	</div>
 
+
+
+
+	<div id="myModal-applicant" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="box-header with-border">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="box-title">Editar Beneficiario - {{ $eco_com_applicant->economic_complement_applicant_type->name }}</h4>
+				</div>
+				<div class="modal-body">
+					{!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
+						<input type="hidden" name="step" value="second"/>
+						<input type="hidden" name="type" value="update"/>
+						<div class="row">
+							<div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                            {!! Form::label('identity_card', 'Carnet de Identidad', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-5">
+                                            {!! Form::text('identity_card', $eco_com_applicant->identity_card, ['class'=> 'form-control', 'required']) !!}
+                                            <span class="help-block">Número de CI</span>
+                                        </div>
+                                            {!! Form::select('city_identity_card_id', $cities_list_short, $eco_com_applicant->city_identity_card_id, ['class' => 'col-md-2 combobox form-control', 'required']) !!}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('last_name', $eco_com_applicant->last_name, ['class'=> 'form-control', 'required', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Apellido Paterno</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('mothers_last_name', 'Apellido Materno', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('mothers_last_name', $eco_com_applicant->mothers_last_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Apellido Materno</span>
+                                    </div>
+                                </div>
+                                @if ($eco_com_applicant->gender == 'F')
+                                    <div class="form-group">
+                                            {!! Form::label('surname_husband', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-6">
+                                            {!! Form::text('surname_husband', $eco_com_applicant->surname_husband, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                            <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
+                                        </div>
+                                    </div>
+                                @endif
+                                <div class="form-group">
+                                        {!! Form::label('first_name', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('first_name', $eco_com_applicant->first_name, ['class'=> 'form-control','required', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el  Primer Nombre</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('second_name', 'Segundo Nombre', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('second_name', $eco_com_applicant->second_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Segundo Nombre</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        {!! Form::label('birth_date', 'Fecha de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                            			<div class="input-group">
+                                            <input type="text" id="birth_date_mask" class="form-control" name="birth_date" value="{!! $eco_com_applicant->getEditBirthDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('nua', 'CUA/NUA', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('nua', $eco_com_applicant->nua, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Segundo Nombre</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                            {!! Form::label('civil_status', 'Estado Civil', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::select('civil_status', $gender_list, $eco_com_applicant->civil_status, ['class' => 'combobox form-control', 'required']) !!}
+                                        <span class="help-block">Seleccione el Estado Civil</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('phone_number', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        <input type="text" id="phone_number" class="form-control" name="phone_number" value="{!! $eco_com_applicant->phone_number !!}" data-inputmask="'mask': '(9) 999 999'" data-mask>
+                                        <span class="help-block">Escriba el Teléfono fijo</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('cell_phone_number', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        <input type="text" id="cell_phone_number" class="form-control" name="cell_phone_number" value="{!! $eco_com_applicant->cell_phone_number !!}" data-inputmask="'mask': '(999) 99999'" data-mask>
+                                        <span class="help-block">Escriba el Teléfono Celular</span>
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+
+						<div class="row text-center">
+							<div class="form-group">
+								<div class="col-md-12">
+									<a href="{!! url('affiliate/' . $affiliate->id) !!}" data-target="#" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
+									&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;</button>
+								</div>
+							</div>
+						</div>
+
+					{!! Form::close() !!}
+
+				</div>
+			</div>
+		</div>
+	</div>
+
 @endsection
 
 @push('scripts')
 <script>
 
 	$(document).ready(function(){
+		$('.combobox').combobox();
 	    $('[data-toggle="tooltip"]').tooltip();
 	});
 

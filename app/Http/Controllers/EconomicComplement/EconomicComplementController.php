@@ -331,6 +331,12 @@ class EconomicComplementController extends Controller
 
         $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($economic_complement->id)->get();
 
+        if ($eco_com_applicant->gender == 'M') {
+            $gender_list = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
+        }elseif ($eco_com_applicant->gender == 'F') {
+            $gender_list = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
+        }
+
         $data = [
 
             'affiliate' => $affiliate,
@@ -338,7 +344,8 @@ class EconomicComplementController extends Controller
             'eco_com_type' => $eco_com_type->name,
             'eco_com_applicant' => $eco_com_applicant,
             'eco_com_submitted_documents' => $eco_com_submitted_documents,
-            'sub_total_rent' => Util::formatMoney($economic_complement->sub_total_rent)
+            'sub_total_rent' => Util::formatMoney($economic_complement->sub_total_rent),
+            'gender_list' => $gender_list
 
 
         ];
@@ -539,8 +546,12 @@ class EconomicComplementController extends Controller
                         break;
                     }
 
-                    return redirect('economic_complement_reception_third_step/'.$economic_complement_id);
-
+                    if ($request->type == 'update') {
+                        return redirect('economic_complement/'.$economic_complement_id);
+                    }
+                    else{
+                        return redirect('economic_complement_reception_third_step/'.$economic_complement_id);
+                    }
                 }
 
             break;

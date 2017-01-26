@@ -136,6 +136,7 @@
                     {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
                         <br>
                         <input type="hidden" name="step" value="second"/>
+                        <input type="hidden" name="type" value="create"/>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
