@@ -346,35 +346,35 @@
 									</tr>
 									<tr>
 										<td>Referente Salarial</td>
-										<td></td>
+										<td>{!! $salary_reference !!}</td>
 									</tr>
 									<tr>
 										<td>Antigüedad</td>
-										<td></td>
+										<td>{!! $seniority !!}</td>
 									</tr>
 									<tr>
 										<td>Salario Cotizable</td>
-										<td></td>
+										<td>{!! $salary_quotable !!}</td>
 									</tr>
 									<tr>
 										<td>Diferencia</td>
-										<td></td>
+										<td>{!! $difference !!}</td>
 									</tr>
 									<tr>
 										<td>Meses de Pago</td>
-										<td></td>
+										<td>{!! $months_of_payment !!}</td>
 									</tr>
 									<tr>
 										<td>Total Semestre</td>
-										<td></td>
+										<td>{!! $total_amount_semester !!}</td>
 									</tr>
 									<tr>
 										<td>Factor de Complementación</td>
-										<td></td>
+										<td>{!! $complementary_factor !!}</td>
 									</tr>
 									<tr>
 										<td>Total a Cancelar</td>
-										<td></td>
+										<td>{!! $total !!}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -569,6 +569,9 @@
 	$(document).ready(function(){
 		$('.combobox').combobox();
 	    $('[data-toggle="tooltip"]').tooltip();
+		$("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+		$("#phone_number").inputmask();
+		$("#cell_phone_number").inputmask();
 	});
 
 	function SelectRequeriments(requirements) {

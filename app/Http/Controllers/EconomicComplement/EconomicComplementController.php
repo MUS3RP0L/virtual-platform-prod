@@ -319,9 +319,10 @@ class EconomicComplementController extends Controller
      */
     public function show($id)
     {
-        $affiliate = Affiliate::idIs($id)->first();
 
         $economic_complement = EconomicComplement::idIs($id)->first();
+
+        $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
         $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
 
@@ -341,6 +342,16 @@ class EconomicComplementController extends Controller
             $gender_list = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
         }
 
+        $sub_total_rent = $economic_complement->sub_total_rent;
+        $salary_reference = $economic_complement->base_wage->amount;
+        $seniority = $economic_complement->category->percentage * $economic_complement->base_wage->amount;
+        $salary_quotable = $salary_reference + $seniority;
+        $difference = $salary_quotable - $sub_total_rent;
+        $months_of_payment = 6;
+        $total_amount_semester = $difference * $months_of_payment;
+        $complementary_factor = $eco_com_type->id == 1 ? $economic_complement->complementary_factor->old_age : $economic_complement->complementary_factor->widowhood;
+        $total = $total_amount_semester * $complementary_factor/100;
+
         $data = [
 
             'affiliate' => $affiliate,
@@ -348,10 +359,18 @@ class EconomicComplementController extends Controller
             'eco_com_type' => $eco_com_type->name,
             'eco_com_applicant' => $eco_com_applicant,
             'eco_com_submitted_documents' => $eco_com_submitted_documents,
-            'sub_total_rent' => Util::formatMoney($economic_complement->sub_total_rent),
             'status_documents' => $status_documents,
-            'gender_list' => $gender_list
+            'gender_list' => $gender_list,
 
+            'sub_total_rent' => Util::formatMoney($sub_total_rent),
+            'salary_reference' => Util::formatMoney($salary_reference),
+            'seniority' => Util::formatMoney($seniority),
+            'salary_quotable' => Util::formatMoney($salary_quotable),
+            'difference' => Util::formatMoney($difference),
+            'months_of_payment' => $months_of_payment,
+            'total_amount_semester' => Util::formatMoney($total_amount_semester),
+            'complementary_factor' => $complementary_factor,
+            'total' => Util::formatMoney($total),
 
         ];
 
