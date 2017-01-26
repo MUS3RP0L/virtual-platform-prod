@@ -165,7 +165,7 @@ class UserController extends Controller
 
                 'last_name' => 'required|min:3',
                 'first_name' => 'required|min:3',
-                'phone' => 'required|min:7',
+                'phone' => 'required|min:8',
                 'username' => 'required|unique:users,username,'.$user->id,
 
             ];
@@ -176,7 +176,7 @@ class UserController extends Controller
 
                 'last_name' => 'required|min:3',
                 'first_name' => 'required|min:3',
-                'phone' => 'required|min:7',
+                'phone' => 'required|min:8',
                 'username' => 'required|unique:users,username',
                 'password' => 'required|min:6|confirmed',
                 'role' => 'required'
