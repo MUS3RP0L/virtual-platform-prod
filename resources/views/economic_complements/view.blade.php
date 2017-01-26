@@ -341,44 +341,43 @@
 							<table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
 								<tbody>
 									<tr>
-										<td>Renta Total Cotizable</td>
-										<td>{!! $sub_total_rent !!}</td>
+										<td style="width: 70%">Renta Total Cotizable</td>
+										<td style="text-align: right">{!! $sub_total_rent !!}</td>
 									</tr>
 									<tr>
-										<td>Referente Salarial</td>
-										<td>{!! $salary_reference !!}</td>
+										<td style="width: 70%">Referente Salarial</td>
+										<td style="text-align: right">{!! $salary_reference !!}</td>
 									</tr>
 									<tr>
-										<td>Antigüedad</td>
-										<td>{!! $seniority !!}</td>
+										<td style="width: 70%">Antigüedad</td>
+										<td style="text-align: right">{!! $seniority !!}</td>
 									</tr>
 									<tr>
-										<td>Salario Cotizable</td>
-										<td>{!! $salary_quotable !!}</td>
+										<td style="width: 70%">Salario Cotizable</td>
+										<td style="text-align: right">{!! $salary_quotable !!}</td>
 									</tr>
 									<tr>
-										<td>Diferencia</td>
-										<td>{!! $difference !!}</td>
+										<td style="width: 70%">Diferencia</td>
+										<td style="text-align: right">{!! $difference !!}</td>
 									</tr>
 									<tr>
-										<td>Meses de Pago</td>
-										<td>{!! $months_of_payment !!}</td>
+										<td style="width: 70%">Total Semestre</td>
+										<td style="text-align: right">{!! $total_amount_semester !!}</td>
 									</tr>
 									<tr>
-										<td>Total Semestre</td>
-										<td>{!! $total_amount_semester !!}</td>
-									</tr>
-									<tr>
-										<td>Factor de Complementación</td>
-										<td>{!! $complementary_factor !!}</td>
-									</tr>
-									<tr>
-										<td>Total a Cancelar</td>
-										<td>{!! $total !!}</td>
+										<td style="width: 70%">Factor de Complementación</td>
+										<td style="text-align: right">{!! $complementary_factor !!}</td>
 									</tr>
 								</tbody>
 							</table>
-
+							<table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+								<tbody>
+									<tr>
+										<td style="width: 70%">Total a Cancelar</td>
+										<td  style="text-align: right">{!! $total !!}</td>
+									</tr>
+								</tbody>
+							</table>
                         </div>
 					</div>
 				</div>

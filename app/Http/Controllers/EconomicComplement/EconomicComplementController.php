@@ -367,7 +367,6 @@ class EconomicComplementController extends Controller
             'seniority' => Util::formatMoney($seniority),
             'salary_quotable' => Util::formatMoney($salary_quotable),
             'difference' => Util::formatMoney($difference),
-            'months_of_payment' => $months_of_payment,
             'total_amount_semester' => Util::formatMoney($total_amount_semester),
             'complementary_factor' => $complementary_factor,
             'total' => Util::formatMoney($total),
