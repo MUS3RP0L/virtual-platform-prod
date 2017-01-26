@@ -67,7 +67,7 @@
                                 <div class="form-group">
                                         {!! Form::label('index', 'Tasa IPC', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-3">
-                                        {!! Form::text('index', $last_ipc_rate->index, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                        <input type="text" id="index" class="form-control" required = "required" name="index" value="{!! $last_ipc_rate->index !!}"  data-inputmask="'mask': '999.99'" data-mask>
                                         <span class="help-block">Monto de IPC</span>
                                     </div>
                                 </div>
@@ -121,6 +121,12 @@
                     { data: 'index', "sClass": "text-center", bSortable: false }
                 ]
             });
+        });
+
+        $(document).ready(function(){
+            $('.combobox').combobox();
+            $('[data-toggle="tooltip"]').tooltip();
+            $("#index").inputmask();
         });
 
     </script>

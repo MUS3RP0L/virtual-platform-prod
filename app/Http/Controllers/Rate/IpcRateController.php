@@ -64,22 +64,18 @@ class IpcRateController extends Controller
     public function save($request, $ipc_rate = false)
     {
         $rules = [
-
             'month_year' => 'required',
             'index' => 'required|numeric'
         ];
 
         $messages = [
-
-            'month_year.required' => 'El campo Año no puede ser vacío', 
-
-            'index.required' => 'El campo IPC no puede ser vacío', 
+            'month_year.required' => 'El campo Año no puede ser vacío',
+            'index.required' => 'El campo IPC no puede ser vacío',
             'index.numeric' => 'El campo IPC sólo se aceptan números'
-
         ];
-        
+
         $validator = Validator::make($request->all(), $rules, $messages);
-        
+
         if ($validator->fails()) {
             return redirect('ipc_rate')
             ->withErrors($validator)
@@ -108,7 +104,7 @@ class IpcRateController extends Controller
             }
 
         }
-        
+
         return redirect('ipc_rate');
     }
 
