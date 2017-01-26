@@ -205,7 +205,6 @@ class EconomicComplementController extends Controller
 
         $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
 
-        $eco_com_applicant_type = EconomicComplementApplicantType::idIs($eco_com_type->id)->first();
 
         if ($eco_com_applicant->gender == 'M') {
             $gender_list = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
@@ -217,7 +216,6 @@ class EconomicComplementController extends Controller
 
             'affiliate' => $affiliate,
             'eco_com_type' => $eco_com_type->name,
-            'eco_com_applicant_type' => $eco_com_applicant_type,
             'economic_complement' => $economic_complement,
             'eco_com_applicant' => $eco_com_applicant,
             'gender_list' => $gender_list

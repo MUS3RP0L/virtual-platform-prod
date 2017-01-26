@@ -130,7 +130,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="box box-warning">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Añadir Beneficiario - {{ $eco_com_applicant_type->name }}</h3>
+                    <h3 class="box-title">Editar Beneficiario - {{ $eco_com_applicant->economic_complement_applicant_type->name }}</h3>
                 </div>
                 <div class="box-body">
                     {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
