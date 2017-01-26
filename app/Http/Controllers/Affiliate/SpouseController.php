@@ -53,7 +53,7 @@ class SpouseController extends Controller
             'first_name.min' => 'El mínimo de caracteres permitidos para primer nombre es 3',
             'first_name.regex' => 'Sólo se aceptan letras para primer nombre',
 
-            'second_name.min' => 'El mínimo de caracteres permitidos para teléfono de usuario es 3',
+            'second_name.min' => 'El mínimo de caracteres permitidos para segundo nombre es 3',
             'second_name.regex' => 'Sólo se aceptan letras para segundo nombre'
 
         ];
