@@ -40,10 +40,10 @@
 									</div>
 								</div>
 								<div class="form-group">
-										{!! Form::label('phone', 'Núm de Teléfono', ['class' => 'col-md-4 control-label']) !!}
+										{!! Form::label('phone', 'Núm de Celular', ['class' => 'col-md-4 control-label']) !!}
 									<div class="col-md-6">
-										{!! Form::text('phone', null, ['class'=> 'form-control', 'required' => 'required']) !!}
-										<span class="help-block">Teléfono Celular</span>
+										 <input type="text" id="phone" class="form-control" required = "required" name="phone" data-inputmask="'mask': '(999) 99999'" data-mask>
+										 <span class="help-block">Teléfono Celular</span>
 									</div>
 								</div>
 							</div>
@@ -132,6 +132,13 @@
 	            }
 			});
 		});
+
+		$(document).ready(function(){
+            $('.combobox').combobox();
+            $('[data-toggle="tooltip"]').tooltip();
+            $("#phone").inputmask();
+
+        });
 
 	</script>
 

@@ -165,7 +165,7 @@ class UserController extends Controller
 
                 'last_name' => 'required|min:3',
                 'first_name' => 'required|min:3',
-                'phone' => 'required|min:8|numeric',
+                'phone' => 'required|min:7',
                 'username' => 'required|unique:users,username,'.$user->id,
 
             ];
@@ -176,7 +176,7 @@ class UserController extends Controller
 
                 'last_name' => 'required|min:3',
                 'first_name' => 'required|min:3',
-                'phone' => 'required|min:8|numeric',
+                'phone' => 'required|min:7',
                 'username' => 'required|unique:users,username',
                 'password' => 'required|min:6|confirmed',
                 'role' => 'required'
@@ -193,8 +193,8 @@ class UserController extends Controller
             'last_name.min' => 'El mínimo de caracteres permitidos en apellido es 3',
 
             'phone.required' => 'El campo teléfono es requerido',
-            'phone.min' => 'El mínimo de caracteres permitidos en teléfono de usuario es 8',
-            'phone.numeric' => 'El campo teléfono tiene q ser númerico',
+            'phone.min' => 'El mínimo de caracteres permitidos en teléfono de usuario es 7',
+
 
             'username.required' => 'El campo nombre de usuario requerido',
             'username.min' => 'El mínimo de caracteres permitidos en nombre de usuario es 5',

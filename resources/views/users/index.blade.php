@@ -29,7 +29,7 @@
                             <tr class="success">
                                 <th>Nombre de Usuario</th>
                                 <th>Nombres y Apellidos</th>
-                                <th>Teléfono</th>
+                                <th>Celular</th>
                                 <th>Unidad</th>
                                 <th>Cargo</th>
                                 <th>Estado</th>
