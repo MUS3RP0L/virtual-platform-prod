@@ -66,14 +66,14 @@
                                 <div class="form-group">
                                         {!! Form::label('retirement_fund', 'Fondo de Retiro', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
-                                        {!! Form::text('retirement_fund', $last_contribution_rate->retirement_fund, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                        <input type="text" id="retirement_fund" class="form-control" required = "required" name="retirement_fund" value="{!! $last_contribution_rate->retirement_fund !!}"  data-inputmask="'mask': '9.99'" data-mask>
                                         <span class="help-block">Porcentaje de Fondo de Retiro</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('mortuary_quota', 'Cuota mortuoria', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
-                                        {!! Form::text('mortuary_quota', $last_contribution_rate->mortuary_quota, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                        <input type="text" id="mortuary_quota" class="form-control" required = "required" name="mortuary_quota" value="{!! $last_contribution_rate->mortuary_quota !!}"  data-inputmask="'mask': '9.99'" data-mask>
                                         <span class="help-block">Porcentaje de Seguro de Vida</span>
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@
                                 <div class="form-group">
                                         {!! Form::label('mortuary_aid', 'Auxilio Mortuorio', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
-                                        {!! Form::text('mortuary_aid', $last_contribution_rate->mortuary_aid, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                        <input type="text" id="mortuary_aid" class="form-control" required = "required" name="mortuary_aid" value="{!! $last_contribution_rate->mortuary_aid !!}"  data-inputmask="'mask': '9.99'" data-mask>
                                         <span class="help-block">Porcentaje de Auxilio Mortuorio</span>
                                     </div>
                                 </div>
@@ -133,6 +133,14 @@
                     { data: 'rate_passive', sClass: "text-center", bSortable: false },
                 ]
             });
+        });
+
+        $(document).ready(function(){
+            $('.combobox').combobox();
+            $('[data-toggle="tooltip"]').tooltip();
+            $("#retirement_fund").inputmask();
+            $("#mortuary_quota").inputmask();
+            $("#mortuary_aid").inputmask();
         });
 
     </script>
