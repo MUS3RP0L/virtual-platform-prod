@@ -18,6 +18,7 @@ class Spouse extends Model
         'user_id',
         'affiliate_id',
         'identity_card',
+        'registration',
         'last_name',
         'mothers_last_name',
         'first_name',

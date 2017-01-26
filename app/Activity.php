@@ -144,7 +144,7 @@ class Activity extends Model
 		if (Auth::user())
 		{
 			$RetirementFund = RetirementFund::findOrFail($antecedent->retirement_fund_id);
-		  $affiliate = Affiliate::findOrFail($RetirementFund->affiliate_id);
+		    $affiliate = Affiliate::findOrFail($RetirementFund->affiliate_id);
 			$activity = new Activity;
 			$activity->user_id = Auth::user()->id;
 			$activity->affiliate_id = $RetirementFund->affiliate_id;
@@ -162,8 +162,11 @@ class Activity extends Model
 		{
 			$activity = new Activity;
 			$activity->user_id = Auth::user()->id;
-			$activity->affiliate_id = $spouse->affiliate_id;
+            $affiliate = Affiliate::idIs($spouse->affiliate_id)->first();
+            $sex = $affiliate->gender == 'M' ? 'F':'M';
+            $activity->affiliate_id = $spouse->affiliate_id;
 			$activity->spouse_id = $spouse->id;
+            $spouse->registration = Util::CalcRegistration($spouse->birth_date, $spouse->last_name, $spouse->mothers_last_name, $spouse->first_name, $sex);
 			$activity->activity_type_id = ACTIVITY_TYPE_UPDATE_SPOUSE;
 			$activity->message = Util::encodeActivity(Auth::user(), 'actualizó al Conyuge', $spouse);
 			$activity->save();
@@ -175,8 +178,12 @@ class Activity extends Model
 		{
 		  $activity = new Activity;
 			$activity->user_id = Auth::user()->id;
+            $activity->spouse_id = $spouse->id;
+            $affiliate = Affiliate::idIs($spouse->affiliate_id)->first();
+            $sex = $affiliate->gender == 'M' ? 'F':'M';
 			$activity->affiliate_id = $spouse->affiliate_id;
-			$activity->spouse_id = $spouse->id;
+            $spouse->registration = Util::CalcRegistration($spouse->birth_date, $spouse->last_name, $spouse->mothers_last_name, $spouse->first_name, $sex);
+			$spouse->save();
 			$activity->activity_type_id = ACTIVITY_TYPE_CREATE_SPOUSE;
 			$activity->message = Util::encodeActivity(Auth::user(), 'Creó al Conyuge', $spouse);
 			$activity->save();
