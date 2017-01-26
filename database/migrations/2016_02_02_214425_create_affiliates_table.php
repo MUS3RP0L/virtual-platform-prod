@@ -185,6 +185,7 @@ class CreateAffiliatesTable extends Migration
             $table->UnsignedBigInteger('affiliate_id');
             $table->UnsignedBigInteger('city_identity_card_id')->nullable();
             $table->string('identity_card')->required();
+            $table->string('registration')->required();
             $table->string('last_name')->nullable();
             $table->string('mothers_last_name')->nullable();
             $table->string('first_name')->nullable();
