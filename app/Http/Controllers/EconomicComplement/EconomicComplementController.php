@@ -329,6 +329,12 @@ class EconomicComplementController extends Controller
 
         $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($economic_complement->id)->get();
 
+        if (EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->first()) {
+            $status_documents = TRUE;
+        }else{
+            $status_documents = FALSE;
+        }
+
         if ($eco_com_applicant->gender == 'M') {
             $gender_list = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
         }elseif ($eco_com_applicant->gender == 'F') {
@@ -343,6 +349,7 @@ class EconomicComplementController extends Controller
             'eco_com_applicant' => $eco_com_applicant,
             'eco_com_submitted_documents' => $eco_com_submitted_documents,
             'sub_total_rent' => Util::formatMoney($economic_complement->sub_total_rent),
+            'status_documents' => $status_documents,
             'gender_list' => $gender_list
 
 
