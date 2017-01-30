@@ -111,8 +111,8 @@ class DirectContributionController extends Controller
                     if($j >= $from->month) {
                         $month["id"] = $j;
                         $month["name"] = Util::getMes($j);
-                        $month["retirement_fund"] = $contribution_rate ? $contribution_rate->retirement_fund : '0';
-                        $month["mortuary_quota"] = $contribution_rate ? $contribution_rate->mortuary_quota : '0';
+                        $month["retirement_fund"] = $contribution_rate ? $contribution_rate->retirement_fund_commission : '0';
+                        $month["mortuary_quota"] = $contribution_rate ? $contribution_rate->mortuary_quota_commission : '0';
                         $month["ipc_rate"] = $contribution_rate ? $ipc_rate->index : '0';
                         $months->push($month);
                     }
@@ -121,16 +121,16 @@ class DirectContributionController extends Controller
                     if($j <= $to->month) {
                         $month["id"] = $j;
                         $month["name"] = Util::getMes($j);
-                        $month["retirement_fund"] = $contribution_rate ? $contribution_rate->retirement_fund : '0';
-                        $month["mortuary_quota"] = $contribution_rate ? $contribution_rate->mortuary_quota : '0';
+                        $month["retirement_fund"] = $contribution_rate ? $contribution_rate->retirement_fund_commission : '0';
+                        $month["mortuary_quota"] = $contribution_rate ? $contribution_rate->mortuary_quota_commission : '0';
                         $month["ipc_rate"] = $contribution_rate ? $ipc_rate->index : '0';
                         $months->push($month);
                     }
                 }else {
                     $month["id"] = $j;
                     $month["name"] = Util::getMes($j);
-                    $month["retirement_fund"] = $contribution_rate ? $contribution_rate->retirement_fund : '0';
-                    $month["mortuary_quota"] = $contribution_rate ? $contribution_rate->mortuary_quota : '0';
+                    $month["retirement_fund"] = $contribution_rate ? $contribution_rate->retirement_fund_commission : '0';
+                    $month["mortuary_quota"] = $contribution_rate ? $contribution_rate->mortuary_quota_commission : '0';
                     $month["ipc_rate"] = $contribution_rate ? $ipc_rate->index : '0';
                     $months->push($month);
                 }
