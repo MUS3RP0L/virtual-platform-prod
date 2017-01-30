@@ -16,6 +16,7 @@ use Muserpol\Hierarchy;
 use Muserpol\Category;
 use Muserpol\Unit;
 use Muserpol\Contribution;
+use Muserpol\ContributionRate;
 
 class ImportPayroll extends Command
 {
@@ -271,10 +272,13 @@ class ImportPayroll extends Command
                                                           (FLOAT)$contribution->east_bonus;
 
                                 $contribution->total = Util::decimal($result->mus);
+
+                                $contribution_rate = ContributionRate::where('month_year', '=', $month_year)->first();
                                 $percentage = round(($contribution->total / $contribution->quotable) * 100, 1);
-                                if ($percentage == 2.5) {
-                                    $contribution->retirement_fund = $contribution->total * 1.85 / $percentage;
-                                    $contribution->mortuary_quota = $contribution->total * 0.65 / $percentage;
+
+                                if ($percentage == $contribution_rate->retirement_fund + $contribution_rate->mortuary_quota) {
+                                    $contribution->retirement_fund = $contribution->total * $contribution_rate->retirement_fund / $percentage;
+                                    $contribution->mortuary_quota = $contribution->total * $contribution_rate->mortuary_quota / $percentage;
                                 }else {
                                     $this->error('Unknown percentage of contribution!');
                                     exit();
