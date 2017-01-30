@@ -19,7 +19,8 @@ class CreateContributionratesTable extends Migration
             $table->date('month_year')->unique()->required();
             $table->decimal('retirement_fund', 13, 3);
             $table->decimal('mortuary_quota', 13, 3);
-            $table->decimal('rate_active', 13, 3);
+            $table->decimal('retirement_fund_commission', 13, 3);
+            $table->decimal('mortuary_quota_commission', 13, 3);
             $table->decimal('mortuary_aid', 13, 3);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
