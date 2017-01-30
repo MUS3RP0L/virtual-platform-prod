@@ -114,11 +114,18 @@ class ImportReimbursement extends Command
                                                            (FLOAT)$reimbursement->east_bonus;
 
                                     $reimbursement->total = Util::decimal($result->mus);
+
+                                    $contribution_rate = ContributionRate::where('month_year', '=', $month_year)->first();
                                     $percentage = round(($reimbursement->total / $reimbursement->quotable) * 100, 1);
-                                    if ($percentage == 2.5){
-                                        $reimbursement->retirement_fund = $reimbursement->total * 1.85 / $percentage;
-                                        $reimbursement->mortuary_quota = $reimbursement->total * 0.65 / $percentage;
+
+                                    if ($percentage == $contribution_rate->retirement_fund + $contribution_rate->mortuary_quota) {
+                                        $reimbursement->retirement_fund = $reimbursement->total * $contribution_rate->retirement_fund / $percentage;
+                                        $reimbursement->mortuary_quota = $reimbursement->total * $contribution_rate->mortuary_quota / $percentage;
+                                    }else {
+                                        $this->error('Unknown percentage of contribution!');
+                                        exit();
                                     }
+
                                     $reimbursement->save();
                                     $NewReimbursement ++;
                                 }
