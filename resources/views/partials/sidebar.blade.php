@@ -28,10 +28,6 @@
             <a href="{!! url('mortuary') !!}"><i class="fa fa-fw fa-heartbeat fa-lg" aria-hidden="true"></i>&nbsp; <span>Cuota, Auxilio Mortuorio</span></a>
             </li>
 
-            <li {!! (Request::is('voucher') ? 'class=active' : '') !!}>
-            <a href="{!! url('voucher') !!}"><i class="fa fa-fw fa-usd fa-lg" aria-hidden="true"></i>&nbsp; <span>Tesorería</a>
-            </li>
-
             <li {!! (Request::is('budget') ? 'class=active' : '') !!}>
             <a href="{!! url('budget') !!}"><i class="fa fa-fw fa-edit fa-lg" aria-hidden="true"></i>&nbsp; <span>Presupuesto</a>
             </li>
@@ -40,13 +36,10 @@
             <a href="{!! url('accounting') !!}"><i class="fa fa-fw fa-book fa-lg" aria-hidden="true"></i>&nbsp; <span>Contabilidad</a>
             </li>
 
-            <!-- <li class="treeview">
-                <a href="#"><i class='fa fa-link'></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
-                <ul class="treeview-menu">
-                    <li><a href="#">Link in level 2</a></li>
-                    <li><a href="#">Link in level 2</a></li>
-                </ul>
-            </li> -->
+            <li {!! (Request::is('voucher') ? 'class=active' : '') !!}>
+            <a href="{!! url('voucher') !!}"><i class="fa fa-fw fa-usd fa-lg" aria-hidden="true"></i>&nbsp; <span>Tesorería</a>
+            </li>
+
         </ul>
     </section>
 
