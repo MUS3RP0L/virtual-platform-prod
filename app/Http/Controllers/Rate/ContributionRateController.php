@@ -39,16 +39,16 @@ class ContributionRateController extends Controller
 
     public function Data()
     {
-        $contribution_rates = ContributionRate::select(['month_year', 'rate_active', 'retirement_fund', 'mortuary_quota', 'mortuary_aid']);
+        $contribution_rates = ContributionRate::select(['month_year', 'retirement_fund', 'mortuary_quota','retirement_fund_commission', 'mortuary_quota_commission', 'mortuary_aid']);
 
         return Datatables::of($contribution_rates)
             ->addColumn('year', function ($contribution_rate) { return Carbon::parse($contribution_rate->month_year)->year; })
             ->addColumn('month', function ($contribution_rate) { return Util::getMes(Carbon::parse($contribution_rate->month_year)->month); })
             ->editColumn('retirement_fund', function ($contribution_rate) { return Util::formatMoney($contribution_rate->retirement_fund); })
             ->editColumn('mortuary_quota', function ($contribution_rate) { return Util::formatMoney($contribution_rate->mortuary_quota); })
-            ->editColumn('rate_active', function ($contribution_rate) { return Util::formatMoney($contribution_rate->rate_active); })
+            ->editColumn('retirement_fund_commission', function ($contribution_rate) { return Util::formatMoney($contribution_rate->retirement_fund_commission); })
+            ->editColumn('mortuary_quota_commission', function ($contribution_rate) { return Util::formatMoney($contribution_rate->mortuary_quota_commission); })
             ->editColumn('mortuary_aid', function ($contribution_rate) { return Util::formatMoney($contribution_rate->mortuary_aid); })
-            ->addColumn('rate_passive', function ($contribution_rate) { return Util::formatMoney($contribution_rate->mortuary_aid); })
             ->make(true);
     }
 
@@ -78,6 +78,8 @@ class ContributionRateController extends Controller
 
             'retirement_fund' => 'required|numeric',
             'mortuary_quota' => 'required|numeric',
+            'retirement_fund_commission' => 'required|numeric',
+            'mortuary_quota_commission' => 'required|numeric',
             'mortuary_aid' => 'required|numeric'
 
         ];
@@ -89,6 +91,12 @@ class ContributionRateController extends Controller
 
             'mortuary_quota.required' => 'El campo Seguro de Vida Sector Activo no puede ser vacío',
             'mortuary_quota.numeric' => 'El campo Seguro de Vida Sector Activo sólo se aceptan números',
+
+            'retirement_fund_commission.required' => 'El campo Fondo de Retiro Sector Activo no puede ser vacío',
+            'retirement_fund_commission.numeric' => 'El campo Fondo de Retiro Sector Activo sólo se aceptan números',
+
+            'mortuary_quota_commission.required' => 'El campo Seguro de Vida Sector Activo no puede ser vacío',
+            'mortuary_quota_commission.numeric' => 'El campo Seguro de Vida Sector Activo sólo se aceptan números',
 
             'mortuary_aid.required' => 'El campo Seguro de Vida Sector Pasivo no puede ser vacío',
             'mortuary_aid.numeric' => 'El campo Seguro de Vida Sector Pasivo sólo se aceptan números',
@@ -108,7 +116,8 @@ class ContributionRateController extends Controller
             $contribution_rate->user_id = Auth::user()->id;
             $contribution_rate->retirement_fund = trim($request->retirement_fund);
             $contribution_rate->mortuary_quota = trim($request->mortuary_quota);
-            $contribution_rate->rate_active = trim($request->retirement_fund) + trim($request->mortuary_quota);
+            $contribution_rate->retirement_fund_commission = trim($request->retirement_fund_commission);
+            $contribution_rate->mortuary_quota_commission = trim($request->mortuary_quota_commission);
             $contribution_rate->mortuary_aid = trim($request->mortuary_aid);
             $contribution_rate->save();
 
