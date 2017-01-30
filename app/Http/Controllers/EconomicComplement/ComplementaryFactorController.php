@@ -196,45 +196,60 @@ class ComplementaryFactorController extends Controller
 
             'year' => 'required',
             'semester' => 'required',
-            'cf1_old_age' => 'required|numeric',
-            'cf1_widowhood' => 'required|numeric',
-            'cf2_old_age' => 'required|numeric',
-            'cf2_widowhood' => 'required|numeric',
-            'cf3_old_age' => 'required|numeric',
-            'cf3_widowhood' => 'required|numeric',
-            'cf4_old_age' => 'required|numeric',
-            'cf4_widowhood' => 'required|numeric',
-            'cf5_old_age' => 'required|numeric',
-            'cf5_widowhood' => 'required|numeric'
+            'cf1_old_age' => 'required|numeric|between:1,100',
+            'cf1_widowhood' => 'required|numeric|between:1,100',
+            'cf2_old_age' => 'required|numeric|between:1,100',
+            'cf2_widowhood' => 'required|numeric|between:1,100',
+            'cf3_old_age' => 'required|numeric|between:1,100',
+            'cf3_widowhood' => 'required|numeric|between:1,100',
+            'cf4_old_age' => 'required|numeric|between:1,100',
+            'cf4_widowhood' => 'required|numeric|between:1,100',
+            'cf5_old_age' => 'required|numeric|between:1,100',
+            'cf5_widowhood' => 'required|numeric|between:1,100'
 
         ];
 
         $messages = [
 
-            'cf1_old_age.required' => 'El campo no puede ser vacío',
-            'cf1_old_age.numeric' => 'El campo sólo se aceptan números',
-            'cf1_widowhood.required' => 'El campo no puede ser vacío',
-            'cf1_widowhood.numeric' => 'El campo sólo se aceptan números',
+            'cf1_old_age.required' => 'El campo Generales no puede ser vacío',
+            'cf1_old_age.numeric' => 'El campo Generales sólo se aceptan números',
+            'cf1_old_age.between' => 'El campo Generales sólo acepta números entre 1 y 100 %',
 
-            'cf2_old_age.required' => 'El campo no puede ser vacío',
-            'cf2_old_age.numeric' => 'El campo sólo se aceptan números',
-            'cf2_widowhood.required' => 'El campo no puede ser vacío',
-            'cf2_widowhood.numeric' => 'El campo sólo se aceptan números',
+            'cf1_widowhood.required' => 'El campo Generales no puede ser vacío',
+            'cf1_widowhood.numeric' => 'El campo Generales sólo se aceptan números',
+            'cf1_widowhood.between' => 'El campo Generales sólo acepta números entre 1 y 100 %',
 
-            'cf3_old_age.required' => 'El campo no puede ser vacío',
-            'cf3_old_age.numeric' => 'El campo sólo se aceptan números',
-            'cf3_widowhood.required' => 'El campo no puede ser vacío',
-            'cf3_widowhood.numeric' => 'El campo sólo se aceptan números',
+            'cf2_old_age.required' => 'El campo Jefes y Oficiales no puede ser vacío',
+            'cf2_old_age.numeric' => 'El campo Jefes y Oficiales sólo se aceptan números',
+            'cf2_old_age.between' => 'El campo Jefes y Oficiales sólo acepta números entre 1 y 100 %',
 
-            'cf4_old_age.required' => 'El campo no puede ser vacío',
-            'cf4_old_age.numeric' => 'El campo sólo se aceptan números',
-            'cf4_widowhood.required' => 'El campo no puede ser vacío',
-            'cf4_widowhood.numeric' => 'El campo sólo se aceptan números',
+            'cf2_widowhood.required' => 'El campo Jefes y Oficiales no puede ser vacío',
+            'cf2_widowhood.numeric' => 'El campo Jefes y Oficiales sólo se aceptan números',
+            'cf2_widowhood.between' => 'El campo Jefes y Oficiales sólo acepta números entre 1 y 100 %',
 
-            'cf5_old_age.required' => 'El campo no puede ser vacío',
-            'cf5_old_age.numeric' => 'El campo sólo se aceptan números',
-            'cf5_widowhood.required' => 'El campo no puede ser vacío',
-            'cf5_widowhood.numeric' => 'El campo sólo se aceptan números'
+            'cf3_old_age.required' => 'El campo Jefes y Oficiales Amdtvos no puede ser vacío',
+            'cf3_old_age.numeric' => 'El campo Jefes y Oficiales Amdtvos sólo se aceptan números',
+            'cf3_old_age.between' => 'El campo Jefes y Oficiales Amdtvos sólo acepta números entre 1 y 100 %',
+
+            'cf3_widowhood.required' => 'El Jefes y Oficiales Amdtvos campo no puede ser vacío',
+            'cf3_widowhood.numeric' => 'El Jefes y Oficiales Amdtvos campo sólo se aceptan números',
+            'cf3_widowhood.between' => 'El Jefes y Oficiales Amdtvos campo sólo acepta números entre 1 y 100 %',
+
+            'cf4_old_age.required' => 'El campo Suboficiales, Clases y Policias no puede ser vacío',
+            'cf4_old_age.numeric' => 'El campo Suboficiales, Clases y Policias sólo se aceptan números',
+            'cf4_old_age.between' => 'El campo Suboficiales, Clases y Policias sólo acepta números entre 1 y 100 %',
+
+            'cf4_widowhood.required' => 'El campo Suboficiales, Clases y Policias no puede ser vacío',
+            'cf4_widowhood.numeric' => 'El campo Suboficiales, Clases y Policias sólo se aceptan números',
+            'cf4_widowhood.between' => 'El campo Suboficiales, Clases y Policias sólo acepta números entre 1 y 100 %',
+
+            'cf5_old_age.required' => 'El campo Suboficiales, Clases y Policias Admtvos no puede ser vacío',
+            'cf5_old_age.numeric' => 'El campo Suboficiales, Clases y Policias Admtvos sólo se aceptan números',
+            'cf5_old_age.between' => 'El campo Suboficiales, Clases y Policias Admtvos sólo acepta números entre 1 y 100 %',
+            
+            'cf5_widowhood.required' => 'El campo Suboficiales, Clases y Policias Admtvos no puede ser vacío',
+            'cf5_widowhood.numeric' => 'El campo Suboficiales, Clases y Policias Admtvos sólo se aceptan números',
+            'cf5_widowhood.between' => 'El campo Suboficiales, Clases y Policias Admtvos sólo acepta números entre 1 y 100 %'
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
