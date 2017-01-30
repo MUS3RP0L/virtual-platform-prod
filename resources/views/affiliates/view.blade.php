@@ -1085,7 +1085,7 @@
             $("#birth_date_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("#date_death_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("#date_death_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
-            $("#phone__number").inputmask();
+            $("#phone_number").inputmask();
             $("#cell_phone_number").inputmask();
         });
 
