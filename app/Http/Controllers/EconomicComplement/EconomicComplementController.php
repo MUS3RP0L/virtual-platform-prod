@@ -295,9 +295,17 @@ class EconomicComplementController extends Controller
             $economic_complement->eco_com_state_id = 1;
         }
 
+        // $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
+        // $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
+        //                             ->whereYear('year', '=', $data['year'])
+        //                             ->where('semester', '=', $data['semester'])->first();
+        // $economic_complement->base_wage_id = $base_wage->id;
+        // $economic_complement->complementary_factor_id = $complementary_factor->id;
+        // 
         $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
         $economic_complement->eco_com_modality_id = $eco_com_modality->id;
         $economic_complement->category_id = $affiliate->category_id;
+
         $economic_complement->city_id = trim($request->city);
         $economic_complement->save();
 
