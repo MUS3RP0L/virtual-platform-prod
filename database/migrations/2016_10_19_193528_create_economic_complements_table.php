@@ -91,12 +91,14 @@ class CreateEconomicComplementsTable extends Migration
             $table->UnsignedBigInteger('eco_com_state_id');
             $table->UnsignedBigInteger('city_id');
             $table->UnsignedBigInteger('category_id');
-            
+
             $table->UnsignedBigInteger('base_wage_id')->nullable();
             $table->UnsignedBigInteger('complementary_factor_id')->nullable();
 
             $table->date('first_ticket_month_id')->nullable();
             $table->date('second_ticket_month_id')->nullable();
+
+            $table->boolean('has_empowered')->default(0);
 
             $table->string('code')->unique()->required();
             $table->date('reception_date')->nullable();
