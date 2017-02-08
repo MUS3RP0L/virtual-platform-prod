@@ -13,18 +13,21 @@ class EconomicComplementApplicant extends Model
 
     protected $fillable = [
 
-      'economic_complement_id',
-      'eco_com_applicant_type_id',
-      'city_identity_card_id',
-      'identity_card',
-      'last_name',
-      'mothers_last_name',
-      'first_name',
-      'kinship',
-      'home_address',
-      'home_phone_number',
-      'home_cell_phone_number',
-      'work_address'
+        'economic_complement_id',
+        'eco_com_applicant_type_id',
+        'city_identity_card_id',
+        'identity_card',
+        'last_name',
+        'mothers_last_name',
+        'first_name',
+        'second_name',
+        'surname_husband',
+        'birth_date',
+        'nua',
+        'gender',
+        'civil_status',
+        'phone_number',
+        'cell_phone_number',
 
     ];
 
