@@ -22,88 +22,7 @@
             @include('affiliates.simple_info')
         </div>
         <div class="col-md-6">
-            <div class="box box-info">
-                <div class="box-header with-border">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3 class="box-title"><span class="glyphicon glyphicon-info-sign"></span> Información Adicional</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <table class="table table-responsive" style="width:100%;">
-                                <tr>
-                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                Semestre
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $semester !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                Gestión
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $year !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                Tipo
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <table class="table table-responsive" style="width:100%;">
-                                <tr>
-                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                Ciudad
-                                            </div>
-
-                                        </div>
-                                    </td>
-                                </tr>
-								<tr>
-									<td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-										<div class="row">
-											<div class="col-md-6">
-												Estado
-											</div>
-										</div>
-									</td>
-								</tr>
-                                <tr>
-									<td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-										<div class="row">
-											<div class="col-md-6">
-												Por
-											</div>
-										</div>
-									</td>
-								</tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @include('economic_complements.general_info')
         </div>
     </div>
 
@@ -152,17 +71,26 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                            {!! Form::label('pension_entity', 'Ente Gestor', ['class' => 'col-md-4 control-label']) !!}
+                                    {!! Form::label('pension_entity', 'Ente Gestor', ['class' => 'col-md-4 control-label']) !!}
                                     <div class="col-md-8">
                                         {!! Form::select('pension_entity', $pension_entities_list, $affiliate->pension_entity_id, ['class' => 'combobox form-control', 'required' ]) !!}
                                         <span class="help-block">Seleccione el departamento</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                            {!! Form::label('city', 'Ciudad', ['class' => 'col-md-4 control-label']) !!}
+                                    {!! Form::label('city', 'Ciudad', ['class' => 'col-md-4 control-label']) !!}
                                     <div class="col-md-8">
                                         {!! Form::select('city', $cities_list, $economic_complement->city_id, ['class' => 'combobox form-control', 'required' ]) !!}
                                         <span class="help-block">Seleccione el departamento</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-8 col-md-offset-4">
+                                        <div class="checkbox">
+                                            <label>
+                                                {!! Form::checkbox('empowered') !!} &nbsp;&nbsp; Apoderado
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

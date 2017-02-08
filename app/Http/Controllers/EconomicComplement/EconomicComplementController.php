@@ -293,6 +293,8 @@ class EconomicComplementController extends Controller
             $economic_complement->year = Util::datePickYear($data['year'], $data['semester']);
             $economic_complement->semester = $data['semester'];
             $economic_complement->eco_com_state_id = 1;
+
+            $economic_complement->has_empowered = $data['semester'];
         }
 
         // $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
@@ -301,15 +303,16 @@ class EconomicComplementController extends Controller
         //                             ->where('semester', '=', $data['semester'])->first();
         // $economic_complement->base_wage_id = $base_wage->id;
         // $economic_complement->complementary_factor_id = $complementary_factor->id;
-        // 
+        //
         $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
         $economic_complement->eco_com_modality_id = $eco_com_modality->id;
         $economic_complement->category_id = $affiliate->category_id;
 
         $economic_complement->city_id = trim($request->city);
-        $economic_complement->save();
+        // $economic_complement->save();
 
-        return $this->save($request, $economic_complement->id);
+        // return $this->save($request, $economic_complement->id);
+        return $request;
     }
 
     /**
