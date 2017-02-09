@@ -33,8 +33,7 @@ class ActivityController extends Controller
 
     public function Data(Request $request)
     {
-        $activities = Activity::select(['created_at','message', 'activity_type_id', 'user_id']);
-
+        $activities = Activity::select(['created_at','message', 'activity_type_id', 'user_id'])->where('user_id', '=', Auth::user()->id);
         if ($request->has('from') && $request->has('to'))
         {   $activities->where(function($activities) use ($request)
             {   $from = Util::datePick($request->get('from'));
@@ -42,12 +41,41 @@ class ActivityController extends Controller
                 $activities->whereDate('created_at','>=', $from)->whereDate('created_at','<=', $to);
             });
         }
+
         return Datatables::of($activities)
                 ->addColumn('created_at', function ($activities) { return $activities->created_at; })
                 ->editColumn('message', function ($activities) { return $activities->message; })
-                ->addColumn('activity_type_id', function ($activities) { return $activities->activity_type_id; })
                 ->editColumn('user_id', function ($activities) { return Auth::user()->username; })
+                ->addColumn('activity_type_id', function ($activities) { return $activities->activity_type_id; })
                 ->make(true);
+    }
+
+    public function print_activity(Request $request) {
+        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+        $title = "REGISTROS DE ACTIVIDATES DEL USUARIO";
+        $date = Util::getDateEdit(date('Y-m-d'));
+        $current_date = Carbon::now();
+        $hour = Carbon::parse($current_date)->toTimeString();
+        //return response()->json($request->from);
+        //dd($request->all());
+        if($request->has('from') && $request->has('to')) {
+            $from = Util::datePick($from);
+            $to = Util::datePick($from);
+            $activities = Activity::select(['created_at','message', 'activity_type_id', 'user_id'])->where('user_id', '=', Auth::user()->id)->whereDate('created_at','>=', $from)->whereDate('created_at','<=', $to)->orderBy('created_at')->get();
+
+        }
+        elseif($request->has('btn1')) {
+            $activities = Activity::select(['created_at','message', 'activity_type_id', 'user_id'])->where('user_id', '=', Auth::user()->id)->whereDate('created_at','=', date('Y-m-d'))->orderBy('created_at')->get();
+        }
+        else {
+            $activities = Activity::select(['created_at','message', 'activity_type_id', 'user_id'])->where('user_id', '=', Auth::user()->id)->orderBy('created_at')->get();
+        }
+        //return response()->json($activities);
+        $view = \View::make('activities.print.show', compact('header1','header2','title','date','hour','activities'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view)->setPaper('letter');
+        return $pdf->download('Reporte_Actividades.pdf');
     }
 
 

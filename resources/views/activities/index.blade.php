@@ -16,17 +16,18 @@
                     <div class="row">
                         <form method="POST" id="search-form" role="form" class="form-horizontal">
                             <div class="col-md-12">
-                                    <div class="row text-center">
+                                    <div class="row text-left">
                                         <div class="form-group">
                                             <div class="col-md-12">
-                                                 <div class="input-group input-daterange">
-                                                    <input type="text" id="from" name="from" class="form-control" value="">
-                                                    <div class="input-group-addon">to</div>
-                                                    <input type="text" id="to" name="to" class="form-control" value="">
+                                                <div class="input-daterange input-group" id="datepicker">
+                                                    <input type="text" class="input-sm form-control" name="from" />
+                                                    <span class="input-group-addon">to</span>
+                                                    <input type="text" class="input-sm form-control" name="to" />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <br>
                             </div>
                             <br>
                             <div class="col-md-12">
@@ -35,6 +36,9 @@
                                             <div class="col-md-12">
                                                 <button type="reset" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Limpiar">&nbsp;<span class="glyphicon glyphicon-erase"></span>&nbsp;</button>
                                                 &nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Buscar">&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;</button>
+                                                <a href="{!! url('print_activity') !!}" <button type="submit" class="btn btn-raised btn-info" data-toggle="tooltip" data-placement="bottom" data-original-title="PDF">&nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;</button>
+                                                </a>
+
                                             </div>
                                         </div>
                                     </div>
@@ -50,8 +54,8 @@
                                     <tr class="success">
                                         <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Fecha">Fecha</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Actividad">Actividad</div></th>
-                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Tipo">Tipo Actividad</div></th>
-                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Usuario">Usuario</div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Tipo">Usuario</div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Usuario">Tipo Actividad</div></th>
 
                                     </tr>
                                 </thead>
@@ -66,14 +70,12 @@
 
 @push('scripts')
 <script>
-    $('.input-daterange input').each(function() {
-        $(this).datepicker({
-            format: "dd/mm/yyyy",
-            language: "es",
-            orientation: "bottom right",
-            daysOfWeekDisabled: "0,6",
-            autoclose: true
-        });
+    $('.input-daterange').datepicker({
+        format: "dd/mm/yyyy",
+        language: "es",
+        orientation: "bottom right",
+        daysOfWeekDisabled: "0,6",
+        autoclose: true
     });
 
     var oTable = $('#activity_table').DataTable({
@@ -94,8 +96,8 @@
         columns: [
             { data: 'created_at', sClass: "text-center" },
             { data: 'message', bSortable: false },
-            { data: 'activity_type_id', bSortable: false },
             { data: 'user_id', bSortable: false },
+            { data: 'activity_type_id', bSortable: false },
         ]
     });
 
