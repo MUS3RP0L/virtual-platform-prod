@@ -19,6 +19,7 @@ use Muserpol\EconomicComplementType;
 use Muserpol\EconomicComplementModality;
 use Muserpol\EconomicComplementApplicant;
 use Muserpol\EconomicComplementApplicantType;
+use Muserpol\EconomicComplementLegalGuardian;
 use Muserpol\EconomicComplementRequirement;
 use Muserpol\EconomicComplementSubmittedDocument;
 use Muserpol\Affiliate;
@@ -203,8 +204,9 @@ class EconomicComplementController extends Controller
 
         $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
 
-        $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
+        $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
 
+        $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
 
         if ($eco_com_applicant->gender == 'M') {
             $gender_list = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
@@ -218,6 +220,7 @@ class EconomicComplementController extends Controller
             'eco_com_type' => $eco_com_type->name,
             'economic_complement' => $economic_complement,
             'eco_com_applicant' => $eco_com_applicant,
+            'eco_com_legal_guardian' => $eco_com_legal_guardian,
             'gender_list' => $gender_list
 
         ];
@@ -301,7 +304,10 @@ class EconomicComplementController extends Controller
         //                             ->where('semester', '=', $data['semester'])->first();
         // $economic_complement->base_wage_id = $base_wage->id;
         // $economic_complement->complementary_factor_id = $complementary_factor->id;
-        // 
+
+
+        if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }
+
         $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
         $economic_complement->eco_com_modality_id = $eco_com_modality->id;
         $economic_complement->category_id = $affiliate->category_id;
@@ -429,10 +435,11 @@ class EconomicComplementController extends Controller
                 }
                 else{
 
-                    $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement_id)->first();
                     $affiliate = Affiliate::idIs($request->affiliate_id)->first();
                     $affiliate->pension_entity_id = $request->pension_entity;
                     $affiliate->save();
+
+                    $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement_id)->first();
 
                     if (!$eco_com_applicant) {
 
@@ -479,6 +486,16 @@ class EconomicComplementController extends Controller
 
                         $eco_com_applicant->save();
 
+                        if ($request->legal_guardian) {
+                            $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement_id)->first();
+
+                            if (!$eco_com_legal_guardian) {
+
+                                $eco_com_legal_guardian = new EconomicComplementLegalGuardian;
+                                $eco_com_legal_guardian->economic_complement_id = $economic_complement_id;
+                            }
+                            $eco_com_legal_guardian->save();
+                        }
                     }
 
                     return redirect('economic_complement_reception_second_step/'.$economic_complement_id);
@@ -568,6 +585,20 @@ class EconomicComplementController extends Controller
                             $spouse->save();
 
                         break;
+
+                        if ($economic_complement->has_legal_guardian) {
+
+                            $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement_id)->first();
+                            $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
+                            if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
+                            $eco_com_legal_guardian->last_name = $request->last_name_lg;
+                            $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
+                            $eco_com_legal_guardian->first_name = $request->first_name_lg;
+                            $eco_com_legal_guardian->phone_number = $request->phone_number_lg;
+                            $eco_com_legal_guardian->cell_phone_number = $request->cell_phone_number_lg;
+                            $eco_com_legal_guardian->save();
+                        }
+
                     }
 
                     if ($request->type == 'update') {

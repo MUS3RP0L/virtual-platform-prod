@@ -91,12 +91,14 @@ class CreateEconomicComplementsTable extends Migration
             $table->UnsignedBigInteger('eco_com_state_id');
             $table->UnsignedBigInteger('city_id');
             $table->UnsignedBigInteger('category_id');
-            
+
             $table->UnsignedBigInteger('base_wage_id')->nullable();
             $table->UnsignedBigInteger('complementary_factor_id')->nullable();
 
             $table->date('first_ticket_month_id')->nullable();
             $table->date('second_ticket_month_id')->nullable();
+
+            $table->boolean('has_legal_guardian')->default(0);
 
             $table->string('code')->unique()->required();
             $table->date('reception_date')->nullable();
@@ -196,6 +198,26 @@ class CreateEconomicComplementsTable extends Migration
 
         });
 
+        Schema::create('eco_com_legal_guardians', function (Blueprint $table) {
+
+            $table->bigIncrements('id');
+            $table->UnsignedBigInteger('economic_complement_id');
+            $table->UnsignedBigInteger('city_identity_card_id')->nullable();
+            $table->string('identity_card')->required();
+            $table->string('last_name')->nullable();
+            $table->string('mothers_last_name')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('second_name')->nullable();
+            $table->string('surname_husband')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('cell_phone_number')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+            $table->foreign('economic_complement_id')->references('id')->on('economic_complements')->onDelete('cascade');
+            $table->foreign('city_identity_card_id')->references('id')->on('cities');
+
+        });
+
     }
 
     /**
@@ -205,6 +227,7 @@ class CreateEconomicComplementsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('eco_com_legal_guardians');
         Schema::dropIfExists('eco_com_applicants');
         Schema::dropIfExists('eco_com_applicant_types');
         Schema::dropIfExists('eco_com_submitted_documents');
