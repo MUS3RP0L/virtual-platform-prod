@@ -88,7 +88,7 @@
                                     <div class="col-md-8 col-md-offset-4">
                                         <div class="checkbox">
                                             <label>
-                                                {!! Form::checkbox('empowered') !!} &nbsp;&nbsp; Apoderado
+                                                {!! Form::checkbox('legal_guardian', true, $economic_complement->has_legal_guardian) !!} &nbsp;&nbsp; Apoderado
                                             </label>
                                         </div>
                                     </div>

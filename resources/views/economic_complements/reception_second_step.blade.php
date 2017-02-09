@@ -16,7 +16,9 @@
         <div class="col-md-6">
             @include('affiliates.simple_info')
         </div>
+        <div class="col-md-6">
             @include('economic_complements.general_info')
+        </div>
     </div>
 
     <div class="row text-center">
@@ -32,16 +34,21 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="box box-warning">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Editar Beneficiario - {{ $eco_com_applicant->economic_complement_applicant_type->name }}</h3>
-                </div>
-                <div class="box-body">
-                    {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
+        {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
+        <input type="hidden" name="step" value="second"/>
+        <input type="hidden" name="type" value="create"/>
+
+                @if($economic_complement->has_legal_guardian)
+                    <div class="col-md-6">
+                @else
+                    <div class="col-md-8 col-md-offset-2">
+                @endif
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Editar Beneficiario - {{ $eco_com_applicant->economic_complement_applicant_type->name }}</h3>
+                    </div>
+                    <div class="box-body">
                         <br>
-                        <input type="hidden" name="step" value="second"/>
-                        <input type="hidden" name="type" value="create"/>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -133,22 +140,25 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
-                        <div class="row text-center">
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <a href="{!! url('economic_complement_reception_first_step/' . $economic_complement->affiliate_id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Volver">&nbsp;<span class="fa fa-undo"></span>&nbsp;</a>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Siguiente">&nbsp;<i class="fa fa-arrow-right"></i>&nbsp;</button>
-                                </div>
-                            </div>
-                        </div>
-                    {!! Form::close() !!}
+                    </div>
                 </div>
             </div>
-        </div>
+
+            @if($economic_complement->has_legal_guardian)
+                @include('economic_complements.legal_guardian_info')
+            @endif
+
+            <div class="row text-center">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <a href="{!! url('economic_complement_reception_first_step/' . $economic_complement->affiliate_id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Volver">&nbsp;<span class="fa fa-undo"></span>&nbsp;</a>
+                        &nbsp;&nbsp;&nbsp;
+                        <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Siguiente">&nbsp;<i class="fa fa-arrow-right"></i>&nbsp;</button>
+                    </div>
+                </div>
+            </div>
+        {!! Form::close() !!}
     </div>
 
 @endsection
@@ -161,7 +171,9 @@
             $('[data-toggle="tooltip"]').tooltip();
             $("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("#phone_number").inputmask();
+            $("#phone_number_lg").inputmask();
             $("#cell_phone_number").inputmask();
+            $("#cell_phone_number_lg").inputmask();
         });
 
     </script>
