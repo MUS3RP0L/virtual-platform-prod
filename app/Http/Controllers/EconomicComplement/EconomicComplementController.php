@@ -585,6 +585,7 @@ class EconomicComplementController extends Controller
                             $spouse->save();
 
                         break;
+                        }
 
                         if ($economic_complement->has_legal_guardian) {
 
@@ -597,7 +598,6 @@ class EconomicComplementController extends Controller
                             $eco_com_legal_guardian->phone_number = $request->phone_number_lg;
                             $eco_com_legal_guardian->cell_phone_number = $request->cell_phone_number_lg;
                             $eco_com_legal_guardian->save();
-                        }
 
                     }
 
