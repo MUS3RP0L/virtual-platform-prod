@@ -4,7 +4,7 @@ namespace Muserpol;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EconomicComplementLegalGuardians extends Model
+class EconomicComplementLegalGuardian extends Model
 {
     protected $table = 'eco_com_legal_guardians';
 
@@ -62,5 +62,4 @@ class EconomicComplementLegalGuardians extends Model
     {
         return Util::ucw($this->first_name) . ' ' . Util::ucw($this->second_name)  . ' ' . Util::ucw($this->last_name) . ' ' . Util::ucw($this->mothers_last_name) . ' ' . Util::ucw($this->surname_husband);
     }
-
 }
