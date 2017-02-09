@@ -1,11 +1,50 @@
 <aside class="control-sidebar control-sidebar-dark">
 
     <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-        <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-        <li class="active"><a href="#control-sidebar-settings-tab" data-toggle="tab">Configuración</a></li>
+        <li active><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+        <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
     </ul>
 
     <div class="tab-content">
+        <div class="tab-pane active" id="control-sidebar-home-tab">
+            <ul class='control-sidebar-menu'>
+                <li>
+                  <a href="{{ url('user') }}">
+                    <div class="menu" style="font-size:16px;font-weight:400;color:#fff;">
+                    Usuarios
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ url('contribution_rate') }}">
+                    <div class="menu" style="font-size:16px;font-weight:400;color:#fff;">
+                    Tasa Aporte
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ url('ipc_rate') }}">
+                    <div class="menu" style="font-size:16px;font-weight:400;color:#fff;">
+                    Tasa IPC
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ url('base_wage') }}">
+                    <div class="menu" style="font-size:16px;font-weight:400;color:#fff;">
+                    Salario Básico
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ url('complementary_factor') }}">
+                    <div class="menu" style="font-size:16px;font-weight:400;color:#fff;">
+                    Factor de Complemantación
+                    </div>
+                  </a>
+                </li>
+            </ul>
+        </div>
         <div class="tab-pane" id="control-sidebar-settings-tab">
             <form method="post">
               <h3 class="control-sidebar-heading">General Settings</h3>
@@ -73,45 +112,7 @@
               <!-- /.form-group -->
             </form>
         </div>
-        <div class="tab-pane active" id="control-sidebar-home-tab">
-            <ul class='control-sidebar-menu'>
-                <li>
-                  <a href="{{ url('user') }}">
-                    <div class="menu" style="font-size:16px;font-weight:400;color:#fff;">
-                    Usuarios
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="{{ url('contribution_rate') }}">
-                    <div class="menu" style="font-size:16px;font-weight:400;color:#fff;">
-                    Tasa Aporte
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="{{ url('ipc_rate') }}">
-                    <div class="menu" style="font-size:16px;font-weight:400;color:#fff;">
-                    Tasa IPC
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="{{ url('base_wage') }}">
-                    <div class="menu" style="font-size:16px;font-weight:400;color:#fff;">
-                    Salario Básico
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="{{ url('complementary_factor') }}">
-                    <div class="menu" style="font-size:16px;font-weight:400;color:#fff;">
-                    Factor de Complemantación
-                    </div>
-                  </a>
-                </li>
-            </ul>
-        </div>
+
     </div>
 </aside>
 
