@@ -26,6 +26,10 @@
     Breadcrumbs::register('contribution_rates', function($breadcrumbs) {
         $breadcrumbs->push('Tasas de Aporte', URL::to('contribution_rate'));
     });
+    // Report Activity
+    Breadcrumbs::register('activity', function($breadcrumbs) {
+        $breadcrumbs->push('Reporte de Actividades');
+    });
 
 
     // IPC Rate
