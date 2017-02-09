@@ -34,15 +34,11 @@
     </div>
 
     <div class="row">
-        {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
-        <input type="hidden" name="step" value="second"/>
-        <input type="hidden" name="type" value="create"/>
+        <div class="col-md-8 col-md-offset-2">
+            {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
+                <input type="hidden" name="step" value="second"/>
+                <input type="hidden" name="type" value="create"/>
 
-                @if($economic_complement->has_legal_guardian)
-                    <div class="col-md-6">
-                @else
-                    <div class="col-md-8 col-md-offset-2">
-                @endif
                 <div class="box box-warning">
                     <div class="box-header with-border">
                         <h3 class="box-title">Editar Beneficiario - {{ $eco_com_applicant->economic_complement_applicant_type->name }}</h3>
@@ -143,11 +139,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            @if($economic_complement->has_legal_guardian)
-                @include('economic_complements.legal_guardian_info')
-            @endif
+                @if($economic_complement->has_legal_guardian)
+                    @include('economic_complements.legal_guardian_info')
+                @endif
 
             <div class="row text-center">
                 <div class="form-group">
@@ -158,7 +152,8 @@
                     </div>
                 </div>
             </div>
-        {!! Form::close() !!}
+            {!! Form::close() !!}
+        </div>
     </div>
 
 @endsection

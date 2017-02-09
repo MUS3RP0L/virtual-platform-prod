@@ -1,4 +1,3 @@
-<div class="col-md-6">
     <div class="box box-warning">
         <div class="box-header with-border">
             <h3 class="box-title">Editar Apoderado</h3>
@@ -72,4 +71,3 @@
             </div>
         </div>
     </div>
-</div>
