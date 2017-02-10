@@ -57,21 +57,12 @@ class ActivityController extends Controller
         $date = Util::getDateEdit(date('Y-m-d'));
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
-        //return response()->json($request->from);
-        //dd($request->all());
-        // if($request->has('from') && $request->has('to')) {
-        //     $from = Util::datePick($from);
-        //     $to = Util::datePick($from);
-        //     $activities = Activity::select(['created_at','message', 'activity_type_id', 'user_id'])->where('user_id', '=', Auth::user()->id)->whereDate('created_at','>=', $from)->whereDate('created_at','<=', $to)->orderBy('created_at')->get();
-        //
-        // }
         if($type == "1") {
             $activities = Activity::select(['created_at','message', 'activity_type_id', 'user_id'])->where('user_id', '=', Auth::user()->id)->whereDate('created_at','=', date('Y-m-d'))->orderBy('created_at')->get();
         }
         elseif($type == "2") {
             $activities = Activity::select(['created_at','message', 'activity_type_id', 'user_id'])->where('user_id', '=', Auth::user()->id)->orderBy('created_at')->get();
-        }
-        //return response()->json($activities);
+        }        
         $view = \View::make('activities.print.show', compact('header1','header2','title','date','hour','activities'))->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view)->setPaper('letter');
