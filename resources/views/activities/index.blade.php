@@ -15,36 +15,48 @@
             <div class="box-body">
                     <div class="row">
                         <form method="POST" id="search-form" role="form" class="form-horizontal">
-                            <div class="col-md-12">
-                                    <div class="row text-left">
-                                        <div class="form-group">
-                                            <div class="col-md-12">
-                                                <div class="input-daterange input-group" id="datepicker">
-                                                    <input type="text" class="input-sm form-control" name="from" />
-                                                    <span class="input-group-addon">to</span>
-                                                    <input type="text" class="input-sm form-control" name="to" />
+                            <div class="input-daterange input-group" id="datepicker">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {!! Form::label('from', 'Desde', ['class' => 'col-md-8 control-label']) !!}
+                                        <div class="col-md-3">
+                                            <div class="input-group">
+                                                <input type="text" class="input form-control" name="from" />
+                                                <div class="input-group-addon" style="background-color:#fff!important;border:0!important;">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <br>
-                            </div>
-                            <br>
-                            <div class="col-md-12">
-                                    <div class="row text-center">
-                                        <div class="form-group">
-                                            <div class="col-md-12">
-                                                <button type="reset" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Limpiar">&nbsp;<span class="glyphicon glyphicon-erase"></span>&nbsp;</button>
-                                                &nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Buscar">&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;</button>
-                                                
-
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {!! Form::label('to', 'Hasta', ['class' => 'col-md-2 control-label']) !!}
+                                        <div class="col-md-3">
+                                            <div class="input-group">
+                                                <input type="text" class="input form-control" name="to" />
+                                                <div class="input-group-addon" style="background-color:#fff!important;border:0!important;">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <br>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="col-md-12">
+                                <div class="row text-center">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <button type="reset" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Limpiar">&nbsp;<span class="glyphicon glyphicon-erase"></span>&nbsp;</button>
+                                            &nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Buscar">&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
                             </div>
                         </form>
-
+                    </div>
 
                     <div class="row">
                         <div class="col-md-12">
