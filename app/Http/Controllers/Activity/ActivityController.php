@@ -50,7 +50,7 @@ class ActivityController extends Controller
                 ->make(true);
     }
 
-    public function print_activity(Request $request) {
+    public function print_activity($type) {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
         $title = "REGISTROS DE ACTIVIDATES DEL USUARIO";
@@ -59,16 +59,16 @@ class ActivityController extends Controller
         $hour = Carbon::parse($current_date)->toTimeString();
         //return response()->json($request->from);
         //dd($request->all());
-        if($request->has('from') && $request->has('to')) {
-            $from = Util::datePick($from);
-            $to = Util::datePick($from);
-            $activities = Activity::select(['created_at','message', 'activity_type_id', 'user_id'])->where('user_id', '=', Auth::user()->id)->whereDate('created_at','>=', $from)->whereDate('created_at','<=', $to)->orderBy('created_at')->get();
-
-        }
-        elseif($request->has('btn1')) {
+        // if($request->has('from') && $request->has('to')) {
+        //     $from = Util::datePick($from);
+        //     $to = Util::datePick($from);
+        //     $activities = Activity::select(['created_at','message', 'activity_type_id', 'user_id'])->where('user_id', '=', Auth::user()->id)->whereDate('created_at','>=', $from)->whereDate('created_at','<=', $to)->orderBy('created_at')->get();
+        //
+        // }
+        if($type == "1") {
             $activities = Activity::select(['created_at','message', 'activity_type_id', 'user_id'])->where('user_id', '=', Auth::user()->id)->whereDate('created_at','=', date('Y-m-d'))->orderBy('created_at')->get();
         }
-        else {
+        elseif($type == "2") {
             $activities = Activity::select(['created_at','message', 'activity_type_id', 'user_id'])->where('user_id', '=', Auth::user()->id)->orderBy('created_at')->get();
         }
         //return response()->json($activities);

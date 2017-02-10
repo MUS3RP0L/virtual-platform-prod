@@ -36,8 +36,7 @@
                                             <div class="col-md-12">
                                                 <button type="reset" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Limpiar">&nbsp;<span class="glyphicon glyphicon-erase"></span>&nbsp;</button>
                                                 &nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Buscar">&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;</button>
-                                                <a href="{!! url('print_activity') !!}" <button type="submit" class="btn btn-raised btn-info" data-toggle="tooltip" data-placement="bottom" data-original-title="PDF">&nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;</button>
-                                                </a>
+                                                
 
                                             </div>
                                         </div>

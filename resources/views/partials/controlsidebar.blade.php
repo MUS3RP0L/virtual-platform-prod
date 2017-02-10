@@ -45,74 +45,72 @@
                 </li>
             </ul>
         </div>
+
         <div class="tab-pane" id="control-sidebar-settings-tab">
-            <form method="post">
-              <h3 class="control-sidebar-heading">General Settings</h3>
+            <div>
+                <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><span class="glyphicon glyphicon-th">
+                                            </span> Reportes Logs</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTwo" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <table class="table">
+                                                <tr>
+                                                    <td>
+                                                        <span class="glyphicon glyphicon-user"></span><a href="{!! url('print_activity/'."1") !!}"> Diario</a> 
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="glyphicon glyphicon-user"></span><a href="{!! url('activity') !!}"> Rango de Fechas</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="glyphicon glyphicon-tasks"></span><a href="{!! url('print_activity/'."2") !!}"> General</a>
+                                                    </td>
+                                                </tr>
 
-              <div class="form-group">
-                <label class="control-sidebar-subheading">
-                  Report panel usage
-                  <input type="checkbox" class="pull-right" checked>
-                </label>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><span class="glyphicon glyphicon-user">
+                                            </span>Account</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseThree" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <table class="table">
+                                                <tr>
+                                                    <td>
+                                                        <a href="http://www.jquery2dotnet.com">Notifications</a> <span class="label label-info">5</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="http://www.jquery2dotnet.com">Import/Export</a>
+                                                    </td>
+                                                </tr>
 
-                <p>
-                  Some information about this general settings option
-                </p>
-              </div>
-              <!-- /.form-group -->
-
-              <div class="form-group">
-                <label class="control-sidebar-subheading">
-                  Allow mail redirect
-                  <input type="checkbox" class="pull-right" checked>
-                </label>
-
-                <p>
-                  Other sets of options are available
-                </p>
-              </div>
-              <!-- /.form-group -->
-
-              <div class="form-group">
-                <label class="control-sidebar-subheading">
-                  Expose author name in posts
-                  <input type="checkbox" class="pull-right" checked>
-                </label>
-
-                <p>
-                  Allow the user to show his name in blog posts
-                </p>
-              </div>
-              <!-- /.form-group -->
-
-              <h3 class="control-sidebar-heading">Chat Settings</h3>
-
-              <div class="form-group">
-                <label class="control-sidebar-subheading">
-                  Show me as online
-                  <input type="checkbox" class="pull-right" checked>
-                </label>
-              </div>
-              <!-- /.form-group -->
-
-              <div class="form-group">
-                <label class="control-sidebar-subheading">
-                  Turn off notifications
-                  <input type="checkbox" class="pull-right">
-                </label>
-              </div>
-              <!-- /.form-group -->
-
-              <div class="form-group">
-                <label class="control-sidebar-subheading">
-                  Delete chat history
-                  <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
-                </label>
-              </div>
-              <!-- /.form-group -->
-            </form>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
-
     </div>
 </aside>
 

@@ -100,7 +100,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::resource('activity', 'Activity\ActivityController');
 	Route::get('get_activity', array('as'=>'get_activity', 'uses'=>'Activity\ActivityController@Data'));
 	//Route::get('print_activity', array('as'=>'print_activity', 'uses'=>'Activity\ActivityController@print_activity'));
-	Route::get('print_activity', 'Activity\ActivityController@print_activity');
+	//Route::get('print_activity', 'Activity\ActivityController@print_activity');
+	Route::get('print_activity/{type}', 'Activity\ActivityController@print_activity');
 
 	// Retirement Fund Procedure
 	Route::resource('retirement_fund', 'RetirementFund\RetirementFundController');
