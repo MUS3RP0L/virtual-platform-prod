@@ -66,8 +66,6 @@
                                         <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Fecha">Fecha</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Actividad">Actividad</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Tipo">Usuario</div></th>
-                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Usuario">Tipo Actividad</div></th>
-
                                     </tr>
                                 </thead>
                             </table>
@@ -107,8 +105,7 @@
         columns: [
             { data: 'created_at', sClass: "text-center" },
             { data: 'message', bSortable: false },
-            { data: 'user_id', bSortable: false },
-            { data: 'activity_type_id', bSortable: false },
+            { data: 'user_id', bSortable: false },            
         ]
     });
 

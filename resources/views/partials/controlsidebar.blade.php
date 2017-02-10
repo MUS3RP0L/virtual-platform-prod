@@ -48,7 +48,7 @@
 
         <div class="tab-pane" id="control-sidebar-settings-tab">
             <div>
-                <div class="row">
+                    <div class="row">
                         <div class="col-md-12">
                             <div class="panel-group" id="accordion">
                                 <div class="panel panel-default">
@@ -63,7 +63,7 @@
                                             <table class="table">
                                                 <tr>
                                                     <td>
-                                                        <span class="glyphicon glyphicon-user"></span><a href="{!! url('print_activity/'."1") !!}"> Diario</a> 
+                                                        <span class="glyphicon glyphicon-user"></span><a href="{!! url('print_activity/'."1") !!}"> Diario</a>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -81,35 +81,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><span class="glyphicon glyphicon-user">
-                                            </span>Account</a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapseThree" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <table class="table">
-                                                <tr>
-                                                    <td>
-                                                        <a href="http://www.jquery2dotnet.com">Notifications</a> <span class="label label-info">5</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <a href="http://www.jquery2dotnet.com">Import/Export</a>
-                                                    </td>
-                                                </tr>
-
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+            </div>
         </div>
     </div>
 </aside>

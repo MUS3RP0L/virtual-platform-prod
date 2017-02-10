@@ -46,14 +46,13 @@ class ActivityController extends Controller
                 ->addColumn('created_at', function ($activities) { return $activities->created_at; })
                 ->editColumn('message', function ($activities) { return $activities->message; })
                 ->editColumn('user_id', function ($activities) { return Auth::user()->username; })
-                ->addColumn('activity_type_id', function ($activities) { return $activities->activity_type_id; })
                 ->make(true);
     }
 
     public function print_activity($type) {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-        $title = "REGISTROS DE ACTIVIDATES DEL USUARIO";
+        $title = "REGISTRO DE ACTIVIDADES DEL USUARIO";
         $date = Util::getDateEdit(date('Y-m-d'));
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
@@ -62,7 +61,7 @@ class ActivityController extends Controller
         }
         elseif($type == "2") {
             $activities = Activity::select(['created_at','message', 'activity_type_id', 'user_id'])->where('user_id', '=', Auth::user()->id)->orderBy('created_at')->get();
-        }        
+        }
         $view = \View::make('activities.print.show', compact('header1','header2','title','date','hour','activities'))->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view)->setPaper('letter');
