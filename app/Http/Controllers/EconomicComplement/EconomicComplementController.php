@@ -324,11 +324,8 @@ class EconomicComplementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($economic_complement)
     {
-
-        $economic_complement = EconomicComplement::idIs($id)->first();
-
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
         $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
@@ -404,12 +401,12 @@ class EconomicComplementController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function update(Request $request, $economic_complement_id)
+    public function update(Request $request, $economic_complement)
     {
-        return $this->save($request, $economic_complement_id);
+        return $this->save($request, $economic_complement);
     }
 
-    public function save($request, $economic_complement_id = false)
+    public function save($request, $economic_complement = false)
     {
         switch ($request->step) {
 
@@ -439,12 +436,12 @@ class EconomicComplementController extends Controller
                     $affiliate->pension_entity_id = $request->pension_entity;
                     $affiliate->save();
 
-                    $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement_id)->first();
+                    $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
 
                     if (!$eco_com_applicant) {
 
                         $eco_com_applicant = new EconomicComplementApplicant;
-                        $eco_com_applicant->economic_complement_id = $economic_complement_id;
+                        $eco_com_applicant->economic_complement_id = $economic_complement->id;
                         $eco_com_applicant->eco_com_applicant_type_id = $request->eco_com_type;
 
                         switch ($request->eco_com_type) {
@@ -487,18 +484,18 @@ class EconomicComplementController extends Controller
                         $eco_com_applicant->save();
 
                         if ($request->legal_guardian) {
-                            $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement_id)->first();
+                            $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
 
                             if (!$eco_com_legal_guardian) {
 
                                 $eco_com_legal_guardian = new EconomicComplementLegalGuardian;
-                                $eco_com_legal_guardian->economic_complement_id = $economic_complement_id;
+                                $eco_com_legal_guardian->economic_complement_id = $economic_complement->id;
                             }
                             $eco_com_legal_guardian->save();
                         }
                     }
 
-                    return redirect('economic_complement_reception_second_step/'.$economic_complement_id);
+                    return redirect('economic_complement_reception_second_step/'.$economic_complement->id);
 
                 }
 
@@ -517,14 +514,14 @@ class EconomicComplementController extends Controller
                 $validator = Validator::make($request->all(), $rules, $messages);
 
                 if ($validator->fails()){
-                    return redirect('economic_complement_reception_second_step/' . $economic_complement_id)
+                    return redirect('economic_complement_reception_second_step/' . $economic_complement->id)
                     ->withErrors($validator)
                     ->withInput();
                 }
                 else{
-                    $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+                    $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
 
-                    $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement_id)->first();
+                    $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
                     $eco_com_applicant->identity_card = $request->identity_card;
                     if ($request->city_identity_card_id) { $eco_com_applicant->city_identity_card_id = $request->city_identity_card_id; } else { $eco_com_applicant->city_identity_card_id = null; }
                     $eco_com_applicant->last_name = $request->last_name;
@@ -589,7 +586,7 @@ class EconomicComplementController extends Controller
 
                         if ($economic_complement->has_legal_guardian) {
 
-                            $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement_id)->first();
+                            $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
                             $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
                             if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
                             $eco_com_legal_guardian->last_name = $request->last_name_lg;
@@ -602,10 +599,10 @@ class EconomicComplementController extends Controller
                     }
 
                     if ($request->type == 'update') {
-                        return redirect('economic_complement/'.$economic_complement_id);
+                        return redirect('economic_complement/'.$economic_complement->id);
                     }
                     else{
-                        return redirect('economic_complement_reception_third_step/'.$economic_complement_id);
+                        return redirect('economic_complement_reception_third_step/'.$economic_complement->id);
                     }
                 }
 
@@ -624,7 +621,7 @@ class EconomicComplementController extends Controller
                 $validator = Validator::make($request->all(), $rules, $messages);
 
                 if ($validator->fails()){
-                    return redirect('economic_complement_reception_second_step/' . $economic_complement_id)
+                    return redirect('economic_complement_reception_second_step/' . $economic_complement->id)
                     ->withErrors($validator)
                     ->withInput();
                 }
@@ -632,12 +629,12 @@ class EconomicComplementController extends Controller
 
                     foreach (json_decode($request->data) as $item)
                     {
-                        $eco_com_submitted_document = EconomicComplementSubmittedDocument::where('economic_complement_id', '=', $economic_complement_id)
+                        $eco_com_submitted_document = EconomicComplementSubmittedDocument::where('economic_complement_id', '=', $economic_complement->id)
                                     ->where('eco_com_requirement_id', '=', $item->id)->first();
 
                         if (!$eco_com_submitted_document) {
                             $eco_com_submitted_document = new EconomicComplementSubmittedDocument;
-                            $eco_com_submitted_document->economic_complement_id = $economic_complement_id;
+                            $eco_com_submitted_document->economic_complement_id = $economic_complement->id;
                             $eco_com_submitted_document->eco_com_requirement_id = $item->id;
                         }
                         $eco_com_submitted_document->status = $item->status;
@@ -645,11 +642,11 @@ class EconomicComplementController extends Controller
                         $eco_com_submitted_document->save();
                     }
 
-                    $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+                    $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
                     $economic_complement->reception_date = date('Y-m-d');
                     $economic_complement->save();
 
-                    return redirect('economic_complement/'.$economic_complement_id);
+                    return redirect('economic_complement/'.$economic_complement->id);
 
                 }
 
