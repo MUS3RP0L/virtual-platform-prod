@@ -221,14 +221,12 @@ class CreateEconomicComplementsTable extends Migration
         Schema::create('eco_com_records', function(Blueprint $table) {
 
             $table->bigIncrements('id');
-            $table->UnsignedBigInteger('user_id');
             $table->UnsignedBigInteger('economic_complement_id');
             $table->date('date');
             $table->integer('type');
             $table->string('message');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('economic_complement_id')->references('id')->on('economic_complements')->onDelete('cascade');
 
         });
