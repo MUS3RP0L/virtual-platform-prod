@@ -48,18 +48,18 @@
             <div class="col-md-6">
                 @if ($affiliate->gender == 'F')
                     <div class="form-group">
-                            {!! Form::label('surname_husband', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
+                            {!! Form::label('surname_husband_affi', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
                         <div class="col-md-6">
-                            {!! Form::text('surname_husband', $affiliate->surname_husband, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                            {!! Form::text('surname_husband_affi', $affiliate->surname_husband, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                             <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
                         </div>
                     </div>
                 @endif
                 <div class="form-group">
-                        {!! Form::label('birth_date', 'Fecha de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
+                        {!! Form::label('birth_date_affi', 'Fecha de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                     <div class="col-md-6">
                         <div class="input-group">
-                            <input type="text" id="birth_date_mask" class="form-control" name="birth_date" value="{!! $eco_com_applicant->getEditBirthDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                            <input type="text" id="birth_date_mask" class="form-control" name="birth_date_affi" value="{!! $affiliate->getEditBirthDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                             <div class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </div>

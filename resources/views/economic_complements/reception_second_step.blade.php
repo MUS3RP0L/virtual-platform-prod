@@ -39,6 +39,10 @@
                 <input type="hidden" name="step" value="second"/>
                 <input type="hidden" name="type" value="create"/>
 
+                @if($economic_complement->economic_complement_modality->economic_complement_type->id > 1)
+                    @include('economic_complements.additional.affiliate_info')
+                @endif
+
                 <div class="box box-warning">
                     <div class="box-header with-border">
                         <h3 class="box-title">Editar Beneficiario - {{ $eco_com_applicant->economic_complement_applicant_type->name }}</h3>
@@ -139,8 +143,9 @@
                         </div>
                     </div>
                 </div>
+
                 @if($economic_complement->has_legal_guardian)
-                    @include('economic_complements.legal_guardian_info')
+                    @include('economic_complements.additional.legal_guardian_info')
                 @endif
 
             <div class="row text-center">
