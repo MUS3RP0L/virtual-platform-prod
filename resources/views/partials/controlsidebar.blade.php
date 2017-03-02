@@ -81,6 +81,28 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo1"><span class="glyphicon glyphicon-list">
+                                            </span> Reportes Complemento</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTwo1" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <table class="table">
+                                                <tr>
+                                                    <td>
+                                                        <span class="glyphicon glyphicon-print"></span><a href="{!! url('index_report_generator') !!}"> Parametrizada</a>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>

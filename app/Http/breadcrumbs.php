@@ -26,6 +26,7 @@
     Breadcrumbs::register('contribution_rates', function($breadcrumbs) {
         $breadcrumbs->push('Tasas de Aporte', URL::to('contribution_rate'));
     });
+
     // Report Activity
     Breadcrumbs::register('activity', function($breadcrumbs) {
         $breadcrumbs->push('Reporte de Actividades');
@@ -123,4 +124,9 @@
     Breadcrumbs::register('show_economic_complement', function($breadcrumbs, $economic_complement) {
         $breadcrumbs->parent('economic_complements');
         $breadcrumbs->push($economic_complement->getCode(), URL::to('economic_complement/'.$economic_complement->id));
+    });
+
+    // Report Generator Economic Complement
+    Breadcrumbs::register('report_generator', function($breadcrumbs) {
+        $breadcrumbs->push('Generador de Reportes');
     });
