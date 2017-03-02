@@ -305,7 +305,6 @@ class EconomicComplementController extends Controller
         // $economic_complement->base_wage_id = $base_wage->id;
         // $economic_complement->complementary_factor_id = $complementary_factor->id;
 
-
         if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }
 
         $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
@@ -315,7 +314,7 @@ class EconomicComplementController extends Controller
         $economic_complement->city_id = trim($request->city);
         $economic_complement->save();
 
-        return $this->save($request, $economic_complement->id);
+        return $this->save($request, $economic_complement);
     }
 
     /**
@@ -346,16 +345,6 @@ class EconomicComplementController extends Controller
             $gender_list = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
         }
 
-        $sub_total_rent = $economic_complement->sub_total_rent;
-        $salary_reference = $economic_complement->base_wage->amount;
-        $seniority = $economic_complement->category->percentage * $economic_complement->base_wage->amount;
-        $salary_quotable = $salary_reference + $seniority;
-        $difference = $salary_quotable - $sub_total_rent;
-        $months_of_payment = 6;
-        $total_amount_semester = $difference * $months_of_payment;
-        $complementary_factor = $eco_com_type->id == 1 ? $economic_complement->complementary_factor->old_age : $economic_complement->complementary_factor->widowhood;
-        $total = $total_amount_semester * $complementary_factor/100;
-
         $data = [
 
             'affiliate' => $affiliate,
@@ -364,18 +353,37 @@ class EconomicComplementController extends Controller
             'eco_com_applicant' => $eco_com_applicant,
             'eco_com_submitted_documents' => $eco_com_submitted_documents,
             'status_documents' => $status_documents,
-            'gender_list' => $gender_list,
-
-            'sub_total_rent' => Util::formatMoney($sub_total_rent),
-            'salary_reference' => Util::formatMoney($salary_reference),
-            'seniority' => Util::formatMoney($seniority),
-            'salary_quotable' => Util::formatMoney($salary_quotable),
-            'difference' => Util::formatMoney($difference),
-            'total_amount_semester' => Util::formatMoney($total_amount_semester),
-            'complementary_factor' => $complementary_factor,
-            'total' => Util::formatMoney($total),
+            'gender_list' => $gender_list
 
         ];
+
+        if ($economic_complement->base_wage_id) {
+            $sub_total_rent = $economic_complement->sub_total_rent;
+            $salary_reference = $economic_complement->base_wage->amount;
+            $seniority = $economic_complement->category->percentage * $economic_complement->base_wage->amount;
+            $salary_quotable = $salary_reference + $seniority;
+            $difference = $salary_quotable - $sub_total_rent;
+            $months_of_payment = 6;
+            $total_amount_semester = $difference * $months_of_payment;
+            $complementary_factor = $eco_com_type->id == 1 ? $economic_complement->complementary_factor->old_age : $economic_complement->complementary_factor->widowhood;
+            $total = $total_amount_semester * $complementary_factor/100;
+
+
+            $second_data = [
+
+                'sub_total_rent' => Util::formatMoney($sub_total_rent),
+                'salary_reference' => Util::formatMoney($salary_reference),
+                'seniority' => Util::formatMoney($seniority),
+                'salary_quotable' => Util::formatMoney($salary_quotable),
+                'difference' => Util::formatMoney($difference),
+                'total_amount_semester' => Util::formatMoney($total_amount_semester),
+                'complementary_factor' => $complementary_factor,
+                'total' => Util::formatMoney($total)
+
+            ];
+
+            $data = array_merge($data, $second_data);
+        }
 
         $data = array_merge($data, self::getViewModel());
 

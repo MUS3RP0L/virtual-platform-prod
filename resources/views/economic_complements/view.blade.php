@@ -338,46 +338,49 @@
 				<div class="box-body">
 					<div class="row">
 						<div class="col-md-12">
-							<table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
-								<tbody>
-									<tr>
-										<td style="width: 70%">Renta Total Cotizable</td>
-										<td style="text-align: right">{!! $sub_total_rent !!}</td>
-									</tr>
-									<tr>
-										<td style="width: 70%">Referente Salarial</td>
-										<td style="text-align: right">{!! $salary_reference !!}</td>
-									</tr>
-									<tr>
-										<td style="width: 70%">Antigüedad</td>
-										<td style="text-align: right">{!! $seniority !!}</td>
-									</tr>
-									<tr>
-										<td style="width: 70%">Salario Cotizable</td>
-										<td style="text-align: right">{!! $salary_quotable !!}</td>
-									</tr>
-									<tr>
-										<td style="width: 70%">Diferencia</td>
-										<td style="text-align: right">{!! $difference !!}</td>
-									</tr>
-									<tr>
-										<td style="width: 70%">Total Semestre</td>
-										<td style="text-align: right">{!! $total_amount_semester !!}</td>
-									</tr>
-									<tr>
-										<td style="width: 70%">Factor de Complementación</td>
-										<td style="text-align: right">{!! $complementary_factor !!}</td>
-									</tr>
-								</tbody>
-							</table>
-							<table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
-								<tbody>
-									<tr>
-										<td style="width: 70%">Total a Cancelar</td>
-										<td  style="text-align: right">{!! $total !!}</td>
-									</tr>
-								</tbody>
-							</table>
+							@if($economic_complement->base_wage_id)
+								<table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+									<tbody>
+										<tr>
+											<td style="width: 70%">Renta Total Cotizable</td>
+											<td style="text-align: right">{!! $sub_total_rent !!}</td>
+										</tr>
+										<tr>
+											<td style="width: 70%">Referente Salarial</td>
+											<td style="text-align: right">{!! $salary_reference !!}</td>
+										</tr>
+										<tr>
+											<td style="width: 70%">Antigüedad</td>
+											<td style="text-align: right">{!! $seniority !!}</td>
+										</tr>
+										<tr>
+											<td style="width: 70%">Salario Cotizable</td>
+											<td style="text-align: right">{!! $salary_quotable !!}</td>
+										</tr>
+										<tr>
+											<td style="width: 70%">Diferencia</td>
+											<td style="text-align: right">{!! $difference !!}</td>
+										</tr>
+										<tr>
+											<td style="width: 70%">Total Semestre</td>
+											<td style="text-align: right">{!! $total_amount_semester !!}</td>
+										</tr>
+										<tr>
+											<td style="width: 70%">Factor de Complementación</td>
+											<td style="text-align: right">{!! $complementary_factor !!}</td>
+										</tr>
+
+									</tbody>
+								</table>
+								<table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+									<tbody>
+										<tr>
+											<td style="width: 70%">Total a Cancelar</td>
+											<td  style="text-align: right">{!! $total !!}</td>
+										</tr>
+									</tbody>
+								</table>
+							@endif
                         </div>
 					</div>
 				</div>
