@@ -30,6 +30,8 @@
                         <span class="help-block">Escriba el Apellido Materno</span>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-6">
                 <div class="form-group">
                         {!! Form::label('first_name_affi', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
                     <div class="col-md-6">
@@ -44,8 +46,6 @@
                         <span class="help-block">Escriba el Segundo Nombre</span>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
                 @if ($affiliate->gender == 'F')
                     <div class="form-group">
                             {!! Form::label('surname_husband_affi', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}

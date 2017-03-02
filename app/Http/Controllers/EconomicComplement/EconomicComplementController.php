@@ -564,9 +564,17 @@ class EconomicComplementController extends Controller
                         case '2':
 
                             $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+
+                            $affiliate->identity_card = $request->identity_card_affi;
+                            if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id_affi; } else { $affiliate->city_identity_card_id = null; }
+                            $affiliate->last_name = $request->last_name_affi;
+                            $affiliate->mothers_last_name = $request->mothers_last_name_affi;
+                            $affiliate->first_name = $request->first_name_affi;
+                            $affiliate->birth_date = Util::datePick($request->birth_date_affi);
+
                             $affiliate->phone_number = $request->phone_number;
                             $affiliate->cell_phone_number = $request->cell_phone_number;
-                            // $affiliate->nua = $request->nua;
+
                             $affiliate->save();
                             $spouse = Spouse::affiliateidIs($affiliate->id)->first();
                             $spouse->identity_card = $request->identity_card;
