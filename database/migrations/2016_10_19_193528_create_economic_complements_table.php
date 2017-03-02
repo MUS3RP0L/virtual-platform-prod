@@ -218,6 +218,21 @@ class CreateEconomicComplementsTable extends Migration
 
         });
 
+        Schema::create('eco_com_records', function(Blueprint $table) {
+
+            $table->bigIncrements('id');
+            $table->UnsignedBigInteger('user_id');
+            $table->UnsignedBigInteger('economic_complement_id');
+            $table->date('date');
+            $table->integer('type');
+            $table->string('message');
+            $table->timestamps();
+            $table->softDeletes();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('economic_complement_id')->references('id')->on('economic_complements')->onDelete('cascade');
+
+        });
+
     }
 
     /**
@@ -227,6 +242,7 @@ class CreateEconomicComplementsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('eco_com_records');
         Schema::dropIfExists('eco_com_legal_guardians');
         Schema::dropIfExists('eco_com_applicants');
         Schema::dropIfExists('eco_com_applicant_types');
