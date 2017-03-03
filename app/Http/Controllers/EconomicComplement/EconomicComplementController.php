@@ -162,10 +162,14 @@ class EconomicComplementController extends Controller
          $all_semester = ['Todo' => 'Todo'];
          $all_semester_list = array_merge($all_semester, $semester_list);
 
+         $year_list =['' => ''];
          $eco_com_year = EconomicComplement::distinct()->select('year')->orderBy('year', 'desc')->get();
          foreach ($eco_com_year as $item) {
-             $year_list[Util::getYear($item->year)] = Util::getYear($item->year);
+                 $year_list[Util::getYear($item->year)] = Util::getYear($item->year);
          }
+
+
+
 
          $report_type = ['' => '', '1' => 'Reporte diario de recepción', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Resumen de inclusiones', '5' => 'Resumen de habituales', '6' => 'Reporte pago de complemento económico'];
          foreach ($report_type as $key => $item) {
