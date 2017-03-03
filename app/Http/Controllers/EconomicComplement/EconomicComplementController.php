@@ -154,7 +154,7 @@ class EconomicComplementController extends Controller
          $new_cities_list = $cities_list;
          $cities_list_shift[] = array_shift($new_cities_list);
          $all_cities_list = array_merge($all, $new_cities_list);
-         
+
          $semestre = ['F' => 'Primer', 'S' => 'Segundo'];
          foreach ($semestre as $item) {
              $semester_list[$item]=$item;
@@ -780,6 +780,39 @@ class EconomicComplementController extends Controller
 
     public function report_generator(Request $request)
     {
+            if($request->has('type')) {
+                switch ($request->type) {
+                    case '1':
+                            $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+                            $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+                            $title = "REPORTE DIARIO DE TRÁMITES DEL COMPLEMENTO ECONÓMICO";
+                            $date = Util::getDateEdit(date('Y-m-d'));
+                            $current_date = Carbon::now();
+                            $hour = Carbon::parse($current_date)->toTimeString();
+                            $eco_complements = DB::table('economic_complements ec')
+                                            ->select(DB::raw('ec.id,ec.'))
+                                            ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                                            ->leftJoin('cities','affiliates.city_identity_card_id','=','cities.id')
+                                            ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                            ->leftJoin('units','affiliates.unit_id','=','units.id')
+                                            ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
+                                            ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality', '=', 'eco_com_modalities.id')
+                                            ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
+                                            ->leftJoin('cities', 'economic_complements.city_id', '=', 'cities.id')
+                                            ->leftJoin('eco_com_states', 'economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
+                                            ->leftJoin('eco_com_state_types', 'eco_com_states.eco_com_state_type_id', '=', 'eco_com_state_types.id')
+                                            ->get();
+
+                            $view = \View::make('economic_complements.print.daily_report', compact('header1','header2','title','date','hour','eco_complements'))->render();
+                            $pdf = \App::make('dompdf.wrapper');
+                            $pdf->loadHTML($view)->setPaper('letter');
+                            return $pdf->download('daily_report.pdf');
+                    break;
+
+
+
+                }
+            }
 
     }
 

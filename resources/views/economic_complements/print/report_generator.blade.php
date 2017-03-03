@@ -19,9 +19,9 @@
                             <div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        {!! Form::label('year', 'Tipo Reporte', ['class' => 'col-md-4 control-label']) !!}
+                                        {!! Form::label('type', 'Tipo Reporte', ['class' => 'col-md-4 control-label']) !!}
                                         <div class="col-md-8">
-                                            {!! Form::select('year', $report_type_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
+                                            {!! Form::select('type', $report_type_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
                                             <span class="help-block">Tipo Reporte</span>
                                         </div>
                                     </div>
