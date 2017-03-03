@@ -1,6 +1,10 @@
-<div class="box box-warning">
+<div class="box box-warning collapsed-box box-solid">
     <div class="box-header with-border">
         <h3 class="box-title">Editar Afiliado</h3>
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+          </button>
+        </div>
     </div>
     <div class="box-body">
         <br>
@@ -30,6 +34,15 @@
                         <span class="help-block">Escriba el Apellido Materno</span>
                     </div>
                 </div>
+                @if ($affiliate->gender == 'F')
+                    <div class="form-group">
+                            {!! Form::label('surname_husband_affi', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
+                        <div class="col-md-6">
+                            {!! Form::text('surname_husband_affi', $affiliate->surname_husband, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                            <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
+                        </div>
+                    </div>
+                @endif
             </div>
             <div class="col-md-6">
                 <div class="form-group">
@@ -46,15 +59,6 @@
                         <span class="help-block">Escriba el Segundo Nombre</span>
                     </div>
                 </div>
-                @if ($affiliate->gender == 'F')
-                    <div class="form-group">
-                            {!! Form::label('surname_husband_affi', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
-                        <div class="col-md-6">
-                            {!! Form::text('surname_husband_affi', $affiliate->surname_husband, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                            <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
-                        </div>
-                    </div>
-                @endif
                 <div class="form-group">
                         {!! Form::label('birth_date_affi', 'Fecha de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                     <div class="col-md-6">

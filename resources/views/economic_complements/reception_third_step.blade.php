@@ -22,7 +22,7 @@
             @include('affiliates.simple_info')
         </div>
         <div class="col-md-6">
-            @include('economic_complements.general_info')
+            @include('economic_complements.additional.general_info')
         </div>
     </div>
 
@@ -40,7 +40,7 @@
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="box box-warning">
+            <div class="box box-warning box-solid">
                 <div class="box-header with-border">
                     <h3 class="box-title">Seleccionar los Requisitos</h3>
                 </div>
