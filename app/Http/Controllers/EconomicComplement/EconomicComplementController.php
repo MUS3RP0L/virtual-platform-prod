@@ -801,6 +801,7 @@ class EconomicComplementController extends Controller
                                             ->leftJoin('cities', 'economic_complements.city_id', '=', 'cities.id')
                                             ->leftJoin('eco_com_states', 'economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
                                             ->leftJoin('eco_com_state_types', 'eco_com_states.eco_com_state_type_id', '=', 'eco_com_state_types.id')
+                                            ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.')
                                             ->get();
 
                             $view = \View::make('economic_complements.print.daily_report', compact('header1','header2','title','date','hour','eco_complements'))->render();
