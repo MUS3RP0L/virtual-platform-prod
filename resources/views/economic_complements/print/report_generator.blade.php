@@ -8,7 +8,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="box box-info box-solid">
+        <div class="box box-warning box-solid">
             <div class="box-header with-border">
                     <h3 class="box-title"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Reporte de complemento económico</h3>
             </div>
