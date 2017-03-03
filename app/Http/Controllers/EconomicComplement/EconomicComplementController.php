@@ -149,6 +149,7 @@ class EconomicComplementController extends Controller
          foreach ($cities as $item) {
              $cities_list_short[$item->id]=$item->shortened;
          }
+
          $all = ['Todo' => 'Todo'];
          $new_cities_list = $cities_list;
          $cities_list_shift[] = array_shift($new_cities_list);
@@ -167,8 +168,8 @@ class EconomicComplementController extends Controller
          }
 
          $report_type = ['' => '', '1' => 'Reporte diario de recepción', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Resumen de inclusiones', '5' => 'Resumen de habituales', '6' => 'Reporte pago de complemento económico'];
-         foreach ($report_type as $item) {
-             $report_type_list[$item] = $item;
+         foreach ($report_type as $key => $item) {
+             $report_type_list[$key] = $item;
          }
 
          $semester = Util::getSemester(Carbon::now());
