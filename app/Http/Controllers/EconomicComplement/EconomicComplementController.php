@@ -150,9 +150,10 @@ class EconomicComplementController extends Controller
              $cities_list_short[$item->id]=$item->shortened;
          }
          $all = ['Todo' => 'Todo'];
-         $all_cities_list = array_merge($all,$cities_list_short);
-
-
+         $new_cities_list = $cities_list;
+         $cities_list_shift[] = array_shift($new_cities_list);
+         $all_cities_list = array_merge($all, $new_cities_list);
+         
          $semestre = ['F' => 'Primer', 'S' => 'Segundo'];
          foreach ($semestre as $item) {
              $semester_list[$item]=$item;
@@ -161,7 +162,6 @@ class EconomicComplementController extends Controller
          $all_semester_list = array_merge($all_semester, $semester_list);
 
          $eco_com_year = EconomicComplement::distinct()->select('year')->orderBy('year', 'desc')->get();
-         $year_list = array('' => '');
          foreach ($eco_com_year as $item) {
              $year_list[Util::getYear($item->year)] = Util::getYear($item->year);
          }
