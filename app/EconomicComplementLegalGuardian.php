@@ -25,9 +25,9 @@ class EconomicComplementLegalGuardian extends Model
 
     protected $guarded = ['id'];
 
-    public function economic_complement()
+    public function economic_complement_applicant()
     {
-        return $this->belongsTo('Muserpol\EconomicComplement');
+        return $this->belongsTo('Muserpol\EconomicComplementApplicant');
     }
 
     public function city_identity_card()

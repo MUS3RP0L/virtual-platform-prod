@@ -87,12 +87,6 @@ class EconomicComplement extends Model
         return $this->hasOne('Muserpol\EconomicComplementApplicant');
     }
 
-    public function economic_complement_legal_guardian()
-    {
-        return $this->hasOne('Muserpol\EconomicComplementLegalGuardian');
-    }
-
-
     public function scopeIdIs($query, $id)
     {
         return $query->where('id', $id);
