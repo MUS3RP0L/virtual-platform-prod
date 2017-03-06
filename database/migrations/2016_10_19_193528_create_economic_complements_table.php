@@ -201,7 +201,7 @@ class CreateEconomicComplementsTable extends Migration
         Schema::create('eco_com_legal_guardians', function (Blueprint $table) {
 
             $table->bigIncrements('id');
-            $table->UnsignedBigInteger('economic_complement_id');
+            $table->UnsignedBigInteger('eco_com_applicant_id');
             $table->UnsignedBigInteger('city_identity_card_id')->nullable();
             $table->string('identity_card')->required();
             $table->string('last_name')->nullable();
@@ -213,7 +213,7 @@ class CreateEconomicComplementsTable extends Migration
             $table->string('cell_phone_number')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('economic_complement_id')->references('id')->on('economic_complements')->onDelete('cascade');
+            $table->foreign('eco_com_applicant_id')->references('id')->on('eco_com_applicant_id')->onDelete('cascade');
             $table->foreign('city_identity_card_id')->references('id')->on('cities');
 
         });
