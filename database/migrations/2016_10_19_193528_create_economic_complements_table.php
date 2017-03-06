@@ -213,7 +213,7 @@ class CreateEconomicComplementsTable extends Migration
             $table->string('cell_phone_number')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('eco_com_applicant_id')->references('id')->on('eco_com_applicant_id')->onDelete('cascade');
+            $table->foreign('eco_com_applicant_id')->references('id')->on('eco_com_applicants')->onDelete('cascade');
             $table->foreign('city_identity_card_id')->references('id')->on('cities');
 
         });
