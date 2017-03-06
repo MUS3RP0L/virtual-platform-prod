@@ -15,6 +15,7 @@ use Muserpol\Helper\Util;
 
 use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementState;
+use Muserpol\EconomicComplementStateType;
 use Muserpol\EconomicComplementType;
 use Muserpol\EconomicComplementModality;
 use Muserpol\EconomicComplementApplicant;
@@ -28,6 +29,9 @@ use Muserpol\PensionEntity;
 use Muserpol\City;
 use Muserpol\BaseWage;
 use Muserpol\ComplementaryFactor;
+use Muserpol\Degree;
+use Muserpol\Unit;
+use DB;
 
 class EconomicComplementController extends Controller
 {
@@ -162,14 +166,12 @@ class EconomicComplementController extends Controller
          $all_semester = ['Todo' => 'Todo'];
          $all_semester_list = array_merge($all_semester, $semester_list);
 
-         $year_list =['' => ''];
+         $current_year = Carbon::now()->year;
+         $year_list =[$current_year => $current_year];
          $eco_com_year = EconomicComplement::distinct()->select('year')->orderBy('year', 'desc')->get();
          foreach ($eco_com_year as $item) {
                  $year_list[Util::getYear($item->year)] = Util::getYear($item->year);
          }
-
-
-
 
          $report_type = ['' => '', '1' => 'Reporte diario de recepción', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Resumen de inclusiones', '5' => 'Resumen de habituales', '6' => 'Reporte pago de complemento económico'];
          foreach ($report_type as $key => $item) {
@@ -793,21 +795,30 @@ class EconomicComplementController extends Controller
                             $date = Util::getDateEdit(date('Y-m-d'));
                             $current_date = Carbon::now();
                             $hour = Carbon::parse($current_date)->toTimeString();
-                            $eco_complements = DB::table('economic_complements ec')
-                                            ->select(DB::raw('ec.id,ec.'))
+
+                            $regional = ($request->city == 'Todo') ? '?' : $request->city;
+                            $semester = ($request->semester == 'Todo') ? '?' : $request->semester;
+                            $eco_complements = DB::table('economic_complements')
+                                            ->select(DB::raw('economic_complements.*'))
                                             ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
-                                            ->leftJoin('cities','affiliates.city_identity_card_id','=','cities.id')
+                                            ->leftJoin('cities as cities0','affiliates.city_identity_card_id','=','cities0.id')
                                             ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
                                             ->leftJoin('units','affiliates.unit_id','=','units.id')
                                             ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
-                                            ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality', '=', 'eco_com_modalities.id')
+                                            ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
                                             ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
                                             ->leftJoin('cities', 'economic_complements.city_id', '=', 'cities.id')
                                             ->leftJoin('eco_com_states', 'economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
                                             ->leftJoin('eco_com_state_types', 'eco_com_states.eco_com_state_type_id', '=', 'eco_com_state_types.id')
-                                            ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.')
+                                            ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
+                                            ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
+                                            ->leftJoin('eco_com_applicant_types', 'eco_com_applicants.eco_com_applicant_type_id', '=', 'eco_com_applicant_types.id')
+                                            ->where('economic_complements.city_id', '=', $regional)
+                                            ->whereYear('economic_complements.year', '=', $request->year)
+                                            ->where('economic_complements.semester','=', $semester)
+                                            ->orderBy('economic_complements.id','ASC')
                                             ->get();
-
+                            //dd($eco_complements);
                             $view = \View::make('economic_complements.print.daily_report', compact('header1','header2','title','date','hour','eco_complements'))->render();
                             $pdf = \App::make('dompdf.wrapper');
                             $pdf->loadHTML($view)->setPaper('letter');

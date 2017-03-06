@@ -59,7 +59,7 @@ class EconomicComplement extends Model
 
     public function city()
     {
-        return $this->belongsTo('Muserpol\City');
+        return $this->belongsTo('Muserpol\City','id');
     }
 
     public function category()
