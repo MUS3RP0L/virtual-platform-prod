@@ -86,6 +86,7 @@ class CreateEconomicComplementsTable extends Migration
         Schema::create('economic_complements', function (Blueprint $table) {
 
             $table->bigIncrements('id');
+            $table->UnsignedBigInteger('user_id');
             $table->UnsignedBigInteger('affiliate_id');
             $table->UnsignedBigInteger('eco_com_modality_id');
             $table->UnsignedBigInteger('eco_com_state_id');

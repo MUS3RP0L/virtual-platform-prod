@@ -42,6 +42,10 @@ class EconomicComplement extends Model
 
 	protected $guarded = ['id'];
 
+    public function user()
+    {
+        return $this->belongsTo('Muserpol\User');
+    }
 	public function affiliate()
     {
         return $this->belongsTo('Muserpol\Affiliate');
