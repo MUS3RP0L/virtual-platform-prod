@@ -154,10 +154,10 @@ class EconomicComplementController extends Controller
              $cities_list_short[$item->id]=$item->shortened;
          }
 
-         $all = ['Todo' => 'Todo'];
-         $new_cities_list = $cities_list;
-         $cities_list_shift[] = array_shift($new_cities_list);
-         $all_cities_list = array_merge($all, $new_cities_list);
+         $new_cities_list = ['Todo' => 'Todo'];
+         foreach ($cities as $item) {
+             $new_cities_list[$item->id] = $item->name;
+         }
 
          $semestre = ['F' => 'Primer', 'S' => 'Segundo'];
          foreach ($semestre as $item) {
@@ -192,7 +192,7 @@ class EconomicComplementController extends Controller
              'semester' => $semester,
              'year_list' => $year_list,
              'report_type_list' => $report_type_list,
-             'all_cities_list' => $all_cities_list,
+             'new_cities_list' => $new_cities_list,
              'all_semester_list' => $all_semester_list
 
          ];
@@ -796,10 +796,13 @@ class EconomicComplementController extends Controller
                             $current_date = Carbon::now();
                             $hour = Carbon::parse($current_date)->toTimeString();
 
-                            $regional = ($request->city == 'Todo') ? '?' : $request->city;
-                            $semester = ($request->semester == 'Todo') ? '?' : $request->semester;
+                            $regional = ($request->city == 'Todo') ? '%%' : $request->city;
+                            $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
+                            //dd($regional);
                             $eco_complements = DB::table('economic_complements')
-                                            ->select(DB::raw('economic_complements.*'))
+                                            //->select(DB::raw('economic_complements.*'))
+                                            ->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened exp, CONCAT(eco_com_applicants.last_name," ", eco_com_applicants.mothers_last_name, " ",eco_com_applicants.surname_husband," ", eco_com_applicants.first_name, " " ,eco_com_applicants.second_name) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username'))
+                                            ->leftJoin('users','economic_complements.user_id','=','users.id')
                                             ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
                                             ->leftJoin('cities as cities0','affiliates.city_identity_card_id','=','cities0.id')
                                             ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
@@ -813,16 +816,24 @@ class EconomicComplementController extends Controller
                                             ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
                                             ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
                                             ->leftJoin('eco_com_applicant_types', 'eco_com_applicants.eco_com_applicant_type_id', '=', 'eco_com_applicant_types.id')
-                                            ->where('economic_complements.city_id', '=', $regional)
+                                            ->where('economic_complements.city_id', 'LIKE', $regional)
                                             ->whereYear('economic_complements.year', '=', $request->year)
-                                            ->where('economic_complements.semester','=', $semester)
+                                            ->where('economic_complements.semester', 'LIKE', $semester)
+                                            ->where('economic_complements.user_id', '=', Auth::user()->id)
                                             ->orderBy('economic_complements.id','ASC')
                                             ->get();
                             //dd($eco_complements);
-                            $view = \View::make('economic_complements.print.daily_report', compact('header1','header2','title','date','hour','eco_complements'))->render();
-                            $pdf = \App::make('dompdf.wrapper');
-                            $pdf->loadHTML($view)->setPaper('letter');
-                            return $pdf->download('daily_report.pdf');
+                            if ($eco_complements) {
+                                $view = \View::make('economic_complements.print.daily_report', compact('header1','header2','title','date','hour','eco_complements'))->render();
+                                $pdf = \App::make('dompdf.wrapper');
+                                $pdf->loadHTML($view)->setPaper('letter');
+                                return $pdf->stream();
+                            } else {
+                                $message = "No existen registros para visualizar";
+                                Session::flash('message', $message);
+                            }
+
+
                     break;
 
 

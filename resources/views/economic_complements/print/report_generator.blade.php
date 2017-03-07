@@ -30,7 +30,7 @@
                                     <div class="form-group">
                                         {!! Form::label('city', 'Regional', ['class' => 'col-md-4 control-label']) !!}
                                         <div class="col-md-7">
-                                            {!! Form::select('city', $all_cities_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
+                                            {!! Form::select('city', $new_cities_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
                                             <span class="help-block">Seleccione Regional</span>
                                         </div>
                                     </div>
