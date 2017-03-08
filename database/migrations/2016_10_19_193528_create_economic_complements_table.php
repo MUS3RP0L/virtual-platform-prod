@@ -128,6 +128,7 @@ class CreateEconomicComplementsTable extends Migration
             $table->string('comment');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
             $table->foreign('eco_com_modality_id')->references('id')->on('eco_com_modalities');
             $table->foreign('eco_com_state_id')->references('id')->on('eco_com_states');
