@@ -17,7 +17,7 @@
               <th class="grand"><h4>USUARIO</h4></th>
            </tr>
            <?php $i=1;?>
-            @foreach($eco_complements as $item)
+            @foreach($beneficiary_eco_complements as $item)
             <tr>
               <td ><h4>{!! $i !!}</h4></td>
               <td ><h4>{!! $item->identity_card !!}</h4></td>

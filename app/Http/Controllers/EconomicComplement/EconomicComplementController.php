@@ -797,28 +797,29 @@ class EconomicComplementController extends Controller
                             $hour = Carbon::parse($current_date)->toTimeString();
                             $regional = ($request->city == 'Todo') ? '%%' : $request->city;
                             $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
-                            $eco_complements = DB::table('economic_complements')
-                                            ->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened exp, CONCAT(eco_com_applicants.last_name," ", eco_com_applicants.mothers_last_name, " ",eco_com_applicants.surname_husband," ", eco_com_applicants.first_name, " " ,eco_com_applicants.second_name) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username'))
+                            $eco_complements = DB::table('eco_com_applicants')
+                                            ->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened exp, CONCAT( IF(ISNULL(affiliates.last_name),"",affiliates.last_name), " ", IF(ISNULL(affiliates.mothers_last_name),"",affiliates.mothers_last_name), " ", IF(ISNULL(affiliates.surname_husband),"",affiliates.surname_husband), " ",  IF(ISNULL(affiliates.first_name),"",affiliates.first_name), " ", IF(ISNULL(affiliates.second_name),"",affiliates.second_name)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username'))
+                                            ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                                             ->leftJoin('users','economic_complements.user_id','=','users.id')
                                             ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                                            ->leftJoin('cities', 'economic_complements.city_id', '=', 'cities.id')
                                             ->leftJoin('cities as cities0','affiliates.city_identity_card_id','=','cities0.id')
+                                            ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
+                                            ->leftJoin('eco_com_applicant_types', 'eco_com_applicants.eco_com_applicant_type_id', '=', 'eco_com_applicant_types.id')
+                                            ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+                                            ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
+                                            ->leftJoin('eco_com_states', 'economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
+                                            ->leftJoin('eco_com_state_types', 'eco_com_states.eco_com_state_type_id', '=', 'eco_com_state_types.id')
                                             ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
                                             ->leftJoin('units','affiliates.unit_id','=','units.id')
                                             ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
-                                            ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
-                                            ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
-                                            ->leftJoin('cities', 'economic_complements.city_id', '=', 'cities.id')
-                                            ->leftJoin('eco_com_states', 'economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
-                                            ->leftJoin('eco_com_state_types', 'eco_com_states.eco_com_state_type_id', '=', 'eco_com_state_types.id')
-                                            ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
-                                            ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
-                                            ->leftJoin('eco_com_applicant_types', 'eco_com_applicants.eco_com_applicant_type_id', '=', 'eco_com_applicant_types.id')
                                             ->where('economic_complements.city_id', 'LIKE', $regional)
                                             ->whereYear('economic_complements.year', '=', $request->year)
                                             ->where('economic_complements.semester', 'LIKE', $semester)
                                             ->where('economic_complements.user_id', '=', Auth::user()->id)
                                             ->orderBy('economic_complements.id','ASC')
                                             ->get();
+                                            dd($eco_complements);
                             if ($eco_complements) {
                                 $view = \View::make('economic_complements.print.daily_report', compact('header1','header2','title','date','hour','eco_complements'))->render();
                                 $pdf = \App::make('dompdf.wrapper');
@@ -838,29 +839,30 @@ class EconomicComplementController extends Controller
                             $hour = Carbon::parse($current_date)->toTimeString();
                             $regional = ($request->city == 'Todo') ? '%%' : $request->city;
                             $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
-                            $eco_complements = DB::table('economic_complements')
-                                            ->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened exp, CONCAT(eco_com_applicants.last_name," ", eco_com_applicants.mothers_last_name, " ",eco_com_applicants.surname_husband," ", eco_com_applicants.first_name, " " ,eco_com_applicants.second_name) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username'))
+                            $beneficiary_eco_complements = DB::table('eco_com_applicants')
+                                            ->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened exp, CONCAT( IF(ISNULL(affiliates.last_name),"",affiliates.last_name), " ", IF(ISNULL(affiliates.mothers_last_name),"",affiliates.mothers_last_name), " ", IF(ISNULL(affiliates.surname_husband),"",affiliates.surname_husband), " ",  IF(ISNULL(affiliates.first_name),"",affiliates.first_name), " ", IF(ISNULL(affiliates.second_name),"",affiliates.second_name)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username'))
+                                            ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                                             ->leftJoin('users','economic_complements.user_id','=','users.id')
                                             ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                                            ->leftJoin('cities', 'economic_complements.city_id', '=', 'cities.id')
                                             ->leftJoin('cities as cities0','affiliates.city_identity_card_id','=','cities0.id')
+                                            ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
+                                            ->leftJoin('eco_com_applicant_types', 'eco_com_applicants.eco_com_applicant_type_id', '=', 'eco_com_applicant_types.id')
+                                            ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+                                            ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
+                                            ->leftJoin('eco_com_states', 'economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
+                                            ->leftJoin('eco_com_state_types', 'eco_com_states.eco_com_state_type_id', '=', 'eco_com_state_types.id')
                                             ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
                                             ->leftJoin('units','affiliates.unit_id','=','units.id')
                                             ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
-                                            ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
-                                            ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
-                                            ->leftJoin('cities', 'economic_complements.city_id', '=', 'cities.id')
-                                            ->leftJoin('eco_com_states', 'economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
-                                            ->leftJoin('eco_com_state_types', 'eco_com_states.eco_com_state_type_id', '=', 'eco_com_state_types.id')
-                                            ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
-                                            ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
-                                            ->leftJoin('eco_com_applicant_types', 'eco_com_applicants.eco_com_applicant_type_id', '=', 'eco_com_applicant_types.id')
                                             ->where('economic_complements.city_id', 'LIKE', $regional)
                                             ->whereYear('economic_complements.year', '=', $request->year)
                                             ->where('economic_complements.semester', 'LIKE', $semester)
                                             ->orderBy('economic_complements.id','ASC')
                                             ->get();
-                            if ($eco_complements) {
-                                $view = \View::make('economic_complements.print.beneficiary_report', compact('header1','header2','title','date','hour','eco_complements'))->render();
+                                            dd($beneficiary_eco_complements);
+                            if ($beneficiary_eco_complements) {
+                                $view = \View::make('economic_complements.print.beneficiary_report', compact('header1','header2','title','date','hour','beneficiary_eco_complements'))->render();
                                 $pdf = \App::make('dompdf.wrapper');
                                 $pdf->loadHTML($view)->setPaper('letter');
                                 return $pdf->stream();
@@ -879,31 +881,31 @@ class EconomicComplementController extends Controller
                             $hour = Carbon::parse($current_date)->toTimeString();
                             $regional = ($request->city == 'Todo') ? '%%' : $request->city;
                             $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
-                            $eco_complements = DB::table('economic_complements')
-                                            ->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened exp, CONCAT(eco_com_applicants.last_name," ", eco_com_applicants.mothers_last_name, " ",eco_com_applicants.surname_husband," ", eco_com_applicants.first_name, " " ,eco_com_applicants.second_name) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username'))
+                            $representative_eco_complements = DB::table('eco_com_legal_guardians')
+                                            ->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened exp, CONCAT( IF(ISNULL(affiliates.last_name),"",affiliates.last_name), " ", IF(ISNULL(affiliates.mothers_last_name),"",affiliates.mothers_last_name), " ", IF(ISNULL(affiliates.surname_husband),"",affiliates.surname_husband), " ",  IF(ISNULL(affiliates.first_name),"",affiliates.first_name), " ", IF(ISNULL(affiliates.second_name),"",affiliates.second_name)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username'))
+                                            ->leftJoin('eco_com_applicants','eco_com_legal_guardians.eco_com_applicant_id','=', 'eco_com_applicants.id')
+                                            ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                                             ->leftJoin('users','economic_complements.user_id','=','users.id')
                                             ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                                            ->leftJoin('cities', 'economic_complements.city_id', '=', 'cities.id')
                                             ->leftJoin('cities as cities0','affiliates.city_identity_card_id','=','cities0.id')
+                                            ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
+                                            ->leftJoin('eco_com_applicant_types', 'eco_com_applicants.eco_com_applicant_type_id', '=', 'eco_com_applicant_types.id')
+                                            ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+                                            ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
+                                            ->leftJoin('eco_com_states', 'economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
+                                            ->leftJoin('eco_com_state_types', 'eco_com_states.eco_com_state_type_id', '=', 'eco_com_state_types.id')
                                             ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
                                             ->leftJoin('units','affiliates.unit_id','=','units.id')
                                             ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
-                                            ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
-                                            ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
-                                            ->leftJoin('cities', 'economic_complements.city_id', '=', 'cities.id')
-                                            ->leftJoin('eco_com_states', 'economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
-                                            ->leftJoin('eco_com_state_types', 'eco_com_states.eco_com_state_type_id', '=', 'eco_com_state_types.id')
-                                            ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
-                                            ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
-                                            ->leftJoin('eco_com_applicant_types', 'eco_com_applicants.eco_com_applicant_type_id', '=', 'eco_com_applicant_types.id')
-                                            ->leftJoin('eco_com_legal_guardians','eco_com_applicants.id','=','eco_com_legal_guardians.eco_com_applicant_id')
                                             ->where('economic_complements.city_id', 'LIKE', $regional)
                                             ->whereYear('economic_complements.year', '=', $request->year)
-                                            ->where('economic_complements.semester', 'LIKE', $semester)
+                                            ->where('economic_complements.semester', 'LIKE', rtrim($semester))
                                             ->orderBy('economic_complements.id','ASC')
                                             ->get();
-                            dd($eco_complements);
-                            if ($eco_complements) {
-                                $view = \View::make('economic_complements.print.beneficiary_report', compact('header1','header2','title','date','hour','eco_complements'))->render();
+                            dd($representative_eco_complements);
+                            if ($representative_eco_complements) {
+                                $view = \View::make('economic_complements.print.beneficiary_report', compact('header1','header2','title','date','hour','representative_eco_complements'))->render();
                                 $pdf = \App::make('dompdf.wrapper');
                                 $pdf->loadHTML($view)->setPaper('letter');
                                 return $pdf->stream();
