@@ -516,17 +516,17 @@ class EconomicComplementController extends Controller
                         }
 
                         $eco_com_applicant->save();
+                    }
 
-                        if ($request->legal_guardian) {
-                            $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
+                    if ($request->legal_guardian) {
+                        $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementApplicantIs($eco_com_applicant->id)->first();
 
-                            if (!$eco_com_legal_guardian) {
+                        if (!$eco_com_legal_guardian) {
 
-                                $eco_com_legal_guardian = new EconomicComplementLegalGuardian;
-                                $eco_com_legal_guardian->economic_complement_id = $economic_complement->id;
-                            }
-                            $eco_com_legal_guardian->save();
+                            $eco_com_legal_guardian = new EconomicComplementLegalGuardian;
+                            $eco_com_legal_guardian->eco_com_applicant_id = $eco_com_applicant->id;
                         }
+                        $eco_com_legal_guardian->save();
                     }
 
                     return redirect('economic_complement_reception_second_step/'.$economic_complement->id);
@@ -626,17 +626,17 @@ class EconomicComplementController extends Controller
                         break;
                         }
 
-                        if ($economic_complement->has_legal_guardian) {
+                    if ($economic_complement->has_legal_guardian) {
 
-                            $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
-                            $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
-                            if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
-                            $eco_com_legal_guardian->last_name = $request->last_name_lg;
-                            $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
-                            $eco_com_legal_guardian->first_name = $request->first_name_lg;
-                            $eco_com_legal_guardian->phone_number = $request->phone_number_lg;
-                            $eco_com_legal_guardian->cell_phone_number = $request->cell_phone_number_lg;
-                            $eco_com_legal_guardian->save();
+                        $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementApplicantIs($eco_com_applicant->id)->first();
+                        $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
+                        if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
+                        $eco_com_legal_guardian->last_name = $request->last_name_lg;
+                        $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
+                        $eco_com_legal_guardian->first_name = $request->first_name_lg;
+                        $eco_com_legal_guardian->phone_number = $request->phone_number_lg;
+                        $eco_com_legal_guardian->cell_phone_number = $request->cell_phone_number_lg;
+                        $eco_com_legal_guardian->save();
 
                     }
 
