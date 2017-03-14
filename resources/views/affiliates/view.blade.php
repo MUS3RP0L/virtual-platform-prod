@@ -6,45 +6,51 @@
         <div class="col-md-6">
             {!! Breadcrumbs::render('show_affiliate', $affiliate) !!}
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
+
+            <div class="btn-group" style="margin:-3px 0;">
+                <a href="" class="btn btn-success btn-raised" data-toggle="dropdown"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{!! url('show_contributions/' . $affiliate->id) !!}" class="text-center"><i class="glyphicon glyphicon-eye-open"></i>Ver</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="{!! url('select_contribution/' . $affiliate->id) !!}" class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
+                </ul>
+            </div>
+
+            <div class="btn-group" style="margin:-3px 0;">
+                <a href="" class="btn btn-success btn-raised" data-toggle="dropdown"><i class="fa fa-money fa-lg"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
+                </ul>
+            </div>
+
+            <div class="btn-group" style="margin:-3px 0;">
+                <a href="" class="btn btn-success btn-raised" data-toggle="dropdown"><i class="glyphicon glyphicon-piggy-bank"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
+                </ul>
+            </div>
 
             <div class="btn-group" style="margin:-3px 0;">
                 <a href="" class="btn btn-success btn-raised" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
-                <a href="" data-target="#" class="btn btn-success btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                <ul class="dropdown-menu" >
+                <ul class="dropdown-menu">
                     <li><a href="{!! url('economic_complement_reception_first_step/' . $affiliate->id) !!}"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
 
-            <div class="btn-group" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="top" data-original-title="Aportes" style="margin:0px;">
-                <a href="" class="btn btn-success btn-raised dropdown-toggle" data-toggle="dropdown">
-                    &nbsp;<span class="glyphicon glyphicon-th-list"></span>&nbsp;
-                </a>
-                <ul class="dropdown-menu"  role="menu">
-                    <li>
-                        <a href="{!! url('show_contributions/' . $affiliate->id) !!}" class="text-center">
-                            <span class="glyphicon glyphicon-eye-open"></span>
-                        </a>
-                    </li>
-                    <li role="separator" class="divider"></li>
-                    <li>
-                        <a href="{!! url('select_contribution/' . $affiliate->id) !!}" class="text-center">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </a>
-                    </li>
+            <div class="btn-group" style="margin:-3px 0;">
+                <a href="" class="btn btn-success btn-raised" data-toggle="dropdown"><i class="fa fa-heartbeat fa-lg"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
+
             <div class="btn-group" data-toggle="tooltip" data-placement="bottom" data-original-title="Imprimir" style="margin:0px;">
                 <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
                     &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
                 </a>
             </div>
 
-        </div>
-        <div class="col-md-2 text-right">
-            <a href="{!! url('affiliate') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="top" data-original-title="Atrás">
-                &nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;
-            </a>
         </div>
     </div>
 
