@@ -301,31 +301,35 @@
 				<div class="box-body">
 					<div class="row">
 						<div class="col-md-12">
-							<table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
-								<thead>
-									<tr>
-										<th>Nombre de Requisito</th>
-										<th class="text-center">Estado</th>
-									</tr>
-								</thead>
-								<tbody>
-									@foreach ($eco_com_submitted_documents as $item)
+							@if($status_documents)
+								<table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+									<thead>
 										<tr>
-											<td>{!! $item->economic_complement_requirement->shortened !!}</td>
-											<td>
-												<div class="text-center">
-													@if($item->status)
-													<span class="fa fa-check-square-o fa-lg"></span>
-													@else
-													<span class="fa fa-square-o fa-lg"></span>
-													@endif
-												</div>
-											</td>
+											<th>Nombre de Requisito</th>
+											<th class="text-center">Estado</th>
 										</tr>
-									@endforeach
-								</tbody>
-							</table>
-                        </div>
+									</thead>
+									<tbody>
+										@foreach ($eco_com_submitted_documents as $item)
+											<tr>
+												<td>{!! $item->economic_complement_requirement->shortened !!}</td>
+												<td>
+													<div class="text-center">
+														@if($item->status)
+														<span class="fa fa-check-square-o fa-lg"></span>
+														@else
+														<span class="fa fa-square-o fa-lg"></span>
+														@endif
+													</div>
+												</td>
+											</tr>
+										@endforeach
+									</tbody>
+								</table>
+							@else
+								No hay registros
+							@endif
+						</div>
 					</div>
 				</div>
 			</div>
