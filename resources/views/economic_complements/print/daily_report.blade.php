@@ -15,6 +15,7 @@
               <th class="grand"><h4>FECHA</h4></th>
               <th class="grand"><h4>AFP</h4></th>
               <th class="grand"><h4>TIPO</h4></th>
+              <th class="grand"><h4>TELF/CEL</h4></th>
               <th class="grand"><h4>USUARIO</h4></th>
            </tr>
            <?php $i=1;?>
@@ -29,7 +30,7 @@
               <td ><h4>{!! Util::getDateEdit($item->reception_date) !!}</h4></td>
               <td ><h4>{!! $item->pension_entity !!}</h4></td>
               <td ><h4>{!! (Util::getType1($item->affiliate_id) > 1) ? 'HABITUAL' : 'INCLUSION' !!}</h4></td>
-
+              <td ><h4>{!! ($item->cell_phone_number) ? $item->cell_phone_number : $item->phone_number !!}</h4></td>
               <td ><h4>{!! $item->username !!}</h4></td>
             </tr>
             <?php $i++;?>
