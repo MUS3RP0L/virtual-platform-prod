@@ -9,7 +9,7 @@
         <div class="col-md-6">
 
             <div class="btn-group" style="margin:-3px 0;">
-                <a href="" class="btn btn-success btn-raised" data-toggle="dropdown"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
+                <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="{!! url('show_contributions/' . $affiliate->id) !!}" class="text-center"><i class="glyphicon glyphicon-eye-open"></i>Ver</a></li>
                     <li role="separator" class="divider"></li>
@@ -18,28 +18,28 @@
             </div>
 
             <div class="btn-group" style="margin:-3px 0;">
-                <a href="" class="btn btn-success btn-raised" data-toggle="dropdown"><i class="fa fa-money fa-lg"></i></a>
+                <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-money fa-lg"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
 
             <div class="btn-group" style="margin:-3px 0;">
-                <a href="" class="btn btn-success btn-raised" data-toggle="dropdown"><i class="glyphicon glyphicon-piggy-bank"></i></a>
+                <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="glyphicon glyphicon-piggy-bank"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
 
             <div class="btn-group" style="margin:-3px 0;">
-                <a href="" class="btn btn-success btn-raised" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
+                <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="{!! url('economic_complement_reception_first_step/' . $affiliate->id) !!}"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
 
             <div class="btn-group" style="margin:-3px 0;">
-                <a href="" class="btn btn-success btn-raised" data-toggle="dropdown"><i class="fa fa-heartbeat fa-lg"></i></a>
+                <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-heartbeat fa-lg"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
