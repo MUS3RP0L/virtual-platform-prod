@@ -476,47 +476,48 @@ class EconomicComplementController extends Controller
 
                         $eco_com_applicant = new EconomicComplementApplicant;
                         $eco_com_applicant->economic_complement_id = $economic_complement->id;
-                        $eco_com_applicant->eco_com_applicant_type_id = $request->eco_com_type;
-
-                        switch ($request->eco_com_type) {
-                            case '1':
-
-                                $eco_com_applicant->identity_card = $affiliate->identity_card;
-                                $eco_com_applicant->city_identity_card_id = $affiliate->city_identity_card_id;
-                                $eco_com_applicant->last_name = $affiliate->last_name;
-                                $eco_com_applicant->mothers_last_name = $affiliate->mothers_last_name;
-                                $eco_com_applicant->first_name = $affiliate->first_name;
-                                $eco_com_applicant->birth_date = $affiliate->birth_date;
-                                $eco_com_applicant->nua = $affiliate->nua;
-                                $eco_com_applicant->gender = $affiliate->gender;
-                                $eco_com_applicant->civil_status = $affiliate->civil_status;
-                                $eco_com_applicant->phone_number = $affiliate->phone_number;
-                                $eco_com_applicant->cell_phone_number = $affiliate->cell_phone_number;
-
-                            break;
-
-                            case '2':
-
-                                $spouse = Spouse::affiliateidIs($request->affiliate_id)->first();
-                                if ($spouse) {
-                                    $eco_com_applicant->identity_card = $spouse->identity_card;
-                                    $eco_com_applicant->city_identity_card_id = $spouse->city_identity_card_id;
-                                    $eco_com_applicant->last_name = $spouse->last_name;
-                                    $eco_com_applicant->mothers_last_name = $spouse->mothers_last_name;
-                                    $eco_com_applicant->first_name = $spouse->first_name;
-                                    $eco_com_applicant->birth_date = $spouse->birth_date;
-                                }
-                                $eco_com_applicant->nua = $affiliate->nua;
-                                if ($affiliate->gender == 'M') { $eco_com_applicant->gender = 'F'; }else{ $eco_com_applicant->gender = 'M'; }
-                                $eco_com_applicant->civil_status = 'V';
-                                $eco_com_applicant->phone_number = $affiliate->phone_number;
-                                $eco_com_applicant->cell_phone_number = $affiliate->cell_phone_number;
-
-                            break;
-                        }
-
-                        $eco_com_applicant->save();
                     }
+                    $eco_com_applicant->eco_com_applicant_type_id = $request->eco_com_type;
+
+                    switch ($request->eco_com_type) {
+                        case '1':
+
+                            $eco_com_applicant->identity_card = $affiliate->identity_card;
+                            $eco_com_applicant->city_identity_card_id = $affiliate->city_identity_card_id;
+                            $eco_com_applicant->last_name = $affiliate->last_name;
+                            $eco_com_applicant->mothers_last_name = $affiliate->mothers_last_name;
+                            $eco_com_applicant->first_name = $affiliate->first_name;
+                            $eco_com_applicant->birth_date = $affiliate->birth_date;
+                            $eco_com_applicant->nua = $affiliate->nua;
+                            $eco_com_applicant->gender = $affiliate->gender;
+                            $eco_com_applicant->civil_status = $affiliate->civil_status;
+                            $eco_com_applicant->phone_number = $affiliate->phone_number;
+                            $eco_com_applicant->cell_phone_number = $affiliate->cell_phone_number;
+
+                        break;
+
+                        case '2':
+
+                            $spouse = Spouse::affiliateidIs($request->affiliate_id)->first();
+                            if ($spouse) {
+                                $eco_com_applicant->identity_card = $spouse->identity_card;
+                                $eco_com_applicant->city_identity_card_id = $spouse->city_identity_card_id;
+                                $eco_com_applicant->last_name = $spouse->last_name;
+                                $eco_com_applicant->mothers_last_name = $spouse->mothers_last_name;
+                                $eco_com_applicant->first_name = $spouse->first_name;
+                                $eco_com_applicant->birth_date = $spouse->birth_date;
+                            }
+                            $eco_com_applicant->nua = $affiliate->nua;
+                            if ($affiliate->gender == 'M') { $eco_com_applicant->gender = 'F'; }else{ $eco_com_applicant->gender = 'M'; }
+                            $eco_com_applicant->civil_status = 'V';
+                            $eco_com_applicant->phone_number = $affiliate->phone_number;
+                            $eco_com_applicant->cell_phone_number = $affiliate->cell_phone_number;
+
+                        break;
+                    }
+
+                    $eco_com_applicant->save();
+
 
                     if ($request->legal_guardian) {
                         $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementApplicantIs($eco_com_applicant->id)->first();
@@ -602,14 +603,20 @@ class EconomicComplementController extends Controller
                             $affiliate->cell_phone_number = $request->cell_phone_number;
 
                             $affiliate->save();
+
                             $spouse = Spouse::affiliateidIs($affiliate->id)->first();
-                            $spouse->identity_card = $request->identity_card;
+
+                            if (!$spouse) { $spouse = new Spouse; }
+
+                            $spouse->user_id = Auth::user()->id;
+                            $spouse->affiliate_id = $affiliate->id;
+                            $spouse->identity_card = trim($request->identity_card);
                             if ($request->city_identity_card_id) { $spouse->city_identity_card_id = $request->city_identity_card_id; } else { $spouse->city_identity_card_id = null; }
-                            $spouse->last_name = $request->last_name;
-                            $spouse->mothers_last_name = $request->mothers_last_name;
-                            $spouse->first_name = $request->first_name;
+                            $spouse->last_name = trim($request->last_name);
+                            $spouse->mothers_last_name = trim($request->mothers_last_name);
+                            $spouse->first_name = trim($request->first_name);
+                            $spouse->second_name = trim($request->second_name);
                             $spouse->birth_date = Util::datePick($request->birth_date);
-                            $spouse->civil_status = $request->civil_status;
                             $spouse->save();
 
                         break;

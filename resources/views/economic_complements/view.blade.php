@@ -13,7 +13,7 @@
 		</div>
 	</div>
 
-@endsection
+@endsection<div class="box box-success box-solid">
 
 @section('main-content')
 
@@ -22,7 +22,7 @@
 			@include('affiliates.simple_info')
 		</div>
         <div class="col-md-6">
-            <div class="box box-info">
+            <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-12">
@@ -121,7 +121,7 @@
 
     <div class="row">
         <div class="col-md-6">
-			<div class="box box-warning">
+			<div class="box box-success box-solid">
                 <div class="box-header with-border">
 					<div class="row">
                         <div class="col-md-10">
@@ -129,8 +129,8 @@
                         </div>
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                <a href="" class="btn btn-raised btn-xs btn-primary" data-toggle="modal" data-target="#myModal-applicant">&nbsp;&nbsp;
-                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-applicant">&nbsp;&nbsp;
+                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
                                 </a>
                             </div>
                         </div>
@@ -283,7 +283,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="box box-warning">
+			<div class="box box-success box-solid">
                 <div class="box-header with-border">
 					<div class="row">
                         <div class="col-md-10">
@@ -291,8 +291,8 @@
                         </div>
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                <a href="" class="btn btn-raised btn-xs btn-primary" data-toggle="modal" data-target="#myModal-requirements">&nbsp;&nbsp;
-                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-requirements">&nbsp;&nbsp;
+                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
                                 </a>
                             </div>
                         </div>
@@ -331,7 +331,7 @@
 			</div>
 		</div>
 		<div class="col-md-6">
-			<div class="box box-warning">
+			<div class="box box-success box-solid">
                 <div class="box-header with-border">
 					<h3 class="box-title"><span class="fa fa-money"></span> Cálculo de Total</h3>
 				</div>
