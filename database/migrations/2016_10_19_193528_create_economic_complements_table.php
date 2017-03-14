@@ -203,7 +203,7 @@ class CreateEconomicComplementsTable extends Migration
         Schema::create('eco_com_legal_guardians', function (Blueprint $table) {
 
             $table->bigIncrements('id');
-            $table->UnsignedBigInteger('eco_com_applicant_id');
+            $table->UnsignedBigInteger('eco_com_applicant_id')->index();
             $table->UnsignedBigInteger('city_identity_card_id')->nullable();
             $table->string('identity_card')->required();
             $table->string('last_name')->nullable();

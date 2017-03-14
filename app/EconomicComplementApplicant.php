@@ -45,7 +45,7 @@ class EconomicComplementApplicant extends Model
 
     public function economic_complement_legal_guardian()
     {
-        return $this->hasOne('Muserpol\EconomicComplementLegalGuardian');
+        return $this->hasOne('Muserpol\EconomicComplementLegalGuardian', 'eco_com_applicant_id');
     }
 
     public function city_identity_card()
