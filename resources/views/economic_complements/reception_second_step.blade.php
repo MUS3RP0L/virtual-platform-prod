@@ -34,7 +34,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-10 col-md-offset-1">
             {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
                 <input type="hidden" name="step" value="second"/>
                 <input type="hidden" name="type" value="create"/>
@@ -42,7 +42,7 @@
                 @if($economic_complement->economic_complement_modality->economic_complement_type->id > 1)
                     @include('economic_complements.additional.affiliate_info')
                 @endif
-                
+
                 <div class="box box-warning box-solid">
                     <div class="box-header with-border">
                         <h3 class="box-title">Editar Beneficiario - {{ $eco_com_applicant->economic_complement_applicant_type->name }}</h3>

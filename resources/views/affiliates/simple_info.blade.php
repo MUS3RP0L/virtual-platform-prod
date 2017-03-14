@@ -1,4 +1,4 @@
-<div class="box box-info box-solid">
+<div class="box box-success box-solid">
     <div class="box-header with-border">
         <div class="row">
             <div class="col-md-12">
