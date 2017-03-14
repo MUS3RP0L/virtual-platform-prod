@@ -44,11 +44,11 @@ class ContributionRateController extends Controller
         return Datatables::of($contribution_rates)
             ->addColumn('year', function ($contribution_rate) { return Carbon::parse($contribution_rate->month_year)->year; })
             ->addColumn('month', function ($contribution_rate) { return Util::getMes(Carbon::parse($contribution_rate->month_year)->month); })
-            ->editColumn('retirement_fund', function ($contribution_rate) { return Util::formatMoney($contribution_rate->retirement_fund); })
-            ->editColumn('mortuary_quota', function ($contribution_rate) { return Util::formatMoney($contribution_rate->mortuary_quota); })
-            ->editColumn('retirement_fund_commission', function ($contribution_rate) { return Util::formatMoney($contribution_rate->retirement_fund_commission); })
-            ->editColumn('mortuary_quota_commission', function ($contribution_rate) { return Util::formatMoney($contribution_rate->mortuary_quota_commission); })
-            ->editColumn('mortuary_aid', function ($contribution_rate) { return Util::formatMoney($contribution_rate->mortuary_aid); })
+            ->editColumn('retirement_fund', function ($contribution_rate) { return Util::formatPercentage($contribution_rate->retirement_fund); })
+            ->editColumn('mortuary_quota', function ($contribution_rate) { return Util::formatPercentage($contribution_rate->mortuary_quota); })
+            ->editColumn('retirement_fund_commission', function ($contribution_rate) { return Util::formatPercentage($contribution_rate->retirement_fund_commission); })
+            ->editColumn('mortuary_quota_commission', function ($contribution_rate) { return Util::formatPercentage($contribution_rate->mortuary_quota_commission); })
+            ->editColumn('mortuary_aid', function ($contribution_rate) { return Util::formatPercentage($contribution_rate->mortuary_aid); })
             ->make(true);
     }
 

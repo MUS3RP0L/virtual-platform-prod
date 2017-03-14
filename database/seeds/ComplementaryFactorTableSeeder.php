@@ -28,12 +28,18 @@ class ComplementaryFactorTableSeeder extends Seeder
             ['user_id' => '1', 'hierarchy_id' => '3', 'year' => '2015-1-1', 'semester' => 'Segundo', 'old_age' => '72', 'widowhood' => '72'],
             ['user_id' => '1', 'hierarchy_id' => '4', 'year' => '2015-1-1', 'semester' => 'Segundo', 'old_age' => '88', 'widowhood' => '82'],
             ['user_id' => '1', 'hierarchy_id' => '5', 'year' => '2015-1-1', 'semester' => 'Segundo', 'old_age' => '72', 'widowhood' => '72'],
+
             ['user_id' => '1', 'hierarchy_id' => '1', 'year' => '2016-1-1', 'semester' => 'Primer', 'old_age' => '61', 'widowhood' => '71'],
             ['user_id' => '1', 'hierarchy_id' => '2', 'year' => '2016-1-1', 'semester' => 'Primer', 'old_age' => '71', 'widowhood' => '71'],
             ['user_id' => '1', 'hierarchy_id' => '3', 'year' => '2016-1-1', 'semester' => 'Primer', 'old_age' => '70', 'widowhood' => '70'],
             ['user_id' => '1', 'hierarchy_id' => '4', 'year' => '2016-1-1', 'semester' => 'Primer', 'old_age' => '86', 'widowhood' => '80'],
-            ['user_id' => '1', 'hierarchy_id' => '5', 'year' => '2016-1-1', 'semester' => 'Primer', 'old_age' => '70', 'widowhood' => '70']
+            ['user_id' => '1', 'hierarchy_id' => '5', 'year' => '2016-7-1', 'semester' => 'Primer', 'old_age' => '70', 'widowhood' => '70'],
 
+            ['user_id' => '1', 'hierarchy_id' => '1', 'year' => '2016-7-1', 'semester' => 'Segundo', 'old_age' => '61', 'widowhood' => '71'],
+            ['user_id' => '1', 'hierarchy_id' => '2', 'year' => '2016-7-1', 'semester' => 'Segundo', 'old_age' => '71', 'widowhood' => '71'],
+            ['user_id' => '1', 'hierarchy_id' => '3', 'year' => '2016-7-1', 'semester' => 'Segundo', 'old_age' => '70', 'widowhood' => '70'],
+            ['user_id' => '1', 'hierarchy_id' => '4', 'year' => '2016-7-1', 'semester' => 'Segundo', 'old_age' => '86', 'widowhood' => '80'],
+            ['user_id' => '1', 'hierarchy_id' => '5', 'year' => '2016-7-1', 'semester' => 'Segundo', 'old_age' => '70', 'widowhood' => '70']
         ];
 
         foreach ($statuses as $status) {

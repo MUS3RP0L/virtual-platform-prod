@@ -253,6 +253,14 @@ class Util
 		}
     }
 
+	public static function formatPercentage($value)
+	{
+		if ($value) {
+	    	$value = number_format($value, 2, '.', ',');
+        	return $value . "%";
+		}
+    }
+
 	public static function formatYear($year)
 	{
 		if ($year) {

@@ -117,11 +117,11 @@ class ComplementaryFactorController extends Controller
         return Datatables::of($complementary_factors)
         ->editColumn('year', function ($complementary_factor) { return Carbon::parse($complementary_factor->year)->year; })
         ->editColumn('semester', function ($complementary_factor) { return $complementary_factor->semester; })
-        ->editColumn('cf1', function ($complementary_factor) { return Util::formatMoney($complementary_factor->cf1); })
-        ->editColumn('cf2', function ($complementary_factor) { return Util::formatMoney($complementary_factor->cf2); })
-        ->editColumn('cf3', function ($complementary_factor) { return Util::formatMoney($complementary_factor->cf3); })
-        ->editColumn('cf4', function ($complementary_factor) { return Util::formatMoney($complementary_factor->cf4); })
-        ->editColumn('cf5', function ($complementary_factor) { return Util::formatMoney($complementary_factor->cf5); })
+        ->editColumn('cf1', function ($complementary_factor) { return $complementary_factor->cf1; })
+        ->editColumn('cf2', function ($complementary_factor) { return Util::formatPercentage($complementary_factor->cf2); })
+        ->editColumn('cf3', function ($complementary_factor) { return Util::formatPercentage($complementary_factor->cf3); })
+        ->editColumn('cf4', function ($complementary_factor) { return Util::formatPercentage($complementary_factor->cf4); })
+        ->editColumn('cf5', function ($complementary_factor) { return Util::formatPercentage($complementary_factor->cf5); })
 
         ->make(true);
     }
@@ -149,11 +149,11 @@ class ComplementaryFactorController extends Controller
         return Datatables::of($complementary_factors)
         ->editColumn('year', function ($complementary_factor) { return Carbon::parse($complementary_factor->year)->year; })
         ->editColumn('semester', function ($complementary_factor) { return $complementary_factor->semester; })
-        ->editColumn('cf1', function ($complementary_factor) { return Util::formatMoney($complementary_factor->cf1); })
-        ->editColumn('cf2', function ($complementary_factor) { return Util::formatMoney($complementary_factor->cf2); })
-        ->editColumn('cf3', function ($complementary_factor) { return Util::formatMoney($complementary_factor->cf3); })
-        ->editColumn('cf4', function ($complementary_factor) { return Util::formatMoney($complementary_factor->cf4); })
-        ->editColumn('cf5', function ($complementary_factor) { return Util::formatMoney($complementary_factor->cf5); })
+        ->editColumn('cf1', function ($complementary_factor) { return Util::formatPercentage($complementary_factor->cf1); })
+        ->editColumn('cf2', function ($complementary_factor) { return Util::formatPercentage($complementary_factor->cf2); })
+        ->editColumn('cf3', function ($complementary_factor) { return Util::formatPercentage($complementary_factor->cf3); })
+        ->editColumn('cf4', function ($complementary_factor) { return Util::formatPercentage($complementary_factor->cf4); })
+        ->editColumn('cf5', function ($complementary_factor) { return Util::formatPercentage($complementary_factor->cf5); })
 
         ->make(true);
     }
