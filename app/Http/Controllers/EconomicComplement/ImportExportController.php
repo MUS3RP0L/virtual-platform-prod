@@ -52,7 +52,7 @@ class ImportExportController extends Controller
 
             $afi = DB::table('economic_complements')
                 ->select(DB::raw('economic_complements.*'))
-                ->join('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
                 ->where('affiliates.identity_card', '=', trim($datos->carnet))
                 ->whereYear('economic_complements.review_date', '=', $year)
                 ->where('economic_complements.semester', '=', $semester)
@@ -213,7 +213,7 @@ class ImportExportController extends Controller
         //  return response()->json($card);
           $afi = DB::table('economic_complements')
             ->select(DB::raw('economic_complements.*'))
-            ->join('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+            ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
             ->where('affiliates.identity_card', '=',rtrim($card))
             ->whereYear('economic_complements.review_date', '=', $year)
             ->where('economic_complements.semester', '=', $semester)
@@ -272,8 +272,8 @@ class ImportExportController extends Controller
                     $sheet->row(1, array('NRO', 'TIPO_ID', 'NUM_ID', 'EXTENSION', 'CUA', 'PRIMER_APELLIDO_T', 'SEGUNDO_APELLIDO_T','PRIMER_NOMBRE_T','SEGUNDO_NOMBRE_T','APELLIDO_CASADA_T','FECHA_NACIMIENTO_T'));
                     $afi = DB::table('economic_complements')
                         ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,affiliates.identity_card,cities.third_shortened,affiliates.nua,affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,affiliates.birth_date'))
-                        ->join('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
-                        ->join('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
+                        ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                        ->leftJoin('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
                         ->where('affiliates.pension_entity_id','<>', 5)
                         ->whereYear('economic_complements.review_date', '=', $year)
                         ->where('economic_complements.semester', '=', $semester)
@@ -296,11 +296,11 @@ class ImportExportController extends Controller
       $semester = $request->semester;
       $afi = DB::table('economic_complements')
           ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,economic_complements.semester,economic_complements.total,affiliates.identity_card,cities.shortened as ext,affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,eco_com_modalities.name,degrees.shortened as degree'))
-          ->join('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
-          ->join('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+          ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+          ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
           //->join('cities', 'affiliates.city_id', '=', 'cities.id')
-          ->join('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
-          ->join('degrees', 'affiliates.degree_id', '=', 'degrees.id')
+          ->leftJoin('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
+          ->leftJoin('degrees', 'affiliates.degree_id', '=', 'degrees.id')
           ->whereYear('economic_complements.review_date', '=', $year)
           ->where('economic_complements.semester', '=', $semester)
           ->where('economic_complements.eco_com_state_id', '=', 2)->get();

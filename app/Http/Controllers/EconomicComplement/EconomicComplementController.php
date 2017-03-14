@@ -819,7 +819,7 @@ class EconomicComplementController extends Controller
                             $regional = ($request->city == 'Todo') ? '%%' : $request->city;
                             $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
                             $eco_complements = DB::table('eco_com_applicants')
-                                            ->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened exp, CONCAT( IF(ISNULL(affiliates.last_name),"",affiliates.last_name), " ", IF(ISNULL(affiliates.mothers_last_name),"",affiliates.mothers_last_name), " ", IF(ISNULL(affiliates.surname_husband),"",affiliates.surname_husband), " ",  IF(ISNULL(affiliates.first_name),"",affiliates.first_name), " ", IF(ISNULL(affiliates.second_name),"",affiliates.second_name)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username'))
+                                            ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened exp, CONCAT( IF(ISNULL(affiliates.last_name),"",affiliates.last_name), " ", IF(ISNULL(affiliates.mothers_last_name),"",affiliates.mothers_last_name), " ", IF(ISNULL(affiliates.surname_husband),"",affiliates.surname_husband), " ",  IF(ISNULL(affiliates.first_name),"",affiliates.first_name), " ", IF(ISNULL(affiliates.second_name),"",affiliates.second_name)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username'))
                                             ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                                             ->leftJoin('users','economic_complements.user_id','=','users.id')
                                             ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
@@ -840,11 +840,10 @@ class EconomicComplementController extends Controller
                                             ->where('economic_complements.user_id', '=', Auth::user()->id)
                                             ->orderBy('economic_complements.id','ASC')
                                             ->get();
-                                            dd($eco_complements);
                             if ($eco_complements) {
                                 $view = \View::make('economic_complements.print.daily_report', compact('header1','header2','title','date','hour','eco_complements'))->render();
                                 $pdf = \App::make('dompdf.wrapper');
-                                $pdf->loadHTML($view)->setPaper('letter');
+                                $pdf->loadHTML($view)->setPaper('legal','landscape');
                                 return $pdf->stream();
                             } else {
                                 $message = "No existen registros para visualizar";
@@ -861,7 +860,7 @@ class EconomicComplementController extends Controller
                             $regional = ($request->city == 'Todo') ? '%%' : $request->city;
                             $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
                             $beneficiary_eco_complements = DB::table('eco_com_applicants')
-                                            ->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened exp, CONCAT( IF(ISNULL(affiliates.last_name),"",affiliates.last_name), " ", IF(ISNULL(affiliates.mothers_last_name),"",affiliates.mothers_last_name), " ", IF(ISNULL(affiliates.surname_husband),"",affiliates.surname_husband), " ",  IF(ISNULL(affiliates.first_name),"",affiliates.first_name), " ", IF(ISNULL(affiliates.second_name),"",affiliates.second_name)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username'))
+                                            ->select(DB::raw('economic_complements.id, economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened exp, CONCAT( IF(ISNULL(affiliates.last_name),"",affiliates.last_name), " ", IF(ISNULL(affiliates.mothers_last_name),"",affiliates.mothers_last_name), " ", IF(ISNULL(affiliates.surname_husband),"",affiliates.surname_husband), " ",  IF(ISNULL(affiliates.first_name),"",affiliates.first_name), " ", IF(ISNULL(affiliates.second_name),"",affiliates.second_name)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username'))
                                             ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                                             ->leftJoin('users','economic_complements.user_id','=','users.id')
                                             ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
@@ -881,11 +880,10 @@ class EconomicComplementController extends Controller
                                             ->where('economic_complements.semester', 'LIKE', $semester)
                                             ->orderBy('economic_complements.id','ASC')
                                             ->get();
-                                            dd($beneficiary_eco_complements);
                             if ($beneficiary_eco_complements) {
                                 $view = \View::make('economic_complements.print.beneficiary_report', compact('header1','header2','title','date','hour','beneficiary_eco_complements'))->render();
                                 $pdf = \App::make('dompdf.wrapper');
-                                $pdf->loadHTML($view)->setPaper('letter');
+                                $pdf->loadHTML($view)->setPaper('legal','landscape');
                                 return $pdf->stream();
                             } else {
                                 $message = "No existen registros para visualizar";
@@ -903,7 +901,7 @@ class EconomicComplementController extends Controller
                             $regional = ($request->city == 'Todo') ? '%%' : $request->city;
                             $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
                             $representative_eco_complements = DB::table('eco_com_legal_guardians')
-                                            ->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened exp, CONCAT( IF(ISNULL(affiliates.last_name),"",affiliates.last_name), " ", IF(ISNULL(affiliates.mothers_last_name),"",affiliates.mothers_last_name), " ", IF(ISNULL(affiliates.surname_husband),"",affiliates.surname_husband), " ",  IF(ISNULL(affiliates.first_name),"",affiliates.first_name), " ", IF(ISNULL(affiliates.second_name),"",affiliates.second_name)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username'))
+                                            ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened exp, CONCAT( IF(ISNULL(affiliates.last_name),"",affiliates.last_name), " ", IF(ISNULL(affiliates.mothers_last_name),"",affiliates.mothers_last_name), " ", IF(ISNULL(affiliates.surname_husband),"",affiliates.surname_husband), " ",  IF(ISNULL(affiliates.first_name),"",affiliates.first_name), " ", IF(ISNULL(affiliates.second_name),"",affiliates.second_name)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username, eco_com_legal_guardians.identity_card as ci, cities2.shortened as exp1, CONCAT( IF(ISNULL(eco_com_legal_guardians.last_name),"",eco_com_legal_guardians.last_name), " ", IF(ISNULL(eco_com_legal_guardians.mothers_last_name),"",eco_com_legal_guardians.mothers_last_name), " ", IF(ISNULL(eco_com_legal_guardians.surname_husband),"",eco_com_legal_guardians.surname_husband), " ",  IF(ISNULL(eco_com_legal_guardians.first_name),"",eco_com_legal_guardians.first_name), " ", IF(ISNULL(eco_com_legal_guardians.second_name),"",eco_com_legal_guardians.second_name)) full_repre'))
                                             ->leftJoin('eco_com_applicants','eco_com_legal_guardians.eco_com_applicant_id','=', 'eco_com_applicants.id')
                                             ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                                             ->leftJoin('users','economic_complements.user_id','=','users.id')
@@ -911,6 +909,7 @@ class EconomicComplementController extends Controller
                                             ->leftJoin('cities', 'economic_complements.city_id', '=', 'cities.id')
                                             ->leftJoin('cities as cities0','affiliates.city_identity_card_id','=','cities0.id')
                                             ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
+                                            ->leftJoin('cities as cities2', 'eco_com_legal_guardians.city_identity_card_id', '=', 'cities2.id')
                                             ->leftJoin('eco_com_applicant_types', 'eco_com_applicants.eco_com_applicant_type_id', '=', 'eco_com_applicant_types.id')
                                             ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
                                             ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
@@ -924,22 +923,18 @@ class EconomicComplementController extends Controller
                                             ->where('economic_complements.semester', 'LIKE', rtrim($semester))
                                             ->orderBy('economic_complements.id','ASC')
                                             ->get();
-                            dd($representative_eco_complements);
                             if ($representative_eco_complements) {
-                                $view = \View::make('economic_complements.print.beneficiary_report', compact('header1','header2','title','date','hour','representative_eco_complements'))->render();
+                                $view = \View::make('economic_complements.print.representative_report', compact('header1','header2','title','date','hour','representative_eco_complements'))->render();
                                 $pdf = \App::make('dompdf.wrapper');
-                                $pdf->loadHTML($view)->setPaper('letter');
+                                $pdf->loadHTML($view)->setPaper('legal','landscape');
                                 return $pdf->stream();
                             } else {
                                 $message = "No existen registros para visualizar";
                                 Session::flash('message', $message);
                             }
                         break;
-
-
                 }
             }
-
     }
 
     public function index_report_generator()
