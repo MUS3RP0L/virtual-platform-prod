@@ -2,9 +2,15 @@
 
 namespace Muserpol\Helper;
 use Carbon\Carbon;
+use Muserpol\EconomicComplement;
 
 class Util
 {
+	public static function getType1($affiliate)
+    {
+        $count = EconomicComplement::where('affiliate_id','=', rtrim($affiliate))->count();
+		return $count;
+    }
 	public static function FirstName($nom)
 	{
 		if ($nom) {
