@@ -125,78 +125,78 @@ class EconomicComplementController extends Controller
 
      public static function getViewModel()
      {
-         $eco_com_states = EconomicComplementState::all();
-         $eco_com_states_list =  ['' => ''];
-         foreach ($eco_com_states as $item) {
-             $eco_com_states_list[$item->id]=$item->name;
-         }
+        $eco_com_states = EconomicComplementState::all();
+        $eco_com_states_list =  ['' => ''];
+        foreach ($eco_com_states as $item) {
+            $eco_com_states_list[$item->id]=$item->name;
+        }
 
-         $eco_com_types = EconomicComplementType::all();
-         $eco_com_types_list = array('' => '');
-         foreach ($eco_com_types as $item) {
-             $eco_com_types_list[$item->id]=$item->name;
-         }
+        $eco_com_types = EconomicComplementType::all();
+        $eco_com_types_list = array('' => '');
+        foreach ($eco_com_types as $item) {
+            $eco_com_types_list[$item->id]=$item->name;
+        }
 
-         $cities = City::all();
-         $cities_list = array('' => '');
-         foreach ($cities as $item) {
-              $cities_list[$item->id]=$item->name;
-         }
+        $cities = City::all();
+        $cities_list = array('' => '');
+        foreach ($cities as $item) {
+            $cities_list[$item->id]=$item->name;
+        }
 
-         $pension_entities = PensionEntity::all();
-         $pension_entities_list = array('' => '');
-         foreach ($pension_entities as $item) {
-              $pension_entities_list[$item->id]=$item->name;
-         }
+        $pension_entities = PensionEntity::all();
+        $pension_entities_list = array('' => '');
+        foreach ($pension_entities as $item) {
+            $pension_entities_list[$item->id]=$item->name;
+        }
 
-         $cities_list_short = ['' => ''];
-         foreach ($cities as $item) {
-             $cities_list_short[$item->id]=$item->shortened;
-         }
+        $cities_list_short = ['' => ''];
+        foreach ($cities as $item) {
+            $cities_list_short[$item->id]=$item->shortened;
+        }
 
-         $new_cities_list = ['Todo' => 'Todo'];
-         foreach ($cities as $item) {
-             $new_cities_list[$item->id] = $item->name;
-         }
+        $new_cities_list = ['Todo' => 'Todo'];
+        foreach ($cities as $item) {
+            $new_cities_list[$item->id] = $item->name;
+        }
 
-         $semestre = ['F' => 'Primer', 'S' => 'Segundo'];
-         foreach ($semestre as $item) {
-             $semester_list[$item]=$item;
-         }
-         $all_semester = ['Todo' => 'Todo'];
-         $all_semester_list = array_merge($all_semester, $semester_list);
+        $semestre = ['F' => 'Primer', 'S' => 'Segundo'];
+        foreach ($semestre as $item) {
+            $semester_list[$item]=$item;
+        }
+        $all_semester = ['Todo' => 'Todo'];
+        $all_semester_list = array_merge($all_semester, $semester_list);
 
-         $current_year = Carbon::now()->year;
-         $year_list =[$current_year => $current_year];
-         $eco_com_year = EconomicComplement::distinct()->select('year')->orderBy('year', 'desc')->get();
-         foreach ($eco_com_year as $item) {
-                 $year_list[Util::getYear($item->year)] = Util::getYear($item->year);
-         }
+        $current_year = Carbon::now()->year;
+        $year_list =[$current_year => $current_year];
+        $eco_com_year = EconomicComplement::distinct()->select('year')->orderBy('year', 'desc')->get();
+        foreach ($eco_com_year as $item) {
+            $year_list[Util::getYear($item->year)] = Util::getYear($item->year);
+        }
 
-         $report_type = ['' => '', '1' => 'Reporte diario de recepción', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Resumen de inclusiones', '5' => 'Resumen de habituales', '6' => 'Reporte pago de complemento económico'];
-         foreach ($report_type as $key => $item) {
-             $report_type_list[$key] = $item;
-         }
+        $report_type = ['' => '', '1' => 'Reporte diario de recepción', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Resumen de inclusiones', '5' => 'Resumen de habituales', '6' => 'Reporte pago de complemento económico'];
+        foreach ($report_type as $key => $item) {
+            $report_type_list[$key] = $item;
+        }
 
-         $semester = Util::getSemester(Carbon::now());
+      $semester = Util::getSemester(Carbon::now());
 
-         return [
+      return [
 
-             'eco_com_states_list' => $eco_com_states_list,
-             'eco_com_types_list' => $eco_com_types_list,
-             'semester_list' => $semester_list,
-             'pension_entities_list' => $pension_entities_list,
-             'cities_list' => $cities_list,
-             'cities_list_short' => $cities_list_short,
-             'year' => Carbon::now()->year,
-             'semester' => $semester,
-             'year_list' => $year_list,
-             'report_type_list' => $report_type_list,
-             'new_cities_list' => $new_cities_list,
-             'all_semester_list' => $all_semester_list
+            'eco_com_states_list' => $eco_com_states_list,
+            'eco_com_types_list' => $eco_com_types_list,
+            'semester_list' => $semester_list,
+            'pension_entities_list' => $pension_entities_list,
+            'cities_list' => $cities_list,
+            'cities_list_short' => $cities_list_short,
+            'year' => Carbon::now()->year,
+            'semester' => $semester,
+            'year_list' => $year_list,
+            'report_type_list' => $report_type_list,
+            'new_cities_list' => $new_cities_list,
+            'all_semester_list' => $all_semester_list
 
-         ];
-     }
+        ];
+    }
 
     public function ReceptionFirstStep($affiliate_id)
     {
@@ -229,9 +229,7 @@ class EconomicComplementController extends Controller
 
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
-        $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
-
-        $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
+        $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->with('economic_complement_legal_guardian')->first();
 
         $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
 
@@ -247,7 +245,6 @@ class EconomicComplementController extends Controller
             'eco_com_type' => $eco_com_type->name,
             'economic_complement' => $economic_complement,
             'eco_com_applicant' => $eco_com_applicant,
-            'eco_com_legal_guardian' => $eco_com_legal_guardian,
             'gender_list' => $gender_list
 
         ];
@@ -323,6 +320,7 @@ class EconomicComplementController extends Controller
             $economic_complement->year = Util::datePickYear($data['year'], $data['semester']);
             $economic_complement->semester = $data['semester'];
             $economic_complement->eco_com_state_id = 1;
+            $economic_complement->user_id = Auth::user()->id;
         }
 
         // $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
@@ -335,6 +333,7 @@ class EconomicComplementController extends Controller
         if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }
 
         $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
+
         $economic_complement->eco_com_modality_id = $eco_com_modality->id;
         $economic_complement->category_id = $affiliate->category_id;
 
