@@ -40,7 +40,7 @@
                 <input type="hidden" name="type" value="create"/>
 
                 @if($economic_complement->economic_complement_modality->economic_complement_type->id > 1)
-                    @include('economic_complements.additional.affiliate_info')
+                    @include('economic_complements.additional.edit_affiliate_info')
                 @endif
 
                 <div class="box box-warning box-solid">
