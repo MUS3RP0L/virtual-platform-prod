@@ -104,7 +104,7 @@
                                         {!! Form::label('birth_date', 'Fecha de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
                             			<div class="input-group">
-                                            <input type="text" id="birth_date_mask" class="form-control" name="birth_date" value="{!! $eco_com_applicant->getEditBirthDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                            <input type="text" id="birth_date_appli_mask" class="form-control" name="birth_date" value="{!! $eco_com_applicant->getEditBirthDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                             <div class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </div>
@@ -169,7 +169,8 @@
         $(document).ready(function(){
             $('.combobox').combobox();
             $('[data-toggle="tooltip"]').tooltip();
-            $("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+            $("#birth_date_affi_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+            $("#birth_date_appli_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("#phone_number").inputmask();
             $("#phone_number_lg").inputmask();
             $("#cell_phone_number").inputmask();

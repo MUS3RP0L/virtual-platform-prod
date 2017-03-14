@@ -63,7 +63,7 @@
                         {!! Form::label('birth_date_affi', 'Fecha de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                     <div class="col-md-6">
                         <div class="input-group">
-                            <input type="text" id="birth_date_mask" class="form-control" name="birth_date_affi" value="{!! $affiliate->getEditBirthDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                            <input type="text" id="birth_date_affi_mask" class="form-control" name="birth_date_affi" value="{!! $affiliate->getEditBirthDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                             <div class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </div>
