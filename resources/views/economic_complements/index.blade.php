@@ -2,10 +2,10 @@
 
 @section('contentheader_title')
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-8">
             {!! Breadcrumbs::render('economic_complements') !!}
         </div>
-        <div class="col-md-2 text-right">
+        <div class="col-md-4 text-right">
             <div class="btn-group" style="margin:-3px 0;">
                 <a href="" class="btn btn-primary btn-raised" data-toggle="dropdown"><i class="glyphicon glyphicon-export"></i></a>
                 <a href="" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
@@ -509,7 +509,7 @@
                     d.affiliate_identitycard = $('input[name=affiliate_identitycard]').val();
                     d.creation_date = $('input[name=creation_date]').val();
                     d.eco_com_state_id = $('input[name=eco_com_state_id]').val();
-                    d.eco_com_modality_id = $('input[name=eco_com_modality_id]').val();
+                    d.eco_com_modality_id = $('select[name=eco_com_modality_id]').val();
                     d.post = $('input[name=post]').val();
                 }
             },

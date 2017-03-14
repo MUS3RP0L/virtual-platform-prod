@@ -42,15 +42,15 @@ class EconomicComplementModalityTableSeeder extends Seeder
     {
         $statuses = [
 
-            ['eco_com_type_id' => '1', 'name' => 'Normal', 'description' => 'Renta asociada con el (la) beneficiario (a) titular'],
-            ['eco_com_type_id' => '2', 'name' => 'Normal', 'description' => 'Renta sociada con el (la) viuda (o) del titular'],
-            ['eco_com_type_id' => '3', 'name' => 'Normal', 'description' => 'Renta asociada con el (la) huérfano (o) del titular'],
-            ['eco_com_type_id' => '1', 'name' => 'RENT-1COMP-VEJ', 'description' => 'Un solo componente'],
-            ['eco_com_type_id' => '2', 'name' => 'RENT-1COMP-VIU', 'description' => 'Un solo componente'],
-            ['eco_com_type_id' => '1', 'name' => 'RENT-1COM-M2000-VEJ', 'description' => 'Un solo componente y menor a Bs. 2000,00'],
-            ['eco_com_type_id' => '2', 'name' => 'RENT-1COM-M2000-VIU', 'description' => 'Un solo componente y menor a Bs. 2000,00'],
-            ['eco_com_type_id' => '1', 'name' => 'RENT-M2000-VEJ', 'description' => 'Renta menor a Bs. 2000,00'],
-            ['eco_com_type_id' => '2', 'name' => 'RENT-M2000-VIU', 'description' => 'Renta menor a Bs. 2000,00']
+            ['eco_com_type_id' => '1', 'shortened' => 'VEJEZ', 'name' =>'Renta normal', 'description' => 'Renta asociada con el (la) beneficiario (a) titular'],
+            ['eco_com_type_id' => '2', 'shortened' => 'VIUDEDAD', 'name' =>'Renta normal', 'description' => 'Renta sociada con el (la) viuda (o) del titular'],
+            ['eco_com_type_id' => '3', 'shortened' => 'ORFANDAD', 'name' =>'Renta normal', 'description' => 'Renta asociada con el (la) huérfano (o) del titular'],
+            ['eco_com_type_id' => '1', 'shortened' => 'RENT-1COMP-VEJ', 'name' =>'Renta un comp', 'description' => 'Un solo componente'],
+            ['eco_com_type_id' => '2', 'shortened' => 'RENT-1COMP-VIU', 'name' =>'Renta un comp', 'description' => 'Un solo componente'],
+            ['eco_com_type_id' => '1', 'shortened' => 'RENT-1COM-M2000-VEJ', 'name' =>'Renta un comp menor 2000', 'description' => 'Un solo componente y menor a Bs. 2000,00'],
+            ['eco_com_type_id' => '2', 'shortened' => 'RENT-1COM-M2000-VIU', 'name' =>'Renta un comp menor 2000', 'description' => 'Un solo componente y menor a Bs. 2000,00'],
+            ['eco_com_type_id' => '1', 'shortened' => 'RENT-M2000-VEJ', 'name' =>'Renta menor a 2000', 'description' => 'Renta menor a Bs. 2000,00'],
+            ['eco_com_type_id' => '2', 'shortened' => 'RENT-M2000-VIU', 'name' =>'Renta menor a 2000', 'description' => 'Renta menor a Bs. 2000,00']
 
         ];
 

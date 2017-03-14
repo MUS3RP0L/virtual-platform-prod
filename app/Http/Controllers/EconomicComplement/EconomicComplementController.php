@@ -64,7 +64,7 @@ class EconomicComplementController extends Controller
             $economic_complements->where(function($economic_complements) use ($request)
             {
                 $code = trim($request->get('code'));
-                $economic_complements->where('code', 'like', "%{$code}%");
+                $economic_complements->where('code', 'like', "{$code}");
             });
         }
         if ($request->has('creation_date'))
@@ -81,7 +81,11 @@ class EconomicComplementController extends Controller
             {
                 $affiliate_identitycard = trim($request->get('affiliate_identitycard'));
                 $affiliate = Affiliate::identitycardIs($affiliate_identitycard)->first();
-                $economic_complements->where('affiliate_id', 'like', "%{$affiliate->id}%");
+                if ($affiliate) {
+                    $economic_complements->where('affiliate_id', 'like', "{$affiliate->id}");
+                }else{
+                    $economic_complements->where('affiliate_id', 'like', "0");
+                }
             });
         }
         if ($request->has('eco_com_state_id'))
@@ -97,7 +101,9 @@ class EconomicComplementController extends Controller
             $economic_complements->where(function($economic_complements) use ($request)
             {
                 $eco_com_modality_id = trim($request->get('eco_com_modality_id'));
-                $economic_complements->where('eco_com_state_id', 'like', "%{$eco_com_modality_id}%");
+                if ($eco_com_modality_id >0) {
+                    $economic_complements->where('eco_com_modality_id', 'like', "{$eco_com_modality_id}");
+                }
             });
         }
         return Datatables::of($economic_complements)
@@ -105,7 +111,7 @@ class EconomicComplementController extends Controller
                 ->addColumn('affiliate_name', function ($economic_complement) { return $economic_complement->affiliate->getTittleName(); })
                 ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
                 ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state->name; })
-                ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->name; })
+                ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
                 ->addColumn('action', function ($economic_complement) { return
                     '<div class="btn-group" style="margin:-3px 0;">
                         <a href="economic_complement/'.$economic_complement->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
@@ -208,13 +214,16 @@ class EconomicComplementController extends Controller
         if (!$economic_complement) {
             $economic_complement = new EconomicComplement;
             $eco_com_type = false;
+            $eco_com_modality = false;
         }else{
             $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->id;
+            $eco_com_modality = $economic_complement->economic_complement_modality->name;
         }
 
         $data = [
             'affiliate' => $affiliate,
             'eco_com_type' => $eco_com_type,
+            'eco_com_modality' => $eco_com_modality,
             'economic_complement' => $economic_complement
         ];
 
@@ -232,6 +241,8 @@ class EconomicComplementController extends Controller
         $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->with('economic_complement_legal_guardian')->first();
 
         $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
+        $eco_com_modality = $economic_complement->economic_complement_modality;
+
 
         if ($eco_com_applicant->gender == 'M') {
             $gender_list = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
@@ -243,6 +254,7 @@ class EconomicComplementController extends Controller
 
             'affiliate' => $affiliate,
             'eco_com_type' => $eco_com_type->name,
+            'eco_com_modality' => $eco_com_modality->name,
             'economic_complement' => $economic_complement,
             'eco_com_applicant' => $eco_com_applicant,
             'gender_list' => $gender_list
@@ -262,6 +274,8 @@ class EconomicComplementController extends Controller
 
         $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
 
+        $eco_com_modality = $economic_complement->economic_complement_modality;
+
         $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
 
         $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($economic_complement->id)->get();
@@ -277,6 +291,7 @@ class EconomicComplementController extends Controller
             'affiliate' => $affiliate,
             'economic_complement' => $economic_complement,
             'eco_com_type' => $eco_com_type->name,
+            'eco_com_modality' => $eco_com_modality->name,
             'eco_com_requirements' => $eco_com_requirements,
             'eco_com_submitted_documents' => $eco_com_submitted_documents,
             'status_documents' => $status_documents

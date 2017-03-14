@@ -25,6 +25,7 @@ class CreateEconomicComplementsTable extends Migration
             $table->bigIncrements('id');
             $table->UnsignedBigInteger('eco_com_type_id');
             $table->string('name');
+            $table->string('shortened');
             $table->string('description');
             $table->timestamps();
             $table->foreign('eco_com_type_id')->references('id')->on('eco_com_types');
