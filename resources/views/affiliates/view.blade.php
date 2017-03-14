@@ -54,7 +54,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <div class="box box-warning">
+            <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-10">
@@ -62,8 +62,8 @@
                         </div>
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                <a href="" class="btn btn-raised btn-xs btn-primary" data-toggle="modal" data-target="#myModal-personal">&nbsp;&nbsp;
-                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-personal">
+                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
                                 </a>
                             </div>
                         </div>
@@ -272,7 +272,7 @@
                 </div>
             </div>
 
-            <div class="box box-warning">
+            <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-10">
@@ -281,8 +281,8 @@
                         @if($info_address)
                             <div class="col-md-2 text-right">
                                 <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                    <a href="" class="btn btn-raised btn-xs btn-primary" data-toggle="modal" data-target="#myModal-address">&nbsp;&nbsp;
-                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-address">
+                                        <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
                                     </a>
                                 </div>
                             </div>
@@ -366,7 +366,7 @@
                 </div>
             </div>
 
-            <div class="box box-warning">
+            <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-10">
@@ -375,8 +375,8 @@
                         @if($info_spouse)
                             <div class="col-md-2 text-right">
                                 <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                    <a href="" class="btn btn-raised btn-xs btn-primary" data-toggle="modal" data-target="#myModal-spouse">&nbsp;&nbsp;
-                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-spouse">
+                                        <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
                                     </a>
                                 </div>
                             </div>
@@ -518,7 +518,7 @@
         </div>
 
         <div class="col-md-6">
-            <div class="box box-warning">
+            <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-10">
@@ -526,8 +526,8 @@
                         </div>
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Ver Historial">
-                                <a href="" class="btn btn-raised btn-xs btn-primary" data-toggle="modal" data-target="#myModal-record">&nbsp;&nbsp;
-                                    <span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span>&nbsp;&nbsp;
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-record">
+                                    <span class="fa fa-lg fa-clock-o" aria-hidden="true"></span>
                                 </a>
                             </div>
                         </div>
@@ -663,51 +663,84 @@
 
                 </div>
             </div>
+            <div class="box box-success box-solid">
 
-            <div class="box box-warning">
-                <div class="box-header with-border">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h3 class="box-title"><span class="glyphicon glyphicon-usd"></span> Aportes</h3>
-                        </div>
-                        <div class="col-md-6">
-                            <h3 class="panel-title" style="text-align: right">Bolivianos</h3>
-                        </div>
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab_1" data-toggle="tab">&nbsp;<i class='fa fa-fw fa-arrow-circle-down fa-lg' aria-hidden="true"></i>&nbsp;</a></li>
+                    <li><a href="#tab_2" data-toggle="tab">&nbsp;<i class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></i>&nbsp;</a></li>
+                    <li><a href="#tab_3" data-toggle="tab">&nbsp;<i class="fa fa-fw fa-puzzle-piece fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
+                    <li><a href="#tab_4" data-toggle="tab">&nbsp;<i class="fa fa-fw fa-heartbeat fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1">
+                        <h4 class="box-title">Aportes</h4>
+
+                        <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+                            <tr>
+                                <td style="width: 70%">Ganado</td>
+                                <td style="text-align: right">{{ $total_gain }}</td>
+                            </tr>
+                            <tr>
+                                <td style="width: 70%">Bono de Seguridad Ciudadana</td>
+                                <td style="text-align: right">{{ $total_public_security_bonus }}</td>
+                            </tr>
+                            <tr>
+                                <td style="width: 70%">Cotizable</td>
+                                <td style="text-align: right">{{ $total_quotable }}</td>
+                            </tr>
+                            <tr>
+                                <td style="width: 70%">Aporte Fondo de Retiro</td>
+                                <td style="text-align: right">{{ $total_retirement_fund }}</td>
+                            </tr>
+                            <tr>
+                                <td style="width: 70%">Aporte Cuota o Auxilio Mortuorio</td>
+                                <td style="text-align: right">{{ $total_mortuary_quota }}</td>
+                            </tr>
+                            <tr class="active">
+                                <td style="width: 70%">Aporte Muserpol</td>
+                                <td style="text-align: right">{{ $total }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="tab_2">
+
+                        @if(!$info_spouse)
+                            registros
+                        @else
+                            <div class="row text-center">
+                                <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
+                                <h4 class="box-title">No hay registros</h4>
+                            </div>
+                        @endif
+
+                    </div>
+                    <div class="tab-pane" id="tab_3">
+
+                        @if(!$info_spouse)
+                            registros
+                        @else
+                            <div class="row text-center">
+                                <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
+                                <h4 class="box-title">No hay registros</h4>
+                            </div>
+                        @endif
+
+                    </div>
+                    <div class="tab-pane" id="tab_4">
+
+                        @if(!$info_spouse)
+                            registros
+                        @else
+                            <div class="row text-center">
+                                <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
+                                <h4 class="box-title">No hay registros</h4>
+                            </div>
+                        @endif
+
                     </div>
                 </div>
-                <div class="box-body">
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
-                                <tr>
-                                    <td style="width: 70%">Ganado</td>
-                                    <td style="text-align: right">{{ $total_gain }}</td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 70%">Bono de Seguridad Ciudadana</td>
-                                    <td style="text-align: right">{{ $total_public_security_bonus }}</td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 70%">Cotizable</td>
-                                    <td style="text-align: right">{{ $total_quotable }}</td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 70%">Aporte Fondo de Retiro</td>
-                                    <td style="text-align: right">{{ $total_retirement_fund }}</td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 70%">Aporte Cuota o Auxilio Mortuorio</td>
-                                    <td style="text-align: right">{{ $total_mortuary_quota }}</td>
-                                </tr>
-                                <tr class="active">
-                                    <td style="width: 70%">Aporte Muserpol</td>
-                                    <td style="text-align: right">{{ $total }}</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            </div>
             </div>
         </div>
     </div>
