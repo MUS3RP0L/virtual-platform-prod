@@ -940,7 +940,7 @@ class EconomicComplementController extends Controller
             }
     }
 
-    public function report_generator(Request $request)
+    public function report_generator2(Request $request)
     {
             if($request->has('type')) {
                 switch ($request->type) {
@@ -1072,7 +1072,7 @@ class EconomicComplementController extends Controller
                 }
             }
     }
-    
+
     public function index_report_generator()
     {
         return view('economic_complements.print.report_generator', self::getViewModel());
