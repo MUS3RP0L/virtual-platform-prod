@@ -645,8 +645,7 @@ class EconomicComplementController extends Controller
                             $affiliate->phone_number = $request->phone_number;
                             $affiliate->cell_phone_number = $request->cell_phone_number;
                             $affiliate->nua = $request->nua;
-                            $spouse = Spouse::affiliateidIs($affiliate->id)->first();
-                            $spouse->save();
+                            $affiliate->save();
 
                         break;
                         }
