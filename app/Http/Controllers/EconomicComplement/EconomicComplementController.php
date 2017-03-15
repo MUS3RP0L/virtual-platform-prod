@@ -756,6 +756,36 @@ class EconomicComplementController extends Controller
                 }
 
             break;
+
+            case 'pass':
+
+                $rules = [
+
+                ];
+
+                $messages = [
+
+                ];
+
+                $validator = Validator::make($request->all(), $rules, $messages);
+
+                if ($validator->fails()){
+                    return redirect('economic_complement/' . $economic_complement->id)
+                    ->withErrors($validator)
+                    ->withInput();
+                }
+                else{
+
+                    $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+                    $economic_complement->eco_com_state_id = 2;
+                    $economic_complement->review_date = date('Y-m-d');
+                    $economic_complement->save();
+
+                    return redirect('economic_complement/'.$economic_complement->id);
+
+                }
+
+            break;
         }
 
 
