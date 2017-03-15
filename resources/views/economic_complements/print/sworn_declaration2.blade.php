@@ -26,7 +26,7 @@ Formulario Nº 2
   <th class="info" style="text-align:center;"><h4> {!! $eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->name !!}</h4></th>
   <th class="info" style="text-align:center;"><h4>{!! $affiliate->nua !!}</h4></th>
 
-  </tr
+  </tr>
 
 </table>
 <table>
@@ -42,7 +42,7 @@ Formulario Nº 2
 
   </tr>
   <tr>
-  <th class="info" style="text-align:center;"><h4>{!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card->shortened !!} </h4></th>
+  <th class="info" style="text-align:center;"><h4>{!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card ? $affiliate->city_identity_card->shortened : '' !!} </h4></th>
   <th class="info" style="text-align:center;"><h4>{!! $affiliate->getTittleNamePrint() !!}</h4></th>
   <th class="info" style="text-align:center;width: 16%;"><h4>{!! $affiliate->getShortBirthDate() !!}</h4></th>
   <th class="info" style="text-align:center;"><h4>{!! $economic_complement->economic_complement_modality->economic_complement_type->name !!}</h4></th>

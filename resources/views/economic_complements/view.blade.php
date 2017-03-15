@@ -3,17 +3,20 @@
 @section('contentheader_title')
 
 	<div class="row">
-		<div class="col-md-10">
+		<div class="col-md-6">
 			{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
 		</div>
-		<div class="col-md-2 text-right">
-			<a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="top" data-original-title="Atrás">
-				&nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;
-			</a>
+		<div class="col-md-6">
+	        <div class="btn-group" data-toggle="tooltip" data-placement="bottom" data-original-title="Imprimir Declaración Jurada" style="margin:0px;">
+	            <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
+	                &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+	            </a>
+	        </div>
+			
 		</div>
 	</div>
 
-@endsection<div class="box box-success box-solid">
+@endsection
 
 @section('main-content')
 
@@ -384,6 +387,11 @@
 										</tr>
 									</tbody>
 								</table>
+							@else
+								<div class="row text-center">
+	                                <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
+	                                <h4 class="box-title">No hay registros</h4>
+	                            </div>
 							@endif
                         </div>
 					</div>
@@ -567,10 +575,25 @@
 	    </div>
 	</div>
 
+	<div class="modal fade" tabindex="-1" >
+
+		@if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
+        	<iframe src="{!! url('print_sworn_declaration2/' . $economic_complement->id) !!}" id="iFramePdf"></iframe>
+		@else
+        	<iframe src="{!! url('print_sworn_declaration1/' . $economic_complement->id) !!}" id="iFramePdf"></iframe>
+        @endif
+    </div>
+
 @endsection
 
 @push('scripts')
 <script>
+
+	function printTrigger(elementId) {
+        var getMyFrame = document.getElementById(elementId);
+        getMyFrame.focus();
+        getMyFrame.contentWindow.print();
+    }
 
 	$(document).ready(function(){
 		$('.combobox').combobox();
