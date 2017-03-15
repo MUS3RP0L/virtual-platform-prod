@@ -8,7 +8,7 @@
         </div>
         <div class="col-md-6">
 
-            <div class="btn-group" style="margin:-3px 0;">
+            <div class="btn-group" data-toggle="tooltip" data-placement="bottom" data-original-title="Aportes" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="{!! url('show_contributions/' . $affiliate->id) !!}" class="text-center"><i class="glyphicon glyphicon-eye-open"></i>Ver</a></li>
@@ -17,28 +17,28 @@
                 </ul>
             </div>
 
-            <div class="btn-group" style="margin:-3px 0;">
+            <div class="btn-group" data-toggle="tooltip" data-placement="bottom" data-original-title="Préstamos" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-money fa-lg"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
 
-            <div class="btn-group" style="margin:-3px 0;">
+            <div class="btn-group" data-toggle="tooltip" data-placement="bottom" data-original-title="Fondo Retiro" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="glyphicon glyphicon-piggy-bank"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
 
-            <div class="btn-group" style="margin:-3px 0;">
+            <div class="btn-group" data-toggle="tooltip" data-placement="bottom" data-original-title="Complemento Económico" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="{!! url('economic_complement_reception_first_step/' . $affiliate->id) !!}"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
 
-            <div class="btn-group" style="margin:-3px 0;">
+            <div class="btn-group" data-toggle="tooltip" data-placement="bottom" data-original-title="Cuota Auxilio" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-heartbeat fa-lg"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
@@ -674,9 +674,10 @@
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#tab_1" data-toggle="tab">&nbsp;<i class='fa fa-fw fa-arrow-circle-down fa-lg' aria-hidden="true"></i>&nbsp;</a></li>
-                    <li><a href="#tab_2" data-toggle="tab">&nbsp;<i class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></i>&nbsp;</a></li>
-                    <li><a href="#tab_3" data-toggle="tab">&nbsp;<i class="fa fa-fw fa-puzzle-piece fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
-                    <li><a href="#tab_4" data-toggle="tab">&nbsp;<i class="fa fa-fw fa-heartbeat fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
+                    <li><a href="#tab_2" data-toggle="tab">&nbsp;<i class="fa fa-fw fa-money fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
+                    <li><a href="#tab_3" data-toggle="tab">&nbsp;<i class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></i>&nbsp;</a></li>
+                    <li><a href="#tab_4" data-toggle="tab">&nbsp;<i class="fa fa-fw fa-puzzle-piece fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
+                    <li><a href="#tab_5" data-toggle="tab">&nbsp;<i class="fa fa-fw fa-heartbeat fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab_1">
@@ -711,26 +712,26 @@
                     </div>
                     <div class="tab-pane" id="tab_2">
 
-                        @if(!$info_spouse)
+                        {{-- @if(!)
                             registros
-                        @else
+                        @else --}}
                             <div class="row text-center">
                                 <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
-                                <h4 class="box-title">No hay registros</h4>
+                                <h4 class="box-title">No hay registros de Préstamos</h4>
                             </div>
-                        @endif
+                        {{-- @endif --}}
 
                     </div>
                     <div class="tab-pane" id="tab_3">
 
-                        @if(!$info_spouse)
+                        {{-- @if(!)
                             registros
-                        @else
+                        @else --}}
                             <div class="row text-center">
                                 <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
-                                <h4 class="box-title">No hay registros</h4>
+                                <h4 class="box-title">No hay registros de Fondo de Retiro</h4>
                             </div>
-                        @endif
+                        {{-- @endif --}}
 
                     </div>
                     <div class="tab-pane" id="tab_4">
@@ -743,6 +744,18 @@
                                 <h4 class="box-title">No hay registros</h4>
                             </div>
                         @endif
+
+                    </div>
+                    <div class="tab-pane" id="tab_5">
+
+                        {{-- @if(!$info_spouse)
+                            registros
+                        @else --}}
+                            <div class="row text-center">
+                                <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
+                                <h4 class="box-title">No hay registros de Cuota, Auxilio Mortuorio</h4>
+                            </div>
+                        {{-- @endif --}}
 
                     </div>
                 </div>
