@@ -110,7 +110,7 @@ class EconomicComplementController extends Controller
                 ->addColumn('affiliate_identitycard', function ($economic_complement) { return $economic_complement->affiliate->identity_card; })
                 ->addColumn('affiliate_name', function ($economic_complement) { return $economic_complement->affiliate->getTittleName(); })
                 ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
-                ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state->name; })
+                ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name; })
                 ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
                 ->addColumn('action', function ($economic_complement) { return
                     '<div class="btn-group" style="margin:-3px 0;">
@@ -388,6 +388,14 @@ class EconomicComplementController extends Controller
             $gender_list = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
         }
 
+        $eco_com_states_block = EconomicComplementState::all();
+        $eco_com_states_block_list =  ['' => ''];
+        foreach ($eco_com_states_block as $item) {
+            if($item->eco_com_state_type_id > 4){
+            $eco_com_states_block_list[$item->id]=$item->name;
+            }
+        }
+
         $data = [
 
             'affiliate' => $affiliate,
@@ -397,7 +405,9 @@ class EconomicComplementController extends Controller
             'eco_com_requirements' => $eco_com_requirements,
             'eco_com_submitted_documents' => $eco_com_submitted_documents,
             'status_documents' => $status_documents,
-            'gender_list' => $gender_list
+            'gender_list' => $gender_list,
+            'eco_com_states_block_list' => $eco_com_states_block_list
+
 
         ];
 
@@ -710,6 +720,35 @@ class EconomicComplementController extends Controller
 
                     $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
                     $economic_complement->reception_date = date('Y-m-d');
+                    $economic_complement->save();
+
+                    return redirect('economic_complement/'.$economic_complement->id);
+
+                }
+
+            break;
+
+            case 'block':
+
+                $rules = [
+
+                ];
+
+                $messages = [
+
+                ];
+
+                $validator = Validator::make($request->all(), $rules, $messages);
+
+                if ($validator->fails()){
+                    return redirect('economic_complement/' . $economic_complement->id)
+                    ->withErrors($validator)
+                    ->withInput();
+                }
+                else{
+
+                    $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+                    $economic_complement->eco_com_state_id = $request->eco_com_state_id;
                     $economic_complement->save();
 
                     return redirect('economic_complement/'.$economic_complement->id);

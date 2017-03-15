@@ -12,7 +12,7 @@
 	                &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
 	            </a>
 	        </div>
-			
+
 		</div>
 	</div>
 
@@ -28,8 +28,15 @@
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-10">
                             <h3 class="box-title"><span class="glyphicon glyphicon-info-sign"></span> Información Adicional</h3>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-block">&nbsp;&nbsp;
+                                    <span class="fa fa-lg fa-exclamation-triangle" aria-hidden="true"></span>&nbsp;&nbsp;
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -575,6 +582,44 @@
 	    </div>
 	</div>
 
+	<div id="myModal-block" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Suspender o Excluir</h4>
+                </div>
+                <div class="modal-body">
+                    {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
+						<input type="hidden" name="step" value="block"/>
+						<div class="row">
+							<div class="col-md-10">
+								<div class="form-group">
+                                    {!! Form::label('eco_com_state_id', 'Estado', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::select('eco_com_state_id', $eco_com_states_block_list, '', ['class' => 'combobox form-control']) !!}
+                                        <span class="help-block">Seleccione Estado</span>
+                                    </div>
+                                </div>
+							</div>
+						</div>
+						<br>
+						<div class="row text-center">
+							<div class="form-group">
+								<div class="col-md-12">
+									<a href="{!! url('economic_complement/' . $economic_complement->id) !!}" data-target="#" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
+									&nbsp;&nbsp;&nbsp;
+									<button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
+								</div>
+							</div>
+						</div>
+					{!! Form::close() !!}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 	<div class="modal fade" tabindex="-1" >
 
 		@if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
@@ -582,6 +627,7 @@
 		@else
         	<iframe src="{!! url('print_sworn_declaration1/' . $economic_complement->id) !!}" id="iFramePdf"></iframe>
         @endif
+
     </div>
 
 @endsection
