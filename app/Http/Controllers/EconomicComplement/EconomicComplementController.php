@@ -611,7 +611,7 @@ class EconomicComplementController extends Controller
                             $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
                             $affiliate->identity_card = $request->identity_card_affi;
-                            if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id_affi; } else { $affiliate->city_identity_card_id = null; }
+                            if ($request->city_identity_card_id_affi) { $affiliate->city_identity_card_id = $request->city_identity_card_id_affi; } else { $affiliate->city_identity_card_id = null; }
                             $affiliate->last_name = $request->last_name_affi;
                             $affiliate->mothers_last_name = $request->mothers_last_name_affi;
                             $affiliate->first_name = $request->first_name_affi;

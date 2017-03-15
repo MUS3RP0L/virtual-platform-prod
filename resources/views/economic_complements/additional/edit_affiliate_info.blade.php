@@ -17,7 +17,7 @@
                             {!! Form::text('identity_card_affi', $affiliate->identity_card, ['class'=> 'form-control', 'required']) !!}
                             <span class="help-block">Número de CI</span>
                         </div>
-                            {!! Form::select('city_identity_card_id_lg', $cities_list_short, $affiliate->city_identity_card_id, ['class' => 'col-md-2 combobox form-control', 'required']) !!}
+                            {!! Form::select('city_identity_card_id_affi', $cities_list_short, $affiliate->city_identity_card_id, ['class' => 'col-md-2 combobox form-control', 'required']) !!}
                     </div>
                 </div>
                 <div class="form-group">
