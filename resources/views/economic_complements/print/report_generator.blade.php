@@ -30,7 +30,7 @@
                                     <div class="form-group">
                                         {!! Form::label('city', 'Regional', ['class' => 'col-md-4 control-label']) !!}
                                         <div class="col-md-7">
-                                            {!! Form::select('city', $new_cities_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
+                                            {!! Form::select('city',$cities_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
                                             <span class="help-block">Seleccione Regional</span>
                                         </div>
                                     </div>
@@ -49,7 +49,7 @@
                                     <div class="form-group">
                                         {!! Form::label('semester', 'Semestre', ['class' => 'col-md-4 control-label']) !!}
                                         <div class="col-md-7">
-                                            {!! Form::select('semester', $all_semester_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
+                                            {!! Form::select('semester', $semester_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
                                             <span class="help-block">Seleccione Semestre</span>
                                         </div>
                                     </div>

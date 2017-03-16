@@ -136,8 +136,10 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('print_sworn_declaration2/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_sworn_declaration2');
 	Route::get('print_inclusion_solicitude/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_inclusion_solicitude');
 	Route::get('print_pay_solicitude/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_pay_solicitude');
-	Route::get('index_report_generator', array('as'=>'index_report_generator', 'uses'=> 'EconomicComplement\EconomicComplementController@index_report_generator'));
-	Route::post('report_generator', array('as'=>'report_generator', 'uses'=> 'EconomicComplement\EconomicComplementController@report_generator'));
+
+	Route::resource('report_complement', 'EconomicComplement\ReportEconomicComplementController');
+	//Route::get('index_report_generator', array('as'=>'index_report_generator', 'uses'=> 'EconomicComplement\EconomicComplementController@index_report_generator'));
+	Route::post('report_generator', array('as'=>'report_generator', 'uses'=> 'EconomicComplement\ReportEconomicComplementController@report_generator'));
 
 	Route::resource('importexport', 'EconomicComplement\ImportExportController');
 	Route::post('import_senasir', array('as'=>'import_senasir', 'uses'=> 'EconomicComplement\ImportExportController@import_from_senasir'));

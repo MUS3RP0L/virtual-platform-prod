@@ -94,7 +94,7 @@
                                             <table class="table">
                                                 <tr>
                                                     <td>
-                                                        <span class="glyphicon glyphicon-print"></span><a href="{!! url('index_report_generator') !!}"> Parametrizada</a>
+                                                        <span class="glyphicon glyphicon-print"></span><a href="{!! url('report_complement') !!}"> Parametrizada</a>
                                                     </td>
                                                 </tr>
 
