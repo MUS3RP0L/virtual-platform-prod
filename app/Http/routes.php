@@ -137,16 +137,15 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('print_inclusion_solicitude/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_inclusion_solicitude');
 	Route::get('print_pay_solicitude/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_pay_solicitude');
 
-	Route::resource('report_complement', 'EconomicComplement\ReportEconomicComplementController');
-	//Route::get('index_report_generator', array('as'=>'index_report_generator', 'uses'=> 'EconomicComplement\EconomicComplementController@index_report_generator'));
-	Route::post('report_generator', array('as'=>'report_generator', 'uses'=> 'EconomicComplement\ReportEconomicComplementController@report_generator'));
+	Route::resource('report_complement', 'EconomicComplement\EconomicComplementReportController');
+	Route::post('report_generator', array('as'=>'report_generator', 'uses'=> 'EconomicComplement\EconomicComplementReportController@report_generator'));
 
-	Route::resource('importexport', 'EconomicComplement\ImportExportController');
-	Route::post('import_senasir', array('as'=>'import_senasir', 'uses'=> 'EconomicComplement\ImportExportController@import_from_senasir'));
-	Route::post('import_aps', array('as'=>'import_aps', 'uses'=> 'EconomicComplement\ImportExportController@import_from_aps'));
-	Route::post('import_bank', array('as'=>'import_bank', 'uses'=> 'EconomicComplement\ImportExportController@import_from_bank'));
-	Route::post('export_aps', array('as'=>'export_aps', 'uses'=> 'EconomicComplement\ImportExportController@export_to_aps'));
-	Route::post('export_bank', array('as'=>'export_bank', 'uses'=> 'EconomicComplement\ImportExportController@export_to_bank'));
+	Route::resource('importexport', 'EconomicComplement\EconomicComplementImportExportController');
+	Route::post('import_senasir', array('as'=>'import_senasir', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@import_from_senasir'));
+	Route::post('import_aps', array('as'=>'import_aps', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@import_from_aps'));
+	Route::post('import_bank', array('as'=>'import_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@import_from_bank'));
+	Route::post('export_aps', array('as'=>'export_aps', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_aps'));
+	Route::post('export_bank', array('as'=>'export_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_bank'));
 
 });
 

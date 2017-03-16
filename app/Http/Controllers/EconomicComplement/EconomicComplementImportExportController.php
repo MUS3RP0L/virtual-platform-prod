@@ -18,7 +18,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Muserpol\Affiliate;
 use Muserpol\EconomicComplement;
 
-class ImportExportController extends Controller
+class EconomicComplementImportExportController extends Controller
 {
 
     public function index()

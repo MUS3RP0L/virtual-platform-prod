@@ -32,7 +32,7 @@ use Muserpol\Degree;
 use Muserpol\Unit;
 use DB;
 
-class ReportEconomicComplementController extends Controller
+class EconomicComplementReportController extends Controller
 {
 
     public function index()
