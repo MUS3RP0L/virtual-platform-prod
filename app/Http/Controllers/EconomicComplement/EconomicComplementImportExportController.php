@@ -160,11 +160,11 @@ class EconomicComplementImportExportController extends Controller
                      {
                         $ecomplement->eco_com_modality_id = 4;
                      }
-                     else if ($comp == 1 && $datos->total_pension < 2000 && $ecomplement->eco_com_modality_id == 1)
+                     elseif ($comp == 1 && $datos->total_pension < 2000 && $ecomplement->eco_com_modality_id == 1)
                      {
                         $ecomplement->eco_com_modality_id = 6;
                      }
-                     else if ($datos->total_pension < 2000 && $ecomplement->eco_com_modality_id == 1)
+                     elseif ($datos->total_pension < 2000 && $ecomplement->eco_com_modality_id == 1)
                      {
                         $ecomplement->eco_com_modality_id = 8;
                      }
