@@ -138,8 +138,47 @@ class EconomicComplementImportExportController extends Controller
               ->whereNull('economic_complements.deleted_at')->first();
               if ($afi){
                   //return response()->json($afi);
+                  $comp1 = 0;
+                  $comp2 = 0;
+                  $comp3 = 0;
+                  if ($datos->total_cc > 0) {
+                      $comp1 = 1;
+                  }
+                  if ($datos->total_fsa > 0) {
+                      $comp2 = 1;
+                  }
+                  if($datos->total_fs > 0) {
+                      $comp3 = 1;
+                  }
+                  $comp = $comp1 + $comp2 + $comp3;
                   $ecomplement = EconomicComplement::where('id','=', $afi->id)->first();
                   $ecomplement->total = $datos->total_pension;
+                  //Vejez
+                 if ($ecomplement->eco_com_modality_id == 1)
+                 {
+                     if ($comp == 1 && $datos->total_pension >= 2000 && $ecomplement->eco_com_modality_id == 1 )
+                     {
+                        $ecomplement->eco_com_modality_id = 4;
+                     }
+                     else if ($comp == 1 && $datos->total_pension < 2000 && $ecomplement->eco_com_modality_id == 1)
+                     {
+                        $ecomplement->eco_com_modality_id = 6;
+                     }
+                     else if ($datos->total_pension < 2000 && $ecomplement->eco_com_modality_id == 1)
+                     {
+                        $ecomplement->eco_com_modality_id = 8;
+                     }
+                 }
+                 //Viudedad
+                 if ($ecomplement->eco_com_modality_id == 2) {
+                     if($comp == 1 && $datos->total_pension >= 2000 && $ecomplement->eco_com_modality_id == 2) {
+                         $ecomplement->eco_com_modality_id = 5;
+                     } elseif ($comp == 1 && $datos->total_pension < 2000 && $ecomplement->eco_com_modality_id == 2) {
+                          $ecomplement->eco_com_modality_id = 7;
+                     } elseif ($datos->total_pension < 2000 && $ecomplement->eco_com_modality_id == 2) {
+                         $ecomplement->eco_com_modality_id = 9;
+                     }
+                 }
                   $ecomplement->save();
                   $affiliates = Affiliate::where('id', '=', $afi->affiliate_id)->first();
                   if ($datos->afpea == "01") {
