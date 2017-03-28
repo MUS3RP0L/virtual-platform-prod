@@ -164,7 +164,7 @@ class EconomicComplementImportExportController extends Controller
                      {
                         $ecomplement->eco_com_modality_id = 6;
                      }
-                     elseif ($datos->total_pension < 2000 && $ecomplement->eco_com_modality_id == 1)
+                     elseif ($comp > 1 && $datos->total_pension < 2000 && $ecomplement->eco_com_modality_id == 1)
                      {
                         $ecomplement->eco_com_modality_id = 8;
                      }
@@ -175,7 +175,7 @@ class EconomicComplementImportExportController extends Controller
                          $ecomplement->eco_com_modality_id = 5;
                      } elseif ($comp == 1 && $datos->total_pension < 2000 && $ecomplement->eco_com_modality_id == 2) {
                           $ecomplement->eco_com_modality_id = 7;
-                     } elseif ($datos->total_pension < 2000 && $ecomplement->eco_com_modality_id == 2) {
+                     } elseif ($comp > 1 && $datos->total_pension < 2000 && $ecomplement->eco_com_modality_id == 2) {
                          $ecomplement->eco_com_modality_id = 9;
                      }
                  }
