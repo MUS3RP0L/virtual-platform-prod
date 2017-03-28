@@ -59,7 +59,14 @@ class EconomicComplementImportExportController extends Controller
                 ->where('economic_complements.eco_com_state_id', '=', 2)->first();
             if ($afi){
                 $ecomplement = EconomicComplement::where('affiliate_id','=', $afi->affiliate_id)->whereYear('review_date','=', $afi->review_date)->where('semester','=', $afi->semester)->where('eco_com_state_id','=', $afi->eco_com_state_id)->first();
-                $ecomplement->sub_total_rent = $datos->total_ganado;
+                if($ecomplement->eco_com_modality_id == 1 && $datos->total_ganado < 2000)  //Vejez Senasir
+                {
+                    $ecomplement->eco_com_modality_id = 8;
+                } elseif ($ecomplement->eco_com_modality_id == 2 && $datos->total_ganado < 2000) {  //Viudedad
+                    $ecomplement->eco_com_modality_id = 9;
+                } elseif ($ecomplement->eco_com_modality_id == 3 && $datos->total_ganado < 2000) {  //Orfandad
+                    $ecomplement->eco_com_modality_id = 8;
+                }
                 $ecomplement->reimbursement_basic_pension = $datos->rentegro_r_basica;
                 $ecomplement->dignity_pension = $datos->renta_dignidad;
                 $ecomplement->dignity_pension_reimbursement = $datos->reintegro_renta_dignidad;
@@ -67,8 +74,8 @@ class EconomicComplementImportExportController extends Controller
                 $ecomplement->bonus_reimbursement = $datos->reintegro_aguinaldo;
                 $ecomplement->reimbursement_aditional_amount = $datos->reintegro_importe_adicional;
                 $ecomplement->reimbursement_increase_year = $datos->reintegro_inc_gestion;
-                $reimbursements = $datos->rentegro_r_basica + $datos->renta_dignidad + $datos->reintegro_renta_dignidad +  $datos->aguinaldo_renta_dignidad + $datos->reintegro_aguinaldo + $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
-                $ecomplement->total = $datos->total_ganado - $reimbursements;
+                //$reimbursements = $datos->rentegro_r_basica + $datos->renta_dignidad + $datos->reintegro_renta_dignidad +  $datos->aguinaldo_renta_dignidad + $datos->reintegro_aguinaldo + $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
+                $ecomplement->total = $datos->total_ganado;
                 $ecomplement->save();
                 $affiliates = Affiliate::where('id','=', $afi->affiliate_id)->first();
                 $affiliates->pension_entity_id = 5;
@@ -154,28 +161,28 @@ class EconomicComplementImportExportController extends Controller
                   $ecomplement = EconomicComplement::where('id','=', $afi->id)->first();
                   $ecomplement->total = $datos->total_pension;
                   //Vejez
-                 if ($ecomplement->eco_com_modality_id == 1)
+                 if ($ecomplement->eco_com_modality_id == 1 || $ecomplement->eco_com_modality_id == 3)
                  {
-                     if ($comp == 1 && $datos->total_pension >= 2000 && $ecomplement->eco_com_modality_id == 1 )
+                     if ($comp == 1 && $datos->total_pension >= 2000)
                      {
                         $ecomplement->eco_com_modality_id = 4;
                      }
-                     elseif ($comp == 1 && $datos->total_pension < 2000 && $ecomplement->eco_com_modality_id == 1)
+                     elseif ($comp == 1 && $datos->total_pension < 2000)
                      {
                         $ecomplement->eco_com_modality_id = 6;
                      }
-                     elseif ($comp > 1 && $datos->total_pension < 2000 && $ecomplement->eco_com_modality_id == 1)
+                     elseif ($comp > 1 && $datos->total_pension < 2000)
                      {
                         $ecomplement->eco_com_modality_id = 8;
                      }
                  }
                  //Viudedad
                  if ($ecomplement->eco_com_modality_id == 2) {
-                     if($comp == 1 && $datos->total_pension >= 2000 && $ecomplement->eco_com_modality_id == 2) {
+                     if($comp == 1 && $datos->total_pension >= 2000) {
                          $ecomplement->eco_com_modality_id = 5;
-                     } elseif ($comp == 1 && $datos->total_pension < 2000 && $ecomplement->eco_com_modality_id == 2) {
+                     } elseif ($comp == 1 && $datos->total_pension < 2000) {
                           $ecomplement->eco_com_modality_id = 7;
-                     } elseif ($comp > 1 && $datos->total_pension < 2000 && $ecomplement->eco_com_modality_id == 2) {
+                     } elseif ($comp > 1 && $datos->total_pension < 2000 ) {
                          $ecomplement->eco_com_modality_id = 9;
                      }
                  }
