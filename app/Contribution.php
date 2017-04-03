@@ -91,8 +91,9 @@ class Contribution extends Model
     public function scopeAfiContribution($query, $year)
     {
         return $query = DB::table('contributions')
-                    ->select(DB::raw('SUM(contributions.total) total, year(contributions.month_year) as month_year'))
-                    ->whereYear('contributions.month_year', '=', $year);
+            ->select(DB::raw('SUM(contributions.total) as total,EXTRACT(YEAR FROM contributions.month_year) as month_year'))
+            ->whereYear('contributions.month_year', '=', $year)
+            ->groupBy(DB::raw('EXTRACT(year from contributions.month_year)'));
     }
 
     public function scopeVoluntaryContribution($query, $month, $year)

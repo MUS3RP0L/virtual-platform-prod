@@ -288,7 +288,7 @@ class Affiliate extends Model
     public function scopeAfibyState($query, $state, $year)
     {
        return $query = DB::table('affiliates')
-                    ->select(DB::raw('COUNT(*) total'))
+                    ->select(DB::raw('COUNT(*) as total'))
                     ->where('affiliates.affiliate_state_id', '=', $state)
                     ->whereYear('affiliates.updated_at', '=', $year);
     }
@@ -296,7 +296,7 @@ class Affiliate extends Model
     public function scopeAfibyType($query, $type, $year)
     {
        return $query = DB::table('affiliates')
-                    ->select(DB::raw('COUNT(*) type'))
+                    ->select(DB::raw('COUNT(*) as type'))
                     ->where('affiliates.affiliate_type_id', '=', $type)
                     ->whereYear('affiliates.updated_at', '=', $year);
     }
@@ -304,7 +304,7 @@ class Affiliate extends Model
     public function scopeAfiDistrict($query, $district, $year)
     {
        return $query = DB::table('affiliates')
-                    ->select(DB::raw('COUNT(*) district'))
+                    ->select(DB::raw('COUNT(*) as district'))
                     ->leftJoin('units', 'affiliates.unit_id', '=', 'units.id')
                     ->leftJoin('affiliate_states', 'affiliates.affiliate_state_id', '=', 'affiliate_states.id')
                     ->leftJoin('state_types', 'affiliate_states.state_type_id', '=', 'state_types.id')
