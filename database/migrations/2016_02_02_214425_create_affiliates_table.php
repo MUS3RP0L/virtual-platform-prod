@@ -206,9 +206,9 @@ class CreateAffiliatesTable extends Migration
             $table->bigIncrements('id');
             $table->UnsignedBigInteger('user_id');
             $table->UnsignedBigInteger('affiliate_id');
-            $table->UnsignedBigInteger('affiliate_state_id');
-            $table->UnsignedBigInteger('degree_id');
-            $table->UnsignedBigInteger('unit_id');
+            $table->UnsignedBigInteger('affiliate_state_id')->nullable();
+            $table->UnsignedBigInteger('degree_id')->nullable();
+            $table->UnsignedBigInteger('unit_id')->nullable();
             $table->date('date');
             $table->integer('type');
             $table->string('message');

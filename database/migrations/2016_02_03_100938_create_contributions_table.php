@@ -60,7 +60,7 @@ class CreateContributionsTable extends Migration
             $table->date('month_year')->required();
             $table->string('item')->nullable();
             $table->decimal('base_wage', 13, 2);
-            $table->decimal('dignity_pension', 13, 2);
+            $table->decimal('dignity_pension', 13, 2)->nullable();
             $table->decimal('seniority_bonus', 13, 2);
             $table->decimal('study_bonus', 13, 2);
             $table->decimal('position_bonus', 13, 2);
@@ -77,7 +77,7 @@ class CreateContributionsTable extends Migration
             $table->decimal('quotable', 13, 2);
             $table->decimal('retirement_fund', 13, 2);
             $table->decimal('mortuary_quota', 13, 2);
-            $table->decimal('mortuary_aid', 13, 2);
+            $table->decimal('mortuary_aid', 13, 2)->nullable();
             $table->decimal('subtotal', 13, 2)->nullable();
             $table->decimal('ipc', 13, 2)->nullable();
             $table->decimal('total', 13, 2);
