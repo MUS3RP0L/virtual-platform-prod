@@ -16,7 +16,6 @@ use Muserpol\Spouse;
 use Muserpol\AffiliateState;
 use Muserpol\AffiliateType;
 use Muserpol\Contribution;
-use Muserpol\RetirementFund;
 
 
 class DashboardController extends Controller
@@ -114,31 +113,6 @@ class DashboardController extends Controller
 
       }
 
-      //Total Retirement Fund of current year, disaggregated by month.
-      $current_date = Carbon::now();
-      $current_year = Carbon::parse($current_date)->year;
-
-      $monthRetirementFund = DB::table('retirement_funds')
-                            ->select(DB::raw('DISTINCT(month(retirement_funds.reception_date)) as month'))
-                            ->whereYear('retirement_funds.reception_date', '=', $current_year)
-                            ->orderBy('retirement_funds.reception_date', 'asc')
-                            ->get();
-      if($monthRetirementFund)
-      {
-        foreach ($monthRetirementFund as $item) {
-          $totalRetirementFundByMonth = RetirementFund::totalRetirementFund($item->month,$current_year)->first();
-          $list_month[] = Util::getMes($totalRetirementFundByMonth->month);
-          $list_totalRetirementFundByMonth[] = $totalRetirementFundByMonth->total;
-        }
-        $total_retirementFundByMonth = array($list_month, $list_totalRetirementFundByMonth);
-      }
-      else
-      {
-        $list_month[] = 0;
-        $list_totalRetirementFundByMonth[] = 0;
-        $total_retirementFundByMonth = array($list_month, $list_totalRetirementFundByMonth);
-      }
-
       //voluntary contribution by current year
       $monthVoluntaryContribution = DB::table('contributions')
                             ->select(DB::raw('DISTINCT(month(contributions.month_year)) as month'))
@@ -176,7 +150,6 @@ class DashboardController extends Controller
       'Total_AffiliatebyType' => $Total_AffiliatebyType,
       'totalContributionByYear' => $totalContributionByYear,
       'list_affiliateByDisctrict' => $list_affiliateByDisctrict,
-      'total_retirementFundByMonth' => $total_retirementFundByMonth,
       'total_voluntayContributionByMonth' => $total_voluntayContributionByMonth,
       'current_year' => $current_year
     ];

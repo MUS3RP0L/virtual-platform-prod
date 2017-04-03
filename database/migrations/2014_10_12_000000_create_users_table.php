@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
         Schema::create($tableNames['roles'], function (Blueprint $table) {
             $table->increments('id');
             $table->UnsignedBigInteger('module_id');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->timestamps();
             $table->foreign('module_id')->references('id')->on('modules');
         });

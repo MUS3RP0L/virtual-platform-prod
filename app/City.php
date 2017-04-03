@@ -17,11 +17,6 @@ class City extends Model
 
 	protected $guarded = ['id'];
 
-	public function retirement_funds()
-    {
-        return $this->hasMany('Muserpol\RetirementFund');
-    }
-
     public function economic_complement()
     {
         return $this->hasMany('Muserpol\EconomicComplement');

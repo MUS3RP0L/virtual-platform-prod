@@ -329,22 +329,6 @@
 
     	}
 
-    	var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
-    	var barTramites = {
-    		labels : {!! json_encode($total_retirementFundByMonth[0]) !!},
-    		    datasets : [
-        			{
-        				fillColor : "rgba(151,187,205,0.5)",
-        				strokeColor : "rgba(151,187,205,0.8)",
-        				highlightFill : "rgba(151,187,205,0.75)",
-        				highlightStroke : "rgba(151,187,205,1)",
-        				data : {!! json_encode($total_retirementFundByMonth[1]) !!}
-        			}
-
-    		]
-
-    	}
-
     	window.onload = function(){
 
     		var ctx = document.getElementById("doughnu-estado").getContext("2d");

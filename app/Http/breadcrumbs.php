@@ -93,18 +93,6 @@
         $breadcrumbs->push('Comprobante de Cobro', URL::to('voucher'));
     });
 
-
-    // Retirement Funds
-    Breadcrumbs::register('retirement_funds', function($breadcrumbs) {
-        $breadcrumbs->push('Procesos de Pago de Fondo de Retiro');
-    });
-    // Show Retirement Fund
-    Breadcrumbs::register('retirement_fund', function($breadcrumbs, $affiliate) {
-        $breadcrumbs->parent('show_affiliate', $affiliate);
-        $breadcrumbs->push('Trámite de Fondo de Retiro');
-    });
-
-
     // Complementary Factors
     Breadcrumbs::register('complementary_factors', function($breadcrumbs) {
         $breadcrumbs->push('Factor de Complementación', URL::to('complementary_factor'));

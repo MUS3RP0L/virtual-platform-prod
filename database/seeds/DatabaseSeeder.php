@@ -26,10 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ContributionTypeTableSeeder::class);
         $this->call(BreakdownTableSeeder::class);
         $this->call(UnitTableSeeder::class);
-        $this->call(ApplicantTypeSeeder::class);
-        $this->call(RetirementFundModalityTableSeeder::class);
-        $this->call(RequirementTableSeeder::class);
-        $this->call(AntecedentFileTableSeeder::class);
         $this->call(VoucherTypeTableSeeder::class);
         $this->call(EconomicComplementModalityTableSeeder::class);
         $this->call(PensionEntityTableSeeder::class);

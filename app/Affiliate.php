@@ -113,11 +113,6 @@ class Affiliate extends Model
         return $this->hasOne('Muserpol\City', 'id','city_birth_id');
     }
 
-    public function retirement_fund()
-    {
-        return $this->hasMany('Muserpol\RetirementFund');
-    }
-
     public function reimbursements()
     {
         return $this->hasMany('Muserpol\Reimbursement');

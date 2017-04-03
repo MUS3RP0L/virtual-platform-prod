@@ -101,20 +101,6 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('get_activity', array('as'=>'get_activity', 'uses'=>'Activity\ActivityController@Data'));
 	Route::get('print_activity/{type}', 'Activity\ActivityController@print_activity');
 
-	// Retirement Fund Procedure
-
-	Route::resource('retirement_fund', 'RetirementFund\RetirementFundController');
-
-	// Applicant
-	Route::resource('applicant', 'RetirementFund\ApplicantController');
-
-	Route::get('get_retirement_fund', array('as'=>'get_retirement_fund', 'uses'=>'RetirementFund\RetirementFundController@Data'));
-
-	Route::get('retirement_fund_print_reception/{afid}', 'RetirementFund\RetirementFundController@print_reception');
-	Route::get('retirement_fund_print_check_file/{afid}', 'RetirementFund\RetirementFundController@print_check_file');
-	Route::get('retirement_fund_print_qualification/{afid}', 'RetirementFund\RetirementFundController@print_qualification');
-	Route::get('retirement_fund_print_legal_assessment/{afid}', 'RetirementFund\RetirementFundController@print_legal_assessment');
-
 	// Complementary Factor
 	Route::resource('complementary_factor', 'EconomicComplement\ComplementaryFactorController');
 
