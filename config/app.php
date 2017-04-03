@@ -148,7 +148,6 @@ return [
         /*
         * Vendor Service Providers
         */
-        Spatie\Permission\PermissionServiceProvider::class,
         Acacha\AdminLTETemplateLaravel\app\Providers\AdminLTETemplateServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
