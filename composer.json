@@ -13,7 +13,8 @@
         "barryvdh/laravel-debugbar": "^2.2",
         "yajra/laravel-datatables-oracle": "~6.0",
         "barryvdh/laravel-dompdf": "^0.7.0",
-        "davejamesmiller/laravel-breadcrumbs": "^3.0"
+        "davejamesmiller/laravel-breadcrumbs": "^3.0",
+        "spatie/laravel-permission": "^1.12"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
