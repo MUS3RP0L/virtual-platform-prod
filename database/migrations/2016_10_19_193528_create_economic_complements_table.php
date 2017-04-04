@@ -108,25 +108,25 @@ class CreateEconomicComplementsTable extends Migration
             $table->date('year')->required();
             $table->enum('semester', ['Primer', 'Segundo']);
 
-            $table->decimal('sub_total_rent', 13, 2);
-            $table->decimal('reimbursement_basic_pension', 13, 2);
-            $table->decimal('dignity_pension', 13, 2);
-            $table->decimal('dignity_pension_reimbursement', 13, 2);
-            $table->decimal('dignity_pension_bonus', 13, 2);
-            $table->decimal('bonus_reimbursement', 13, 2);
-            $table->decimal('reimbursement_aditional_amount', 13, 2);
-            $table->decimal('reimbursement_increase_year', 13, 2);
+            $table->decimal('sub_total_rent', 13, 2)->nullable();
+            $table->decimal('reimbursement_basic_pension', 13, 2)->nullable();
+            $table->decimal('dignity_pension', 13, 2)->nullable();
+            $table->decimal('dignity_pension_reimbursement', 13, 2)->nullable();
+            $table->decimal('dignity_pension_bonus', 13, 2)->nullable();
+            $table->decimal('bonus_reimbursement', 13, 2)->nullable();
+            $table->decimal('reimbursement_aditional_amount', 13, 2)->nullable();
+            $table->decimal('reimbursement_increase_year', 13, 2)->nullable();
 
-            $table->decimal('reimbursement', 13, 2);
-            $table->decimal('christmas_bonus', 13, 2);
-            $table->decimal('seniority', 13, 2);
-            $table->decimal('quotable', 13, 2);
-            $table->decimal('total', 13, 2);
+            $table->decimal('reimbursement', 13, 2)->nullable();
+            $table->decimal('christmas_bonus', 13, 2)->nullable();
+            $table->decimal('seniority', 13, 2)->nullable();
+            $table->decimal('quotable', 13, 2)->nullable();
+            $table->decimal('total', 13, 2)->nullable();
 
             $table->date('payment_date')->nullable();
             $table->string('payment_number')->nullable();
 
-            $table->string('comment');
+            $table->string('comment')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users');
