@@ -213,8 +213,7 @@ class UserController extends Controller
         if ($validator->fails()) {
 
             return redirect($user ? 'user/'.$user->id.'/edit' : 'user/create')
-            ->withErrors($validator)
-            ->withInput();
+            ->withErrors($validator);
         }
         else{
 
