@@ -31,6 +31,7 @@
                 </ul>
             </div>
 
+            <!-- Button of create economic complement -->
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento Económico" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
                 <ul class="dropdown-menu">
