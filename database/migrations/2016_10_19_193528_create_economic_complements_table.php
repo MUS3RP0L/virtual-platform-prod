@@ -181,7 +181,7 @@ class CreateEconomicComplementsTable extends Migration
             $table->UnsignedBigInteger('economic_complement_id');
             $table->UnsignedBigInteger('eco_com_applicant_type_id');
             $table->UnsignedBigInteger('city_identity_card_id')->nullable();
-            $table->string('identity_card')->required()->nullable();
+            $table->string('identity_card')->required();
             $table->string('last_name')->nullable();
             $table->string('mothers_last_name')->nullable();
             $table->string('first_name')->nullable();

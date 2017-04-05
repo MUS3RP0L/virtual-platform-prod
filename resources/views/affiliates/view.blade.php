@@ -1210,7 +1210,7 @@
             autoWidth: false,
             order: [0, "desc"],
             ajax: {
-                url: '{!! route('get_economic_complement_by_id') !!}',
+                url: '{!! route('get_economic_complement_by_affiliate') !!}',
                 data: function (d) {
                     d.code = $('input[name=code]').val();
                     d.id = {{ $affiliate->id }};
@@ -1223,7 +1223,6 @@
             },
             columns: [
                 { data: 'code', sClass: "text-center" },
-                { data: 'affiliate_name', bSortable: false },
                 { data: 'created_at', bSortable: false },
                 { data: 'eco_com_state', bSortable: false },
                 { data: 'eco_com_modality', bSortable: false },
