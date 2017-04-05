@@ -123,6 +123,18 @@ class EconomicComplementController extends Controller
                 ->make(true);
     }
 
+    public function Data_by_id(Request $request)
+    {
+        $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'created_at', 'total']);
+        return Datatables::of($economic_complements)
+                ->addColumn('affiliate_identitycard', function ($economic_complement) { return $economic_complement->affiliate->identity_card; })
+                ->addColumn('affiliate_name', function ($economic_complement) { return $economic_complement->affiliate->getTittleName(); })
+                ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
+                ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name; })
+                ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
+                ->make(true);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -875,5 +887,5 @@ class EconomicComplementController extends Controller
           $pdf->loadHTML($view)->setPaper('letter');
           return $pdf->stream();
     }
-    
+
 }
