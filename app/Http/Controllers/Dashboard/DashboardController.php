@@ -97,12 +97,12 @@ class DashboardController extends Controller
 				
 				foreach ($listYear as $item) {
 					$totalContribution = Contribution::afiContribution($item->year)->first();
-					$list_totalcontribution[] = $totalContribution->total;
+
+					$list_totalcontribution[] = ($totalContribution->total);
 					$list_year[] = $totalContribution->month_year;
 
 				}
-				$totalContributionByYear = array($list_year, $list_totalcontribution );
-				
+				$totalContributionByYear = array($list_year, $list_totalcontribution );	
 			}
 			else
 			{
