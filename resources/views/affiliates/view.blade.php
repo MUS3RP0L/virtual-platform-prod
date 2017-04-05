@@ -736,16 +736,21 @@
 
                     </div>
                     <div class="tab-pane" id="tab_4">
-
-                        @if(!$info_spouse)
-                            registros
-                        @else
-                            <div class="row text-center">
-                                <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
-                                <h4 class="box-title">No hay registros</h4>
-                            </div>
-                        @endif
-
+                          <h4 class="box-title">Complemento Económico</h4>
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <table class="table table-bordered table-hover" id="economic_complements-table">
+                                      <thead>
+                                          <tr class="success">
+                                              <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Número de Trámite">Número</div></th>
+                                              <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Total a Pagar">Fecha Emisión</div></th>
+                                              <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Estado">Estado</div></th>
+                                              <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Fecha de Pago">Modalidad</div></th>
+                                          </tr>
+                                      </thead>
+                                  </table>
+                              </div>
+                          </div>
                     </div>
                     <div class="tab-pane" id="tab_5">
 
@@ -1195,6 +1200,39 @@
                     { data: 'message', bSortable: false }
                 ]
             });
+        });
+
+        var oTable = $('#economic_complements-table').DataTable({
+            "dom": '<"top">t<"bottom"p>',
+            processing: true,
+            serverSide: true,
+            pageLength: 8,
+            autoWidth: false,
+            order: [0, "desc"],
+            ajax: {
+                url: '{!! route('get_economic_complement_by_id') !!}',
+                data: function (d) {
+                    d.code = $('input[name=code]').val();
+                    d.id = {{ $affiliate->id }};
+                    d.affiliate_identitycard = $('input[name=affiliate_identitycard]').val();
+                    d.creation_date = $('input[name=creation_date]').val();
+                    d.eco_com_state_id = $('input[name=eco_com_state_id]').val();
+                    d.eco_com_modality_id = $('select[name=eco_com_modality_id]').val();
+                    d.post = $('input[name=post]').val();
+                }
+            },
+            columns: [
+                { data: 'code', sClass: "text-center" },
+                { data: 'affiliate_name', bSortable: false },
+                { data: 'created_at', bSortable: false },
+                { data: 'eco_com_state', bSortable: false },
+                { data: 'eco_com_modality', bSortable: false },
+            ]
+        });
+
+        $('#search-form').on('submit', function(e) {
+            oTable.draw();
+            e.preventDefault();
         });
 
     </script>
