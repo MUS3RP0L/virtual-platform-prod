@@ -86,6 +86,20 @@
 		</div>
 
 	</div>
+	<div class="row">
+		
+
+  	    <div class="col-md-12">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Total complemento economico de la Gestión {!! $current_year !!}</h3>
+                </div>
+                <div class="box-body" style="width: 95%">
+                    <canvas id="bar-semestre" width="450px" height="150"></canvas>
+                </div>
+            </div>
+		</div>
+	</div>
 
 @endsection
 
@@ -328,6 +342,26 @@
     		]
 
     	}
+        var options = {
+            responsive: true,
+            tooltipTemplate: " <%=label%>: <%= value + ' Bs' %>",
+        };
+
+        //for complement economic
+
+        var barChartDataSemestre = {
+        	labels : {!! json_encode($totalContributionByYear[0]) !!},
+        	datasets : [
+        		{
+        			fillColor : "rgba(151,187,105,0.5)",
+        			strokeColor : "rgba(151,187,105,0.8)",
+        			highlightFill : "rgba(151,187,105,0.75)",
+        			highlightStroke : "rgba(151,187,105,1)",
+        			data : {!! json_encode($totalContributionByYear[1]) !!}
+        		}
+        	]
+
+        }
 
     	window.onload = function(){
 
@@ -338,16 +372,22 @@
     		window.myPie = new Chart(ctx).Pie(pieData, {responsive : true});
 
     		var ctx = document.getElementById("bar-aportes").getContext("2d");
-    		window.myBar = new Chart(ctx).Bar(barChartData, {responsive : true});
+    		window.myBar = new Chart(ctx).Bar(barChartData, options);
 
     		var ctx = document.getElementById("pie-distrito").getContext("2d");
     		window.myPie = new Chart(ctx).Pie(pieDistrito, {responsive : true});
+    		/* Faltan estas graficas del dhasboard general
 
     		var ctx = document.getElementById("bar-AporteVoluntario").getContext("2d");
     		window.myBar = new Chart(ctx).Bar(barAporteVoluntario, {responsive : true});
 
     		var ctx = document.getElementById("bar-tramites").getContext("2d");
     		window.myBar = new Chart(ctx).Bar(barTramites, {responsive : true});
+			*/
+    		// for complement economic
+
+    		var ctx = document.getElementById("bar-semestre").getContext("2d");
+    		window.myBar = new Chart(ctx).Bar(barChartDataSemestre, {responsive : true});
 
     	}
 
