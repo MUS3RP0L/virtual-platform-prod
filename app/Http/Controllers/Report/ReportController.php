@@ -22,7 +22,7 @@ class ReportController extends Controller
 
     public static function getViewModel()
     {
-        $years = DB::table('contributions')->select(DB::raw('DISTINCT YEAR(contributions.month_year ) years'))
+        $years = DB::table('contributions')->select(DB::raw('DISTINCT extract(year from contributions.month_year ) years'))
                     ->orderBy('years', 'desc')->get();
 
         $years_list = [];
@@ -56,8 +56,7 @@ class ReportController extends Controller
 
     public function GenerateMonthlyReport(Request $request)
     {
-        $totalSumC = DB::select('call sum_contributionsC(' . $request->month . ',' . $request->year . ')');
-
+        $totalSumC = DB::select('select * from sum_contributionsc(' . $request->month . ',' . $request->year . ')');
         foreach ($totalSumC as $item) {
             $count_idC = $item->count_id;
             $salaryC = $item->salary;
@@ -74,8 +73,7 @@ class ReportController extends Controller
             $totalC = $item->total;
         }
 
-        $totalSumB = DB::select('call sum_contributionsB(' . $request->month . ',' . $request->year . ')');
-
+        $totalSumB = DB::select('Select * from sum_contributionsb(' . $request->month . ',' . $request->year . ')');
         foreach ($totalSumB as $item) {
             $count_idB = $item->count_id;
             $salaryB = $item->salary;
