@@ -39,10 +39,8 @@
           </tr>
         </table>
         <h1>
-
             <center><b>{{ $title }}</b></center>
             @yield('title2')
-
         </h1>
         <br>
         @yield('content')

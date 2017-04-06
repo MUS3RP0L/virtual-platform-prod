@@ -18,14 +18,14 @@ class Contribution extends Model
     protected $fillable = [
 
         'user_id',
-    	'affiliate_id',
+      	'affiliate_id',
         'contribution_type_id',
         'direct_contribution_id',
         'degree_id',
         'unit_id',
         'breakdown_id',
         'category_id',
-    	'month_year',
+      	'month_year',
         'item',
         'base_wage',
         'dignity_pension',

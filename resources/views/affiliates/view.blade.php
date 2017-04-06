@@ -1121,7 +1121,10 @@
             </div>
         </div>
     </div>
-
+    <div class="visible-print text-center">
+        {!! QrCode::size(100)->generate(Request::url()); !!}
+        <p>Escanéame para volver a la página principal.</p>
+    </div>
     <div class="modal fade" tabindex="-1" >
         <iframe src="{!! url('print_affiliate/' . $affiliate->id) !!}" id="iFramePdf"></iframe>
     </div>
