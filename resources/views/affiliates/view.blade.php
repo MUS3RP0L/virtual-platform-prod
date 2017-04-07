@@ -46,9 +46,14 @@
                 </ul>
             </div>
 
-            <div class="btn-group" data-toggle="tooltip" data-placement="bottom" data-original-title="Imprimir" style="margin:0px;">
+            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir" style="margin:0px;">
                 <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
                     &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                </a>
+            </div>
+            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Caratula Imprimir" style="margin:0px;">
+                <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
+                    &nbsp;<span class="glyphicon glyphicon-file"></span>&nbsp;
                 </a>
             </div>
 
