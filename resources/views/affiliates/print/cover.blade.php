@@ -223,9 +223,6 @@
             <?php $i++;?>
             @endforeach
         </table>
-
-
-
       </div>
       <div class="visible-print text-center">
         {!! QrCode::size(100)->generate(Request::url()); !!}

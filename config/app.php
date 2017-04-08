@@ -155,6 +155,7 @@ return [
         Yajra\Datatables\DatatablesServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
 
     ],
 
@@ -215,7 +216,8 @@ return [
         'Datatables' => Yajra\Datatables\Datatables::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
-        'Util' => Muserpol\Helper\Util::class
+        'Util' => Muserpol\Helper\Util::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class
 
     ],
 
