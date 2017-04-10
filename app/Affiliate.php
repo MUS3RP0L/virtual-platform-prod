@@ -254,43 +254,6 @@ class Affiliate extends Model
     {
         return Util::getDateEdit($this->date_death);
     }
-    public function getIdentity_Card()
-    {
-        return Util::getIdentity_Card($this->identity_card);
-    }
-    public function getNua()
-    {
-        return Util::getNua($this->nua);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public function scopeAfibyState($query, $state, $year)
     {
