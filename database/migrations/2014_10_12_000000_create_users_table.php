@@ -56,16 +56,15 @@ class CreateUsersTable extends Migration
 
     public function down()
     {
-<<<<<<< HEAD
 
         Schema::dropIfExists('users cascade');
         Schema::dropIfExists('roles cascade');
         Schema::dropIfExists('modules cascade');
 
-=======
+
         Schema::dropIfExists('users');
         Schema::dropIfExists('roles');
         Schema::dropIfExists('modules');
->>>>>>> 6261d22a92c4f715f9e806a77c20d090999a3b29
+
     }
 }
