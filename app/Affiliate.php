@@ -255,36 +255,6 @@ class Affiliate extends Model
         return Util::getDateEdit($this->date_death);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function scopeAfibyState($query, $state, $year)
     {
        return $query = DB::table('affiliates')

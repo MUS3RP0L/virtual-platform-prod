@@ -15,6 +15,15 @@
                 </div>
             @endif
         </div>
+				<div class="col-md-4">
+            @if($voucher->payment_date)
+                <div class="btn-group" data-toggle="tooltip" data-placement="bottom" data-original-title="Imprimir" style="margin:0px;">
+                    <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTriggercover('iFramePdf');" >
+                        &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                    </a>
+                </div>
+            @endif
+        </div>
 		<div class="col-md-2 text-right">
 
 			<a href="{!! url('voucher') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="top" data-original-title="Atrás">
@@ -212,4 +221,49 @@
         }
 
     </script>
+
+		<script>
+
+				function printTriggercover(elementId) {
+						var getMyFrame = document.getElementById(elementId);
+						getMyFrame.focus();
+						getMyFrame.contentWindow.print();
+				}
+
+				function CalculationChange(voucher) {
+
+						var self = this;
+
+						self.received = ko.observable();
+						self.change = ko.computed(function() {
+								var rest = -1;
+								if (self.received()) {
+										rest = roundToTwo(parseFloat(self.received()) - parseFloat(voucher.total));
+								}
+								if (rest < 0) {
+										rest = '-';
+								}
+								return rest;
+						});
+
+						this.hasClickedTooManyTimes = ko.pureComputed(function() {
+
+								if (self.change() == '-') {
+										return false;
+								}
+								return true;
+						}, this);
+
+				}
+				window.model = new CalculationChange({!! $voucher !!});
+				ko.applyBindings(model);
+
+				function roundToTwo(num) {
+						var val = +(Math.round(num + "e+2")  + "e-2");
+						return num ? parseFloat(Math.round(parseFloat(val) * 100) / 100).toFixed(2) : 0;
+				}
+
+		</script>
+
+
 @endpush

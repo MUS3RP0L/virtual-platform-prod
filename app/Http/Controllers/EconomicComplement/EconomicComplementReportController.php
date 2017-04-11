@@ -60,7 +60,7 @@ class EconomicComplementReportController extends Controller
            $year_list[Util::getYear($item->year)] = Util::getYear($item->year);
        }
 
-       $report_type = ['' => '', '1' => 'Reporte diario de recepción', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Reporte de doble percepción', '5' => 'Resumen de inclusiones', '6' => 'Resumen de habituales', '7' => 'Reporte pago de complemento económico'];
+       $report_type = ['' => '', '1' => 'Reporte diario de recepción', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Reporte de doble percepción', '5' => 'Resumen de habituales', '6' => 'Resumen de inclusiones', '7' => 'Reporte pago de complemento económico'];
        foreach ($report_type as $key => $item) {
            $report_type_list[$key] = $item;
        }
@@ -252,13 +252,90 @@ class EconomicComplementReportController extends Controller
                                }
 
                        break;
-
                        case '5':
-                       $message = "Reporte en proceso";
-                       Session::flash('message', $message);
-                       return redirect('report_complement');
+                       $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+                       $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+                       $title = "REPORTE HABITUALES DE COMPLEMENTO ECONÓMICO";
+                       $date = Util::getDateEdit(date('Y-m-d'));
+                       $current_date = Carbon::now();
+                       $hour = Carbon::parse($current_date)->toTimeString();
+                       $regional = ($request->city == 'Todo') ? '%%' : $request->city;
+                       $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
+                       $cities1 = City::all();
+                       foreach ($cities1 as $key => $item1) {
+                           $eco_com_types = EconomicComplementType::all();
+                           foreach ($eco_com_types as $item2) {
+                               $degrees = Degree::all();
+                               foreach ($degrees as $item3) {
+                                   $habitual = DB::table('v_habitual')
+                                            ->select(DB::raw('count(v_habitual.id) total'))
+                                            ->whereYear('v_habitual.year1', '=', $request->year)
+                                            ->where('v_habitual.semester', 'LIKE', $semester)
+                                            ->where('v_habitual.city_id', '=', $item1->id)
+                                            ->where('v_habitual.type_id','=', $item2->id)
+                                            ->where('v_habitual.degree_id','=', $item3->id)->first();
+                                    $degree_list[$item3->id]= $habitual;
+                               }
+                               $types_list[$item2->name] = $degree_list;
+                               $degree_list = null;
+                           }
+                           $deparment_list[$item1->shortened] = $types_list;
+                           $types_list = null;
+                       }
+                       //dd($deparment_list);
+                       if ($deparment_list) {
+                           $view = \View::make('economic_complements.print.summary_habitual', compact('header1','header2','title','date','hour','deparment_list'))->render();
+                           $pdf = \App::make('dompdf.wrapper');
+                           $pdf->loadHTML($view)->setPaper('legal','landscape');
+                           return $pdf->stream();
+                       } else {
+                           $message = "No existen registros para visualizar";
+                           Session::flash('message', $message);
+                           return redirect('report_complement');
+                       }
                        break;
-
+                       case '6':
+                       $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+                       $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+                       $title = "REPORTE INCLUSIONES DE COMPLEMENTO ECONÓMICO";
+                       $date = Util::getDateEdit(date('Y-m-d'));
+                       $current_date = Carbon::now();
+                       $hour = Carbon::parse($current_date)->toTimeString();
+                       $regional = ($request->city == 'Todo') ? '%%' : $request->city;
+                       $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
+                       $cities1 = City::all();
+                       foreach ($cities1 as $key => $item1) {
+                           $eco_com_types = EconomicComplementType::all();
+                           foreach ($eco_com_types as $item2) {
+                               $degrees = Degree::all();
+                               foreach ($degrees as $item3) {
+                                   $inclusion = DB::table('v_inclusion')
+                                            ->select(DB::raw('count(v_inclusion.id) total'))
+                                            ->whereYear('v_inclusion.year1', '=', $request->year)
+                                            ->where('v_inclusion.semester', 'LIKE', $semester)
+                                            ->where('v_inclusion.city_id', '=', $item1->id)
+                                            ->where('v_inclusion.type_id','=', $item2->id)
+                                            ->where('v_inclusion.degree_id','=', $item3->id)->first();
+                                    $degree_list[$item3->id]= $inclusion;
+                               }
+                               $types_list[$item2->name] = $degree_list;
+                               $degree_list = null;
+                           }
+                           $deparment_list[$item1->shortened] = $types_list;
+                           $types_list = null;
+                       }
+                       //dd($deparment_list);
+                       if ($deparment_list) {
+                           $view = \View::make('economic_complements.print.summary_inclusion', compact('header1','header2','title','date','hour','deparment_list'))->render();
+                           $pdf = \App::make('dompdf.wrapper');
+                           $pdf->loadHTML($view)->setPaper('legal','landscape');
+                           return $pdf->stream();
+                       } else {
+                           $message = "No existen registros para visualizar";
+                           Session::flash('message', $message);
+                           return redirect('report_complement');
+                       }
+                       break;
                        default:
                                return redirect('report_complement');
                }
