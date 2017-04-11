@@ -16,6 +16,9 @@ use Muserpol\User;
 use Muserpol\Module;
 use Muserpol\Role;
 
+use DB;
+use Carbon\Carbon;
+
 class UserController extends Controller
 {
     /**
@@ -39,12 +42,19 @@ class UserController extends Controller
 
     public function Data()
     {
-        $users = User::select(['id','username', 'first_name', 'last_name', 'phone','role_id','status'])->where('id', '>', 1);
-
+        $users = User::select(['id','username', 'first_name', 'last_name', 'phone','status'])->where('id', '>', 1);
+        //dd( $users->roles);
+        //  dd($users);
+        $roles_list_short = ['' => ''];
         return Datatables::of($users)
             ->addColumn('name', function ($user) { return Util::ucw($user->first_name) . ' ' . Util::ucw($user->last_name); })
             ->addColumn('module', function ($user) { return $user->role->module->name; })
-            ->addColumn('role', function ($user) { return $user->role->name; })
+            ->addColumn('role', function ($user) {
+              foreach ($user->roles as $role) {
+                    $roles_list_short[$role->id]=$role->name;
+              }
+              return $roles_list_short;
+              })
             ->addColumn('status', function ($user) { return $user->status == 'active' ? 'Activo' : 'Inactivo'; })
             ->addColumn('action', function ($user) { return  $user->status == "active" ?
                 '<div class="btn-group" style="margin:-3px 0;">
@@ -158,7 +168,7 @@ class UserController extends Controller
 
     public function save($request, $user = false)
     {
-
+      //dd($request->role);
         if ($user) {
 
             $rules = [
@@ -233,8 +243,19 @@ class UserController extends Controller
             $user->phone = trim($request->phone);
             $user->username = trim($request->username);
             if($request->password){$user->password = bcrypt(trim($request->password));}
-            if($request->role){$user->role_id = $request->role;}
             $user->save();
+            if($request->role){
+            //  $user->role_id = $request->role;
+
+            DB::table('role_user')
+              ->insert([
+                'role_id' => $request->role,
+                'user_id' => $user->id,
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now(),
+              ]);
+            }
+
 
             Session::flash('message', $message);
         }

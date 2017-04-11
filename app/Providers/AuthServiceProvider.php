@@ -4,6 +4,11 @@ namespace Muserpol\Providers;
 
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Muserpol\User;
+use Muserpol\Module;
+use Muserpol\Policies\EconomicComplementPolicy;
+use Muserpol\EconomicComplement;
+
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,7 +18,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'Muserpol\Model' => 'Muserpol\Policies\ModelPolicy',
+        //'Muserpol\Model' => 'Muserpol\Policies\ModelPolicy',
+         EconomicComplement::class => EconomicComplementPolicy::class,
     ];
 
     /**
@@ -27,8 +33,14 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies($gate);
 
         $gate->define('manage', function($user){
-
-            return $user->role_id == 1;
+//          dd($user->roles);
+            foreach ($user->roles as $role) {
+              echo $role->id ;
+              if($role->id==1){
+               return true;
+              }
+            }
+          //  return false;
 
         });
     }

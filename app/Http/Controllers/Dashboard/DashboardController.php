@@ -52,11 +52,11 @@ class DashboardController extends Controller
 										->select(DB::raw('count(*) as totalafis'))
 										->where('affiliates.affiliate_state_id', '=', 1)
 										->get();
-								
+
 			foreach ($AfiServ as $item) {
 				$totalAfiServ = $item->totalafis;
-				
-			}	
+
+			}
 
 			$AfiComi = DB::table('affiliates')
 										->select(DB::raw('COUNT(*) as totalafic'))
@@ -66,7 +66,7 @@ class DashboardController extends Controller
 			foreach ($AfiComi as $item) {
 				$totalAfiComi = $item->totalafic;
 			}
-		
+
 
 			$affiliateState = AffiliateState::all();
 			$affiliateType = AffiliateType::all();
@@ -94,7 +94,7 @@ class DashboardController extends Controller
 					->where(DB::raw('EXTRACT(YEAR FROM contributions.month_year)'), '>', $yearc)
 					->orderBy(DB::raw('EXTRACT(YEAR FROM contributions.month_year )'), 'asc')
 					->get();
-				
+
 				foreach ($listYear as $item) {
 					$totalContribution = Contribution::afiContribution($item->year)->first();
 
@@ -102,7 +102,7 @@ class DashboardController extends Controller
 					$list_year[] = $totalContribution->month_year;
 
 				}
-				$totalContributionByYear = array($list_year, $list_totalcontribution );	
+				$totalContributionByYear = array($list_year, $list_totalcontribution );
 			}
 			else
 			{
@@ -122,7 +122,7 @@ class DashboardController extends Controller
 
 			//voluntary contribution by current year
 			$monthVoluntaryContribution = DB::table('contributions')
-				
+
 				->select(DB::raw('DISTINCT(EXTRACT(MONTH FROM contributions.month_year)) as month'))
 				->where('contributions.contribution_type_id', '=', 2)
 				->where(DB::raw('EXTRACT(MONTH FROM contributions.month_year)'), '=', $current_year)

@@ -24,5 +24,10 @@ class Role extends Model
     {
         return $query->where('module_id', $id);
     }
+    public function users()
+    {
+      return $this->belongsToMany(Role::class);
+    }
+
 
 }

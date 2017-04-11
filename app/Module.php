@@ -11,9 +11,14 @@ class Module extends Model
 	protected $fillable = [
 
 		'name'
-        
+
 	];
 
 	protected $guarded = ['id'];
+
+  public function roles()
+     {
+         return $this->hasMany('App\Role');
+     }
 
 }
