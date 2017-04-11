@@ -301,7 +301,7 @@ class EconomicComplementReportController extends Controller
                        $date = Util::getDateEdit(date('Y-m-d'));
                        $current_date = Carbon::now();
                        $hour = Carbon::parse($current_date)->toTimeString();
-                       $regional = ($request->city == 'Todo') ? '%%' : $request->city;
+                       //$regional = ($request->city == 'Todo') ? '%%' : $request->city;
                        $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
                        $cities1 = City::all();
                        foreach ($cities1 as $key => $item1) {
@@ -324,9 +324,29 @@ class EconomicComplementReportController extends Controller
                            $deparment_list[$item1->shortened] = $types_list;
                            $types_list = null;
                        }
-                       //dd($deparment_list);
+                       // total by degree to level national
+                       $eco_com_types1 = EconomicComplementType::all();
+                       $totaln = 0;
+                       foreach ($eco_com_types1 as $ec_types) {
+                           $degrees1 = Degree::all();
+                           $st = 0;
+                           foreach ($degrees1 as $degree) {
+                               $inclusion1 = DB::table('v_inclusion')
+                                        ->select(DB::raw('count(v_inclusion.id) total'))
+                                        ->whereYear('v_inclusion.year1', '=', $request->year)
+                                        ->where('v_inclusion.semester', 'LIKE', $semester)
+                                        ->where('v_inclusion.type_id','=', $ec_types->id)
+                                        ->where('v_inclusion.degree_id','=', $degree->id)->first();
+                                $degree_list1[$degree->id]= $inclusion1;
+                                $st = $st + $inclusion1->total;
+                           }
+                           $totaln = $totaln + $st;
+                           $types_list1[$ec_types->name] = $degree_list1;
+                           $degree_list1 = null;
+                       }
+                       //dd($types_list1);
                        if ($deparment_list) {
-                           $view = \View::make('economic_complements.print.summary_inclusion', compact('header1','header2','title','date','hour','deparment_list'))->render();
+                           $view = \View::make('economic_complements.print.summary_inclusion', compact('header1','header2','title','date','hour','deparment_list','types_list1','totaln'))->render();
                            $pdf = \App::make('dompdf.wrapper');
                            $pdf->loadHTML($view)->setPaper('legal','landscape');
                            return $pdf->stream();
