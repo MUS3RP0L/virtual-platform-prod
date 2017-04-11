@@ -1,4 +1,4 @@
-<?php
+  <?php
 
 use Illuminate\Database\Seeder;
 
@@ -24,12 +24,12 @@ class RolesTableSeeder extends Seeder
     {
         $statuses = [
 
-            ['name' => 'Sistemas'],
-            ['name' => 'Fondo de Retiro'],
-            ['name' => 'Complemento Económico'],
-            ['name' => 'Contabilidad'],
-            ['name' => 'Presupuesto'],
-            ['name' => 'Tesorería']
+            ['name' => 'Modulo Super Admin'],
+            ['name' => 'Modulo Fondo de Retiro'],
+            ['name' => 'Modulo Complemento Económico'],
+            ['name' => 'Modulo Contabilidad'],
+            ['name' => 'Modulo Presupuesto'],
+            ['name' => 'Modulo Tesorería']
         ];
 
         foreach ($statuses as $status) {
@@ -42,7 +42,7 @@ class RolesTableSeeder extends Seeder
     {
         $statuses = [
 
-            ['module_id' => '1', 'name' => 'Administrador'],
+            ['module_id' => '1', 'name' => 'SuperAdmin'],
             ['module_id' => '2', 'name' => 'Ventanilla'],
             ['module_id' => '2', 'name' => 'Certificación'],
             ['module_id' => '2', 'name' => 'Calificación'],

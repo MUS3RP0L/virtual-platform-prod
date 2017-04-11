@@ -32,6 +32,8 @@ use Muserpol\ComplementaryFactor;
 use Muserpol\Degree;
 use Muserpol\Unit;
 use DB;
+use Muserpol\Role;
+use Muserpol\Module;
 
 class EconomicComplementController extends Controller
 {
@@ -43,7 +45,9 @@ class EconomicComplementController extends Controller
 
     public function index()
     {
-        return view('economic_complements.index', self::getViewModel());
+
+      return view('economic_complements.index', self::getViewModel());
+
     }
 
     public function getEconomicComplementType(Request $request, $id)
@@ -240,7 +244,16 @@ class EconomicComplementController extends Controller
 
         $data = array_merge($data, $getViewModel);
 
-        return view('economic_complements.reception_first_step', $data);
+        if (Auth::user()->can('recepcionEco',EconomicComplement::class)) {
+              return view('economic_complements.reception_first_step', $data);
+
+        }else {
+
+            return redirect()->back();
+
+        }
+
+       //return view('economic_complements.reception_first_step', $data);
     }
 
     public function ReceptionSecondStep($economic_complement_id)
@@ -414,7 +427,8 @@ class EconomicComplementController extends Controller
             $eco_com_states_block_list[$item->id]=$item->name;
             }
         }
-
+        $role = Role::findOrFail(Auth::user()->role_id);
+        $module=Module::findOrFail($role->module_id);
         $data = [
 
             'affiliate' => $affiliate,
@@ -425,7 +439,8 @@ class EconomicComplementController extends Controller
             'eco_com_submitted_documents' => $eco_com_submitted_documents,
             'status_documents' => $status_documents,
             'gender_list' => $gender_list,
-            'eco_com_states_block_list' => $eco_com_states_block_list
+            'eco_com_states_block_list' => $eco_com_states_block_list,
+            'module'=>$module
 
 
         ];
@@ -460,6 +475,8 @@ class EconomicComplementController extends Controller
 
         $data = array_merge($data, self::getViewModel());
 
+
+      //  return view('economic_complements.view', ['data'=>$data,'module'=>$module]);
         return view('economic_complements.view', $data);
     }
 
@@ -484,6 +501,8 @@ class EconomicComplementController extends Controller
 
     public function update(Request $request, $economic_complement)
     {
+
+      dd($economic_complement);
         return $this->save($request, $economic_complement);
     }
 
