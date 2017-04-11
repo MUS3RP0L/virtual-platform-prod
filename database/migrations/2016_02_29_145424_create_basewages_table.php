@@ -34,6 +34,6 @@ class CreateBasewagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('base_wages');
+        Schema::dropIfExists('base_wages cascade');
     }
 }

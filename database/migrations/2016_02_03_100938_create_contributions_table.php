@@ -102,8 +102,8 @@ class CreateContributionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contributions');
-        Schema::dropIfExists('contribution_types');
-        Schema::dropIfExists('direct_contributions');
+        Schema::dropIfExists('contributions cascade');
+        Schema::dropIfExists('contribution_types cascade');
+        Schema::dropIfExists('direct_contributions cascade');
     }
 }

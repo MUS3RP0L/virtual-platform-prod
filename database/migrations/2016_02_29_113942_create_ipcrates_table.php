@@ -32,6 +32,6 @@ class CreateIpcratesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ipc_rates');
+        Schema::dropIfExists('ipc_rates cascade');
     }
 }

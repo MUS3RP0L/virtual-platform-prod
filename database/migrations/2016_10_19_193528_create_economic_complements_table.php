@@ -243,18 +243,18 @@ class CreateEconomicComplementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('eco_com_records');
-        Schema::dropIfExists('eco_com_legal_guardians');
-        Schema::dropIfExists('eco_com_applicants');
-        Schema::dropIfExists('eco_com_applicant_types');
-        Schema::dropIfExists('eco_com_submitted_documents');
-        Schema::dropIfExists('eco_com_requirements');
-        Schema::dropIfExists('economic_complements');
-        Schema::dropIfExists('complementary_factors');
-        Schema::dropIfExists('eco_com_rents');
-        Schema::dropIfExists('eco_com_states');
-        Schema::dropIfExists('eco_com_state_types');
-        Schema::dropIfExists('eco_com_modalities');
-        Schema::dropIfExists('eco_com_types');
+        Schema::dropIfExists('eco_com_records cascade');
+        Schema::dropIfExists('eco_com_legal_guardians cascade');
+        Schema::dropIfExists('eco_com_applicants cascade');
+        Schema::dropIfExists('eco_com_applicant_types cascade');
+        Schema::dropIfExists('eco_com_submitted_documents cascade');
+        Schema::dropIfExists('eco_com_requirements cascade');
+        Schema::dropIfExists('economic_complements cascade');
+        Schema::dropIfExists('complementary_factors cascade');
+        Schema::dropIfExists('eco_com_rents cascade');
+        Schema::dropIfExists('eco_com_states cascade');
+        Schema::dropIfExists('eco_com_state_types cascade');
+        Schema::dropIfExists('eco_com_modalities cascade');
+        Schema::dropIfExists('eco_com_types cascade');
     }
 }

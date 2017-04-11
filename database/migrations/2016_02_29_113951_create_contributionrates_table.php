@@ -35,6 +35,6 @@ class CreateContributionratesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contribution_rates');
+        Schema::dropIfExists('contribution_rates cascade');
     }
 }
