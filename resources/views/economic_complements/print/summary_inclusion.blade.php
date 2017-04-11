@@ -63,7 +63,6 @@
             @endforeach
 
             <?php $h=1;?>
-            <?php $tn=0;?>
             @foreach($types_list1 as $renta1 => $renta)
                 <tr>
                     @if($h==1)
@@ -75,7 +74,6 @@
                         <td><h4>{!! $degree->total !!}</h4></td>
                         <?php $tg=$tg + $degree->total;?>
                     @endforeach
-                    <?php $tn = $tn + $tg;?>
                     @if($h==1)
                         <th rowspan="3">{!! $totaln !!}</th>
                     @endif

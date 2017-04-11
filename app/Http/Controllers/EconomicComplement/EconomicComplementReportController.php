@@ -282,9 +282,29 @@ class EconomicComplementReportController extends Controller
                            $deparment_list[$item1->shortened] = $types_list;
                            $types_list = null;
                        }
+                       // total national by degree
+                       $eco_com_types1 = EconomicComplementType::all();
+                       $totaln = 0;
+                       foreach ($eco_com_types1 as $ec_types) {
+                           $degrees1 = Degree::all();
+                           $st = 0;
+                           foreach ($degrees1 as $degree) {
+                               $inclusion1 = DB::table('v_habitual')
+                                        ->select(DB::raw('count(v_habitual.id) total'))
+                                        ->whereYear('v_habitual.year1', '=', $request->year)
+                                        ->where('v_habitual.semester', 'LIKE', $semester)
+                                        ->where('v_habitual.type_id','=', $ec_types->id)
+                                        ->where('v_habitual.degree_id','=', $degree->id)->first();
+                                $degree_list1[$degree->id]= $inclusion1;
+                                $st = $st + $inclusion1->total;
+                           }
+                           $totaln = $totaln + $st;
+                           $types_list1[$ec_types->name] = $degree_list1;
+                           $degree_list1 = null;
+                       }
                        //dd($deparment_list);
                        if ($deparment_list) {
-                           $view = \View::make('economic_complements.print.summary_habitual', compact('header1','header2','title','date','hour','deparment_list'))->render();
+                           $view = \View::make('economic_complements.print.summary_habitual', compact('header1','header2','title','date','hour','deparment_list','types_list1','totaln'))->render();
                            $pdf = \App::make('dompdf.wrapper');
                            $pdf->loadHTML($view)->setPaper('legal','landscape');
                            return $pdf->stream();
@@ -324,7 +344,7 @@ class EconomicComplementReportController extends Controller
                            $deparment_list[$item1->shortened] = $types_list;
                            $types_list = null;
                        }
-                       // total by degree to level national
+                       // total national by degree
                        $eco_com_types1 = EconomicComplementType::all();
                        $totaln = 0;
                        foreach ($eco_com_types1 as $ec_types) {

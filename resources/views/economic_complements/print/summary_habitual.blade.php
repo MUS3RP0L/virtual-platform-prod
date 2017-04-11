@@ -59,7 +59,26 @@
                         <td><h4>{!! $tr !!}</h4></td>
                         <?php $j++;?>
                     </tr>
-                @endforeach            
+                @endforeach
+            @endforeach
+
+            <?php $h=1;?>
+            @foreach($types_list1 as $renta1 => $renta)
+                <tr>
+                    @if($h==1)
+                        <td rowspan="3"><h4>TN</h4></td>
+                    @endif
+                    <td><h4>{!! $renta1 !!}</h4></td>
+                    <?php $tg=0;?>
+                    @foreach($renta as $degree1 => $degree)
+                        <td><h4>{!! $degree->total !!}</h4></td>
+                        <?php $tg=$tg + $degree->total;?>
+                    @endforeach
+                    @if($h==1)
+                        <th rowspan="3">{!! $totaln !!}</th>
+                    @endif
+                    </tr>
+                    <?php $h++;?>
             @endforeach
         </table>
     </div>
