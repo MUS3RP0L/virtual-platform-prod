@@ -164,7 +164,8 @@ class DashboardController extends Controller
 			->groupBy('month')
 			->orderBy('month')
 			->get();
-		
+		$economic_complement_bar_labels=[];
+		$economic_complement_bar_datas=[];
 		foreach ($economic_complement as $item) {
 			$economic_complement_bar_labels[]= date("F", mktime(0, 0, 0, $item->month, 10));
 			$economic_complement_bar_datas[]= $item->quantity;
@@ -179,6 +180,8 @@ class DashboardController extends Controller
 			->join('economic_complements','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
 			->groupBy('eco_com_types.name')
 			->get();
+		$economic_complement_pie_types_labels=[];
+		$economic_complement_pie_types_datas=[];
 		foreach ($economic_complement_types as $item) {
 			$economic_complement_pie_types_labels[]= $item->type_name;
 			$economic_complement_pie_types_datas[]= $item->quantity;
@@ -193,6 +196,7 @@ class DashboardController extends Controller
 			->join('economic_complements','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
 			->groupBy('eco_com_modalities.shortened')
 			->get();
+			$economic_complement_modalities_types_datas=[];
 		foreach ($economic_complement_modalities_types as $item) {
 			$economic_complement_modalities_types_datas[$item->shortened]= $item->quantity;
 		}
@@ -204,7 +208,7 @@ class DashboardController extends Controller
 			->groupBy('cities.name')
 			->orderBy('quantity')
 			->get();
-		
+		$economic_complement_cities_data=[];
 		foreach ($economic_complement_cities as $item) {
 			$economic_complement_cities_data[$item->name]=$item->quantity;
 		}
