@@ -43,11 +43,9 @@
                <th class="grand"><h4>PA</h4></th>
                <th class="grand"><h4>STT</h4></th>
            </tr>
-           <?php $i=1;?>
             @foreach($deparment_list as $department1 => $departments)
                 <?php $j=1;?>
                 @foreach($departments as $renta1 => $renta)
-                    <?php $td=0;?>
                     <tr>
                         @if($j==1)
                         <td rowspan="3"><h4>{!! $department1 !!}</h4></td>
@@ -61,9 +59,7 @@
                         <td><h4>{!! $tr !!}</h4></td>
                         <?php $j++;?>
                     </tr>
-
-                @endforeach
-            <?php $i++;?>
+                @endforeach            
             @endforeach
         </table>
     </div>
