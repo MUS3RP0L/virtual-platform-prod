@@ -12,7 +12,7 @@
         "maatwebsite/excel": "~2.1.0",
         "barryvdh/laravel-debugbar": "^2.2",
         "yajra/laravel-datatables-oracle": "~6.0",
-        "barryvdh/laravel-dompdf": "^0.7.0",
+        "barryvdh/laravel-dompdf": "^0.8.0",
         "davejamesmiller/laravel-breadcrumbs": "^3.0",
         "simplesoftwareio/simple-qrcode": "~1"
     },
