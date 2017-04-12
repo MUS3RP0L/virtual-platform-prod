@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 
 class RolesTableSeeder extends Seeder
 {
-  /**
+    /**
    * Run the database seeds.
    *
    * @return void
@@ -20,27 +20,26 @@ class RolesTableSeeder extends Seeder
       Eloquent::reguard();
   }
 
-  private function createModules()
-  {
-      $statuses = [
+    private function createModules()
+    {
+        $statuses = [
 
-          ['name' => 'Modulo Super Admin'],
-          ['name' => 'Modulo Fondo de Retiro'],
-          ['name' => 'Modulo Complemento Económico'],
-          ['name' => 'Modulo Contabilidad'],
-          ['name' => 'Modulo Presupuesto'],
-          ['name' => 'Modulo Tesorería']
+          ['name' => 'Super Admin'],
+          ['name' => 'Fondo de Retiro'],
+          ['name' => 'Complemento Económico'],
+          ['name' => 'Contabilidad'],
+          ['name' => 'Presupuesto'],
+          ['name' => 'Tesorería']
       ];
 
-      foreach ($statuses as $status) {
+        foreach ($statuses as $status) {
+            Muserpol\Module::create($status);
+        }
+    }
 
-          Muserpol\Module::create($status);
-      }
-  }
-
-  private function createRoles()
-  {
-      $statuses = [
+    private function createRoles()
+    {
+        $statuses = [
 
           ['module_id' => '1', 'name' => 'SuperAdmin'],
           ['module_id' => '2', 'name' => 'Ventanilla'],
@@ -54,10 +53,8 @@ class RolesTableSeeder extends Seeder
 
       ];
 
-      foreach ($statuses as $status) {
-
-          Muserpol\Role::create($status);
-
-      }
-  }
+        foreach ($statuses as $status) {
+            Muserpol\Role::create($status);
+        }
+    }
 }
