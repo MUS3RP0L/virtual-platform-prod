@@ -50,9 +50,9 @@ class RolesTableSeeder extends Seeder
           ['module_id' => '2', 'name' => 'Responsable'],
           ['module_id' => '3', 'name' => 'Recepción'],
           ['module_id' => '3', 'name' => 'Revisión'],
-          ['module_id' => '3', 'name' => 'Responsable']
-          ['module_id' => '4', 'name' => 'Responsable']
-          ['module_id' => '5', 'name' => 'Responsable']
+          ['module_id' => '3', 'name' => 'Responsable'],
+          ['module_id' => '4', 'name' => 'Responsable'],
+          ['module_id' => '5', 'name' => 'Responsable'],
           ['module_id' => '6', 'name' => 'Responsable']
 
 
