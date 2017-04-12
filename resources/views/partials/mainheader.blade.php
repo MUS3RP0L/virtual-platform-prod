@@ -51,8 +51,11 @@
                     <ul class="dropdown-menu">
                         <li class="user-header">
                             <p style="color:#fff">
-                                {{-- {!! Util::ucw(Auth::user()->first_name) !!} {!! Util::ucw(Auth::user()->last_name) !!} --}}
-                                {{-- <small>{!! Auth::user()->role->name !!}</small> --}}
+                                {!! Util::ucw(Auth::user()->first_name) !!} {!! Util::ucw(Auth::user()->last_name)!!}
+                                @foreach (Auth::user()->roles as $role)
+                                  <small>{!!$role->name !!}</small>
+                                  <small>{!!$role->module->name !!}</small>
+                                @endforeach
                             </p>
                         </li>
                         </li>
