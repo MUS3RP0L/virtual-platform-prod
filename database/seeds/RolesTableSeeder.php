@@ -42,14 +42,19 @@ class RolesTableSeeder extends Seeder
         $statuses = [
 
           ['module_id' => '1', 'name' => 'SuperAdmin'],
-          ['module_id' => '2', 'name' => 'Ventanilla'],
-          ['module_id' => '2', 'name' => 'Certificación'],
-          ['module_id' => '2', 'name' => 'Calificación'],
-          ['module_id' => '2', 'name' => 'Legal'],
-          ['module_id' => '2', 'name' => 'Administrador'],
+          ['module_id' => '2', 'name' => 'Recepcion'],
+          ['module_id' => '2', 'name' => 'Revision'],
+          ['module_id' => '2', 'name' => 'Archivo'],
+          ['module_id' => '2', 'name' => 'Calificacion'],
+          ['module_id' => '2', 'name' => 'Dictamen Legal'],
+          ['module_id' => '2', 'name' => 'Responsable'],
           ['module_id' => '3', 'name' => 'Recepción'],
           ['module_id' => '3', 'name' => 'Revisión'],
-          ['module_id' => '3', 'name' => 'Administrador']
+          ['module_id' => '3', 'name' => 'Responsable']
+          ['module_id' => '4', 'name' => 'Responsable']
+          ['module_id' => '5', 'name' => 'Responsable']
+          ['module_id' => '6', 'name' => 'Responsable']
+
 
       ];
 
