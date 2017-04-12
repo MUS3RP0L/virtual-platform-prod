@@ -52,6 +52,6 @@ class CreateReimbursementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reimbursements cascade');
+        Schema::dropIfExists('reimbursements');
     }
 }

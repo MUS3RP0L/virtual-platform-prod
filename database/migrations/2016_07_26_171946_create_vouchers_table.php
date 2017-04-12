@@ -47,7 +47,7 @@ class CreateVouchersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vouchers cascade');
-        Schema::dropIfExists('voucher_types cascade');
+        Schema::dropIfExists('vouchers');
+        Schema::dropIfExists('voucher_types');
     }
 }
