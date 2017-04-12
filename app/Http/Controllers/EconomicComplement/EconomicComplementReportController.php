@@ -102,7 +102,7 @@ class EconomicComplementReportController extends Controller
                                            ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
                                            ->leftJoin('units','affiliates.unit_id','=','units.id')
                                            ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
-                                           ->whereRaw("to_char(economic_complements.city_id,'99') LIKE  '".$regional."'")
+                                           ->whereRaw("economic_complements.city_id::text LIKE  '".$regional."'")
                                            ->whereYear('economic_complements.year', '=', $request->year)
                                            ->where('economic_complements.semester', 'LIKE', $semester)
                                            ->where('economic_complements.user_id', '=', Auth::user()->id)
@@ -129,7 +129,7 @@ class EconomicComplementReportController extends Controller
                            $regional = ($request->city == 'Todo') ? '%%' : $request->city;
                            $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
                            $beneficiary_eco_complements = DB::table('eco_com_applicants')
-                                           ->select(DB::raw('economic_complements.id, economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened exp, CONCAT( IF(ISNULL(eco_com_applicants.last_name),"",eco_com_applicants.last_name), " ", IF(ISNULL(eco_com_applicants.mothers_last_name),"",eco_com_applicants.mothers_last_name), " ", IF(ISNULL(eco_com_applicants.surname_husband),"",eco_com_applicants.surname_husband), " ",  IF(ISNULL(eco_com_applicants.first_name),"",eco_com_applicants.first_name), " ", IF(ISNULL(eco_com_applicants.second_name),"",eco_com_applicants.second_name)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username,eco_com_applicants.phone_number,eco_com_applicants.cell_phone_number'))
+                                           ->select(DB::raw("economic_complements.id, economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened exp, concat_ws(' ', NULLIF(eco_com_applicants.last_name,null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null), NULLIF(eco_com_applicants.first_name, null), NULLIF(eco_com_applicants.second_name, null)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username,eco_com_applicants.phone_number,eco_com_applicants.cell_phone_number"))
                                            ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                                            ->leftJoin('users','economic_complements.user_id','=','users.id')
                                            ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
@@ -144,7 +144,7 @@ class EconomicComplementReportController extends Controller
                                            ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
                                            ->leftJoin('units','affiliates.unit_id','=','units.id')
                                            ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
-                                           ->where('economic_complements.city_id', 'LIKE', $regional)
+                                           ->whereRaw("economic_complements.city_id::text LIKE  '".$regional."'")
                                            ->whereYear('economic_complements.year', '=', $request->year)
                                            ->where('economic_complements.semester', 'LIKE', $semester)
                                            ->orderBy('economic_complements.id','ASC')
@@ -172,7 +172,7 @@ class EconomicComplementReportController extends Controller
                            $regional = ($request->city == 'Todo') ? '%%' : $request->city;
                            $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
                            $representative_eco_complements = DB::table('eco_com_legal_guardians')
-                                           ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened exp, CONCAT( IF(ISNULL(eco_com_applicants.last_name),"",eco_com_applicants.last_name), " ", IF(ISNULL(eco_com_applicants.mothers_last_name),"",eco_com_applicants.mothers_last_name), " ", IF(ISNULL(eco_com_applicants.surname_husband),"",eco_com_applicants.surname_husband), " ",  IF(ISNULL(eco_com_applicants.first_name),"",eco_com_applicants.first_name), " ", IF(ISNULL(eco_com_applicants.second_name),"",eco_com_applicants.second_name)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username, eco_com_legal_guardians.identity_card as ci, cities2.shortened as exp1, CONCAT( IF(ISNULL(eco_com_legal_guardians.last_name),"",eco_com_legal_guardians.last_name), " ", IF(ISNULL(eco_com_legal_guardians.mothers_last_name),"",eco_com_legal_guardians.mothers_last_name), " ", IF(ISNULL(eco_com_legal_guardians.surname_husband),"",eco_com_legal_guardians.surname_husband), " ",  IF(ISNULL(eco_com_legal_guardians.first_name),"",eco_com_legal_guardians.first_name), " ", IF(ISNULL(eco_com_legal_guardians.second_name),"",eco_com_legal_guardians.second_name)) full_repre,eco_com_applicants.phone_number,eco_com_applicants.cell_phone_number'))
+                                           ->select(DB::raw("economic_complements.id,economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened as exp, concat_ws(' ', NULLIF(eco_com_applicants.last_name,null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null), NULLIF(eco_com_applicants.first_name, null), NULLIF(eco_com_applicants.second_name, null)) as full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username, eco_com_legal_guardians.identity_card as ci, cities2.shortened as exp1, concat_ws(' ',NULLIF(eco_com_legal_guardians.last_name,null), NULLIF(eco_com_legal_guardians.mothers_last_name,null), NULLIF(eco_com_legal_guardians.first_name,null),NULLIF(eco_com_legal_guardians.second_name,null)) as full_repre,eco_com_applicants.phone_number,eco_com_applicants.cell_phone_number"))
                                            ->leftJoin('eco_com_applicants','eco_com_legal_guardians.eco_com_applicant_id','=', 'eco_com_applicants.id')
                                            ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                                            ->leftJoin('users','economic_complements.user_id','=','users.id')
@@ -189,7 +189,7 @@ class EconomicComplementReportController extends Controller
                                            ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
                                            ->leftJoin('units','affiliates.unit_id','=','units.id')
                                            ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
-                                           ->where('economic_complements.city_id', 'LIKE', $regional)
+                                           ->whereRaw("economic_complements.city_id::text LIKE '".$regional."'")
                                            ->whereYear('economic_complements.year', '=', $request->year)
                                            ->where('economic_complements.semester', 'LIKE', rtrim($semester))
                                            ->orderBy('economic_complements.id','ASC')
@@ -215,7 +215,7 @@ class EconomicComplementReportController extends Controller
                                $regional = ($request->city == 'Todo') ? '%%' : $request->city;
                                $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
                                $double_perception_eco_complements = DB::table('eco_com_applicants')
-                                               ->select(DB::raw('economic_complements.id, economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened exp, CONCAT( IF(ISNULL(eco_com_applicants.last_name),"",eco_com_applicants.last_name), " ", IF(ISNULL(eco_com_applicants.mothers_last_name),"",eco_com_applicants.mothers_last_name), " ", IF(ISNULL(eco_com_applicants.surname_husband),"",eco_com_applicants.surname_husband), " ",  IF(ISNULL(eco_com_applicants.first_name),"",eco_com_applicants.first_name), " ", IF(ISNULL(eco_com_applicants.second_name),"",eco_com_applicants.second_name)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username,eco_com_applicants.phone_number,eco_com_applicants.cell_phone_number'))
+                                               ->select(DB::raw("economic_complements.id, economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.shortened as exp,concat_ws(' ', NULLIF(eco_com_applicants.last_name,null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null), NULLIF(eco_com_applicants.first_name, null), NULLIF(eco_com_applicants.second_name, null)) as full_name , degrees.shortened,eco_com_types.name,pension_entities.name as pension_entity,users.username,eco_com_applicants.phone_number,eco_com_applicants.cell_phone_number"))
                                                ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                                                ->leftJoin('users','economic_complements.user_id','=','users.id')
                                                ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
@@ -230,14 +230,14 @@ class EconomicComplementReportController extends Controller
                                                ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
                                                ->leftJoin('units','affiliates.unit_id','=','units.id')
                                                ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
-                                               ->where('economic_complements.city_id', 'LIKE', $regional)
+                                               ->whereRaw("economic_complements.city_id::text LIKE '".$regional."'")
                                                ->whereYear('economic_complements.year', '=', $request->year)
                                                ->where('economic_complements.semester', 'LIKE', $semester)
                                                ->whereIn('eco_com_applicants.identity_card', function($query) {
-                                                   $query->select(DB::raw('eco_com_applicants.identity_card'))
-                                                   ->from('eco_com_applicants')
-                                                   ->groupBy('eco_com_applicants.identity_card')
-                                                   ->havingRaw('COUNT(economic_complements.id) > 1');
+                                                   $query->select(DB::raw("applicants.identity_card"))
+                                                   ->from('eco_com_applicants as applicants')
+                                                   ->groupBy('applicants.identity_card')
+                                                   ->havingRaw("COUNT(applicants.identity_card) > 1");
                                                })->orderBy('economic_complements.id','ASC')->get();
 
                                if ($double_perception_eco_complements) {
