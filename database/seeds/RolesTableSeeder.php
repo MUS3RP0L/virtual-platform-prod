@@ -24,7 +24,7 @@ class RolesTableSeeder extends Seeder
     {
         $statuses = [
 
-          ['name' => 'Super Admin'],
+          ['name' => 'Tecnologia'],
           ['name' => 'Fondo de Retiro'],
           ['name' => 'Complemento Económico'],
           ['name' => 'Contabilidad'],
