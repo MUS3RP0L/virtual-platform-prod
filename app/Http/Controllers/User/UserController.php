@@ -11,10 +11,12 @@ use Validator;
 use Session;
 use Datatables;
 use Util;
+use DB;
 
 use Muserpol\User;
 use Muserpol\Module;
 use Muserpol\Role;
+
 
 class UserController extends Controller
 {
@@ -233,9 +235,15 @@ class UserController extends Controller
             $user->phone = trim($request->phone);
             $user->username = trim($request->username);
             if($request->password){$user->password = bcrypt(trim($request->password));}
-            if($request->role){$user->role_id = $request->role;}
-            $user->save();
-
+             $user->save();
+            if($request->role){
+                  DB::table('role_user')
+                  ->insert([
+                    'role_id' => $request->role,
+                    'user_id' => $user->id,
+                  ]);
+            }
+    
             Session::flash('message', $message);
         }
 
