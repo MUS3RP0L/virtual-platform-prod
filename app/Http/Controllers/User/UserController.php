@@ -233,16 +233,10 @@ class UserController extends Controller
             $user->last_name = trim($request->last_name);
             $user->phone = trim($request->phone);
             $user->username = trim($request->username);
-            //dd(Role::find($request->role));
             if($request->password){$user->password = bcrypt(trim($request->password));}
                 $user->save();
             if($request->role){
-                // $role_user= new RoleUser();
-                // $role_user->role_id= $request->role;
-                // $role_user->user_id=$user->id;
-                // $role_user->save();
                 $user->roles()->attach($request->role);
-
             }
     
             Session::flash('message', $message);
