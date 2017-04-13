@@ -40,6 +40,7 @@ class CreateUsersTable extends Migration
             $table->softDeletes();
         });
         Schema::create('role_user', function (Blueprint $table) {
+            //$table->bigIncrements('id');
             $table->UnsignedBigInteger('role_id');
             $table->UnsignedBigInteger('user_id');
             $table->foreign('role_id')->references('id')->on('roles');
