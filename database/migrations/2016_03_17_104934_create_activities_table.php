@@ -48,6 +48,6 @@ class CreateActivitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activities cascade');
+        Schema::dropIfExists('activities');
     }
 }

@@ -8,12 +8,12 @@ class Role extends Model
 {
     protected $table = 'roles';
 
-	protected $fillable = [
-		'module_id',
-		'name'
-	];
+    protected $fillable = [
+        'module_id',
+        'name'
+    ];
 
-	protected $guarded = ['id'];
+    protected $guarded = ['id'];
 
     public function module()
     {
@@ -24,5 +24,10 @@ class Role extends Model
     {
         return $query->where('module_id', $id);
     }
+    public function users()
+    {
+      return $this->belongsToMany(Role::class);
+    }
+
 
 }

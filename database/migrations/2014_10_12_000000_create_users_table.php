@@ -40,6 +40,7 @@ class CreateUsersTable extends Migration
             $table->softDeletes();
         });
         Schema::create('role_user', function (Blueprint $table) {
+            //$table->bigIncrements('id');
             $table->UnsignedBigInteger('role_id');
             $table->UnsignedBigInteger('user_id');
             $table->foreign('role_id')->references('id')->on('roles');
@@ -56,9 +57,9 @@ class CreateUsersTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('role_user cascade');
-        Schema::dropIfExists('users cascade');
-        Schema::dropIfExists('roles cascade');
-        Schema::dropIfExists('modules cascade');
+        Schema::dropIfExists('role_user');
+        Schema::dropIfExists('users');
+        Schema::dropIfExists('roles');
+        Schema::dropIfExists('modules');
     }
 }

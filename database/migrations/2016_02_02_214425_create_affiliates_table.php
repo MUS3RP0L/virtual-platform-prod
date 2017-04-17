@@ -228,19 +228,19 @@ class CreateAffiliatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('records cascade');
-        Schema::dropIfExists('spouses cascade');
-        Schema::dropIfExists('affiliate_address cascade');
-        Schema::dropIfExists('affiliates cascade');
-        Schema::dropIfExists('affiliate_types cascade');
-        Schema::dropIfExists('affiliate_states cascade');
-        Schema::dropIfExists('state_types cascade');
-        Schema::dropIfExists('pension_entities cascade');
-        Schema::dropIfExists('categories cascade');
-        Schema::dropIfExists('units cascade');
-        Schema::dropIfExists('breakdowns cascade');
-        Schema::dropIfExists('degrees cascade');
-        Schema::dropIfExists('hierarchies cascade');
-        Schema::dropIfExists('cities cascade');
+        Schema::dropIfExists('records');
+        Schema::dropIfExists('spouses');
+        Schema::dropIfExists('affiliate_address');
+        Schema::dropIfExists('affiliates');
+        Schema::dropIfExists('affiliate_types');
+        Schema::dropIfExists('affiliate_states');
+        Schema::dropIfExists('state_types');
+        Schema::dropIfExists('pension_entities');
+        Schema::dropIfExists('categories');
+        Schema::dropIfExists('units');
+        Schema::dropIfExists('breakdowns');
+        Schema::dropIfExists('degrees');
+        Schema::dropIfExists('hierarchies');
+        Schema::dropIfExists('cities');
     }
 }

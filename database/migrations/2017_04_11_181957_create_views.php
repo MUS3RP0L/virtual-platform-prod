@@ -54,7 +54,7 @@ class CreateViews extends Migration
 
     public function down()
     {
-        $sql = "DROP VIEW IF EXISTS v_habitual cascade;DROP VIEW IF EXISTS v_inclusion cascade";
+        $sql = "DROP VIEW IF EXISTS v_habitual;DROP VIEW IF EXISTS v_inclusion";
         DB::connection()->getPdo()->exec($sql);
     }
 }

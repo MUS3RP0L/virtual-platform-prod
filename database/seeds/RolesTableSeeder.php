@@ -24,7 +24,7 @@ class RolesTableSeeder extends Seeder
     {
         $statuses = [
 
-          ['name' => 'Super Admin'],
+          ['name' => 'Tecnología'],
           ['name' => 'Fondo de Retiro'],
           ['name' => 'Complemento Económico'],
           ['name' => 'Contabilidad'],
@@ -42,10 +42,10 @@ class RolesTableSeeder extends Seeder
         $statuses = [
 
           ['module_id' => '1', 'name' => 'SuperAdmin'],
-          ['module_id' => '2', 'name' => 'Recepcion'],
-          ['module_id' => '2', 'name' => 'Revision'],
+          ['module_id' => '2', 'name' => 'Recepción'],
+          ['module_id' => '2', 'name' => 'Revisión'],
           ['module_id' => '2', 'name' => 'Archivo'],
-          ['module_id' => '2', 'name' => 'Calificacion'],
+          ['module_id' => '2', 'name' => 'Calificación'],
           ['module_id' => '2', 'name' => 'Dictamen Legal'],
           ['module_id' => '2', 'name' => 'Responsable'],
           ['module_id' => '3', 'name' => 'Recepción'],

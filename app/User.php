@@ -32,9 +32,9 @@ class User extends Model implements AuthenticatableContract,
 
     protected $hidden = ['password'];
 
-    public function role()
+    public function roles()
     {
-        return $this->belongsTo('Muserpol\Role');
+        return $this->belongsToMany('Muserpol\Role');
     }
 
     public function scopeIdIs($query, $id)
