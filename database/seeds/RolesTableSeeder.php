@@ -31,7 +31,7 @@ class RolesTableSeeder extends Seeder
           ['name' => 'Presupuesto'],
           ['name' => 'Tesorería'],
           ['name' => 'Préstamos'],
-          ['name' => 'Jurídica'],
+          ['name' => 'Jurídica']
 
       ];
 
