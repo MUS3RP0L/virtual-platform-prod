@@ -29,7 +29,10 @@ class RolesTableSeeder extends Seeder
           ['name' => 'Complemento Económico'],
           ['name' => 'Contabilidad'],
           ['name' => 'Presupuesto'],
-          ['name' => 'Tesorería']
+          ['name' => 'Tesorería'],
+          ['name' => 'Préstamos'],
+          ['name' => 'Jurídica'],
+
       ];
 
         foreach ($statuses as $status) {
