@@ -223,12 +223,11 @@
             <?php $i++;?>
             @endforeach
         </table>
-        <div class="visible-print text-center">
-        {!! QrCode::size(100)->generate(Request::url()); !!}
-        <p>Escanéame para volver a la página principal.</p>
-      </div>
-
-
+              <div class="visible-print text-center">
+              {!! QrCode::size(100)->generate(Request::url()); !!}
+              
+              </div>
+         {!!QrCode::generate('http://www.simplesoftware.io');!!}
       </div>
       
 @endsection
