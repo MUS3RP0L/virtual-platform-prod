@@ -136,4 +136,5 @@ Route::group(['middleware' => 'auth'], function() {
 
 });
 
-define('ACCESS', 'alerick');
+define('ACCESS', env('ACCESS_PASS'));
+
