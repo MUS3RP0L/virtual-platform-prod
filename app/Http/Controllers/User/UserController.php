@@ -27,25 +27,25 @@ class UserController extends Controller
 
     public function index()
     {
-        if (Auth::user()->can('manage')) {
-
+      if (Auth::user()->can('manage')) {
             return view('users.index');
-
         }else {
-
             return redirect('/');
-
         }
     }
-
     public function Data()
     {
-        $users = User::select(['id','username', 'first_name', 'last_name', 'phone','role_id','status'])->where('id', '>', 1);
-
+        $users = User::select(['id','username', 'first_name', 'last_name', 'phone','status'])->where('id', '>', 1);
         return Datatables::of($users)
             ->addColumn('name', function ($user) { return Util::ucw($user->first_name) . ' ' . Util::ucw($user->last_name); })
-            ->addColumn('module', function ($user) { return $user->role->module->name; })
-            ->addColumn('role', function ($user) { return $user->role->name; })
+            ->addColumn('module', function ($user) { return $user->roles()->first()->module()->first()->name; })
+            ->addColumn('role', function ($user): string { 
+                 $roles_list=[];
+                 foreach ($user->roles as $role) {
+                     $roles_list[]=$role->name;
+                 }
+                return implode(",",$roles_list);
+            })
             ->addColumn('status', function ($user) { return $user->status == 'active' ? 'Activo' : 'Inactivo'; })
             ->addColumn('action', function ($user) { return  $user->status == "active" ?
                 '<div class="btn-group" style="margin:-3px 0;">
