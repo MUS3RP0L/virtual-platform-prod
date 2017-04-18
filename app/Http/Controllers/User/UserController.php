@@ -159,7 +159,6 @@ class UserController extends Controller
 
     public function save($request, $user = false)
     {
-
         if ($user) {
 
             $rules = [
@@ -235,8 +234,10 @@ class UserController extends Controller
             $user->username = trim($request->username);
             if($request->password){$user->password = bcrypt(trim($request->password));}
                 $user->save();
+
             if($request->role){
-                $user->roles()->attach($request->role);
+
+                $user->roles()->sync($request->role);
             }
     
             Session::flash('message', $message);
