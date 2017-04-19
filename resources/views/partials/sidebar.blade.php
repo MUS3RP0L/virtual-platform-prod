@@ -24,14 +24,16 @@
                 <a href="#">&nbsp;<i class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></i>&nbsp; <span>Fondo de Retiro</span></a>
             </li>
 
-            <li {!! (Request::is('economic_complement') ? 'class=active' : '') !!}>
-                <a href="{!! url('economic_complement') !!}"><i class="fa fa-fw fa-puzzle-piece fa-lg" aria-hidden="true"></i>&nbsp; <span>Complemento Económico</span></a>
-            </li>
-
+            @can('economic_complement')
+                <li {!! (Request::is('economic_complement') ? 'class=active' : '') !!}>
+                    <a href="{!! url('economic_complement') !!}"><i class="fa fa-fw fa-puzzle-piece fa-lg" aria-hidden="true"></i>&nbsp; <span>Complemento Económico</span></a>
+                </li>
+            @endcan
+      
             <li {!! (Request::is('mortuary') ? 'class=active' : '') !!}>
                 <a href="#"><i class="fa fa-fw fa-heartbeat fa-lg" aria-hidden="true"></i>&nbsp; <span>Cuota, Auxilio Mortuorio</span></a>
             </li>
-
+  
             <li {!! (Request::is('budget') ? 'class=active' : '') !!}>
                 <a href="#"><i class="fa fa-fw fa-edit fa-lg" aria-hidden="true"></i>&nbsp; <span>Presupuesto</a>
             </li>
