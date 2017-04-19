@@ -67,7 +67,7 @@
     </td>
 
     <td style="width: 40%;border: 0px;">
-
+         <div id="project">
             <table>
             <tr>
               <td colspan="2" class="grand service"><center><b>DATOS INSTITUCIONALES</b></center></td>
@@ -117,7 +117,7 @@
 </table>
 
 <div><b>III. RESUMEN DE APORTE</b></div>
-    <div id="project">
+    
         <table>
             <tr>
           <td colspan="6" class="grand service" style="text-align:center;">DATOS DE APORTES</td>
@@ -223,12 +223,16 @@
             <?php $i++;?>
             @endforeach
         </table>
-
-
-
-      </div>
-      <div class="visible-print text-center">
-        {!! QrCode::size(100)->generate(Request::url()); !!}
-        <p>Escanéame para volver a la página principal.</p>
-      </div>
+        <table> 
+          <tr>
+            <td>
+              <div class="visible-print text-center">
+                {!! QrCode::size(100)->generate(Request::url()); !!}
+                <p>Escanéame para volver a la página principal.</p>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>    
 @endsection
+

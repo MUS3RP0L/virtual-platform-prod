@@ -7,7 +7,7 @@
   </head>
   <body>
       <header class="clearfix">
-        <table class="tableh">
+        <table class="table">
               <tr>
                 <th style="width: 25%;border: 0px;">
                   <div id="logo">
@@ -27,7 +27,7 @@
                 </th>
               </tr>
         </table>
-        <table class="tablet">
+        <table class="table">
           <tr>
             <td style="border: 0px;text-align:left;">
               <div class="title"><b>Fecha Emisión: </b> La Paz, {!! $date !!}-{!! $hour !!}<br></div>
