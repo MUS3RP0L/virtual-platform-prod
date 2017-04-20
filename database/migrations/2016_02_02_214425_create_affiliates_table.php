@@ -227,7 +227,7 @@ class CreateAffiliatesTable extends Migration
             $table->UnsignedBigInteger('affiliate_id');
             $table->UnsignedBigInteger('module_id');
             $table->date('date');
-            $table->integer('type_id');
+            $table->string('title');
             $table->string('message');
             $table->timestamps();
             $table->softDeletes();
