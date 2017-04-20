@@ -62,86 +62,84 @@
               <td class="info" style="width: 75%;"><h5>{!! $affiliate->reason_decommissioned !!}</h5></td>
             </tr>
           </table>
-        </div>
-
+      </div>
     </td>
 
     <td style="width: 40%;border: 0px;">
          <div id="project">
             <table>
-            <tr>
-              <td colspan="2" class="grand service"><center><b>DATOS INSTITUCIONALES</b></center></td>
-            </tr>
-            <tr>
-              <td  style="width: 35%;"><h6><b>MATRICULA</b></h6></td>
-              <td class="info" style="width: 65%;"><h6>{!! $affiliate->registration !!}</h6></td>
-            </tr>
-            <tr>
-              <td class="service"><b>ESTADO</b></td>
-              <td class="info" ><h6>{!! $affiliate->affiliate_state->name !!}</h6></td>
-            </tr>
-            <tr>
-              <td class="service"><b>GRADO</b></td>
-              <td class="info" ><h6>{!! $affiliate->degree->name !!}</h6></td>
-            </tr>
-            <tr>
-              <td class="service"><b>UNIDAD</b></td>
-              <td class="info" ><h6>{!! $affiliate->unit->shortened !!}</h6></td>
-            </tr>
-            <tr>
-              <td class="service"><b>TIPO</b></td>
-              <td class="info" ><h6>{!! $affiliate->affiliate_type->name !!}</h6></td>
-            </tr>
-            <tr>
-              <td class="service"><b>NRO. ITEM</b></td>
-              <td class="info" ><h6>{!! $affiliate->item !!}</td>
-            </tr>
-            <tr>
-              <td class="service"><b>FECHA DE ALTA</b></td>
-              <td class="info"><h6>{!! $affiliate->getFullDateIngtoPrint() !!}</h6></td>
-            </tr>
-            <tr>
-              <td class="service"><b>FECHA DE BAJA</b></td>
-              <td class="info"><h6>{!! $affiliate->getData_fech_bajatoPrint() !!}</h6></td>
-            </tr>
-            <tr>
-              <td class="service"><b>MOTIVO DE BAJA</b></td>
-              <td class="info"><h6>{!! $affiliate->reason_decommissioned !!}</h6></td>
-            </tr>
-
-          </table>
-
+                    <tr>
+                      <td colspan="2" class="grand service"><center><b>DATOS INSTITUCIONALES</b></center></td>
+                    </tr>
+                    <tr>
+                      <td  style="width: 35%;"><h6><b>MATRICULA</b></h6></td>
+                      <td class="info" style="width: 65%;"><h6>{!! $affiliate->registration !!}</h6></td>
+                    </tr>
+                    <tr>
+                      <td class="service"><b>ESTADO</b></td>
+                      <td class="info" ><h6>{!! $affiliate->affiliate_state->name !!}</h6></td>
+                    </tr>
+                    <tr>
+                      <td class="service"><b>GRADO</b></td>
+                      <td class="info" ><h6>{!! $affiliate->degree->name !!}</h6></td>
+                    </tr>
+                    <tr>
+                      <td class="service"><b>UNIDAD</b></td>
+                      <td class="info" ><h6>{!! $affiliate->unit->shortened !!}</h6></td>
+                    </tr>
+                    <tr>
+                      <td class="service"><b>TIPO</b></td>
+                      <td class="info" ><h6>{!! $affiliate->affiliate_type->name !!}</h6></td>
+                    </tr>
+                    <tr>
+                      <td class="service"><b>NRO. ITEM</b></td>
+                      <td class="info" ><h6>{!! $affiliate->item !!}</td>
+                    </tr>
+                    <tr>
+                      <td class="service"><b>FECHA DE ALTA</b></td>
+                      <td class="info"><h6>{!! $affiliate->getFullDateIngtoPrint() !!}</h6></td>
+                    </tr>
+                    <tr>
+                      <td class="service"><b>FECHA DE BAJA</b></td>
+                      <td class="info"><h6>{!! $affiliate->getData_fech_bajatoPrint() !!}</h6></td>
+                    </tr>
+                    <tr>
+                      <td class="service"><b>MOTIVO DE BAJA</b></td>
+                      <td class="info"><h6>{!! $affiliate->reason_decommissioned !!}</h6></td>
+                    </tr>
+            </table>
+        </div>
 
     </td>
   </tr>
 </table>
 
 <div><b>III. RESUMEN DE APORTE</b></div>
-    
-        <table>
+
+<table>
             <tr>
-          <td colspan="6" class="grand service" style="text-align:center;">DATOS DE APORTES</td>
-        </tr>
-        <tr>
-        <td class="grand service" style="text-align:center;" >GANADO</td>
-        <td class="grand service" style="text-align:center;">BONO DE SEGURIDAD CIUDADANA</td>
-        <td class="grand service" style="text-align:center;">COTIZABLE</td>
-        <td class="grand service" style="text-align:center;">APORTE FONDO DE RETIRO</td>
-        <td class="grand service" style="text-align:center;">APORTE SEGURO DE VIDA</td>
-        <td class="grand service" style="text-align:center;">APORTE MUSERPOL</td>
-        </tr>
-        <tr>
-        <th class="info" style="text-align:center;" >{!! $total_gain !!}</th>
-        <th class="info" style="text-align:center;">{!! $total_public_security_bonus !!}</th>
-        <th class="info" style="text-align:center;">{!! $total_quotable !!}</th>
-        <th class="info" style="text-align:center;">{!! $total_retirement_fund !!}</th>
-        <th class="info" style="text-align:center;">{!! $total_mortuary_quota !!}</th>
-        <th class="info" style="text-align:center;">{{ $total }}</th>
-        </tr>
+                <td colspan="6" class="grand service" style="text-align:center;">DATOS DE APORTES</td>
+            </tr>
+            <tr>
+                <td class="grand service" style="text-align:center;" >GANADO</td>
+                <td class="grand service" style="text-align:center;">BONO DE SEGURIDAD CIUDADANA</td>
+                <td class="grand service" style="text-align:center;">COTIZABLE</td>
+                <td class="grand service" style="text-align:center;">APORTE FONDO DE RETIRO</td>
+                <td class="grand service" style="text-align:center;">APORTE SEGURO DE VIDA</td>
+                <td class="grand service" style="text-align:center;">APORTE MUSERPOL</td>
+            </tr>
+            <tr>
+                <th class="info" style="text-align:center;" >{!! $total_gain !!}</th>
+                <th class="info" style="text-align:center;">{!! $total_public_security_bonus !!}</th>
+                <th class="info" style="text-align:center;">{!! $total_quotable !!}</th>
+                <th class="info" style="text-align:center;">{!! $total_retirement_fund !!}</th>
+                <th class="info" style="text-align:center;">{!! $total_mortuary_quota !!}</th>
+                <th class="info" style="text-align:center;">{{ $total }}</th>
+            </tr>
 
-    </table>
+</table>
 
-</div>
+
 <footer>
   PLATAFORMA VIRUTAL - MUTUAL DE SERVICIOS AL POLICIA
 </footer>
@@ -223,16 +221,6 @@
             <?php $i++;?>
             @endforeach
         </table>
-        <table> 
-          <tr>
-            <td>
-              <div class="visible-print text-center">
-                {!! QrCode::size(100)->generate(Request::url()); !!}
-                <p>Escanéame para volver a la página principal.</p>
-              </div>
-            </td>
-          </tr>
-        </table>
-      </div>    
-@endsection
 
+      </div>
+@endsection
