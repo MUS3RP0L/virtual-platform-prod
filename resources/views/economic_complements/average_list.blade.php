@@ -43,7 +43,7 @@
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir" style="margin:0px;">
-                                                <a  href="{!! url('print_average') !!}" type="submit" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="tooltip" data-placement="bottom" >
+                                                <a  href="{!! url('print_average') !!}" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="tooltip">
                                                     &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
                                                 </a>
                                             </div>
