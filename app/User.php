@@ -47,4 +47,17 @@ class User extends Model implements AuthenticatableContract,
         return $this->first_name . ' ' . $this->last_name;
     }
 
+    public function getAllRolesToString(){
+
+       $roles_list=[];
+       foreach ($this->roles as $role) {
+           $roles_list[]=$role->name;
+       }
+       return implode(",",$roles_list);
+
+    }
+
+    public function getModule(){
+        return $this->roles()->first()->module;   
+    }
 }
