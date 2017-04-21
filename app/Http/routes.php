@@ -118,6 +118,9 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('get_economic_complement', array('as'=>'get_economic_complement', 'uses'=>'EconomicComplement\EconomicComplementController@Data'));
 	Route::get('get_economic_complement_by_affiliate', array('as'=>'get_economic_complement_by_affiliate', 'uses'=>'EconomicComplement\EconomicComplementController@Data_by_affiliate'));
 	Route::get('get_economic_complement_type/{id}', array('as'=>'get_economic_complement_type', 'uses'=>'EconomicComplement\EconomicComplementController@getEconomicComplementType'));
+	Route::get('averages', array('as' => 'averages', 'uses' => 'EconomicComplement\EconomicComplementReportController@average'));
+	Route::get('get_average', array('as'=>'get_average','uses' =>'EconomicComplement\EconomicComplementReportController@Data'));
+	Route::get('print_average', array('as'=>'print_average','uses' =>'EconomicComplement\EconomicComplementReportController@print_average'));
 
 	Route::get('print_sworn_declaration1/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_sworn_declaration1');
 	Route::get('print_sworn_declaration2/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_sworn_declaration2');
@@ -137,4 +140,3 @@ Route::group(['middleware' => 'auth'], function() {
 });
 
 define('ACCESS', env('ACCESS_PASS'));
-

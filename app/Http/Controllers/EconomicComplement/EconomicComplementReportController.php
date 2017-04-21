@@ -39,6 +39,10 @@ class EconomicComplementReportController extends Controller
     {
         return view('economic_complements.print.report_generator', self::getViewModel());
     }
+    public function average()
+    {
+        return view('economic_complements.average_list', self::getViewModel());
+    }
 
     public static function getViewModel()
     {
@@ -51,6 +55,11 @@ class EconomicComplementReportController extends Controller
        $semestre = ['Todo' => 'Todo','F' => 'Primer', 'S' => 'Segundo'];
        foreach ($semestre as $item) {
            $semester_list[$item]=$item;
+       }
+
+       $semester1 = ['F' => 'Primer','S' => 'Segundo'];
+       foreach ($semester1 as $item) {
+           $semester1_list[$item]=$item;
        }
 
        $current_year = Carbon::now()->year;
@@ -69,7 +78,8 @@ class EconomicComplementReportController extends Controller
            'cities_list' => $cities_list,
            'semester_list' => $semester_list,
            'year_list' => $year_list,
-           'report_type_list' => $report_type_list
+           'report_type_list' => $report_type_list,
+           'semester1_list' => $semester1_list
        ];
    }
 
@@ -380,6 +390,85 @@ class EconomicComplementReportController extends Controller
                                return redirect('report_complement');
                }
            }
+           else {
+               $message = "Seleccione tipo de reporte a generar";
+               Session::flash('message', $message);
+               return redirect('report_complement');
+           }
+   }
+
+   public function Data(Request $request)
+   {
+       if ($request->has('year') && $request->has('semester'))
+       {
+           $average_list = DB::table('eco_com_applicants')
+                           ->select(DB::raw("degrees.id as degree_id,degrees.shortened as degree,eco_com_types.id as type_id, eco_com_types.name as type,min(economic_complements.total) as rmin, max(economic_complements.total) as rmax,round((max(economic_complements.total)+ min(economic_complements.total))/2,2) as average"))
+                           ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                           ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
+                           ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                           ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                           ->whereYear('economic_complements.year', '=', $request->year)
+                           ->where('economic_complements.semester', '=', $request->semester)
+                           ->whereNotNull('economic_complements.review_date')
+                           ->groupBy('degrees.id','eco_com_types.id')
+                           ->orderBy('degrees.id','ASC');
+               return Datatables::of($average_list)
+                       ->addColumn('degree', function ($average_list) { return $average_list->degree; })
+                       ->editColumn('type', function ($average_list) { return $average_list->type; })
+                       ->editColumn('rmin', function ($average_list) { return $average_list->rmin; })
+                       ->editColumn('rmax', function ($average_list) { return $average_list->rmax; })
+                       ->editColumn('average', function ($average_list) { return $average_list->average; })
+                       ->make(true);
+       }
+       else {
+           $eco_com = EconomicComplement::select('semester')->orderBy('economic_complements.id','DESC')->first();
+           $average_list = DB::table('eco_com_applicants')
+                           ->select(DB::raw("degrees.id as degree_id,degrees.shortened as degree,eco_com_types.id as type_id, eco_com_types.name as type,min(economic_complements.total) as rmin, max(economic_complements.total) as rmax,round((max(economic_complements.total)+ min(economic_complements.total))/2,2) as average"))
+                           ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                           ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
+                           ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                           ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                           ->whereYear('economic_complements.year', '=', date("Y"))
+                           ->where('economic_complements.semester', '=', $eco_com->semester)
+                           ->whereNotNull('economic_complements.review_date')
+                           ->groupBy('degrees.id','eco_com_types.id')
+                           ->orderBy('degrees.id','ASC');
+               return Datatables::of($average_list)
+                       ->addColumn('degree', function ($average_list) { return $average_list->degree; })
+                       ->editColumn('type', function ($average_list) { return $average_list->type; })
+                       ->editColumn('rmin', function ($average_list) { return $average_list->rmin; })
+                       ->editColumn('rmax', function ($average_list) { return $average_list->rmax; })
+                       ->editColumn('average', function ($average_list) { return $average_list->average; })
+                       ->make(true);
+       }
+
+   }
+
+   public function print_average(Request $request) {
+       $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+       $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+       $title = "REPORTE DE PROMEDIOS";
+       $date = Util::getDateEdit(date('Y-m-d'));
+       $current_date = Carbon::now();   
+       $hour = Carbon::parse($current_date)->toTimeString();
+       $average_list = DB::table('eco_com_applicants')
+                       ->select(DB::raw("degrees.id as degree_id,degrees.shortened as degree,eco_com_types.id as type_id, eco_com_types.name as type,min(economic_complements.total) as rmin, max(economic_complements.total) as rmax,round((max(economic_complements.total)+ min(economic_complements.total))/2,2) as average"))
+                       ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                       ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                       ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
+                       ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                       ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                       ->whereYear('economic_complements.year', '=', $request->year)
+                       ->where('economic_complements.semester', '=', $request->semester)
+                       ->whereNotNull('economic_complements.review_date')
+                       ->groupBy('degrees.id','eco_com_types.id')
+                       ->orderBy('degrees.id','ASC')->get();
+        $view = \View::make('economic_complements.print.average_report', compact('header1','header2','title','date','hour','average_list'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view)->setPaper('letter');
+        return $pdf->stream();
    }
 
 
