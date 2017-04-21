@@ -16,14 +16,16 @@
                 <a href="{!! url('direct_contribution') !!}"><i class='fa fa-fw fa-arrow-circle-down fa-lg' aria-hidden="true"></i>&nbsp; <span>Aportes Directos</span></a>
             </li>
 
-            <li {!! (Request::is('loan') ? 'class=active' : '') !!}>
-                <a href="#"><i class="fa fa-fw fa-money fa-lg" aria-hidden="true"></i>&nbsp; <span>Préstamos</span></a>
-            </li>
-
-            <li {!! (Request::is('retirement_fund') ? 'class=active' : '') !!}>
-                <a href="#">&nbsp;<i class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></i>&nbsp; <span>Fondo de Retiro</span></a>
-            </li>
-
+            @can('loan')
+                <li {!! (Request::is('loan') ? 'class=active' : '') !!}>
+                    <a href="#"><i class="fa fa-fw fa-money fa-lg" aria-hidden="true"></i>&nbsp; <span>Préstamos</span></a>
+                </li>
+            @endcan
+            @can('retirement_fund')
+                <li {!! (Request::is('retirement_fund') ? 'class=active' : '') !!}>
+                    <a href="#">&nbsp;<i class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></i>&nbsp; <span>Fondo de Retiro</span></a>
+                </li>
+            @endcan
             @can('economic_complement')
                 <li {!! (Request::is('economic_complement') ? 'class=active' : '') !!}>
                     <a href="{!! url('economic_complement') !!}"><i class="fa fa-fw fa-puzzle-piece fa-lg" aria-hidden="true"></i>&nbsp; <span>Complemento Económico</span></a>

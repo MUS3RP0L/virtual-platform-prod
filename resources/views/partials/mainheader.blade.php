@@ -52,10 +52,8 @@
                         <li class="user-header">
                             <p style="color:#fff">
                                 {!! Util::ucw(Auth::user()->first_name) !!} {!! Util::ucw(Auth::user()->last_name)!!}
-                                @foreach (Auth::user()->roles as $role)
-                                  <small>{!!$role->name !!}</small>
-                                  <small>{!!$role->module->name !!}</small>
-                                @endforeach
+                                <small>{!!Auth::user()->getAllRolesToString()!!}</small>
+                                <small>{!!Auth::user()->getModule()->name !!}</small> 
                             </p>
                         </li>
                         </li>

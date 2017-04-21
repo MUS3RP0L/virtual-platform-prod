@@ -97,10 +97,17 @@
                                                         <span class="glyphicon glyphicon-print"></span><a href="{!! url('report_complement') !!}"> Parametrizada</a>
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="glyphicon glyphicon-tasks"></span><a href="{!! url('averages') !!}"> Promedios</a>
+                                                    </td>
+                                                </tr>
 
                                             </table>
                                         </div>
                                     </div>
+
+
                                 </div>
 
                             </div>
