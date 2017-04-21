@@ -43,7 +43,6 @@ class CreateAffiliatesTable extends Migration
             $table->timestamps();
             $table->foreign('hierarchy_id')->references('id')->on('hierarchies');
 
-
         });
 
         Schema::create('breakdowns', function (Blueprint $table) {
@@ -119,29 +118,29 @@ class CreateAffiliatesTable extends Migration
 
             $table->bigIncrements('id');
             $table->UnsignedBigInteger('user_id');
-            $table->UnsignedBigInteger('affiliate_state_id')->nullable();
-            $table->UnsignedBigInteger('affiliate_type_id')->nullable();
+            $table->UnsignedBigInteger('affiliate_state_id');
+            $table->UnsignedBigInteger('affiliate_type_id');
             $table->UnsignedBigInteger('city_identity_card_id')->nullable();
             $table->UnsignedBigInteger('city_birth_id')->nullable();
-            $table->UnsignedBigInteger('degree_id')->nullable();
+            $table->UnsignedBigInteger('degree_id');
             $table->UnsignedBigInteger('unit_id')->nullable();
             $table->UnsignedBigInteger('category_id')->nullable();
             $table->UnsignedBigInteger('pension_entity_id')->nullable();
             $table->string('identity_card')->unique()->required();
-            $table->string('registration')->nullable();
+            $table->string('registration');
             $table->string('last_name')->nullable();
             $table->string('mothers_last_name')->nullable();
             $table->string('first_name')->nullable();
             $table->string('second_name')->nullable();
             $table->string('surname_husband')->nullable();
             $table->enum('gender', ['M', 'F']);
-            $table->enum('civil_status', ['C', 'S', 'V', 'D'])->nullable();
+            $table->enum('civil_status', ['C', 'S', 'V', 'D']);
             $table->date('birth_date')->nullable();
             $table->date('date_entry')->nullable();
             $table->string('date_death')->nullable();
             $table->string('reason_death')->nullable();
-            $table->date('date_decommissioned')->nullable();
-            $table->string('reason_decommissioned')->nullable();
+            $table->date('date_derelict')->nullable();
+            $table->string('reason_derelict')->nullable();
             $table->date('service_start_date')->nullable();
             $table->date('service_end_date')->nullable();
             $table->date('change_date')->nullable();
@@ -165,6 +164,7 @@ class CreateAffiliatesTable extends Migration
         });
 
         Schema::create('affiliate_address', function(Blueprint $table) {
+
             $table->bigIncrements('id');
             $table->UnsignedBigInteger('user_id');
             $table->UnsignedBigInteger('affiliate_id');
@@ -176,6 +176,7 @@ class CreateAffiliatesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
             $table->foreign('city_address_id')->references('id')->on('cities');
+
         });
 
         Schema::create('spouses', function (Blueprint $table) {
@@ -210,12 +211,29 @@ class CreateAffiliatesTable extends Migration
             $table->UnsignedBigInteger('degree_id')->nullable();
             $table->UnsignedBigInteger('unit_id')->nullable();
             $table->date('date');
-            $table->integer('type');
+            $table->integer('type_id');
             $table->string('message');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
+
+        });
+
+        Schema::create('observations', function(Blueprint $table) {
+
+            $table->bigIncrements('id');
+            $table->UnsignedBigInteger('user_id');
+            $table->UnsignedBigInteger('affiliate_id');
+            $table->UnsignedBigInteger('module_id');
+            $table->date('date');
+            $table->string('title');
+            $table->string('message');
+            $table->timestamps();
+            $table->softDeletes();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
+            $table->foreign('module_id')->references('id')->on('modules');
 
         });
 
@@ -228,6 +246,7 @@ class CreateAffiliatesTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('observations');
         Schema::dropIfExists('records');
         Schema::dropIfExists('spouses');
         Schema::dropIfExists('affiliate_address');

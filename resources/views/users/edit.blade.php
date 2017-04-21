@@ -65,15 +65,14 @@
 									<div class="form-group">
 										{!! Form::label('module', 'Unidad', ['class' => 'col-md-4 control-label']) !!}
 										<div class="col-md-6">
-											{!! Form::select('module', $list_modules, $user->role->module->id, ['class' => 'form-control', 'required' => 'required']) !!}
+											{!! Form::select('module', $list_modules, $user->roles()->first()->module->id, ['class' => 'form-control', 'required' => 'required']) !!}
 											<span class="help-block">Selecione la Unidad correspondiente</span>
 										</div>
 									</div>
 									<div class="form-group">
 										{!! Form::label('role', 'Cargo', ['class' => 'col-md-4 control-label']) !!}
-										<div class="col-md-6">
-											{!! Form::select('role', $list_roles, $user->role_id, ['class' => 'form-control', 'required' => 'required']) !!}
-											<span class="help-block">Selecione el Cargo</span>
+										<div class="col-md-6 checks" id='check'>
+											{{-- <span class="help-block">Selecione el Cargo</span> --}}
 										</div>
 									</div>
 						        @endcan
@@ -137,8 +136,20 @@
 						dataType: "json",
 						success: function(data) {
 							$('select[name="role"]').empty();
+							console.log(data);
 							$.each(data, function(key, value) {
-								$('select[name="role"]').append('<option value="'+ value.id +'">'+ value.name +'</option>');
+								 var div=$('<div>').addClass('checkbox');
+									                            var label=$('<label>');
+									                            var input=$('<input>').attr({
+									                            	type: 'checkbox',
+									                            	name: 'role[]',
+									                            	checked
+									                            }).val(value.id);
+									                            input.appendTo(label);
+									                            label.append("<span class='checkbox-material'><span class='check'></span></span>");
+									                            label.append(' '+value.name);
+									                            div.append(label);
+											 $('#check').append(div);
 							});
 						}
 					});

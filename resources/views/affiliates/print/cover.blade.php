@@ -123,7 +123,6 @@
           <td colspan="6" class="grand service" style="text-align:center;">DATOS DE APORTES</td>
         </tr>
         <tr>
-        <td class="grand service" style="text-align:center;" >GANADO</td>
         <td class="grand service" style="text-align:center;">BONO DE SEGURIDAD CIUDADANA</td>
         <td class="grand service" style="text-align:center;">COTIZABLE</td>
         <td class="grand service" style="text-align:center;">APORTE FONDO DE RETIRO</td>
