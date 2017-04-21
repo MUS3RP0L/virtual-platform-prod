@@ -109,7 +109,7 @@ class AuthServiceProvider extends ServiceProvider
     //verify if current user have role archive of Retirement fund
         $gate->define('reti_fund_archive',function($user){
             foreach ($user->roles as $role) {
-                    if($role->id==4 || $role->id==10){
+                    if($role->id==4 || $role->id==7){
                         return true;
                     }
             }
@@ -119,7 +119,7 @@ class AuthServiceProvider extends ServiceProvider
     //verify if current user have role qualification of Retirement fund
         $gate->define('reti_fund_qualification',function($user){
             foreach ($user->roles as $role) {
-                    if($role->id==5 || $role->id==10){
+                    if($role->id==5 || $role->id==7){
                         return true;
                     }
             }
@@ -129,7 +129,7 @@ class AuthServiceProvider extends ServiceProvider
     //verify if current user have role Dictum legal of Retirement fund
         $gate->define('reti_fund_dictum_legal',function($user){
             foreach ($user->roles as $role) {
-                    if($role->id==6 || $role->id==10){
+                    if($role->id==6 || $role->id==7){
                         return true;
                     }
             }
@@ -167,7 +167,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
     //roles for borrowings
-        $gate->define('borrowings',function($user){
+        $gate->define('loan',function($user){
                 foreach ($user->roles as $role) {
                          if($role->id==14){
                             return true;

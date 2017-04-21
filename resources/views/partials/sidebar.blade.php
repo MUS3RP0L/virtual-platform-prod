@@ -16,7 +16,7 @@
                 <a href="{!! url('direct_contribution') !!}"><i class='fa fa-fw fa-arrow-circle-down fa-lg' aria-hidden="true"></i>&nbsp; <span>Aportes Directos</span></a>
             </li>
 
-            @can('borrowings')
+            @can('loan')
                 <li {!! (Request::is('loan') ? 'class=active' : '') !!}>
                     <a href="#"><i class="fa fa-fw fa-money fa-lg" aria-hidden="true"></i>&nbsp; <span>Préstamos</span></a>
                 </li>
