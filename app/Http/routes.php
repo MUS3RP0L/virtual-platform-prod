@@ -133,7 +133,10 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('import_bank', array('as'=>'import_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@import_from_bank'));
 	Route::post('export_aps', array('as'=>'export_aps', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_aps'));
 	Route::post('export_bank', array('as'=>'export_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_bank'));
-
+	//Routes for Observations
+	Route::resource('observation','Observation\ObservationController');
+	Route::get('get_observations',['as'=>'get_observations','uses'=>'Observation\ObservationController@showOfAffiliate']);
+	Route::get('observation/deleteOb/{id}',['as'=>'deleteOb','uses'=>'Observation\ObservationController@deleteOb']);
 });
 
 define('ACCESS', env('ACCESS_PASS'));
