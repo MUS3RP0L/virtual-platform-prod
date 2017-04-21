@@ -50,13 +50,6 @@
                 <a href="" class="btn btn-success btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
             </div>
             <!-- /button of  Observations -->
-            <!-- modals for observations -->
-            @if(!empty($show) && $show)
-                @include('observations.show');
-            @endif
-            <!-- /modals for observations -->
-
-
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir" style="margin:0px;">
                 <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
                     &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
