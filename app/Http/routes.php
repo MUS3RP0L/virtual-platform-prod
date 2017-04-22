@@ -29,7 +29,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('user/block/{user}', array('as'=>'user/block', 'uses'=>'User\UserController@Block'));
 	Route::get('user/unblock/{user}', array('as'=>'user/unblock', 'uses'=>'User\UserController@Unblock'));
 	Route::get('get_user', array('as'=>'get_user', 'uses'=>'User\UserController@Data'));
-	Route::get('get_role/{id}', array('as'=>'get_role', 'uses'=>'User\UserController@getRole'));
+	Route::get('get_role', array('as'=>'get_role', 'uses'=>'User\UserController@getRole'));
 
 	// Contribution Rate
 	Route::resource('contribution_rate', 'Rate\ContributionRateController');

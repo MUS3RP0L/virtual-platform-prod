@@ -65,15 +65,17 @@
 									<div class="form-group">
 										{!! Form::label('module', 'Unidad', ['class' => 'col-md-4 control-label']) !!}
 										<div class="col-md-6">
-											{!! Form::select('module', $list_modules, $user->roles()->first()->module->id, ['class' => 'form-control', 'required' => 'required']) !!}
+											{!! Form::select('module', $list_modules, '', ['class' => 'form-control', 'required' => 'required']) !!}
 											<span class="help-block">Selecione la Unidad correspondiente</span>
 										</div>
 									</div>
 									<div class="form-group">
 										{!! Form::label('role', 'Cargo', ['class' => 'col-md-4 control-label']) !!}
 										<div class="col-md-6 checks" id='check'>
-											{{-- <span class="help-block">Selecione el Cargo</span> --}}
+											<span class="help-block">Selecione el Cargo</span>
 										</div>
+										{!! Form::hidden('user', $user->id,['id'=> 'user_id'])!!}
+										{{-- <input type="hidden" name="user" value="Norway"> --}}
 									</div>
 						        @endcan
 						        <div class="row">
@@ -129,28 +131,59 @@
 		$(document).ready(function(){
 			$('select[name="module"]').on('change', function() {
 				var moduleID = $(this).val();
+				//var user = $('input[name=user]').val();
+				var iduser = $('#user_id').val();
+				//console.log(iduser+" "+moduleID);
 				if(moduleID) {
 					$.ajax({
-						url: '{!! url('get_role') !!}/'+moduleID,
+						url: '{!! url('get_role') !!}',
 						type: "GET",
 						dataType: "json",
+						data: {
+							"user_id": iduser,
+							"module_id":moduleID
+						},
 						success: function(data) {
-							$('select[name="role"]').empty();
-							console.log(data);
-							$.each(data, function(key, value) {
-								 var div=$('<div>').addClass('checkbox');
-									                            var label=$('<label>');
-									                            var input=$('<input>').attr({
-									                            	type: 'checkbox',
-									                            	name: 'role[]',
-									                            	checked
-									                            }).val(value.id);
-									                            input.appendTo(label);
-									                            label.append("<span class='checkbox-material'><span class='check'></span></span>");
-									                            label.append(' '+value.name);
-									                            div.append(label);
-											 $('#check').append(div);
-							});
+							if(data.list_roles[0].module_id==data.user_roles[0].module_id){
+								//console.log(data);
+								$('select[name="role"]').empty();
+		                        $('#check').empty();
+		                        $.each(data.list_roles, function(key, value) {
+									$.each(data.user_roles, function(index, val) {
+		                        			 if(vale.)
+		                        	});
+		                        	console.log(value.name);
+		                            var div=$('<div>').addClass('checkbox');
+		                            var label=$('<label>');
+		                            var input=$('<input>').attr({
+		                            	type: 'checkbox',
+		                            	name: 'role[]',
+		                            	checked:true
+		                            }).val(value.id);
+		                            input.appendTo(label);
+		                            label.append("<span class='checkbox-material'><span class='check'></span></span>");
+		                            label.append(' '+value.name);
+		                            div.append(label);
+				 					$('#check').append(div);
+		                        });
+							}
+							else{
+								$('select[name="role"]').empty();
+		                        $('#check').empty();
+		                        $.each(data.list_roles, function(key, value) {
+		                            var div=$('<div>').addClass('checkbox');
+		                            var label=$('<label>');
+		                            var input=$('<input>').attr({
+		                            	type: 'checkbox',
+		                            	name: 'role[]',
+		                            }).val(value.id);
+		                            input.appendTo(label);
+		                            label.append("<span class='checkbox-material'><span class='check'></span></span>");
+		                            label.append(' '+value.name);
+		                            div.append(label);
+				 					$('#check').append(div);
+		                        });
+							}
 						}
 					});
 				}
