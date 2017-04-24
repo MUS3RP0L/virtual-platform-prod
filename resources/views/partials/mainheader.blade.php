@@ -19,31 +19,6 @@
                     </div>
                 </li>
 
-                <li class="dropdown notifications-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-bell fa-fw fa-lg"></i>
-                        <span class="label label-warning">2</span>
-                    </a>
-                    <ul class="dropdown-menu" style="border:1px solid #f4f4f4">
-                        <li class="header">Usted Tiene 2 Notificaciones</li>
-                        <li>
-                            <ul class="menu">
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-fw fa-puzzle-piece fa-lg text-aqua"></i> 5 Casos de Complemento Económico
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                    <i class="fa fa-fw fa-puzzle-piece fa-lg text-aqua"></i> 5 Casos de Fondo de Retiro
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="footer"><a href="#">Ver todo</a></li>
-                    </ul>
-                </li>
-
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="hidden-xs"><i class="fa fa-user fa-fw fa-lg"></i></span>

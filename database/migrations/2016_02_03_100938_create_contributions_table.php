@@ -18,7 +18,7 @@ class CreateContributionsTable extends Migration
             $table->bigIncrements('id');
             $table->UnsignedBigInteger('user_id');
             $table->UnsignedBigInteger('affiliate_id');
-            $table->enum('type',['normal', 'reimbursements'])->default('normal');
+            $table->enum('type',['normal', 'reimbursement'])->default('normal');
             $table->string('code')->unique()->required();
             $table->string('affiliate_name');
             $table->string('affiliate_degree');

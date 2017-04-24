@@ -7,6 +7,11 @@
         </div>
         <div class="col-md-4 text-right">
             <div class="btn-group" style="margin:-3px 0;">
+                <a href="" class="btn btn-primary btn-raised dropdown-toggle enabled" data-toggle="modal" data-target="#myModal-averages" ); >
+                    &nbsp;<span class="glyphicon glyphicon-tasks"></span>&nbsp;
+                </a>
+            </div>
+            <div class="btn-group" style="margin:-3px 0;">
                 <a href="" class="btn btn-primary btn-raised" data-toggle="dropdown"><i class="glyphicon glyphicon-export"></i></a>
                 <a href="" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                 <ul class="dropdown-menu">
@@ -455,6 +460,34 @@
               </div>
     </div>
 
+    <div id="myModal-averages" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="box-header with-border">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                          <h4 class="modal-title">Lista de Promedios</h4>
+                      </div>
+                      <div class="modal-body">
+                          <div class="row">
+                                  <div class="col-md-12">
+                                      <table class="table table-bordered table-hover" id="averages-table">
+                                          <thead>
+                                              <tr class="success">
+                                                  <th>Grado</th>
+                                                  <th>Renta Menor</th>
+                                                  <th>Renta Mayor</th>
+                                                  <th>Promedio</th>
+                                              </tr>
+                                          </thead>
+                                      </table>
+                                  </div>
+                            </div>
+                      </div>
+
+                  </div>
+              </div>
+    </div>
+
 
 @endsection
 
@@ -527,6 +560,24 @@
         $('#search-form').on('submit', function(e) {
             oTable.draw();
             e.preventDefault();
+        });
+
+
+        var oTable1 = $('#averages-table').DataTable({
+            "dom": '<"top">t<"bottom"p>',
+            processing: true,
+            serverSide: true,
+            pageLength: 8,
+            autoWidth: false,
+            ajax: {
+                url: '{!! route('get_average') !!}'
+            },
+            columns: [
+                { data: 'shortened' },
+                { data: 'rmin', bSortable: false },
+                { data: 'rmax', bSortable: false },
+                { data: 'average', bSortable: false }
+            ]
         });
 
     </script>

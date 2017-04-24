@@ -67,14 +67,14 @@
                                 <div class="form-group">
                                         {!! Form::label('retirement_fund', 'Fondo de Retiro', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
-                                        <input type="text" id="retirement_fund" class="form-control" required = "required" name="retirement_fund" value="{!! $last_contribution_rate->retirement_fund !!}"  data-inputmask="'mask': '9.99%'" data-mask>
+                                        <input type="text" id="retirement_fund" class="form-control" required = "required" name="retirement_fund" value="{!! $last_contribution_rate->retirement_fund !!}"  data-inputmask="'mask': '9.99'" data-mask>
                                         <span class="help-block">Porcentaje de Fondo de Retiro</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('mortuary_quota', 'Cuota mortuoria', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
-                                        <input type="text" id="mortuary_quota" class="form-control" required = "required" name="mortuary_quota" value="{!! $last_contribution_rate->mortuary_quota !!}"  data-inputmask="'mask': '9.99%'" data-mask>
+                                        <input type="text" id="mortuary_quota" class="form-control" required = "required" name="mortuary_quota" value="{!! $last_contribution_rate->mortuary_quota !!}"  data-inputmask="'mask': '9.99'" data-mask>
                                         <span class="help-block">Porcentaje de Seguro de Vida</span>
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@
                                 <div class="form-group">
                                         {!! Form::label('mortuary_aid', 'Auxilio Mortuorio', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
-                                        <input type="text" id="mortuary_aid" class="form-control" required = "required" name="mortuary_aid" value="{!! $last_contribution_rate->mortuary_aid !!}"  data-inputmask="'mask': '9.99%'" data-mask>
+                                        <input type="text" id="mortuary_aid" class="form-control" required = "required" name="mortuary_aid" value="{!! $last_contribution_rate->mortuary_aid !!}"  data-inputmask="'mask': '9.99'" data-mask>
                                         <span class="help-block">Porcentaje de Auxilio Mortuorio</span>
                                     </div>
                                 </div>
@@ -93,14 +93,14 @@
                                 <div class="form-group">
                                         {!! Form::label('retirement_fund_commission', 'Fondo de Retiro', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
-                                        <input type="text" id="retirement_fund_commission" class="form-control" required = "required" name="retirement_fund_commission" value="{!! $last_contribution_rate->retirement_fund_commission !!}"  data-inputmask="'mask': '9.99%'" data-mask>
+                                        <input type="text" id="retirement_fund_commission" class="form-control" required = "required" name="retirement_fund_commission" value="{!! $last_contribution_rate->retirement_fund_commission !!}"  data-inputmask="'mask': '9.99'" data-mask>
                                         <span class="help-block">Porcentaje de Fondo de Retiro</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('mortuary_quota_commission', 'Cuota mortuoria', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
-                                        <input type="text" id="mortuary_quota_commission" class="form-control" required = "required" name="mortuary_quota_commission" value="{!! $last_contribution_rate->mortuary_quota_commission !!}"  data-inputmask="'mask': '9.99%'" data-mask>
+                                        <input type="text" id="mortuary_quota_commission" class="form-control" required = "required" name="mortuary_quota_commission" value="{!! $last_contribution_rate->mortuary_quota_commission !!}"  data-inputmask="'mask': '9.99'" data-mask>
                                         <span class="help-block">Porcentaje de Seguro de Vida</span>
                                     </div>
                                 </div>
