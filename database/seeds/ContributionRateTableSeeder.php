@@ -238,7 +238,11 @@ class ContributionRateTableSeeder extends Seeder
 			['month_year' => '2016-9-1', 'retirement_fund' =>'1.850', 'mortuary_quota' =>'0.650', 'retirement_fund_commission' =>'1.850', 'mortuary_quota_commission'  =>'0.650', 'mortuary_aid' => '1.5000', 'user_id' => '1'],
 			['month_year' => '2016-10-1', 'retirement_fund' =>'1.850', 'mortuary_quota' =>'0.650', 'retirement_fund_commission' =>'1.850', 'mortuary_quota_commission'  =>'0.650', 'mortuary_aid' => '1.5000', 'user_id' => '1'],
 			['month_year' => '2016-11-1', 'retirement_fund' =>'1.850', 'mortuary_quota' =>'0.650', 'retirement_fund_commission' =>'1.850', 'mortuary_quota_commission'  =>'0.650', 'mortuary_aid' => '1.5000', 'user_id' => '1'],
-			['month_year' => '2016-12-1', 'retirement_fund' =>'1.850', 'mortuary_quota' =>'0.650', 'retirement_fund_commission' =>'1.850', 'mortuary_quota_commission'  =>'0.650', 'mortuary_aid' => '1.5000', 'user_id' => '1']
+			['month_year' => '2016-12-1', 'retirement_fund' =>'1.850', 'mortuary_quota' =>'0.650', 'retirement_fund_commission' =>'1.850', 'mortuary_quota_commission'  =>'0.650', 'mortuary_aid' => '1.5000', 'user_id' => '1'],
+			['month_year' => '2017-1-1', 'retirement_fund' =>'1.850', 'mortuary_quota' =>'0.650', 'retirement_fund_commission' =>'1.850', 'mortuary_quota_commission'  =>'0.650', 'mortuary_aid' => '1.5000', 'user_id' => '1'],
+			['month_year' => '2017-2-1', 'retirement_fund' =>'1.850', 'mortuary_quota' =>'0.650', 'retirement_fund_commission' =>'1.850', 'mortuary_quota_commission'  =>'0.650', 'mortuary_aid' => '1.5000', 'user_id' => '1'],
+			['month_year' => '2017-3-1', 'retirement_fund' =>'1.850', 'mortuary_quota' =>'0.650', 'retirement_fund_commission' =>'1.850', 'mortuary_quota_commission'  =>'0.650', 'mortuary_aid' => '1.5000', 'user_id' => '1'],
+			['month_year' => '2017-4-1', 'retirement_fund' =>'1.850', 'mortuary_quota' =>'0.650', 'retirement_fund_commission' =>'1.850', 'mortuary_quota_commission'  =>'0.650', 'mortuary_aid' => '1.5000', 'user_id' => '1'],
         ];
 
         foreach ($statuses as $status) {
