@@ -114,25 +114,29 @@
 				var moduleID = $(this).val();
 				if(moduleID) {
 					$.ajax({
-	                    url: '{!! url('get_role') !!}/'+moduleID,
+	                    url: '{!! url('get_role') !!}',
 	                    type: "GET",
 	                    dataType: "json",
+	                    data:{
+	                    	"module_id" : moduleID
+	                    },
 	                    success: function(data) {
-	                        $('select[name="role"]').empty();
-	                            $('#check').empty();
-	                        $.each(data, function(key, value) {
-	                            var div=$('<div>').addClass('checkbox');
-	                            var label=$('<label>');
-	                            var input=$('<input>').attr({
-	                            	type: 'checkbox',
-	                            	name: 'role[]'
-	                            }).val(value.id);
-	                            input.appendTo(label);
-	                            label.append("<span class='checkbox-material'><span class='check'></span></span>");
-	                            label.append(' '+value.name);
-	                            div.append(label);
-			 $('#check').append(div);
-	                        });
+	                    	console.log(data);
+	                    	$('select[name="role"]').empty();
+	                    	$('#check').empty();
+	                    	$.each(data.list_roles, function(key, value) {
+	                    		var div=$('<div>').addClass('checkbox');
+	                    		var label=$('<label>');
+	                    		var input=$('<input>').attr({
+	                    			type: 'checkbox',
+	                    			name: 'role[]'
+	                    		}).val(value.id);
+	                    		input.appendTo(label);
+	                    		label.append("<span class='checkbox-material'><span class='check'></span></span>");
+	                    		label.append(' '+value.name);
+	                    		div.append(label);
+	                    		$('#check').append(div);
+	                    	});
 	                    }
 	                });
 				}
