@@ -65,15 +65,17 @@
 									<div class="form-group">
 										{!! Form::label('module', 'Unidad', ['class' => 'col-md-4 control-label']) !!}
 										<div class="col-md-6">
-											{!! Form::select('module', $list_modules, $user->roles()->first()->module->id, ['class' => 'form-control', 'required' => 'required']) !!}
+											{!! Form::select('module', $list_modules, $user->getModule()->id, ['class' => 'form-control', 'required' => 'required']) !!}
 											<span class="help-block">Selecione la Unidad correspondiente</span>
 										</div>
 									</div>
 									<div class="form-group">
 										{!! Form::label('role', 'Cargo', ['class' => 'col-md-4 control-label']) !!}
 										<div class="col-md-6 checks" id='check'>
-											{{-- <span class="help-block">Selecione el Cargo</span> --}}
+											<span class="help-block">Selecione el Cargo</span>
 										</div>
+										{!! Form::hidden('user', $user->id,['id'=> 'user_id'])!!}
+										{{-- <input type="hidden" name="user" value="Norway"> --}}
 									</div>
 						        @endcan
 						        <div class="row">
@@ -127,30 +129,113 @@
 	<script type="text/javascript">
 
 		$(document).ready(function(){
-			$('select[name="module"]').on('change', function() {
-				var moduleID = $(this).val();
-				if(moduleID) {
-					$.ajax({
-						url: '{!! url('get_role') !!}/'+moduleID,
+
+			var moduleID = $('select[name="module"]').val();
+			var iduser = $('#user_id').val();
+			$.ajax({
+						url: '{!! url('get_role') !!}',
 						type: "GET",
 						dataType: "json",
+						data: {
+							"user_id" : iduser,
+							"module_id": moduleID
+						},
 						success: function(data) {
-							$('select[name="role"]').empty();
-							console.log(data);
-							$.each(data, function(key, value) {
-								 var div=$('<div>').addClass('checkbox');
-									                            var label=$('<label>');
-									                            var input=$('<input>').attr({
-									                            	type: 'checkbox',
-									                            	name: 'role[]',
-									                            	checked
-									                            }).val(value.id);
-									                            input.appendTo(label);
-									                            label.append("<span class='checkbox-material'><span class='check'></span></span>");
-									                            label.append(' '+value.name);
-									                            div.append(label);
-											 $('#check').append(div);
-							});
+								$('select[name="role"]').empty();
+		                        $('#check').empty();
+		                        var checked=false;
+		                        $.each(data.list_roles, function(key, value) {
+		                 			
+									$.each(data.user_roles, function(index, val) {
+
+											if(value.name==val.name){
+												checked=true;
+												return false;
+
+		                        			 }
+
+		                        	});
+
+		                            var div=$('<div>').addClass('checkbox');
+		                            var label=$('<label>');
+		                            var input=$('<input>').attr({
+		                            	type: 'checkbox',
+		                            	name: 'role[]',
+		                            	checked:checked
+		                            }).val(value.id);
+		                            input.appendTo(label);
+		                            label.append("<span class='checkbox-material'><span class='check'></span></span>");
+		                            label.append(' '+value.name);
+		                            div.append(label);
+				 					$('#check').append(div);
+				 					checked=false;
+		                        });
+							
+						}
+					});
+
+
+			$('select[name="module"]').on('change', function() {
+				var moduleID = $(this).val();
+				var iduser = $('#user_id').val();
+				if(moduleID) {
+					$.ajax({
+						url: '{!! url('get_role') !!}',
+						type: "GET",
+						dataType: "json",
+						data: {
+							"user_id": iduser,
+							"module_id":moduleID
+						},
+						success: function(data) {
+							if(data.list_roles[0].module_id==data.user_roles[0].module_id){
+								$('select[name="role"]').empty();
+		                        $('#check').empty();
+		                        var checked=false;
+		                        $.each(data.list_roles, function(key, value) {
+		                 			
+									$.each(data.user_roles, function(index, val) {
+
+											if(value.name==val.name){
+												checked=true;
+												return false;
+
+		                        			 }
+
+		                        	});
+
+		                            var div=$('<div>').addClass('checkbox');
+		                            var label=$('<label>');
+		                            var input=$('<input>').attr({
+		                            	type: 'checkbox',
+		                            	name: 'role[]',
+		                            	checked:checked
+		                            }).val(value.id);
+		                            input.appendTo(label);
+		                            label.append("<span class='checkbox-material'><span class='check'></span></span>");
+		                            label.append(' '+value.name);
+		                            div.append(label);
+				 					$('#check').append(div);
+				 					checked=false;
+		                        });
+							}
+							else{
+								$('select[name="role"]').empty();
+		                        $('#check').empty();
+		                        $.each(data.list_roles, function(key, value) {
+		                            var div=$('<div>').addClass('checkbox');
+		                            var label=$('<label>');
+		                            var input=$('<input>').attr({
+		                            	type: 'checkbox',
+		                            	name: 'role[]',
+		                            }).val(value.id);
+		                            input.appendTo(label);
+		                            label.append("<span class='checkbox-material'><span class='check'></span></span>");
+		                            label.append(' '+value.name);
+		                            div.append(label);
+				 					$('#check').append(div);
+		                        });
+							}
 						}
 					});
 				}
@@ -184,6 +269,7 @@
 	    };
 
 	    ko.applyBindings(new Model());
+
 
 	</script>
 

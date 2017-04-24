@@ -16,6 +16,8 @@ use Muserpol\User;
 use Muserpol\Module;
 use Muserpol\Role;
 
+use DB;
+
 
 class UserController extends Controller
 {
@@ -83,12 +85,24 @@ class UserController extends Controller
         ];
     }
 
-    public function getRole(Request $request, $id)
+    public function getRole(Request $request)
     {
+
         if($request->ajax())
         {
-            $roles = Role::moduleidIs($id)->get();
-            return response()->json($roles);
+            $allRolesOfModule = Role::moduleidIs($request->module_id)->get();
+            
+            $usersHasRoles = DB::table('roles')
+                        ->select('name','module_id')
+                        ->join('role_user', 'roles.id', '=', 'role_user.role_id')
+                        ->where('role_user.user_id','=',$request->user_id)
+                        ->get();
+            $data = [
+
+                'user_roles' => $usersHasRoles,
+                'list_roles' => $allRolesOfModule
+            ];
+            return response()->json($data);
         }
     }
 
@@ -126,16 +140,11 @@ class UserController extends Controller
 
     public function edit($user)
     {
-        $roles = Role::moduleidIs($user->role->module->id)->get();
-        foreach ($roles as $item) {
-             $list_roles[$item->id]=$item->name;
-        }
-
+ 
         $data = [
 
             'user' => $user,
-            'list_roles' => $list_roles
-
+            'list_roles' => ''
         ];
 
         $data = array_merge($data, self::getViewModel());
