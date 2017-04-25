@@ -45,7 +45,11 @@
                     <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
-
+            <!-- button of Observations -->
+            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
+                <a href="" class="btn btn-success btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
+            </div>
+            <!-- /button of  Observations -->
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir" style="margin:0px;">
                 <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
                     &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
@@ -61,7 +65,7 @@
     </div>
 
 @endsection
-
+@include('observations.create')
 @section('main-content')
 
     <div class="row">
@@ -527,6 +531,55 @@
                     </div>
                 </div>
             </div>
+
+            <!-- observations -->
+            <div class="box box-success box-solid">
+                <div class="box-header with-border">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h3 class="box-title"><span class="glyphicon glyphicon-user"></span> Observaciones</h3>
+                        </div>
+                        @if($info_spouse)
+                            <div class="col-md-2 text-right">
+                                <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-spouse">
+                                        <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        @if(true)
+                            <div class="col-md-12">
+                                <table class="table table-bordered table-hover" id="observations-table">
+                                    <thead>
+                                        <tr class="success">
+                                      
+                                            <th>Fecha</th>
+                                            <th>Titulo</th>
+                                            <th>Mensaje</th>
+                                            <th>Opciones</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        @else
+                            <div class="row text-center">
+                                <div data-toggle="modal" data-target="#observationModal">
+                                    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Adicionar Observacion">
+                                    <span class="fa fa-eye fa-5x"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <!-- /observations -->
+
         </div>
 
         <div class="col-md-6">
@@ -1238,6 +1291,27 @@
             e.preventDefault();
         });
 
-    </script>
+        //for observations
 
+        var observationsTable = $('#observations-table').DataTable({
+            "dom": '<"top">t<"bottom"p>',
+            processing: true,
+            serverSide: true,
+            pageLength: 8,
+            autoWidth: false,
+            ajax: {
+                url: '{!! route('get_observations') !!}',
+                data: function (d) {
+                    d.id={{$affiliate->id}}
+                }
+            },
+            columns: [
+            
+                { data: 'date', bSortable: false },
+                { data: 'title', bSortable: false },
+                { data: 'message', bSortable: false },
+                { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
+            ]
+        });
+    </script>
 @endpush

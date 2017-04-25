@@ -114,40 +114,43 @@
 				var moduleID = $(this).val();
 				if(moduleID) {
 					$.ajax({
-	                    url: '{!! url('get_role') !!}/'+moduleID,
-	                    type: "GET",
-	                    dataType: "json",
-	                    success: function(data) {
-	                        $('select[name="role"]').empty();
-	                            $('#check').empty();
-	                        $.each(data, function(key, value) {
-	                            var div=$('<div>').addClass('checkbox');
-	                            var label=$('<label>');
-	                            var input=$('<input>').attr({
-	                            	type: 'checkbox',
-	                            	name: 'role[]'
-	                            }).val(value.id);
-	                            input.appendTo(label);
-	                            label.append("<span class='checkbox-material'><span class='check'></span></span>");
-	                            label.append(' '+value.name);
-	                            div.append(label);
-			 $('#check').append(div);
-	                        });
-	                    }
-	                });
+						url: '{!! url('get_role') !!}',
+						type: "GET",
+						dataType: "json",
+						data:{
+							"module_id" : moduleID
+						},
+						success: function(data) {
+							$('select[name="role"]').empty();
+							$('#check').empty();
+							$.each(data.list_roles, function(key, value) {
+								var div=$('<div>').addClass('checkbox');
+								var label=$('<label>');
+								var input=$('<input>').attr({
+									type: 'checkbox',
+									name: 'role[]'
+								}).val(value.id);
+								input.appendTo(label);
+								label.append("<span class='checkbox-material'><span class='check'></span></span>");
+								label.append(' '+value.name);
+								div.append(label);
+								$('#check').append(div);
+							});
+						}
+					});
 				}
 				else{
-	                $('select[name="role"]').empty();
-	            }
+					$('select[name="role"]').empty();
+				}
 			});
 		});
 
 		$(document).ready(function(){
-            $('.combobox').combobox();
-            $('[data-toggle="tooltip"]').tooltip();
-            $("#phone").inputmask();
+			$('.combobox').combobox();
+			$('[data-toggle="tooltip"]').tooltip();
+			$("#phone").inputmask();
 
-        });
+		});
 
 	</script>
 

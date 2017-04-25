@@ -65,7 +65,7 @@
 									<div class="form-group">
 										{!! Form::label('module', 'Unidad', ['class' => 'col-md-4 control-label']) !!}
 										<div class="col-md-6">
-											{!! Form::select('module', $list_modules, '', ['class' => 'form-control', 'required' => 'required']) !!}
+											{!! Form::select('module', $list_modules, $user->getModule()->id, ['class' => 'form-control', 'required' => 'required']) !!}
 											<span class="help-block">Selecione la Unidad correspondiente</span>
 										</div>
 									</div>
@@ -129,11 +129,55 @@
 	<script type="text/javascript">
 
 		$(document).ready(function(){
+
+			var moduleID = $('select[name="module"]').val();
+			var iduser = $('#user_id').val();
+			$.ajax({
+				url: '{!! url('get_role') !!}',
+				type: "GET",
+				dataType: "json",
+				data: {
+					"user_id" : iduser,
+					"module_id": moduleID
+				},
+				success: function(data) {
+					$('select[name="role"]').empty();
+					$('#check').empty();
+					var checked=false;
+					$.each(data.list_roles, function(key, value) {
+						
+						$.each(data.user_roles, function(index, val) {
+
+							if(value.name==val.name){
+								checked=true;
+								return false;
+
+							}
+
+						});
+
+						var div=$('<div>').addClass('checkbox');
+						var label=$('<label>');
+						var input=$('<input>').attr({
+							type: 'checkbox',
+							name: 'role[]',
+							checked:checked
+						}).val(value.id);
+						input.appendTo(label);
+						label.append("<span class='checkbox-material'><span class='check'></span></span>");
+						label.append(' '+value.name);
+						div.append(label);
+						$('#check').append(div);
+						checked=false;
+					});
+					
+				}
+			});
+
+
 			$('select[name="module"]').on('change', function() {
 				var moduleID = $(this).val();
-				//var user = $('input[name=user]').val();
 				var iduser = $('#user_id').val();
-				//console.log(iduser+" "+moduleID);
 				if(moduleID) {
 					$.ajax({
 						url: '{!! url('get_role') !!}',
@@ -145,44 +189,52 @@
 						},
 						success: function(data) {
 							if(data.list_roles[0].module_id==data.user_roles[0].module_id){
-								//console.log(data);
 								$('select[name="role"]').empty();
-		                        $('#check').empty();
-		                        $.each(data.list_roles, function(key, value) {
+								$('#check').empty();
+								var checked=false;
+								$.each(data.list_roles, function(key, value) {
+									
 									$.each(data.user_roles, function(index, val) {
-		                        			 if(vale.)
-		                        	});
-		                        	console.log(value.name);
-		                            var div=$('<div>').addClass('checkbox');
-		                            var label=$('<label>');
-		                            var input=$('<input>').attr({
-		                            	type: 'checkbox',
-		                            	name: 'role[]',
-		                            	checked:true
-		                            }).val(value.id);
-		                            input.appendTo(label);
-		                            label.append("<span class='checkbox-material'><span class='check'></span></span>");
-		                            label.append(' '+value.name);
-		                            div.append(label);
-				 					$('#check').append(div);
-		                        });
+
+										if(value.name==val.name){
+											checked=true;
+											return false;
+
+										}
+
+									});
+
+									var div=$('<div>').addClass('checkbox');
+									var label=$('<label>');
+									var input=$('<input>').attr({
+										type: 'checkbox',
+										name: 'role[]',
+										checked:checked
+									}).val(value.id);
+									input.appendTo(label);
+									label.append("<span class='checkbox-material'><span class='check'></span></span>");
+									label.append(' '+value.name);
+									div.append(label);
+									$('#check').append(div);
+									checked=false;
+								});
 							}
 							else{
 								$('select[name="role"]').empty();
-		                        $('#check').empty();
-		                        $.each(data.list_roles, function(key, value) {
-		                            var div=$('<div>').addClass('checkbox');
-		                            var label=$('<label>');
-		                            var input=$('<input>').attr({
-		                            	type: 'checkbox',
-		                            	name: 'role[]',
-		                            }).val(value.id);
-		                            input.appendTo(label);
-		                            label.append("<span class='checkbox-material'><span class='check'></span></span>");
-		                            label.append(' '+value.name);
-		                            div.append(label);
-				 					$('#check').append(div);
-		                        });
+								$('#check').empty();
+								$.each(data.list_roles, function(key, value) {
+									var div=$('<div>').addClass('checkbox');
+									var label=$('<label>');
+									var input=$('<input>').attr({
+										type: 'checkbox',
+										name: 'role[]',
+									}).val(value.id);
+									input.appendTo(label);
+									label.append("<span class='checkbox-material'><span class='check'></span></span>");
+									label.append(' '+value.name);
+									div.append(label);
+									$('#check').append(div);
+								});
 							}
 						}
 					});
@@ -194,29 +246,30 @@
 		});
 
 		$(document).ready(function(){
-            $('.combobox').combobox();
-            $('[data-toggle="tooltip"]').tooltip();
-            $("#phone").inputmask();
+			$('.combobox').combobox();
+			$('[data-toggle="tooltip"]').tooltip();
+			$("#phone").inputmask();
 
-        });
+		});
 
 		var Model = function() {
 
-	        this.passValue = ko.observable(false);
-	    };
+			this.passValue = ko.observable(false);
+		};
 
-	    ko.bindingHandlers.fadeVisible = {
-	        init: function(element, valueAccessor) {
-	            var value = valueAccessor();
-	            $(element).toggle(ko.unwrap(value));
-	        },
-	        update: function(element, valueAccessor) {
-	            var value = valueAccessor();
-	            ko.unwrap(value) ? $(element).fadeIn() : $(element).fadeOut();
-	        }
-	    };
+		ko.bindingHandlers.fadeVisible = {
+			init: function(element, valueAccessor) {
+				var value = valueAccessor();
+				$(element).toggle(ko.unwrap(value));
+			},
+			update: function(element, valueAccessor) {
+				var value = valueAccessor();
+				ko.unwrap(value) ? $(element).fadeIn() : $(element).fadeOut();
+			}
+		};
 
-	    ko.applyBindings(new Model());
+		ko.applyBindings(new Model());
+
 
 	</script>
 

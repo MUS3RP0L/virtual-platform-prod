@@ -3,7 +3,6 @@
 namespace Muserpol\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Foundation\Inspiring;
 
 use Maatwebsite\Excel\Facades\Excel;
 use Muserpol\Helper\Util;

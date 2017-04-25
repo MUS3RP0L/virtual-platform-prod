@@ -90,7 +90,6 @@ class UserController extends Controller
 
         if($request->ajax())
         {
-            //dd($request->user_id);
             $allRolesOfModule = Role::moduleidIs($request->module_id)->get();
             
             $usersHasRoles = DB::table('roles')
@@ -141,13 +140,7 @@ class UserController extends Controller
 
     public function edit($user)
     {
-        //$roles = Role::moduleidIs($user->roles()->first()->module->id)->get();
-        // $roles = $user->getModule()->id;
-        // dd($roles);
-        // foreach ($roles as $item) {
-        //   
-
-
+ 
         $data = [
 
             'user' => $user,
