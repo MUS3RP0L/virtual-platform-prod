@@ -206,6 +206,7 @@ class AffiliateController extends Controller
             'info_address' => $info_address,
             'info_spouse' => $info_spouse,
             'last_contribution' => $last_contribution,
+            'observations'=>$affiliate->observations,
             'total_gain' => $total_gain,
             'total_public_security_bonus' => $total_public_security_bonus,
             'total_quotable' => $total_quotable,
@@ -214,7 +215,6 @@ class AffiliateController extends Controller
             'total' => $total
 
         ];
-
         $data = array_merge($data, self::getViewModel());
         return $data;
     }
