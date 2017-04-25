@@ -3,15 +3,8 @@
 @section('contentheader_title')
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             {!! Breadcrumbs::render('base_wages') !!}
-        </div>
-        <div class="col-md-4 text-right">
-            @can('manage')
-                <a href="" data-target="#myModal-import" class="btn btn-raised btn-success dropdown-toggle" data-toggle="modal">&nbsp;
-                    <i class="glyphicon glyphicon-import"></i>&nbsp;
-                </a>
-            @endcan
         </div>
     </div>
 
