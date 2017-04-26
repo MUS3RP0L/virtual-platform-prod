@@ -16,6 +16,7 @@ use Muserpol\City;
 use Muserpol\Spouse;
 use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementModality;
+use Muserpol\EconomicComplementApplicant;
 
 class ImportEcoCom extends Command
 {
@@ -229,8 +230,64 @@ class ImportEcoCom extends Command
                             $city_id = City::select('id')->where('name', $result->regional)->first()->id;
                             $economic_complement->city_id = $city_id;
                             $economic_complement->save();
-                        }
 
+                            $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+
+                            if (!$eco_com_applicant) {
+
+                                $eco_com_applicant = new EconomicComplementApplicant;
+                                $eco_com_applicant->economic_complement_id = $economic_complement->id;
+                            }
+
+                            if ($result->tiporenta == 'VEJEZ' or $result->tiporenta == 'RENT-M2000-VEJ' or $result->tiporenta == 'RENT-1COM-M2000-VEJ' or $result->tiporenta == 'RENT-1COMP-VEJ') {                          
+                                $eco_com_applicant->eco_com_applicant_type_id = 1;
+
+                                $eco_com_applicant->identity_card = $affiliate->identity_card;
+                                $eco_com_applicant->city_identity_card_id = $affiliate->city_identity_card_id;
+                                $eco_com_applicant->last_name = $affiliate->last_name;
+                                $eco_com_applicant->mothers_last_name = $affiliate->mothers_last_name;
+                                $eco_com_applicant->first_name = $affiliate->first_name;
+                                $eco_com_applicant->birth_date = $affiliate->birth_date;
+                                // $eco_com_applicant->nua = $affiliate->nua;
+                                $eco_com_applicant->gender = $affiliate->gender;
+                                $eco_com_applicant->civil_status = $affiliate->civil_status;
+                                // $eco_com_applicant->phone_number = $affiliate->phone_number;
+                                // $eco_com_applicant->cell_phone_number = $affiliate->cell_phone_number;
+
+                            }elseif ($result->tiporenta == 'ORFANDAD') {
+                                $eco_com_applicant->eco_com_applicant_type_id = 3;
+                                $eco_com_applicant->identity_card = $spouse->identity_card;
+                                $eco_com_applicant->city_identity_card_id = $spouse->city_identity_card_id;
+                                $eco_com_applicant->last_name = $spouse->last_name;
+                                $eco_com_applicant->mothers_last_name = $spouse->mothers_last_name;
+                                $eco_com_applicant->first_name = $spouse->first_name;
+                                $eco_com_applicant->birth_date = $spouse->birth_date;
+                                // $eco_com_applicant->nua = $affiliate->nua;
+                                if ($affiliate->gender == 'M') { $eco_com_applicant->gender = 'F'; }else{ $eco_com_applicant->gender = 'M'; }
+                                $eco_com_applicant->civil_status = 'V';
+                                // $eco_com_applicant->phone_number = $affiliate->phone_number;
+                                // $eco_com_applicant->cell_phone_number = $affiliate->cell_phone_number;
+
+                            }else{
+                                $eco_com_applicant->eco_com_applicant_type_id = 2;
+                                $eco_com_applicant->eco_com_applicant_type_id = 3;
+                                $eco_com_applicant->identity_card = $spouse->identity_card;
+                                $eco_com_applicant->city_identity_card_id = $spouse->city_identity_card_id;
+                                $eco_com_applicant->last_name = $spouse->last_name;
+                                $eco_com_applicant->mothers_last_name = $spouse->mothers_last_name;
+                                $eco_com_applicant->first_name = $spouse->first_name;
+                                $eco_com_applicant->birth_date = $spouse->birth_date;
+                                // $eco_com_applicant->nua = $affiliate->nua;
+                                if ($affiliate->gender == 'M') { $eco_com_applicant->gender = 'F'; }else{ $eco_com_applicant->gender = 'M'; }
+                                $eco_com_applicant->civil_status = 'V';
+                                // $eco_com_applicant->phone_number = $affiliate->phone_number;
+                                // $eco_com_applicant->cell_phone_number = $affiliate->cell_phone_number;
+
+                            }
+
+                            $eco_com_applicant->save();
+
+                        }
 
                         $Progress->advance();
 
