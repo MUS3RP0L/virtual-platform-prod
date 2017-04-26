@@ -67,7 +67,7 @@ class ImportEcoCom extends Command
                            
                             $pension_entity_id = PensionEntity::select('id')->where('name', $result->ente_gestor)->first()->id;
                             
-                            // $category_id = Category::select('id')->where('name', trim($result->categoria))->first()->id;
+                            $category_id = Category::select('id')->where('percentage', $result->categoria)->first()->id;
 
                             switch ($result->eciv) {
 
