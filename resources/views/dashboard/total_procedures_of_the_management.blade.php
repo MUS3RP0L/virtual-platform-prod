@@ -1,1 +1,0 @@
-total_procedures_of_the_management.blade.php

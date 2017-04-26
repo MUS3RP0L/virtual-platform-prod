@@ -8,7 +8,13 @@
 </div>
 @push('scripts')
 <script type="text/javascript">
-
+var options = {
+		responsive: true,
+		tooltipTemplate: " <%=label%>: <%= value + ' Bs' %>",
+		legend: {
+			display: true
+		},
+	};
 	var doughnutData = {
 		labels: {!!json_encode($Total_AffiliatebyState[0])!!} ,
 		datasets: [
@@ -36,7 +42,7 @@
 	var myDoughnutChart = new Chart(ctx, {
 		type: 'doughnut',
 		data: doughnutData,
-		//options: options
+		options: options
 	});
 	
 </script>
