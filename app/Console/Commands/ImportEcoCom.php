@@ -49,7 +49,7 @@ class ImportEcoCom extends Command
                 $time_start = microtime(true);
                 $this->info("Working...\n");
                 $Progress = $this->output->createProgressBar();
-                $Progress->setFormat("%current%/%max% [%bar%] %percent:3s%%");
+                $Progress->setFormat("%current%/%max% [%bar%] %percent:3s%");
 
                 Excel::batch('public/file_to_import/' . $FolderName . '/', function($rows, $file) {
 
@@ -63,7 +63,15 @@ class ImportEcoCom extends Command
 
                         if ($result->tiporenta == 'VEJEZ' or $result->tiporenta == 'RENT-M2000-VEJ' or $result->tiporenta == 'RENT-1COM-M2000-VEJ' or $result->tiporenta == 'RENT-1COMP-VEJ') {
                             
-                            $degree_id = Degree::select('id')->where('shortened', $result->grado)->first()->id;
+                            if ($result->grado == 'CNL.') {
+                                $degree_id = 7;
+
+                            }elseif ($result->grado == 'GRAL.') {
+                               $degree_id = 5;
+                            }else
+                            {
+                                $degree_id = Degree::select('id')->where('shortened', $result->grado)->first()->id;
+                            }
                            
                             $pension_entity_id = PensionEntity::select('id')->where('name', $result->ente_gestor)->first()->id;
                             
@@ -108,7 +116,7 @@ class ImportEcoCom extends Command
 
                             $affiliate->degree_id = $degree_id;
                             $affiliate->pension_entity_id = $pension_entity_id;
-                            // $affiliate->category_id = $category_id;
+                            $affiliate->category_id = $category_id;
                             $affiliate->civil_status = $eciv;
 
                             $affiliate->last_name = $result->pat;
@@ -117,10 +125,10 @@ class ImportEcoCom extends Command
                             $affiliate->second_name = $result->snom;
                             $affiliate->surname_husband = $result->apes;
 
-                             $affiliate->change_date = Carbon::now();
+                            $affiliate->change_date = Carbon::now();
 
                             $affiliate->birth_date = $result->fecha_nac;
-                            // $affiliate->registration = Util::CalcRegistration($affiliate->birth_date, $affiliate->last_name, $affiliate->mothers_last_name, $affiliate->first_name, $affiliate->gender);
+
                             $affiliate->save();
 
                         }
@@ -128,35 +136,15 @@ class ImportEcoCom extends Command
 
                         }
 
+                        $Progress->advance();
+
                     });
 
                 });
 
-                // $time_end = microtime(true);
+                $time_end = microtime(true);
 
-                // $execution_time = ($time_end - $time_start)/60;
-
-                // $TotalAffi = $NewAffi + $UpdateAffi;
-                // $TotalNewAffi = $NewAffi ? $NewAffi : "0";
-                // $TotalUpdateAffi = $UpdateAffi ? $UpdateAffi : "0";
-                // $TotalAffi = $TotalAffi ? $TotalAffi : "0";
-                // $TotalNewContri = $NewContri ? $NewContri : "0";
-
-                // $Progress->finish();
-
-                // $this->info("\n\nReport $Date:\n
-                //     $TotalNewAffi new affiliates.\n
-                //     $TotalUpdateAffi affiliates successfully updated.\n
-                //     Total $TotalAffi affiliates.\n
-                //     Total $TotalNewContri entered contributions.\n
-                //     Execution time $execution_time [minutes].\n");
-
-                // \Storage::disk('local')->put('ImportPayroll_'. $Date.'.txt', "Reporte de Importacion Afiliados y Aportes:\r\n
-                //     $TotalNewAffi new affiliates.\r\n
-                //     $TotalUpdateAffi affiliates successfully updated.\r\n
-                //     Total $TotalAffi affiliates.\r\n
-                //     Total $TotalNewContri entered contributions.\r\n
-                //     Execution time $execution_time [minutes].\r\n");
+                $Progress->finish();
 
             }
         }
