@@ -191,6 +191,7 @@ class CreateAffiliatesTable extends Migration
             $table->string('mothers_last_name')->nullable();
             $table->string('first_name')->nullable();
             $table->string('second_name')->nullable();
+            $table->string('surname_husband')->nullable();
             $table->date('birth_date')->nullable();
             $table->date('date_death')->nullable();
             $table->string('reason_death')->nullable();

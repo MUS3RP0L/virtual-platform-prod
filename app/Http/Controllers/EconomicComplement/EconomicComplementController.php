@@ -430,33 +430,37 @@ class EconomicComplementController extends Controller
 
         ];
 
-        if ($economic_complement->base_wage_id) {
-            $sub_total_rent = $economic_complement->sub_total_rent;
-            $salary_reference = $economic_complement->base_wage->amount;
-            $seniority = $economic_complement->category->percentage * $economic_complement->base_wage->amount;
-            $salary_quotable = $salary_reference + $seniority;
-            $difference = $salary_quotable - $sub_total_rent;
-            $months_of_payment = 6;
-            $total_amount_semester = $difference * $months_of_payment;
-            $complementary_factor = $eco_com_type->id == 1 ? $economic_complement->complementary_factor->old_age : $economic_complement->complementary_factor->widowhood;
-            $total = $total_amount_semester * $complementary_factor/100;
+        // if ($economic_complement->base_wage_id) {
+        //     $sub_total_rent = $economic_complement->sub_total_rent;
+        //     $salary_reference = $economic_complement->base_wage->amount;
+        //     $seniority = $economic_complement->category->percentage * $economic_complement->base_wage->amount;
+        //     $salary_quotable = $salary_reference + $seniority;
+        //     $difference = $salary_quotable - $sub_total_rent;
+        //     $months_of_payment = 6;
+        //     $total_amount_semester = $difference * $months_of_payment;
+        //     $complementary_factor = $eco_com_type->id == 1 ? $economic_complement->complementary_factor->old_age : $economic_complement->complementary_factor->widowhood;
+        //     $total = $total_amount_semester * $complementary_factor/100;
 
 
             $second_data = [
 
-                'sub_total_rent' => Util::formatMoney($sub_total_rent),
-                'salary_reference' => Util::formatMoney($salary_reference),
-                'seniority' => Util::formatMoney($seniority),
-                'salary_quotable' => Util::formatMoney($salary_quotable),
-                'difference' => Util::formatMoney($difference),
-                'total_amount_semester' => Util::formatMoney($total_amount_semester),
-                'complementary_factor' => $complementary_factor,
-                'total' => Util::formatMoney($total)
+                'sub_total_rent' => Util::formatMoney($economic_complement->sub_total_rent),
+                'reimbursement' => Util::formatMoney($economic_complement->reimbursement),
+                'dignity_pension' => Util::formatMoney($economic_complement->dignity_pension),
+                'total_rent' => Util::formatMoney($economic_complement->total_rent),
+                'total_rent_calc' => Util::formatMoney($economic_complement->total_rent_calc),
+                'salary_reference' => Util::formatMoney($economic_complement->salary_reference),
+                'seniority' => Util::formatMoney($economic_complement->seniority),
+                'salary_quotable' => Util::formatMoney($economic_complement->salary_quotable),
+                'difference' => Util::formatMoney($economic_complement->difference),
+                'total_amount_semester' => Util::formatMoney($economic_complement->total_amount_semester),
+                'complementary_factor' => $economic_complement->complementary_factor,
+                'total' => Util::formatMoney($economic_complement->total)
 
             ];
 
             $data = array_merge($data, $second_data);
-        }
+        // }
 
         $data = array_merge($data, self::getViewModel());
 

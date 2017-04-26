@@ -178,24 +178,24 @@ class AffiliateController extends Controller
             $info_spouse = FALSE;
         }
 
-        $last_contribution = Contribution::affiliateidIs($affiliate->id)->orderBy('month_year', 'desc')->first();
+        // $last_contribution = Contribution::affiliateidIs($affiliate->id)->orderBy('month_year', 'desc')->first();
 
-        $totals = DB::table('affiliates')
-                        ->select(DB::raw('SUM(contributions.gain) as gain, SUM(contributions.public_security_bonus) as public_security_bonus,
-                                        SUM(contributions.quotable) as quotable, SUM(contributions.total) as total,
-                                        SUM(contributions.retirement_fund) as retirement_fund, SUM(contributions.mortuary_quota) as mortuary_quota'))
-                        ->leftJoin('contributions', 'affiliates.id', '=', 'contributions.affiliate_id')
-                        ->where('affiliates.id', '=', $affiliate->id)
-                        ->get();
+        // $totals = DB::table('affiliates')
+        //                 ->select(DB::raw('SUM(contributions.gain) as gain, SUM(contributions.public_security_bonus) as public_security_bonus,
+        //                                 SUM(contributions.quotable) as quotable, SUM(contributions.total) as total,
+        //                                 SUM(contributions.retirement_fund) as retirement_fund, SUM(contributions.mortuary_quota) as mortuary_quota'))
+        //                 ->leftJoin('contributions', 'affiliates.id', '=', 'contributions.affiliate_id')
+        //                 ->where('affiliates.id', '=', $affiliate->id)
+        //                 ->get();
 
-        foreach ($totals as $item) {
-            $total_gain = Util::formatMoney($item->gain);
-            $total_public_security_bonus = Util::formatMoney($item->public_security_bonus);
-            $total_quotable = Util::formatMoney($item->quotable);
-            $total_retirement_fund = Util::formatMoney($item->retirement_fund);
-            $total_mortuary_quota = Util::formatMoney($item->mortuary_quota);
-            $total = Util::formatMoney($item->total);
-        }
+        // foreach ($totals as $item) {
+        //     $total_gain = Util::formatMoney($item->gain);
+        //     $total_public_security_bonus = Util::formatMoney($item->public_security_bonus);
+        //     $total_quotable = Util::formatMoney($item->quotable);
+        //     $total_retirement_fund = Util::formatMoney($item->retirement_fund);
+        //     $total_mortuary_quota = Util::formatMoney($item->mortuary_quota);
+        //     $total = Util::formatMoney($item->total);
+        // }
 
         $data = [
 
@@ -205,16 +205,16 @@ class AffiliateController extends Controller
             'gender_list' => $gender_list,
             'info_address' => $info_address,
             'info_spouse' => $info_spouse,
-            'last_contribution' => $last_contribution,
-            'total_gain' => $total_gain,
-            'total_public_security_bonus' => $total_public_security_bonus,
-            'total_quotable' => $total_quotable,
-            'total_retirement_fund' => $total_retirement_fund,
-            'total_mortuary_quota' => $total_mortuary_quota,
-            'total' => $total
+            // 'last_contribution' => $last_contribution,
+            'observations'=>$affiliate->observations,
+            // 'total_gain' => $total_gain,
+            // 'total_public_security_bonus' => $total_public_security_bonus,
+            // 'total_quotable' => $total_quotable,
+            // 'total_retirement_fund' => $total_retirement_fund,
+            // 'total_mortuary_quota' => $total_mortuary_quota,
+            // 'total' => $total
 
         ];
-
         $data = array_merge($data, self::getViewModel());
         return $data;
     }

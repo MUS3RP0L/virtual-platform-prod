@@ -8,49 +8,49 @@ Formulario Nº 2
 <div class="title2"><b>Registro: Nº {!! $economic_complement->code !!}</div>
 <div id="project">
   <table>
-  <tr>
+    <tr>
       <td colspan="5" class="grand service" style="text-align:left;">I. INFORMACIÓN DERECHOHABIENTE</td>
-  </tr>
-  <tr>
-  <td class="grand service" style="text-align:center" ><h4><b>CI.<h4><b></td>
-  <td class="grand service" style="text-align:center;"><h4><b>NOMBRES Y APELLIDOS</h4></b></td>
-  <td class="grand service" style="text-align:center;width: 16%;"><h4><b>FECHA NACIMIENTO</h4></b></td>
-  <td class="grand service" style="text-align:center;"><h4><b>TIPO RENTA</h4></b></td>
-  <td class="grand service" style="text-align:center;"><h4><b>Nº CUA/NUA</h4></b></td>
+    </tr>
+    <tr>
+      <td class="grand service" style="text-align:center" ><h4><b>CI.<h4><b></td>
+      <td class="grand service" style="text-align:center;"><h4><b>NOMBRES Y APELLIDOS</h4></b></td>
+      <td class="grand service" style="text-align:center;width: 16%;"><h4><b>FECHA NACIMIENTO</h4></b></td>
+      <td class="grand service" style="text-align:center;"><h4><b>TIPO RENTA</h4></b></td>
+      <td class="grand service" style="text-align:center;"><h4><b>Nº CUA/NUA</h4></b></td>
 
-  </tr>
-  <tr>
-  <th class="info" style="text-align:center;"><h4>{!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->shortened !!} </h4></th>
-  <th class="info" style="text-align:center;"><h4>{!! $eco_com_applicant->getTitleNameFull() !!}</h4></th>
-  <th class="info" style="text-align:center;width: 16%;"><h4>{!! $eco_com_applicant->getShortBirthDate() !!}</h4></th>
-  <th class="info" style="text-align:center;"><h4> {!! $eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->name !!}</h4></th>
-  <th class="info" style="text-align:center;"><h4>{!! $affiliate->nua !!}</h4></th>
+    </tr>
+    <tr>
+      <th class="info" style="text-align:center;"><h4>{!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->shortened !!} </h4></th>
+      <th class="info" style="text-align:center;"><h4>{!! $eco_com_applicant->getTitleNameFull() !!}</h4></th>
+      <th class="info" style="text-align:center;width: 16%;"><h4>{!! $eco_com_applicant->getShortBirthDate() !!}</h4></th>
+      <th class="info" style="text-align:center;"><h4> {!! $eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->name !!}</h4></th>
+      <th class="info" style="text-align:center;"><h4>{!! $affiliate->nua !!}</h4></th>
 
-  </tr>
+    </tr>
 
-</table>
-<table>
-  <tr>
+  </table>
+  <table>
+    <tr>
       <td colspan="5" class="grand service" style="text-align:left;">II. INFORMACIÓN CAUSAHABIENTE</td>
-  </tr>
-  <tr>
-  <td class="grand service" style="text-align:center;" ><h4><b>CI.</h4></b></td>
-  <td class="grand service" style="text-align:center;"><h4><b>NOMBRES Y APELLIDOS</b></h4></td>
-  <td class="grand service" style="text-align:center;width: 16%;"><h4><b>FECHA NACIMIENTO</h4></b></td>
-  <td class="grand service" style="text-align:center;"><h4><b>TIPO RENTA</h4></b></td>
-  <td class="grand service" style="text-align:center;"><h4><b>Nº CUA/NUA</h4></b></td>
+    </tr>
+    <tr>
+      <td class="grand service" style="text-align:center;" ><h4><b>CI.</h4></b></td>
+      <td class="grand service" style="text-align:center;"><h4><b>NOMBRES Y APELLIDOS</b></h4></td>
+      <td class="grand service" style="text-align:center;width: 16%;"><h4><b>FECHA NACIMIENTO</h4></b></td>
+      <td class="grand service" style="text-align:center;"><h4><b>TIPO RENTA</h4></b></td>
+      <td class="grand service" style="text-align:center;"><h4><b>Nº CUA/NUA</h4></b></td>
 
-  </tr>
-  <tr>
-  <th class="info" style="text-align:center;"><h4>{!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card ? $affiliate->city_identity_card->shortened : '' !!} </h4></th>
-  <th class="info" style="text-align:center;"><h4>{!! $affiliate->getTittleNamePrint() !!}</h4></th>
-  <th class="info" style="text-align:center;width: 16%;"><h4>{!! $affiliate->getShortBirthDate() !!}</h4></th>
-  <th class="info" style="text-align:center;"><h4>{!! $economic_complement->economic_complement_modality->economic_complement_type->name !!}</h4></th>
-  <th class="info" style="text-align:center;"><h4>{!! $affiliate->nua !!}</h4></th>
+    </tr>
+    <tr>
+      <th class="info" style="text-align:center;"><h4>{!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card ? $affiliate->city_identity_card->shortened : '' !!} </h4></th>
+      <th class="info" style="text-align:center;"><h4>{!! $affiliate->getTittleNamePrint() !!}</h4></th>
+      <th class="info" style="text-align:center;width: 16%;"><h4>{!! $affiliate->getShortBirthDate() !!}</h4></th>
+      <th class="info" style="text-align:center;"><h4>{!! $economic_complement->economic_complement_modality->economic_complement_type->name !!}</h4></th>
+      <th class="info" style="text-align:center;"><h4>{!! $affiliate->nua !!}</h4></th>
 
-  </tr>
+    </tr>
 
-</table>
+  </table>
   <p align="justify">Yo, <b>{!! $eco_com_applicant->getTitleNameFull() !!}</b> boliviano (a) de nacimiento con Cédula de Identidad <b>N° {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->shortened !!} </b> .
     con estado civil <b>{!! $eco_com_applicant->getCivilStatus() !!}</b> y con residencia actualmente en el Departamento de <b>{!! $economic_complement->city->name !!}</b>.; mayor de edad,
     y hábil por derecho; consiente de la responsabilidad que asumo ante la Mutual de Servicios al Policía – MUSERPOL,
@@ -96,24 +96,35 @@ Formulario Nº 2
       <td style="text-align:justify;font-size:0.9em;">De presentarse una tercera persona que acredite igual o mayor derecho para acceder al Beneficio del Complemento Económico por mi causahabiente, estoy de acuerdo en que la Mutual de Servicios al Policía no se hace responsable por la suspensión del mencionado Beneficio y estoy de acuerdo a realizar devolución de montos cobrados.</td>
     </tr>
   </table>
-<p align="justify">En mérito de los datos registrados en forma precedente, el interesado aprueba y ratifica su tenor de manera íntegra, quien en señal de conformidad en forma expresa y voluntaria firma el presente documento en la ciudad de La Paz, {!! Util::getfulldate($economic_complement->reception_date)!!}.</p>
+  <p align="justify">En mérito de los datos registrados en forma precedente, el interesado aprueba y ratifica su tenor de manera íntegra, quien en señal de conformidad en forma expresa y voluntaria firma el presente documento en la ciudad de La Paz, {!! Util::getfulldate($economic_complement->reception_date)!!}.</p>
 
-<table>
-          <tr>
-              <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>-------------------------------------------</th>
-              <th class="info" style="border-bottom: 1px solid  #5D6975!IMPORTANT;text-align:center;width: 22%;"><p>&nbsp;</p><br></th>
-              <th class="info" style="border: 0px;text-align:center;width: 10%;"></th>
+  <table>
+    <tr>
+      <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>-------------------------------------------</th>
+      <th class="info" style="border-bottom: 1px solid  #5D6975!IMPORTANT;text-align:center;width: 22%;"><p>&nbsp;</p><br></th>
+      <th class="info" style="border: 0px;text-align:center;width: 10%;"></th>
 
-          </tr>
-          <tr>
-            <th class="info" style="border: 0px;text-align:center;">{!! $eco_com_applicant->getTitleNameFull() !!} <br>C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->shortened !!} Telefono. {!! $eco_com_applicant->getPhone() !!}</th>
-            <th class="info" style="border: 0px;text-align:center;">Huella Digital Pulgar Derecho</th>
-            <th class="info" style="border: 0px;text-align:center;width: 10%;"></th>
-          </tr>
+    </tr>
+    <tr>
+      <th class="info" style="border: 0px;text-align:center;">{!! $eco_com_applicant->getTitleNameFull() !!} <br>C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->shortened !!} Telefono. {!! $eco_com_applicant->getPhone() !!}</th>
+      <th class="info" style="border: 0px;text-align:center;">Huella Digital Pulgar Derecho</th>
+      <th class="info" style="border: 0px;text-align:center;width: 10%;"></th>
+    </tr>
 
 
 
-</table>
-<p align="justify"><b>Nota.- El presente documento tiene carácter de DECLARACIÓN JURADA, por lo que en caso de evidenciarse la falsedad de este, se procederá con las acciones legales pertinentes. </b></p>
+  </table>
+  <p align="justify"><b>Nota.- El presente documento tiene carácter de DECLARACIÓN JURADA, por lo que en caso de evidenciarse la falsedad de este, se procederá con las acciones legales pertinentes. </b></p>
+</div>
+<div class="visible-print text-right">
+  <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate(
+  'Registro: Nº '.$economic_complement->code.' || '.
+  'Carnet de Identidad: '.$affiliate->identity_card.' || '.
+  $eco_com_applicant->city_identity_card->shortened.' || '.
+  'Nombre :'.$eco_com_applicant->getTitleNameFull().' || '.
+  'Fecha de nacimiento: '.$eco_com_applicant->getShortBirthDate().' || '.
+  'Tipo de Complemento: '. $economic_complement->economic_complement_modality->economic_complement_type->name.' || '.
+  'N° NUA: '.$affiliate->nua
+  ))!!} ">
 </div>
 @endsection
