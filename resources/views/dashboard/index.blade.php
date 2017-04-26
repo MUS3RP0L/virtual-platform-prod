@@ -7,7 +7,25 @@
 @endsection
 
 @section('main-content')
-
+@can('economic_complement')
+<div class="row">
+	<div class="col-md-4">
+		@include('dashboard.economic_complement_by_type')
+		
+	</div>
+	<div class="col-md-4">
+		@include('dashboard.economic_complement_by_type_of_modalities')
+	</div>
+	<div class="col-md-4">
+		@include('dashboard.complementary_economic_by_departments')	
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		@include('dashboard.economic_complement_of_the_management')
+	</div>
+</div>
+@endcan
 @can('manage')
 
 <div class="row">
@@ -46,27 +64,7 @@
 @endcan
 
 
-@can('economic_complement')
-<div class="row">
-	<div class="col-md-12">
-		@include('dashboard.economic_complement_of_the_management')
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-4">
-		@include('dashboard.economic_complement_by_type')
-		
-	</div>
-	<div class="col-md-4">
-		@include('dashboard.economic_complement_by_type_of_modalities')
-	</div>
-	<div class="col-md-4">
-		@include('dashboard.complementary_economic_by_departments')	
-	</div>
-</div>
 
-
-@endcan
 
 @endsection
 @push('scripts')
@@ -106,20 +104,7 @@ var barChartDataSemestre = {
 
 }
 
-window.onload = function(){
 
-
-	var ctx = document.getElementById("pie-tipo").getContext("2d");
-	window.myPie = new Chart(ctx, {
-		type: 'pie',
-		data: pieData,
-		options: options,
-
-	});
-
-//			window.mybar=new Chart(ctx,barChartDataSemestre);
-
-}
 
 </script>
 

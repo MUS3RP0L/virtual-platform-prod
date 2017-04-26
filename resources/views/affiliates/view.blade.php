@@ -161,6 +161,18 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>NUA/CUA:</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $affiliate->nua !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                                 @if ($affiliate->surname_husband)
                                 <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
@@ -908,9 +920,23 @@
                                         </div>
                                     </div>
                                 @endif
+                                <div class="form-group">
+                                        {!! Form::label('nua', 'CUA/NUA', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('nua', $affiliate->nua, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el CUA/NUA</span>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-md-6">
+                                <div class="form-group">
+                                            {!! Form::label('gender', 'Sexo', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::select('gender', ['M'=>'Masculino','F'=>'Femenino'] ,$affiliate->gender, ['class' => 'combobox form-control']) !!}
+                                        <span class="help-block">Seleccione Sexo</span>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                         {!! Form::label('birth_date', 'Fecha de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
