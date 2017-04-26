@@ -19,8 +19,7 @@
     		*/
     		// for complement economic
 
-    		/*var ctx = document.getElementById("bar-semestre").getContext("2d");
-    		window.myBar = new Chart(ctx).Bar(barChartDataSemestre, {responsive : true});
+    		/*
     		*/
     		
     	</script>

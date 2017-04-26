@@ -519,7 +519,7 @@
                                         {!! Form::label('nua', 'CUA/NUA', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
                                         {!! Form::text('nua', $eco_com_applicant->nua, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                                        <span class="help-block">Escriba el Segundo Nombre</span>
+                                        <span class="help-block">Escriba el CUA/NUA</span>
                                     </div>
                                 </div>
                                 <div class="form-group">

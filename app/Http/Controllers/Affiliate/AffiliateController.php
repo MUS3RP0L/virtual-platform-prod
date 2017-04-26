@@ -289,6 +289,8 @@ class AffiliateController extends Controller
                     $affiliate->first_name = trim($request->first_name);
                     $affiliate->second_name = trim($request->second_name);
                     $affiliate->surname_husband = trim($request->surname_husband);
+                    $affiliate->gender = trim($request->gender);
+                    $affiliate->nua = trim($request->nua);
                     $affiliate->birth_date = Util::datePick($request->birth_date);
                     $affiliate->civil_status = trim($request->civil_status);
                     if ($request->city_birth_id) { $affiliate->city_birth_id = $request->city_birth_id; } else { $affiliate->city_birth_id = null; }
