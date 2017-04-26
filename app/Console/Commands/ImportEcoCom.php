@@ -14,6 +14,8 @@ use Muserpol\Category;
 use Muserpol\PensionEntity;
 use Muserpol\City;
 use Muserpol\Spouse;
+use Muserpol\EconomicComplement;
+use Muserpol\EconomicComplementModality;
 
 class ImportEcoCom extends Command
 {
@@ -187,6 +189,48 @@ class ImportEcoCom extends Command
                             $spouse->save();
 
                         }
+
+                        $economic_complement = EconomicComplement::affiliateIs($affiliate->id)
+                                    ->whereYear('year', '=', $result->gestion)
+                                    ->where('semester', '=', $result->semestre)->first();
+
+                        if (!$economic_complement) {
+                            $economic_complement = new EconomicComplement;
+
+                            if ($last_economic_complement = EconomicComplement::whereYear('year', '=', $result->gestion)
+                                                ->where('semester', '=', "Segundo")
+                                                ->whereNull('deleted_at')->orderBy('id', 'desc')->first()) {
+                                $number_code = Util::separateCode($last_economic_complement->code);
+                                $code = $number_code + 1;
+                            }else{
+                                $code = 1;
+                            }
+
+                            $sem='S';
+
+                            $economic_complement->code = $code ."/". $sem . "/" . $result->gestion;
+                            $economic_complement->affiliate_id = $affiliate->id;
+                            $economic_complement->year = Util::datePickYear($result->gestion, $result->semestre);
+                            $economic_complement->semester = "Segundo";
+                            if ($result->beneficiario == 'PLANILLA GENERAL') {
+                                $economic_complement->eco_com_state_id = 6;
+                            }
+                            else {
+                                $economic_complement->eco_com_state_id = 8;
+                            }
+                           
+                            $economic_complement->user_id = 1;
+
+                            $eco_com_modality = EconomicComplementModality::where('shortened', $result->tiporenta)->first();
+
+                            $economic_complement->eco_com_modality_id = $eco_com_modality->id;
+                            $economic_complement->category_id = $affiliate->category_id;
+
+                            $city_id = City::select('id')->where('name', $result->regional)->first()->id;
+                            $economic_complement->city_id = $city_id;
+                            $economic_complement->save();
+                        }
+
 
                         $Progress->advance();
 
