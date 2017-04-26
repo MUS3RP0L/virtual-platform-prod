@@ -286,7 +286,7 @@ class ImportEcoCom extends Command
                             $spouse->user_id = 1;
                             $spouse->affiliate_id = $affiliate->id;
                             $spouse->identity_card = $result->ci;
-                            $city_id = City::select('id')->where('shortened', trim($result->ext_ch))->first()->id;
+                            $city_id = City::select('id')->where('shortened', trim($result->ext))->first()->id;
                             $spouse->city_identity_card_id = $city_id;
                             $spouse->registration = "0";
 
