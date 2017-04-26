@@ -116,6 +116,7 @@ class DashboardController extends Controller
 			}
 
 			// Total Affiliates disaggregated by district.
+			$list_affiliateByDisctrict=[];
 			foreach ($district as $item) {
 
 				$afiDistrict = Affiliate::afiDistrict($item->district, $year)->first();
