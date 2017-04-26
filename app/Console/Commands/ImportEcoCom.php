@@ -67,7 +67,7 @@ class ImportEcoCom extends Command
                            
                             $pension_entity_id = PensionEntity::select('id')->where('name', $result->ente_gestor)->first()->id;
                             
-                            $category_id = Category::select('id')->where('name', $result->categoria)->first()->id;
+                            // $category_id = Category::select('id')->where('name', trim($result->categoria))->first()->id;
 
                             switch ($result->eciv) {
 
@@ -89,24 +89,26 @@ class ImportEcoCom extends Command
 
                         }
                         
-                        $table->enum('civil_status', ['C', 'S', 'V', 'D']);
-
-
                             $affiliate = Affiliate::where('identity_card', '=', Util::zero($result->ci))->first();
 
                             if (!$affiliate) {
 
                                 $affiliate = new Affiliate;
                                 $affiliate->identity_card = Util::zero($result->ci);
-                                // $affiliate->gender = $result->sex;
+                                $affiliate->gender = "M";
                                 $NewAffi ++;
 
                             }
                             else{$UpdateAffi ++;}
 
+                            $affiliate->user_id = 1;
+                            $affiliate->affiliate_state_id = 5;
+                            $affiliate->affiliate_type_id = 1;
+                            $affiliate->registration = "0";
+
                             $affiliate->degree_id = $degree_id;
                             $affiliate->pension_entity_id = $pension_entity_id;
-                            $affiliate->category_id = $category_id;
+                            // $affiliate->category_id = $category_id;
                             $affiliate->civil_status = $eciv;
 
                             $affiliate->last_name = $result->pat;
@@ -115,7 +117,9 @@ class ImportEcoCom extends Command
                             $affiliate->second_name = $result->snom;
                             $affiliate->surname_husband = $result->apes;
 
-                            $affiliate->birth_date = Util::datePic($fecha_nac);
+                             $affiliate->change_date = Carbon::now();
+
+                            $affiliate->birth_date = $result->fecha_nac;
                             // $affiliate->registration = Util::CalcRegistration($affiliate->birth_date, $affiliate->last_name, $affiliate->mothers_last_name, $affiliate->first_name, $affiliate->gender);
                             $affiliate->save();
 
