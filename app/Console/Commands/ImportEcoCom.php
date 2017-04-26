@@ -12,6 +12,7 @@ use Muserpol\Affiliate;
 use Muserpol\Degree;
 use Muserpol\Category;
 use Muserpol\PensionEntity;
+use Muserpol\City;
 
 class ImportEcoCom extends Command
 {
@@ -36,7 +37,7 @@ class ImportEcoCom extends Command
      */
     public function handle()
     {
-        global $NewAffi, $UpdateAffi, $NewContri, $Progress, $FolderName, $Date;
+        global $Progress, $FolderName;
 
         $password = $this->ask('Enter the password');
 
@@ -55,59 +56,59 @@ class ImportEcoCom extends Command
 
                     $rows->each(function($result) {
 
-                        global $NewAffi, $UpdateAffi, $NewContri, $Progress, $FolderName, $Date;
+                        global $Progress, $FolderName;
+
                         ini_set('memory_limit', '-1');
                         ini_set('max_execution_time', '-1');
                         ini_set('max_input_time', '-1');
                         set_time_limit('-1');
 
-                        if ($result->tiporenta == 'VEJEZ' or $result->tiporenta == 'RENT-M2000-VEJ' or $result->tiporenta == 'RENT-1COM-M2000-VEJ' or $result->tiporenta == 'RENT-1COMP-VEJ') {
+                        if ($result->grado == 'CNL.') {
+                            $degree_id = 7;
+
+                        }elseif ($result->grado == 'GRAL.') {
+                           $degree_id = 5;
+                        }else{
+                            $degree_id = Degree::select('id')->where('shortened', $result->grado)->first()->id;
+                        }
+
+                        $pension_entity_id = PensionEntity::select('id')->where('name', $result->ente_gestor)->first()->id;
                             
-                            if ($result->grado == 'CNL.') {
-                                $degree_id = 7;
+                        $category_id = Category::select('id')->where('percentage', $result->categoria)->first()->id;
+                        
+                        switch ($result->eciv) {
 
-                            }elseif ($result->grado == 'GRAL.') {
-                               $degree_id = 5;
-                            }else
-                            {
-                                $degree_id = Degree::select('id')->where('shortened', $result->grado)->first()->id;
-                            }
-                           
-                            $pension_entity_id = PensionEntity::select('id')->where('name', $result->ente_gestor)->first()->id;
-                            
-                            $category_id = Category::select('id')->where('percentage', $result->categoria)->first()->id;
+                            case 'CASADO(A)':
+                                $eciv = "C";
+                            break;
 
-                            switch ($result->eciv) {
+                            case 'DIVORCIADO(A)':
+                                $eciv = "D";
+                            break;
 
-                                case 'CASADO(A)':
-                                    $eciv = "C";
-                                break;
+                            case 'SOLTERO(A)':
+                                $eciv = "S";
+                            break;
 
-                                case 'DIVORCIADO(A)':
-                                    $eciv = "D";
-                                break;
-
-                                case 'SOLTERO(A)':
-                                    $eciv = "S";
-                                break;
-
-                                case 'VIUDO(A)':
-                                    $eciv = "V";
-                                break;
+                            case 'VIUDO(A)':
+                                $eciv = "V";
+                            break;
 
                         }
-                        
+
+                        if ($result->tiporenta == 'VEJEZ' or $result->tiporenta == 'RENT-M2000-VEJ' or $result->tiporenta == 'RENT-1COM-M2000-VEJ' or $result->tiporenta == 'RENT-1COMP-VEJ') {                          
+                
                             $affiliate = Affiliate::where('identity_card', '=', Util::zero($result->ci))->first();
 
                             if (!$affiliate) {
 
                                 $affiliate = new Affiliate;
                                 $affiliate->identity_card = Util::zero($result->ci);
+                                $city_id = City::select('id')->where('shortened', $result->ext)->first()->id;
+                                $affiliate->city_identity_card_id = $city_id;
                                 $affiliate->gender = "M";
-                                $NewAffi ++;
 
                             }
-                            else{$UpdateAffi ++;}
 
                             $affiliate->user_id = 1;
                             $affiliate->affiliate_state_id = 5;
@@ -133,6 +134,40 @@ class ImportEcoCom extends Command
 
                         }
                         else {
+
+                            $affiliate = Affiliate::where('identity_card', '=', Util::zero($result->ci_ch))->first();
+
+                            if (!$affiliate) {
+
+                                $affiliate = new Affiliate;
+                                $affiliate->identity_card = Util::zero($result->ci_ch);
+                                $city_id = City::select('id')->where('shortened', $result->ext_ch)->first()->id;
+                                $affiliate->city_identity_card_id = $city_id;
+                                $affiliate->gender = "F";
+
+                            }
+
+                            $affiliate->user_id = 1;
+                            $affiliate->affiliate_state_id = 5;
+                            $affiliate->affiliate_type_id = 1;
+                            $affiliate->registration = "0";
+
+                            $affiliate->degree_id = $degree_id;
+                            $affiliate->pension_entity_id = $pension_entity_id;
+                            $affiliate->category_id = $category_id;
+                            $affiliate->civil_status = $eciv;
+
+                            $affiliate->last_name = $result->pat;
+                            $affiliate->mothers_last_name = $result->mat;
+                            $affiliate->first_name = $result->pnom;
+                            $affiliate->second_name = $result->snom;
+                            $affiliate->surname_husband = $result->apes;
+
+                            $affiliate->change_date = Carbon::now();
+
+                            $affiliate->birth_date = $result->fecha_nac;
+
+                            // $affiliate->save();
 
                         }
 
