@@ -169,9 +169,22 @@ class ImportEcoCom extends Command
                             $affiliate->save();
 
                             $spouse = new Spouse;
+                            $spouse->user_id = 1;
+                            $spouse->affiliate_id = $affiliate->id;
                             $spouse->identity_card = Util::zero($result->ci_ch);
                             $city_id = City::select('id')->where('shortened', $result->ext_ch)->first()->id;
                             $spouse->city_identity_card_id = $city_id;
+                            $spouse->registration = "0";
+
+                            $spouse->last_name = $result->pat;
+                            $spouse->mothers_last_name = $result->mat;
+                            $spouse->first_name = $result->pnom;
+                            $spouse->second_name = $result->snom;
+                            $spouse->surname_husband = $result->apes;
+
+                            $spouse->birth_date = $result->fecha_nac;
+
+                            $spouse->save();
 
                         }
 
