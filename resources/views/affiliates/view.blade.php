@@ -55,11 +55,11 @@
                     &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
                 </a>
             </div>
-            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Caratula Imprimir" style="margin:0px;">
+            {{-- <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Caratula Imprimir" style="margin:0px;">
                 <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
                     &nbsp;<span class="glyphicon glyphicon-file"></span>&nbsp;
                 </a>
-            </div>
+            </div> --}}
 
         </div>
     </div>
@@ -649,9 +649,9 @@
                                             <div class="col-md-6">
                                                 <strong>Unidad:</strong>
                                             </div>
-                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->unit->code . " " . $affiliate->unit->name !!}">
+                                            {{-- <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->unit->code . " " . $affiliate->unit->name !!}">
                                                 {!! $affiliate->unit->shortened !!}
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </td>
                                 </tr>
@@ -747,17 +747,17 @@
 
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tab_1" data-toggle="tab" title="Aportes">&nbsp;<i class='fa fa-fw fa-arrow-circle-down fa-lg' aria-hidden="true"></i>&nbsp;</a></li>
+                    <li><a href="#tab_1" data-toggle="tab" title="Aportes">&nbsp;<i class='fa fa-fw fa-arrow-circle-down fa-lg' aria-hidden="true"></i>&nbsp;</a></li>
                     <li><a href="#tab_2" data-toggle="tab" title="Prestamos">&nbsp;<i class="fa fa-fw fa-money fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
                     <li><a href="#tab_3" data-toggle="tab" title="Fondo de Retiro">&nbsp;<i class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></i>&nbsp;</a></li>
-                    <li><a href="#tab_4" data-toggle="tab" title="Complemento Económico">&nbsp;<i class="fa fa-fw fa-puzzle-piece fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
+                    <li  class="active"><a href="#tab_4" data-toggle="tab" title="Complemento Económico">&nbsp;<i class="fa fa-fw fa-puzzle-piece fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
                     <li><a href="#tab_5" data-toggle="tab" title="Cuota o Auxilio Mortuorio">&nbsp;<i class="fa fa-fw fa-heartbeat fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab_1">
-                        <h4 class="box-title">Aportes</h4>
+                        {{-- <h4 class="box-title">Aportes</h4> --}}
 
-                        <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
+                       {{--  <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
                             <thead>
                             <tr>
                                 <th>Concepto</th>
@@ -788,7 +788,7 @@
                                 <td style="width: 70%">Aporte Muserpol</td>
                                 <td style="text-align: right">{{ $total }}</td>
                             </tr>
-                        </table>
+                        </table> --}}
                     </div>
                     <div class="tab-pane" id="tab_2">
 
@@ -814,7 +814,7 @@
                         {{-- @endif --}}
 
                     </div>
-                    <div class="tab-pane" id="tab_4">
+                    <div class="tab-pane active" id="tab_4">
                           <h4 class="box-title">Complemento Económico</h4>
                           <div class="row">
                               <div class="col-md-12">
