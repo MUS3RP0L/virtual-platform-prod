@@ -65,11 +65,11 @@ class ImportEcoCom extends Command
                             
                             $degree_id = Degree::select('id')->where('shortened', $result->grado)->first()->id;
                            
-                            $pension_entity_id = PensionEntity::select('id')->where('shortened', $result->ente_gestor)->first()->id;
+                            $pension_entity_id = PensionEntity::select('id')->where('name', $result->ente_gestor)->first()->id;
                             
                             $category_id = Category::select('id')->where('name', $result->categoria)->first()->id;
 
-                             switch ($result->eciv) {
+                            switch ($result->eciv) {
 
                                 case 'CASADO(A)':
                                     $eciv = "C";
@@ -128,31 +128,31 @@ class ImportEcoCom extends Command
 
                 });
 
-                $time_end = microtime(true);
+                // $time_end = microtime(true);
 
-                $execution_time = ($time_end - $time_start)/60;
+                // $execution_time = ($time_end - $time_start)/60;
 
-                $TotalAffi = $NewAffi + $UpdateAffi;
-                $TotalNewAffi = $NewAffi ? $NewAffi : "0";
-                $TotalUpdateAffi = $UpdateAffi ? $UpdateAffi : "0";
-                $TotalAffi = $TotalAffi ? $TotalAffi : "0";
-                $TotalNewContri = $NewContri ? $NewContri : "0";
+                // $TotalAffi = $NewAffi + $UpdateAffi;
+                // $TotalNewAffi = $NewAffi ? $NewAffi : "0";
+                // $TotalUpdateAffi = $UpdateAffi ? $UpdateAffi : "0";
+                // $TotalAffi = $TotalAffi ? $TotalAffi : "0";
+                // $TotalNewContri = $NewContri ? $NewContri : "0";
 
-                $Progress->finish();
+                // $Progress->finish();
 
-                $this->info("\n\nReport $Date:\n
-                    $TotalNewAffi new affiliates.\n
-                    $TotalUpdateAffi affiliates successfully updated.\n
-                    Total $TotalAffi affiliates.\n
-                    Total $TotalNewContri entered contributions.\n
-                    Execution time $execution_time [minutes].\n");
+                // $this->info("\n\nReport $Date:\n
+                //     $TotalNewAffi new affiliates.\n
+                //     $TotalUpdateAffi affiliates successfully updated.\n
+                //     Total $TotalAffi affiliates.\n
+                //     Total $TotalNewContri entered contributions.\n
+                //     Execution time $execution_time [minutes].\n");
 
-                \Storage::disk('local')->put('ImportPayroll_'. $Date.'.txt', "Reporte de Importacion Afiliados y Aportes:\r\n
-                    $TotalNewAffi new affiliates.\r\n
-                    $TotalUpdateAffi affiliates successfully updated.\r\n
-                    Total $TotalAffi affiliates.\r\n
-                    Total $TotalNewContri entered contributions.\r\n
-                    Execution time $execution_time [minutes].\r\n");
+                // \Storage::disk('local')->put('ImportPayroll_'. $Date.'.txt', "Reporte de Importacion Afiliados y Aportes:\r\n
+                //     $TotalNewAffi new affiliates.\r\n
+                //     $TotalUpdateAffi affiliates successfully updated.\r\n
+                //     Total $TotalAffi affiliates.\r\n
+                //     Total $TotalNewContri entered contributions.\r\n
+                //     Execution time $execution_time [minutes].\r\n");
 
             }
         }
