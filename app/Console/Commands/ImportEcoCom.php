@@ -13,6 +13,7 @@ use Muserpol\Degree;
 use Muserpol\Category;
 use Muserpol\PensionEntity;
 use Muserpol\City;
+use Muserpol\Spouse;
 
 class ImportEcoCom extends Command
 {
@@ -148,7 +149,7 @@ class ImportEcoCom extends Command
                             }
 
                             $affiliate->user_id = 1;
-                            $affiliate->affiliate_state_id = 5;
+                            $affiliate->affiliate_state_id = 4;
                             $affiliate->affiliate_type_id = 1;
                             $affiliate->registration = "0";
 
@@ -157,17 +158,20 @@ class ImportEcoCom extends Command
                             $affiliate->category_id = $category_id;
                             $affiliate->civil_status = $eciv;
 
-                            $affiliate->last_name = $result->pat;
-                            $affiliate->mothers_last_name = $result->mat;
-                            $affiliate->first_name = $result->pnom;
-                            $affiliate->second_name = $result->snom;
-                            $affiliate->surname_husband = $result->apes;
+                            $affiliate->last_name = $result->pat_ch;
+                            $affiliate->mothers_last_name = $result->mat_ch;
+                            $affiliate->first_name = $result->pnombre_ch;
+                            $affiliate->second_name = $result->snombre_ch;
+                            $affiliate->surname_husband = $result->apes_ch;
 
                             $affiliate->change_date = Carbon::now();
 
-                            $affiliate->birth_date = $result->fecha_nac;
+                            $affiliate->save();
 
-                            // $affiliate->save();
+                            $spouse = new Spouse;
+                            $spouse->identity_card = Util::zero($result->ci_ch);
+                            $city_id = City::select('id')->where('shortened', $result->ext_ch)->first()->id;
+                            $spouse->city_identity_card_id = $city_id;
 
                         }
 
