@@ -67,20 +67,20 @@ class ImportEcoCom extends Command
                         ini_set('max_input_time', '-1');
                         set_time_limit('-1');
 
-                        if ($result->grado == 'CNL.') {
+                        if (trim($result->grado) == 'CNL.') {
                             $degree_id = 7;
 
-                        }elseif ($result->grado == 'GRAL.') {
+                        }elseif (trim($result->grado) == 'GRAL.') {
                            $degree_id = 5;
                         }else{
-                            $degree_id = Degree::select('id')->where('shortened', $result->grado)->first()->id;
+                            $degree_id = Degree::select('id')->where('shortened', trim($result->grado))->first()->id;
                         }
 
-                        $pension_entity_id = PensionEntity::select('id')->where('name', $result->ente_gestor)->first()->id;
+                        $pension_entity_id = PensionEntity::select('id')->where('name', trim($result->ente_gestor))->first()->id;
                             
-                        $category_id = Category::select('id')->where('percentage', $result->categoria)->first()->id;
+                        $category_id = Category::select('id')->where('percentage', trim($result->categoria))->first()->id;
                         
-                        switch ($result->eciv) {
+                        switch (trim($result->eciv)) {
 
                             case 'CASADO(A)':
                                 $eciv = "C";
@@ -108,7 +108,7 @@ class ImportEcoCom extends Command
 
                                 $affiliate = new Affiliate;
                                 $affiliate->identity_card = Util::zero($result->ci);
-                                $city_id = City::select('id')->where('shortened', $result->ext)->first()->id;
+                                $city_id = City::select('id')->where('shortened', trim($result->ext))->first()->id;
                                 $affiliate->city_identity_card_id = $city_id;
                                 $affiliate->gender = "M";
 
@@ -145,7 +145,7 @@ class ImportEcoCom extends Command
 
                                 $affiliate = new Affiliate;
                                 $affiliate->identity_card = Util::zero($result->ci_ch);
-                                $city_id = City::select('id')->where('shortened', $result->ext_ch)->first()->id;
+                                $city_id = City::select('id')->where('shortened', trim($result->ext_ch))->first()->id;
                                 $affiliate->city_identity_card_id = $city_id;
                                 $affiliate->gender = "F";
 
@@ -175,7 +175,7 @@ class ImportEcoCom extends Command
                             $spouse->user_id = 1;
                             $spouse->affiliate_id = $affiliate->id;
                             $spouse->identity_card = Util::zero($result->ci_ch);
-                            $city_id = City::select('id')->where('shortened', $result->ext_ch)->first()->id;
+                            $city_id = City::select('id')->where('shortened', trim($result->ext_ch))->first()->id;
                             $spouse->city_identity_card_id = $city_id;
                             $spouse->registration = "0";
 
