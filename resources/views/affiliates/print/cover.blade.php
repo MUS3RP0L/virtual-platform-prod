@@ -224,7 +224,7 @@
         </table>
       </div>
       <div class="visible-print text-center">
-        {!! QrCode::size(100)->generate(Request::url()); !!}
-        <p>Escanéame para volver a la página principal.</p>
+          {!! QrCode::size(100)->generate(Request::url('affiliate')); !!}
+          <p>Scan me to return to the original page.</p>
       </div>
 @endsection
