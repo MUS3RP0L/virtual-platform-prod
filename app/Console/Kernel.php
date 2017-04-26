@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\ImportPayroll::class,
         \Muserpol\Console\Commands\ImportReimbursement::class,
         \Muserpol\Console\Commands\ImportBaseWage::class,
+        \Muserpol\Console\Commands\ImportEcoCom::class,
         \Muserpol\Console\Commands\CreateIpcRate::class,
         \Muserpol\Console\Commands\CreateContributionRate::class
         
