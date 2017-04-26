@@ -116,10 +116,18 @@ class CreateEconomicComplementsTable extends Migration
             $table->decimal('bonus_reimbursement', 13, 2)->nullable();
             $table->decimal('reimbursement_aditional_amount', 13, 2)->nullable();
             $table->decimal('reimbursement_increase_year', 13, 2)->nullable();
-
+            //
+             $table->decimal('total_rent', 13, 2)->nullable();
+             $table->decimal('total_rent_calc', 13, 2)->nullable();
+             $table->decimal('salary_reference', 13, 2)->nullable();
+             $table->decimal('seniority', 13, 2)->nullable();
+             $table->decimal('salary_quotable', 13, 2)->nullable();
+             $table->decimal('difference', 13, 2)->nullable();
+             $table->decimal('total_amount_semester', 13, 2)->nullable();
+             $table->decimal('complementary_factor', 13, 2)->nullable();
+            //
             $table->decimal('reimbursement', 13, 2)->nullable();
             $table->decimal('christmas_bonus', 13, 2)->nullable();
-            $table->decimal('seniority', 13, 2)->nullable();
             $table->decimal('quotable', 13, 2)->nullable();
             $table->decimal('total', 13, 2)->nullable();
 

@@ -226,7 +226,20 @@ class ImportEcoCom extends Command
 
                             $economic_complement->eco_com_modality_id = $eco_com_modality->id;
                             $economic_complement->category_id = $affiliate->category_id;
-
+//
+                            $economic_complement->sub_total_rent = $result->renta_boleta;
+                            $economic_complement->reimbursement = $result->reintegro;
+                            $economic_complement->dignity_pension = $result->rent_dig;
+                            $economic_complement->total_rent = $result->renta_neta;
+                            $economic_complement->total_rent_calc = $result->neto;
+                            $economic_complement->salary_reference = $result->ref_sal;
+                            $economic_complement->seniority = $result->antiguedad;
+                            $economic_complement->salary_quotable = $result->cotizable;
+                            $economic_complement->difference = $result->diferencia;
+                            $economic_complement->total_amount_semester = $result->total_Semestre;
+                            $economic_complement->complementary_factor = $result->factor_comp;
+                            $economic_complement->total = $result->complemento_final;
+//
                             $city_id = City::select('id')->where('name', $result->regional)->first()->id;
                             $economic_complement->city_id = $city_id;
                             $economic_complement->save();

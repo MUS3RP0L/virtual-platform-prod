@@ -362,12 +362,28 @@
 				<div class="box-body">
 					<div class="row">
 						<div class="col-md-12">
-							@if($economic_complement->base_wage_id)
+							{{-- @if($economic_complement->base_wage_id) --}}
 								<table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
 									<tbody>
 										<tr>
-											<td style="width: 70%">Renta Total Cotizable</td>
+											<td style="width: 70%">Renta Total Boleta</td>
 											<td style="text-align: right">{!! $sub_total_rent !!}</td>
+										</tr>
+										<tr>
+											<td style="width: 70%">Reintegro</td>
+											<td style="text-align: right">{!! $reimbursement !!}</td>
+										</tr>
+										<tr>
+											<td style="width: 70%">Renta Dignidad</td>
+											<td style="text-align: right">{!! $dignity_pension !!}</td>
+										</tr>
+										<tr>
+											<td style="width: 70%">Renta total Neta</td>
+											<td style="text-align: right">{!! $total_rent !!}</td>
+										</tr>
+										<tr>
+											<td style="width: 70%">Neto</td>
+											<td style="text-align: right">{!! $total_rent_calc !!}</td>
 										</tr>
 										<tr>
 											<td style="width: 70%">Referente Salarial</td>
@@ -399,17 +415,17 @@
 								<table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
 									<tbody>
 										<tr>
-											<td style="width: 70%">Total a Cancelar</td>
+											<td style="width: 70%">Total</td>
 											<td  style="text-align: right">{!! $total !!}</td>
 										</tr>
 									</tbody>
 								</table>
-							@else
+							{{-- @else
 								<div class="row text-center">
 	                                <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
 	                                <h4 class="box-title">No hay registros</h4>
 	                            </div>
-							@endif
+							@endif --}}
                         </div>
 					</div>
 				</div>
