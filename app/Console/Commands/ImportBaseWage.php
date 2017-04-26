@@ -37,6 +37,11 @@ class ImportBaseWage extends Command
     {
         global $results, $FileName;
 
+        ini_set('memory_limit', '-1');
+        ini_set('max_execution_time', '-1');
+        ini_set('max_input_time', '-1');
+        set_time_limit('-1');
+
         $password = $this->ask('Enter the password');
 
         if ($password == ACCESS) {
@@ -50,11 +55,6 @@ class ImportBaseWage extends Command
                 Excel::load('public/file_to_import/' . $FileName . '.xlsx', function($result) {
 
                     global $results, $FileName;
-
-                    ini_set('memory_limit', '-1');
-                    ini_set('max_execution_time', '-1');
-                    ini_set('max_input_time', '-1');
-                    set_time_limit('-1');
 
                     $results = collect($result->select(array('mes', 'a_o', 'niv', 'gra','sue'))->get());
 
@@ -84,8 +84,7 @@ class ImportBaseWage extends Command
                     }
                 }
 
-                $this->info("\n\nReport results:\n
-                        $base_wages");
+                $this->info("\n\nReport results:\n$base_wages");
 
                 \Storage::disk('local')->put('BaseWage'. $month_year.'.txt', 
                     "Reporte de Importacion de Sueldo Básico:\r\n$base_wages");
