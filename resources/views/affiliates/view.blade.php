@@ -7,7 +7,7 @@
             {!! Breadcrumbs::render('show_affiliate', $affiliate) !!}
         </div>
         <div class="col-md-6">
-
+       @can('manage')
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Aportes" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
                 <ul class="dropdown-menu">
@@ -16,21 +16,24 @@
                     <li><a href="{!! url('select_contribution/' . $affiliate->id) !!}" class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
-
+        @endcan
+        @can('loan')
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Préstamos" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-money fa-lg"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
-
+        @endcan
+        @can('retirement_fund')
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Fondo Retiro" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="glyphicon glyphicon-piggy-bank"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
-
+        @endcan
+        @can('economic_complement')
             <!-- Button of create economic complement -->
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento Económico" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
@@ -38,13 +41,15 @@
                     <li><a href="{!! url('economic_complement_reception_first_step/' . $affiliate->id) !!}"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
-
+        @endcan
+        @can('manage')
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Cuota Auxilio" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-heartbeat fa-lg"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
+        @endcan
             <!-- button of Observations -->
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
