@@ -8,8 +8,8 @@
 </div>
 @push('scripts')
 <script type="text/javascript">
-		
-		var barChartData = {
+	
+	var barChartData = {
 		labels : {!! json_encode($totalContributionByYear[0]) !!},
 		datasets : [
 
@@ -37,24 +37,24 @@
 
 	};
 
-	  	var ctx = document.getElementById("bar-aportes").getContext("2d");
-        	window.myBar = new Chart(ctx, {
-        		type: 'bar',
-        		data: barChartData,
-        		options: {
-        			legend:{
-        				display:false
-        			},
-        			tooltips: {
-        				enabled: true,
-        				mode: 'single',
-        				callbacks: {
-        					label: function(tooltipItems, data) { 
-        						return tooltipItems.yLabel + ' Bs';
-        					}
-        				}
-        			},
-        		}
-        	});
+	var ctx = document.getElementById("bar-aportes").getContext("2d");
+	window.myBar = new Chart(ctx, {
+		type: 'bar',
+		data: barChartData,
+		options: {
+			legend:{
+				display:false
+			},
+			tooltips: {
+				enabled: true,
+				mode: 'single',
+				callbacks: {
+					label: function(tooltipItems, data) { 
+						return tooltipItems.yLabel + ' Bs';
+					}
+				}
+			},
+		}
+	});
 </script>
 @endpush

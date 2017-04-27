@@ -33,7 +33,7 @@ class BaseWageController extends Controller
 
     public function FirstLevelData()
     {
-        $select = DB::raw('base_wages.month_year as month_year, c1.amount as c1, c2.amount as c2, c3.amount as c3, c4.amount as c4, c5.amount as c5, c6.amount as c6, c7.amount as c7, c8.amount as c8, c9.amount as c9, c10.amount as c10, c11.amount as c11, c12.amount as c12');
+        $select = DB::raw("base_wages.month_year as month_year, c1.amount as c1, c2.amount as c2, c3.amount as c3, c4.amount as c4, c5.amount as c5, c6.amount as c6, c7.amount as c7, c8.amount as c8, c9.amount as c9, c10.amount as c10, c11.amount as c11, c12.amount as c12");
 
         $base_wages = DB::table('base_wages')->select($select)
         ->leftJoin('base_wages as c1', 'c1.month_year', '=', 'base_wages.month_year')
@@ -60,8 +60,7 @@ class BaseWageController extends Controller
         ->where('c10.degree_id', '=', '10')
         ->where('c11.degree_id', '=', '11')
         ->where('c12.degree_id', '=', '12')
-        ->groupBy('base_wages.month_year');
-
+        ->groupBy('base_wages.month_year','c1.amount','c2.amount','c3.amount','c4.amount','c5.amount','c5.amount','c6.amount','c7.amount','c8.amount','c9.amount','c10.amount','c11.amount','c12.amount');
         return Datatables::of($base_wages)
         ->editColumn('month_year', function ($base_wage) { return Carbon::parse($base_wage->month_year)->year; })
         ->editColumn('c1', function ($base_wage) { return Util::formatMoney($base_wage->c1); })
@@ -96,7 +95,7 @@ class BaseWageController extends Controller
         ->where('c16.degree_id', '=', '16')
         ->where('c17.degree_id', '=', '17')
         ->where('c18.degree_id', '=', '18')
-        ->groupBy('base_wages.month_year');
+        ->groupBy('base_wages.month_year','c13.amount','c14.amount','c15.amount','c16.amount','c17.amount','c18.amount');
 
         return Datatables::of($base_wages)
         ->editColumn('month_year', function ($base_wage) { return Carbon::parse($base_wage->month_year)->year; })
@@ -130,7 +129,7 @@ class BaseWageController extends Controller
         ->where('c24.degree_id', '=', '24')
         ->where('c25.degree_id', '=', '25')
         ->where('c26.degree_id', '=', '26')
-        ->groupBy('base_wages.month_year');
+        ->groupBy('base_wages.month_year','c19.amount','c20.amount','c21.amount','c22.amount','c23.amount','c24.amount','c25.amount','c26.amount');
 
         return Datatables::of($base_wages)
         ->editColumn('month_year', function ($base_wage) { return Carbon::parse($base_wage->month_year)->year; })
@@ -166,7 +165,7 @@ class BaseWageController extends Controller
         ->where('c32.degree_id', '=', '32')
         ->where('c33.degree_id', '=', '33')
         ->where('c34.degree_id', '=', '34')
-        ->groupBy('base_wages.month_year');
+        ->groupBy('base_wages.month_year','c27.amount','c28.amount','c29.amount','c30.amount','c31.amount','c32.amount','c33.amount','c34.amount');
 
         return Datatables::of($base_wages)
         ->editColumn('month_year', function ($base_wage) { return Carbon::parse($base_wage->month_year)->year; })

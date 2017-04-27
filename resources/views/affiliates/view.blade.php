@@ -55,18 +55,18 @@
                     &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
                 </a>
             </div>
-            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Caratula Imprimir" style="margin:0px;">
+            {{-- <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Caratula Imprimir" style="margin:0px;">
                 <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
                     &nbsp;<span class="glyphicon glyphicon-file"></span>&nbsp;
                 </a>
-            </div>
+            </div> --}}
 
         </div>
     </div>
 
 @endsection
-@include('observations.create')
 @section('main-content')
+@include('observations.create')
 
     <div class="row">
         <div class="col-md-6">
@@ -74,7 +74,7 @@
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-10">
-                            <h3 class="box-title"><span class="glyphicon glyphicon-user"></span> Información Personal</h3>
+                            <h3 class="box-title"><i class="fa fa-{{$affiliate->gender=='M'?'male':'female'  }}"></i> Información Personal</h3>
                         </div>
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
@@ -93,7 +93,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Carnet Identidad
+                                                <strong>Carnet Identidad:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card !!}
@@ -105,7 +105,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Apellido Paterno
+                                                <strong>Apellido Paterno:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $affiliate->last_name !!}
@@ -117,7 +117,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Apellido Materno
+                                                <strong>Apellido Materno:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $affiliate->mothers_last_name !!}
@@ -129,7 +129,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Primer Nombre
+                                                <strong>Primer Nombre:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $affiliate->first_name !!}
@@ -141,7 +141,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Segundo Nombre
+                                                <strong>Segundo Nombre:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $affiliate->second_name !!}
@@ -153,10 +153,22 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Teléfono
+                                                <strong>Teléfono:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $affiliate->phone_number !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>NUA/CUA:</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $affiliate->nua !!}
                                             </div>
                                         </div>
                                     </td>
@@ -166,7 +178,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Apellido de Esposo
+                                                <strong>Apellido de Esposo:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $affiliate->surname_husband !!}
@@ -180,7 +192,7 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    Fecha de Deceso
+                                                    <strong>Fecha de Deceso:</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                     {!! $affiliate->getShortDateDeath() !!}
@@ -197,7 +209,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Fecha Nacimiento
+                                                <strong>Fecha Nacimiento:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                  {!! $affiliate->getShortBirthDate() !!}
@@ -209,7 +221,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Edad
+                                                <strong>Edad:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $affiliate->getHowOld() !!}
@@ -221,7 +233,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Sexo
+                                                <strong>Sexo:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $affiliate->getGender() !!}
@@ -233,7 +245,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Estado Civil
+                                                <strong>Estado Civil:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $affiliate->getCivilStatus() !!}
@@ -245,7 +257,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Lugar Nacimiento
+                                                <strong>Lugar Nacimiento:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                  {!! $affiliate->city_birth !!}
@@ -257,7 +269,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Celular
+                                                <strong>Celular:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $affiliate->cell_phone_number !!}
@@ -270,7 +282,7 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    Motivo de Deceso
+                                                    <strong>Motivo de Deceso</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                     {!! $affiliate->reason_death !!}
@@ -317,7 +329,7 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    Departamento
+                                                    <strong>Departamento:</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                     {!! $AffiliateAddress->city_address !!}
@@ -329,7 +341,7 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    Zona
+                                                    <strong>Zona:</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                     {!! $AffiliateAddress->zone !!}
@@ -346,7 +358,7 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    Calle, Avenida
+                                                    <strong>Calle, Avenida:</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                     {!! $AffiliateAddress->street !!}
@@ -358,7 +370,7 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    Núm Domicilio
+                                                    <strong>Núm Domicilio</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                     {!! $AffiliateAddress->number_address !!}
@@ -386,7 +398,8 @@
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-10">
-                            <h3 class="box-title"><span class="glyphicon glyphicon-user"></span> Información de Conyuge</h3>
+                            <h3 class="box-title">
+                                <i class="fa fa-{{$affiliate->gender=='M'?'female':'male'  }}"></i> Información de Conyuge</h3>
                         </div>
                         @if($info_spouse)
                             <div class="col-md-2 text-right">
@@ -411,7 +424,7 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    Carnet Identidad
+                                                    <strong>Carnet Identidad:</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                      {!! $spouse->identity_card !!} {!! $spouse->city_identity_card !!}
@@ -423,7 +436,7 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    Apellido Paterno
+                                                    <strong>Apellido Paterno:</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                      {!! $spouse->last_name !!}
@@ -435,41 +448,34 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    Apellido Materno
+                                                    <strong>Apellido Materno:</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                      {!! $spouse->mothers_last_name !!}
                                                 </div>
                                             </div>
                                         </td>
-                                    </tr>
-                                    @if($spouse->date_death)
-                                        <tr>
-                                            <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        Fecha Deceso
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                         {!! $spouse->getShortDateDeath() !!}
-                                                    </div>
+                                    </tr><tr>
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <strong>Núm. de Matrícula</strong>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    @endif
+                                                <div class="col-md-6">
+                                                     {!! $spouse->registration !!}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </table>
-
-
                             </div>
-
                             <div class="col-md-6">
-
                                 <table class="table" style="width:100%;">
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    Fecha Nacimiento
+                                                    <strong>Fecha Nacimiento:</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                      {!! $spouse->getShortBirthDate() !!}
@@ -481,7 +487,7 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    Primer Nombre
+                                                    <strong>Primer Nombre:</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                     {!! $spouse->first_name !!}
@@ -493,7 +499,7 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    Segundo Nombre
+                                                    <strong>Segundo Nombre:</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                     {!! $spouse->second_name !!}
@@ -501,12 +507,24 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    @if($spouse->reason_death)
+                                    @if($spouse->date_death)
                                         <tr>
                                             <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        Motivo Deceso
+                                                        <strong>Fecha Deceso:</strong>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                         {!! $spouse->getShortDateDeath() !!}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <strong>Motivo Deceso:</strong>
                                                     </div>
                                                     <div class="col-md-6">
                                                         {!! $spouse->reason_death !!}
@@ -537,13 +555,13 @@
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-10">
-                            <h3 class="box-title"><span class="glyphicon glyphicon-user"></span> Observaciones</h3>
+                            <h3 class="box-title"><span class="glyphicon glyphicon-eye-open"></span> Observaciones</h3>
                         </div>
-                        @if($info_spouse)
+                        @if(true)
                             <div class="col-md-2 text-right">
-                                <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-spouse">
-                                        <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
+                                <div data-toggle="tooltip" data-placement="left" data-original-title="Añadir">
+                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#observationModal">
+                                        <span class="fa fa-lg fa-plus" aria-hidden="true"></span>
                                     </a>
                                 </div>
                             </div>
@@ -552,12 +570,11 @@
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        @if(true)
+                        @if(sizeof($observations))
                             <div class="col-md-12">
-                                <table class="table table-bordered table-hover" id="observations-table">
+                                <table class="table table-bordered table-hover table-striped" id="observations-table">
                                     <thead>
                                         <tr class="success">
-                                      
                                             <th>Fecha</th>
                                             <th>Titulo</th>
                                             <th>Mensaje</th>
@@ -570,7 +587,7 @@
                             <div class="row text-center">
                                 <div data-toggle="modal" data-target="#observationModal">
                                     <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Adicionar Observacion">
-                                    <span class="fa fa-eye fa-5x"></span>
+                                    <span class="fa fa-eye fa-5x" style="opacity: .4"></span>
                                     </button>
                                 </div>
                             </div>
@@ -607,7 +624,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Estado
+                                                <strong>Estado:</strong>
                                             </div>
                                             <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->affiliate_state->state_type->name !!}">
                                                 {!! $affiliate->affiliate_state->name !!}
@@ -619,7 +636,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Grado
+                                                <strong>Grado:</strong>
                                             </div>
                                             <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->degree->getCodHierarchyName() !!}">
                                                 {!! $affiliate->degree->shortened !!}
@@ -631,7 +648,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Tipo
+                                                <strong>Tipo:</strong>
                                             </div>
                                             <div class="col-md-6">{!! $affiliate->affiliate_type->name !!}
                                             </div>
@@ -642,11 +659,11 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Unidad
+                                                <strong>Unidad:</strong>
                                             </div>
-                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->unit->code . " " . $affiliate->unit->name !!}">
+                                            {{-- <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->unit->code . " " . $affiliate->unit->name !!}">
                                                 {!! $affiliate->unit->shortened !!}
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </td>
                                 </tr>
@@ -655,7 +672,7 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    Fecha de Baja
+                                                    <strong>Fecha de Baja:</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                     {!! $affiliate->getFullDateDecommissioned() !!}
@@ -675,7 +692,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Fecha de Ingreso
+                                                <strong>Fecha de Ingreso:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $affiliate->getShortDateEntry() !!}
@@ -687,7 +704,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Núm. de Matrícula
+                                                <strong>Núm. de Matrícula:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $affiliate->registration !!}
@@ -699,7 +716,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Núm. de Ítem
+                                                <strong>Núm. de Ítem:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $affiliate->item !!}
@@ -712,7 +729,7 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    Motivo Baja
+                                                    <strong>Motivo Baja:</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                     {!! $affiliate->reason_decommissioned !!}
@@ -728,21 +745,37 @@
 
                 </div>
             </div>
+            <style>
+            .nav-tabs {
+                background: #1AB394;
+            }
+            .nav-tabs-custom > .nav-tabs > li.active {
+                /*background: #026b61; */
+                background: #008F71; 
+                border:none;
+            }
+            </style>
             <div class="box box-success box-solid">
 
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tab_1" data-toggle="tab">&nbsp;<i class='fa fa-fw fa-arrow-circle-down fa-lg' aria-hidden="true"></i>&nbsp;</a></li>
-                    <li><a href="#tab_2" data-toggle="tab">&nbsp;<i class="fa fa-fw fa-money fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
-                    <li><a href="#tab_3" data-toggle="tab">&nbsp;<i class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></i>&nbsp;</a></li>
-                    <li><a href="#tab_4" data-toggle="tab">&nbsp;<i class="fa fa-fw fa-puzzle-piece fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
-                    <li><a href="#tab_5" data-toggle="tab">&nbsp;<i class="fa fa-fw fa-heartbeat fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
+                    <li><a href="#tab_1" data-toggle="tab" title="Aportes">&nbsp;<i class='fa fa-fw fa-arrow-circle-down fa-lg' aria-hidden="true"></i>&nbsp;</a></li>
+                    <li><a href="#tab_2" data-toggle="tab" title="Prestamos">&nbsp;<i class="fa fa-fw fa-money fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
+                    <li><a href="#tab_3" data-toggle="tab" title="Fondo de Retiro">&nbsp;<i class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></i>&nbsp;</a></li>
+                    <li  class="active"><a href="#tab_4" data-toggle="tab" title="Complemento Económico">&nbsp;<i class="fa fa-fw fa-puzzle-piece fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
+                    <li><a href="#tab_5" data-toggle="tab" title="Cuota o Auxilio Mortuorio">&nbsp;<i class="fa fa-fw fa-heartbeat fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab_1">
-                        <h4 class="box-title">Aportes</h4>
+                        {{-- <h4 class="box-title">Aportes</h4> --}}
 
-                        <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+                       {{--  <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
+                            <thead>
+                            <tr>
+                                <th>Concepto</th>
+                                <th style="text-align: right;">Totales</th>
+                            </tr>
+                            </thead>
                             <tr>
                                 <td style="width: 70%">Ganado</td>
                                 <td style="text-align: right">{{ $total_gain }}</td>
@@ -767,7 +800,7 @@
                                 <td style="width: 70%">Aporte Muserpol</td>
                                 <td style="text-align: right">{{ $total }}</td>
                             </tr>
-                        </table>
+                        </table> --}}
                     </div>
                     <div class="tab-pane" id="tab_2">
 
@@ -793,7 +826,7 @@
                         {{-- @endif --}}
 
                     </div>
-                    <div class="tab-pane" id="tab_4">
+                    <div class="tab-pane active" id="tab_4">
                           <h4 class="box-title">Complemento Económico</h4>
                           <div class="row">
                               <div class="col-md-12">
@@ -801,9 +834,10 @@
                                       <thead>
                                           <tr class="success">
                                               <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Número de Trámite">Número</div></th>
-                                              <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Total a Pagar">Fecha Emisión</div></th>
+                                              <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Fecha de Emisión">Fecha Emisión</div></th>
                                               <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Estado">Estado</div></th>
-                                              <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Fecha de Pago">Modalidad</div></th>
+                                              <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Modalidad">Modalidad</div></th>
+                                              <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Opciones">Opciones</div></th>
                                           </tr>
                                       </thead>
                                   </table>
@@ -886,9 +920,23 @@
                                         </div>
                                     </div>
                                 @endif
+                                <div class="form-group">
+                                        {!! Form::label('nua', 'CUA/NUA', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('nua', $affiliate->nua, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el CUA/NUA</span>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-md-6">
+                                <div class="form-group">
+                                            {!! Form::label('gender', 'Sexo', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::select('gender', ['M'=>'Masculino','F'=>'Femenino'] ,$affiliate->gender, ['class' => 'combobox form-control']) !!}
+                                        <span class="help-block">Seleccione Sexo</span>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                         {!! Form::label('birth_date', 'Fecha de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
@@ -1283,9 +1331,10 @@
                 { data: 'created_at', bSortable: false },
                 { data: 'eco_com_state', bSortable: false },
                 { data: 'eco_com_modality', bSortable: false },
+                { data: 'action',name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center'},
             ]
         });
-
+   
         $('#search-form').on('submit', function(e) {
             oTable.draw();
             e.preventDefault();
@@ -1312,6 +1361,16 @@
                 { data: 'message', bSortable: false },
                 { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
             ]
+        });
+
+        //tooltip
+        $(document).ready(function() {
+            $('[data-toggle="tab"]').tooltip({
+                trigger: 'hover',
+                placement: 'top',
+                animate: true,
+                delay: 100
+            });
         });
     </script>
 @endpush

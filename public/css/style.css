@@ -253,10 +253,22 @@ footer {
   bottom: 0;
   border-top: 1px solid #C1CED9;
   padding: 8px 0;
-  text-align: center;
+  text-align: left;
   font-size: 0.8em;
 }
 
 .page-break {
     page-break-after: always;
+}
+
+.footerh {
+  color: #5D6975;
+  width: 100%;
+  height: 90px;
+  position: absolute;
+  bottom: 0;
+  border-top: 1px solid #C1CED9;
+  padding: 8px 0;
+  text-align: right;
+  font-size: 0.8em;
 }

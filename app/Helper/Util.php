@@ -547,5 +547,9 @@ class Util
         }
         return $output;
     }
+    public static function getGender($gender)
+    {
+    	return $gender=='M'?'F':'M';
+    }
 
 }

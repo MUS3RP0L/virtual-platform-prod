@@ -46,7 +46,7 @@
         @yield('content')
      </header>
     <footer>
-      PLATAFORMA VIRUTAL - MUTUAL DE SERVICIOS AL POLICIA
+      PLATAFORMA VIRUTAL - MUTUAL DE SERVICIOS AL POLICIA 
     </footer>
   </body>
 </html>

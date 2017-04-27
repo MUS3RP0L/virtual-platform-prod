@@ -8,6 +8,13 @@
 </div>
 @push('scripts')
 <script type="text/javascript">
+var options = {
+		responsive: true,
+		tooltipTemplate: " <%=label%>: <%= value + ' Bs' %>",
+		legend: {
+			display: true
+		},
+	};
 	
 	var pieData = {
 		labels:{!!json_encode($Total_AffiliatebyType[0])!!},

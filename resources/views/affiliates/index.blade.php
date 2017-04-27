@@ -133,7 +133,7 @@
                 }
             },
             columns: [
-                { data: 'identity_card' },
+                { data: 'identity_card'},
                 { data: 'registration', bSortable: false },
                 { data: 'degree', bSortable: false },
                 { data: 'names', bSortable: false },

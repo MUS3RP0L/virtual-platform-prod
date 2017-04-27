@@ -58,7 +58,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Semestre
+                                                <strong>Semestre</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $semester !!}
@@ -70,7 +70,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Gestión
+                                                <strong>Gestión</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $year !!}
@@ -82,7 +82,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Tipo
+                                                <strong>Tipo</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $eco_com_type !!}
@@ -98,7 +98,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Ciudad
+                                                <strong>Ciudad</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $economic_complement->city->name !!}
@@ -110,7 +110,7 @@
 									<td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
 										<div class="row">
 											<div class="col-md-6">
-												Estado
+												<strong>Estado</strong>
 											</div>
 
                                             <div class="col-md-6">
@@ -123,7 +123,7 @@
 									<td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
 										<div class="row">
 											<div class="col-md-6">
-												Por
+												<strong>Por</strong>
 											</div>
                                             <div class="col-md-6">
 												{!! $economic_complement->economic_complement_state->name !!}
@@ -164,7 +164,7 @@
 									<td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
 										<div class="row">
 											<div class="col-md-6">
-												Carnet Identidad
+												<strong>Carnet Identidad</strong>
 											</div>
 											<div class="col-md-6">
 												{!! $eco_com_applicant->identity_card !!}
@@ -176,7 +176,7 @@
 									<td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
 										<div class="row">
 											<div class="col-md-6">
-												Apellido Paterno
+												<strong>Apellido Paterno</strong>
 											</div>
 											<div class="col-md-6">
 												{!! $eco_com_applicant->last_name !!}
@@ -188,7 +188,7 @@
 									<td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
 										<div class="row">
 											<div class="col-md-6">
-												Apellido Materno
+												<strong>Apellido Materno</strong>
 											</div>
 											<div class="col-md-6">
 												{!! $eco_com_applicant->mothers_last_name !!}
@@ -201,7 +201,7 @@
 	                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
 	                                        <div class="row">
 	                                            <div class="col-md-6">
-	                                                Apellido de Esposo
+	                                                <strong>Apellido de Esposo</strong>
 	                                            </div>
 	                                            <div class="col-md-6">
 	                                                {!! $eco_com_applicant->surname_husband !!}
@@ -214,7 +214,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Primer Nombre
+                                                <strong>Primer Nombre</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $eco_com_applicant->first_name !!}
@@ -226,7 +226,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Segundo Nombre
+                                                <strong>Segundo Nombre</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $eco_com_applicant->second_name !!}
@@ -242,7 +242,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Fecha Nacimiento
+                                                <strong>Fecha Nacimiento</strong>
                                             </div>
                                             <div class="col-md-6">
                                                  {!! $eco_com_applicant->getShortBirthDate() !!}
@@ -254,7 +254,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Edad
+                                                <strong>Edad</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $eco_com_applicant->getHowOld() !!}
@@ -262,23 +262,23 @@
                                         </div>
                                     </td>
                                 </tr>
-								<tr>
+								{{-- <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                NUA/CUA
+                                                <strong>NUA/CUA</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $eco_com_applicant->nua !!}
                                             </div>
                                         </div>
                                     </td>
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Estado Civil
+                                                <strong>Estado Civil</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $eco_com_applicant->getCivilStatus() !!}
@@ -290,7 +290,7 @@
 									<td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
 										<div class="row">
 											<div class="col-md-6">
-												Teléfono(s)
+												<strong>Teléfono(s)</strong>
 											</div>
 											<div class="col-md-6">
 												{!! $eco_com_applicant->getPhone() !!}
@@ -362,12 +362,34 @@
 				<div class="box-body">
 					<div class="row">
 						<div class="col-md-12">
-							@if($economic_complement->base_wage_id)
-								<table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+							{{-- @if($economic_complement->base_wage_id) --}}
+								<table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
+									<thead>
+										<tr>
+											<th>Concepto</th>
+											<th style="text-align: right">Total</th>
+										</tr>
+									</thead>
 									<tbody>
 										<tr>
-											<td style="width: 70%">Renta Total Cotizable</td>
+											<td style="width: 70%">Renta Total Boleta</td>
 											<td style="text-align: right">{!! $sub_total_rent !!}</td>
+										</tr>
+										<tr>
+											<td style="width: 70%">Reintegro</td>
+											<td style="text-align: right">{!! $reimbursement !!}</td>
+										</tr>
+										<tr>
+											<td style="width: 70%">Renta Dignidad</td>
+											<td style="text-align: right">{!! $dignity_pension !!}</td>
+										</tr>
+										<tr>
+											<td style="width: 70%">Renta total Neta</td>
+											<td style="text-align: right">{!! $total_rent !!}</td>
+										</tr>
+										<tr>
+											<td style="width: 70%">Neto</td>
+											<td style="text-align: right">{!! $total_rent_calc !!}</td>
 										</tr>
 										<tr>
 											<td style="width: 70%">Referente Salarial</td>
@@ -399,17 +421,17 @@
 								<table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
 									<tbody>
 										<tr>
-											<td style="width: 70%">Total a Cancelar</td>
+											<td style="width: 70%">Total</td>
 											<td  style="text-align: right">{!! $total !!}</td>
 										</tr>
 									</tbody>
 								</table>
-							@else
+							{{-- @else
 								<div class="row text-center">
 	                                <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
 	                                <h4 class="box-title">No hay registros</h4>
 	                            </div>
-							@endif
+							@endif --}}
                         </div>
 					</div>
 				</div>
@@ -493,13 +515,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                               {{--  <div class="form-group">
                                         {!! Form::label('nua', 'CUA/NUA', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
                                         {!! Form::text('nua', $eco_com_applicant->nua, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                                        <span class="help-block">Escriba el Segundo Nombre</span>
+                                        <span class="help-block">Escriba el CUA/NUA</span>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="form-group">
                                             {!! Form::label('civil_status', 'Estado Civil', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">

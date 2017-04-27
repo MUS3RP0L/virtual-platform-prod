@@ -35,7 +35,7 @@ class AffiliateController extends Controller
 
     public function Data(Request $request)
     {
-        $affiliates = Affiliate::select(['id', 'identity_card', 'registration', 'last_name', 'mothers_last_name', 'first_name', 'second_name',  'affiliate_state_id', 'degree_id']);
+        $affiliates = Affiliate::select(['id', 'identity_card', 'registration', 'last_name', 'mothers_last_name', 'first_name', 'second_name',  'affiliate_state_id', 'degree_id', 'city_identity_card_id']);
 
         if ($request->has('last_name'))
         {
@@ -87,6 +87,16 @@ class AffiliateController extends Controller
         }
 
         return Datatables::of($affiliates)
+                ->addColumn('identity_card', function($affiliate){
+
+                    if($affiliate->city_identity_card->shortened){
+                        return $affiliate->identity_card.' '.$affiliate->city_identity_card->shortened;
+                    }
+                    else{
+                        return $affiliate->identity_card;
+                    }
+                    
+                })
                 ->addColumn('degree', function ($affiliate) { return $affiliate->degree_id ? $affiliate->degree->shortened : ''; })
                 ->editColumn('last_name', function ($affiliate) { return Util::ucw($affiliate->last_name); })
                 ->editColumn('mothers_last_name', function ($affiliate) { return Util::ucw($affiliate->mothers_last_name); })
@@ -178,24 +188,24 @@ class AffiliateController extends Controller
             $info_spouse = FALSE;
         }
 
-        $last_contribution = Contribution::affiliateidIs($affiliate->id)->orderBy('month_year', 'desc')->first();
+        // $last_contribution = Contribution::affiliateidIs($affiliate->id)->orderBy('month_year', 'desc')->first();
 
-        $totals = DB::table('affiliates')
-                        ->select(DB::raw('SUM(contributions.gain) as gain, SUM(contributions.public_security_bonus) as public_security_bonus,
-                                        SUM(contributions.quotable) as quotable, SUM(contributions.total) as total,
-                                        SUM(contributions.retirement_fund) as retirement_fund, SUM(contributions.mortuary_quota) as mortuary_quota'))
-                        ->leftJoin('contributions', 'affiliates.id', '=', 'contributions.affiliate_id')
-                        ->where('affiliates.id', '=', $affiliate->id)
-                        ->get();
+        // $totals = DB::table('affiliates')
+        //                 ->select(DB::raw('SUM(contributions.gain) as gain, SUM(contributions.public_security_bonus) as public_security_bonus,
+        //                                 SUM(contributions.quotable) as quotable, SUM(contributions.total) as total,
+        //                                 SUM(contributions.retirement_fund) as retirement_fund, SUM(contributions.mortuary_quota) as mortuary_quota'))
+        //                 ->leftJoin('contributions', 'affiliates.id', '=', 'contributions.affiliate_id')
+        //                 ->where('affiliates.id', '=', $affiliate->id)
+        //                 ->get();
 
-        foreach ($totals as $item) {
-            $total_gain = Util::formatMoney($item->gain);
-            $total_public_security_bonus = Util::formatMoney($item->public_security_bonus);
-            $total_quotable = Util::formatMoney($item->quotable);
-            $total_retirement_fund = Util::formatMoney($item->retirement_fund);
-            $total_mortuary_quota = Util::formatMoney($item->mortuary_quota);
-            $total = Util::formatMoney($item->total);
-        }
+        // foreach ($totals as $item) {
+        //     $total_gain = Util::formatMoney($item->gain);
+        //     $total_public_security_bonus = Util::formatMoney($item->public_security_bonus);
+        //     $total_quotable = Util::formatMoney($item->quotable);
+        //     $total_retirement_fund = Util::formatMoney($item->retirement_fund);
+        //     $total_mortuary_quota = Util::formatMoney($item->mortuary_quota);
+        //     $total = Util::formatMoney($item->total);
+        // }
 
         $data = [
 
@@ -205,16 +215,16 @@ class AffiliateController extends Controller
             'gender_list' => $gender_list,
             'info_address' => $info_address,
             'info_spouse' => $info_spouse,
-            'last_contribution' => $last_contribution,
-            'total_gain' => $total_gain,
-            'total_public_security_bonus' => $total_public_security_bonus,
-            'total_quotable' => $total_quotable,
-            'total_retirement_fund' => $total_retirement_fund,
-            'total_mortuary_quota' => $total_mortuary_quota,
-            'total' => $total
+            // 'last_contribution' => $last_contribution,
+            'observations'=>$affiliate->observations,
+            // 'total_gain' => $total_gain,
+            // 'total_public_security_bonus' => $total_public_security_bonus,
+            // 'total_quotable' => $total_quotable,
+            // 'total_retirement_fund' => $total_retirement_fund,
+            // 'total_mortuary_quota' => $total_mortuary_quota,
+            // 'total' => $total
 
         ];
-
         $data = array_merge($data, self::getViewModel());
         return $data;
     }
@@ -289,6 +299,8 @@ class AffiliateController extends Controller
                     $affiliate->first_name = trim($request->first_name);
                     $affiliate->second_name = trim($request->second_name);
                     $affiliate->surname_husband = trim($request->surname_husband);
+                    $affiliate->gender = trim($request->gender);
+                    $affiliate->nua = trim($request->nua);
                     $affiliate->birth_date = Util::datePick($request->birth_date);
                     $affiliate->civil_status = trim($request->civil_status);
                     if ($request->city_birth_id) { $affiliate->city_birth_id = $request->city_birth_id; } else { $affiliate->city_birth_id = null; }
