@@ -35,7 +35,7 @@ class AffiliateController extends Controller
 
     public function Data(Request $request)
     {
-        $affiliates = Affiliate::select(['id', 'identity_card', 'registration', 'last_name', 'mothers_last_name', 'first_name', 'second_name',  'affiliate_state_id', 'degree_id']);
+        $affiliates = Affiliate::select(['id', 'identity_card', 'registration', 'last_name', 'mothers_last_name', 'first_name', 'second_name',  'affiliate_state_id', 'degree_id', 'city_identity_card_id']);
 
         if ($request->has('last_name'))
         {
@@ -87,6 +87,16 @@ class AffiliateController extends Controller
         }
 
         return Datatables::of($affiliates)
+                ->addColumn('identity_card', function($affiliate){
+
+                    if($affiliate->city_identity_card->shortened){
+                        return $affiliate->identity_card.' '.$affiliate->city_identity_card->shortened;
+                    }
+                    else{
+                        return $affiliate->identity_card;
+                    }
+                    
+                })
                 ->addColumn('degree', function ($affiliate) { return $affiliate->degree_id ? $affiliate->degree->shortened : ''; })
                 ->editColumn('last_name', function ($affiliate) { return Util::ucw($affiliate->last_name); })
                 ->editColumn('mothers_last_name', function ($affiliate) { return Util::ucw($affiliate->mothers_last_name); })
