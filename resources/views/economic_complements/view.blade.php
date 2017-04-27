@@ -262,7 +262,7 @@
                                         </div>
                                     </td>
                                 </tr>
-								<tr>
+								{{-- <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -273,7 +273,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
@@ -515,13 +515,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                               {{--  <div class="form-group">
                                         {!! Form::label('nua', 'CUA/NUA', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
                                         {!! Form::text('nua', $eco_com_applicant->nua, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                         <span class="help-block">Escriba el CUA/NUA</span>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="form-group">
                                             {!! Form::label('civil_status', 'Estado Civil', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
