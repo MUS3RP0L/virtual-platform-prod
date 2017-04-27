@@ -15,14 +15,26 @@
 		{
 			data: {!!json_encode($economic_complement_modalities_types[1])!!},
 			backgroundColor: [
+			"#e74c3c",
+			"#3498db",
+			"#1AB394",
+			"#34495e",
+			"#95a5a6",
+			"#f1c40f",
+			"#2ecc71",
+			"#9b59b6",
 			"#FF6384",
-			"#36A2EB",
-			"#FFCE56"
 			],
 			hoverBackgroundColor: [
+			"#e74c3c",
+			"#3498db",
+			"#1AB394", 
+			"#34495e",
+			"#95a5a6",
+			"#f1c40f",
+			"#2ecc71",
+			"#9b59b6",
 			"#FF6384",
-			"#36A2EB",
-			"#FFCE56"
 			]
 		}]
 	};

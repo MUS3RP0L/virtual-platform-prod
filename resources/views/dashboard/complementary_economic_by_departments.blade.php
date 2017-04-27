@@ -17,21 +17,25 @@
 			data: {!!json_encode($economic_complement_cities[1])!!},
 			backgroundColor: [
 			"#f1c40f",
+			"#e74c3c",
 			"#3498db",
 			"#2ecc71",
 			"#9b59b6",
-			"#e74c3c",
 			"#34495e",
-			"#95a5a6"
+			"#95a5a6",
+			"#FF6384",
+			"#1AB394" 
 			],
 			hoverBackgroundColor: [
 			"#f1c40f",
+			"#e74c3c",
 			"#3498db",
 			"#2ecc71",
 			"#9b59b6",
-			"#e74c3c",
 			"#34495e",
-			"#95a5a6"
+			"#95a5a6",
+			"#FF6384",
+			"#1AB394" 
 			]
 		}]
 	}
