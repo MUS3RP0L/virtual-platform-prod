@@ -952,7 +952,7 @@
                                 <div class="form-group">
                                             {!! Form::label('gender', 'Sexo', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('gender', ['M'=>'Masculino','F'=>'Femenino'] ,$affiliate->gender, ['class' => 'combobox form-control']) !!}
+                                        {!! Form::select('gender', ['M'=>'Masculino','F'=>'Femenino'] ,$affiliate->gender, ['class' => 'combobox form-control','required']) !!}
                                         <span class="help-block">Seleccione Sexo</span>
                                     </div>
                                 </div>
