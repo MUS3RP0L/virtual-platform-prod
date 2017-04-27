@@ -158,10 +158,11 @@ class ImportEcoCom extends Command
                                 $economic_complement->affiliate_id = $affiliate->id;
                                 $economic_complement->year = Util::datePickYear($result->gestion, $result->semestre);
                                 $economic_complement->semester = "Segundo";
-                                if ($result->beneficiario == 'PLANILLA GENERAL') {
+                                if ($result->beneficiario == 'union') {
                                     $economic_complement->eco_com_state_id = 6;
-                                }
-                                else {
+                                }elseif ($result->beneficiario == 'rezagados') {
+                                     $economic_complement->eco_com_state_id = 7;
+                                 }else {
                                     $economic_complement->eco_com_state_id = 8;
                                 }
                                
