@@ -7,11 +7,17 @@
 			{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
 		</div>
 		<div class="col-md-4">
-	        <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Declaración Jurada" style="margin:0px;">
-	            <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
-	                &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-	            </a>
-	        </div>
+			<div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Caratula de Trámite" style="margin: 0;">
+				<a href="" class="btn btn-raised btn-success dropdown-toogle enabled" data-toggle="modal" value="Print" onclick="printTriggerCover('iFramePdfCover');"><i class="fa fa-file fa-lg"></i>
+
+				</a>
+			</div>
+
+			<div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Declaración Jurada" style="margin:0px;">
+				<a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
+					&nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+				</a>
+			</div>
 		</div>
 		@can('eco_com_review')
 			@if($economic_complement->eco_com_state_id < 2)
@@ -686,12 +692,80 @@
 
     </div>
 
+	<div class="modal fade" tabindex="-1" >
+        @if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
+        	<iframe src="{!! url('cover/' . $economic_complement->id) !!}" id="iFramePdfCover"></iframe>
+		@else
+        	<iframe src="{!! url('cover/' . $economic_complement->id) !!}" id="iFramePdfCover"></iframe>
+        @endif
+      
+    </div>
+
+
+
 @endsection
 
 @push('scripts')
 <script>
 
 	function printTrigger(elementId) {
+		console.log("lelga");
+        var getMyFrame = document.getElementById(elementId);
+        getMyFrame.focus();
+        getMyFrame.contentWindow.print();
+    }
+
+	$(document).ready(function(){
+		$('.combobox').combobox();
+	    $('[data-toggle="tooltip"]').tooltip();
+		$("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+		$("#phone_number").inputmask();
+		$("#cell_phone_number").inputmask();
+	});
+
+	function SelectRequeriments(requirements) {
+
+		var self = this;
+
+		@if ($status_documents)
+			self.requirements = ko.observableArray(ko.utils.arrayMap(requirements, function(document) {
+			return { id: document.eco_com_requirement_id, name: document.economic_complement_requirement.shortened, status: document.status };
+			}));
+		@else
+			self.requirements = ko.observableArray(ko.utils.arrayMap(requirements, function(document) {
+			return { id: document.id, name: document.shortened, status: false };
+			}));
+		@endif
+
+		self.save = function() {
+			var dataToSave = $.map(self.requirements(), function(requirement) {
+				return  {
+					id: requirement.id,
+					name: requirement.name,
+					status: requirement.status
+				}
+			});
+			self.lastSavedJson(JSON.stringify(dataToSave));
+		};
+		self.lastSavedJson = ko.observable("");
+
+	};
+
+	@if ($status_documents)
+		window.model = new SelectRequeriments({!! $eco_com_submitted_documents !!});
+	@else
+		window.model = new SelectRequeriments({!! $eco_com_requirements !!});
+	@endif
+
+	ko.applyBindings(model);
+
+</script>
+@endpush
+
+@push('scripts')
+<script>
+
+	function printTriggerCover(elementId) {
         var getMyFrame = document.getElementById(elementId);
         getMyFrame.focus();
         getMyFrame.contentWindow.print();

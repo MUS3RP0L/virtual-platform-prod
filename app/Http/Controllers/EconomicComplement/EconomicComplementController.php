@@ -739,6 +739,7 @@ class EconomicComplementController extends Controller
                         $eco_com_submitted_document->status = $item->status;
                         $eco_com_submitted_document->reception_date = date('Y-m-d');
                         $eco_com_submitted_document->save();
+                        $eco_com_submitted_document1->sabe();
                     }
 
                     $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
@@ -897,6 +898,27 @@ class EconomicComplementController extends Controller
           $pdf = \App::make('dompdf.wrapper');
           $pdf->loadHTML($view)->setPaper('letter');
           return $pdf->stream();
+    }
+
+    public function print_cover_solicitude($economic_complement_id)
+    {
+          $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+          $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+          $title = "CARATULA DE SOLICITUD DE BENEFICIO";
+          $date = Util::getDateEdit(date('Y-m-d'));
+          $current_date = Carbon::now();
+          $hour = Carbon::parse($current_date)->toTimeString();
+          $economic_complement = EconomicComplement::idIs($economic_complement_id)->first()->id;
+          dd($economic_complement);
+
+          $affiliate = Affiliate::idIs($economic_complement_id)->first();
+          $spouse  = Spouse::where('affiliate_id', '=', $affiliate->id )->first();
+          $eco_com_applicant = EconomicComplementApplicant::EconomicComplementIs($economic_complement->id)->first();
+          $view = \View::make( compact('header1','header2','title','date','hour','economic_complement','affiliate','spouse','eco_com_applicant'))->render();
+          $pdf = \App::make('dompdf.wrapper');
+          $pdf->loadHTML($view)->setPaper('letter');
+          return $pdf->stream();
+
     }
 
 }
