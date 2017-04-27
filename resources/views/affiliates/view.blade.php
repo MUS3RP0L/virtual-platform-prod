@@ -985,32 +985,52 @@
 
                                     {!! Form::label('phone_number', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
                                     @foreach(explode(',',$affiliate->phone_number) as $key=>$phone)
-                                    @if($key==0)
+                                    @if($key>=1)
                                     <div class="col-md-offset-5">
                                     @endif
+                                    @if($key>=1)
                                     <div class="col-md-7">
+                                    @else
+                                    <div class="col-md-6">
+                                    @endif
                                         <input type="text" id="phone_number" class="form-control" name="phone_number[]" value="{!! $phone !!}" data-inputmask="'mask': '(9) 999-999'" data-mask>
-                                        <span class="help-block">Escriba el Teléfono fijo</span>
                                     </div>
-                                    @if($key==0)
+                                    @if($key>=1)
+                                    <div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div>
+                                    @endif
+
+                                    @if($key>=1)
                                     </div>
                                     @endif
-                                    <br>
+
                                     @endforeach
                                 </div>
-                                <div class="form-group">
+                                <div class="">
                                     <div class="col-md-offset-6">
                                     <button class="btn btn-success" id="addPhoneNumber" type="button" ><span class="fa fa-plus"></span></button>
                                     </div>
                                 </div>
                                 <div class="form-group" id="cellPhonesNumbers">
                                         {!! Form::label('cell_phone_number', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
-                                        @foreach(explode(',',$affiliate->cell_phone_number) as $phone)
-                                    <div class="col-md-7">
+                                        @foreach(explode(',',$affiliate->cell_phone_number) as $key=>$phone)
+                                        @if($key>=1)
+                                        <div class="col-md-offset-5">
+                                        @endif
+                                        @if($key>=1)
+                                        <div class="col-md-7">
+                                        @else
+                                        <div class="col-md-6">
+                                        @endif
                                         <input type="text" id="cell_phone_number" class="form-control" name="cell_phone_number[]" value="{!! $phone !!}" data-inputmask="'mask': '(999)-99999'" data-mask>
-                                        <span class="help-block">Escriba el Teléfono Celular</span>
+                                         </div>
+                                    @if($key>=1)
+                                    <div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div>
+                                    @endif
+
+                                    @if($key>=1)
                                     </div>
-                                    <br>
+                                    @endif
+
                                         @endforeach
                                 </div>
                                 <div class="form-group">
@@ -1191,7 +1211,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                        {!! Form::label('birth_date', 'Fecha Nacimiento', ['class' => 'col-md-5 control-label', 'required']) !!}
+                                        {!! Form::label('birth_date', 'Fecha Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
                                         <div class="input-group">
                                             <input type="text" id="birth_date_spouse_mask" required class="form-control" name="birth_date" value="{!! $spouse->getEditBirthDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
@@ -1423,7 +1443,7 @@
 
             //for phone numbers
             $('#addPhoneNumber').on('click', function(event) {
-                $('#phonesNumbers').append('<div class="col-md-offset-5"><br><br><div class="col-md-7"><input type="text" class="form-control" name="phone_number[]" data-inputmask="\'mask\': \'(9) 999-999\'" data-mask><span class="help-block">Escriba el Teléfono fijo</span></div><div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div><br></div>')
+                $('#phonesNumbers').append('<div class="col-md-offset-5"><div class="col-md-7"><input type="text" class="form-control" name="phone_number[]" data-inputmask="\'mask\': \'(9) 999-999\'" data-mask></div><div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div></div>')
                 event.preventDefault();
                 $("input[name='phone_number[]']").each(function() {
                     $(this).inputmask();
@@ -1436,7 +1456,7 @@
             });
             //for cell phone numbers
             $('#addCellPhoneNumber').on('click', function(event) {
-                $('#cellPhonesNumbers').append('<div class="col-md-offset-5"><br><br><div class="col-md-8"><input type="text" class="form-control" name="cell_phone_number[]" data-inputmask="\'mask\': \'(999)-99999\'" data-mask><span class="help-block">Escriba el Teléfono Celular</span></div><div class="col-md-1"><button class="btn btn-warning deleteCellPhone" type="button" ><i class="fa fa-minus"></i></button></div><br></div>')
+                $('#cellPhonesNumbers').append('<div class="col-md-offset-5"><div class="col-md-8"><input type="text" class="form-control" name="cell_phone_number[]" data-inputmask="\'mask\': \'(999)-99999\'" data-mask></div><div class="col-md-1"><button class="btn btn-warning deleteCellPhone" type="button" ><i class="fa fa-minus"></i></button></div></div>')
                 event.preventDefault();
                 $("input[name='cell_phone_number[]']").each(function() {
                     $(this).inputmask();
