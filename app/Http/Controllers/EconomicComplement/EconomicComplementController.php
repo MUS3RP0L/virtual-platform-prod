@@ -131,6 +131,10 @@ class EconomicComplementController extends Controller
                 ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
                 ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name; })
                 ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
+                ->addColumn('action', function ($economic_complement) { return  '
+                    <div class="btn-group" style="margin:-3px 0;">
+                        <a href="/economic_complement/'.$economic_complement->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
+                    </div>';})
                 ->make(true);
     }
 
@@ -532,12 +536,12 @@ class EconomicComplementController extends Controller
 
                     switch ($request->eco_com_type) {
                         case '1':
-
                             $eco_com_applicant->identity_card = $affiliate->identity_card;
                             $eco_com_applicant->city_identity_card_id = $affiliate->city_identity_card_id;
                             $eco_com_applicant->last_name = $affiliate->last_name;
                             $eco_com_applicant->mothers_last_name = $affiliate->mothers_last_name;
                             $eco_com_applicant->first_name = $affiliate->first_name;
+                            $eco_com_applicant->second_name = $affiliate->second_name;
                             $eco_com_applicant->birth_date = $affiliate->birth_date;
                             $eco_com_applicant->nua = $affiliate->nua;
                             $eco_com_applicant->gender = $affiliate->gender;
@@ -556,6 +560,7 @@ class EconomicComplementController extends Controller
                                 $eco_com_applicant->last_name = $spouse->last_name;
                                 $eco_com_applicant->mothers_last_name = $spouse->mothers_last_name;
                                 $eco_com_applicant->first_name = $spouse->first_name;
+                                $eco_com_applicant->second_name = $spouse->second_name;
                                 $eco_com_applicant->birth_date = $spouse->birth_date;
                             }
                             $eco_com_applicant->nua = $affiliate->nua;
@@ -613,6 +618,7 @@ class EconomicComplementController extends Controller
                     $eco_com_applicant->last_name = $request->last_name;
                     $eco_com_applicant->mothers_last_name = $request->mothers_last_name;
                     $eco_com_applicant->first_name = $request->first_name;
+                    $eco_com_applicant->second_name = $request->second_name;
                     $eco_com_applicant->birth_date = Util::datePick($request->birth_date);
                     $eco_com_applicant->civil_status = $request->civil_status;
                     $eco_com_applicant->phone_number = $request->phone_number;
@@ -630,6 +636,7 @@ class EconomicComplementController extends Controller
                             $affiliate->last_name = $request->last_name;
                             $affiliate->mothers_last_name = $request->mothers_last_name;
                             $affiliate->first_name = $request->first_name;
+                            $affiliate->second_name = $request->second_name;
                             $affiliate->birth_date = Util::datePick($request->birth_date);
                             $affiliate->civil_status = $request->civil_status;
                             $affiliate->phone_number = $request->phone_number;
@@ -668,6 +675,7 @@ class EconomicComplementController extends Controller
                             $spouse->first_name = trim($request->first_name);
                             $spouse->second_name = trim($request->second_name);
                             $spouse->birth_date = Util::datePick($request->birth_date);
+                            $spouse->registration=Util::CalcRegistration(Util::datePick($request->birth_date),trim($request->last_name),trim($request->mothers_last_name), trim($request->first_name),Util::getGender($affiliate->gender));
                             $spouse->save();
 
                         break;

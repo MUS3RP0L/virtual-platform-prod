@@ -102,6 +102,11 @@
                                                         <span class="glyphicon glyphicon-tasks"></span><a href="{!! url('averages') !!}"> Promedios</a>
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="glyphicon glyphicon-export"></span><a href="{!! url('get_updated_list') !!}"> Modificaciones</a>
+                                                    </td>
+                                                </tr>
 
                                             </table>
                                         </div>

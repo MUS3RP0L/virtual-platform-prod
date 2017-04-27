@@ -102,12 +102,12 @@ class ImportEcoCom extends Command
 
                         if ($result->tiporenta == 'VEJEZ' or $result->tiporenta == 'RENT-M2000-VEJ' or $result->tiporenta == 'RENT-1COM-M2000-VEJ' or $result->tiporenta == 'RENT-1COMP-VEJ') {                          
                 
-                            $affiliate = Affiliate::where('identity_card', '=', Util::zero($result->ci))->first();
+                            $affiliate = Affiliate::where('identity_card', '=', $result->ci)->first();
 
                             if (!$affiliate) {
 
                                 $affiliate = new Affiliate;
-                                $affiliate->identity_card = Util::zero($result->ci);
+                                $affiliate->identity_card = $result->ci;
                                 $city_id = City::select('id')->where('shortened', trim($result->ext))->first()->id;
                                 $affiliate->city_identity_card_id = $city_id;
                                 $affiliate->gender = "M";
@@ -158,10 +158,11 @@ class ImportEcoCom extends Command
                                 $economic_complement->affiliate_id = $affiliate->id;
                                 $economic_complement->year = Util::datePickYear($result->gestion, $result->semestre);
                                 $economic_complement->semester = "Segundo";
-                                if ($result->beneficiario == 'PLANILLA GENERAL') {
+                                if ($result->beneficiario == 'union') {
                                     $economic_complement->eco_com_state_id = 6;
-                                }
-                                else {
+                                }elseif ($result->beneficiario == 'rezagados') {
+                                     $economic_complement->eco_com_state_id = 7;
+                                 }else {
                                     $economic_complement->eco_com_state_id = 8;
                                 }
                                
@@ -250,12 +251,12 @@ class ImportEcoCom extends Command
                         }
                         elseif ($result->ci_ch) {
 
-                            $affiliate = Affiliate::where('identity_card', '=', Util::zero($result->ci_ch))->first();
+                            $affiliate = Affiliate::where('identity_card', '=', $result->ci_ch)->first();
 
                             if (!$affiliate) {
 
                                 $affiliate = new Affiliate;
-                                $affiliate->identity_card = Util::zero($result->ci_ch);
+                                $affiliate->identity_card = $result->ci_ch;
                                 $city_id = City::select('id')->where('shortened', trim($result->ext_ch))->first()->id;
                                 $affiliate->city_identity_card_id = $city_id;
                                 $affiliate->gender = "F";
@@ -285,8 +286,8 @@ class ImportEcoCom extends Command
                             $spouse = new Spouse;
                             $spouse->user_id = 1;
                             $spouse->affiliate_id = $affiliate->id;
-                            $spouse->identity_card = Util::zero($result->ci_ch);
-                            $city_id = City::select('id')->where('shortened', trim($result->ext_ch))->first()->id;
+                            $spouse->identity_card = $result->ci;
+                            $city_id = City::select('id')->where('shortened', trim($result->ext))->first()->id;
                             $spouse->city_identity_card_id = $city_id;
                             $spouse->registration = "0";
 

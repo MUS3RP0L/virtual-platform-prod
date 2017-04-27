@@ -24,10 +24,9 @@ class CreateViews extends Migration
                  LEFT JOIN cities ON economic_complements.city_id = cities.id
                  LEFT JOIN eco_com_modalities ON economic_complements.eco_com_modality_id = eco_com_modalities.id
                  LEFT JOIN eco_com_types ON eco_com_modalities.eco_com_type_id = eco_com_types.id
-                 WHERE (eco_com_applicants.identity_card::text IN ( SELECT eco_com_applicants_1.identity_card
-                       FROM eco_com_applicants eco_com_applicants_1
-                      GROUP BY eco_com_applicants_1.identity_card
-                     HAVING count(eco_com_applicants_1.identity_card) > 1)); CREATE OR REPLACE VIEW public.v_inclusion AS
+                 WHERE (economic_complements.affiliate_id IN ( SELECT economic_complements_1.affiliate_id         FROM economic_complements economic_complements_1
+                  GROUP BY economic_complements_1.affiliate_id
+                 HAVING count(economic_complements_1.affiliate_id) > 1)); CREATE OR REPLACE VIEW public.v_inclusion AS
                           SELECT economic_complements.id,
                              eco_com_applicants.identity_card,
                              cities.id AS city_id,
@@ -45,10 +44,10 @@ class CreateViews extends Migration
                               LEFT JOIN cities ON economic_complements.city_id = cities.id
                               LEFT JOIN eco_com_modalities ON economic_complements.eco_com_modality_id = eco_com_modalities.id
                               LEFT JOIN eco_com_types ON eco_com_modalities.eco_com_type_id = eco_com_types.id
-                           WHERE (eco_com_applicants.identity_card::text IN ( SELECT eco_com_applicants_1.identity_card
-                                    FROM eco_com_applicants eco_com_applicants_1
-                                   GROUP BY eco_com_applicants_1.identity_card
-                                  HAVING count(eco_com_applicants_1.identity_card) = 1))');
+                           WHERE (economic_complements.affiliate_id IN ( SELECT economic_complements_1.affiliate_id
+                                    FROM economic_complements economic_complements_1
+                                   GROUP BY economic_complements_1.affiliate_id
+                                  HAVING count(economic_complements_1.affiliate_id) = 1))');
 
     }
 
