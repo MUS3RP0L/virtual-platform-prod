@@ -206,7 +206,27 @@ class AffiliateController extends Controller
         //     $total_mortuary_quota = Util::formatMoney($item->mortuary_quota);
         //     $total = Util::formatMoney($item->total);
         // }
-
+        $affiliate_states=\Muserpol\AffiliateState::all();
+        $a_states=[];
+        foreach ($affiliate_states as $as) {
+            $a_states[$as->id]=$as->name;
+        }
+        $dg=\Muserpol\Degree::all();
+        $degrees=[];
+        foreach ($dg as $d) {
+            $degrees[$d->id]=$d->name;
+        }
+        $at=\Muserpol\AffiliateType::all();
+        $affiliate_types=[];
+        foreach ($at as $d) {
+            $affiliate_types[$d->id]=$d->name;
+        }
+        $un=\Muserpol\Unit::all();
+        $units=[];
+        foreach ($un as $d) {
+            $units[$d->id]=$d->name;
+        }
+        //dd($units);
         $data = [
 
             'affiliate' => $affiliate,
@@ -223,6 +243,10 @@ class AffiliateController extends Controller
             // 'total_retirement_fund' => $total_retirement_fund,
             // 'total_mortuary_quota' => $total_mortuary_quota,
             // 'total' => $total
+            'affiliate_state'=>$a_states,
+            'degrees'=>$degrees,
+            'affiliate_types'=>$affiliate_types,
+            'units'=>$units
 
         ];
         $data = array_merge($data, self::getViewModel());
@@ -324,6 +348,47 @@ class AffiliateController extends Controller
         }
 
         return redirect('affiliate/'.$affiliate->id);
+    }
+    public function updatePolice(Request $request, $affiliate)
+    {
+        $rules = [
+            'state' =>'required',
+            'degree' => 'required',
+            'affiliate_type' => 'required',
+            'unit' => 'required',
+            'date_entry' => 'required',
+            'item' => 'required',
+        ];
+
+        $messages = [
+            'state.required' => 'El Campo Estado es Requerido',
+            'degree.required' => 'El Campo Grado es Requerido',
+            'affiliate_type.required' => 'El Campo Tipo de Afiliado es Requerido',
+            'unit.required' => 'El Campo Unidad es Requerido',
+            'date_entry.required' => 'El Campo Fecha de Ingreso es Requerido',
+            'item.required' => 'El Campo Numero de Item es Requerido',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return redirect('affiliate/'.$affiliate)
+            ->withErrors($validator)
+            ->withInput();
+        }else{
+            $a=Affiliate::find($affiliate);
+            $a->affiliate_state_id=$request->state;
+            $a->degree_id=$request->degree;
+            $a->affiliate_type_id=$request->affiliate_type;
+            $a->unit_id=$request->unit;
+            $a->date_entry=$request->date_entry;
+            $a->registration=$request->registration;
+            $a->item=$request->item;
+            $a->save();
+            $message="Información del Policia actualizada correctamene.";
+            Session::flash('message', $message);
+        }
+        return redirect('affiliate/'.$affiliate);
     }
 
     public function print_affiliate($affiliate)
