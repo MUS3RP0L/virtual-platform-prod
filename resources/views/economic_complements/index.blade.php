@@ -5,7 +5,7 @@
         <div class="col-md-8">
             {!! Breadcrumbs::render('economic_complements') !!}
         </div>
-        <div class="col-md-4 text-right">            
+        <div class="col-md-4 text-right">
             <div class="btn-group" style="margin:-3px 0;">
                 <a href="" class="btn btn-primary btn-raised" data-toggle="dropdown"><i class="glyphicon glyphicon-export"></i></a>
                 <a href="" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>

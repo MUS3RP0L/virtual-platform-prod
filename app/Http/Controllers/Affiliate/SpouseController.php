@@ -77,6 +77,7 @@ class SpouseController extends Controller
             if ($request->city_identity_card_id) { $spouse->city_identity_card_id = $request->city_identity_card_id; } else { $spouse->city_identity_card_id = null; }
             $spouse->last_name = trim($request->last_name);
             $spouse->mothers_last_name = trim($request->mothers_last_name);
+            $spouse->surname_husband = trim($request->surname_husband);
             $spouse->first_name = trim($request->first_name);
             $spouse->second_name = trim($request->second_name);
             $spouse->birth_date = Util::datePick($request->birth_date);

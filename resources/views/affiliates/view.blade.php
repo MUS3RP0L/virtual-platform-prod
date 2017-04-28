@@ -7,7 +7,7 @@
             {!! Breadcrumbs::render('show_affiliate', $affiliate) !!}
         </div>
         <div class="col-md-6">
-
+       @can('manage')
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Aportes" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
                 <ul class="dropdown-menu">
@@ -16,21 +16,24 @@
                     <li><a href="{!! url('select_contribution/' . $affiliate->id) !!}" class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
-
+        @endcan
+        @can('loan')
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Préstamos" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-money fa-lg"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
-
+        @endcan
+        @can('retirement_fund')
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Fondo Retiro" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="glyphicon glyphicon-piggy-bank"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
-
+        @endcan
+        @can('economic_complement')
             <!-- Button of create economic complement -->
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento Económico" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
@@ -38,13 +41,15 @@
                     <li><a href="{!! url('economic_complement_reception_first_step/' . $affiliate->id) !!}"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
-
+        @endcan
+        @can('manage')
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Cuota Auxilio" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-heartbeat fa-lg"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
+        @endcan
             <!-- button of Observations -->
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
@@ -156,7 +161,10 @@
                                                 <strong>Teléfono:</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $affiliate->phone_number !!}
+                                                @foreach(explode(',',$affiliate->phone_number) as $phone)
+                                                    {!! $phone !!}
+                                                    <br/>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </td>
@@ -272,7 +280,10 @@
                                                 <strong>Celular:</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $affiliate->cell_phone_number !!}
+                                                @foreach(explode(',',$affiliate->cell_phone_number) as $phone)
+                                                    {!! $phone !!}
+                                                    <br/>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </td>
@@ -455,7 +466,20 @@
                                                 </div>
                                             </div>
                                         </td>
-                                    </tr><tr>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <strong>Apellido Esposo:</strong>
+                                                </div>
+                                                <div class="col-md-6">
+                                                     {!! $spouse->surname_husband !!}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -886,7 +910,7 @@
                                 <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::text('last_name', $affiliate->last_name, ['class'=> 'form-control', 'required', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        {!! Form::text('last_name', $affiliate->last_name, ['class'=> 'form-control',  'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                         <span class="help-block">Escriba el Apellido Paterno</span>
                                     </div>
                                 </div>
@@ -923,7 +947,7 @@
                                 <div class="form-group">
                                         {!! Form::label('nua', 'CUA/NUA', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
-                                        {!! Form::text('nua', $affiliate->nua, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        {!! Form::number('nua', $affiliate->nua, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                         <span class="help-block">Escriba el CUA/NUA</span>
                                     </div>
                                 </div>
@@ -933,15 +957,15 @@
                                 <div class="form-group">
                                             {!! Form::label('gender', 'Sexo', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('gender', ['M'=>'Masculino','F'=>'Femenino'] ,$affiliate->gender, ['class' => 'combobox form-control']) !!}
+                                        {!! Form::select('gender', ['M'=>'Masculino','F'=>'Femenino'] ,$affiliate->gender, ['class' => 'combobox form-control','required']) !!}
                                         <span class="help-block">Seleccione Sexo</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                        {!! Form::label('birth_date', 'Fecha de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
+                                        {!! Form::label('birth_date', 'Fecha de Nacimiento', ['class' => 'col-md-5 control-label','required']) !!}
                                     <div class="col-md-7">
                             			<div class="input-group">
-                                            <input type="text" id="birth_date_mask" class="form-control" name="birth_date" value="{!! $affiliate->getEditBirthDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                            <input type="text" id="birth_date_mask" required class="form-control" name="birth_date" value="{!! $affiliate->getEditBirthDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                             <div class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </div>
@@ -962,18 +986,61 @@
                                         <span class="help-block">Seleccione Departamento</span>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                        {!! Form::label('phone_number', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
+                                <div class="form-group" id="phonesNumbers" style="padding-bottom:5px;">
+
+                                    {!! Form::label('phone_number', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
+                                    @foreach(explode(',',$affiliate->phone_number) as $key=>$phone)
+                                    @if($key>=1)
+                                    <div class="col-md-offset-5">
+                                    @endif
+                                    @if($key>=1)
                                     <div class="col-md-7">
-                                        <input type="text" id="phone_number" class="form-control" name="phone_number" value="{!! $affiliate->phone_number !!}" data-inputmask="'mask': '(9) 999-999'" data-mask>
-                                        <span class="help-block">Escriba el Teléfono fijo</span>
+                                    @else
+                                    <div class="col-md-6">
+                                    @endif
+                                        <input type="text" id="phone_number" class="form-control" name="phone_number[]" value="{!! $phone !!}" data-inputmask="'mask': '(9) 999-999'" data-mask>
+                                    </div>
+                                    @if($key>=1)
+                                    <div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div>
+                                    @endif
+
+                                    @if($key>=1)
+                                    </div>
+                                    @endif
+
+                                    @endforeach
+                                </div>
+                                <div class="">
+                                    <div class="col-md-offset-6">
+                                    <button class="btn btn-success" id="addPhoneNumber" type="button" ><span class="fa fa-plus"></span></button>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="cellPhonesNumbers" style="padding-bottom:5px;">
                                         {!! Form::label('cell_phone_number', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-7">
-                                        <input type="text" id="cell_phone_number" class="form-control" name="cell_phone_number" value="{!! $affiliate->cell_phone_number !!}" data-inputmask="'mask': '(999)-99999'" data-mask>
-                                        <span class="help-block">Escriba el Teléfono Celular</span>
+                                        @foreach(explode(',',$affiliate->cell_phone_number) as $key=>$phone)
+                                        @if($key>=1)
+                                        <div class="col-md-offset-5">
+                                        @endif
+                                        @if($key>=1)
+                                        <div class="col-md-7">
+                                        @else
+                                        <div class="col-md-6">
+                                        @endif
+                                        <input type="text" id="cell_phone_number" class="form-control" name="cell_phone_number[]" value="{!! $phone !!}" data-inputmask="'mask': '(999)-99999'" data-mask>
+                                         </div>
+                                    @if($key>=1)
+                                    <div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div>
+                                    @endif
+
+                                    @if($key>=1)
+                                    </div>
+                                    @endif
+
+                                        @endforeach
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-6">
+                                    <button class="btn btn-success" id="addCellPhoneNumber"><span class="fa fa-plus"></span></button>
                                     </div>
                                 </div>
 
@@ -1113,7 +1180,7 @@
                                 <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::text('last_name', $spouse->last_name, ['class'=> 'form-control','required', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        {!! Form::text('last_name', $spouse->last_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                         <span class="help-block">Escriba el Apellido Paterno</span>
                                     </div>
                                 </div>
@@ -1122,6 +1189,13 @@
                                     <div class="col-md-7">
                                         {!! Form::text('mothers_last_name', $spouse->mothers_last_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                         <span class="help-block">Escriba el  Apellido Materno</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('surname_husband', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('surname_husband', $spouse->surname_husband, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -1145,7 +1219,7 @@
                                         {!! Form::label('birth_date', 'Fecha Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
                                         <div class="input-group">
-                                            <input type="text" id="birth_date_spouse_mask" class="form-control" name="birth_date" value="{!! $spouse->getEditBirthDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                            <input type="text" id="birth_date_spouse_mask" required class="form-control" name="birth_date" value="{!! $spouse->getEditBirthDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                             <div class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </div>
@@ -1248,8 +1322,8 @@
             $("#birth_date_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("#date_death_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("#date_death_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
-            $("#phone_number").inputmask();
-            $("#cell_phone_number").inputmask();
+            $("input[name='phone_number[]']").inputmask();
+            $("input[name='cell_phone_number[]']").inputmask();
         });
 
         $(document).ready(function(){
@@ -1370,6 +1444,33 @@
                 placement: 'top',
                 animate: true,
                 delay: 100
+            });
+
+            //for phone numbers
+            $('#addPhoneNumber').on('click', function(event) {
+                $('#phonesNumbers').append('<div class="col-md-offset-5"><div class="col-md-7"><input type="text" class="form-control" name="phone_number[]" data-inputmask="\'mask\': \'(9) 999-999\'" data-mask></div><div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div></div>')
+                event.preventDefault();
+                $("input[name='phone_number[]']").each(function() {
+                    $(this).inputmask();
+                });
+                $("input[name='phone_number[]']").last().focus();
+            });
+            $(document).on('click', '.deletePhone', function(event) {
+                $(this).parent().parent().remove();
+                event.preventDefault();
+            });
+            //for cell phone numbers
+            $('#addCellPhoneNumber').on('click', function(event) {
+                $('#cellPhonesNumbers').append('<div class="col-md-offset-5"><div class="col-md-8"><input type="text" class="form-control" name="cell_phone_number[]" data-inputmask="\'mask\': \'(999)-99999\'" data-mask></div><div class="col-md-1"><button class="btn btn-warning deleteCellPhone" type="button" ><i class="fa fa-minus"></i></button></div></div>')
+                event.preventDefault();
+                $("input[name='cell_phone_number[]']").each(function() {
+                    $(this).inputmask();
+                });
+                $("input[name='cell_phone_number[]']").last().focus();
+            });
+            $(document).on('click', '.deleteCellPhone', function(event) {
+                $(this).parent().parent().remove();
+                event.preventDefault();
             });
         });
     </script>

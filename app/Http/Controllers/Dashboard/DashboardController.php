@@ -237,20 +237,26 @@ class DashboardController extends Controller
 
 	}
 
-		public function appendValue($data, $type, $element)
+	public function appendValue($data, $type, $element)
 	{
-		// operate on the item passed by reference, adding the element and type
 		foreach ($data as $key => & $item) {
 			$item[$element] = $type;
 		}
 		return $data;
 	}
 
-	public function appendURL($data, $prefix)
+	public function appendURLaffiliate($data, $prefix)
 	{
-		// operate on the item passed by reference, adding the url based on slug
 		foreach ($data as $key => & $item) {
 			$item['url'] = url($prefix.'/'.$item['id']);
+		}
+		return $data;
+	}
+
+	public function appendURLspouse($data, $prefix)
+	{
+		foreach ($data as $key => & $item) {
+			$item['url'] = url($prefix.'/'.$item['affiliate_id']);
 		}
 		return $data;
 	}
@@ -266,20 +272,20 @@ class DashboardController extends Controller
 			->take(3)
 			->get(array('id', 'identity_card', 'first_name', 'last_name'))->toArray();
 
-				$spouses = Spouse::where('identity_card','like', $query)
-						->orderBy('first_name','asc')
-						->take(3)
-						->get(array('id', 'identity_card', 'first_name', 'last_name'))->toArray();
+		$spouses = Spouse::where('identity_card','like', $query)
+			->orderBy('first_name','asc')
+			->take(3)
+			->get(array('id', 'affiliate_id', 'identity_card', 'first_name', 'last_name'))->toArray();
 
-		$affiliates = $this->appendURL($affiliates, 'affiliate');
-				$spouses  = $this->appendURL($spouses, 'affiliate');
+		$affiliates = $this->appendURLaffiliate($affiliates, 'affiliate');
+		$spouses  = $this->appendURLspouse($spouses, 'affiliate');
 
 		$affiliates = $this->appendValue($affiliates, 'affiliate', 'class');
 		$spouses = $this->appendValue($spouses, 'spouse', 'class');
 
-				$data = array_merge($affiliates, $spouses);
+		$data = array_merge($affiliates, $spouses);
 
-				return response()->json(array(
+		return response()->json(array(
 			'data'=>$data
 		));
 	}

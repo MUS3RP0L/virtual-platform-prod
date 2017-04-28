@@ -13,6 +13,7 @@ use Session;
 use Datatables;
 use Carbon\Carbon;
 use Muserpol\Helper\Util;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementState;
@@ -451,7 +452,7 @@ class EconomicComplementReportController extends Controller
        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
        $title = "REPORTE DE PROMEDIOS";
        $date = Util::getDateEdit(date('Y-m-d'));
-       $current_date = Carbon::now();   
+       $current_date = Carbon::now();
        $hour = Carbon::parse($current_date)->toTimeString();
        $average_list = DB::table('eco_com_applicants')
                        ->select(DB::raw("degrees.id as degree_id,degrees.shortened as degree,eco_com_types.id as type_id, eco_com_types.name as type,min(economic_complements.total) as rmin, max(economic_complements.total) as rmax,round((max(economic_complements.total)+ min(economic_complements.total))/2,2) as average"))
@@ -469,6 +470,41 @@ class EconomicComplementReportController extends Controller
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view)->setPaper('letter');
         return $pdf->stream();
+   }
+
+   public function updated_list()
+   {
+       return view('economic_complements.print.updated_list', self::getViewModel());
+   }
+
+   public function export_updated_list(Request $request)
+   {
+       global $year, $semester,$i,$afi;
+       $year = $request->year;
+       $semester = $request->semester;
+       Excel::create('Afi_modificados', function($excel) {
+                 global $year,$semester, $j;
+                 $j = 2;
+                 $excel->sheet("AFILIADOS_MODIFI".$year, function($sheet) {
+                 global $year,$semester, $j, $i;
+                 $i=1;
+                 $sheet->row(1, array('NRO', 'NUM_ID', 'EXTENSION', 'CUA', 'PRIMER_APELLIDO_T', 'SEGUNDO_APELLIDO_T','PRIMER_NOMBRE_T','SEGUNDO_NOMBRE_T','APELLIDO_CASADA_T','FECHA_NACIMIENTO_T'));
+                 $afi = DB::table('economic_complements')
+                     ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,affiliates.identity_card,cities.shortened,affiliates.nua,affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,affiliates.birth_date'))
+                     ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                     ->leftJoin('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
+                     ->whereYear('economic_complements.year', '=', $year)
+                     ->where('economic_complements.semester', '=', $semester)
+                     ->where('economic_complements.created_at', '<>', DB::raw("economic_complements.updated_at"))->get();
+                 foreach ($afi as $datos) {
+                     $sheet->row($j, array($i,$datos->identity_card,$datos->shortened,$datos->nua, $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,$datos->birth_date));
+                     $j++;
+                     $i++;
+                 }
+               });
+           })->export('xlsx');
+             Session::flash('message', "Importación Exitosa");
+             return redirect('get_updated_list');
    }
 
 
