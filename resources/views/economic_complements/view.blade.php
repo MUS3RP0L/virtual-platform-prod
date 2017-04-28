@@ -38,11 +38,18 @@
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="row">
-                        <div class="col-md-10">
+                        <div class="col-md-8">
                             <h3 class="box-title"><span class="glyphicon glyphicon-info-sign"></span> Información Adicional</h3>
                         </div>
                         <div class="col-md-2 text-right">
-                            <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                            <div data-toggle="tooltip" data-placement="top" data-original-title="Editar">
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-edit">&nbsp;&nbsp;
+                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <div data-toggle="tooltip" data-placement="top" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-block">&nbsp;&nbsp;
                                     <span class="fa fa-lg fa-exclamation-triangle" aria-hidden="true"></span>&nbsp;&nbsp;
                                 </a>
@@ -623,14 +630,63 @@
                 </div>
                 <div class="modal-body">
                     {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
-						<input type="hidden" name="step" value="block"/>
-						<div class="row">
-							<div class="col-md-10">
-								<div class="form-group">
+                        <input type="hidden" name="step" value="block"/>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
                                     {!! Form::label('eco_com_state_id', 'Estado', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
                                         {!! Form::select('eco_com_state_id', $eco_com_states_block_list, '', ['class' => 'combobox form-control']) !!}
                                         <span class="help-block">Seleccione Estado</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <a href="{!! url('economic_complement/' . $economic_complement->id) !!}" data-target="#" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
+                                </div>
+                            </div>
+                        </div>
+                    {!! Form::close() !!}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="myModal-edit" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Editar Información Adicional</h4>
+                </div>
+                <div class="modal-body">
+                    {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
+						<input type="hidden" name="step" value="edit_aditional_info"/>
+						<div class="row">
+							<div class="col-md-10">
+								<div class="form-group">
+                                    {!! Form::label('eco_com_state_id', 'Estado', ['class' => 'col-md-5 control-label']) !!}
+
+                                    <div class="col-md-7">
+                                        {!! Form::select('eco_com_state_type_id', $eco_com_state_type_lists, $economic_complement->economic_complement_state->economic_complement_state_type->id, ['class' => 'combobox form-control', 'id' => 'state']) !!}
+                                        <span class="help-block">Seleccione Estado</span>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    {!! Form::label('semester', 'Seleccione causa ', ['class' => 'col-md-5 control-label']) !!}
+
+                                    <div class="col-md-7">
+                                        {!! Form::select('cause',[],'', ['class' => 'combobox form-control', 'id' => 'causes']) !!}
+                                        <span class="help-block"></span>
                                     </div>
                                 </div>
 							</div>
@@ -709,6 +765,36 @@
 		$("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
 		$("#phone_number").inputmask();
 		$("#cell_phone_number").inputmask();
+
+        $('#state').on('change', function() {
+            var stateID = $(this).val();
+            if(stateID) {
+                $.ajax({
+                    url: '{!! url('get_causes_by_state') !!}',
+                    type: "GET",
+                    dataType: "json",
+                    data:{
+                        "state_id" : stateID
+                    },
+                    success: function(data) {
+                        $('select[name="cause"]').empty();
+                        $('#check').empty();
+                        $.each(data.causes, function(key, value) {
+                            $('#causes').append('<option value="'+key+'">"+value+"</option>');
+                        });
+                    }, error:function(err){
+                        
+                        console.log("Aqui va mi error.-.--------------------------");
+                        console.log(err);
+                    }
+                });
+            }
+            else{
+                $('select[name="cause"]').empty();
+            }
+        });
+
+
 	});
 
 	function SelectRequeriments(requirements) {
@@ -746,6 +832,8 @@
 	@endif
 
 	ko.applyBindings(model);
+
+
 
 </script>
 @endpush
