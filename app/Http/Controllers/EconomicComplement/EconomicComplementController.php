@@ -43,6 +43,15 @@ class EconomicComplementController extends Controller
 
     public function index()
     {
+        
+        $eco_com_applicant= DB::table('economic_complements')
+       //   ->join('eco_com_modalities','economic_complements.id','=','eco_com_modalities.id')
+        //  ->join('eco_com_types','economic_complements.id','eco_com_types.id')
+          ->select('economic_complements.*')
+          ->join('eco_com_modalities','')
+          ->where('economic_complements.id','=',55)
+          ->get();
+          dd($eco_com_applicant);
         return view('economic_complements.index', self::getViewModel());
     }
 
@@ -916,13 +925,36 @@ class EconomicComplementController extends Controller
           $date = Util::getDateEdit(date('Y-m-d'));
           $current_date = Carbon::now();
           $hour = Carbon::parse($current_date)->toTimeString();
-          $economic_complement = EconomicComplement::idIs($economic_complement_id)->first()->id;
-          dd($economic_complement);
+         // $economic_complement = EconomicComplement::idIs($economic_complement_id)->first()->id;
+          //$affiliate = Affiliate::idIs($economic_complement_id)->first();
 
-          $affiliate = Affiliate::idIs($economic_complement_id)->first();
-          $spouse  = Spouse::where('affiliate_id', '=', $affiliate->id )->first();
-          $eco_com_applicant = EconomicComplementApplicant::EconomicComplementIs($economic_complement->id)->first();
-          $view = \View::make( compact('header1','header2','title','date','hour','economic_complement','affiliate','spouse','eco_com_applicant'))->render();
+          $economic_complement= DB::table('economic_complements')
+          ->select('user_id', 'affiliate_id','eco_com_modality_id')
+          ->where('economic_complements.id', '=', $economic_complement_id)
+          ->first();
+          $affiliate= DB::table('economic_complements')
+          ->select('affiliate_id')
+          ->where('economic_complements.id', '=', $economic_complement_id)
+          ->first();
+          $spouse  = Spouse::where('affiliate_id', '=', $economic_complement->user_id )->first();
+/*
+            $users = DB::table('users')
+            ->join('contacts', 'users.id', '=', 'contacts.user_id')
+            ->join('orders', 'users.id', '=', 'orders.user_id')
+            ->select('users.*', 'contacts.phone', 'orders.price')
+            ->get();
+*/
+          $eco_com_applicant= DB::table('economic_complements')
+       //   ->join('eco_com_modalities','economic_complements.id','=','eco_com_modalities.id')
+        //  ->join('eco_com_types','economic_complements.id','eco_com_types.id')
+          ->select('economic_complements.*')
+          ->where('economic_complements.id','=',$economic_complement_id)
+          ->get();
+          dd($eco_com_applicant);
+
+
+//          $eco_com_applicant = EconomicComplementApplicant::EconomicComplementIs($economic_complement->id)->first();
+          $view = \View::make( compact('header1','header2','title','date','hour'))->render();
           $pdf = \App::make('dompdf.wrapper');
           $pdf->loadHTML($view)->setPaper('letter');
           return $pdf->stream();
