@@ -986,7 +986,7 @@
                                         <span class="help-block">Seleccione Departamento</span>
                                     </div>
                                 </div>
-                                <div class="form-group" id="phonesNumbers">
+                                <div class="form-group" id="phonesNumbers" style="padding-bottom:5px;">
 
                                     {!! Form::label('phone_number', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
                                     @foreach(explode(',',$affiliate->phone_number) as $key=>$phone)
@@ -1015,7 +1015,7 @@
                                     <button class="btn btn-success" id="addPhoneNumber" type="button" ><span class="fa fa-plus"></span></button>
                                     </div>
                                 </div>
-                                <div class="form-group" id="cellPhonesNumbers">
+                                <div class="form-group" id="cellPhonesNumbers" style="padding-bottom:5px;">
                                         {!! Form::label('cell_phone_number', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
                                         @foreach(explode(',',$affiliate->cell_phone_number) as $key=>$phone)
                                         @if($key>=1)
