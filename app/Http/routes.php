@@ -62,7 +62,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('print_affiliate/{affiliate_id}', 'Affiliate\AffiliateController@print_affiliate');
 	Route::post('search_affiliate', array('as'=>'search_affiliate', 'uses'=>'Affiliate\AffiliateController@SearchAffiliate'));
 	Route::get('get_affiliate', array('as'=>'get_affiliate', 'uses'=>'Affiliate\AffiliateController@Data'));
-
+	Route::post('updatePolice/{affiliate_id}',array('as'=>'updatePolice','uses'=>'Affiliate\AffiliateController@updatePolice'));
 	// Affiliate Address
 	Route::resource('affiliate_address', 'Affiliate\AffiliateAddressController');
 
