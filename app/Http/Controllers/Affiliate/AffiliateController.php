@@ -216,6 +216,13 @@ class AffiliateController extends Controller
         foreach ($dg as $d) {
             $degrees[$d->id]=$d->name;
         }
+
+         $ep=\Muserpol\PensionEntity::all();
+        $entity_pensions=[];
+        foreach ($ep as $e) {
+            $entity_pensions[$e->id]=$e->name;
+        }
+
         $at=\Muserpol\AffiliateType::all();
         $affiliate_types=[];
         foreach ($at as $d) {
@@ -235,7 +242,7 @@ class AffiliateController extends Controller
                 $categories[$d->id]=$d->name;
             }
         }
-        //dd($categories);
+        //dd($affiliate_types);
         $data = [
 
             'affiliate' => $affiliate,
@@ -255,6 +262,7 @@ class AffiliateController extends Controller
             'affiliate_state'=>$a_states,
             'degrees'=>$degrees,
             'affiliate_types'=>$affiliate_types,
+            'entity_pensions'=>$entity_pensions,
             'units'=>$units,
             'categories'=>$categories
 
@@ -281,6 +289,7 @@ class AffiliateController extends Controller
 
     public function save($request, $affiliate = false)
     {
+
         $rules = [
             // 'identity_card' =>'required',
             // 'city_identity_card_id' => 'required',
@@ -355,6 +364,7 @@ class AffiliateController extends Controller
                 break;
 
                 case 'institutional':
+                    //dd($request->affiliate_type);
                     $affiliate->affiliate_state_id = $request->state;
                     $affiliate->degree_id = $request->degree;
                     $affiliate->affiliate_type_id = $request->affiliate_type;
@@ -362,9 +372,11 @@ class AffiliateController extends Controller
                     $affiliate->date_entry = Util::datePick($request->date_entry);
                     $affiliate->item = $request->item > 0 ? $request->item: 0 ;
                     $affiliate->category_id = $request->category;
+                    $affiliate->pension_entity_id=$request->affiliate_entity_pension;
                     $affiliate->save();
                     $message = "Información del Policia actualizada correctamene.";
                     Session::flash('message', $message);
+
                 break;
                 
             }

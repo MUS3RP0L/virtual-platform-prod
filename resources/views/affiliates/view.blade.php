@@ -691,18 +691,32 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <!--<tr>
+                                <tr>
+                                   <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Ente Gestor:</strong>
+                                            </div>
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->pension_entity->type!!}">
+                                                {!! $affiliate->pension_entity->name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{--<tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <strong>Unidad:</strong>
                                             </div>
-                                            {{-- <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->unit->code . " " . $affiliate->unit->name !!}">
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->unit->code . " " . $affiliate->unit->name !!}">
                                                 {!! $affiliate->unit->shortened !!}
-                                            </div> --}}
+                                            </div>
                                         </div>
                                     </td>
-                                </tr>-->
+                                </tr> --}}
+
+        
                                 
                                 @if($affiliate->date_decommissioned)
                                     <tr>
@@ -1391,6 +1405,15 @@
                                             <div class="col-md-7">
                                             {!! Form::text('item', $affiliate->item, ['class'=> 'form-control',  'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                            <span class="help-block">Escriba el Numero de item</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                           <div class="col-md-6">
+                                         <div class="form-group">
+                                                {!! Form::label('affiliate_entity_pension', 'Ente Gestor', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                                {!! Form::select('affiliate_entity_pension',$entity_pensions, $affiliate->pension_entity->id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                <span class="help-block">Seleccione un ente gestor</span>
                                             </div>
                                         </div>
                                     </div>
