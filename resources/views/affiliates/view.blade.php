@@ -673,29 +673,6 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Grado:</strong>
-                                            </div>
-                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->degree->getCodHierarchyName() !!}">
-                                                {!! $affiliate->degree->shortened !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Categoria:</strong>
-                                            </div>
-                                            <div class="col-md-6">{!! $affiliate->category->name !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                        <div class="row">
-                                            <div class="col-md-6">
                                                 <strong>Tipo:</strong>
                                             </div>
                                             <div class="col-md-6">{!! $affiliate->affiliate_type->name !!}
@@ -704,17 +681,30 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                   <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Ente Gestor:</strong>
+                                                <strong>Fecha de Ingreso:</strong>
                                             </div>
-                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->pension_entity->type!!}">
-                                                {!! $affiliate->pension_entity->name !!}
+                                            <div class="col-md-6">
+                                                {!! $affiliate->getShortDateEntry() !!}
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Núm. de Ítem:</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $affiliate->item !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
                                 {{--<tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
@@ -751,18 +741,7 @@
                         <div class="col-md-6">
 
                             <table class="table" style="width:100%;">
-                                <tr>
-                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Fecha de Ingreso:</strong>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $affiliate->getShortDateEntry() !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                
                                 {{-- <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
@@ -779,10 +758,21 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Núm. de Ítem:</strong>
+                                                <strong>Categoria:</strong>
                                             </div>
+                                            <div class="col-md-6">{!! $affiliate->category->name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
                                             <div class="col-md-6">
-                                                {!! $affiliate->item !!}
+                                                <strong>Grado:</strong>
+                                            </div>
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->degree->getCodHierarchyName() !!}">
+                                                {!! $affiliate->degree->shortened !!}
                                             </div>
                                         </div>
                                     </td>
@@ -799,6 +789,19 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                   <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Ente Gestor:</strong>
+                                            </div>
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->pension_entity->type!!}">
+                                                {!! $affiliate->pension_entity->name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
                                 @if($affiliate->reason_decommissioned)
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">>
