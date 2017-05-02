@@ -775,6 +775,18 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Regional:</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $economic_complement->city->name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                                 @if($affiliate->reason_decommissioned)
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">>
@@ -1408,7 +1420,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                           <div class="col-md-6">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                                    {!! Form::label('regional', 'Regional', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                                {!! Form::select('regional', $cities_list, $economic_complement->city_id, ['class' => 'combobox form-control']) !!}
+                                                <span class="help-block">Seleccione Regional</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
                                          <div class="form-group">
                                                 {!! Form::label('affiliate_entity_pension', 'Ente Gestor', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
@@ -1417,7 +1440,9 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
+
 
                                 <div class="row text-center">
                                     <div class="form-group">

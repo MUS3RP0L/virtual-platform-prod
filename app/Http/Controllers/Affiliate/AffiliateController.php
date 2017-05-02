@@ -19,6 +19,7 @@ use Muserpol\AffiliateAddress;
 use Muserpol\Spouse;
 use Muserpol\Contribution;
 use Muserpol\City;
+use Muserpol\EconomicComplement;
 
 class AffiliateController extends Controller
 {
@@ -233,6 +234,9 @@ class AffiliateController extends Controller
         foreach ($un as $d) {
             $units[$d->id]=$d->name;
         }
+
+        $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->first();
+
         $ca=\Muserpol\Category::all();
         $categories=[];
         foreach ($ca as $key=>$d) {
@@ -242,7 +246,7 @@ class AffiliateController extends Controller
                 $categories[$d->id]=$d->name;
             }
         }
-        //dd($affiliate_types);
+
         $data = [
 
             'affiliate' => $affiliate,
@@ -251,6 +255,7 @@ class AffiliateController extends Controller
             'gender_list' => $gender_list,
             'info_address' => $info_address,
             'info_spouse' => $info_spouse,
+            'economic_complement' => $economic_complement,
             // 'last_contribution' => $last_contribution,
             'observations'=>$affiliate->observations,
             // 'total_gain' => $total_gain,
@@ -325,6 +330,8 @@ class AffiliateController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
+        
+
         if ($validator->fails()) {
             return redirect('affiliate/'.$affiliate->id)
             ->withErrors($validator)
@@ -364,7 +371,11 @@ class AffiliateController extends Controller
                 break;
 
                 case 'institutional':
-                    //dd($request->affiliate_type);
+
+                    $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->first();
+                    $economic_complement->city_id = $request->regional;
+                    $economic_complement->save();
+                
                     $affiliate->affiliate_state_id = $request->state;
                     $affiliate->degree_id = $request->degree;
                     $affiliate->affiliate_type_id = $request->affiliate_type;

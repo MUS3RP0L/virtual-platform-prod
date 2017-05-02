@@ -43,6 +43,7 @@ class EconomicComplementController extends Controller
 
     public function index()
     {
+       
         return view('economic_complements.index', self::getViewModel());
     }
 
@@ -419,6 +420,12 @@ class EconomicComplementController extends Controller
             }
         }
 
+        $eco_com_state_type_list = EconomicComplementStateType::all();
+        $eco_com_state_type_lists = [];
+        foreach ($eco_com_state_type_list as $item) {
+            $eco_com_state_type_lists[$item->id]=$item->name;
+        }
+
         $data = [
 
             'affiliate' => $affiliate,
@@ -429,7 +436,8 @@ class EconomicComplementController extends Controller
             'eco_com_submitted_documents' => $eco_com_submitted_documents,
             'status_documents' => $status_documents,
             'gender_list' => $gender_list,
-            'eco_com_states_block_list' => $eco_com_states_block_list
+            'eco_com_states_block_list' => $eco_com_states_block_list,
+            'eco_com_state_type_lists' => $eco_com_state_type_lists
 
 
         ];
@@ -788,6 +796,37 @@ class EconomicComplementController extends Controller
 
             break;
 
+            case 'edit_aditional_info':
+
+                $rules = [
+
+                ];
+
+                $messages = [
+
+                ];
+
+                $validator = Validator::make($request->all(), $rules, $messages);
+
+                if ($validator->fails()){
+                    return redirect('economic_complement/' . $economic_complement->id)
+                    ->withErrors($validator)
+                    ->withInput();
+                }
+                else{
+
+                    $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+
+
+                    
+                    return redirect('economic_complement/'.$economic_complement->id);
+
+                }
+
+
+
+            break;
+
             case 'pass':
 
                 $rules = [
@@ -905,6 +944,17 @@ class EconomicComplementController extends Controller
           $pdf = \App::make('dompdf.wrapper');
           $pdf->loadHTML($view)->setPaper('letter');
           return $pdf->stream();
+    }
+
+    public function getCausesByState(Request $request) {
+        if($request->ajax())
+        {
+            $causesState = EconomicComplementState::where('eco_com_state_type_id',$request->id)->get();
+            $data = [
+                'causes' => $causesState
+            ];
+            return response()->json($data);
+        }
     }
 
 }
