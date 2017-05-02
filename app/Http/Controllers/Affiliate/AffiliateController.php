@@ -16,10 +16,16 @@ use Muserpol\Helper\Util;
 
 use Muserpol\Affiliate;
 use Muserpol\AffiliateAddress;
-use Muserpol\Spouse;
+use Muserpol\AffiliateState;
+use Muserpol\AffiliateType;
+use Muserpol\Category;
 use Muserpol\Contribution;
 use Muserpol\City;
+use Muserpol\Degree;
 use Muserpol\EconomicComplement;
+use Muserpol\PensionEntity;
+use Muserpol\Spouse;
+use Muserpol\Unit;
 
 class AffiliateController extends Controller
 {
@@ -207,29 +213,29 @@ class AffiliateController extends Controller
         //     $total_mortuary_quota = Util::formatMoney($item->mortuary_quota);
         //     $total = Util::formatMoney($item->total);
         // }
-        $affiliate_states=\Muserpol\AffiliateState::all();
+        $affiliate_states=AffiliateState::all();
         $a_states=[];
         foreach ($affiliate_states as $as) {
             $a_states[$as->id]=$as->name;
         }
-        $dg=\Muserpol\Degree::all();
+        $dg=Degree::all();
         $degrees=[];
         foreach ($dg as $d) {
             $degrees[$d->id]=$d->name;
         }
 
-         $ep=\Muserpol\PensionEntity::all();
+         $ep=PensionEntity::all();
         $entity_pensions=[];
         foreach ($ep as $e) {
             $entity_pensions[$e->id]=$e->name;
         }
 
-        $at=\Muserpol\AffiliateType::all();
+        $at=AffiliateType::all();
         $affiliate_types=[];
         foreach ($at as $d) {
             $affiliate_types[$d->id]=$d->name;
         }
-        $un=\Muserpol\Unit::all();
+        $un=Unit::all();
         $units=[];
         foreach ($un as $d) {
             $units[$d->id]=$d->name;
@@ -237,7 +243,7 @@ class AffiliateController extends Controller
 
         $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->first();
 
-        $ca=\Muserpol\Category::all();
+        $ca=Category::all();
         $categories=[];
         foreach ($ca as $key=>$d) {
             if ($key==8) {
