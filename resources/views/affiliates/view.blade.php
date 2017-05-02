@@ -874,7 +874,7 @@
                                               <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Fecha de Emisión">Fecha Emisión</div></th>
                                               <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Estado">Estado</div></th>
                                               <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Modalidad">Modalidad</div></th>
-                                              <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Opciones">Opciones</div></th>
+                                              {{-- <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Opciones">Opciones</div></th> --}}
                                           </tr>
                                       </thead>
                                   </table>
@@ -1518,7 +1518,7 @@
                 { data: 'created_at', bSortable: false },
                 { data: 'eco_com_state', bSortable: false },
                 { data: 'eco_com_modality', bSortable: false },
-                { data: 'action',name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center'},
+                // { data: 'action',name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center'},
             ]
         });
    
