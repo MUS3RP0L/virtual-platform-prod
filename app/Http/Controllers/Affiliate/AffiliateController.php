@@ -206,7 +206,27 @@ class AffiliateController extends Controller
         //     $total_mortuary_quota = Util::formatMoney($item->mortuary_quota);
         //     $total = Util::formatMoney($item->total);
         // }
-
+        $affiliate_states=\Muserpol\AffiliateState::all();
+        $a_states=[];
+        foreach ($affiliate_states as $as) {
+            $a_states[$as->id]=$as->name;
+        }
+        $dg=\Muserpol\Degree::all();
+        $degrees=[];
+        foreach ($dg as $d) {
+            $degrees[$d->id]=$d->name;
+        }
+        $at=\Muserpol\AffiliateType::all();
+        $affiliate_types=[];
+        foreach ($at as $d) {
+            $affiliate_types[$d->id]=$d->name;
+        }
+        $un=\Muserpol\Unit::all();
+        $units=[];
+        foreach ($un as $d) {
+            $units[$d->id]=$d->name;
+        }
+        //dd($units);
         $data = [
 
             'affiliate' => $affiliate,
@@ -223,6 +243,10 @@ class AffiliateController extends Controller
             // 'total_retirement_fund' => $total_retirement_fund,
             // 'total_mortuary_quota' => $total_mortuary_quota,
             // 'total' => $total
+            'affiliate_state'=>$a_states,
+            'degrees'=>$degrees,
+            'affiliate_types'=>$affiliate_types,
+            'units'=>$units
 
         ];
         $data = array_merge($data, self::getViewModel());
@@ -248,36 +272,36 @@ class AffiliateController extends Controller
     public function save($request, $affiliate = false)
     {
         $rules = [
-            'identity_card' =>'required',
-            'city_identity_card_id' => 'required',
-            'last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-            'mothers_last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-            'first_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-            'second_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-            'surname_husband' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-            'gender' => 'required',
-            'birth_date' => 'required'
+            // 'identity_card' =>'required',
+            // 'city_identity_card_id' => 'required',
+            // 'last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+            // 'mothers_last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+            // 'first_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+            // 'second_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+            // 'surname_husband' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+            // 'gender' => 'required',
+            // 'birth_date' => 'required'
         ];
 
         $messages = [
-            'identity_card.required' => 'El Campo es Requerido',
-            'city_identity_card_id.required' => 'El Campo es Requerido',
-            'last_name.min' => 'El mínimo de caracteres permitidos para apellido paterno es 3',
-            'last_name.regex' => 'Sólo se aceptan letras para apellido paterno',
+            // 'identity_card.required' => 'El Campo es Requerido',
+            // 'city_identity_card_id.required' => 'El Campo es Requerido',
+            // 'last_name.min' => 'El mínimo de caracteres permitidos para apellido paterno es 3',
+            // 'last_name.regex' => 'Sólo se aceptan letras para apellido paterno',
 
-            'mothers_last_name.min' => 'El mínimo de caracteres permitidos para apellido materno es 3',
-            'mothers_last_name.regex' => 'Sólo se aceptan letras para apellido materno',
+            // 'mothers_last_name.min' => 'El mínimo de caracteres permitidos para apellido materno es 3',
+            // 'mothers_last_name.regex' => 'Sólo se aceptan letras para apellido materno',
 
-            'first_name.min' => 'El mínimo de caracteres permitidos para primer nombre es 3',
-            'first_name.regex' => 'Sólo se aceptan letras para primer nombre',
+            // 'first_name.min' => 'El mínimo de caracteres permitidos para primer nombre es 3',
+            // 'first_name.regex' => 'Sólo se aceptan letras para primer nombre',
 
-            'second_name.min' => 'El mínimo de caracteres permitidos para teléfono de usuario es 3',
-            'second_name.regex' => 'Sólo se aceptan letras para segundo nombre',
+            // 'second_name.min' => 'El mínimo de caracteres permitidos para teléfono de usuario es 3',
+            // 'second_name.regex' => 'Sólo se aceptan letras para segundo nombre',
 
-            'surname_husband.min' => 'El mínimo de caracteres permitidos para estado civil es 3',
-            'surname_husband.regex' => 'Sólo se aceptan letras para estado civil',
-            'gender.required' => 'Debe seleccionar un género',
-            'birth_date.required' => 'Debe ingresa fecha de nacimiento'
+            // 'surname_husband.min' => 'El mínimo de caracteres permitidos para estado civil es 3',
+            // 'surname_husband.regex' => 'Sólo se aceptan letras para estado civil',
+            // 'gender.required' => 'Debe seleccionar un género',
+            // 'birth_date.required' => 'Debe ingresa fecha de nacimiento'
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -303,7 +327,7 @@ class AffiliateController extends Controller
                     $affiliate->second_name = trim($request->second_name);
                     $affiliate->surname_husband = trim($request->surname_husband);
                     $affiliate->gender = trim($request->gender);
-                    $affiliate->nua =  $request->nua >0 ? $request->nua:0;
+                    $affiliate->nua = $request->nua >0 ? $request->nua:0;
                     $affiliate->birth_date = Util::datePick($request->birth_date);
                     $affiliate->civil_status = trim($request->civil_status);
                     if ($request->city_birth_id) { $affiliate->city_birth_id = $request->city_birth_id; } else { $affiliate->city_birth_id = null; }
@@ -319,6 +343,20 @@ class AffiliateController extends Controller
                     $affiliate->save();
                     $message = "Información personal de Afiliado actualizado con éxito";
                 break;
+
+                case 'institutional':
+
+                    $affiliate->affiliate_state_id = $request->state;
+                    $affiliate->degree_id = $request->degree;
+                    $affiliate->affiliate_type_id = $request->affiliate_type;
+                    $affiliate->unit_id = $request->unit;
+                    $affiliate->date_entry = Util::datePick($request->date_entry);
+                    $affiliate->item = $request->item > 0 ? $request->item: 0 ;
+                    $affiliate->save();
+                    $message = "Información del Policia actualizada correctamene.";
+                    Session::flash('message', $message);
+                break;
+                
             }
                 Session::flash('message', $message);
         }
