@@ -673,9 +673,9 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Tipo:</strong>
+                                                <strong>Categoria:</strong>
                                             </div>
-                                            <div class="col-md-6">{!! $affiliate->affiliate_type->name !!}
+                                            <div class="col-md-6">{!! $affiliate->category->name !!}
                                             </div>
                                         </div>
                                     </td>
@@ -684,14 +684,40 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Unidad:</strong>
+                                                <strong>Tipo:</strong>
                                             </div>
-                                            {{-- <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->unit->code . " " . $affiliate->unit->name !!}">
-                                                {!! $affiliate->unit->shortened !!}
-                                            </div> --}}
+                                            <div class="col-md-6">{!! $affiliate->affiliate_type->name !!}
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                   <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Ente Gestor:</strong>
+                                            </div>
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->pension_entity->type!!}">
+                                                {!! $affiliate->pension_entity->name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{--<tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Unidad:</strong>
+                                            </div>
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->unit->code . " " . $affiliate->unit->name !!}">
+                                                {!! $affiliate->unit->shortened !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> --}}
+
+        
+                                
                                 @if($affiliate->date_decommissioned)
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
@@ -874,7 +900,7 @@
                                               <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Fecha de Emisión">Fecha Emisión</div></th>
                                               <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Estado">Estado</div></th>
                                               <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Modalidad">Modalidad</div></th>
-                                              <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Opciones">Opciones</div></th>
+                                              {{-- <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Opciones">Opciones</div></th> --}}
                                           </tr>
                                       </thead>
                                   </table>
@@ -1348,15 +1374,22 @@
                                                 <span class="help-block">Seleccione un tipo del policía</span>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        {{--<div class="form-group">
                                                 {!! Form::label('unit', 'Unidad', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
                                                 {!! Form::select('unit',$units, $affiliate->unit_id , ['class'=> 'combobox form-control', 'required']) !!}
                                                 <span class="help-block">Seleccione una unidad del policía</span>
                                             </div>
-                                        </div>
+                                        </div>--}}
                                     </div>
                                     <div class="col-md-6">
+                                        <div class="form-group">
+                                                {!! Form::label('category', 'Categoria', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                                {!! Form::select('category',$categories, $affiliate->category_id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                <span class="help-block">Seleccione una Categoria para el policía</span>
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                                 {!! Form::label('date_entry', 'Fecha de Ingreso', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
@@ -1398,7 +1431,15 @@
                                         </div>
                                     </div>
 
-
+                                    <div class="col-md-6">
+                                         <div class="form-group">
+                                                {!! Form::label('affiliate_entity_pension', 'Ente Gestor', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                                {!! Form::select('affiliate_entity_pension',$entity_pensions, $affiliate->pension_entity->id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                <span class="help-block">Seleccione un ente gestor</span>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
 
@@ -1525,7 +1566,7 @@
                 { data: 'created_at', bSortable: false },
                 { data: 'eco_com_state', bSortable: false },
                 { data: 'eco_com_modality', bSortable: false },
-                { data: 'action',name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center'},
+                // { data: 'action',name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center'},
             ]
         });
    
