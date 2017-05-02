@@ -272,20 +272,20 @@ class AffiliateController extends Controller
     public function save($request, $affiliate = false)
     {
         $rules = [
-            'identity_card' =>'required',
-            'city_identity_card_id' => 'required',
+            // 'identity_card' =>'required',
+            // 'city_identity_card_id' => 'required',
             // 'last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
             // 'mothers_last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
             // 'first_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
             // 'second_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
             // 'surname_husband' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-            'gender' => 'required',
-            'birth_date' => 'required'
+            // 'gender' => 'required',
+            // 'birth_date' => 'required'
         ];
 
         $messages = [
-            'identity_card.required' => 'El Campo es Requerido',
-            'city_identity_card_id.required' => 'El Campo es Requerido',
+            // 'identity_card.required' => 'El Campo es Requerido',
+            // 'city_identity_card_id.required' => 'El Campo es Requerido',
             // 'last_name.min' => 'El mínimo de caracteres permitidos para apellido paterno es 3',
             // 'last_name.regex' => 'Sólo se aceptan letras para apellido paterno',
 
@@ -300,8 +300,8 @@ class AffiliateController extends Controller
 
             // 'surname_husband.min' => 'El mínimo de caracteres permitidos para estado civil es 3',
             // 'surname_husband.regex' => 'Sólo se aceptan letras para estado civil',
-            'gender.required' => 'Debe seleccionar un género',
-            'birth_date.required' => 'Debe ingresa fecha de nacimiento'
+            // 'gender.required' => 'Debe seleccionar un género',
+            // 'birth_date.required' => 'Debe ingresa fecha de nacimiento'
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -327,7 +327,7 @@ class AffiliateController extends Controller
                     $affiliate->second_name = trim($request->second_name);
                     $affiliate->surname_husband = trim($request->surname_husband);
                     $affiliate->gender = trim($request->gender);
-                    $affiliate->nua =  $request->nua >0 ? $request->nua:0;
+                    $affiliate->nua = $request->nua >0 ? $request->nua:0;
                     $affiliate->birth_date = Util::datePick($request->birth_date);
                     $affiliate->civil_status = trim($request->civil_status);
                     if ($request->city_birth_id) { $affiliate->city_birth_id = $request->city_birth_id; } else { $affiliate->city_birth_id = null; }
@@ -343,52 +343,25 @@ class AffiliateController extends Controller
                     $affiliate->save();
                     $message = "Información personal de Afiliado actualizado con éxito";
                 break;
+
+                case 'institutional':
+
+                    $affiliate->affiliate_state_id = $request->state;
+                    $affiliate->degree_id = $request->degree;
+                    $affiliate->affiliate_type_id = $request->affiliate_type;
+                    $affiliate->unit_id = $request->unit;
+                    $affiliate->date_entry = Util::datePick($request->date_entry);
+                    $affiliate->item = $request->item > 0 ? $request->item: 0 ;
+                    $affiliate->save();
+                    $message = "Información del Policia actualizada correctamene.";
+                    Session::flash('message', $message);
+                break;
+                
             }
                 Session::flash('message', $message);
         }
 
         return redirect('affiliate/'.$affiliate->id);
-    }
-    public function updatePolice(Request $request, $affiliate)
-    {
-        $rules = [
-            'state' =>'required',
-            'degree' => 'required',
-            'affiliate_type' => 'required',
-            'unit' => 'required',
-            'date_entry' => 'required',
-            'item' => 'required',
-        ];
-
-        $messages = [
-            'state.required' => 'El Campo Estado es Requerido',
-            'degree.required' => 'El Campo Grado es Requerido',
-            'affiliate_type.required' => 'El Campo Tipo de Afiliado es Requerido',
-            'unit.required' => 'El Campo Unidad es Requerido',
-            'date_entry.required' => 'El Campo Fecha de Ingreso es Requerido',
-            'item.required' => 'El Campo Numero de Item es Requerido',
-        ];
-
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        if ($validator->fails()) {
-            return redirect('affiliate/'.$affiliate)
-            ->withErrors($validator)
-            ->withInput();
-        }else{
-            $a=Affiliate::find($affiliate);
-            $a->affiliate_state_id=$request->state;
-            $a->degree_id=$request->degree;
-            $a->affiliate_type_id=$request->affiliate_type;
-            $a->unit_id=$request->unit;
-            $a->date_entry=$request->date_entry;
-            $a->registration=$request->registration;
-            $a->item=$request->item;
-            $a->save();
-            $message="Información del Policia actualizada correctamene.";
-            Session::flash('message', $message);
-        }
-        return redirect('affiliate/'.$affiliate);
     }
 
     public function print_affiliate($affiliate)

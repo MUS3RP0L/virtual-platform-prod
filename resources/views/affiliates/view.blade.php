@@ -479,7 +479,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    {{-- <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -490,7 +490,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                    </tr>
+                                    </tr> --}}
                                 </table>
                             </div>
                             <div class="col-md-6">
@@ -725,7 +725,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
+                                {{-- <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -736,7 +736,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
@@ -903,7 +903,7 @@
                                 <div class="form-group">
                                         {!! Form::label('identity_card', 'Carnet de Identidad', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-5">
-                                        {!! Form::text('identity_card', $affiliate->identity_card, ['class'=> 'form-control', 'required', 'required' => 'required']) !!}
+                                        {!! Form::text('identity_card', $affiliate->identity_card, ['class'=> 'form-control', 'required']) !!}
                                         <span class="help-block">Número de CI</span>
                                     </div>
                                         {!! Form::select('city_identity_card_id', $cities_list_short, $affiliate->city_identity_card_id, ['class' => 'col-md-2 combobox form-control','required' => 'required']) !!}
@@ -925,7 +925,7 @@
                                 <div class="form-group">
                                         {!! Form::label('first_name', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::text('first_name', $affiliate->first_name, ['class'=> 'form-control','required', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        {!! Form::text('first_name', $affiliate->first_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                         <span class="help-block">Escriba el  Primer Nombre</span>
                                     </div>
                                 </div>
@@ -1311,7 +1311,8 @@
                             <h4 class="modal-title">Editar Información de Policía</h4>
                         </div>
                         <div class="modal-body">
-                            {!! Form::model($affiliate, ['route' => ['updatePolice', $affiliate], 'class' => 'form-horizontal']) !!}
+                            {!! Form::model($affiliate, ['method' => 'PATCH', 'route' => ['affiliate.update', $affiliate], 'class' => 'form-horizontal']) !!}
+                            <input type="hidden" name="type" value="institutional"/>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -1348,7 +1349,7 @@
                                                 {!! Form::label('date_entry', 'Fecha de Ingreso', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
                                                 <div class="input-group">
-                                                    <input type="text" id="date_entry" required class="form-control" name="date_entry" value="{!! $affiliate->date_entry !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                                    <input type="text" id="date_entry" class="form-control" name="date_entry" value="{!! $affiliate->date_entry !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                                     <div class="input-group-addon">
                                                         <span class="glyphicon glyphicon-calendar"></span>
                                                     </div>
@@ -1356,15 +1357,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    {{-- <div class="col-md-6">
                                         <div class="form-group">
-                                                {!! Form::label('registration', 'Num de Matricula', ['class' => 'col-md-5 control-label']) !!}
+                                                {!! Form::label('registration', 'Num de Matrícula', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
                                             {!! Form::text('registration', $affiliate->registration, ['class'=> 'form-control',  'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                                           <span class="help-block">Escriba el Numero de Matricula</span>
+                                           <span class="help-block">Escriba el Numero de Matrícula</span>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-6">
                                         <div class="form-group">
                                                 {!! Form::label('item', 'Num de Item', ['class' => 'col-md-5 control-label']) !!}
@@ -1413,6 +1414,7 @@
             $("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("#birth_date_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("#date_death_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+            $("#date_entry").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("#date_death_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("input[name='phone_number[]']").inputmask();
             $("input[name='cell_phone_number[]']").inputmask();
