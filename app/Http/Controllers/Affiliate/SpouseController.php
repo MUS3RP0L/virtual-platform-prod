@@ -34,27 +34,27 @@ class SpouseController extends Controller
         $rules = [
             'identity_card' => 'required',
             'city_identity_card_id' => 'required',
-            'last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-            'mothers_last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-            'first_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-            'second_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i'
+            // 'last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+            // 'mothers_last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+            // 'first_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+            // 'second_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i'
 
         ];
 
         $messages = [
             'identity_card.required' => 'El Campo es Requerido',
             'city_identity_card_id.required' => 'El Campo es Requerido',
-            'last_name.min' => 'El mínimo de caracteres permitidos para apellido paterno es 3',
-            'last_name.regex' => 'Sólo se aceptan letras para apellido paterno',
+            // 'last_name.min' => 'El mínimo de caracteres permitidos para apellido paterno es 3',
+            // 'last_name.regex' => 'Sólo se aceptan letras para apellido paterno',
 
-            'mothers_last_name.min' => 'El mínimo de caracteres permitidos para apellido materno es 3',
-            'mothers_last_name.regex' => 'Sólo se aceptan letras para apellido materno',
+            // 'mothers_last_name.min' => 'El mínimo de caracteres permitidos para apellido materno es 3',
+            // 'mothers_last_name.regex' => 'Sólo se aceptan letras para apellido materno',
 
-            'first_name.min' => 'El mínimo de caracteres permitidos para primer nombre es 3',
-            'first_name.regex' => 'Sólo se aceptan letras para primer nombre',
+            // 'first_name.min' => 'El mínimo de caracteres permitidos para primer nombre es 3',
+            // 'first_name.regex' => 'Sólo se aceptan letras para primer nombre',
 
-            'second_name.min' => 'El mínimo de caracteres permitidos para segundo nombre es 3',
-            'second_name.regex' => 'Sólo se aceptan letras para segundo nombre'
+            // 'second_name.min' => 'El mínimo de caracteres permitidos para segundo nombre es 3',
+            // 'second_name.regex' => 'Sólo se aceptan letras para segundo nombre'
 
         ];
 
