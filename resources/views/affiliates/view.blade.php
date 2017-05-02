@@ -1361,33 +1361,10 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                                {!! Form::label('degree', 'Grado', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                                {!! Form::select('degree',$degrees, $affiliate->degree->id , ['class'=> 'combobox form-control', 'required']) !!}
-                                                <span class="help-block">Seleccione un grado del policía</span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
                                                 {!! Form::label('affiliate_type', 'Tipo', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
                                                 {!! Form::select('affiliate_type',$affiliate_types, $affiliate->affiliate_type->id , ['class'=> 'combobox form-control', 'required']) !!}
                                                 <span class="help-block">Seleccione un tipo del policía</span>
-                                            </div>
-                                        </div>
-                                        {{--<div class="form-group">
-                                                {!! Form::label('unit', 'Unidad', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                                {!! Form::select('unit',$units, $affiliate->unit_id , ['class'=> 'combobox form-control', 'required']) !!}
-                                                <span class="help-block">Seleccione una unidad del policía</span>
-                                            </div>
-                                        </div>--}}
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                                {!! Form::label('category', 'Categoria', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                                {!! Form::select('category',$categories, $affiliate->category_id , ['class'=> 'combobox form-control', 'required']) !!}
-                                                <span class="help-block">Seleccione una Categoria para el policía</span>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1401,17 +1378,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    {{-- <div class="col-md-6">
-                                        <div class="form-group">
-                                                {!! Form::label('registration', 'Num de Matrícula', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                            {!! Form::text('registration', $affiliate->registration, ['class'=> 'form-control',  'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                                           <span class="help-block">Escriba el Numero de Matrícula</span>
-                                            </div>
-                                        </div>
-                                    </div> --}}
-                                    <div class="col-md-6">
                                         <div class="form-group">
                                                 {!! Form::label('item', 'Num de Item', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
@@ -1420,8 +1386,37 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="col-md-6">
+                                        <div class="form-group">
+                                                {!! Form::label('category', 'Categoria', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                                {!! Form::select('category',$categories, $affiliate->category_id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                <span class="help-block">Seleccione una Categoria para el policía</span>
+                                            </div>
+                                        </div>
+                                         <div class="form-group">
+                                                {!! Form::label('degree', 'Grado', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                                {!! Form::select('degree',$degrees, $affiliate->degree->id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                <span class="help-block">Seleccione un grado del policía</span>
+                                            </div>
+                                        </div>
+                                        
+                                                {{--<div class="form-group">
+                                                        {!! Form::label('unit', 'Unidad', ['class' => 'col-md-5 control-label']) !!}
+                                                    <div class="col-md-7">
+                                                        {!! Form::select('unit',$units, $affiliate->unit_id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                        <span class="help-block">Seleccione una unidad del policía</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                        {!! Form::label('registration', 'Num de Matrícula', ['class' => 'col-md-5 control-label']) !!}
+                                                    <div class="col-md-7">
+                                                    {!! Form::text('registration', $affiliate->registration, ['class'=> 'form-control',  'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                                   <span class="help-block">Escriba el Numero de Matrícula</span>
+                                                    </div>
+                                                </div> --}}   
                                         <div class="form-group">
                                                     {!! Form::label('regional', 'Regional', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
@@ -1429,9 +1424,6 @@
                                                 <span class="help-block">Seleccione Regional</span>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="col-md-6">
                                          <div class="form-group">
                                                 {!! Form::label('affiliate_entity_pension', 'Ente Gestor', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
@@ -1439,11 +1431,8 @@
                                                 <span class="help-block">Seleccione un ente gestor</span>
                                             </div>
                                         </div>
-                                    </div>
-
+                                    </div>    
                                 </div>
-
-
                                 <div class="row text-center">
                                     <div class="form-group">
                                         <div class="col-md-12">
