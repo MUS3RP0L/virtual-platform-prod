@@ -6,19 +6,27 @@
 		<div class="col-md-6">
 			{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
 		</div>
-		<div class="col-md-4">
-			<div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Caratula de Trámite" style="margin: 0;">
-				<a href="" class="btn btn-raised btn-success dropdown-toogle enabled" data-toggle="modal" value="Print" onclick="printTriggerCover('iFramePdfCover');"><i class="fa fa-file fa-lg"></i>
+		<div class="col-md-3">
+			{{-- <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Caratula de Trámite" style="margin: 0;">
+
+				<a href="a" class="btn btn-raised btn-success dropdown-toogle enabled" data-toggle="modal" value="Print" onclick="printTriggerCover('iFramePdfCover');"><i class="fa fa-file fa-lg"></i>
 
 				</a>
-			</div>
+			</div> --}}
+            
+            
 
 			<div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Declaración Jurada" style="margin:0px;">
 				<a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
 					&nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
 				</a>
 			</div>
+
+            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Volver Atrás" style="margin: 0px;">
+                    <a href="/affiliate/{!! $affiliate->id !!}" class="btn btn-danger btn-raised btn-sm">&nbsp;&nbsp;<i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;</a>
+            </div>
 		</div>
+
 		@can('eco_com_review')
 			@if($economic_complement->eco_com_state_id < 2)
 				<div class="col-md-2 text-right">
@@ -31,6 +39,7 @@
 			@endif
 		@endcan
 	</div>
+    
 
 @endsection
 
@@ -474,7 +483,7 @@
                                 <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
-                                        {!! Form::text('last_name', $eco_com_applicant->last_name, ['class'=> 'form-control', 'required', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        {!! Form::text('last_name', $eco_com_applicant->last_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                         <span class="help-block">Escriba el Apellido Paterno</span>
                                     </div>
                                 </div>
@@ -497,7 +506,7 @@
                                 <div class="form-group">
                                         {!! Form::label('first_name', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
-                                        {!! Form::text('first_name', $eco_com_applicant->first_name, ['class'=> 'form-control','required', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        {!! Form::text('first_name', $eco_com_applicant->first_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                         <span class="help-block">Escriba el  Primer Nombre</span>
                                     </div>
                                 </div>
