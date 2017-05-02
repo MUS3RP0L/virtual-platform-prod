@@ -226,7 +226,16 @@ class AffiliateController extends Controller
         foreach ($un as $d) {
             $units[$d->id]=$d->name;
         }
-        //dd($units);
+        $ca=\Muserpol\Category::all();
+        $categories=[];
+        foreach ($ca as $key=>$d) {
+            if ($key==8) {
+                break;
+            }else{
+                $categories[$d->id]=$d->name;
+            }
+        }
+        //dd($categories);
         $data = [
 
             'affiliate' => $affiliate,
@@ -246,7 +255,8 @@ class AffiliateController extends Controller
             'affiliate_state'=>$a_states,
             'degrees'=>$degrees,
             'affiliate_types'=>$affiliate_types,
-            'units'=>$units
+            'units'=>$units,
+            'categories'=>$categories
 
         ];
         $data = array_merge($data, self::getViewModel());
@@ -345,13 +355,13 @@ class AffiliateController extends Controller
                 break;
 
                 case 'institutional':
-
                     $affiliate->affiliate_state_id = $request->state;
                     $affiliate->degree_id = $request->degree;
                     $affiliate->affiliate_type_id = $request->affiliate_type;
                     $affiliate->unit_id = $request->unit;
                     $affiliate->date_entry = Util::datePick($request->date_entry);
                     $affiliate->item = $request->item > 0 ? $request->item: 0 ;
+                    $affiliate->category_id = $request->category;
                     $affiliate->save();
                     $message = "Información del Policia actualizada correctamene.";
                     Session::flash('message', $message);

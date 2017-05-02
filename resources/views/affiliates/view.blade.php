@@ -673,6 +673,17 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
+                                                <strong>Categoria:</strong>
+                                            </div>
+                                            <div class="col-md-6">{!! $affiliate->category->name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
                                                 <strong>Tipo:</strong>
                                             </div>
                                             <div class="col-md-6">{!! $affiliate->affiliate_type->name !!}
@@ -680,7 +691,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
+                                <!--<tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -691,7 +702,8 @@
                                             </div> --}}
                                         </div>
                                     </td>
-                                </tr>
+                                </tr>-->
+                                
                                 @if($affiliate->date_decommissioned)
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
@@ -1336,15 +1348,22 @@
                                                 <span class="help-block">Seleccione un tipo del policía</span>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        {{--<div class="form-group">
                                                 {!! Form::label('unit', 'Unidad', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
                                                 {!! Form::select('unit',$units, $affiliate->unit_id , ['class'=> 'combobox form-control', 'required']) !!}
                                                 <span class="help-block">Seleccione una unidad del policía</span>
                                             </div>
-                                        </div>
+                                        </div>--}}
                                     </div>
                                     <div class="col-md-6">
+                                        <div class="form-group">
+                                                {!! Form::label('category', 'Categoria', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                                {!! Form::select('category',$categories, $affiliate->category_id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                <span class="help-block">Seleccione una Categoria para el policía</span>
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                                 {!! Form::label('date_entry', 'Fecha de Ingreso', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
