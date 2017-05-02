@@ -627,10 +627,10 @@
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="row">
-                        <div class="col-md-10">
+                        <div class="col-md-8">
                             <h3 class="box-title"><span class="glyphicon glyphicon-briefcase"></span> Información Policial Actual</h3>
                         </div>
-                        <div class="col-md-2 text-right">
+                        <div class="col-md-4 text-right">
                             <span data-toggle="modal" data-target="#policeModal">
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa-pencil"></i></a>
                             </span>
