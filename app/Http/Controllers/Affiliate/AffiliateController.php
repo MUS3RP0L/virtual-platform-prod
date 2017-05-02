@@ -216,6 +216,13 @@ class AffiliateController extends Controller
         foreach ($dg as $d) {
             $degrees[$d->id]=$d->name;
         }
+
+         $ep=\Muserpol\PensionEntity::all();
+        $entity_pensions=[];
+        foreach ($ep as $e) {
+            $entity_pensions[$e->id]=$e->name;
+        }
+
         $at=\Muserpol\AffiliateType::all();
         $affiliate_types=[];
         foreach ($at as $d) {
@@ -246,6 +253,7 @@ class AffiliateController extends Controller
             'affiliate_state'=>$a_states,
             'degrees'=>$degrees,
             'affiliate_types'=>$affiliate_types,
+            'entity_pensions'=>$entity_pensions,
             'units'=>$units
 
         ];
