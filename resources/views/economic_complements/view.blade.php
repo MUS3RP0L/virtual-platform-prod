@@ -645,7 +645,7 @@
 							</div>
 						</div>
 
-					{!! Form::close() !!}
+					{!! Form::close() !!} <br />
 
 				</div>
 			</div>
