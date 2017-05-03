@@ -160,9 +160,14 @@ class AffiliateController extends Controller
 
         if ($affiliate->gender == 'M') {
             $gender_list = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
+            $gender_list_s = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
+
         }elseif ($affiliate->gender == 'F') {
             $gender_list = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
+            $gender_list_s = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
+
         }
+
         if ($affiliate->city_identity_card_id) {
             $affiliate->city_identity_card = City::idIs($affiliate->city_identity_card_id)->first()->shortened;
         }else {
@@ -253,6 +258,7 @@ class AffiliateController extends Controller
             'AffiliateAddress' => $AffiliateAddress,
             'spouse' => $spouse,
             'gender_list' => $gender_list,
+            'gender_list_s' => $gender_list_s,
             'info_address' => $info_address,
             'info_spouse' => $info_spouse,
             'economic_complement' => $economic_complement,
