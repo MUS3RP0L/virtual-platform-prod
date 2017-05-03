@@ -43,7 +43,7 @@ class EconomicComplementController extends Controller
 
     public function index()
     {
-       
+
         return view('economic_complements.index', self::getViewModel());
     }
 
@@ -629,8 +629,10 @@ class EconomicComplementController extends Controller
                     $eco_com_applicant->second_name = $request->second_name;
                     $eco_com_applicant->birth_date = Util::datePick($request->birth_date);
                     $eco_com_applicant->civil_status = $request->civil_status;
-                    $eco_com_applicant->phone_number = $request->phone_number;
-                    $eco_com_applicant->cell_phone_number = $request->cell_phone_number;
+                    /*$eco_com_applicant->phone_number = $request->phone_number;
+                    $eco_com_applicant->cell_phone_number = $request->cell_phone_number;*/
+                    $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
+                    $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number));
                     $eco_com_applicant->nua = $request->nua;
                     $eco_com_applicant->save();
 
@@ -647,8 +649,10 @@ class EconomicComplementController extends Controller
                             $affiliate->second_name = $request->second_name;
                             $affiliate->birth_date = Util::datePick($request->birth_date);
                             $affiliate->civil_status = $request->civil_status;
-                            $affiliate->phone_number = $request->phone_number;
-                            $affiliate->cell_phone_number = $request->cell_phone_number;
+                            /*$affiliate->phone_number = $request->phone_number;
+                            $affiliate->cell_phone_number = $request->cell_phone_number;*/
+                            $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
+                            $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number));
                             $affiliate->nua = $request->nua;
                             $affiliate->save();
 
@@ -664,9 +668,10 @@ class EconomicComplementController extends Controller
                             $affiliate->mothers_last_name = $request->mothers_last_name_affi;
                             $affiliate->first_name = $request->first_name_affi;
                             $affiliate->birth_date = Util::datePick($request->birth_date_affi);
-
-                            $affiliate->phone_number = $request->phone_number;
-                            $affiliate->cell_phone_number = $request->cell_phone_number;
+                            /*$affiliate->phone_number = $request->phone_number;
+                            $affiliate->cell_phone_number = $request->cell_phone_number;*/
+                            $affiliate->phone_number = trim(implode(",", $request->phone_number));
+                            $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
 
                             $affiliate->save();
 
@@ -691,8 +696,10 @@ class EconomicComplementController extends Controller
                         case '3':
 
                             $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
-                            $affiliate->phone_number = $request->phone_number;
-                            $affiliate->cell_phone_number = $request->cell_phone_number;
+                            /*$affiliate->phone_number = $request->phone_number;
+                            $affiliate->cell_phone_number = $request->cell_phone_number;*/
+                            $affiliate->phone_number = trim(implode(",", $request->phone_number));
+                            $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
                             $affiliate->nua = $request->nua;
                             $affiliate->save();
 
@@ -818,7 +825,7 @@ class EconomicComplementController extends Controller
                     $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
 
 
-                    
+
                     return redirect('economic_complement/'.$economic_complement->id);
 
                 }

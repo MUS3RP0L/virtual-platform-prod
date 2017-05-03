@@ -299,12 +299,36 @@
 											<div class="col-md-6">
 												<strong>Teléfono(s)</strong>
 											</div>
-											<div class="col-md-6">
+											{{--<div class="col-md-6">
 												{!! $eco_com_applicant->getPhone() !!}
 											</div>
+											--}}
+
+											<div class="col-md-6">
+                                                @foreach(explode(',',$eco_com_applicant->phone_number) as $phone)
+                                                    {!! $phone !!}
+                                                    <br/>
+                                                @endforeach
+                                            </div>
+
 										</div>
 									</td>
 								</tr>
+								<tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Celular:</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                @foreach(explode(',',$eco_com_applicant->cell_phone_number) as $phone)
+                                                    {!! $phone !!}
+                                                    <br/>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
 					</div>
@@ -536,6 +560,7 @@
                                         <span class="help-block">Seleccione el Estado Civil</span>
                                     </div>
                                 </div>
+								{{--
                                 <div class="form-group">
                                         {!! Form::label('phone_number', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
@@ -550,6 +575,64 @@
                                         <span class="help-block">Escriba el Teléfono Celular</span>
                                     </div>
                                 </div>
+							--}}
+								<div class="form-group" id="phonesNumbers" style="padding-bottom:5px;">
+											{!! Form::label('phone_number', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
+											@foreach(explode(',',$eco_com_applicant->phone_number) as $key=>$phone)
+											@if($key>=1)
+											<div class="col-md-offset-5">
+											@endif
+											@if($key>=1)
+											<div class="col-md-7">
+											@else
+											<div class="col-md-6">
+											@endif
+												<input type="text" id="phone_number" class="form-control" name="phone_number[]" value="{!! $phone !!}" data-inputmask="'mask': '(9) 999-999'" data-mask>
+											</div>
+											@if($key>=1)
+											<div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div>
+											@endif
+
+											@if($key>=1)
+											</div>
+											@endif
+
+											@endforeach
+										</div>
+										<div class="">
+											<div class="col-md-offset-6">
+											<button class="btn btn-success" id="addPhoneNumber" type="button" ><span class="fa fa-plus"></span></button>
+											</div>
+										</div>
+										<div class="form-group" id="cellPhonesNumbers" style="padding-bottom:5px;">
+												{!! Form::label('cell_phone_number', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
+												@foreach(explode(',',$eco_com_applicant->cell_phone_number) as $key=>$phone)
+												@if($key>=1)
+												<div class="col-md-offset-5">
+												@endif
+												@if($key>=1)
+												<div class="col-md-7">
+												@else
+												<div class="col-md-6">
+												@endif
+												<input type="text" id="cell_phone_number" class="form-control" name="cell_phone_number[]" value="{!! $phone !!}" data-inputmask="'mask': '(999)-99999'" data-mask>
+												 </div>
+											@if($key>=1)
+											<div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div>
+											@endif
+
+											@if($key>=1)
+											</div>
+											@endif
+
+												@endforeach
+										</div>
+										<div class="form-group">
+											<div class="col-md-offset-6">
+											<button class="btn btn-success" id="addCellPhoneNumber"><span class="fa fa-plus"></span></button>
+											</div>
+										</div>
+									</div>
                             </div>
 						</div>
 
@@ -732,7 +815,7 @@
 					{!! Form::close() !!}
 
 
-                    
+
             </div>
         </div>
     </div>
@@ -783,7 +866,7 @@
                             $('#causes').append('<option value="'+key+'">"+value+"</option>');
                         });
                     }, error:function(err){
-                        
+
                         console.log("Aqui va mi error.-.--------------------------");
                         console.log(err);
                     }
@@ -832,6 +915,33 @@
 	@endif
 
 	ko.applyBindings(model);
+
+	//for phone numbers
+	$('#addPhoneNumber').on('click', function(event) {
+		$('#phonesNumbers').append('<div class="col-md-offset-5"><div class="col-md-7"><input type="text" class="form-control" name="phone_number[]" data-inputmask="\'mask\': \'(9) 999-999\'" data-mask></div><div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div></div>')
+		event.preventDefault();
+		$("input[name='phone_number[]']").each(function() {
+			$(this).inputmask();
+		});
+		$("input[name='phone_number[]']").last().focus();
+	});
+	$(document).on('click', '.deletePhone', function(event) {
+		$(this).parent().parent().remove();
+		event.preventDefault();
+	});
+	//for cell phone numbers
+	$('#addCellPhoneNumber').on('click', function(event) {
+		$('#cellPhonesNumbers').append('<div class="col-md-offset-5"><div class="col-md-8"><input type="text" class="form-control" name="cell_phone_number[]" data-inputmask="\'mask\': \'(999)-99999\'" data-mask></div><div class="col-md-1"><button class="btn btn-warning deleteCellPhone" type="button" ><i class="fa fa-minus"></i></button></div></div>')
+		event.preventDefault();
+		$("input[name='cell_phone_number[]']").each(function() {
+			$(this).inputmask();
+		});
+		$("input[name='cell_phone_number[]']").last().focus();
+	});
+	$(document).on('click', '.deleteCellPhone', function(event) {
+		$(this).parent().parent().remove();
+		event.preventDefault();
+	});
 
 
 
