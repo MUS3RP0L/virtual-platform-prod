@@ -112,12 +112,6 @@ class AffiliateController extends Controller
                 ->addColumn('action', function ($affiliate) { return  '
                     <div class="btn-group" style="margin:-3px 0;">
                         <a href="affiliate/'.$affiliate->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
-                        <a href="" data-target="#" class="btn btn-primary btn-raised btn-sm dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="select_contribution/'.$affiliate->id.'" style="padding:3px 5px;"><i class="glyphicon glyphicon-plus"></i>Aporte</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="tramite_fondo_retiro/'.$affiliate->id.'" style="padding:3px 5px;"><i class="glyphicon glyphicon-plus"></i>Fondo</a></li>
-                        </ul>
                     </div>';})
                 ->make(true);
     }
