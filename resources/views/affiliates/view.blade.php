@@ -704,7 +704,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                
+
                                 {{--<tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
@@ -718,8 +718,8 @@
                                     </td>
                                 </tr> --}}
 
-        
-                                
+
+
                                 @if($affiliate->date_decommissioned)
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
@@ -741,7 +741,7 @@
                         <div class="col-md-6">
 
                             <table class="table" style="width:100%;">
-                                
+
                                 {{-- <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
@@ -801,7 +801,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                
+
                                 @if($affiliate->reason_decommissioned)
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">>
@@ -829,7 +829,7 @@
             }
             .nav-tabs-custom > .nav-tabs > li.active {
                 /*background: #026b61; */
-                background: #008F71; 
+                background: #008F71;
                 border:none;
             }
             </style>
@@ -1424,7 +1424,7 @@
                                                 <span class="help-block">Seleccione un grado del policía</span>
                                             </div>
                                         </div>
-                                        
+
                                                 {{--<div class="form-group">
                                                         {!! Form::label('unit', 'Unidad', ['class' => 'col-md-5 control-label']) !!}
                                                     <div class="col-md-7">
@@ -1439,7 +1439,7 @@
                                                     {!! Form::text('registration', $affiliate->registration, ['class'=> 'form-control',  'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                                    <span class="help-block">Escriba el Numero de Matrícula</span>
                                                     </div>
-                                                </div> --}}   
+                                                </div> --}}
                                         <div class="form-group">
                                                     {!! Form::label('regional', 'Regional', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
@@ -1454,7 +1454,7 @@
                                                 <span class="help-block">Seleccione un ente gestor</span>
                                             </div>
                                         </div>
-                                    </div>    
+                                    </div>
                                 </div>
                                 <div class="row text-center">
                                     <div class="form-group">
@@ -1581,7 +1581,7 @@
                 // { data: 'action',name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center'},
             ]
         });
-   
+
         $('#search-form').on('submit', function(e) {
             oTable.draw();
             e.preventDefault();
@@ -1602,7 +1602,7 @@
                 }
             },
             columns: [
-            
+
                 { data: 'date', bSortable: false },
                 { data: 'title', bSortable: false },
                 { data: 'message', bSortable: false },
@@ -1618,6 +1618,7 @@
                 animate: true,
                 delay: 100
             });
+        });
 
             //for phone numbers
             $('#addPhoneNumber').on('click', function(event) {
@@ -1645,6 +1646,6 @@
                 $(this).parent().parent().remove();
                 event.preventDefault();
             });
-        });
+
     </script>
 @endpush

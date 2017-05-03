@@ -17,8 +17,9 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\CreateIpcRate::class,
         \Muserpol\Console\Commands\CreateContributionRate::class,
         \Muserpol\Console\Commands\ImportNua::class,
-        \Muserpol\Console\Commands\setGender::class
-        
+        \Muserpol\Console\Commands\setGender::class,
+        \Muserpol\Console\Commands\setApplicantType::class
+
     ];
 
 
