@@ -77,9 +77,9 @@ class ImportEcoCom extends Command
                         }
 
                         $pension_entity_id = PensionEntity::select('id')->where('name', trim($result->ente_gestor))->first()->id;
-                            
+
                         $category_id = Category::select('id')->where('percentage', trim($result->categoria))->first()->id;
-                        
+
                         switch (trim($result->eciv)) {
 
                             case 'CASADO(A)':
@@ -100,8 +100,8 @@ class ImportEcoCom extends Command
 
                         }
 
-                        if ($result->tiporenta == 'VEJEZ' or $result->tiporenta == 'RENT-M2000-VEJ' or $result->tiporenta == 'RENT-1COM-M2000-VEJ' or $result->tiporenta == 'RENT-1COMP-VEJ') {                          
-                
+                        if ($result->tiporenta == 'VEJEZ' or $result->tiporenta == 'RENT-M2000-VEJ' or $result->tiporenta == 'RENT-1COM-M2000-VEJ' or $result->tiporenta == 'RENT-1COMP-VEJ') {
+
                             $affiliate = Affiliate::where('identity_card', '=', $result->ci)->first();
 
                             if (!$affiliate) {
@@ -165,7 +165,7 @@ class ImportEcoCom extends Command
                                  }else {
                                     $economic_complement->eco_com_state_id = 8;
                                 }
-                               
+
                                 $economic_complement->user_id = 1;
 
                                 $eco_com_modality = EconomicComplementModality::where('shortened', $result->tiporenta)->first();
@@ -198,7 +198,7 @@ class ImportEcoCom extends Command
                                     $eco_com_applicant->economic_complement_id = $economic_complement->id;
                                 }
 
-                                if ($result->tiporenta == 'VEJEZ' or $result->tiporenta == 'RENT-M2000-VEJ' or $result->tiporenta == 'RENT-1COM-M2000-VEJ' or $result->tiporenta == 'RENT-1COMP-VEJ') {                          
+                                if ($result->tiporenta == 'VEJEZ' or $result->tiporenta == 'RENT-M2000-VEJ' or $result->tiporenta == 'RENT-1COM-M2000-VEJ' or $result->tiporenta == 'RENT-1COMP-VEJ') {
                                     $eco_com_applicant->eco_com_applicant_type_id = 1;
 
                                     $eco_com_applicant->identity_card = $affiliate->identity_card;
@@ -228,8 +228,7 @@ class ImportEcoCom extends Command
                                     // $eco_com_applicant->cell_phone_number = $affiliate->cell_phone_number;
 
                                 }else{
-                                    $eco_com_applicant->eco_com_applicant_type_id = 2;
-                                    $eco_com_applicant->eco_com_applicant_type_id = 3;
+                                    $eco_com_applicant->eco_com_applicant_type_id = 2;                                    
                                     $eco_com_applicant->identity_card = $spouse->identity_card;
                                     $eco_com_applicant->city_identity_card_id = $spouse->city_identity_card_id;
                                     $eco_com_applicant->last_name = $spouse->last_name;
@@ -329,7 +328,7 @@ class ImportEcoCom extends Command
                                 else {
                                     $economic_complement->eco_com_state_id = 8;
                                 }
-                               
+
                                 $economic_complement->user_id = 1;
 
                                 $eco_com_modality = EconomicComplementModality::where('shortened', $result->tiporenta)->first();
@@ -362,7 +361,7 @@ class ImportEcoCom extends Command
                                     $eco_com_applicant->economic_complement_id = $economic_complement->id;
                                 }
 
-                                if ($result->tiporenta == 'VEJEZ' or $result->tiporenta == 'RENT-M2000-VEJ' or $result->tiporenta == 'RENT-1COM-M2000-VEJ' or $result->tiporenta == 'RENT-1COMP-VEJ') {                          
+                                if ($result->tiporenta == 'VEJEZ' or $result->tiporenta == 'RENT-M2000-VEJ' or $result->tiporenta == 'RENT-1COM-M2000-VEJ' or $result->tiporenta == 'RENT-1COMP-VEJ') {
                                     $eco_com_applicant->eco_com_applicant_type_id = 1;
 
                                     $eco_com_applicant->identity_card = $affiliate->identity_card;
@@ -412,7 +411,7 @@ class ImportEcoCom extends Command
 
                             }
 
-                        }                        
+                        }
 
                         $Progress->advance();
 
