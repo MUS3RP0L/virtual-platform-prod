@@ -1557,7 +1557,9 @@
             });
         });
 
-        var oTable = $('#economic_complements-table').DataTable({
+        //for economic_complement by affiliate
+
+        var eco_comTable = $('#economic_complements-table').DataTable({
             "dom": '<"top">t<"bottom"p>',
             processing: true,
             serverSide: true,
@@ -1567,13 +1569,7 @@
             ajax: {
                 url: '{!! route('get_economic_complement_by_affiliate') !!}',
                 data: function (d) {
-                    d.code = $('input[name=code]').val();
                     d.id = {{ $affiliate->id }};
-                    d.affiliate_identitycard = $('input[name=affiliate_identitycard]').val();
-                    d.creation_date = $('input[name=creation_date]').val();
-                    d.eco_com_state_id = $('input[name=eco_com_state_id]').val();
-                    d.eco_com_modality_id = $('select[name=eco_com_modality_id]').val();
-                    d.post = $('input[name=post]').val();
                 }
             },
             columns: [
@@ -1583,11 +1579,6 @@
                 { data: 'eco_com_modality', bSortable: false },
                 // { data: 'action',name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center'},
             ]
-        });
-
-        $('#search-form').on('submit', function(e) {
-            oTable.draw();
-            e.preventDefault();
         });
 
         //for observations
