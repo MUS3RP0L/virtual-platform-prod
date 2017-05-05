@@ -25,11 +25,16 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li class="user-header">
-                            <p style="color:#fff">
+                            <p style="color:#fff;  font-weight: bold;">
                                 {!! Util::ucw(Auth::user()->first_name) !!} {!! Util::ucw(Auth::user()->last_name)!!}
-                                <small>{!!Auth::user()->getAllRolesToString()!!}</small>
-                                <small>{!!Auth::user()->getModule()->name !!}</small> 
                             </p>
+                            <p style=" font-size:initial;">
+                                 {!!Auth::user()->getAllRolesToString()!!}
+                                 <br>
+                                {!!Auth::user()->getModule()->name !!}
+                            </p>
+                       
+                     
                         </li>
                         </li>
                         <li class="user-footer">

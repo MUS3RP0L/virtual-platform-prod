@@ -88,6 +88,30 @@ class Spouse extends Model
     {
         return $this->last_name . ' ' . $this->mothers_last_name. ' ' . $this->first_name. ' ' .$this->second_name;
     }
+
+    public function getCivilStatus()
+    {
+        if ($this->civil_status == 'S') {
+
+                return "SOLTERO(A)";
+
+        }
+        else if ($this->civil_status == 'C') {
+
+                return "CASADO(A)";
+
+        }
+        else if ($this->civil_status == 'V') {
+
+                return "VIUDO(A)";
+
+        }
+        else if ($this->civil_status == 'D'){
+
+                return "DIVORCIADO(A)";
+            
+        }
+    }
 }
 
 Spouse::created(function($spouse)

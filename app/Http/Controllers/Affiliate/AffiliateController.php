@@ -16,9 +16,16 @@ use Muserpol\Helper\Util;
 
 use Muserpol\Affiliate;
 use Muserpol\AffiliateAddress;
-use Muserpol\Spouse;
+use Muserpol\AffiliateState;
+use Muserpol\AffiliateType;
+use Muserpol\Category;
 use Muserpol\Contribution;
 use Muserpol\City;
+use Muserpol\Degree;
+use Muserpol\EconomicComplement;
+use Muserpol\PensionEntity;
+use Muserpol\Spouse;
+use Muserpol\Unit;
 
 class AffiliateController extends Controller
 {
@@ -105,12 +112,6 @@ class AffiliateController extends Controller
                 ->addColumn('action', function ($affiliate) { return  '
                     <div class="btn-group" style="margin:-3px 0;">
                         <a href="affiliate/'.$affiliate->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
-                        <a href="" data-target="#" class="btn btn-primary btn-raised btn-sm dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="select_contribution/'.$affiliate->id.'" style="padding:3px 5px;"><i class="glyphicon glyphicon-plus"></i>Aporte</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="tramite_fondo_retiro/'.$affiliate->id.'" style="padding:3px 5px;"><i class="glyphicon glyphicon-plus"></i>Fondo</a></li>
-                        </ul>
                     </div>';})
                 ->make(true);
     }
@@ -159,9 +160,14 @@ class AffiliateController extends Controller
 
         if ($affiliate->gender == 'M') {
             $gender_list = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
+            $gender_list_s = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
+
         }elseif ($affiliate->gender == 'F') {
             $gender_list = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
+            $gender_list_s = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
+
         }
+
         if ($affiliate->city_identity_card_id) {
             $affiliate->city_identity_card = City::idIs($affiliate->city_identity_card_id)->first()->shortened;
         }else {
@@ -206,6 +212,45 @@ class AffiliateController extends Controller
         //     $total_mortuary_quota = Util::formatMoney($item->mortuary_quota);
         //     $total = Util::formatMoney($item->total);
         // }
+        $affiliate_states=AffiliateState::all();
+        $a_states=[];
+        foreach ($affiliate_states as $as) {
+            $a_states[$as->id]=$as->name;
+        }
+        $dg=Degree::all();
+        $degrees=[];
+        foreach ($dg as $d) {
+            $degrees[$d->id]=$d->name;
+        }
+
+         $ep=PensionEntity::all();
+        $entity_pensions=[];
+        foreach ($ep as $e) {
+            $entity_pensions[$e->id]=$e->name;
+        }
+
+        $at=AffiliateType::all();
+        $affiliate_types=[];
+        foreach ($at as $d) {
+            $affiliate_types[$d->id]=$d->name;
+        }
+        $un=Unit::all();
+        $units=[];
+        foreach ($un as $d) {
+            $units[$d->id]=$d->name;
+        }
+
+        $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->first();
+
+        $ca=Category::all();
+        $categories=[];
+        foreach ($ca as $key=>$d) {
+            if ($key==8) {
+                break;
+            }else{
+                $categories[$d->id]=$d->name;
+            }
+        }
 
         $data = [
 
@@ -213,8 +258,10 @@ class AffiliateController extends Controller
             'AffiliateAddress' => $AffiliateAddress,
             'spouse' => $spouse,
             'gender_list' => $gender_list,
+            'gender_list_s' => $gender_list_s,
             'info_address' => $info_address,
             'info_spouse' => $info_spouse,
+            'economic_complement' => $economic_complement,
             // 'last_contribution' => $last_contribution,
             'observations'=>$affiliate->observations,
             // 'total_gain' => $total_gain,
@@ -223,6 +270,12 @@ class AffiliateController extends Controller
             // 'total_retirement_fund' => $total_retirement_fund,
             // 'total_mortuary_quota' => $total_mortuary_quota,
             // 'total' => $total
+            'affiliate_state'=>$a_states,
+            'degrees'=>$degrees,
+            'affiliate_types'=>$affiliate_types,
+            'entity_pensions'=>$entity_pensions,
+            'units'=>$units,
+            'categories'=>$categories
 
         ];
         $data = array_merge($data, self::getViewModel());
@@ -247,40 +300,43 @@ class AffiliateController extends Controller
 
     public function save($request, $affiliate = false)
     {
+
         $rules = [
-            'identity_card' =>'required',
-            'city_identity_card_id' => 'required',
-            'last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-            'mothers_last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-            'first_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-            'second_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-            'surname_husband' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-            'gender' => 'required',
-            'birth_date' => 'required'
+            // 'identity_card' =>'required',
+            // 'city_identity_card_id' => 'required',
+            // 'last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+            // 'mothers_last_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+            // 'first_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+            // 'second_name' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+            // 'surname_husband' => 'min:3|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+            // 'gender' => 'required',
+            // 'birth_date' => 'required'
         ];
 
         $messages = [
-            'identity_card.required' => 'El Campo es Requerido',
-            'city_identity_card_id.required' => 'El Campo es Requerido',
-            'last_name.min' => 'El mínimo de caracteres permitidos para apellido paterno es 3',
-            'last_name.regex' => 'Sólo se aceptan letras para apellido paterno',
+            // 'identity_card.required' => 'El Campo es Requerido',
+            // 'city_identity_card_id.required' => 'El Campo es Requerido',
+            // 'last_name.min' => 'El mínimo de caracteres permitidos para apellido paterno es 3',
+            // 'last_name.regex' => 'Sólo se aceptan letras para apellido paterno',
 
-            'mothers_last_name.min' => 'El mínimo de caracteres permitidos para apellido materno es 3',
-            'mothers_last_name.regex' => 'Sólo se aceptan letras para apellido materno',
+            // 'mothers_last_name.min' => 'El mínimo de caracteres permitidos para apellido materno es 3',
+            // 'mothers_last_name.regex' => 'Sólo se aceptan letras para apellido materno',
 
-            'first_name.min' => 'El mínimo de caracteres permitidos para primer nombre es 3',
-            'first_name.regex' => 'Sólo se aceptan letras para primer nombre',
+            // 'first_name.min' => 'El mínimo de caracteres permitidos para primer nombre es 3',
+            // 'first_name.regex' => 'Sólo se aceptan letras para primer nombre',
 
-            'second_name.min' => 'El mínimo de caracteres permitidos para teléfono de usuario es 3',
-            'second_name.regex' => 'Sólo se aceptan letras para segundo nombre',
+            // 'second_name.min' => 'El mínimo de caracteres permitidos para teléfono de usuario es 3',
+            // 'second_name.regex' => 'Sólo se aceptan letras para segundo nombre',
 
-            'surname_husband.min' => 'El mínimo de caracteres permitidos para estado civil es 3',
-            'surname_husband.regex' => 'Sólo se aceptan letras para estado civil',
-            'gender.required' => 'Debe seleccionar un género',
-            'birth_date.required' => 'Debe ingresa fecha de nacimiento'
+            // 'surname_husband.min' => 'El mínimo de caracteres permitidos para estado civil es 3',
+            // 'surname_husband.regex' => 'Sólo se aceptan letras para estado civil',
+            // 'gender.required' => 'Debe seleccionar un género',
+            // 'birth_date.required' => 'Debe ingresa fecha de nacimiento'
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
+
+        
 
         if ($validator->fails()) {
             return redirect('affiliate/'.$affiliate->id)
@@ -303,7 +359,7 @@ class AffiliateController extends Controller
                     $affiliate->second_name = trim($request->second_name);
                     $affiliate->surname_husband = trim($request->surname_husband);
                     $affiliate->gender = trim($request->gender);
-                    $affiliate->nua =  $request->nua >0 ? $request->nua:0;
+                    $affiliate->nua = $request->nua >0 ? $request->nua:0;
                     $affiliate->birth_date = Util::datePick($request->birth_date);
                     $affiliate->civil_status = trim($request->civil_status);
                     if ($request->city_birth_id) { $affiliate->city_birth_id = $request->city_birth_id; } else { $affiliate->city_birth_id = null; }
@@ -319,6 +375,27 @@ class AffiliateController extends Controller
                     $affiliate->save();
                     $message = "Información personal de Afiliado actualizado con éxito";
                 break;
+
+                case 'institutional':
+
+                    $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->first();
+                    $economic_complement->city_id = $request->regional;
+                    $economic_complement->save();
+                
+                    $affiliate->affiliate_state_id = $request->state;
+                    $affiliate->degree_id = $request->degree;
+                    $affiliate->affiliate_type_id = $request->affiliate_type;
+                    $affiliate->unit_id = $request->unit;
+                    $affiliate->date_entry = Util::datePick($request->date_entry);
+                    $affiliate->item = $request->item > 0 ? $request->item: 0 ;
+                    $affiliate->category_id = $request->category;
+                    $affiliate->pension_entity_id=$request->affiliate_entity_pension;
+                    $affiliate->save();
+                    $message = "Información del Policia actualizada correctamene.";
+                    Session::flash('message', $message);
+
+                break;
+                
             }
                 Session::flash('message', $message);
         }

@@ -479,25 +479,38 @@ class EconomicComplementReportController extends Controller
 
    public function export_updated_list(Request $request)
    {
-       global $year, $semester,$i,$afi;
+       global $year, $semester,$i,$afi,$ecom,$ecom_list;
        $year = $request->year;
        $semester = $request->semester;
+       $ecom = EconomicComplement::whereYear('economic_complements.year','=', $year)->where('economic_complements.semester','=',$semester)
+                                    ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+                                    ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
+                                    ->select('economic_complements.id','affiliates.updated_at','pension_entities.type')->orderBy('pension_entities.type')->get();
+
+       foreach ($ecom as $item) {
+           $afi = DB::table('economic_complements')
+               ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,affiliates.identity_card,cities.shortened,affiliates.nua,affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,affiliates.birth_date,pension_entities.type'))
+               ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+               ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
+               ->leftJoin('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
+               ->where('economic_complements.id','=', $item->id)
+               ->whereYear('economic_complements.year', '=', $year)
+               ->where('economic_complements.semester', '=', $semester)
+               ->where('affiliates.created_at', '<>', $item->updated_at)->first();
+             if ($afi) {
+                  $ecom_list[] = $afi;
+             }
+
+       }
        Excel::create('Afi_modificados', function($excel) {
-                 global $year,$semester, $j;
+                 global $year,$semester, $j, $ecom_list;
                  $j = 2;
                  $excel->sheet("AFILIADOS_MODIFI".$year, function($sheet) {
-                 global $year,$semester, $j, $i;
+                 global $year,$semester, $j, $i,$ecom_list;
                  $i=1;
-                 $sheet->row(1, array('NRO', 'NUM_ID', 'EXTENSION', 'CUA', 'PRIMER_APELLIDO_T', 'SEGUNDO_APELLIDO_T','PRIMER_NOMBRE_T','SEGUNDO_NOMBRE_T','APELLIDO_CASADA_T','FECHA_NACIMIENTO_T'));
-                 $afi = DB::table('economic_complements')
-                     ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,affiliates.identity_card,cities.shortened,affiliates.nua,affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,affiliates.birth_date'))
-                     ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
-                     ->leftJoin('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
-                     ->whereYear('economic_complements.year', '=', $year)
-                     ->where('economic_complements.semester', '=', $semester)
-                     ->where('economic_complements.created_at', '<>', DB::raw("economic_complements.updated_at"))->get();
-                 foreach ($afi as $datos) {
-                     $sheet->row($j, array($i,$datos->identity_card,$datos->shortened,$datos->nua, $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,$datos->birth_date));
+                 $sheet->row(1, array('NRO','TIPO_ID','NUM_ID', 'EXTENSION', 'CUA', 'PRIMER_APELLIDO_T', 'SEGUNDO_APELLIDO_T','PRIMER_NOMBRE_T','SEGUNDO_NOMBRE_T','APELLIDO_CASADA_T','FECHA_NACIMIENTO_T','ENTE_GESTOR'));
+                 foreach ($ecom_list as $datos) {
+                     $sheet->row($j, array($i,"I",$datos->identity_card,$datos->shortened,$datos->nua, $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,$datos->birth_date,$datos->type));
                      $j++;
                      $i++;
                  }

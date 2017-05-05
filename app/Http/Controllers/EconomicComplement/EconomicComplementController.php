@@ -43,6 +43,7 @@ class EconomicComplementController extends Controller
 
     public function index()
     {
+
         return view('economic_complements.index', self::getViewModel());
     }
 
@@ -127,14 +128,13 @@ class EconomicComplementController extends Controller
     {
         $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'created_at', 'total']);
         return Datatables::of($economic_complements)
-                ->addColumn('affiliate_identitycard', function ($economic_complement) { return $economic_complement->affiliate->identity_card; })
                 ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
                 ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name; })
                 ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
-                ->addColumn('action', function ($economic_complement) { return  '
-                    <div class="btn-group" style="margin:-3px 0;">
-                        <a href="/economic_complement/'.$economic_complement->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
-                    </div>';})
+                // ->addColumn('action', function ($economic_complement) { return  '
+                //     <div class="btn-group" style="margin:-3px 0;">
+                //         <a href="/economic_complement/'.$economic_complement->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
+                //     </div>';})
                 ->make(true);
     }
 
@@ -419,6 +419,12 @@ class EconomicComplementController extends Controller
             }
         }
 
+        $eco_com_state_type_list = EconomicComplementStateType::all();
+        $eco_com_state_type_lists = [];
+        foreach ($eco_com_state_type_list as $item) {
+            $eco_com_state_type_lists[$item->id]=$item->name;
+        }
+
         $data = [
 
             'affiliate' => $affiliate,
@@ -429,7 +435,8 @@ class EconomicComplementController extends Controller
             'eco_com_submitted_documents' => $eco_com_submitted_documents,
             'status_documents' => $status_documents,
             'gender_list' => $gender_list,
-            'eco_com_states_block_list' => $eco_com_states_block_list
+            'eco_com_states_block_list' => $eco_com_states_block_list,
+            'eco_com_state_type_lists' => $eco_com_state_type_lists
 
 
         ];
@@ -621,8 +628,10 @@ class EconomicComplementController extends Controller
                     $eco_com_applicant->second_name = $request->second_name;
                     $eco_com_applicant->birth_date = Util::datePick($request->birth_date);
                     $eco_com_applicant->civil_status = $request->civil_status;
-                    $eco_com_applicant->phone_number = $request->phone_number;
-                    $eco_com_applicant->cell_phone_number = $request->cell_phone_number;
+                    /*$eco_com_applicant->phone_number = $request->phone_number;
+                    $eco_com_applicant->cell_phone_number = $request->cell_phone_number;*/
+                    $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
+                    $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number));
                     $eco_com_applicant->nua = $request->nua;
                     $eco_com_applicant->save();
 
@@ -639,8 +648,10 @@ class EconomicComplementController extends Controller
                             $affiliate->second_name = $request->second_name;
                             $affiliate->birth_date = Util::datePick($request->birth_date);
                             $affiliate->civil_status = $request->civil_status;
-                            $affiliate->phone_number = $request->phone_number;
-                            $affiliate->cell_phone_number = $request->cell_phone_number;
+                            /*$affiliate->phone_number = $request->phone_number;
+                            $affiliate->cell_phone_number = $request->cell_phone_number;*/
+                            $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
+                            $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number));
                             $affiliate->nua = $request->nua;
                             $affiliate->save();
 
@@ -656,9 +667,10 @@ class EconomicComplementController extends Controller
                             $affiliate->mothers_last_name = $request->mothers_last_name_affi;
                             $affiliate->first_name = $request->first_name_affi;
                             $affiliate->birth_date = Util::datePick($request->birth_date_affi);
-
-                            $affiliate->phone_number = $request->phone_number;
-                            $affiliate->cell_phone_number = $request->cell_phone_number;
+                            /*$affiliate->phone_number = $request->phone_number;
+                            $affiliate->cell_phone_number = $request->cell_phone_number;*/
+                            $affiliate->phone_number = trim(implode(",", $request->phone_number));
+                            $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
 
                             $affiliate->save();
 
@@ -683,8 +695,10 @@ class EconomicComplementController extends Controller
                         case '3':
 
                             $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
-                            $affiliate->phone_number = $request->phone_number;
-                            $affiliate->cell_phone_number = $request->cell_phone_number;
+                            /*$affiliate->phone_number = $request->phone_number;
+                            $affiliate->cell_phone_number = $request->cell_phone_number;*/
+                            $affiliate->phone_number = trim(implode(",", $request->phone_number));
+                            $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
                             $affiliate->nua = $request->nua;
                             $affiliate->save();
 
@@ -785,6 +799,37 @@ class EconomicComplementController extends Controller
                     return redirect('economic_complement/'.$economic_complement->id);
 
                 }
+
+            break;
+
+            case 'edit_aditional_info':
+
+                $rules = [
+
+                ];
+
+                $messages = [
+
+                ];
+
+                $validator = Validator::make($request->all(), $rules, $messages);
+
+                if ($validator->fails()){
+                    return redirect('economic_complement/' . $economic_complement->id)
+                    ->withErrors($validator)
+                    ->withInput();
+                }
+                else{
+
+                    $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+
+
+
+                    return redirect('economic_complement/'.$economic_complement->id);
+
+                }
+
+
 
             break;
 
@@ -905,6 +950,17 @@ class EconomicComplementController extends Controller
           $pdf = \App::make('dompdf.wrapper');
           $pdf->loadHTML($view)->setPaper('letter');
           return $pdf->stream();
+    }
+
+    public function getCausesByState(Request $request) {
+        if($request->ajax())
+        {
+            $causesState = EconomicComplementState::where('eco_com_state_type_id',$request->id)->get();
+            $data = [
+                'causes' => $causesState
+            ];
+            return response()->json($data);
+        }
     }
 
 }
