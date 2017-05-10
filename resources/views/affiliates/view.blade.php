@@ -110,30 +110,6 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Apellido Paterno:</strong>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $affiliate->last_name !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Apellido Materno:</strong>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $affiliate->mothers_last_name !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                        <div class="row">
-                                            <div class="col-md-6">
                                                 <strong>Primer Nombre:</strong>
                                             </div>
                                             <div class="col-md-6">
@@ -158,13 +134,37 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Teléfono:</strong>
+                                                <strong>Apellido Paterno:</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                @foreach(explode(',',$affiliate->phone_number) as $phone)
-                                                    {!! $phone !!}
-                                                    <br/>
-                                                @endforeach
+                                                {!! $affiliate->last_name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Apellido Materno:</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $affiliate->mothers_last_name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                               
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Apellido de Esposo:</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                @if ($affiliate->surname_husband)
+                                                    {!! $affiliate->surname_husband !!}
+                                                @endif
                                             </div>
                                         </div>
                                     </td>
@@ -181,20 +181,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @if ($affiliate->surname_husband)
-                                <tr>
-                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Apellido de Esposo:</strong>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $affiliate->surname_husband !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endif
+                                
                                 @if($affiliate->date_death)
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
@@ -269,6 +256,21 @@
                                             </div>
                                             <div class="col-md-6">
                                                  {!! $affiliate->city_birth !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Teléfono:</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                @foreach(explode(',',$affiliate->phone_number) as $phone)
+                                                    {!! $phone !!}
+                                                    <br/>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </td>
@@ -435,10 +437,22 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <strong>Carnet Identidad:</strong>
+                                                    <strong>Primer Nombre:</strong>
                                                 </div>
                                                 <div class="col-md-6">
-                                                     {!! $spouse->identity_card !!} {!! $spouse->city_identity_card !!}
+                                                    {!! $spouse->first_name !!}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    <tr>
+                                    </tr>
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <strong>Segundo Nombre:</strong>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    {!! $spouse->second_name !!}
                                                 </div>
                                             </div>
                                         </td>
@@ -471,7 +485,7 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <strong>Apellido Esposo:</strong>
+                                                    <strong>Apellido de Esposo:</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                      {!! $spouse->surname_husband !!}
@@ -499,6 +513,18 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
+                                                    <strong>Carnet Identidad:</strong>
+                                                </div>
+                                                <div class="col-md-6">
+                                                     {!! $spouse->identity_card !!} {!! $spouse->city_identity_card !!}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                            <div class="row">
+                                                <div class="col-md-6">
                                                     <strong>Fecha Nacimiento:</strong>
                                                 </div>
                                                 <div class="col-md-6">
@@ -507,42 +533,19 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <strong>Primer Nombre:</strong>
+                                                    <strong>Estado Civil:</strong>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    {!! $spouse->first_name !!}
-                                                </div>
-                                            </div>
-                                        </td>
-                                    <tr>
-                                    </tr>
-                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <strong>Segundo Nombre:</strong>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    {!! $spouse->second_name !!}
+                                                    {!! $spouse->getCivilStatus() !!}
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr>
-                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Estado Civil:</strong>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $spouse->getCivilStatus() !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
                                     @if($spouse->date_death)
                                         <tr>
                                             <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
@@ -989,7 +992,7 @@
                                         <span class="help-block">Escriba el Segundo Nombre</span>
                                     </div>
                                 </div>
-                                @if ($affiliate->gender == 'F')
+                                {{-- @if ($affiliate->gender == 'F') --}}
                                     <div class="form-group">
                                             {!! Form::label('surname_husband', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-7">
@@ -997,7 +1000,7 @@
                                             <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
                                         </div>
                                     </div>
-                                @endif
+                                {{-- @endif --}}
                                 <div class="form-group">
                                         {!! Form::label('nua', 'CUA/NUA', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
@@ -1224,12 +1227,18 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                        {!! Form::label('identity_card', ' Carnet de Identidad', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-5">
-                                        {!! Form::text('identity_card', $spouse->identity_card, ['class'=> 'form-control', 'required']) !!}
-                                        <span class="help-block">Escriba el Carnet de Identidad</span>
+                                        {!! Form::label('first_name', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('first_name', $spouse->first_name, ['class'=> 'form-control', 'required','onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Primer Nombre</span>
                                     </div>
-                                    {!! Form::select('city_identity_card_id', $cities_list_short, $spouse->city_identity_card_id, ['class' => 'col-md-2 combobox form-control','required' => 'required']) !!}
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('second_name', 'Segundo Nombre', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('second_name', $spouse->second_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Segundo Nombre</span>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
@@ -1252,23 +1261,17 @@
                                         <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                        {!! Form::label('first_name', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-7">
-                                        {!! Form::text('first_name', $spouse->first_name, ['class'=> 'form-control', 'required','onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                                        <span class="help-block">Escriba el Primer Nombre</span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                        {!! Form::label('second_name', 'Segundo Nombre', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-7">
-                                        {!! Form::text('second_name', $spouse->second_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                                        <span class="help-block">Escriba el Segundo Nombre</span>
-                                    </div>
-                                </div>
                             </div>
 
                             <div class="col-md-6">
+                                <div class="form-group">
+                                        {!! Form::label('identity_card', ' Carnet de Identidad', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-5">
+                                        {!! Form::text('identity_card', $spouse->identity_card, ['class'=> 'form-control', 'required']) !!}
+                                        <span class="help-block">Escriba el Carnet de Identidad</span>
+                                    </div>
+                                    {!! Form::select('city_identity_card_id', $cities_list_short, $spouse->city_identity_card_id, ['class' => 'col-md-2 combobox form-control','required' => 'required']) !!}
+                                </div>
                                 <div class="form-group">
                                         {!! Form::label('birth_date', 'Fecha Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
@@ -1554,7 +1557,9 @@
             });
         });
 
-        var oTable = $('#economic_complements-table').DataTable({
+        //for economic_complement by affiliate
+
+        var eco_comTable = $('#economic_complements-table').DataTable({
             "dom": '<"top">t<"bottom"p>',
             processing: true,
             serverSide: true,
@@ -1564,13 +1569,7 @@
             ajax: {
                 url: '{!! route('get_economic_complement_by_affiliate') !!}',
                 data: function (d) {
-                    d.code = $('input[name=code]').val();
                     d.id = {{ $affiliate->id }};
-                    d.affiliate_identitycard = $('input[name=affiliate_identitycard]').val();
-                    d.creation_date = $('input[name=creation_date]').val();
-                    d.eco_com_state_id = $('input[name=eco_com_state_id]').val();
-                    d.eco_com_modality_id = $('select[name=eco_com_modality_id]').val();
-                    d.post = $('input[name=post]').val();
                 }
             },
             columns: [
@@ -1580,11 +1579,6 @@
                 { data: 'eco_com_modality', bSortable: false },
                 // { data: 'action',name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center'},
             ]
-        });
-
-        $('#search-form').on('submit', function(e) {
-            oTable.draw();
-            e.preventDefault();
         });
 
         //for observations
