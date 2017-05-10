@@ -16,7 +16,10 @@ class City extends Model
 	];
 
 	protected $guarded = ['id'];
-
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
     public function economic_complement()
     {
         return $this->hasMany('Muserpol\EconomicComplement');

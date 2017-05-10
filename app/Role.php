@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model
 {
     protected $table = 'roles';
-
     protected $fillable = [
         'module_id',
         'name'
@@ -24,9 +23,14 @@ class Role extends Model
     {
         return $query->where('module_id', $id);
     }
-    public function users()
+
+    public function role_users()
     {
-      return $this->belongsToMany(Role::class);
+    	return $this->hasMany(RoleUser::class);
+    }
+    public function wf_steps()
+    {
+    	return $this->hasMany(WorkflowStep::class);
     }
 
 

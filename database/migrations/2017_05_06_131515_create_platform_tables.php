@@ -37,6 +37,7 @@ class CreatePlatformTables extends Migration
 
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('city_id')->unsigned();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('phone')->nullable();
