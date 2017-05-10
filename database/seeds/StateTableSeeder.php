@@ -41,17 +41,17 @@ class StateTableSeeder extends Seeder
     {
         $statuses = [
 
-            ['state_type_id' => '1', 'name' => 'Servicio'],
-            ['state_type_id' => '1', 'name' => 'Comisión'],
-            ['state_type_id' => '1', 'name' => 'Disponibilidad'],
+            ['affiliate_state_type_id' => '1', 'name' => 'Servicio'],
+            ['affiliate_state_type_id' => '1', 'name' => 'Comisión'],
+            ['affiliate_state_type_id' => '1', 'name' => 'Disponibilidad'],
 
-            ['state_type_id' => '2', 'name' => 'Fallecido'],
-            ['state_type_id' => '2', 'name' => 'Jubilado'],
-            ['state_type_id' => '2', 'name' => 'Jubilado Invalidez'],
+            ['affiliate_state_type_id' => '2', 'name' => 'Fallecido'],
+            ['affiliate_state_type_id' => '2', 'name' => 'Jubilado'],
+            ['affiliate_state_type_id' => '2', 'name' => 'Jubilado Invalidez'],
 
-            ['state_type_id' => '3', 'name' => 'Baja Forzosa'],
-            ['state_type_id' => '3', 'name' => 'Baja Voluntaria'],
-            ['state_type_id' => '3', 'name' => 'Baja Temporal']
+            ['affiliate_state_type_id' => '3', 'name' => 'Baja Forzosa'],
+            ['affiliate_state_type_id' => '3', 'name' => 'Baja Voluntaria'],
+            ['affiliate_state_type_id' => '3', 'name' => 'Baja Temporal']
 
         ];
 
