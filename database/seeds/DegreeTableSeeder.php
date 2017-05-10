@@ -23,13 +23,11 @@ class DegreeTableSeeder extends Seeder
     private function createHierarchies()
     {
         $statuses = [
-
             ['code' => '00', 'name' => 'GENERALES'],
             ['code' => '01', 'name' => 'JEFES Y OFICIALES'],
             ['code' => '02', 'name' => 'JEFES Y OFICIALES ADMINISTRATIVOS'],
             ['code' => '03', 'name' => 'SUBOFICIALES, CLASES Y POLICIAS'],
             ['code' => '04', 'name' => 'SUBOFICIALES, CLASES Y POLICIAS ADMINSTRATIVOS']
-
         ];
 
         foreach ($statuses as $status) {
