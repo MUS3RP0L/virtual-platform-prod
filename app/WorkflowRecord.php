@@ -16,4 +16,9 @@ class WorkflowRecord extends Model
     ];
 
     protected $guarded = ['id'];
+
+    public function wf_step()
+    {
+        return $this->belongsTo(WorkflowStep::class);
+    }
 }

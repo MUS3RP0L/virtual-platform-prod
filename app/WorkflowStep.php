@@ -23,4 +23,8 @@ class WorkflowStep extends Model
 	{
 		return $this->belongsTo(Role::class);
 	}
+	public function wf_records()
+	{
+		return $this->hasMany(WorkflowRecord::class);
+	}
 }
