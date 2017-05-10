@@ -35,6 +35,15 @@ class City extends Model
         return $this->hasMany('Muserpol\Spouse');
     }
 
+    public function economic_complement_legal_guardian()
+    {
+        return $this->hasMany(EconomicComplementLegalGuardian::class);
+    }
+
+    public function economic_complement_applicant()
+    {
+        return $this->hasMany(EconomicComplementApplicant::class);
+    }
 	public function scopeIdIs($query, $id)
     {
         return $query->where('id', $id);
