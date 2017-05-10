@@ -14,7 +14,6 @@ class EconomicComplementApplicant extends Model
     protected $fillable = [
 
         'economic_complement_id',
-        'eco_com_applicant_type_id',
         'city_identity_card_id',
         'identity_card',
         'last_name',
@@ -36,11 +35,6 @@ class EconomicComplementApplicant extends Model
     public function economic_complement()
     {
         return $this->belongsTo('Muserpol\EconomicComplement');
-    }
-
-    public function economic_complement_applicant_type()
-    {
-        return $this->belongsTo('Muserpol\EconomicComplementApplicantType', 'eco_com_applicant_type_id');
     }
 
     public function economic_complement_legal_guardian()
