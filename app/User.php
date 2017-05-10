@@ -32,9 +32,9 @@ class User extends Model implements AuthenticatableContract,
 
     protected $hidden = ['password'];
 
-    public function role_users()
+    public function roles()
     {
-    	return $this->hasMany(RoleUser::class);
+    	return $this->belongsToMany(Role::class);
     }
     public function city()
     {
