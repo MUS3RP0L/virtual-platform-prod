@@ -17,15 +17,19 @@ class Spouse extends Model
 
         'user_id',
         'affiliate_id',
+        'city_identity_card_id',
         'identity_card',
         'registration',
         'last_name',
         'mothers_last_name',
         'first_name',
         'second_name',
+        'surname_husband',
+        'civil_status',
         'birth_date',
         'date_death',
-        'reason_death'
+        'reason_death',
+        'reason_death',
 
     ];
 
@@ -109,7 +113,7 @@ class Spouse extends Model
         else if ($this->civil_status == 'D'){
 
                 return "DIVORCIADO(A)";
-            
+
         }
     }
 }
