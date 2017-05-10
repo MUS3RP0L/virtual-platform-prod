@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -565,6 +564,7 @@ class CreatePlatformTables extends Migration
             $table->string('comment')->nullable();
             $table->foreign('economic_complement_id')->references('id')->on('economic_complements')->onDelete('cascade');
             $table->foreign('eco_com_requirement_id')->references('id')->on('eco_com_requirements');
+            $table->primary(['economic_complement_id', 'eco_com_requirement_id']);
             $table->timestamps();
             $table->softDeletes();
         });
