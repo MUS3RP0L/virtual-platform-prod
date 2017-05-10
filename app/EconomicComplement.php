@@ -51,12 +51,7 @@ class EconomicComplement extends Model
         return $this->belongsTo('Muserpol\Affiliate');
     }
 
-	public function economic_complement_state()
-    {
-        return $this->belongsTo('Muserpol\EconomicComplementState', 'eco_com_state_id');
-    }
-
-    public function economic_complement_modality()
+	public function economic_complement_modality()
     {
         return $this->belongsTo('Muserpol\EconomicComplementModality', 'eco_com_modality_id');
     }
