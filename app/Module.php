@@ -23,4 +23,9 @@ class Module extends Model
     {
     	return $this->hasMany(Rol::class);
     }
+    public function affiliate_obervations()
+    {
+        return $this->hasMany(AffiliateObservation::class);
+    }
+
 }
