@@ -24,9 +24,9 @@ class Role extends Model
         return $query->where('module_id', $id);
     }
 
-    public function role_users()
+    public function users()
     {
-    	return $this->hasMany(RoleUser::class);
+    	return $this->belongToMany(User::class);
     }
     public function wf_steps()
     {
