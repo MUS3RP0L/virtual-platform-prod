@@ -163,7 +163,6 @@ class CreatePlatformTables extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('affiliate_state_id')->unsigned();
-            $table->bigInteger('affiliate_type_id')->unsigned();
             $table->bigInteger('city_identity_card_id')->unsigned()->nullable();
             $table->bigInteger('city_birth_id')->unsigned()->nullable();
             $table->bigInteger('degree_id')->unsigned();

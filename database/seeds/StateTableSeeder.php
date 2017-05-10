@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class AffiliateTypeandStateTableSeeder extends Seeder
+class StateTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,27 +14,12 @@ class AffiliateTypeandStateTableSeeder extends Seeder
     {
         Eloquent::unguard();
 
-        $this->createAffiliateTypes();
         $this->createStateType();
         $this->createaffiliateState();
 
         Eloquent::reguard();
     }
 
-    private function createAffiliateTypes()
-    {
-        $statuses = [
-
-            ['name' => 'Comando'],
-            ['name' => 'Batallón']
-
-        ];
-
-        foreach ($statuses as $status) {
-
-            Muserpol\AffiliateType::create($status);
-        }
-    }
 
     private function createStateType()
     {
