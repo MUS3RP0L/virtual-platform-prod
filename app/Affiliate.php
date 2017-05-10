@@ -89,11 +89,6 @@ class Affiliate extends Model
         return $this->belongsTo('Muserpol\Unit');
     }
 
-    public function affiliate_type()
-    {
-        return $this->belongsTo('Muserpol\AffiliateType');
-    }
-
     public function affiliate_state()
     {
         return $this->belongsTo('Muserpol\AffiliateState');
@@ -101,12 +96,12 @@ class Affiliate extends Model
 
     public function city_identity_card()
     {
-        return $this->hasOne('Muserpol\City', 'id','city_identity_card_id');
+        return $this->belongsTo('Muserpol\City', 'id','city_identity_card_id');
     }
 
     public function city_birth()
     {
-        return $this->hasOne('Muserpol\City', 'id','city_birth_id');
+        return $this->belongsTo('Muserpol\City', 'id','city_birth_id');
     }
 
     public function reimbursements()
