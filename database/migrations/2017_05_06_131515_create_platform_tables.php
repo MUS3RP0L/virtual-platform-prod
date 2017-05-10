@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -17,7 +18,7 @@ class CreatePlatformTables extends Migration
             $table->string('name');
             $table->string('description');
         });
-      
+
         Schema::create('workflows', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('module_id')->unsigned();
@@ -25,8 +26,8 @@ class CreatePlatformTables extends Migration
             $table->string('description');
             $table->foreign('module_id')->references('id')->on('modules');
         });
-      
-        Schema::create('roles', function (Blueprint $table) {   
+
+        Schema::create('roles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('module_id')->unsigned();
             $table->string('name');
@@ -55,13 +56,13 @@ class CreatePlatformTables extends Migration
             $table->primary(['role_id', 'user_id']);
         });
 
-        Schema::create('wf_step_types', function (Blueprint $table) {   
+        Schema::create('wf_step_types', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('description');
         });
-      
-        Schema::create('wf_steps', function (Blueprint $table) {    
+
+        Schema::create('wf_steps', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('workflow_id')->unsigned();
             $table->bigInteger('role_id')->unsigned();
@@ -71,8 +72,8 @@ class CreatePlatformTables extends Migration
             $table->foreign('role_id')->references('id')->on('roles');
             $table->foreign('wf_step_type_id')->references('id')->on('wf_step_types');
         });
-        
-        Schema::create('wf_sequences', function (Blueprint $table) {    
+
+        Schema::create('wf_sequences', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('workflow_id')->unsigned();
             $table->bigInteger('wf_step_current_id');
@@ -80,18 +81,18 @@ class CreatePlatformTables extends Migration
             $table->foreign('workflow_id')->references('id')->on('workflows');
             $table->timestamps();
         });
-        
-        Schema::create('wf_records', function (Blueprint $table) {  
+
+        Schema::create('wf_records', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id');
-            $table->bigInteger('wf_step_id');   
+            $table->bigInteger('wf_step_id');
             $table->bigInteger('eco_com_id')->nullable();
             $table->bigInteger('ret_fun_id')->nullable();
             $table->longText('message');
             //other wf's
             $table->timestamps();
         });
-        
+
         Schema::create('cities', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
@@ -158,7 +159,7 @@ class CreatePlatformTables extends Migration
             $table->string('name');
             $table->foreign('affiliate_state_type_id')->references('id')->on('affiliate_state_types');
         });
-       
+
         Schema::create('affiliates', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
@@ -256,7 +257,7 @@ class CreatePlatformTables extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-                    
+
         Schema::create('affiliate_observations', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
@@ -271,7 +272,7 @@ class CreatePlatformTables extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-      
+
         Schema::create('direct_contributions', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
@@ -543,7 +544,7 @@ class CreatePlatformTables extends Migration
             $table->foreign('base_wage_id')->references('id')->on('base_wages');
             $table->foreign('complementary_factor_id')->references('id')->on('complementary_factors');
             $table->timestamps();
-            +$table->softDeletes();
+            $table->softDeletes();
         });
 
         Schema::create('eco_com_requirements', function (Blueprint $table) {
@@ -554,7 +555,7 @@ class CreatePlatformTables extends Migration
             $table->foreign('eco_com_type_id')->references('id')->on('eco_com_types');
             $table->timestamps();
         });
-                
+
         Schema::create('eco_com_submitted_documents', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('economic_complement_id')->unsigned();
@@ -602,7 +603,7 @@ class CreatePlatformTables extends Migration
             $table->string('surname_husband')->nullable();
             $table->string('phone_number')->nullable();
             $table->string('cell_phone_number')->nullable();
-            $table->foreign('economic_comlement_id')->references('id')->on('economic_complements')->onDelete('cascade');
+            $table->foreign('economic_complement_id')->references('id')->on('economic_complements')->onDelete('cascade');
             $table->foreign('city_identity_card_id')->references('id')->on('cities');
             $table->timestamps();
             $table->softDeletes();
@@ -645,9 +646,9 @@ class CreatePlatformTables extends Migration
         Schema::dropIfExists('categories');
         Schema::dropIfExists('units');
         Schema::dropIfExists('breakdowns');
-        Schema::dropIfExists('degrees');        
+        Schema::dropIfExists('degrees');
         Schema::dropIfExists('hierarchies');
-        Schema::dropIfExists('cities');      
+        Schema::dropIfExists('cities');
         Schema::dropIfExists('wf_records');
         Schema::dropIfExists('wf_sequences');
         Schema::dropIfExists('wf_steps');
