@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -37,6 +36,7 @@ class CreatePlatformTables extends Migration
 
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('city_id')->unsigned();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('phone')->nullable();
@@ -164,7 +164,6 @@ class CreatePlatformTables extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('affiliate_state_id')->unsigned();
-            $table->bigInteger('affiliate_type_id')->unsigned();
             $table->bigInteger('city_identity_card_id')->unsigned()->nullable();
             $table->bigInteger('city_birth_id')->unsigned()->nullable();
             $table->bigInteger('degree_id')->unsigned();
@@ -566,6 +565,7 @@ class CreatePlatformTables extends Migration
             $table->string('comment')->nullable();
             $table->foreign('economic_complement_id')->references('id')->on('economic_complements')->onDelete('cascade');
             $table->foreign('eco_com_requirement_id')->references('id')->on('eco_com_requirements');
+            $table->primary(['economic_complement_id', 'eco_com_requirement_id']);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -620,44 +620,44 @@ class CreatePlatformTables extends Migration
     {
         Schema::dropIfExists('eco_com_legal_guardians');
         Schema::dropIfExists('eco_com_applicants');
-      Schema::dropIfExists('eco_com_submitted_documents');
-      Schema::dropIfExists('eco_com_requirements');
-      Schema::dropIfExists('economic_complements');
-      Schema::dropIfExists('complementary_factors');
-      Schema::dropIfExists('eco_com_rents');
-      Schema::dropIfExists('eco_com_modalities');
-      Schema::dropIfExists('eco_com_types');
-      Schema::dropIfExists('vouchers');
-      Schema::dropIfExists('voucher_types');
-      Schema::dropIfExists('reimbursements');
-      Schema::dropIfExists('activities');
-      Schema::dropIfExists('base_wages');
-      Schema::dropIfExists('contribution_rates');
-      Schema::dropIfExists('ipc_rates');
-      Schema::dropIfExists('contributions');
-      Schema::dropIfExists('direct_contributions');
-      Schema::dropIfExists('affiliate_observations');
-      Schema::dropIfExists('affiliate_records');
-      Schema::dropIfExists('spouses');
-      Schema::dropIfExists('affiliate_address');
-      Schema::dropIfExists('affiliates');
-      Schema::dropIfExists('affiliate_states');
-      Schema::dropIfExists('affiliate_state_types');
-      Schema::dropIfExists('pension_entities');
-      Schema::dropIfExists('categories');
-      Schema::dropIfExists('units');
-      Schema::dropIfExists('breakdowns');
-      Schema::dropIfExists('degrees');
-      Schema::dropIfExists('hierarchies');
-      Schema::dropIfExists('cities');
-      Schema::dropIfExists('wf_records');
-      Schema::dropIfExists('wf_sequences');
-      Schema::dropIfExists('wf_steps');
-      Schema::dropIfExists('wf_step_types');
-      Schema::dropIfExists('role_user');
-      Schema::dropIfExists('users');
-      Schema::dropIfExists('roles');
-      Schema::dropIfExists('workflows');
-      Schema::dropIfExists('modules');
+        Schema::dropIfExists('eco_com_submitted_documents');
+        Schema::dropIfExists('eco_com_requirements');
+        Schema::dropIfExists('economic_complements');
+        Schema::dropIfExists('complementary_factors');
+        Schema::dropIfExists('eco_com_rents');
+        Schema::dropIfExists('eco_com_modalities');
+        Schema::dropIfExists('eco_com_types');
+        Schema::dropIfExists('vouchers');
+        Schema::dropIfExists('voucher_types');
+        Schema::dropIfExists('reimbursements');
+        Schema::dropIfExists('activities');
+        Schema::dropIfExists('base_wages');
+        Schema::dropIfExists('contribution_rates');
+        Schema::dropIfExists('ipc_rates');
+        Schema::dropIfExists('contributions');
+        Schema::dropIfExists('direct_contributions');
+        Schema::dropIfExists('affiliate_observations');
+        Schema::dropIfExists('affiliate_records');
+        Schema::dropIfExists('spouses');
+        Schema::dropIfExists('affiliate_address');
+        Schema::dropIfExists('affiliates');
+        Schema::dropIfExists('affiliate_states');
+        Schema::dropIfExists('affiliate_state_types');
+        Schema::dropIfExists('pension_entities');
+        Schema::dropIfExists('categories');
+        Schema::dropIfExists('units');
+        Schema::dropIfExists('breakdowns');
+        Schema::dropIfExists('degrees');
+        Schema::dropIfExists('hierarchies');
+        Schema::dropIfExists('cities');
+        Schema::dropIfExists('wf_records');
+        Schema::dropIfExists('wf_sequences');
+        Schema::dropIfExists('wf_steps');
+        Schema::dropIfExists('wf_step_types');
+        Schema::dropIfExists('role_user');
+        Schema::dropIfExists('users');
+        Schema::dropIfExists('roles');
+        Schema::dropIfExists('workflows');
+        Schema::dropIfExists('modules');
     }
 }

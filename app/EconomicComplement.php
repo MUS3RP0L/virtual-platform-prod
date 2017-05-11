@@ -16,28 +16,43 @@ class EconomicComplement extends Model
     protected $dates = ['deleted_at'];
 
 	protected $fillable = [
-
+        'user_id',
         'affiliate_id',
-    		'eco_com_modality_id',
-    		'eco_com_state_id',
+    	'eco_com_modality_id',
+    	'wf_step_id',
         'city_id',
         'category_id',
         'base_wage_id',
         'complementary_factor_id',
-        'first_ticket_month_id',
-        'second_ticket_month_id',
+        'has_legal_guardian',
         'code',
         'reception_date',
         'review_date',
+        'year',
         'semester',
         'sub_total_rent',
+        'reimbursement_basic_pension',
         'dignity_pension',
+        'dignity_pension_reimbursement',
+        'dignity_pension_bonus',
+        'bonus_reimbursement',
+        'reimbursement_aditional_amount',
+        'reimbursement_increase_year',
+        'total_rent',
+        'total_rent_calc',
+        'salary_reference',
+        'seniority',
+        'salary_quotable',
+        'difference',
+        'total_amount_semester',
+        'complementary_factor',
         'reimbursement',
         'christmas_bonus',
-        'seniority',
         'quotable',
-        'total'
-
+        'total',
+        'payment_date',
+        'payment_number',
+        'comment'
 	];
 
 	protected $guarded = ['id'];
@@ -51,12 +66,7 @@ class EconomicComplement extends Model
         return $this->belongsTo('Muserpol\Affiliate');
     }
 
-	public function economic_complement_state()
-    {
-        return $this->belongsTo('Muserpol\EconomicComplementState', 'eco_com_state_id');
-    }
-
-    public function economic_complement_modality()
+	public function economic_complement_modality()
     {
         return $this->belongsTo('Muserpol\EconomicComplementModality', 'eco_com_modality_id');
     }
@@ -89,6 +99,10 @@ class EconomicComplement extends Model
     public function economic_complement_applicant()
     {
         return $this->hasOne('Muserpol\EconomicComplementApplicant');
+    }
+    public function economic_complement_legal_guardian()
+    {
+        return $this->hasOne('Muserpol\EconomicComplementLegalGuardian');
     }
 
     public function scopeIdIs($query, $id)

@@ -12,6 +12,7 @@ class EconomicComplementModality extends Model
 
   		'eco_com_type_id',
   		'name',
+        'shortened',
   		'description'
 
   	];

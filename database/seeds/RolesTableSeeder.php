@@ -25,8 +25,8 @@ class RolesTableSeeder extends Seeder
         $statuses = [
 
           ['name' => 'Tecnología'],
-          ['name' => 'Fondo de Retiro'],
           ['name' => 'Complemento Económico'],
+          ['name' => 'Fondo de Retiro'],
           ['name' => 'Contabilidad'],
           ['name' => 'Presupuesto'],
           ['name' => 'Tesorería'],

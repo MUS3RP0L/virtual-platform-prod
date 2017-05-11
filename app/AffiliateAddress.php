@@ -9,13 +9,13 @@ class AffiliateAddress extends Model
     protected $table = 'affiliate_address';
 
     protected $fillable = [
-
+        'user_id',
         'affiliate_id',
         'city_address_id',
         'zone',
         'street',
         'number_address'
-        
+
     ];
 
     protected $guarded = ['id'];
@@ -23,6 +23,10 @@ class AffiliateAddress extends Model
     public function affiliate()
     {
         return $this->belongsTo('Muserpol\Affiliate');
+    }
+    public function city()
+    {
+        return $this->belongsTo('Muserpol\City');
     }
 
     public function scopeAffiliateidIs($query, $id)
