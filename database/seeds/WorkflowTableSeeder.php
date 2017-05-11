@@ -24,7 +24,7 @@ class WorkflowTableSeeder extends Seeder
 
     private function createModules()
     {
-        $statuses = [                       
+        $statuses = [
         ['name' => 'Tecnología','description' => 'Unidad de Tecnología'],
         ['name' => 'Complemento Económico', 'description' => 'Unidad de Complemento Económico'],
         ['name' => 'Fondo de Retiro','description' => 'Unidad de Fondo de Retiro'],
@@ -67,6 +67,7 @@ class WorkflowTableSeeder extends Seeder
         ['name' => 'Recepcion', 'description' => ''],
         ['name' => 'Revision', 'description' => ''],
         ['name' => 'Observacion', 'description' => '']
+        ['name' => 'Aprovacion', 'description' => ''],
         ];
 
         foreach ($statuses as $status) {
@@ -94,5 +95,5 @@ class WorkflowTableSeeder extends Seeder
         foreach ($statuses as $status) {
             Muserpol\WorkflowSequence::create($status);
         }
-    }  
+    }
 }
