@@ -22,15 +22,15 @@ class Affiliate extends Model
 
         'user_id',
         'affiliate_state_id',
-        'affiliate_type_id',
         'city_identity_card_id',
         'city_birth_id',
-        'city_address_id',
         'degree_id',
         'unit_id',
         'category_id',
+        'pension_entity_id',
         'identity_card',
         'registration',
+        'type',
         'last_name',
         'mothers_last_name',
         'first_name',
@@ -42,16 +42,11 @@ class Affiliate extends Model
         'date_entry',
         'date_death',
         'reason_death',
-        'date_decommissioned',
-        'reason_decommissioned',
-        'service_start_date',
-        'service_end_date',
+        'date_derelict',
+        'reason_derelict',
         'change_date',
-        'zone',
-        'street',
-        'number_address',
-        'phone',
-        'cell_phone',
+        'phone_number',
+        'cell_phone_number',
         'afp',
         'nua',
         'item'
@@ -94,11 +89,6 @@ class Affiliate extends Model
         return $this->belongsTo('Muserpol\Unit');
     }
 
-    public function affiliate_type()
-    {
-        return $this->belongsTo('Muserpol\AffiliateType');
-    }
-
     public function affiliate_state()
     {
         return $this->belongsTo('Muserpol\AffiliateState');
@@ -106,12 +96,12 @@ class Affiliate extends Model
 
     public function city_identity_card()
     {
-        return $this->hasOne('Muserpol\City', 'id','city_identity_card_id');
+        return $this->belongsTo('Muserpol\City', 'id','city_identity_card_id');
     }
 
     public function city_birth()
     {
-        return $this->hasOne('Muserpol\City', 'id','city_birth_id');
+        return $this->belongsTo('Muserpol\City', 'id','city_birth_id');
     }
 
     public function reimbursements()
@@ -133,8 +123,10 @@ class Affiliate extends Model
     }
     public function observations()
     {
-        return $this->hasMany(Observation::class);
+        return $this->hasMany(AffiliateObservation::class);
     }
+
+
     public function scopeIdIs($query, $id)
     {
         return $query->where('id', $id);

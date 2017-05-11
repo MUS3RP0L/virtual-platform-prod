@@ -20,26 +20,6 @@ class RolesTableSeeder extends Seeder
       Eloquent::reguard();
   }
 
-    private function createModules()
-    {
-        $statuses = [
-
-          ['name' => 'Tecnología'],
-          ['name' => 'Fondo de Retiro'],
-          ['name' => 'Complemento Económico'],
-          ['name' => 'Contabilidad'],
-          ['name' => 'Presupuesto'],
-          ['name' => 'Tesorería'],
-          ['name' => 'Préstamos'],
-          ['name' => 'Jurídica']
-
-      ];
-
-        foreach ($statuses as $status) {
-            Muserpol\Module::create($status);
-        }
-    }
-
     private function createRoles()
     {
         $statuses = [

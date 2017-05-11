@@ -16,7 +16,15 @@ class City extends Model
 	];
 
 	protected $guarded = ['id'];
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 
+    public function affiliate_address()
+    {
+        return $this->hasMany(AffiliateAddress::class);
+    }
     public function economic_complement()
     {
         return $this->hasMany('Muserpol\EconomicComplement');
@@ -27,6 +35,15 @@ class City extends Model
         return $this->hasMany('Muserpol\Spouse');
     }
 
+    public function economic_complement_legal_guardian()
+    {
+        return $this->hasMany(EconomicComplementLegalGuardian::class);
+    }
+
+    public function economic_complement_applicant()
+    {
+        return $this->hasMany(EconomicComplementApplicant::class);
+    }
 	public function scopeIdIs($query, $id)
     {
         return $query->where('id', $id);

@@ -13,14 +13,14 @@ class EconomicComplementRequirement extends Model
         'eco_com_type_id',
         'name',
         'shortened'
-        
+
     ];
 
     protected $guarded = ['id'];
 
     public function economic_complement_type()
     {
-        return $this->belongsTo('Muserpol\EconomicComplementType', 'eco_com_modality_id');
+        return $this->belongsTo('Muserpol\EconomicComplementType');
     }
 
     public function economic_complement_submitted_documents()
