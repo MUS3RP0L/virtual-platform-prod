@@ -64,10 +64,10 @@ class WorkflowTableSeeder extends Seeder
     private function createWfStepTypes()
     {
         $statuses = [
-        ['name' => 'Recepcion', 'description' => ''],
-        ['name' => 'Revision', 'description' => ''],
-        ['name' => 'Observacion', 'description' => '']
-        ['name' => 'Aprovacion', 'description' => ''],
+        ['name' => 'Recepción', 'description' => 'Trámites recepcionados'],
+        ['name' => 'Revisión', 'description' => 'Trámites revisados'],
+        ['name' => 'Observación', 'description' => 'Trámites observados'],
+        ['name' => 'Aprobación', 'description' => 'Trámites aprobados'],
         ];
 
         foreach ($statuses as $status) {
@@ -78,7 +78,12 @@ class WorkflowTableSeeder extends Seeder
     private function createWfSteps()
     {
         $statuses = [
-        ['workflow_id' =>'1','role_id' => '', 'wf_step_type_id' => '1','name'=>''],
+        ['workflow_id' =>'1','role_id' => '2', 'wf_step_type_id' => '1','name'=>'Recepción de complemento económico'],
+        ['workflow_id' =>'1','role_id' => '3', 'wf_step_type_id' => '2','name'=>'Revisión de complemento económico'],
+        ['workflow_id' =>'1','role_id' => '4', 'wf_step_type_id' => '3','name'=>'Aprobación de complemento económico'],
+        ['workflow_id' =>'1','role_id' => '5', 'wf_step_type_id' => '3','name'=>'Certificación de complemento económico'],
+        ['workflow_id' =>'1','role_id' => '6', 'wf_step_type_id' => '3','name'=>'Presupuestación de complemento económico'],
+        ['workflow_id' =>'1','role_id' => '5', 'wf_step_type_id' => '3','name'=>'Remisión al Banco para el pago de complemento económico'],
         ];
 
         foreach ($statuses as $status) {

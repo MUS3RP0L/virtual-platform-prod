@@ -27,20 +27,14 @@ class RolesTableSeeder extends Seeder
           ['module_id' => '1', 'name' => 'SuperAdmin'],
           ['module_id' => '2', 'name' => 'Recepción'],
           ['module_id' => '2', 'name' => 'Revisión'],
-          ['module_id' => '2', 'name' => 'Archivo'],
-          ['module_id' => '2', 'name' => 'Calificación'],
-          ['module_id' => '2', 'name' => 'Dictamen Legal'],
-          ['module_id' => '2', 'name' => 'Responsable'],
+          ['module_id' => '2', 'name' => 'Aprobación'],
+          ['module_id' => '2', 'name' => 'Certificación'],
+          ['module_id' => '2', 'name' => 'Presupuesto'],
           ['module_id' => '3', 'name' => 'Recepción'],
-          ['module_id' => '3', 'name' => 'Revisión'],
-          ['module_id' => '3', 'name' => 'Responsable'],
-          ['module_id' => '4', 'name' => 'Responsable'],
-          ['module_id' => '5', 'name' => 'Responsable'],
-          ['module_id' => '6', 'name' => 'Responsable'],
-          ['module_id' => '7', 'name' => 'Responsable'],
-          ['module_id' => '8', 'name' => 'Responsable']
-
-
+          ['module_id' => '3', 'name' => 'Revision'],
+          ['module_id' => '3', 'name' => 'Calificación'],
+          ['module_id' => '4', 'name' => 'Dictamen Legal'],
+          ['module_id' => '4', 'name' => 'Archivo']
       ];
 
         foreach ($statuses as $status) {
