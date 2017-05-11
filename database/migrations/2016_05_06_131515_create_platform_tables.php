@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -17,7 +18,11 @@ class CreatePlatformTables extends Migration
             $table->string('name');
             $table->string('description');
         });
+<<<<<<< HEAD:database/migrations/2016_05_06_131515_create_platform_tables.php
+      
+=======
 
+>>>>>>> upstream/master:database/migrations/2017_05_06_131515_create_platform_tables.php
         Schema::create('workflows', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('module_id')->unsigned();
@@ -85,7 +90,11 @@ class CreatePlatformTables extends Migration
         Schema::create('wf_records', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id');
+<<<<<<< HEAD:database/migrations/2016_05_06_131515_create_platform_tables.php
+            $table->bigInteger('wf_step_id');   
+=======
             $table->bigInteger('wf_step_id');
+>>>>>>> upstream/master:database/migrations/2017_05_06_131515_create_platform_tables.php
             $table->bigInteger('eco_com_id')->nullable();
             $table->bigInteger('ret_fun_id')->nullable();
             $table->longText('message');
@@ -149,6 +158,19 @@ class CreatePlatformTables extends Migration
         });
 
         Schema::create('affiliate_state_types', function (Blueprint $table) {
+<<<<<<< HEAD:database/migrations/2016_05_06_131515_create_platform_tables.php
+            $table->bigIncrements('id');
+            $table->string('name');
+        });
+
+        Schema::create('affiliate_states', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('affiliate_state_type_id')->unsigned();
+            $table->string('name');
+            $table->foreign('affiliate_state_type_id')->references('id')->on('affiliate_state_types');
+        });
+       
+=======
             $table->bigIncrements('id');
             $table->string('name');
         });
@@ -160,10 +182,15 @@ class CreatePlatformTables extends Migration
             $table->foreign('affiliate_state_type_id')->references('id')->on('affiliate_state_types');
         });
 
+>>>>>>> upstream/master:database/migrations/2017_05_06_131515_create_platform_tables.php
         Schema::create('affiliates', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('affiliate_state_id')->unsigned();
+<<<<<<< HEAD:database/migrations/2016_05_06_131515_create_platform_tables.php
+            $table->bigInteger('affiliate_type_id')->unsigned();
+=======
+>>>>>>> upstream/master:database/migrations/2017_05_06_131515_create_platform_tables.php
             $table->bigInteger('city_identity_card_id')->unsigned()->nullable();
             $table->bigInteger('city_birth_id')->unsigned()->nullable();
             $table->bigInteger('degree_id')->unsigned();
@@ -257,7 +284,11 @@ class CreatePlatformTables extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+<<<<<<< HEAD:database/migrations/2016_05_06_131515_create_platform_tables.php
+                    
+=======
 
+>>>>>>> upstream/master:database/migrations/2017_05_06_131515_create_platform_tables.php
         Schema::create('affiliate_observations', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
@@ -272,7 +303,7 @@ class CreatePlatformTables extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
+      
         Schema::create('direct_contributions', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
@@ -555,7 +586,7 @@ class CreatePlatformTables extends Migration
             $table->foreign('eco_com_type_id')->references('id')->on('eco_com_types');
             $table->timestamps();
         });
-
+                
         Schema::create('eco_com_submitted_documents', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('economic_complement_id')->unsigned();
@@ -565,7 +596,10 @@ class CreatePlatformTables extends Migration
             $table->string('comment')->nullable();
             $table->foreign('economic_complement_id')->references('id')->on('economic_complements')->onDelete('cascade');
             $table->foreign('eco_com_requirement_id')->references('id')->on('eco_com_requirements');
+<<<<<<< HEAD:database/migrations/2016_05_06_131515_create_platform_tables.php
+=======
             $table->primary(['economic_complement_id', 'eco_com_requirement_id']);
+>>>>>>> upstream/master:database/migrations/2017_05_06_131515_create_platform_tables.php
             $table->timestamps();
             $table->softDeletes();
         });
@@ -620,6 +654,47 @@ class CreatePlatformTables extends Migration
     {
         Schema::dropIfExists('eco_com_legal_guardians');
         Schema::dropIfExists('eco_com_applicants');
+<<<<<<< HEAD:database/migrations/2016_05_06_131515_create_platform_tables.php
+      Schema::dropIfExists('eco_com_submitted_documents');
+      Schema::dropIfExists('eco_com_requirements');
+      Schema::dropIfExists('economic_complements');
+      Schema::dropIfExists('complementary_factors');
+      Schema::dropIfExists('eco_com_rents');
+      Schema::dropIfExists('eco_com_modalities');
+      Schema::dropIfExists('eco_com_types');
+      Schema::dropIfExists('vouchers');
+      Schema::dropIfExists('voucher_types');
+      Schema::dropIfExists('reimbursements');
+      Schema::dropIfExists('activities');
+      Schema::dropIfExists('base_wages');
+      Schema::dropIfExists('contribution_rates');
+      Schema::dropIfExists('ipc_rates');
+      Schema::dropIfExists('contributions');
+      Schema::dropIfExists('direct_contributions');
+      Schema::dropIfExists('affiliate_observations');
+      Schema::dropIfExists('affiliate_records');
+      Schema::dropIfExists('spouses');
+      Schema::dropIfExists('affiliate_address');
+      Schema::dropIfExists('affiliates');
+      Schema::dropIfExists('affiliate_states');
+      Schema::dropIfExists('affiliate_state_types');
+      Schema::dropIfExists('pension_entities');
+      Schema::dropIfExists('categories');
+      Schema::dropIfExists('units');
+      Schema::dropIfExists('breakdowns');
+      Schema::dropIfExists('degrees');        
+      Schema::dropIfExists('hierarchies');
+      Schema::dropIfExists('cities');      
+      Schema::dropIfExists('wf_records');
+      Schema::dropIfExists('wf_sequences');
+      Schema::dropIfExists('wf_steps');
+      Schema::dropIfExists('wf_step_types');
+      Schema::dropIfExists('role_user');
+      Schema::dropIfExists('users');
+      Schema::dropIfExists('roles');
+      Schema::dropIfExists('workflows');
+      Schema::dropIfExists('modules');
+=======
         Schema::dropIfExists('eco_com_submitted_documents');
         Schema::dropIfExists('eco_com_requirements');
         Schema::dropIfExists('economic_complements');
@@ -659,5 +734,6 @@ class CreatePlatformTables extends Migration
         Schema::dropIfExists('roles');
         Schema::dropIfExists('workflows');
         Schema::dropIfExists('modules');
+>>>>>>> upstream/master:database/migrations/2017_05_06_131515_create_platform_tables.php
     }
 }
