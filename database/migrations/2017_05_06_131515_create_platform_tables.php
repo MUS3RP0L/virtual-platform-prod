@@ -535,6 +535,7 @@ class CreatePlatformTables extends Migration
             $table->date('payment_date')->nullable();
             $table->string('payment_number')->nullable();
             $table->text('comment')->nullable();
+            $table->enum('state', ['Received', 'Edited', 'Finished']);
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
             $table->foreign('eco_com_modality_id')->references('id')->on('eco_com_modalities');
