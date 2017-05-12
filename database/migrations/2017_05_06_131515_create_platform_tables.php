@@ -543,6 +543,7 @@ class CreatePlatformTables extends Migration
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('base_wage_id')->references('id')->on('base_wages');
             $table->foreign('complementary_factor_id')->references('id')->on('complementary_factors');
+            $table->unique(['affiliate_id','semester','year']);
             $table->timestamps();
             $table->softDeletes();
         });
