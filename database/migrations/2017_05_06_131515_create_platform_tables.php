@@ -64,11 +64,11 @@ class CreatePlatformTables extends Migration
 
         Schema::create('wf_steps', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('workflow_id')->unsigned();
+            $table->bigInteger('module_id')->unsigned();
             $table->bigInteger('role_id')->unsigned();
             $table->bigInteger('wf_step_type_id')->unsigned();
             $table->string('name');
-            $table->foreign('workflow_id')->references('id')->on('workflows');
+            $table->foreign('module_id')->references('id')->on('modules');
             $table->foreign('role_id')->references('id')->on('roles');
             $table->foreign('wf_step_type_id')->references('id')->on('wf_step_types');
         });
@@ -535,6 +535,7 @@ class CreatePlatformTables extends Migration
             $table->date('payment_date')->nullable();
             $table->string('payment_number')->nullable();
             $table->text('comment')->nullable();
+            $table->enum('state', ['Received', 'Edited', 'Finished']);
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
             $table->foreign('eco_com_modality_id')->references('id')->on('eco_com_modalities');
