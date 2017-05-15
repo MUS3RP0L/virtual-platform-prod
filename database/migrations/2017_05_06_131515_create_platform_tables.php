@@ -539,7 +539,7 @@ class CreatePlatformTables extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
             $table->foreign('eco_com_modality_id')->references('id')->on('eco_com_modalities');
-            $table->foreign('wf_secuence_id')->references('id')->on('wf_sequences');
+            $table->foreign('wf_sequence_id')->references('id')->on('wf_sequences');
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('base_wage_id')->references('id')->on('base_wages');
@@ -567,7 +567,7 @@ class CreatePlatformTables extends Migration
             $table->string('comment')->nullable();
             $table->foreign('economic_complement_id')->references('id')->on('economic_complements')->onDelete('cascade');
             $table->foreign('eco_com_requirement_id')->references('id')->on('eco_com_requirements');
-            $table->primary(['economic_complement_id', 'eco_com_requirement_id']);
+            $table->unique(['economic_complement_id', 'eco_com_requirement_id']);
             $table->timestamps();
             $table->softDeletes();
         });
