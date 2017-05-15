@@ -21,4 +21,8 @@ class WorkflowRecord extends Model
     {
         return $this->belongsTo(WorkflowStep::class);
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

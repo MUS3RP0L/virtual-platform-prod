@@ -18,10 +18,6 @@ class Workflow extends Model
     {
     	return $this->belongsTo(Module::class);
     }
-    public function wf_steps()
-    {
-        return $this->hasMany(WorkflowStep::class);
-    }
     public function wf_sequences()
     {
     	return $this->hasMany(WorkflowSequence::class);

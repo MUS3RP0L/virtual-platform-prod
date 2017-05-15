@@ -23,6 +23,10 @@ class Module extends Model
     {
     	return $this->hasMany(Rol::class);
     }
+    public function wf_steps()
+    {
+    	return $this->hasMany(WorkflowStep::class);
+    }
     public function affiliate_obervations()
     {
         return $this->hasMany(AffiliateObservation::class);
