@@ -67,7 +67,6 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('module_id')->unsigned();
             $table->bigInteger('role_id')->unsigned();
             $table->bigInteger('wf_step_type_id')->unsigned();
-            $table->string('name');
             $table->foreign('module_id')->references('id')->on('modules');
             $table->foreign('role_id')->references('id')->on('roles');
             $table->foreign('wf_step_type_id')->references('id')->on('wf_step_types');
