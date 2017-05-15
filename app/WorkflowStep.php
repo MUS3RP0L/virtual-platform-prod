@@ -8,7 +8,7 @@ class WorkflowStep extends Model
 {
 	protected $table = 'wf_steps';
 	protected $fillable = [
-		'workflow_id',
+		'module_id',
 		'role_id',
 		'wf_step_type_id',
 		'name'
@@ -22,6 +22,10 @@ class WorkflowStep extends Model
 	public function role()
 	{
 		return $this->belongsTo(Role::class);
+	}
+	public function module()
+	{
+		return $this->belongsTo(Module::class);
 	}
 	public function wf_records()
 	{
