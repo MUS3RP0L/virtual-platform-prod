@@ -14,6 +14,9 @@ class Workflow extends Model
     ];
 
     protected $guarded = ['id'];
+
+    public $timestamps = false;
+
     public function module()
     {
     	return $this->belongsTo(Module::class);
