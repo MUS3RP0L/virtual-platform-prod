@@ -15,6 +15,8 @@ class Module extends Model
 
 	protected $guarded = ['id'];
 
+    public $timestamps = false;
+
 	public function workflows()
     {
         return $this->hasMany(Workflow::class);

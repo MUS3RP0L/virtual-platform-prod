@@ -21,7 +21,7 @@ class UserTableSeeder extends Seeder
     private function createAdmin()
     {
         $userAdmin=Muserpol\User::create([
-
+            'city_id' => 4,
             'first_name' => 'Alejandro Erick',
             'last_name' => 'Guisbert Flor',
             'phone' => '77551112',
