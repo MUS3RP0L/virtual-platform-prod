@@ -30,7 +30,7 @@ class Activity extends Model
 			$activity = new Activity;
 			$activity->user_id = Auth::user()->id;
 			$activity->affiliate_id = $affiliate->id;
-            $affiliate->registration = Util::CalcRegistration($affiliate->birth_date, $affiliate->last_name, $affiliate->mothers_last_name, $affiliate->first_name, $affiliate->gender);
+            //$affiliate->registration = Util::CalcRegistration($affiliate->birth_date, $affiliate->last_name, $affiliate->mothers_last_name, $affiliate->first_name, $affiliate->gender);
 			$activity->activity_type_id = ACTIVITY_TYPE_UPDATE_AFFILIATE;
 			$activity->message = Util::encodeActivity(Auth::user(), 'actualizó al Afiliado', $affiliate);
 			$activity->save();
@@ -61,7 +61,7 @@ class Activity extends Model
             $sex = $affiliate->gender == 'M' ? 'F':'M';
             $activity->affiliate_id = $spouse->affiliate_id;
 			$activity->spouse_id = $spouse->id;
-            $spouse->registration = Util::CalcRegistration($spouse->birth_date, $spouse->last_name, $spouse->mothers_last_name, $spouse->first_name, $sex);
+           // $spouse->registration = Util::CalcRegistration($spouse->birth_date, $spouse->last_name, $spouse->mothers_last_name, $spouse->first_name, $sex);
 			$activity->activity_type_id = ACTIVITY_TYPE_UPDATE_SPOUSE;
 			$activity->message = Util::encodeActivity(Auth::user(), 'actualizó al Conyuge', $spouse);
 			$activity->save();

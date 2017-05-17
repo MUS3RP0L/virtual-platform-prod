@@ -10,16 +10,16 @@ class AffiliateState extends Model
 
 	protected $fillable = [
 
-        'state_type_id',
+        'affiliate_state_type_id',
 		'name'
 
 	];
 
 	protected $guarded = ['id'];
 
-    public function state_type()
+    public function affiliate_state_type()
     {
-    	return $this->belongsTo('Muserpol\StateType');
+    	return $this->belongsTo('Muserpol\AffiliateStateType');
     }
 
     public function affiliates()

@@ -4,9 +4,9 @@ namespace Muserpol;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StateType extends Model
+class AffiliateStateType extends Model
 {
-    protected $table = 'state_types';
+    protected $table = 'affiliate_state_types';
 
 	protected $fillable = [
 

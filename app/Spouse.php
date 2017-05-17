@@ -17,15 +17,19 @@ class Spouse extends Model
 
         'user_id',
         'affiliate_id',
+        'city_identity_card_id',
         'identity_card',
         'registration',
         'last_name',
         'mothers_last_name',
         'first_name',
         'second_name',
+        'surname_husband',
+        'civil_status',
         'birth_date',
         'date_death',
-        'reason_death'
+        'reason_death',
+        'reason_death',
 
     ];
 
@@ -87,6 +91,30 @@ class Spouse extends Model
     public function getFullName()
     {
         return $this->last_name . ' ' . $this->mothers_last_name. ' ' . $this->first_name. ' ' .$this->second_name;
+    }
+
+    public function getCivilStatus()
+    {
+        if ($this->civil_status == 'S') {
+
+                return "SOLTERO(A)";
+
+        }
+        else if ($this->civil_status == 'C') {
+
+                return "CASADO(A)";
+
+        }
+        else if ($this->civil_status == 'V') {
+
+                return "VIUDO(A)";
+
+        }
+        else if ($this->civil_status == 'D'){
+
+                return "DIVORCIADO(A)";
+
+        }
     }
 }
 

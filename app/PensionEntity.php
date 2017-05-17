@@ -10,7 +10,7 @@ class PensionEntity extends Model
 
 	protected $fillable = [
 
-		'code',
+		'type',
 		'name'
 
 	];

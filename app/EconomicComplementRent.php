@@ -9,11 +9,15 @@ class EconomicComplementRent extends Model
     protected $table = 'eco_com_rents';
 
 	protected $fillable = [
-
-		'name',
-		'description',
-		'shortened'
-
+        'user_id',
+		'degree_id',
+		'eco_com_type_id',
+		'year',
+        'semester',
+        'minor',
+        'higher',
+        'average',
+        'user_id'       
 	];
 
     protected $guarded = ['id'];
