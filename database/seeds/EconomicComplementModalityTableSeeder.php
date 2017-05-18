@@ -95,10 +95,8 @@ class EconomicComplementModalityTableSeeder extends Seeder
             ['eco_com_state_type_id' => '4', 'name' => 'Cheque Rezagado'],
             ['eco_com_state_type_id' => '4', 'name' => 'Cheque Adicional'],
 
-            ['eco_com_state_type_id' => '5', 'name' => 'Juridica'],
-            ['eco_com_state_type_id' => '5', 'name' => 'Contabilidad'],
-            ['eco_com_state_type_id' => '5', 'name' => 'Préstamos'],
-
+            ['eco_com_state_type_id' => '5', 'name' => 'Cuentas por cobrar - Contabilidad'],
+            ['eco_com_state_type_id' => '5', 'name' => 'Estado de mora - Préstamos'],
             ['eco_com_state_type_id' => '5', 'name' => 'Doble Percepción'],
             ['eco_com_state_type_id' => '5', 'name' => 'Denuncia'],
             ['eco_com_state_type_id' => '5', 'name' => 'Falta de Requisitos'],
