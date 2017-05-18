@@ -156,17 +156,4 @@ class WorkflowTableSeeder extends Seeder
           Muserpol\WorkflowSequence::create($status);
       }
   }
-
-  private function createWfRecords(){
-      $statuses = [
-      ['user_id' => '', 'wf_step_id' => '', 'ecom_com_id' => '', 'ret_fun_id' => '', 'message' => ''],
-      ['user_id' => '', 'wf_step_id' => '', 'ecom_com_id' => '', 'ret_fun_id' => '', 'message' => ''],
-      ['user_id' => '', 'wf_step_id' => '', 'ecom_com_id' => '', 'ret_fun_id' => '', 'message' => ''],
-      ];
-
-      foreach ($statuses as $status) {
-        Muserpol\WorkflowRecord::create($status);
-    }
-}
-
 }
