@@ -56,27 +56,21 @@ class CreatePlatformTables extends Migration
             $table->primary(['role_id', 'user_id']);
         });
 
-        Schema::create('wf_step_types', function (Blueprint $table) {
+        Schema::create('wf_states', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('description');
-        });
-
-        Schema::create('wf_steps', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('module_id')->unsigned();
+            $table->bigInteger('workflow_id')->unsigned();
             $table->bigInteger('role_id')->unsigned();
-            $table->bigInteger('wf_step_type_id')->unsigned();
-            $table->foreign('module_id')->references('id')->on('modules');
             $table->foreign('role_id')->references('id')->on('roles');
-            $table->foreign('wf_step_type_id')->references('id')->on('wf_step_types');
+            $table->foreign('workflow_id')->references('id')->on('workflows');
         });
 
         Schema::create('wf_sequences', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('workflow_id')->unsigned();
-            $table->bigInteger('wf_step_current_id');
-            $table->bigInteger('wf_step_next_id');
+            $table->bigInteger('wf_state_current_id');
+            $table->bigInteger('wf_state_next_id');
+            $table->enum('action',['Aprobar','Denegar','Reiniciar','Finalizar']);
             $table->foreign('workflow_id')->references('id')->on('workflows');
             $table->timestamps();
         });
@@ -84,11 +78,11 @@ class CreatePlatformTables extends Migration
         Schema::create('wf_records', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id');
-            $table->bigInteger('wf_step_id');
+            $table->bigInteger('wf_state_id');
             $table->bigInteger('eco_com_id')->nullable();
             $table->bigInteger('ret_fun_id')->nullable();
-            $table->longText('message');
             //other wf's
+            $table->longText('message');
             $table->timestamps();
         });
 
@@ -500,7 +494,8 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('affiliate_id')->unsigned();
             $table->bigInteger('eco_com_modality_id')->unsigned();
-            $table->bigInteger('wf_sequence_id')->unsigned();
+            $table->bigInteger('workflow_id')->unsigned();
+            $table->bigInteger('wf_current_state_id');
             $table->bigInteger('city_id')->unsigned();
             $table->bigInteger('category_id')->unsigned();
             $table->bigInteger('base_wage_id')->nullable()->unsigned();
@@ -539,7 +534,8 @@ class CreatePlatformTables extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
             $table->foreign('eco_com_modality_id')->references('id')->on('eco_com_modalities');
-            $table->foreign('wf_sequence_id')->references('id')->on('wf_sequences');
+            $table->foreign('workflow_id')->references('id')->on('workflows');
+            $table->foreign('wf_current_state_id')->references('id')->on('wf_states');
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('base_wage_id')->references('id')->on('base_wages');
