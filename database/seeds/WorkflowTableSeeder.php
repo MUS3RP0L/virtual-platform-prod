@@ -90,9 +90,9 @@ class WorkflowTableSeeder extends Seeder
       ['workflow_id' => '1', 'role_id' => '3', 'name' => 'Revisión'],
       ['workflow_id' => '1', 'role_id' => '4', 'name' => 'Calificación'],
       ['workflow_id' => '1', 'role_id' => '5', 'name' => 'Aprobación'],
-      ['workflow_id' => '1', 'role_id' => '15', 'name' => 'Comprobante Contabilidad']
-      ['workflow_id' => '1', 'role_id' => '13', 'name' => 'Certificación Presupuestaria'],
-      ['workflow_id' => '1', 'role_id' => '16', 'name' => 'Tesorería']
+      ['workflow_id' => '1', 'role_id' => '13', 'name' => 'Comprobante Contabilidad'],
+      ['workflow_id' => '1', 'role_id' => '14', 'name' => 'Certificación Presupuestaria'],
+      ['workflow_id' => '1', 'role_id' => '15', 'name' => 'Tesorería']
       ];
 
       foreach ($statuses as $status) {
@@ -103,18 +103,18 @@ class WorkflowTableSeeder extends Seeder
   private function createWfSequences()
   {
       $statuses = [
-      [
-        'workflow_id' =>'1', 'wf_state_current_id' => '1', 'wf_state_next_id' => '2', 'action' => 'Aprobar'],
-        'workflow_id' =>'1', 'wf_state_current_id' => '2', 'wf_state_next_id' => '3', 'action' => 'Aprobar'],
-        'workflow_id' =>'1', 'wf_state_current_id' => '2', 'wf_state_next_id' => '1', 'action' => 'Denegar'],
-        'workflow_id' =>'1', 'wf_state_current_id' => '3', 'wf_state_next_id' => '4', 'action' => 'Aprobar'],
-        'workflow_id' =>'1', 'wf_state_current_id' => '3', 'wf_state_next_id' => '2', 'action' => 'Denegar'],
-        'workflow_id' =>'1', 'wf_state_current_id' => '4', 'wf_state_next_id' => '5', 'action' => 'Aprobar'],
-        'workflow_id' =>'1', 'wf_state_current_id' => '4', 'wf_state_next_id' => '3', 'action' => 'Denegar'],
-        'workflow_id' =>'1', 'wf_state_current_id' => '5', 'wf_state_next_id' => '6', 'action' => 'Aprobar'],
-        'workflow_id' =>'1', 'wf_state_current_id' => '5', 'wf_state_next_id' => '4', 'action' => 'Denegar'],
-        'workflow_id' =>'1', 'wf_state_current_id' => '6', 'wf_state_next_id' => '7', 'action' => 'Finalizar'],
-        'workflow_id' =>'1', 'wf_state_current_id' => '6', 'wf_state_next_id' => '5', 'action' => 'Denegar'],
+      
+        ['workflow_id' =>'1', 'wf_state_current_id' => '1', 'wf_state_next_id' => '2', 'action' => 'Aprobar'],
+        ['workflow_id' =>'1', 'wf_state_current_id' => '2', 'wf_state_next_id' => '3', 'action' => 'Aprobar'],
+        ['workflow_id' =>'1', 'wf_state_current_id' => '2', 'wf_state_next_id' => '1', 'action' => 'Denegar'],
+        ['workflow_id' =>'1', 'wf_state_current_id' => '3', 'wf_state_next_id' => '4', 'action' => 'Aprobar'],
+        ['workflow_id' =>'1', 'wf_state_current_id' => '3', 'wf_state_next_id' => '2', 'action' => 'Denegar'],
+        ['workflow_id' =>'1', 'wf_state_current_id' => '4', 'wf_state_next_id' => '5', 'action' => 'Aprobar'],
+        ['workflow_id' =>'1', 'wf_state_current_id' => '4', 'wf_state_next_id' => '3', 'action' => 'Denegar'],
+        ['workflow_id' =>'1', 'wf_state_current_id' => '5', 'wf_state_next_id' => '6', 'action' => 'Aprobar'],
+        ['workflow_id' =>'1', 'wf_state_current_id' => '5', 'wf_state_next_id' => '4', 'action' => 'Denegar'],
+        ['workflow_id' =>'1', 'wf_state_current_id' => '6', 'wf_state_next_id' => '7', 'action' => 'Finalizar'],
+        ['workflow_id' =>'1', 'wf_state_current_id' => '6', 'wf_state_next_id' => '5', 'action' => 'Denegar'],
       ];
 
       foreach ($statuses as $status) {

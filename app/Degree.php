@@ -18,6 +18,7 @@ class Degree extends Model
 	];
     
 	protected $guarded = ['id'];
+    public $timestamps=false;
 
 	public function base_wages()
     {

@@ -15,7 +15,7 @@ class VoucherType extends Model
     ];
 
     protected $guarded = ['id'];
-
+    public $timestamps=false;
     public function vouchers()
     {
         return $this->hasMany('Muserpol\Voucher');

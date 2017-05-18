@@ -33,7 +33,7 @@ class StateTableSeeder extends Seeder
 
         foreach ($statuses as $status) {
 
-            Muserpol\StateType::create($status);
+            Muserpol\AffiliateStateType::create($status);
         }
     }
 
