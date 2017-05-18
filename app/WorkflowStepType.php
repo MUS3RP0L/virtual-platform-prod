@@ -13,6 +13,9 @@ class WorkflowStepType extends Model
     ];
 
     protected $guarded = ['id'];
+
+    public $timestamps = false;
+
 	public function wf_steps()
 	{
 		return $this->hasMany(WorkflowStep::class);
