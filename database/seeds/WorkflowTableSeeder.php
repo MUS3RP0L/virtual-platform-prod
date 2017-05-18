@@ -40,11 +40,9 @@ class WorkflowTableSeeder extends Seeder
         ];
 
         foreach ($statuses as $status) {
-
             Muserpol\Module::create($status);
         }
     }
-
 
     private function createRoles()
     {
@@ -78,11 +76,11 @@ class WorkflowTableSeeder extends Seeder
     private function createWorkflows()
     {
       $statuses = [
-        ['module_id' =>'2','name' => 'Complemento Económico Banco Normal Habitual', 'description' => 'Normal pagado en Banco, habituales'],
-        ['module_id' =>'2','name' => 'Complemento Económico Banco Normal Inclusión APS', 'description' => 'Normal pagado con Banco, Inclusiones'],
-        ['module_id' =>'2','name' => 'Complemento Económico Rezagados', 'description' => 'Rezagado pagado con cheque'],
-        ['module_id' =>'2','name' => 'Complemento Económico Adicional Normal Habitual', 'description' => 'Adicional pagado con cheque Habituales'],
-        ['module_id' =>'2','name' => 'Complemento Económico Adicional Normal Inclusión', 'description' => 'Adicional pagado con cheque Inclusiones'],
+        ['module_id' =>'2','name' => 'Complemento Económico Normal Renta Automática', 'description' => 'Normal habitual APS,Normal habitual SENASIR,Normal inclusion SENASIR'],
+        ['module_id' =>'2','name' => 'Complemento Económico Normal Renta Manual', 'description' => 'Normal inclusión APS'],
+        ['module_id' =>'2','name' => 'Complemento Económico Rezagado', 'description' => 'Rezagado pagado con cheque'],
+        ['module_id' =>'2','name' => 'Complemento Económico Adicional Habitual', 'description' => 'Adicional pagado con cheque, Caso habituales'],
+        ['module_id' =>'2','name' => 'Complemento Económico Adicional Inclusión APS', 'description' => 'Adicional pagado con cheque, Caso Inclusiones'],
         ['module_id' =>'3','name' => 'Fondo de Retiro','description' => 'Flujo de fondo de retiro'],
         ['module_id' =>'4','name' => 'Cuota Mortuoria','description' => 'Flujo de cuota mortuoria'],
         ['module_id' =>'5','name' => 'Auxilio Mortuoria','description' => 'Flujo de auxilio mortuorio'],
@@ -96,20 +94,15 @@ class WorkflowTableSeeder extends Seeder
 
   private function createWfStepTypes()
   {
-      $statuses = [ 
+      $statuses = [
       ['name' => 'Recepción', 'description' => 'Trámites recepcionados'],
       ['name' => 'Revisión', 'description' => 'Trámites revisados'],
-      ['name' => 'Exportación', 'description' => 'Trámites exportados para Aps, Senasir y Banco'],
-      ['name' => 'Importación', 'description' => 'Trámites importados de Aps, Senasir y Banco'],
-      ['name' => 'Certificación', 'description' => 'Contabilidad Trámites certificados']
+      ['name' => 'Calificación', 'description' => 'Trámites calificados']
       ['name' => 'Aprobación', 'description' => 'Trámites aprobados'],
+      ['name' => 'Certificación', 'description' => 'Contabilidad Trámites certificados']
       ['name' => 'Conclusión', 'description' => 'Trámites concluidos'],
-      ['name' => 'Observación', 'description' => 'Trámites observados'],
-      ['name' => 'Comprobante', 'description' => 'Trámites comprobados'],
-      ['name' => 'Presupuesto', 'description' => 'Trámites en presupuesto'],
-      ['name' => 'Suspención', 'description' => 'Trámites suspendidos'],
-      ['name' => 'Exclusión', 'description' => 'Trámites excluidos'],
-      ['name' => 'Calificación', 'description' => 'Trámites calificados'],
+      ['name' => 'Contabilidad', 'description' => 'Trámites comprobados'],
+      ['name' => 'Presupuesto', 'description' => 'Trámites en presupuesto']
       ];
 
       foreach ($statuses as $status) {
@@ -123,11 +116,11 @@ class WorkflowTableSeeder extends Seeder
       //WfSteps para Normal Pagados en Banco
         ['module_id' =>'2','role_id' => '2', 'wf_step_type_id' => '1'],
         ['module_id' =>'2','role_id' => '3', 'wf_step_type_id' => '2'],
-        ['module_id' =>'2','role_id' => '1', 'wf_step_type_id' => '3'],     
-        ['module_id' =>'2','role_id' => '1', 'wf_step_type_id' => '4'],     
+        ['module_id' =>'2','role_id' => '1', 'wf_step_type_id' => '3'],
+        ['module_id' =>'2','role_id' => '1', 'wf_step_type_id' => '4'],
         ['module_id' =>'2','role_id' => '4', 'wf_step_type_id' => '6'],
 
-        ['module_id' =>'2','role_id' => '13', 'wf_step_type_id' => '9'], 
+        ['module_id' =>'2','role_id' => '13', 'wf_step_type_id' => '9'],
         ['module_id' =>'2','role_id' => '14', 'wf_step_type_id' => '6'],
         ['module_id' =>'2','role_id' => '15', 'wf_step_type_id' => '10'],
         ['module_id' =>'2','role_id' => '16', 'wf_step_type_id' => '6'],
@@ -143,6 +136,7 @@ class WorkflowTableSeeder extends Seeder
   private function createWfSequences()
   {
       $statuses = [
+      /*normal habitual*/
       ['workflow_id' =>'1', 'wf_step_current_id' => '1','wf_step_next_id'=>'2'],
       ['workflow_id' =>'1', 'wf_step_current_id' => '2','wf_step_next_id'=>'3'],
       ['workflow_id' =>'1', 'wf_step_current_id' => '2','wf_step_next_id'=>'11'],
@@ -153,9 +147,9 @@ class WorkflowTableSeeder extends Seeder
       ['workflow_id' =>'1', 'wf_step_current_id' => '6','wf_step_next_id'=>'7'],
       ['workflow_id' =>'1', 'wf_step_current_id' => '7','wf_step_next_id'=>'8'],
       ['workflow_id' =>'1', 'wf_step_current_id' => '8','wf_step_next_id'=>'9'],
-            //Sequences
+      /*normal inclusión*/
       ['workflow_id' =>'2', 'wf_step_current_id' => '9','wf_step_next_id'=>'6'],
-
+      /*rezagados*/
       ];
 
       foreach ($statuses as $status) {

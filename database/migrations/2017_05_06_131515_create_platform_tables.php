@@ -67,6 +67,7 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('module_id')->unsigned();
             $table->bigInteger('role_id')->unsigned();
             $table->bigInteger('wf_step_type_id')->unsigned();
+            $table->string('name');
             $table->foreign('module_id')->references('id')->on('modules');
             $table->foreign('role_id')->references('id')->on('roles');
             $table->foreign('wf_step_type_id')->references('id')->on('wf_step_types');
@@ -612,9 +613,14 @@ class CreatePlatformTables extends Migration
             $table->softDeletes();
         });
 
+        /*
+        * Retirement Fund
+        */
+
         Schema::create('ret_fun_modalities', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('description');
             $table->string('shortened');
             $table->timestamps();
         });
@@ -625,10 +631,6 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('ret_fun_modality_id')->unsigned()->nullable();
             $table->bigInteger('city_id')->unsigned()->nullable();
             $table->string('code')->unique()->required();
-            $table->date('reception_date')->nullable();
-            $table->date('check_file_date')->nullable();
-            $table->date('qualification_date')->nullable();
-            $table->date('legal_assessment_date')->nullable();
             $table->date('anticipation_start_date')->nullable();
             $table->date('anticipation_end_date')->nullable();
             $table->date('recognized_start_date')->nullable();
@@ -638,7 +640,7 @@ class CreatePlatformTables extends Migration
             $table->decimal('subtotal', 13, 2);
             $table->decimal('performance', 13, 2);
             $table->decimal('total', 13, 2);
-            $table->string('comment'); 
+            $table->string('comment');
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
             $table->foreign('ret_fun_modality_id')->references('id')->on('ret_fun_modalities');
             $table->foreign('city_id')->references('id')->on('cities');
@@ -680,7 +682,7 @@ class CreatePlatformTables extends Migration
         Schema::create('ret_fun_antecedents', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('retirement_fund_id')->unsigned();
-            $table->bigInteger('ret_fun_antecedent_file_id')->unsigned();  
+            $table->bigInteger('ret_fun_antecedent_file_id')->unsigned();
             $table->boolean('status')->default(0);
             $table->date('reception_date')->nullable();
             $table->string('code')->nullable();
@@ -723,6 +725,13 @@ class CreatePlatformTables extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('ret_fun_applicants');
+        Schema::dropIfExists('ret_fun_antecedents');
+        Schema::dropIfExists('ret_fun_antecedent_files');
+        Schema::dropIfExists('ret_fun_submitted_documents');
+        Schema::dropIfExists('ret_fun_requirements');
+        Schema::dropIfExists('retirement_funds');
+        Schema::dropIfExists('ret_fun_modalities');
         Schema::dropIfExists('eco_com_legal_guardians');
         Schema::dropIfExists('eco_com_applicants');
         Schema::dropIfExists('eco_com_submitted_documents');
