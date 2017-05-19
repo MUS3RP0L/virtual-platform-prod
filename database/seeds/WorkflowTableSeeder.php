@@ -103,7 +103,6 @@ class WorkflowTableSeeder extends Seeder
   private function createWfSequences()
   {
       $statuses = [
-      
         ['workflow_id' =>'1', 'wf_state_current_id' => '1', 'wf_state_next_id' => '2', 'action' => 'Aprobar'],
         ['workflow_id' =>'1', 'wf_state_current_id' => '2', 'wf_state_next_id' => '3', 'action' => 'Aprobar'],
         ['workflow_id' =>'1', 'wf_state_current_id' => '2', 'wf_state_next_id' => '1', 'action' => 'Denegar'],
@@ -113,8 +112,9 @@ class WorkflowTableSeeder extends Seeder
         ['workflow_id' =>'1', 'wf_state_current_id' => '4', 'wf_state_next_id' => '3', 'action' => 'Denegar'],
         ['workflow_id' =>'1', 'wf_state_current_id' => '5', 'wf_state_next_id' => '6', 'action' => 'Aprobar'],
         ['workflow_id' =>'1', 'wf_state_current_id' => '5', 'wf_state_next_id' => '4', 'action' => 'Denegar'],
-        ['workflow_id' =>'1', 'wf_state_current_id' => '6', 'wf_state_next_id' => '7', 'action' => 'Finalizar'],
+        ['workflow_id' =>'1', 'wf_state_current_id' => '6', 'wf_state_next_id' => '7', 'action' => 'Aprobar'],
         ['workflow_id' =>'1', 'wf_state_current_id' => '6', 'wf_state_next_id' => '5', 'action' => 'Denegar'],
+
       ];
 
       foreach ($statuses as $status) {

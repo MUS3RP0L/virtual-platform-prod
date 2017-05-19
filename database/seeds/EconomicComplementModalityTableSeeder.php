@@ -66,8 +66,9 @@ class EconomicComplementModalityTableSeeder extends Seeder
 
             ['name' => 'Pagado'],
             ['name' => 'Suspendido'],
-            ['name' => 'Excluido']
-
+            ['name' => 'Excluido'],
+            ['name' => 'No Pagado']
+ 
         ];
 
         foreach ($statuses as $status) {
@@ -97,7 +98,9 @@ class EconomicComplementModalityTableSeeder extends Seeder
             ['eco_com_state_type_id' => '3', 'name' => 'Proceso judicial'],
             ['eco_com_state_type_id' => '3', 'name' => 'Salario mayor del activo'],
             ['eco_com_state_type_id' => '3', 'name' => 'Baja'],
-            ['eco_com_state_type_id' => '3', 'name' => 'Matrimonio de hecho']
+            ['eco_com_state_type_id' => '3', 'name' => 'Matrimonio de hecho'],
+            
+            ['eco_com_state_type_id' => '4', 'name' => 'No pagado']
 
         ];
 
