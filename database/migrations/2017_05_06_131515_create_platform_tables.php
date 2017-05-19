@@ -57,11 +57,11 @@ class CreatePlatformTables extends Migration
 
         Schema::create('wf_states', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('workflow_id')->unsigned();
+            $table->bigInteger('module_id')->unsigned();
             $table->bigInteger('role_id')->unsigned();
             $table->string('name');
             $table->foreign('role_id')->references('id')->on('roles');
-            $table->foreign('workflow_id')->references('id')->on('workflows');
+            $table->foreign('module_id')->references('id')->on('modules');
         });
 
         Schema::create('wf_sequences', function (Blueprint $table) {
