@@ -16,6 +16,7 @@ class Breakdown extends Model
 	];
 
 	protected $guarded = ['id'];
+	public $timestamps=false;
 
 	public function units()
     {

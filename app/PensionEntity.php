@@ -16,7 +16,7 @@ class PensionEntity extends Model
 	];
 
 	protected $guarded = ['id'];
-
+	public $timestamps=false;
 	public function affiliates()
     {
     	return $this->hasMany('Muserpol\Affiliate');

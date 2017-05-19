@@ -11,7 +11,7 @@ class ComplementaryFactor extends Model
     protected $table = 'complementary_factors';
 
 	protected $fillable = [
-        'user_id'
+        'user_id',
 		'hierarchy_id',
 		'year',
 		'semester',

@@ -16,7 +16,7 @@ class AffiliateState extends Model
 	];
 
 	protected $guarded = ['id'];
-
+    public $timestamps=false;
     public function affiliate_state_type()
     {
     	return $this->belongsTo('Muserpol\AffiliateStateType');

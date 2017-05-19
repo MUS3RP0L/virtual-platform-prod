@@ -444,6 +444,17 @@ class CreatePlatformTables extends Migration
       /*
         Begin Economic complement
       */
+        Schema::create('eco_com_state_types', function(Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+        });
+
+        Schema::create('eco_com_states', function(Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('eco_com_state_type_id')->unsigned();
+            $table->string('name');
+            $table->foreign('eco_com_state_type_id')->references('id')->on('eco_com_state_types');
+        });
         Schema::create('eco_com_types', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
@@ -608,6 +619,7 @@ class CreatePlatformTables extends Migration
             $table->softDeletes();
         });
 
+
         Schema::create('ret_fun_modalities', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
@@ -719,6 +731,14 @@ class CreatePlatformTables extends Migration
      */
     public function down()
     {
+
+        Schema::dropIfExists('ret_fun_applicants');
+        Schema::dropIfExists('ret_fun_antecedents');
+        Schema::dropIfExists('ret_fun_antecedent_files');
+        Schema::dropIfExists('ret_fun_submitted_documents');
+        Schema::dropIfExists('ret_fun_requirements');
+        Schema::dropIfExists('retirement_funds');
+        Schema::dropIfExists('ret_fun_modalities');
         Schema::dropIfExists('eco_com_legal_guardians');
         Schema::dropIfExists('eco_com_applicants');
         Schema::dropIfExists('eco_com_submitted_documents');
@@ -728,6 +748,8 @@ class CreatePlatformTables extends Migration
         Schema::dropIfExists('eco_com_rents');
         Schema::dropIfExists('eco_com_modalities');
         Schema::dropIfExists('eco_com_types');
+        Schema::dropIfExists('eco_com_states');
+        Schema::dropIfExists('eco_com_state_types');
         Schema::dropIfExists('vouchers');
         Schema::dropIfExists('voucher_types');
         Schema::dropIfExists('reimbursements');
@@ -753,8 +775,7 @@ class CreatePlatformTables extends Migration
         Schema::dropIfExists('cities');
         Schema::dropIfExists('wf_records');
         Schema::dropIfExists('wf_sequences');
-        Schema::dropIfExists('wf_steps');
-        Schema::dropIfExists('wf_step_types');
+        Schema::dropIfExists('wf_states');
         Schema::dropIfExists('role_user');
         Schema::dropIfExists('users');
         Schema::dropIfExists('roles');
