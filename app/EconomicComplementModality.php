@@ -18,7 +18,7 @@ class EconomicComplementModality extends Model
   	];
 
     protected $guarded = ['id'];
-
+    public $timestamps=false;
   	public function economic_complements()
     {
         return $this->hasMany('Muserpol\EconomicComplement');

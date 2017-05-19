@@ -64,13 +64,11 @@ class EconomicComplementModalityTableSeeder extends Seeder
     {
         $statuses = [
 
-            ['name' => 'Recepcionado'],
-            ['name' => 'Revisado'],
-            ['name' => 'Derivado'],
             ['name' => 'Pagado'],
             ['name' => 'Suspendido'],
-            ['name' => 'Excluido']
-
+            ['name' => 'Excluido'],
+            ['name' => 'No Pagado']
+ 
         ];
 
         foreach ($statuses as $status) {
@@ -83,32 +81,26 @@ class EconomicComplementModalityTableSeeder extends Seeder
     {
         $statuses = [
 
-            ['eco_com_state_type_id' => '1', 'name' => 'Ventanilla'],
 
-            ['eco_com_state_type_id' => '2', 'name' => 'Calificación'],
 
-            ['eco_com_state_type_id' => '3', 'name' => 'Presupuesto'],
-            ['eco_com_state_type_id' => '3', 'name' => 'Contabilidad'],
-            ['eco_com_state_type_id' => '3', 'name' => 'Tesoreria'],
+            ['eco_com_state_type_id' => '1', 'name' => 'Banco'],
+            ['eco_com_state_type_id' => '1', 'name' => 'Cheque Rezagado'],
+            ['eco_com_state_type_id' => '1', 'name' => 'Cheque Adicional'],
 
-            ['eco_com_state_type_id' => '4', 'name' => 'Banco'],
-            ['eco_com_state_type_id' => '4', 'name' => 'Cheque Rezagado'],
-            ['eco_com_state_type_id' => '4', 'name' => 'Cheque Adicional'],
+            ['eco_com_state_type_id' => '2', 'name' => 'Cuentas por cobrar - Contabilidad'],
+            ['eco_com_state_type_id' => '2', 'name' => 'Estado de mora - Préstamos'],
+            ['eco_com_state_type_id' => '2', 'name' => 'Doble Percepción'],
+            ['eco_com_state_type_id' => '2', 'name' => 'Denuncia'],
+            ['eco_com_state_type_id' => '2', 'name' => 'Falta de Requisitos'],
 
-            ['eco_com_state_type_id' => '5', 'name' => 'Juridica'],
-            ['eco_com_state_type_id' => '5', 'name' => 'Contabilidad'],
-            ['eco_com_state_type_id' => '5', 'name' => 'Préstamos'],
-
-            ['eco_com_state_type_id' => '5', 'name' => 'Doble Percepción'],
-            ['eco_com_state_type_id' => '5', 'name' => 'Denuncia'],
-            ['eco_com_state_type_id' => '5', 'name' => 'Falta de Requisitos'],
-
-            ['eco_com_state_type_id' => '6', 'name' => 'Invalidez'],
-            ['eco_com_state_type_id' => '6', 'name' => 'Menor a 16 años de Servicio'],
-            ['eco_com_state_type_id' => '6', 'name' => 'Proceso judicial'],
-            ['eco_com_state_type_id' => '6', 'name' => 'Salario mayor del activo'],
-            ['eco_com_state_type_id' => '6', 'name' => 'Baja'],
-            ['eco_com_state_type_id' => '6', 'name' => 'Matrimonio de hecho']
+            ['eco_com_state_type_id' => '3', 'name' => 'Invalidez'],
+            ['eco_com_state_type_id' => '3', 'name' => 'Menor a 13 años de Servicio'],
+            ['eco_com_state_type_id' => '3', 'name' => 'Proceso judicial'],
+            ['eco_com_state_type_id' => '3', 'name' => 'Salario mayor del activo'],
+            ['eco_com_state_type_id' => '3', 'name' => 'Baja'],
+            ['eco_com_state_type_id' => '3', 'name' => 'Matrimonio de hecho'],
+            
+            ['eco_com_state_type_id' => '4', 'name' => 'No pagado']
 
         ];
 

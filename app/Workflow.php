@@ -14,13 +14,12 @@ class Workflow extends Model
     ];
 
     protected $guarded = ['id'];
+
+    public $timestamps = false;
+
     public function module()
     {
     	return $this->belongsTo(Module::class);
-    }
-    public function wf_steps()
-    {
-        return $this->hasMany(WorkflowStep::class);
     }
     public function wf_sequences()
     {

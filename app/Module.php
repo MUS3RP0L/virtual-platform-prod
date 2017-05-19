@@ -15,6 +15,8 @@ class Module extends Model
 
 	protected $guarded = ['id'];
 
+    public $timestamps = false;
+
 	public function workflows()
     {
         return $this->hasMany(Workflow::class);
@@ -22,6 +24,10 @@ class Module extends Model
     public function roles()
     {
     	return $this->hasMany(Rol::class);
+    }
+    public function wf_steps()
+    {
+    	return $this->hasMany(WorkflowStep::class);
     }
     public function affiliate_obervations()
     {

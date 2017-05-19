@@ -40,6 +40,11 @@ class User extends Model implements AuthenticatableContract,
     {
     	return $this->belongsTo(City::class);
     }
+    public function wf_records()
+    {
+    	return $this->hasMany(WorkflowRecord::class);
+    }
+
     public function scopeIdIs($query, $id)
     {
         return $query->where('id', $id);

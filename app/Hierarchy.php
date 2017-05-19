@@ -16,7 +16,7 @@ class Hierarchy extends Model
 	];
 
 	protected $guarded = ['id'];
-
+    public $timestamps=false;
     public function degrees()
     {
         return $this->hasMany('Muserpol\Degree');

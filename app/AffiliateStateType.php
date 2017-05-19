@@ -15,7 +15,7 @@ class AffiliateStateType extends Model
 	];
 
 	protected $guarded = ['id'];
-
+	public $timestamps=false;
 	public function affiliate_states()
     {
       return $this->hasMany('Muserpol\AffiliateState');

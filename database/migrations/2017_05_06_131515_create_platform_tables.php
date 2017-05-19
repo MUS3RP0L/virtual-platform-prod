@@ -22,7 +22,6 @@ class CreatePlatformTables extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('module_id')->unsigned();
             $table->string('name');
-            $table->string('description');
             $table->foreign('module_id')->references('id')->on('modules');
         });
 
@@ -56,28 +55,21 @@ class CreatePlatformTables extends Migration
             $table->primary(['role_id', 'user_id']);
         });
 
-        Schema::create('wf_step_types', function (Blueprint $table) {
+        Schema::create('wf_states', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('description');
-        });
-
-        Schema::create('wf_steps', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('workflow_id')->unsigned();
+            $table->bigInteger('module_id')->unsigned();
             $table->bigInteger('role_id')->unsigned();
-            $table->bigInteger('wf_step_type_id')->unsigned();
             $table->string('name');
-            $table->foreign('workflow_id')->references('id')->on('workflows');
             $table->foreign('role_id')->references('id')->on('roles');
-            $table->foreign('wf_step_type_id')->references('id')->on('wf_step_types');
+            $table->foreign('module_id')->references('id')->on('modules');
         });
 
         Schema::create('wf_sequences', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('workflow_id')->unsigned();
-            $table->bigInteger('wf_step_current_id');
-            $table->bigInteger('wf_step_next_id');
+            $table->bigInteger('wf_state_current_id');
+            $table->bigInteger('wf_state_next_id');
+            $table->enum('action',['Aprobar','Denegar']);
             $table->foreign('workflow_id')->references('id')->on('workflows');
             $table->timestamps();
         });
@@ -85,11 +77,11 @@ class CreatePlatformTables extends Migration
         Schema::create('wf_records', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id');
-            $table->bigInteger('wf_step_id');
+            $table->bigInteger('wf_state_id');
             $table->bigInteger('eco_com_id')->nullable();
             $table->bigInteger('ret_fun_id')->nullable();
-            $table->longText('message');
             //other wf's
+            $table->longText('message');
             $table->timestamps();
         });
 
@@ -452,6 +444,17 @@ class CreatePlatformTables extends Migration
       /*
         Begin Economic complement
       */
+        Schema::create('eco_com_state_types', function(Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+        });
+
+        Schema::create('eco_com_states', function(Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('eco_com_state_type_id')->unsigned();
+            $table->string('name');
+            $table->foreign('eco_com_state_type_id')->references('id')->on('eco_com_state_types');
+        });
         Schema::create('eco_com_types', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
@@ -501,7 +504,8 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('affiliate_id')->unsigned();
             $table->bigInteger('eco_com_modality_id')->unsigned();
-            $table->bigInteger('wf_step_id')->unsigned();
+            $table->bigInteger('workflow_id')->unsigned();
+            $table->bigInteger('wf_current_state_id');
             $table->bigInteger('city_id')->unsigned();
             $table->bigInteger('category_id')->unsigned();
             $table->bigInteger('base_wage_id')->nullable()->unsigned();
@@ -535,14 +539,18 @@ class CreatePlatformTables extends Migration
             $table->date('payment_date')->nullable();
             $table->string('payment_number')->nullable();
             $table->text('comment')->nullable();
+            $table->enum('state', ['Received', 'Edited']);
+            $table->enum('finished_type', ['EP', 'PB', 'RZ', 'NP', 'AD', 'OB']);
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
             $table->foreign('eco_com_modality_id')->references('id')->on('eco_com_modalities');
-            $table->foreign('wf_step_id')->references('id')->on('wf_steps');
+            $table->foreign('workflow_id')->references('id')->on('workflows');
+            $table->foreign('wf_current_state_id')->references('id')->on('wf_states');
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('base_wage_id')->references('id')->on('base_wages');
             $table->foreign('complementary_factor_id')->references('id')->on('complementary_factors');
+            $table->unique(['affiliate_id','semester','year']);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -554,6 +562,7 @@ class CreatePlatformTables extends Migration
             $table->string('shortened');
             $table->foreign('eco_com_type_id')->references('id')->on('eco_com_types');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('eco_com_submitted_documents', function (Blueprint $table) {
@@ -565,7 +574,7 @@ class CreatePlatformTables extends Migration
             $table->string('comment')->nullable();
             $table->foreign('economic_complement_id')->references('id')->on('economic_complements')->onDelete('cascade');
             $table->foreign('eco_com_requirement_id')->references('id')->on('eco_com_requirements');
-            $table->primary(['economic_complement_id', 'eco_com_requirement_id']);
+            $table->unique(['economic_complement_id', 'eco_com_requirement_id']);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -609,6 +618,110 @@ class CreatePlatformTables extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+
+        Schema::create('ret_fun_modalities', function(Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('shortened');
+            $table->timestamps();
+        });
+
+        Schema::create('retirement_funds', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('affiliate_id')->unsigned();
+            $table->bigInteger('ret_fun_modality_id')->unsigned()->nullable();
+            $table->bigInteger('city_id')->unsigned()->nullable();
+            $table->string('code')->unique()->required();
+            $table->date('reception_date')->nullable();
+            $table->date('check_file_date')->nullable();
+            $table->date('qualification_date')->nullable();
+            $table->date('legal_assessment_date')->nullable();
+            $table->date('anticipation_start_date')->nullable();
+            $table->date('anticipation_end_date')->nullable();
+            $table->date('recognized_start_date')->nullable();
+            $table->date('recognized_end_date')->nullable();
+            $table->decimal('total_quotable', 13, 2);
+            $table->decimal('total_additional_quotable', 13, 2);
+            $table->decimal('subtotal', 13, 2);
+            $table->decimal('performance', 13, 2);
+            $table->decimal('total', 13, 2);
+            $table->string('comment'); 
+            $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
+            $table->foreign('ret_fun_modality_id')->references('id')->on('ret_fun_modalities');
+            $table->foreign('city_id')->references('id')->on('cities');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('ret_fun_requirements', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('ret_fun_modality_id')->unsigned();
+            $table->string('name');
+            $table->string('shortened');
+            $table->foreign('ret_fun_modality_id')->references('id')->on('ret_fun_modalities');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('ret_fun_submitted_documents', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('retirement_fund_id')->unsigned();
+            $table->bigInteger('ret_fun_requirement_id')->unsigned();
+            $table->date('reception_date');
+            $table->boolean('status')->default(0);
+            $table->string('comment')->nullable();
+            $table->foreign('retirement_fund_id')->references('id')->on('retirement_funds')->onDelete('cascade');
+            $table->foreign('ret_fun_requirement_id')->references('id')->on('ret_fun_requirements');
+            $table->unique(['retirement_fund_id', 'ret_fun_requirement_id']);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('ret_fun_antecedent_files', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('shortened');
+            $table->timestamps();
+        });
+
+        Schema::create('ret_fun_antecedents', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('retirement_fund_id')->unsigned();
+            $table->bigInteger('ret_fun_antecedent_file_id')->unsigned();  
+            $table->boolean('status')->default(0);
+            $table->date('reception_date')->nullable();
+            $table->string('code')->nullable();
+            $table->foreign('retirement_fund_id')->references('id')->on('retirement_funds')->onDelete('cascade');
+            $table->foreign('ret_fun_antecedent_file_id')->references('id')->on('ret_fun_antecedent_files');
+            $table->unique(['retirement_fund_id', 'ret_fun_antecedent_file_id']);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('ret_fun_applicants', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('retirement_fund_id')->unsigned();
+            $table->bigInteger('city_identity_card_id')->unsigned()->nullable();
+            $table->string('identity_card')->required();
+            $table->string('last_name')->nullable();
+            $table->string('mothers_last_name')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('second_name')->nullable();
+            $table->string('surname_husband')->nullable();
+            $table->string('kinship')->nullable();
+            $table->date('birth_date')->nullable();
+            $table->enum('gender', ['M', 'F']);
+            $table->enum('civil_status', ['C', 'S', 'V', 'D'])->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('cell_phone_number')->nullable();
+            $table->string('home_address')->nullable();
+            $table->string('work_address')->nullable();
+            $table->foreign('retirement_fund_id')->references('id')->on('retirement_funds')->onDelete('cascade');
+            $table->foreign('city_identity_card_id')->references('id')->on('cities');
+            $table->timestamps();
+            $table->softDeletes();
+        });
     }
 
     /**
@@ -618,6 +731,14 @@ class CreatePlatformTables extends Migration
      */
     public function down()
     {
+
+        Schema::dropIfExists('ret_fun_applicants');
+        Schema::dropIfExists('ret_fun_antecedents');
+        Schema::dropIfExists('ret_fun_antecedent_files');
+        Schema::dropIfExists('ret_fun_submitted_documents');
+        Schema::dropIfExists('ret_fun_requirements');
+        Schema::dropIfExists('retirement_funds');
+        Schema::dropIfExists('ret_fun_modalities');
         Schema::dropIfExists('eco_com_legal_guardians');
         Schema::dropIfExists('eco_com_applicants');
         Schema::dropIfExists('eco_com_submitted_documents');
@@ -627,6 +748,8 @@ class CreatePlatformTables extends Migration
         Schema::dropIfExists('eco_com_rents');
         Schema::dropIfExists('eco_com_modalities');
         Schema::dropIfExists('eco_com_types');
+        Schema::dropIfExists('eco_com_states');
+        Schema::dropIfExists('eco_com_state_types');
         Schema::dropIfExists('vouchers');
         Schema::dropIfExists('voucher_types');
         Schema::dropIfExists('reimbursements');
@@ -652,8 +775,7 @@ class CreatePlatformTables extends Migration
         Schema::dropIfExists('cities');
         Schema::dropIfExists('wf_records');
         Schema::dropIfExists('wf_sequences');
-        Schema::dropIfExists('wf_steps');
-        Schema::dropIfExists('wf_step_types');
+        Schema::dropIfExists('wf_states');
         Schema::dropIfExists('role_user');
         Schema::dropIfExists('users');
         Schema::dropIfExists('roles');
