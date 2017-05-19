@@ -71,7 +71,9 @@ class WorkflowTableSeeder extends Seeder
     private function createWorkflows()
     {
       $statuses = [
-        ['module_id' =>'2','name' => 'Complemento Económico'],
+        ['module_id' =>'2','name' => 'Complemento Económico Normal'],
+        ['module_id' =>'2','name' => 'Complemento Económico Rezagado'],
+        ['module_id' =>'2','name' => 'Complemento Económico Adicional'],
         ['module_id' =>'3','name' => 'Fondo de Retiro'],
         ['module_id' =>'4','name' => 'Cuota Mortuoria'],
         ['module_id' =>'5','name' => 'Auxilio Mortuoria'],
@@ -86,13 +88,13 @@ class WorkflowTableSeeder extends Seeder
   private function createWfStates()
   {
       $statuses = [
-      ['workflow_id' => '1', 'role_id' => '2', 'name' => 'Recepción'],
-      ['workflow_id' => '1', 'role_id' => '3', 'name' => 'Revisión'],
-      ['workflow_id' => '1', 'role_id' => '4', 'name' => 'Calificación'],
-      ['workflow_id' => '1', 'role_id' => '5', 'name' => 'Aprobación'],
-      ['workflow_id' => '1', 'role_id' => '13', 'name' => 'Comprobante Contabilidad'],
-      ['workflow_id' => '1', 'role_id' => '14', 'name' => 'Certificación Presupuestaria'],
-      ['workflow_id' => '1', 'role_id' => '15', 'name' => 'Tesorería']
+      ['module_id' => '1', 'role_id' => '2', 'name' => 'Recepción'],
+      ['module_id' => '1', 'role_id' => '3', 'name' => 'Revisión'],
+      ['module_id' => '1', 'role_id' => '4', 'name' => 'Calificación'],
+      ['module_id' => '1', 'role_id' => '5', 'name' => 'Aprobación'],
+      ['module_id' => '1', 'role_id' => '13', 'name' => 'Comprobante Contabilidad'],
+      ['module_id' => '1', 'role_id' => '14', 'name' => 'Certificación Presupuestaria'],
+      ['module_id' => '1', 'role_id' => '15', 'name' => 'Tesorería']
       ];
 
       foreach ($statuses as $status) {
@@ -103,18 +105,41 @@ class WorkflowTableSeeder extends Seeder
   private function createWfSequences()
   {
       $statuses = [
+        //Secuencia Banco
         ['workflow_id' =>'1', 'wf_state_current_id' => '1', 'wf_state_next_id' => '2', 'action' => 'Aprobar'],
-        ['workflow_id' =>'1', 'wf_state_current_id' => '2', 'wf_state_next_id' => '3', 'action' => 'Aprobar'],
         ['workflow_id' =>'1', 'wf_state_current_id' => '2', 'wf_state_next_id' => '1', 'action' => 'Denegar'],
-        ['workflow_id' =>'1', 'wf_state_current_id' => '3', 'wf_state_next_id' => '4', 'action' => 'Aprobar'],
+        ['workflow_id' =>'1', 'wf_state_current_id' => '2', 'wf_state_next_id' => '3', 'action' => 'Aprobar'],
         ['workflow_id' =>'1', 'wf_state_current_id' => '3', 'wf_state_next_id' => '2', 'action' => 'Denegar'],
-        ['workflow_id' =>'1', 'wf_state_current_id' => '4', 'wf_state_next_id' => '5', 'action' => 'Aprobar'],
+        ['workflow_id' =>'1', 'wf_state_current_id' => '3', 'wf_state_next_id' => '4', 'action' => 'Aprobar'],
         ['workflow_id' =>'1', 'wf_state_current_id' => '4', 'wf_state_next_id' => '3', 'action' => 'Denegar'],
-        ['workflow_id' =>'1', 'wf_state_current_id' => '5', 'wf_state_next_id' => '6', 'action' => 'Aprobar'],
+        ['workflow_id' =>'1', 'wf_state_current_id' => '4', 'wf_state_next_id' => '5', 'action' => 'Aprobar'],
         ['workflow_id' =>'1', 'wf_state_current_id' => '5', 'wf_state_next_id' => '4', 'action' => 'Denegar'],
-        ['workflow_id' =>'1', 'wf_state_current_id' => '6', 'wf_state_next_id' => '7', 'action' => 'Aprobar'],
-        ['workflow_id' =>'1', 'wf_state_current_id' => '6', 'wf_state_next_id' => '5', 'action' => 'Denegar'],
-
+        ['workflow_id' =>'1', 'wf_state_current_id' => '5', 'wf_state_next_id' => '6', 'action' => 'Aprobar'],
+        ['workflow_id' =>'1', 'wf_state_current_id' => '6', 'wf_state_next_id' => '5', 'action' => 'Aprobar'],
+        
+        
+        //Secuencia Rezagado
+        ['workflow_id' =>'2', 'wf_state_current_id' => '1', 'wf_state_next_id' => '4', 'action' => 'Aprobar'],
+        ['workflow_id' =>'2', 'wf_state_current_id' => '4', 'wf_state_next_id' => '1', 'action' => 'Denegar'],
+        ['workflow_id' =>'2', 'wf_state_current_id' => '4', 'wf_state_next_id' => '5', 'action' => 'Aprobar'],
+        ['workflow_id' =>'2', 'wf_state_current_id' => '5', 'wf_state_next_id' => '4', 'action' => 'Denegar'],
+        ['workflow_id' =>'2', 'wf_state_current_id' => '5', 'wf_state_next_id' => '7', 'action' => 'Aprobar'],
+        ['workflow_id' =>'2', 'wf_state_current_id' => '7', 'wf_state_next_id' => '5', 'action' => 'Denegar'],
+        
+        
+        //Secuencia Adicional
+        ['workflow_id' =>'3', 'wf_state_current_id' => '1', 'wf_state_next_id' => '2', 'action' => 'Aprobar'],
+        ['workflow_id' =>'3', 'wf_state_current_id' => '2', 'wf_state_next_id' => '1', 'action' => 'Denegar'],
+        ['workflow_id' =>'3', 'wf_state_current_id' => '2', 'wf_state_next_id' => '3', 'action' => 'Aprobar'],
+        ['workflow_id' =>'3', 'wf_state_current_id' => '3', 'wf_state_next_id' => '2', 'action' => 'Denegar'],
+        ['workflow_id' =>'3', 'wf_state_current_id' => '3', 'wf_state_next_id' => '4', 'action' => 'Aprobar'],
+        ['workflow_id' =>'3', 'wf_state_current_id' => '4', 'wf_state_next_id' => '3', 'action' => 'Denegar'],
+        ['workflow_id' =>'3', 'wf_state_current_id' => '4', 'wf_state_next_id' => '5', 'action' => 'Aprobar'],
+        ['workflow_id' =>'3', 'wf_state_current_id' => '5', 'wf_state_next_id' => '4', 'action' => 'Denegar'],
+        ['workflow_id' =>'3', 'wf_state_current_id' => '5', 'wf_state_next_id' => '6', 'action' => 'Aprobar'],
+        ['workflow_id' =>'3', 'wf_state_current_id' => '6', 'wf_state_next_id' => '5', 'action' => 'Aprobar'],
+        ['workflow_id' =>'3', 'wf_state_current_id' => '5', 'wf_state_next_id' => '7', 'action' => 'Aprobar'],
+        ['workflow_id' =>'3', 'wf_state_current_id' => '7', 'wf_state_next_id' => '5', 'action' => 'Denegar'],        
       ];
 
       foreach ($statuses as $status) {

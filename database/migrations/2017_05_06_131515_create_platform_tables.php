@@ -69,7 +69,7 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('workflow_id')->unsigned();
             $table->bigInteger('wf_state_current_id');
             $table->bigInteger('wf_state_next_id');
-            $table->enum('action',['Aprobar','Denegar','Reiniciar','Finalizar']);
+            $table->enum('action',['Aprobar','Denegar']);
             $table->foreign('workflow_id')->references('id')->on('workflows');
             $table->timestamps();
         });
