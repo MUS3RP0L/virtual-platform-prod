@@ -11,6 +11,9 @@
 |
 */
 
+Route::get('debtor', 'PdfController@debtor');
+Route::get('print_wallet', 'Affiliate\AffiliateController@print_wallet_in_arrears');
+
 Route::get('login', 'Auth\AuthController@getLogin');
 Route::post('login', 'Auth\AuthController@postLogin');
 Route::get('logout', 'Auth\AuthController@getLogout');
