@@ -262,7 +262,7 @@ class ImportPayroll extends Command
                                 $contribution->subsidy = Util::decimal($result->sub);
 
                                 $contribution->gain = Util::decimal($result->gan);
-                                $contribution->payable_liquid = Util::decimal($result->lpag);
+                                $contribution->payable_liquid = Util::decimal($result->pag);
                                 $contribution->quotable = (FLOAT)$contribution->base_wage +
                                                           (FLOAT)$contribution->seniority_bonus +
                                                           (FLOAT)$contribution->study_bonus +
