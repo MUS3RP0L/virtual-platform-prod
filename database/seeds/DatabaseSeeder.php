@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
         $this->call(WorkflowTableSeeder::class);
-        $this->call(UserTableSeeder::class);
         $this->call(CityTableSeeder::class);
+        $this->call(UserTableSeeder::class);
         $this->call(DegreeTableSeeder::class);
         $this->call(StateTableSeeder::class);
         $this->call(IpcRateTableSeeder::class);

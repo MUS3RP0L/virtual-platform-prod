@@ -15,6 +15,8 @@ use Util;
 use Muserpol\User;
 use Muserpol\Module;
 use Muserpol\Role;
+use Muserpol\City;
+
 
 use DB;
 
@@ -37,10 +39,11 @@ class UserController extends Controller
     }
     public function Data()
     {
-        $users = User::select(['id','username', 'first_name', 'last_name', 'phone','status'])->where('id', '>', 1);
+        $users = User::select(['id','username', 'first_name', 'last_name', 'phone','status','city_id'])->where('id', '>', 1);
         return Datatables::of($users)
             ->addColumn('name', function ($user) { return Util::ucw($user->first_name) . ' ' . Util::ucw($user->last_name); })
             ->addColumn('module', function ($user) { return $user->roles()->first()->module()->first()->name; })
+            ->addColumn('city', function ($user) { return $user->city()->first()->name; })
             ->addColumn('role', function ($user): string { 
                  $roles_list=[];
                  foreach ($user->roles as $role) {
@@ -69,7 +72,7 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
      */
 
     public static function getViewModel()
@@ -79,9 +82,15 @@ class UserController extends Controller
         foreach ($modules as $item) {
              $list_modules[$item->id]=$item->name;
         }
+        $cities = City::all();
+        $cities_list=array('' =>'');
+        foreach ($cities as $item){
+            $cities_list[$item->id]=$item->name;
+        }
 
         return [
             'list_modules' => $list_modules,
+            'cities_list'=> $cities_list
         ];
     }
 
@@ -140,7 +149,6 @@ class UserController extends Controller
 
     public function edit($user)
     {
- 
         $data = [
 
             'user' => $user,
@@ -241,6 +249,7 @@ class UserController extends Controller
             $user->last_name = trim($request->last_name);
             $user->phone = trim($request->phone);
             $user->username = trim($request->username);
+            $user->city_id=$request->city;
             if($request->password){$user->password = bcrypt(trim($request->password));}
                 $user->save();
 

@@ -48,6 +48,13 @@
 										<span class="help-block">Teléfono Celular</span>
 									</div>
 								</div>
+									<div class="form-group">
+										{!! Form::label('city', 'Departamento', ['class' => 'col-md-4 control-label']) !!}
+										<div class="col-md-6">
+											{!! Form::select('city', $cities_list, $user->city_id, ['class' => 'col-md-2 combobox form-control','required' => 'required']) !!}
+											<span class="help-block">Departamento</span>
+										</div>
+									</div>
 							</div>
 						</div>
 					</div>
