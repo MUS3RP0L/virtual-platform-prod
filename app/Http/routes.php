@@ -15,6 +15,7 @@ Route::get('debtor', 'PdfController@debtor');
 Route::get('print_wallet', 'Affiliate\AffiliateController@print_wallet_in_arrears');
 Route::get('print_excsalary', 'Affiliate\AffiliateController@print_excluded_by_salary');
 Route::get('print_lackrequiriment', 'Affiliate\AffiliateController@print_miss_requiriments');
+Route::get('print_without_requirement', 'Affiliate\AffiliateController@print_miss_requiriments_hab_inc');
 
 Route::get('login', 'Auth\AuthController@getLogin');
 Route::post('login', 'Auth\AuthController@postLogin');
