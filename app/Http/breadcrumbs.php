@@ -118,3 +118,9 @@
     Breadcrumbs::register('report_generator', function($breadcrumbs) {
         $breadcrumbs->push('Generador de Reportes');
     });
+
+
+    // Show Inbox
+    Breadcrumbs::register('show_inbox', function($breadcrumbs) {
+        $breadcrumbs->push('Mi Bandeja', URL::to('inbox'));
+    });

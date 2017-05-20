@@ -2,13 +2,8 @@
 @section('contentheader_title')
 
     <div class="row">
-        <div class="col-md-8">
-            {!! Breadcrumbs::render('users') !!}
-        </div>
-        <div class="col-md-4 text-right">
-            <a href="{!! url('user/create') !!}" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="top" data-original-title="Nuevo">&nbsp;
-                <i class="glyphicon glyphicon-plus"></i>&nbsp;
-            </a>
+        <div class="col-md-12">
+            {!! Breadcrumbs::render('show_inbox') !!}
         </div>
     </div>
 
