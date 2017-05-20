@@ -60,7 +60,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('monthly_report', array('as'=>'monthly_report', 'uses'=> 'Report\ReportController@GenerateMonthlyReport'));
 
 	// Record Affiliate
-	Route::get('get_record/{affiliate_id}', array('as'=>'get_record', 'uses'=>'Affiliate\RecordController@Data'));
+	Route::get('get_record/{affiliate_id}', array('as'=>'get_record', 'uses'=>'Affiliate\AffiliateRecordController@Data'));
 
 	// Affiliate
 	Route::resource('affiliate', 'Affiliate\AffiliateController');

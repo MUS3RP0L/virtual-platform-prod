@@ -61,7 +61,7 @@ class Affiliate extends Model
 
     public function records()
     {
-        return $this->hasMany('Muserpol\Record');
+        return $this->hasMany('Muserpol\AffiliateRecord');
     }
 
     public function spouse()
@@ -403,11 +403,11 @@ class Affiliate extends Model
 
 Affiliate::created(function($affiliate)
 {
-    // Record::CreatedAffiliate($affiliate);
+    AffiliateRecord::CreatedAffiliate($affiliate);
 });
 
 Affiliate::updating(function($affiliate)
 {
     Activity::updateAffiliate($affiliate);
-    // Record::UpdatingAffiliate($affiliate);
+    AffiliateRecord::UpdatingAffiliate($affiliate);
 });

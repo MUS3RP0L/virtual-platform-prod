@@ -8,9 +8,9 @@ use Muserpol\Http\Controllers\Controller;
 
 use Datatables;
 
-use Muserpol\Record;
+use Muserpol\AffiliateRecord;
 
-class RecordController extends Controller
+class AffiliateRecordController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +20,7 @@ class RecordController extends Controller
 
     public function Data(Request $request)
     {   
-        $records = Record::select(['date', 'message'])->where('affiliate_id', $request->id);
+        $records = AffiliateRecord::select(['date', 'message'])->where('affiliate_id', $request->id);
         
         return Datatables::of($records)->editColumn('date', function ($record) { return $record->getAllDate(); })->make(true);
     }
