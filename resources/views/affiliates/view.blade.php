@@ -666,7 +666,7 @@
                                             <div class="col-md-6">
                                                 <strong>Estado:</strong>
                                             </div>
-                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->affiliate_state->state_type->name !!}">
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->affiliate_state->affiliate_state_type->name !!}">
                                                 {!! $affiliate->affiliate_state->name !!}
                                             </div>
                                         </div>
@@ -678,8 +678,8 @@
                                             <div class="col-md-6">
                                                 <strong>Tipo:</strong>
                                             </div>
-                                            <div class="col-md-6">{!! $affiliate->affiliate_type->name !!}
-                                            </div>
+                                            {{-- <div class="col-md-6">{!! $affiliate->affiliate_type->name !!}
+                                            </div> --}}
                                         </div>
                                     </td>
                                 </tr>
@@ -741,87 +741,7 @@
 
                         </div>
 
-                        <div class="col-md-6">
-
-                            <table class="table" style="width:100%;">
-
-                                {{-- <tr>
-                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Núm. de Matrícula:</strong>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $affiliate->registration !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr> --}}
-                                <tr>
-                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Categoria:</strong>
-                                            </div>
-                                            <div class="col-md-6">{!! $affiliate->category->name !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Grado:</strong>
-                                            </div>
-                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->degree->getCodHierarchyName() !!}">
-                                                {!! $affiliate->degree->shortened !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Regional:</strong>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $economic_complement->city->name !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                   <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Ente Gestor:</strong>
-                                            </div>
-                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->pension_entity->type!!}">
-                                                {!! $affiliate->pension_entity->name !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                @if($affiliate->reason_decommissioned)
-                                    <tr>
-                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <strong>Motivo Baja:</strong>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    {!! $affiliate->reason_decommissioned !!}
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endif
-                            </table>
-
-                        </div>
+                       
                     </div>
 
                 </div>
@@ -1386,13 +1306,13 @@
                                                 <span class="help-block">Seleccione un estado del policía</span>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                                 {!! Form::label('affiliate_type', 'Tipo', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
                                                 {!! Form::select('affiliate_type',$affiliate_types, $affiliate->affiliate_type->id , ['class'=> 'combobox form-control', 'required']) !!}
                                                 <span class="help-block">Seleccione un tipo del policía</span>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="form-group">
                                                 {!! Form::label('date_entry', 'Fecha de Ingreso', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
@@ -1443,17 +1363,11 @@
                                                    <span class="help-block">Escriba el Numero de Matrícula</span>
                                                     </div>
                                                 </div> --}}
-                                        <div class="form-group">
-                                                    {!! Form::label('regional', 'Regional', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                                {!! Form::select('regional', $cities_list, $economic_complement->city_id, ['class' => 'combobox form-control']) !!}
-                                                <span class="help-block">Seleccione Regional</span>
-                                            </div>
-                                        </div>
+                                        
                                          <div class="form-group">
                                                 {!! Form::label('affiliate_entity_pension', 'Ente Gestor', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
-                                                {!! Form::select('affiliate_entity_pension',$entity_pensions, $affiliate->pension_entity->id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                {!! Form::select('affiliate_entity_pension',$entity_pensions, $affiliate->pension_entity->id ?? null , ['class'=> 'combobox form-control', 'required']) !!}
                                                 <span class="help-block">Seleccione un ente gestor</span>
                                             </div>
                                         </div>

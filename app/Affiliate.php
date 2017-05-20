@@ -263,7 +263,7 @@ class Affiliate extends Model
     {
        return $query = DB::table('affiliates')
                     ->select(DB::raw('COUNT(*) as type'))
-                    ->where('affiliates.affiliate_state_id', '=', $type)
+                    ->where('affiliates.type', '=', $type)
                     ->whereYear('affiliates.updated_at', '=', $year);
     }
 
