@@ -8,6 +8,10 @@
                 <a href="{!! url('home') !!}"><i class='fa fa-fw fa-tachometer' aria-hidden="true"></i>&nbsp; <span>Inicio</span></a>
             </li>
 
+            <li {!! (Request::is('inbox') ? 'class=active' : '') !!}>
+                <a href="{!! url('inbox') !!}"><i class='fa fa-fw fa-inbox' aria-hidden="true"></i>&nbsp; <span>Mi Bandeja</span></a>
+            </li>
+
             <li {!! (Request::is('affiliate') ? 'class=active' : '') !!}>
                 <a href="{!! url('affiliate') !!}"><i class='fa fa-fw fa-male fa-lg' aria-hidden="true"></i>&nbsp; <span>Afiliados</span></a>
             </li>

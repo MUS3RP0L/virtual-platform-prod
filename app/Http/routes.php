@@ -148,6 +148,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::resource('observation','Observation\ObservationController');
 	Route::get('get_observations',['as'=>'get_observations','uses'=>'Observation\ObservationController@showOfAffiliate']);
 	Route::get('observation/deleteOb/{id}',['as'=>'deleteOb','uses'=>'Observation\ObservationController@deleteOb']);
+	//Routes for inbox
+	Route::resource('inbox', 'Inbox\InboxController');
 });
 
 define('ACCESS', env('ACCESS_PASS'));
