@@ -10,7 +10,7 @@ class Role extends Model
     protected $fillable = [
         'module_id',
         'name',
-        'action',
+        'action'
     ];
 
     protected $guarded = ['id'];
