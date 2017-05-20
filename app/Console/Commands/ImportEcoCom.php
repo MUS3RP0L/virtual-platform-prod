@@ -108,7 +108,7 @@ class ImportEcoCom extends Command
 
                                 $affiliate = new Affiliate;
                                 $affiliate->identity_card = $result->ci;
-                                $city_id = City::select('id')->where('shortened', trim($result->ext))->first()->id;
+                                $city_id = City::select('id')->where('first_shortened', trim($result->ext))->first()->id;
                                 $affiliate->city_identity_card_id = $city_id;
                                 $affiliate->gender = "M";
 
@@ -116,7 +116,7 @@ class ImportEcoCom extends Command
 
                             $affiliate->user_id = 1;
                             $affiliate->affiliate_state_id = 5;
-                            $affiliate->affiliate_type_id = 1;
+                            //$affiliate->affiliate_state_type_id = 1;
                             $affiliate->registration = "0";
 
                             $affiliate->degree_id = $degree_id;
@@ -133,7 +133,7 @@ class ImportEcoCom extends Command
                             $affiliate->change_date = Carbon::now();
 
                             $affiliate->birth_date = $result->fecha_nac;
-
+                            $affiliate->type='C';
                             $affiliate->save();
 
                             $economic_complement = EconomicComplement::affiliateIs($affiliate->id)
@@ -264,7 +264,7 @@ class ImportEcoCom extends Command
 
                             $affiliate->user_id = 1;
                             $affiliate->affiliate_state_id = 4;
-                            $affiliate->affiliate_type_id = 1;
+                            //$affiliate->affiliate_state_type_id = 1;
                             $affiliate->registration = "0";
 
                             $affiliate->degree_id = $degree_id;
@@ -280,6 +280,7 @@ class ImportEcoCom extends Command
 
                             $affiliate->change_date = Carbon::now();
 
+                            $affiliate->type='C';
                             $affiliate->save();
 
                             $spouse = new Spouse;
@@ -323,10 +324,10 @@ class ImportEcoCom extends Command
                                 $economic_complement->year = Util::datePickYear($result->gestion, $result->semestre);
                                 $economic_complement->semester = "Segundo";
                                 if ($result->beneficiario == 'PLANILLA GENERAL') {
-                                    $economic_complement->eco_com_state_id = 6;
+                                    //$economic_complement->eco_com_state_id = 6;
                                 }
                                 else {
-                                    $economic_complement->eco_com_state_id = 8;
+                                    //$economic_complement->eco_com_state_id = 8;
                                 }
 
                                 $economic_complement->user_id = 1;
