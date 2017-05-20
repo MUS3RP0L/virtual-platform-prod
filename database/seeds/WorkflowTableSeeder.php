@@ -46,21 +46,21 @@ class WorkflowTableSeeder extends Seeder
     {
         $statuses = [
 
-        ['module_id' => '1', 'name' => 'SuperAdmin'],
-        ['module_id' => '2', 'name' => 'Recepción'],
-        ['module_id' => '2', 'name' => 'Revisión'],
-        ['module_id' => '2', 'name' => 'Calificación'],
-        ['module_id' => '2', 'name' => 'Aprobación'],
-        ['module_id' => '2', 'name' => 'Legal'],
-        ['module_id' => '3', 'name' => 'Recepción'],
-        ['module_id' => '3', 'name' => 'Revisión'],
-        ['module_id' => '3', 'name' => 'Aprobación'],
-        ['module_id' => '3', 'name' => 'Calificación'],
-        ['module_id' => '3', 'name' => 'Legal'],
-        ['module_id' => '3', 'name' => 'Archivo'],
-        ['module_id' => '8', 'name' => 'Contabilidad'],
-        ['module_id' => '9', 'name' => 'Presupuesto'],
-        ['module_id' => '10', 'name' => 'Tesoreria']
+        ['module_id' => '1', 'name' => 'SuperAdmin', 'action'=> ''],
+        ['module_id' => '2', 'name' => 'Recepción', 'action'=> 'Recepcionado'],
+        ['module_id' => '2', 'name' => 'Revisión', 'action'=> 'Revisado'],
+        ['module_id' => '2', 'name' => 'Calificación', 'action'=> 'Calificado'],
+        ['module_id' => '2', 'name' => 'Aprobación', 'action'=> 'Aprobado'],
+        ['module_id' => '2', 'name' => 'Legal', 'action'=> 'Dictamen Realizado'],
+        ['module_id' => '3', 'name' => 'Recepción', 'action'=> 'Recepcionado'],
+        ['module_id' => '3', 'name' => 'Revisión', 'action'=> 'Revisado'],
+        ['module_id' => '3', 'name' => 'Aprobación', 'action'=> 'Aprobado'],
+        ['module_id' => '3', 'name' => 'Calificación', 'action'=> 'Calificado'],
+        ['module_id' => '3', 'name' => 'Legal', 'action'=> 'Dictamen Realizado'],
+        ['module_id' => '3', 'name' => 'Archivo', 'action'=> 'Revisado'],
+        ['module_id' => '8', 'name' => 'Contabilidad', 'action'=> 'Comprobante Realizado'],
+        ['module_id' => '9', 'name' => 'Presupuesto', 'action'=> 'Presupuestado'],
+        ['module_id' => '10', 'name' => 'Tesorería', 'action'=> 'Cheque Creado']
         ];
 
         foreach ($statuses as $status) {

@@ -9,7 +9,8 @@ class Role extends Model
     protected $table = 'roles';
     protected $fillable = [
         'module_id',
-        'name'
+        'name',
+        'action',
     ];
 
     protected $guarded = ['id'];
