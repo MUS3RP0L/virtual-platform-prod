@@ -131,7 +131,7 @@ class DashboardController extends Controller
 			$monthVoluntaryContribution = DB::table('contributions')
 				
 				->select(DB::raw('DISTINCT(EXTRACT(MONTH FROM contributions.month_year)) as month'))
-				->where('contributions.contribution_type_id', '=', 'Directo')
+				->where('contributions.type', '=', 'Directo')
 				->where(DB::raw('EXTRACT(MONTH FROM contributions.month_year)'), '=', $current_year)
 				->orderBy(DB::raw('EXTRACT(MONTH FROM contributions.month_year)'), 'asc')
 				->get();

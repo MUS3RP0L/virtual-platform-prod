@@ -277,7 +277,7 @@ class DirectContributionController extends Controller
 
                     $contribution = new Contribution;
                     $contribution->user_id = Auth::user()->id;
-                    $contribution->contribution_type_id = 'Directo';
+                    $contribution->type = 'Directo';
                     $contribution->affiliate_id = $request->affiliate_id;
                     $contribution->direct_contribution_id = $direct_contribution->id;
 
