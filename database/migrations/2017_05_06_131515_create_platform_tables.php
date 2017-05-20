@@ -32,7 +32,13 @@ class CreatePlatformTables extends Migration
             $table->foreign('module_id')->references('id')->on('modules');
             $table->timestamps();
         });
-
+        Schema::create('cities', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('first_shortened');
+            $table->string('second_shortened');
+            $table->string('third_shortened');
+        });
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('city_id')->unsigned();
@@ -42,6 +48,7 @@ class CreatePlatformTables extends Migration
             $table->string('username')->unique();
             $table->string('password', 60);
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->foreign('city_id')->references('id')->on('cities');
             $table->timestamps();
             $table->softDeletes();
             $table->rememberToken();
@@ -85,13 +92,7 @@ class CreatePlatformTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('cities', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('first_shortened');
-            $table->string('second_shortened');
-            $table->string('third_shortened');
-        });
+
 
         Schema::create('hierarchies', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -774,12 +775,12 @@ class CreatePlatformTables extends Migration
         Schema::dropIfExists('breakdowns');
         Schema::dropIfExists('degrees');
         Schema::dropIfExists('hierarchies');
-        Schema::dropIfExists('cities');
         Schema::dropIfExists('wf_records');
         Schema::dropIfExists('wf_sequences');
         Schema::dropIfExists('wf_states');
         Schema::dropIfExists('role_user');
         Schema::dropIfExists('users');
+        Schema::dropIfExists('cities');
         Schema::dropIfExists('roles');
         Schema::dropIfExists('workflows');
         Schema::dropIfExists('modules');

@@ -30,6 +30,7 @@
                                 <th>Nombre de Usuario</th>
                                 <th>Nombres y Apellidos</th>
                                 <th>Celular</th>
+                                <th>Departamento</th>
                                 <th>Unidad</th>
                                 <th>Cargo</th>
                                 <th>Estado</th>
@@ -62,6 +63,7 @@
                     { data: 'username' },
                     { data: 'name', bSortable: false },
                     { data: 'phone', bSortable: false },
+                    { data: 'city', bSortable: false },
                     { data: 'module', bSortable: false },
                     { data: 'role', bSortable: false },
                     { data: 'status', bSortable: false },
