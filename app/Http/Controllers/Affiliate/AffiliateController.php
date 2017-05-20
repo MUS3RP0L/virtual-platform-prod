@@ -378,13 +378,17 @@ class AffiliateController extends Controller
 
                 case 'institutional':
 
+                    //check!
                     $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->first();
                     $economic_complement->city_id = $request->regional;
                     $economic_complement->save();
 
+                    //end check!
+
+
                     $affiliate->affiliate_state_id = $request->state;
                     $affiliate->degree_id = $request->degree;
-                    $affiliate->affiliate_type_id = $request->affiliate_type;
+                    $affiliate->type = $request->affiliate_type;
                     $affiliate->unit_id = $request->unit;
                     $affiliate->date_entry = Util::datePick($request->date_entry);
                     $affiliate->item = $request->item > 0 ? $request->item: 0 ;

@@ -14,7 +14,7 @@ use Muserpol\Activity;
 use Muserpol\Affiliate;
 use Muserpol\Spouse;
 use Muserpol\AffiliateState;
-use Muserpol\AffiliateType;
+use Muserpol\AffiliateStateType;
 use Muserpol\Contribution;
 use Muserpol\EconomicComplement;
 
@@ -70,10 +70,10 @@ class DashboardController extends Controller
 		
 
 			$affiliateState = AffiliateState::all();
-			$affiliateType = AffiliateType::all();
+			$affiliateType = AffiliateStateType::all();
 			$district = DB::table('units')->select(DB::raw('DISTINCT (units.district) as district'))->get();
 			$year = Carbon::now()->year;
-			
+			$Total_AffiliatebyState=[];
 			foreach ($affiliateState as $item) {
 				$TotalAffiliates = Affiliate::afibyState($item->id,$year)->first();
 				if ($TotalAffiliates->total) {
@@ -129,9 +129,8 @@ class DashboardController extends Controller
 
 			//voluntary contribution by current year
 			$monthVoluntaryContribution = DB::table('contributions')
-				
 				->select(DB::raw('DISTINCT(EXTRACT(MONTH FROM contributions.month_year)) as month'))
-				->where('contributions.contribution_type_id', '=', 2)
+				->where('contributions.type', '=', 'Directo')
 				->where(DB::raw('EXTRACT(MONTH FROM contributions.month_year)'), '=', $current_year)
 				->orderBy(DB::raw('EXTRACT(MONTH FROM contributions.month_year)'), 'asc')
 				->get();
