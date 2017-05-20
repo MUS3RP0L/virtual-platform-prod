@@ -164,7 +164,7 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('pension_entity_id')->unsigned()->nullable();
             $table->string('identity_card')->unique()->required();
             $table->string('registration');
-            $table->enum('type',['C', 'B']);
+            $table->enum('type',['Comando', 'Batallón']);
             $table->string('last_name')->nullable();
             $table->string('mothers_last_name')->nullable();
             $table->string('first_name')->nullable();

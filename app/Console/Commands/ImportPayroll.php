@@ -195,11 +195,11 @@ class ImportPayroll extends Command
                         switch ($result->desg) {
 
                             case '5': //Batallón
-                                $affiliate->affiliate_type_id = 2;
+                                $affiliate->type = 'Batallón';
                             break;
 
                             default://Comando
-                                $affiliate->affiliate_type_id = 1;
+                                $affiliate->type = 'Comando';
                         }
 
                         if ($result->uni) {
