@@ -102,7 +102,7 @@ class AffiliateController extends Controller
                     else{
                         return $affiliate->identity_card;
                     }
-                    
+
                 })
                 ->addColumn('degree', function ($affiliate) { return $affiliate->degree_id ? $affiliate->degree->shortened : ''; })
                 ->editColumn('last_name', function ($affiliate) { return Util::ucw($affiliate->last_name); })
@@ -336,7 +336,7 @@ class AffiliateController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
-        
+
 
         if ($validator->fails()) {
             return redirect('affiliate/'.$affiliate->id)
@@ -382,7 +382,9 @@ class AffiliateController extends Controller
                     $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->first();
                     $economic_complement->city_id = $request->regional;
                     $economic_complement->save();
+
                     //end check!
+
 
                     $affiliate->affiliate_state_id = $request->state;
                     $affiliate->degree_id = $request->degree;
@@ -397,7 +399,7 @@ class AffiliateController extends Controller
                     Session::flash('message', $message);
 
                 break;
-                
+
             }
                 Session::flash('message', $message);
         }
@@ -480,5 +482,55 @@ class AffiliateController extends Controller
         return $pdf->stream();
     }
 
+       public function print_excluded_by_salary()
+    {
+        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+        $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
+        $title = "NOTIFICACIÓN";
+        $date = Util::getDateEdit(date('Y-m-d'));
+        $current_date = Carbon::now();
+        $hour = Carbon::parse($current_date)->toTimeString();
+        //$data = $this->getData();
+       // dd($header1);
+      //  $affiliate = $data['affiliate'];
+        //$spouse = $data['spouse'];
+        //$total_gain = $data['total_gain'];
+        //$total_public_security_bonus = $data['total_public_security_bonus'];
+        //$total_quotable = $data['total_quotable'];
+        //$total_retirement_fund = $data['total_retirement_fund'];
+        //$total_mortuary_quota = $data['total_mortuary_quota'];
+        //$total = $data['total'];
+        //$contributions = Contribution::select(['id', 'month_year', 'degree_id', 'unit_id', 'item', 'base_wage','seniority_bonus', 'study_bonus', 'position_bonus', 'border_bonus', 'east_bonus', 'public_security_bonus', 'gain', 'quotable', 'retirement_fund', 'mortuary_quota', 'total'])->where('affiliate_id', $affiliate->id)->get();
+        $date = Util::getfulldate(date('Y-m-d'));
+        $view = \View::make('affiliates.print.excluded_by_salary', compact('header1','header2','title','date','hour'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view)->setPaper('legal');
+        return $pdf->stream();
+    }
 
+         public function print_miss_requiriments()
+    {
+        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+        $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
+        $title = "NOTIFICACIÓN";
+        $date = Util::getDateEdit(date('Y-m-d'));
+        $current_date = Carbon::now();
+        $hour = Carbon::parse($current_date)->toTimeString();
+        //$data = $this->getData();
+       // dd($header1);
+      //  $affiliate = $data['affiliate'];
+        //$spouse = $data['spouse'];
+        //$total_gain = $data['total_gain'];
+        //$total_public_security_bonus = $data['total_public_security_bonus'];
+        //$total_quotable = $data['total_quotable'];
+        //$total_retirement_fund = $data['total_retirement_fund'];
+        //$total_mortuary_quota = $data['total_mortuary_quota'];
+        //$total = $data['total'];
+        //$contributions = Contribution::select(['id', 'month_year', 'degree_id', 'unit_id', 'item', 'base_wage','seniority_bonus', 'study_bonus', 'position_bonus', 'border_bonus', 'east_bonus', 'public_security_bonus', 'gain', 'quotable', 'retirement_fund', 'mortuary_quota', 'total'])->where('affiliate_id', $affiliate->id)->get();
+        $date = Util::getfulldate(date('Y-m-d'));
+        $view = \View::make('affiliates.print.miss_requiriments', compact('header1','header2','title','date','hour'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view)->setPaper('legal');
+        return $pdf->stream();
+    }
 }

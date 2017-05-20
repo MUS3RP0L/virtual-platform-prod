@@ -49,46 +49,39 @@
       </th>
     </tr>
   </table>
-
   <h1>
     <b>
       {{ $title }}<br>
       <h3>(Página 2/2)</h3>
     </b>
   </h1>
-  <br>
 </header>
   <table>
       <p align="right"> La Paz, Elija un elemento. de Elija un elemento. de 2017
       <br>CITE: UCE – EGSB /2017
       </p>
   </table>
-  <br>
-
   <table>
-      <p align="left">Señor (a): <br>    
+      <p align="left">Señor (a): <br>
       Haga clic aquí para escribir texto.……………………………………………..<br>
-      Presente.- 
+      Presente.-
        </p>
   </table>
-  <table>
-      <p align="right"><b>REF.- <ins> CARTA DE NOTIFICACIÓN </ins></b></p>
-  </table>
-  <table>
-      <p align="left">De nuestra consideracion</p>
-  </table>
-  <table>
-    <p align="justify">De la revisión efectuada por el Área Técnica de la Unidad de otorgación del Complemento Económico, <b>se comunica a usted que ... Elija un elemento.figura como deudor, por registrar cartera en mora por préstamos otorgados por la MUSERPOL.</b></p>
-    <br>
-    <p align="justify"><b>Y en estricto cumplimiento al Decreto Supremo Nº 1446</b>, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 3º.- (Funciones y ines). La MUSERPOL tiene las siguientes funciones y fines: inc. <b>5) Pagar el Complemento Económico al sector pasivo de la Policía Boliviana conforme a Reglamento. </b></p>
-    <br>
+         <p align="right"><b>REF.- <ins> CARTA DE NOTIFICACIÓN </ins></b></p>
+        <p align="justify">De nuestra consideracion.</p>
+         <p>
+              De la revisión efectuada por el Área Técnica de la Unidad de otorgación del Complemento Económico, <b>se comunica a usted que ... Elija un elemento.figura como deudor, por registrar cartera en mora por préstamos otorgados por la MUSERPOL.</b>
+        </p>
+    <p align="justify"><b>Y en estricto cumplimiento al Decreto Supremo Nº 1446</b>, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 3º.- (Funciones y fines). La MUSERPOL tiene las siguientes funciones y fines: inc. <b>5) Pagar el Complemento Económico al sector pasivo de la Policía Boliviana conforme a Reglamento</b>.
     <p align="justify">Asimismo, se halla enmarcado en las normas legales vigentes, el <b>Reglamento del Complemento Económico de 2016</b>, aprobado mediante Resolución de Directorio Nº 36/2016 de fecha 09 de diciembre de 2016, que norma en su <b>ARTÍCULO 8° (Suspensión y habilitación).</b></p>
-    
+
+    </p>
+    <table>
     <ol type="I">
       <li>
       El pago del beneficio del Complemento Económico quedará suspendido temporalmente en los siguientes  casos:
       </li>
-            <ol type="1">  
+            <ol type="1">
                 <li>Cuando el beneficiario se encuentre registrado en el sistema contable de MUSERPOL como deudor por rendición de cuentas o fondos en avance. </li>
                 <li><b>Cuando el beneficiario <ins>se encuentre registrado en cartera en mora</ins> por préstamos otorgados por la MUSERPOL.</b></li>
             </ol>
@@ -102,24 +95,16 @@
                 A La presentación de certificación de no adeudo emitido por el Departamento Financiero de la MUSERPOL, documento que permitirá la viabilidad del pago a solicitud del interesado.
               </li>
               <li>
-                <b>A La presentación de certificación de no adeudo o estado de cuotas de amortización semestral al día, emitido por la Dirección de Estrategias Sociales e Inversión de la MUSERPOL, documento que permitirá la viabilidad del pago a solicitud del interesado. Excepcionalmente se podrá amortizar la deuda con el beneficio del Complemento Económico en su integridad o como mínimo con el 50% del mismo, a solicitud escrita del interesado; procedimiento que será aprobado por la Dirección de Estrategias Sociales e Inversiones de la MUSERPOL, de acuerdo con su Reglamento. </b>
+                <b>A La presentación de certificación de no adeudo o estado de cuotas de amortización semestral al día, emitido por la Dirección de Estrategias Sociales e Inversión de la MUSERPOL, documento que permitirá la viabilidad del pago a solicitud del interesado. Excepcionalmente se podrá amortizar la deuda con el beneficio del Complemento Económico en su integridad o como mínimo con el 50% del mismo, a solicitud escrita del interesado; procedimiento que será aprobado por la Dirección de Estrategias Sociales e Inversiones de la MUSERPOL, de acuerdo con su Reglamento</b>.
               </li>
-          </ol>  
+          </ol>
       </li>
     </ol>
     </table>
-    <table>
         <p align="justify">
-          Por lo que usted no podrá cobrar el Beneficio del Complemento Económico, correspondiente al ... . Semestre de ... , en tanto continúe registrado en cartera en mora por préstamos otorgados por la MUSERPOL. 
-        </p>
-    </table>
-  <table>
-    <p align="left">
-      Sin otro motivo en particular, saludo a usted. 
-      <br>
+          Por lo que usted no podrá cobrar el Beneficio del Complemento Económico, correspondiente al ... . Semestre de ... , en tanto continúe registrado en cartera en mora por préstamos otorgados por la MUSERPOL.<br>
+      Sin otro motivo en particular, saludo a usted.<br>
       Atentamente.
-    </p>
-  </table>
-</table>
+        </p>
 </div>
 @endsection
