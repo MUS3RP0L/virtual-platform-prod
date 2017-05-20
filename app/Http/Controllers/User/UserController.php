@@ -149,7 +149,6 @@ class UserController extends Controller
 
     public function edit($user)
     {
-        //dd($user);
         $data = [
 
             'user' => $user,
