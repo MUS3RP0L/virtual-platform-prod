@@ -306,34 +306,33 @@ class EconomicComplementImportExportController extends Controller
     //############################################## EXPORT AFFILIATES TO APS ###################################
     public function export_to_aps(Request $request)
     {
-          global $year, $semester,$i,$afi;
-          $year = $request->year;
-          $semester = $request->semester;
-          Excel::create('Muserpol_para_aps', function($excel) {
-                    global $year,$semester, $j;
-                    $j = 2;
-                    $excel->sheet("AFILIADOS_PARA_APS_".$year, function($sheet) {
-                    global $year,$semester, $j, $i;
-                    $i=1;
-                    $sheet->row(1, array('NRO', 'TIPO_ID', 'NUM_ID', 'EXTENSION', 'CUA', 'PRIMER_APELLIDO_T', 'SEGUNDO_APELLIDO_T','PRIMER_NOMBRE_T','SEGUNDO_NOMBRE_T','APELLIDO_CASADA_T','FECHA_NACIMIENTO_T'));
-                    $afi = DB::table('economic_complements')
-                        ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,affiliates.identity_card,cities.third_shortened,affiliates.nua,affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,affiliates.birth_date'))
-                        ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
-                        ->leftJoin('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
-                        ->where('affiliates.pension_entity_id','<>', 5)
-                        ->whereYear('economic_complements.review_date', '=', $year)
-                        ->where('economic_complements.semester', '=', $semester)
-                        ->where('economic_complements.eco_com_state_id', '=', 2)->get();
-                    foreach ($afi as $datos) {
-                        $sheet->row($j, array($i, "I",$datos->identity_card,$datos->third_shortened,$datos->nua, $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,$datos->birth_date));
-                        $j++;
-                        $i++;
-                    }
-                  });
-              })->export('xlsx');
-                Session::flash('message', "Importación Exitosa");
-                return redirect('economic_complement');
-
+        global $year, $semester,$i,$afi;
+       $year = $request->year;
+       $semester = $request->semester;
+       Excel::create('Muserpol_para_aps', function($excel) {
+                 global $year,$semester, $j;
+                 $j = 2;
+                 $excel->sheet("AFILIADOS_PARA_APS_".$year, function($sheet) {
+                 global $year,$semester, $j, $i;
+                 $i=1;
+                 $sheet->row(1, array('NRO', 'TIPO_ID', 'NUM_ID', 'EXTENSION', 'CUA', 'PRIMER_APELLIDO_T', 'SEGUNDO_APELLIDO_T','PRIMER_NOMBRE_T','SEGUNDO_NOMBRE_T','APELLIDO_CASADA_T','FECHA_NACIMIENTO_T'));
+                 $afi = DB::table('eco_com_applicants')
+                     ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,eco_com_applicants.identity_card,cities.third_shortened,affiliates.nua,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date'))
+                     ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                     ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                     ->leftJoin('cities', 'eco_com_applicants.city_identity_card_id', '=', 'cities.id')
+                     ->where('affiliates.pension_entity_id','<>', 5)
+                     ->whereYear('economic_complements.year', '=', $year)
+                     ->where('economic_complements.semester', '=', $semester)->get();
+                 foreach ($afi as $datos) {
+                     $sheet->row($j, array($i, "I",$datos->identity_card,$datos->third_shortened,$datos->nua, $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,$datos->birth_date));
+                     $j++;
+                     $i++;
+                 }
+               });
+           })->export('xlsx');
+             Session::flash('message', "Importación Exitosa");
+             return redirect('economic_complement');
     }
 
     public function export_to_bank(Request $request){
