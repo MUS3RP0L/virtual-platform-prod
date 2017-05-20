@@ -17,7 +17,6 @@ use Muserpol\Helper\Util;
 use Muserpol\Affiliate;
 use Muserpol\AffiliateAddress;
 use Muserpol\AffiliateState;
-// use Muserpol\AffiliateType;
 use Muserpol\Category;
 use Muserpol\Contribution;
 use Muserpol\City;
@@ -235,7 +234,7 @@ class AffiliateController extends Controller
         foreach ($at as $d) {
             $affiliate_types[$d->id]=$d->type;
         }
-       // dd($affiliate_types);
+
         $un=Unit::all();
         $units=[];
         foreach ($un as $d) {

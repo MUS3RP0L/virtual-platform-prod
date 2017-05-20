@@ -29,6 +29,7 @@ class CreatePlatformTables extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('module_id')->unsigned();
             $table->string('name');
+            $table->string('action');
             $table->foreign('module_id')->references('id')->on('modules');
             $table->timestamps();
         });
