@@ -263,7 +263,7 @@ class Affiliate extends Model
     {
        return $query = DB::table('affiliates')
                     ->select(DB::raw('COUNT(*) as type'))
-                    ->where('affiliates.affiliate_type_id', '=', $type)
+                    ->where('affiliates.affiliate_state_id', '=', $type)
                     ->whereYear('affiliates.updated_at', '=', $year);
     }
 
@@ -273,7 +273,7 @@ class Affiliate extends Model
                     ->select(DB::raw('COUNT(*) as district'))
                     ->leftJoin('units', 'affiliates.unit_id', '=', 'units.id')
                     ->leftJoin('affiliate_states', 'affiliates.affiliate_state_id', '=', 'affiliate_states.id')
-                    ->leftJoin('state_types', 'affiliate_states.state_type_id', '=', 'state_types.id')
+                    ->leftJoin('affiliate_state_types', 'affiliate_states.affiliate_state_type_id', '=', 'affiliate_state_types.id')
                     ->where('units.district', '=', $district)
                     ->whereYear('affiliates.updated_at', '=', $year);
     }
