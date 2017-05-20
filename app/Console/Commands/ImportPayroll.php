@@ -76,7 +76,7 @@ class ImportPayroll extends Command
                             !isset($result->carg) or !isset($result->fro) or !isset($result->ori) or
                             !isset($result->bseg) or
                             !isset($result->dfu) or !isset($result->nat) or !isset($result->lac) or !isset($result->pre) or
-                            !isset($result->sub) or !isset($result->gan) or !isset($result->afp) or !isset($result->lpag) or
+                            !isset($result->sub) or !isset($result->gan) or !isset($result->afp) or !isset($result->pag) or
                             !isset($result->nua) or !isset($result->mus)) {
                             $this->error('Missing columns in the file!');
                             exit();
@@ -262,7 +262,7 @@ class ImportPayroll extends Command
                                 $contribution->subsidy = Util::decimal($result->sub);
 
                                 $contribution->gain = Util::decimal($result->gan);
-                                $contribution->payable_liquid = Util::decimal($result->lpag);
+                                $contribution->payable_liquid = Util::decimal($result->pag);
                                 $contribution->quotable = (FLOAT)$contribution->base_wage +
                                                           (FLOAT)$contribution->seniority_bonus +
                                                           (FLOAT)$contribution->study_bonus +
