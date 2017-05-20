@@ -17,7 +17,7 @@ use Muserpol\Helper\Util;
 use Muserpol\Affiliate;
 use Muserpol\AffiliateAddress;
 use Muserpol\AffiliateState;
-use Muserpol\AffiliateType;
+// use Muserpol\AffiliateType;
 use Muserpol\Category;
 use Muserpol\Contribution;
 use Muserpol\City;
@@ -224,16 +224,18 @@ class AffiliateController extends Controller
         }
 
          $ep=PensionEntity::all();
-        $entity_pensions=[];
+        $entity_pensions=array(''=>'');
+
         foreach ($ep as $e) {
             $entity_pensions[$e->id]=$e->name;
         }
-
-        $at=AffiliateType::all();
+        
+        $at=Affiliate::all();
         $affiliate_types=[];
         foreach ($at as $d) {
-            $affiliate_types[$d->id]=$d->name;
+            $affiliate_types[$d->id]=$d->type;
         }
+       // dd($affiliate_types);
         $un=Unit::all();
         $units=[];
         foreach ($un as $d) {
@@ -272,7 +274,7 @@ class AffiliateController extends Controller
             // 'total' => $total
             'affiliate_state'=>$a_states,
             'degrees'=>$degrees,
-            'affiliate_types'=>$affiliate_types,
+            'affiliate_types'=>$affiliate->type,
             'entity_pensions'=>$entity_pensions,
             'units'=>$units,
             'categories'=>$categories
