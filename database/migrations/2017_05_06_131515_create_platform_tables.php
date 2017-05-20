@@ -164,7 +164,7 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('pension_entity_id')->unsigned()->nullable();
             $table->string('identity_card')->unique()->required();
             $table->string('registration');
-            $table->enum('type',['C', 'B']);
+            $table->enum('type',['Comando', 'Batallón']);
             $table->string('last_name')->nullable();
             $table->string('mothers_last_name')->nullable();
             $table->string('first_name')->nullable();
@@ -299,6 +299,7 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('category_id')->unsigned()->nullable();
             $table->date('month_year')->required();
             $table->string('item')->nullable();
+            $table->enum('type',['Planilla', 'Directo']);
             $table->decimal('base_wage', 13, 2);
             $table->decimal('dignity_pension', 13, 2)->nullable();
             $table->decimal('seniority_bonus', 13, 2);
@@ -396,6 +397,7 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('affiliate_id')->unsigned();
             $table->bigInteger('direct_contribution_id')->unsigned()->nullable();
             $table->date('month_year')->required();
+            $table->enum('type',['Planilla', 'Directo']);
             $table->decimal('base_wage', 13, 2);
             $table->decimal('seniority_bonus', 13, 2);
             $table->decimal('study_bonus', 13, 2);

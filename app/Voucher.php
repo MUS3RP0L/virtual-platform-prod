@@ -17,7 +17,6 @@ class Voucher extends Model
         'user_id',
         'affiliate_id',
         'voucher_type_id',
-        'contribution_type_id',
         'code',
         'concept',
         'total',

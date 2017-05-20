@@ -129,11 +129,10 @@ class DashboardController extends Controller
 
 			//voluntary contribution by current year
 			$monthVoluntaryContribution = DB::table('contributions')
-				//REVISAR
-				/*->select(DB::raw('DISTINCT(EXTRACT(MONTH FROM contributions.month_year)) as month'))
-				->where('contributions.contribution_type_id', '=', 2)
+				->select(DB::raw('DISTINCT(EXTRACT(MONTH FROM contributions.month_year)) as month'))
+				->where('contributions.type', '=', 'Directo')
 				->where(DB::raw('EXTRACT(MONTH FROM contributions.month_year)'), '=', $current_year)
-				->orderBy(DB::raw('EXTRACT(MONTH FROM contributions.month_year)'), 'asc')*/
+				->orderBy(DB::raw('EXTRACT(MONTH FROM contributions.month_year)'), 'asc')
 				->get();
 				//revisar
 				//dd($monthVoluntaryContribution);
