@@ -92,9 +92,7 @@ class AffiliateController extends Controller
         }
 
         return Datatables::of($affiliates)
-                ->addColumn('identity_card', function($affiliate){
-                    return $affiliate->city_identity_card_id ? $affiliate->identity_card.' '.$affiliate->city_identity_card->shortened: $affiliate->identity_card;
-                })
+                ->addColumn('identity_card', function($affiliate){ return $affiliate->city_identity_card_id ? $affiliate->identity_card . ' ' . $affiliate->city_identity_card->shortened : $affiliate->identity_card; })
                 ->addColumn('degree', function ($affiliate) { return $affiliate->degree_id ? $affiliate->degree->shortened : ''; })
                 ->editColumn('last_name', function ($affiliate) { return Util::ucw($affiliate->last_name); })
                 ->editColumn('mothers_last_name', function ($affiliate) { return Util::ucw($affiliate->mothers_last_name); })

@@ -26,18 +26,6 @@
                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <strong>Estado</strong>
-                                </div>
-                                <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->affiliate_state->state_type->name !!}">
-                                    {!! $affiliate->affiliate_state->name !!}
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                            <div class="row">
-                                <div class="col-md-6">
                                     <strong>Fecha de Ingreso</strong>
                                 </div>
                                 <div class="col-md-6">
@@ -57,7 +45,7 @@
                                     <strong>Carnet Identidad</strong>
                                 </div>
                                 <div class="col-md-6">
-                                    {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card ? $affiliate->city_identity_card->shortened : '' !!}
+                                    {!! $affiliate->city_identity_card_id ? $affiliate->identity_card . ' ' . $affiliate->city_identity_card->shortened : $affiliate->identity_card !!}
                                 </div>
                             </div>
                         </td>
@@ -66,7 +54,7 @@
                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <strong>Núm. de Matrícula</strong>
+                                    <strong>Matrícula</strong>
                                 </div>
                                 <div class="col-md-6">
                                     {!! $affiliate->registration !!}
