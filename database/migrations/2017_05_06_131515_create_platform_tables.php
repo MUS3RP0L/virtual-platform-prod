@@ -508,6 +508,7 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('affiliate_id')->unsigned();
             $table->bigInteger('eco_com_modality_id')->unsigned();
+            $table->bigInteger('eco_com_state_id')->unsigned();
             $table->bigInteger('workflow_id')->unsigned();
             $table->bigInteger('wf_current_state_id');
             $table->bigInteger('city_id')->unsigned();
@@ -548,6 +549,7 @@ class CreatePlatformTables extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
             $table->foreign('eco_com_modality_id')->references('id')->on('eco_com_modalities');
+            $table->foreign('eco_com_state_id')->references('id')->on('eco_com_states');
             $table->foreign('workflow_id')->references('id')->on('workflows');
             $table->foreign('wf_current_state_id')->references('id')->on('wf_states');
             $table->foreign('city_id')->references('id')->on('cities');
