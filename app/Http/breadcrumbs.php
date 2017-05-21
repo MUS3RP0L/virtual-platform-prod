@@ -5,7 +5,6 @@
         $breadcrumbs->push('Inicio');
     });
 
-
     // Users
     Breadcrumbs::register('users', function($breadcrumbs) {
         $breadcrumbs->push('Usuarios', URL::to('user'));
@@ -21,7 +20,6 @@
         $breadcrumbs->push('Editar');
     });
 
-
     // Contribution Rate
     Breadcrumbs::register('contribution_rates', function($breadcrumbs) {
         $breadcrumbs->push('Tasas de Aporte', URL::to('contribution_rate'));
@@ -32,24 +30,15 @@
         $breadcrumbs->push('Reporte de Actividades');
     });
 
-
     // IPC Rate
     Breadcrumbs::register('ipc_rates', function($breadcrumbs) {
         $breadcrumbs->push('Tasas de Índice de Precio al Consumidor', URL::to('ipc_rate'));
     });
 
-
     // Base Wage
     Breadcrumbs::register('base_wages', function($breadcrumbs) {
         $breadcrumbs->push('Sueldos de Personal de la Policía Nacional', URL::to('base_wage'));
     });
-
-
-    // Monthly Report
-    Breadcrumbs::register('monthly_reports', function($breadcrumbs) {
-        $breadcrumbs->push('Reporte Mensual de Totales', URL::to('monthly_report'));
-    });
-
 
     // Affiliates
     Breadcrumbs::register('affiliates', function($breadcrumbs) {
@@ -60,7 +49,6 @@
         $breadcrumbs->parent('affiliates');
         $breadcrumbs->push($affiliate->getTittleName(), URL::to('affiliate/'.$affiliate->id));
     });
-
 
     // Show Contribution
     Breadcrumbs::register('show_contribution', function($breadcrumbs, $affiliate) {
@@ -82,7 +70,6 @@
         $breadcrumbs->push('Comprobante de Aporte Directo', URL::to('aportepago'));
     });
 
-
     // vouchers
     Breadcrumbs::register('show_vouchers', function($breadcrumbs) {
         $breadcrumbs->push('Comprobantes de Cobros', URL::to('voucher'));
@@ -97,7 +84,6 @@
     Breadcrumbs::register('complementary_factors', function($breadcrumbs) {
         $breadcrumbs->push('Factor de Complementación', URL::to('complementary_factor'));
     });
-
 
     // Economic Complements
     Breadcrumbs::register('economic_complements', function($breadcrumbs) {
@@ -114,7 +100,11 @@
         $breadcrumbs->push($economic_complement->getCode(), URL::to('economic_complement/'.$economic_complement->id));
     });
 
-    // Report Generator Economic Complement
+    // Monthly Report
+    Breadcrumbs::register('monthly_reports', function($breadcrumbs) {
+        $breadcrumbs->push('Reporte Mensual de Totales', URL::to('monthly_report'));
+    });
+    // Economic Complement Report Generator
     Breadcrumbs::register('report_generator', function($breadcrumbs) {
         $breadcrumbs->push('Generador de Reportes');
     });
