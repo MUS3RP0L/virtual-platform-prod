@@ -31,15 +31,16 @@ class AuthServiceProvider extends ServiceProvider
             
         $gate->before(function ($user, $ability) {
             foreach ($user->roles as $role) {
-                        if($role->id==1){
-                            return true;
-                        }
+                if($role->id == 1){
+                    return true;
                 }
+            }
+            return false;
         });
 
         $gate->define('manage', function ($user) {
             foreach ($user->roles as $role) {
-                if ($role->id==1) {
+                if ($role->id == 1) {
                     return true;
                 }
             }
@@ -47,84 +48,82 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         $gate->define('economic_complement',function($user){
-                foreach ($user->roles as $role) {
-                         if(($role->id==2) || ($role->id==3) || ($role->id==4) || ($role->id==5) || ($role->id==6)){
-                            return true;
-                         }
-                    }
-                return false;
+            if($user->roles()->first()->module->id == 2){
+                return true;
+            }
+            return false;
         });
 
         $gate->define('eco_com_reception',function($user){
-                foreach ($user->roles as $role) {
-                        if($role->id==2){
-                            return true;
-                        }
+            foreach ($user->roles as $role) {
+                if($role->id == 2){
+                    return true;
                 }
-                return false;
+            }
+            return false;
         });
 
         $gate->define('eco_com_review',function($user){
             foreach ($user->roles as $role) {
-                    if($role->id==3){
-                        return true;
-                    }
+                if($role->id == 3){
+                    return true;
+                }
             }
             return false;
         });
 
         $gate->define('eco_com_qualification',function($user){
-                foreach ($user->roles as $role) {
-                         if($role->id==4){
-                            return true;
-                         }
-                    }
-                return false;
+            foreach ($user->roles as $role) {
+                if($role->id == 4){
+                    return true;
+                }
+            }
+            return false;
         });
 
         $gate->define('eco_com_approval',function($user){
-                foreach ($user->roles as $role) {
-                         if($role->id==5){
-                            return true;
-                         }
-                    }
-                return false;
+            foreach ($user->roles as $role) {
+                if($role->id == 5){
+                    return true;
+                }
+            }
+            return false;
         });
 
         $gate->define('eco_com_lawyer',function($user){
-                foreach ($user->roles as $role) {
-                         if($role->id==6){
-                            return true;
-                         }
-                    }
-                return false;
+            foreach ($user->roles as $role) {
+                if($role->id == 6){
+                    return true;
+                }
+            }
+            return false;
         });
 
         $gate->define('accounting',function($user){
-                foreach ($user->roles as $role) {
-                         if($role->id==7){
-                            return true;
-                         }
-                    }
-                return false;
+            foreach ($user->roles as $role) {
+                if($role->id == 7){
+                    return true;
+                }
+            }
+            return false;
         });
   
         $gate->define('budget',function($user){
-                foreach ($user->roles as $role) {
-                         if($role->id==8){
-                            return true;
-                         }
-                    }
-                return false;
+            foreach ($user->roles as $role) {
+                if($role->id == 8){
+                    return true;
+                }
+            }
+            return false;
         });
 
         $gate->define('treasury',function($user){
-                foreach ($user->roles as $role) {
-                         if($role->id==9){
-                            return true;
-                         }
-                    }
-                return false;
+            foreach ($user->roles as $role) {
+                if($role->id == 9){
+                    return true;
+                }
+            }
+            return false;
         });
 
         //roles for Retirement fund
