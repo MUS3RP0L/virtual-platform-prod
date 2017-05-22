@@ -540,7 +540,6 @@ class CreatePlatformTables extends Migration
             $table->string('payment_number')->nullable();
             $table->text('comment')->nullable();
             $table->enum('state', ['Received', 'Edited']);
-            $table->enum('finished_type', ['EP', 'PB', 'RZ', 'NP', 'AD', 'OB']);
             // $table->decimal('sub_total_rent', 13, 2)->nullable();
             // $table->decimal('reimbursement_basic_pension', 13, 2)->nullable();
             // $table->decimal('dignity_pension', 13, 2)->nullable();
