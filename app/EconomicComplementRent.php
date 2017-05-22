@@ -31,5 +31,10 @@ class EconomicComplementRent extends Model
     {
       return $this->belongsTo('Muserpol\EconomicComplementType');
     }
+    
+    public function economic_complement_procedure()
+    {
+        $this->belongsTo(EconomicComplementProcedure::class);
+    }
 
 }

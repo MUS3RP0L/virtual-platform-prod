@@ -21,4 +21,19 @@ class EconomicComplementProcedure extends Model
 
     protected $guarded = ['id'];
 
+    public function economic_complements()
+    {
+      $this->hasMany(EconomicComplement::class);
+    }
+
+    public function economic_complements_rents()
+    {
+      $this->hasMany(EconomicComplementRent::class);
+    }
+
+    public function complementary_factors()
+    {
+      $this->hasMany(ComplementaryFactor::class);
+    }
+    
 }

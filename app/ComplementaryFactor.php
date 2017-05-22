@@ -36,5 +36,10 @@ class ComplementaryFactor extends Model
     {
         return $query->where('hierarchy_id', $id);
     }
+    
+    public function economic_complement_procedure()
+    {
+        $this->belongsTo(EconomicComplementProcedure::class);
+    }
 
 }
