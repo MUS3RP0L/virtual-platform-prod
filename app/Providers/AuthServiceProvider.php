@@ -125,15 +125,12 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
-        //roles for Retirement fund
-        // $gate->define('retirement_fund',function($user){
-        //         foreach ($user->roles as $role) {
-        //                  if(($role->id >= 2 && $role->id <= 7)){
-        //                     return true;
-        //                  }
-        //             }
-        //         return false;
-        // });
+        $gate->define('retirement_fund',function($user){
+            if($user->roles()->first()->module->id == 3){
+                return true;
+            }
+            return false;
+        });
 
         // verify if icurrent user have role reception of Retirement fund
         // $gate->define('reti_fund_reception',function($user){
