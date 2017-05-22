@@ -140,13 +140,11 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('print_with_legal_action', 'Affiliate\AffiliateController@print_legal_action');
 	Route::get('print_out_of_time_90', 'Affiliate\AffiliateController@print_out_time_90');
 	Route::get('print_lackrequiriment', 'Affiliate\AffiliateController@print_miss_requiriments');
-<<<<<<< HEAD
-=======
 	Route::get('print_without_requirement', 'Affiliate\AffiliateController@print_miss_requiriments_hab_inc');
 	//observants
 	Route::get('print_with_legal_action', 'Affiliate\AffiliateController@print_legal_action');
 	Route::get('print_out_of_time_90', 'Affiliate\AffiliateController@print_out_time_90');
->>>>>>> upstream/master
+
 	//excluded
 	Route::get('print_excsalary', 'Affiliate\AffiliateController@print_excluded_by_salary');
 	Route::get('print_invalidity', 'Affiliate\AffiliateController@print_invalidity_bonds');

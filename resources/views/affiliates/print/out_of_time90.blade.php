@@ -58,11 +58,11 @@
 </header>
   <table>
       <p align="right"> La Paz, Elija un elemento. de Elija un elemento. de 2017
-<<<<<<< HEAD
+
       <br>CITE: UCE - EGSB /Haga clic aquí para escribir texto./Elija un elemento.
-=======
+
       <br>CITE: UCE – EGSB /2017
->>>>>>> upstream/master
+
       </p>
   </table>
   <table>
@@ -74,7 +74,7 @@
          <p align="right"><b>REF.- <ins> CARTA DE NOTIFICACIÓN </ins></b></p>
         <p align="justify">De nuestra consideracion.</p>
          <p>
-<<<<<<< HEAD
+
               De la revisión efectuada por el Área Técnica la Unidad de Otorgación del Complemento Económico,  <b>se comunica a usted, que su trámite ingreso Fuera de Plazo.</b>
         </p>
     <p align="justify"><b>
@@ -90,7 +90,7 @@
 
     <p align="justify">
     En consecuencia, <b> siendo que  no ... cuenta con un mínimo de 16 años de servicio en la Policía Boliviana</b>, no podrá acceder al Pago del Beneficio del Complemento Económico correspondiente al ... Semestre de la Gestión ... .
-=======
+
               Mediante la presente y en atención al reclamo realizado por su persona, se comunica que de la recalificación realizada por el Área Técnica de la Unidad de Otorgación del Complemento Económico, <b>el importe pagado de Bs. ... es el correcto.</b>
         </p>
     <p align="justify"><b>
@@ -113,7 +113,7 @@
           Por lo que de la recalificación y revisión realizada con referencia al monto de pago del Beneficio del Complemento Económico, correspondiente al ... Semestre de la Gestión ... , por el importe de Bs ... . Haga clic aquí para escribir texto., <b>no existe error en el monto pagado.</b> Asimismo, comunicar a su persona que el monto individual del Complemento Económico es <b>variable</b>, determinado semestralmente en base a un Estudio Técnico Financiero y Reglamentación, aprobado por el Directorio de la MUSERPOL, en función a las transferencias determinadas por Ley para el pago del Complemento Económico.
       </p>
       <p align="justify">
->>>>>>> upstream/master
+
           Sin otro motivo en particular, saludo a usted.<br>
           Atentamente.
     </p>
