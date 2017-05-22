@@ -139,6 +139,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('debtor', 'PdfController@debtor');
 	Route::get('print_with_legal_action', 'Affiliate\AffiliateController@print_legal_action');
 	Route::get('print_out_of_time_90', 'Affiliate\AffiliateController@print_out_time_90');
+	Route::get('print_out_of_time_120', 'Affiliate\AffiliateController@print_out_time_120');
 	Route::get('print_lackrequiriment', 'Affiliate\AffiliateController@print_miss_requiriments');
 	Route::get('print_without_requirement', 'Affiliate\AffiliateController@print_miss_requiriments_hab_inc');
 	//observants
