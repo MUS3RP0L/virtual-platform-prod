@@ -21,6 +21,7 @@ use Muserpol\Category;
 use Muserpol\Contribution;
 use Muserpol\City;
 use Muserpol\Degree;
+use Muserpol\EconomicComplementProcedure;
 use Muserpol\EconomicComplement;
 use Muserpol\PensionEntity;
 use Muserpol\Spouse;
@@ -243,6 +244,25 @@ class AffiliateController extends Controller
             }
         }
 
+        $year = Util::getYear(Carbon::now());
+        $semester = Util::getCurrentSemester();
+        
+        $eco_com_current_procedure = EconomicComplementProcedure::whereYear('year', '=',$year)
+                                                           ->where('semester',$semester)
+                                                           ->first();
+        if ($eco_com_current_procedure) {
+            $current_economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)
+                                                             ->where('eco_com_procedure_id', $eco_com_current_procedure->id)
+                                                             ->first();
+            if ($current_economic_complement) {
+                $has_current_eco_com = "edit";
+            } else {
+                $has_current_eco_com = "create";
+            }
+        } else {
+            $has_current_eco_com = "disabled";
+        }
+
         $data = [
 
             'affiliate' => $affiliate,
@@ -253,6 +273,7 @@ class AffiliateController extends Controller
             'info_address' => $info_address,
             'info_spouse' => $info_spouse,
             'economic_complement' => $economic_complement,
+            'has_current_eco_com' => $has_current_eco_com,
             // 'last_contribution' => $last_contribution,
             'observations'=>$affiliate->observations,
             // 'total_gain' => $total_gain,
@@ -409,15 +430,15 @@ class AffiliateController extends Controller
         $data = $this->getData($affiliate);
         $affiliate = $data['affiliate'];
         $spouse = $data['spouse'];
-        $total_gain = $data['total_gain'];
-        $total_public_security_bonus = $data['total_public_security_bonus'];
-        $total_quotable = $data['total_quotable'];
-        $total_retirement_fund = $data['total_retirement_fund'];
-        $total_mortuary_quota = $data['total_mortuary_quota'];
-        $total = $data['total'];
+//        $total_gain = $data['total_gain'];
+//        $total_public_security_bonus = $data['total_public_security_bonus'];
+//        $total_quotable = $data['total_quotable'];
+//        $total_retirement_fund = $data['total_retirement_fund'];
+//        $total_mortuary_quota = $data['total_mortuary_quota'];
+//        $total = $data['total'];
         $contributions = Contribution::select(['id', 'month_year', 'degree_id', 'unit_id', 'item', 'base_wage','seniority_bonus', 'study_bonus', 'position_bonus', 'border_bonus', 'east_bonus', 'public_security_bonus', 'gain', 'quotable', 'retirement_fund', 'mortuary_quota', 'total'])->where('affiliate_id', $affiliate->id)->get();
         $date = Util::getfulldate(date('Y-m-d'));
-        $view = \View::make('affiliates.print.show', compact('header1','header2','title','date','hour','affiliate', 'spouse','total_gain','total_public_security_bonus','total_quotable','total_retirement_fund','total_mortuary_quota','total','contributions'))->render();
+        $view = \View::make('affiliates.print.show', compact('header1','header2','title','date','hour','affiliate', 'spouse','contributions'))->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view)->setPaper('legal','landscape');
         return $pdf->stream();
@@ -672,6 +693,31 @@ class AffiliateController extends Controller
         //$contributions = Contribution::select(['id', 'month_year', 'degree_id', 'unit_id', 'item', 'base_wage','seniority_bonus', 'study_bonus', 'position_bonus', 'border_bonus', 'east_bonus', 'public_security_bonus', 'gain', 'quotable', 'retirement_fund', 'mortuary_quota', 'total'])->where('affiliate_id', $affiliate->id)->get();
         $date = Util::getfulldate(date('Y-m-d'));
         $view = \View::make('affiliates.print.out_of_time90', compact('header1','header2','title','date','hour'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view)->setPaper('legal');
+        return $pdf->stream();
+    }
+    public function print_out_time_120()
+    {
+        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+        $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
+        $title = "NOTIFICACIÓN";
+        $date = Util::getDateEdit(date('Y-m-d'));
+        $current_date = Carbon::now();
+        $hour = Carbon::parse($current_date)->toTimeString();
+        //$data = $this->getData();
+       // dd($header1);
+      //  $affiliate = $data['affiliate'];
+        //$spouse = $data['spouse'];
+        //$total_gain = $data['total_gain'];
+        //$total_public_security_bonus = $data['total_public_security_bonus'];
+        //$total_quotable = $data['total_quotable'];
+        //$total_retirement_fund = $data['total_retirement_fund'];
+        //$total_mortuary_quota = $data['total_mortuary_quota'];
+        //$total = $data['total'];
+        //$contributions = Contribution::select(['id', 'month_year', 'degree_id', 'unit_id', 'item', 'base_wage','seniority_bonus', 'study_bonus', 'position_bonus', 'border_bonus', 'east_bonus', 'public_security_bonus', 'gain', 'quotable', 'retirement_fund', 'mortuary_quota', 'total'])->where('affiliate_id', $affiliate->id)->get();
+        $date = Util::getfulldate(date('Y-m-d'));
+        $view = \View::make('affiliates.print.out_of_time120', compact('header1','header2','title','date','hour'))->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view)->setPaper('legal');
         return $pdf->stream();

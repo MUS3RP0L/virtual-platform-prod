@@ -81,15 +81,11 @@
       Y en estricto cumplimiento al Decreto Supremo Nº 1446</b>, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 17.- (Complemento Económico). El Complemento Económico es un Beneficio que otorga la MUSERPOL AL SECTOR PASIVO DE LA POLICIA BOLIVIANA y sus derechohabientes de primer grado con prestaciones por vejez en curso de pago del Sistema de Reparto y del Sistema Integral de Pensiones, cuyos montos sean inferiores al haber básico más categoría que perciban los miembros del servicio activo de la Policía Boliviana en el grado correspondiente. 
     </p>
     <p align="justify">
-      Asimismo, se halla enmarcado en las normas legales vigentes, el <b>Reglamento del Complemento Económico de 2016</b>, aprobado mediante Resolución de Directorio Nº 36/2016 de fecha 09 de diciembre de 2016, que norma en su <b>ARTICULO 17° (Complemento Económico No Solicitado).<ins> Los beneficiarios nuevos</ins> </b>que no hayan presentado su solicitud de Inclusión en los plazos determinados según convocatoria semestral, <b><ins>contarán con un plazo de Noventa (90) días calendario, </ins></b> , para presentar solicitud del beneficio, posteriores a las fechas de pago, por lo que no se dará curso a solicitudes posteriores.
+      Asimismo, se halla enmarcado en las normas legales vigentes, el <b>Reglamento del Complemento Económico de 2016</b>, aprobado mediante Resolución de Directorio Nº 36/2016 de fecha 09 de diciembre de 2016, que norma en su <b>ARTICULO 18° (Complemento Económico No Cobrado). </b>El importe del Complemento Económico no cobrado por los beneficiarios permanecerá en el auxiliar contable individual por <b>Ciento Veinte (120) días calendario a partir desde el 1er. día hábil posterior a realizado el Pago por la Entidad Bancaria o Financiera. </b>. Cumplido el plazo, al igual que los importes remanentes de las transferencias por Gestión, con aprobación de la Máxima Autoridad Ejecutiva de la MUSERPOL, serán transferidos al saldo contable financiero del Complemento Económico. Situación que será puesta en conocimiento del Honorable Directorio.
       </p>
-          </p>
-
     <p align="justify">
-      <ins><b>Los Beneficiarios habituales </b></ins> que no hayan presentado su solicitud, en los plazos determinados según convocatoria semestral, <ins><b>contarán con un plazo de Noventa (90) días calendario</b></ins>, para presentar solicitud del beneficio, posteriores a la fecha de pago, por lo que no se dará curso a solicitudes posteriores.   
-    </p>
-    <p align="justify"><b>
-      Por lo que, al haber ingresado su trámite en fecha Haga clic aquí para escribir una fecha. y de acuerdo a los plazos establecidos de recepción de requisitos correspondiente al Elija un elemento. Semestre de la Gestión Elija un elemento., que fenece el Haga clic aquí para escribir una fecha., su trámite ingreso fuera de plazo, por lo que no corresponde el pago del beneficio del Complemento Económico. </b>
+      <b>Por lo que, al haber ingresado su solicitud de pago (rezagado) en fecha Haga clic aquí para escribir una fecha. y de acuerdo a los plazos establecidos según Reglamento del Complemento Económico no Cobrado correspondiente al Elija un elemento. Semestre de la Gestión Elija un elemento., que feneció el Haga clic aquí para escribir una fecha., su solicitud ingreso fuera de plazo, por lo que no corresponde el pago del beneficio del Complemento Económico.
+      </b>
     </p>
    
     <p align="justify">

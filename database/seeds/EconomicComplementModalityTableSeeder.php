@@ -81,8 +81,6 @@ class EconomicComplementModalityTableSeeder extends Seeder
     {
         $statuses = [
 
-
-
             ['eco_com_state_type_id' => '1', 'name' => 'Banco'],
             ['eco_com_state_type_id' => '1', 'name' => 'Cheque Rezagado'],
             ['eco_com_state_type_id' => '1', 'name' => 'Cheque Adicional'],

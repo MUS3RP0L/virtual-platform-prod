@@ -3,7 +3,7 @@
 @section('contentheader_title')
 
 	<div class="row">
-		<div class="col-md-10">
+		<div class="col-md-8">
 			{!! Breadcrumbs::render('show_contribution', $affiliate) !!}
 		</div>
 		<div class="col-md-2 text-right">
@@ -11,6 +11,13 @@
 				&nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;
 			</a>
 		</div>
+
+		<div class="col-md-2 ">
+			<a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
+				&nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+			</a>
+		</div>
+
 	</div>
 
 @endsection
@@ -131,11 +138,18 @@
 			</div>
 		</div>
 	</div>
-
+	<div class="modal fade" tabindex="-1" >
+		<iframe src="{!! url('print_affiliate/' . $affiliate->id) !!}" id="iFramePdf"></iframe>
+	</div>
 @endsection
 
 @push('scripts')
 <script>
+    function printTrigger(elementId) {
+        var getMyFrame = document.getElementById(elementId);
+        getMyFrame.focus();
+        getMyFrame.contentWindow.print();
+    }
 
 	$(document).ready(function(){
 	    $('[data-toggle="tooltip"]').tooltip();
