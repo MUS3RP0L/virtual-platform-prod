@@ -24,7 +24,15 @@ class EconomicComplementProcedureController extends Controller
      */
     public function index()
     {
-        
+        return view('economic_complements.procedure.index');
+    }
+    public function Data(Request $request)
+    {
+        $procedures = EconomicComplementProcedure::select(['id', 'year', 'semester', 'normal_start_date', 'normal_end_date', 'lagging_start_date', 'lagging_end_date',  'additional_start_date', 'additional_end_date']);
+        return Datatables::of($procedures)
+               ->editColumn('year', function ($procedure) { return Util::getYear($procedure->year); })
+            ->make(true);
+
     }
 
     /**
@@ -34,7 +42,8 @@ class EconomicComplementProcedureController extends Controller
      */
     public function create()
     {
-        //
+        $year=Carbon::now()->year;
+        return view('economic_complements.procedure.create',['year'=>$year]);
     }
 
     /**
@@ -43,9 +52,33 @@ class EconomicComplementProcedureController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function save($request, $eco_com_pro=false)
+    {
+       
+            $eco_com_pro=EconomicComplementProcedure::where('year','=',Carbon::create(Carbon::now()->year, 1, 1, 0, 0, 0))->where('semester','=',Util::getCurrentSemester())->first();
+            if ($eco_com_pro) {
+                $message = "Rango de fechas Actualizado";
+            }else {
+                $eco_com_pro = new EconomicComplementProcedure();
+                $message = "Rango de Fechas Creado con éxito";
+            }
+            $eco_com_pro->year=Carbon::create(Carbon::now()->year, 1, 1, 0, 0, 0);
+            $eco_com_pro->user_id=Auth::user()->id;
+            $eco_com_pro->semester=Util::getCurrentSemester();
+            $eco_com_pro->normal_start_date=$request->normal_start_date;
+            $eco_com_pro->normal_end_date=$request->normal_end_date;
+            $eco_com_pro->lagging_start_date=$request->lagging_start_date;
+            $eco_com_pro->lagging_end_date=$request->lagging_end_date;
+            $eco_com_pro->additional_start_date=$request->additional_start_date;
+            $eco_com_pro->additional_end_date=$request->additional_end_date;
+            $eco_com_pro->save();
+            
+            Session::flash('message', $message);
+        return redirect('economic_complement_procedure');
+    }
     public function store(Request $request)
     {
-        //
+        return $this->save($request);
     }
 
     /**
@@ -67,7 +100,6 @@ class EconomicComplementProcedureController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
     /**
