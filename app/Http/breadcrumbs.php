@@ -113,3 +113,13 @@
     Breadcrumbs::register('show_inbox', function($breadcrumbs) {
         $breadcrumbs->push('Mi Bandeja', URL::to('inbox'));
     });
+
+
+    // Show Economic Complements Procedure
+    Breadcrumbs::register('eco_com_procedure', function($breadcrumbs) {
+        $breadcrumbs->push('Procedimientos', URL::to('economic_complement_procedure'));
+    });
+    Breadcrumbs::register('edit_eco_com_procedure', function($breadcrumbs) {
+        $breadcrumbs->parent('eco_com_procedure');
+        $breadcrumbs->push('Editando '.Util::getSemester(Carbon\Carbon::now()).' Semestre '.Util::getYear(Carbon\Carbon::now()));
+    });
