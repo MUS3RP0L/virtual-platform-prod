@@ -92,7 +92,10 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('get_complementary_factor_old_age', array('as'=>'get_complementary_factor_old_age', 'uses'=>'EconomicComplement\ComplementaryFactorController@old_ageData'));
 	Route::get('get_complementary_factor_widowhood', array('as'=>'get_complementary_factor_widowhood', 'uses'=>'EconomicComplement\ComplementaryFactorController@widowhoodData'));
 
-	// Economic Complement Procedure
+	// Economic Complementary Procedure
+	Route::resource('economic_complement_procedure', 'EconomicComplement\EconomicComplementProcedureController');
+
+	// Economic Complement
 	Route::resource('economic_complement', 'EconomicComplement\EconomicComplementController');
 	Route::get('economic_complement_reception_first_step/{affiliate_id}','EconomicComplement\EconomicComplementController@ReceptionFirstStep');
 	Route::get('economic_complement_reception_second_step/{economic_complement_id}','EconomicComplement\EconomicComplementController@ReceptionSecondStep');
@@ -100,6 +103,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('get_economic_complement', array('as'=>'get_economic_complement', 'uses'=>'EconomicComplement\EconomicComplementController@Data'));
 	Route::get('get_economic_complement_by_affiliate', array('as'=>'get_economic_complement_by_affiliate', 'uses'=>'EconomicComplement\EconomicComplementController@Data_by_affiliate'));
 	Route::get('get_economic_complement_type/{id}', array('as'=>'get_economic_complement_type', 'uses'=>'EconomicComplement\EconomicComplementController@getEconomicComplementType'));
+
 
 	Route::get('averages', array('as' => 'averages', 'uses' => 'EconomicComplement\EconomicComplementReportController@average'));
 	Route::get('get_average', array('as'=>'get_average','uses' =>'EconomicComplement\EconomicComplementReportController@Data'));

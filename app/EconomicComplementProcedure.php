@@ -12,11 +12,11 @@ class EconomicComplementProcedure extends Model
   		'year',
   		'semester',
   		'normal_start_date',
-		'normal_end_date',
-		'lagging_start_date',
-		'lagging_end_date',
-		'additional_start_date',
-		'additional_end_date'
+  		'normal_end_date',
+  		'lagging_start_date',
+  		'lagging_end_date',
+  		'additional_start_date',
+  		'additional_end_date'
   	];
 
     protected $guarded = ['id'];

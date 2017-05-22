@@ -20,7 +20,7 @@
                 @endcan
                 @can('economic_complement')
                     <li>
-                      <a href="{{ url('complementary_factor') }}">
+                      <a href="{{ url('economic_complement_procedure') }}">
                         <div class="menu">
                             <label class="control-sidebar-subheading">- Intervalos de Fechas</label>
                         </div>

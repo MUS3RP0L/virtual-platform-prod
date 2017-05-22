@@ -1,6 +1,6 @@
 <?php
 
-namespace Muserpol\Http\Controllers;
+namespace Muserpol\Http\Controllers\EconomicComplement;
 
 use Illuminate\Http\Request;
 use Muserpol\Http\Requests;
@@ -13,8 +13,7 @@ use Datatables;
 use Carbon\Carbon;
 use Muserpol\Helper\Util;
 
-use Muserpol\ComplementaryFactor;
-use Muserpol\Hierarchy;
+use Muserpol\EconomicComplementProcedure;
 
 class EconomicComplementProcedureController extends Controller
 {
@@ -25,7 +24,7 @@ class EconomicComplementProcedureController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
