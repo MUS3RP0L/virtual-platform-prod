@@ -445,9 +445,9 @@ class CreatePlatformTables extends Migration
             $table->softDeletes();
         });
 
-      /*
-        Begin Economic complement
-      */
+        /*
+            Start Economic complement
+        */
         Schema::create('eco_com_state_types', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
@@ -477,7 +477,6 @@ class CreatePlatformTables extends Migration
         Schema::create('eco_com_procedures', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('workflow_id')->unsigned();
             $table->date('year');
             $table->enum('semester', ['Primer', 'Segundo']);
             $table->date('normal_start_date');
@@ -487,7 +486,8 @@ class CreatePlatformTables extends Migration
             $table->date('additional_start_date');
             $table->date('additional_end_date');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('workflow_id')->references('id')->on('workflows');
+            $table->unique(['year','semester']);
+            $table->timestamps();
         });
 
         Schema::create('eco_com_rents', function(Blueprint $table) {
@@ -503,7 +503,6 @@ class CreatePlatformTables extends Migration
             $table->foreign('degree_id')->references('id')->on('degrees');
             $table->foreign('eco_com_type_id')->references('id')->on('eco_com_types');
             $table->foreign('eco_com_procedure_id')->references('id')->on('eco_com_procedures');
-            $table->unique(['year','semester']);
             $table->timestamps();
         });
 
@@ -527,6 +526,7 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('eco_com_modality_id')->unsigned();
             $table->bigInteger('eco_com_state_id')->unsigned()->nullable();
             $table->bigInteger('eco_com_procedure_id')->unsigned();
+            $table->bigInteger('workflow_id')->unsigned();
             $table->bigInteger('wf_current_state_id');
             $table->bigInteger('city_id')->unsigned();
             $table->bigInteger('category_id')->unsigned();
@@ -566,12 +566,13 @@ class CreatePlatformTables extends Migration
             $table->foreign('eco_com_modality_id')->references('id')->on('eco_com_modalities');
             $table->foreign('eco_com_state_id')->references('id')->on('eco_com_states');
             $table->foreign('eco_com_procedure_id')->references('id')->on('eco_com_procedures');
+            $table->foreign('workflow_id')->references('id')->on('workflows');
             $table->foreign('wf_current_state_id')->references('id')->on('wf_states');
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('base_wage_id')->references('id')->on('base_wages');
             $table->foreign('complementary_factor_id')->references('id')->on('complementary_factors');
-            $table->unique(['affiliate_id','semester','year']);
+            $table->unique(['affiliate_id','eco_com_procedure_id']);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -639,6 +640,9 @@ class CreatePlatformTables extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        /*
+            End Economic complement
+        */
 
         Schema::create('ret_fun_modalities', function(Blueprint $table) {
             $table->bigIncrements('id');
