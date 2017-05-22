@@ -100,7 +100,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('get_economic_complement', array('as'=>'get_economic_complement', 'uses'=>'EconomicComplement\EconomicComplementController@Data'));
 	Route::get('get_economic_complement_by_affiliate', array('as'=>'get_economic_complement_by_affiliate', 'uses'=>'EconomicComplement\EconomicComplementController@Data_by_affiliate'));
 	Route::get('get_economic_complement_type/{id}', array('as'=>'get_economic_complement_type', 'uses'=>'EconomicComplement\EconomicComplementController@getEconomicComplementType'));
-	
+
 	Route::get('averages', array('as' => 'averages', 'uses' => 'EconomicComplement\EconomicComplementReportController@average'));
 	Route::get('get_average', array('as'=>'get_average','uses' =>'EconomicComplement\EconomicComplementReportController@Data'));
 	Route::get('print_average', array('as'=>'print_average','uses' =>'EconomicComplement\EconomicComplementReportController@print_average'));
@@ -129,7 +129,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::resource('observation','Observation\ObservationController');
 	Route::get('get_observations',['as'=>'get_observations','uses'=>'Observation\ObservationController@showOfAffiliate']);
 	Route::get('observation/deleteOb/{id}',['as'=>'deleteOb','uses'=>'Observation\ObservationController@deleteOb']);
-	
+
 	//Routes for inbox
 	Route::resource('inbox', 'Inbox\InboxController');
 
@@ -138,6 +138,11 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('print_excsalary', 'Affiliate\AffiliateController@print_excluded_by_salary');
 	Route::get('print_lackrequiriment', 'Affiliate\AffiliateController@print_miss_requiriments');
 	Route::get('print_without_requirement', 'Affiliate\AffiliateController@print_miss_requiriments_hab_inc');
+	//excluded
+	Route::get('print_invalidity', 'Affiliate\AffiliateController@print_invalidity_bonds');
+	Route::get('print_less_16', 'Affiliate\AffiliateController@print_iless_16');
+
+
 
 });
 
