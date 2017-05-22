@@ -92,10 +92,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('get_complementary_factor_old_age', array('as'=>'get_complementary_factor_old_age', 'uses'=>'EconomicComplement\ComplementaryFactorController@old_ageData'));
 	Route::get('get_complementary_factor_widowhood', array('as'=>'get_complementary_factor_widowhood', 'uses'=>'EconomicComplement\ComplementaryFactorController@widowhoodData'));
 
-	// Economic Complementary Procedure
-	Route::resource('economic_complement_procedure', 'EconomicComplement\EconomicComplementProcedureController');
-
-	// Economic Complement
+	// Economic Complement Procedure
 	Route::resource('economic_complement', 'EconomicComplement\EconomicComplementController');
 	Route::get('economic_complement_reception_first_step/{affiliate_id}','EconomicComplement\EconomicComplementController@ReceptionFirstStep');
 	Route::get('economic_complement_reception_second_step/{economic_complement_id}','EconomicComplement\EconomicComplementController@ReceptionSecondStep');
@@ -103,7 +100,6 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('get_economic_complement', array('as'=>'get_economic_complement', 'uses'=>'EconomicComplement\EconomicComplementController@Data'));
 	Route::get('get_economic_complement_by_affiliate', array('as'=>'get_economic_complement_by_affiliate', 'uses'=>'EconomicComplement\EconomicComplementController@Data_by_affiliate'));
 	Route::get('get_economic_complement_type/{id}', array('as'=>'get_economic_complement_type', 'uses'=>'EconomicComplement\EconomicComplementController@getEconomicComplementType'));
-
 
 	Route::get('averages', array('as' => 'averages', 'uses' => 'EconomicComplement\EconomicComplementReportController@average'));
 	Route::get('get_average', array('as'=>'get_average','uses' =>'EconomicComplement\EconomicComplementReportController@Data'));
@@ -137,14 +133,19 @@ Route::group(['middleware' => 'auth'], function() {
 	//Routes for inbox
 	Route::resource('inbox', 'Inbox\InboxController');
 
-	Route::get('debtor', 'PdfController@debtor');
-	Route::get('print_wallet', 'Affiliate\AffiliateController@print_wallet_in_arrears');
-	Route::get('print_excsalary', 'Affiliate\AffiliateController@print_excluded_by_salary');
-	Route::get('print_lackrequiriment', 'Affiliate\AffiliateController@print_miss_requiriments');
+	//observants
 	Route::get('print_without_requirement', 'Affiliate\AffiliateController@print_miss_requiriments_hab_inc');
+	Route::get('print_wallet', 'Affiliate\AffiliateController@print_wallet_in_arrears');
+	Route::get('debtor', 'PdfController@debtor');
+	Route::get('print_with_legal_action', 'Affiliate\AffiliateController@print_legal_action');
+	Route::get('print_out_of_time_90', 'Affiliate\AffiliateController@print_out_time_90');
+	Route::get('print_lackrequiriment', 'Affiliate\AffiliateController@print_miss_requiriments');
 	//excluded
+	Route::get('print_excsalary', 'Affiliate\AffiliateController@print_excluded_by_salary');
 	Route::get('print_invalidity', 'Affiliate\AffiliateController@print_invalidity_bonds');
 	Route::get('print_less_16', 'Affiliate\AffiliateController@print_iless_16');
+	//clarificación
+	Route::get('print_correct', 'Affiliate\AffiliateController@print_correct_grading');
 
 
 
