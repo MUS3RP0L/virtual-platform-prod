@@ -18,21 +18,6 @@
 					<div class="box-body">
 						<div class="row">
 							<div class="col-md-12">
-								{{-- <div class="form-group">
-										{!! Form::label('year', 'Año', ['class' => 'col-md-4 control-label']) !!}
-									<div class="col-md-6">
-										{!! Form::number('year_t', $year, ['class'=> 'form-control', 'required' => 'required', 'disabled']) !!}
-										{!! Form::hidden('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
-											<span class="help-block">Año</span>
-									</div>
-								</div>
-								<div class="form-group">
-										{!! Form::label('semester', 'Semestre', ['class' => 'col-md-4 control-label']) !!}
-									<div class="col-md-6">
-										{!! Form::select('semester',[''=>'','Primer'=>'Primer Semestre', 'Segundo'=>'Segundo Semestre'],null, ['class'=> 'form-control combobox', 'required' => 'required']) !!}
-										<span class="help-block">Semestre</span>
-									</div>
-								</div> --}}
 								<div class="form-group">
 									{!! Form::label('normal_range_date', 'Normal', ['class' => 'col-md-4 control-label']) !!}
 								    <div class='col-md-6'>

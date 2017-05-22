@@ -153,6 +153,7 @@ Route::group(['middleware' => 'auth'], function() {
 	//clarificación
 	Route::get('print_correct', 'Affiliate\AffiliateController@print_correct_grading');
 	//procedures
+	Route::resource('economic_complement_procedure', 'EconomicComplement\EconomicComplementProcedureController');
 	Route::get('eco_com_pro_data',array('as'=>'eco_com_pro_data','uses'=> 'EconomicComplement\EconomicComplementProcedureController@Data'));
 
 

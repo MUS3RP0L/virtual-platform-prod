@@ -121,5 +121,5 @@
     });
     Breadcrumbs::register('edit_eco_com_procedure', function($breadcrumbs) {
         $breadcrumbs->parent('eco_com_procedure');
-        $breadcrumbs->push('Editando '.Util::getSemester(Carbon\Carbon::now()).' Semestre '.Util::getYear(Carbon\Carbon::now()));
+        $breadcrumbs->push(Util::getCurrentSemester(Carbon\Carbon::now()).' Semestre '.Util::getYear(Carbon\Carbon::now()));
     });
