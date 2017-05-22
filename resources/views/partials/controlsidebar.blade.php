@@ -13,7 +13,7 @@
                     <li>
                       <a href="{{ url('user') }}">
                         <div class="menu">
-                            <label class="control-sidebar-subheading">Usuarios</label>
+                            <label class="control-sidebar-subheading">- Usuarios</label>
                         </div>
                       </a>
                     </li>
