@@ -556,7 +556,7 @@ class Util
     {
     	$current_date = Carbon::now();
     	$current_month = $current_date->format('m');
-    	return $current_month<=6 ? "Primer" : "Segundo";
+    	return $current_month<=8 ? "Primer" : "Segundo";
     	
     }
 
