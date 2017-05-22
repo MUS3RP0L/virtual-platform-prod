@@ -552,4 +552,12 @@ class Util
     	return $gender=='M'?'F':'M';
     }
 
+    public static function getCurrentSemester()
+    {
+    	$current_date = Carbon::now();
+    	$current_month = $current_date->format('m');
+    	return $current_month<=8 ? "Primer" : "Segundo";
+    	
+    }
+
 }

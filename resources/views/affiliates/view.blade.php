@@ -34,12 +34,22 @@
             </div>
         @endcan
         @can('eco_com_reception')
-            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento Económico" style="margin: 0;">
-                <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
-                <ul class="dropdown-menu">
-                    <li><a href="{!! url('economic_complement_reception_first_step/' . $affiliate->id) !!}"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
-                </ul>
-            </div>
+            @if($has_current_eco_com=="edit")
+                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento  Económico" style="margin: 0;">
+                    <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" class="text-center"><i class="fa fa-eye"></i></i>Ver</a></li>
+                    </ul>
+                </div>
+            @endif
+            @if($has_current_eco_com=="create")
+                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento  Económico" style="margin: 0;">
+                    <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{!! url('economic_complement_reception_first_step/' . $affiliate->id) !!}"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
+                    </ul>
+                </div>
+            @endif
         @endcan
         @can('manage')
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Cuota Auxilio" style="margin: 0;">

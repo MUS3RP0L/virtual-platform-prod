@@ -21,6 +21,7 @@ use Muserpol\Category;
 use Muserpol\Contribution;
 use Muserpol\City;
 use Muserpol\Degree;
+use Muserpol\EconomicComplementProcedure;
 use Muserpol\EconomicComplement;
 use Muserpol\PensionEntity;
 use Muserpol\Spouse;
@@ -244,12 +245,32 @@ class AffiliateController extends Controller
             }
         }
 
+
         $canObservate=false;
         $ObservationType=null;
         $moduleObservation=Auth::user()->roles()->first()->module->id;
         if($moduleObservation==8 || $moduleObservation==6 ||$moduleObservation==9 ){
             $ObservationType=ObservationType::where('module_id',$moduleObservation)->first();
             $canObservate=true;
+        }
+
+        $year = Util::getYear(Carbon::now());
+        $semester = Util::getCurrentSemester();
+        
+        $eco_com_current_procedure = EconomicComplementProcedure::whereYear('year', '=',$year)
+                                                           ->where('semester',$semester)
+                                                           ->first();
+        if ($eco_com_current_procedure) {
+            $current_economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)
+                                                             ->where('eco_com_procedure_id', $eco_com_current_procedure->id)
+                                                             ->first();
+            if ($current_economic_complement) {
+                $has_current_eco_com = "edit";
+            } else {
+                $has_current_eco_com = "create";
+            }
+        } else {
+            $has_current_eco_com = "disabled";
         }
 
         $data = [
@@ -263,6 +284,7 @@ class AffiliateController extends Controller
             'info_address' => $info_address,
             'info_spouse' => $info_spouse,
             'economic_complement' => $economic_complement,
+            'has_current_eco_com' => $has_current_eco_com,
             // 'last_contribution' => $last_contribution,
             'observations'=>$affiliate->observations,
             // 'total_gain' => $total_gain,
