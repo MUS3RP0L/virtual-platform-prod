@@ -34,7 +34,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-12">
             {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
                 <input type="hidden" name="step" value="second"/>
                 <input type="hidden" name="type" value="create"/>

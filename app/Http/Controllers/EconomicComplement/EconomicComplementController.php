@@ -42,7 +42,6 @@ class EconomicComplementController extends Controller
 
     public function index()
     {
-
         return view('economic_complements.index', self::getViewModel());
     }
 
@@ -143,8 +142,8 @@ class EconomicComplementController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public static function getViewModel()
-     {
+    public static function getViewModel()
+    {
         $eco_com_states = EconomicComplementState::all();
         $eco_com_states_list =  ['' => ''];
         foreach ($eco_com_states as $item) {
@@ -200,7 +199,7 @@ class EconomicComplementController extends Controller
 
       $semester = Util::getSemester(Carbon::now());
 
-      return [
+    return [
 
             'eco_com_states_list' => $eco_com_states_list,
             'eco_com_types_list' => $eco_com_types_list,
@@ -214,7 +213,6 @@ class EconomicComplementController extends Controller
             'report_type_list' => $report_type_list,
             'new_cities_list' => $new_cities_list,
             'all_semester_list' => $all_semester_list
-
         ];
     }
 
@@ -352,12 +350,13 @@ class EconomicComplementController extends Controller
                 $sem='S';
             }
 
-            $economic_complement->code = $code ."/". $sem . "/" . $data['year'];
+            $economic_complement->user_id = Auth::user()->id;
             $economic_complement->affiliate_id = $affiliate->id;
+            $economic_complement->eco_com_modality_id = $eco_com_modality->id;
+            $economic_complement->workflow_id = 1;
+            $economic_complement->code = $code ."/". $sem . "/" . $data['year'];
             $economic_complement->year = Util::datePickYear($data['year'], $data['semester']);
             $economic_complement->semester = $data['semester'];
-            $economic_complement->eco_com_state_id = 1;
-            $economic_complement->user_id = Auth::user()->id;
         }
 
         // $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
@@ -371,7 +370,6 @@ class EconomicComplementController extends Controller
 
         $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
 
-        $economic_complement->eco_com_modality_id = $eco_com_modality->id;
         $economic_complement->category_id = $affiliate->category_id;
 
         $economic_complement->city_id = trim($request->city);
