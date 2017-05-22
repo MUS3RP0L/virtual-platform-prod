@@ -252,17 +252,23 @@ class CreatePlatformTables extends Migration
             $table->softDeletes();
         });
 
+        Schema::create('observation_types', function(Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('module_id')->unsigned();
+            $table->string('name');
+            $table->string('description');
+            $table->foreign('module_id')->references('id')->on('modules');
+        });
+
         Schema::create('affiliate_observations', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('affiliate_id')->unsigned();
-            $table->bigInteger('module_id')->unsigned();
-            $table->date('date');
-            $table->string('title');
-            $table->string('description');
+            $table->bigInteger('observation_type_id')->unsigned();
+            $table->string('message');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
-            $table->foreign('module_id')->references('id')->on('modules');
+            $table->foreign('observation_type_id')->references('id')->on('observation_types');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -754,7 +760,6 @@ class CreatePlatformTables extends Migration
      */
     public function down()
     {
-
         Schema::dropIfExists('ret_fun_applicants');
         Schema::dropIfExists('ret_fun_antecedents');
         Schema::dropIfExists('ret_fun_antecedent_files');
@@ -783,10 +788,8 @@ class CreatePlatformTables extends Migration
         Schema::dropIfExists('ipc_rates');
         Schema::dropIfExists('contributions');
         Schema::dropIfExists('direct_contributions');
-        Schema::dropIfExists('observation_records');
-        Schema::dropIfExists('observation_types');
-        Schema::dropIfExists('observation_states');
         Schema::dropIfExists('affiliate_observations');
+        Schema::dropIfExists('observation_types');        
         Schema::dropIfExists('affiliate_records');
         Schema::dropIfExists('spouses');
         Schema::dropIfExists('affiliate_address');
