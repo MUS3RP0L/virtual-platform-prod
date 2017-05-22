@@ -31,7 +31,6 @@ use Muserpol\BaseWage;
 use Muserpol\ComplementaryFactor;
 use Muserpol\Degree;
 use Muserpol\Unit;
-use DB;
 
 class EconomicComplementController extends Controller
 {

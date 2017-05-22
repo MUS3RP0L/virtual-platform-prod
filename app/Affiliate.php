@@ -9,7 +9,6 @@ use Carbon\Carbon;
 use Muserpol\Helper\Util;
 use DB;
 
-
 class Affiliate extends Model
 {
     use SoftDeletes;

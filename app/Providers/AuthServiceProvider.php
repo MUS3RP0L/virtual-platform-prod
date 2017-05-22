@@ -35,7 +35,6 @@ class AuthServiceProvider extends ServiceProvider
                     return true;
                 }
             }
-            return false;
         });
 
         $gate->define('manage', function ($user) {
