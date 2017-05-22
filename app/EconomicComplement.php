@@ -124,6 +124,10 @@ class EconomicComplement extends Model
     {
         return "Proceso N° " . $this->code;
     }
+    public function economic_complement_procedure()
+    {
+        $this->belongsTo(EconomicComplementProcedure::class);
+    }
 }
 
 EconomicComplement::created(function($ecomplement)

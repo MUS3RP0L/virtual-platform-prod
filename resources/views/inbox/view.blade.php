@@ -1,12 +1,19 @@
 @extends('app')
-@section('contentheader_title')
 
+@section('contentheader_title')
+<div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             {!! Breadcrumbs::render('show_inbox') !!}
         </div>
-    </div>
+		<div class="col-md-6 text-right">
+			<div class="btn-group"  data-toggle="tooltip" data-placement="top" data-original-title="Actualizar" style="margin: 0;">
+					<a href="{!! url('inbox') !!}" class="btn btn-success btn-raised bg-orange" ><i class="fa fa-refresh" aria-hidden="true"></i></a>
 
+			</div>
+		</div>
+    </div>
+</div>
 @endsection
 @section('main-content')
 
