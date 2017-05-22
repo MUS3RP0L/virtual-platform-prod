@@ -58,7 +58,11 @@
 </header>
   <table>
       <p align="right"> La Paz, Elija un elemento. de Elija un elemento. de 2017
+
+      <br>CITE: UCE - EGSB /Haga clic aquí para escribir texto./Elija un elemento.
+
       <br>CITE: UCE – EGSB /2017
+
       </p>
   </table>
   <table>
@@ -70,6 +74,23 @@
          <p align="right"><b>REF.- <ins> CARTA DE NOTIFICACIÓN </ins></b></p>
         <p align="justify">De nuestra consideracion.</p>
          <p>
+
+              De la revisión efectuada por el Área Técnica la Unidad de Otorgación del Complemento Económico,  <b>se comunica a usted, que su trámite ingreso Fuera de Plazo.</b>
+        </p>
+    <p align="justify"><b>
+      Y en estricto cumplimiento al Decreto Supremo Nº 1446</b>, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 17.- (Complemento Económico). El Complemento Económico es un Beneficio que otorga la MUSERPOL AL SECTOR PASIVO DE LA POLICIA BOLIVIANA y sus derechohabientes de primer grado con prestaciones por vejez en curso de pago del Sistema de Reparto y del Sistema Integral de Pensiones, cuyos montos sean inferiores al haber básico más categoría que perciban los miembros del servicio activo de la Policía Boliviana en el grado correspondiente. 
+    </p>
+    <p align="justify">
+      Asimismo, se halla enmarcado en las normas legales vigentes, el <b>Reglamento del Complemento Económico de 2016</b>, aprobado mediante Resolución de Directorio Nº 36/2016 de fecha 09 de diciembre de 2016, que norma en su <b>ARTICULO 17° (Complemento Económico No Solicitado).<ins> Los beneficiarios nuevos</ins> </b>que no hayan presentado su solicitud de Inclusión en los plazos determinados según convocatoria semestral, <b><<ins>contarán con un plazo de Noventa (90) días calendario, </ins></b> , para presentar solicitud del beneficio, posteriores a las fechas de pago, por lo que no se dará curso a solicitudes posteriores.
+      </p>
+     <p>
+       
+     </p>
+          </p>
+
+    <p align="justify">
+    En consecuencia, <b> siendo que  no ... cuenta con un mínimo de 16 años de servicio en la Policía Boliviana</b>, no podrá acceder al Pago del Beneficio del Complemento Económico correspondiente al ... Semestre de la Gestión ... .
+
               Mediante la presente y en atención al reclamo realizado por su persona, se comunica que de la recalificación realizada por el Área Técnica de la Unidad de Otorgación del Complemento Económico, <b>el importe pagado de Bs. ... es el correcto.</b>
         </p>
     <p align="justify"><b>
@@ -92,6 +113,7 @@
           Por lo que de la recalificación y revisión realizada con referencia al monto de pago del Beneficio del Complemento Económico, correspondiente al ... Semestre de la Gestión ... , por el importe de Bs ... . Haga clic aquí para escribir texto., <b>no existe error en el monto pagado.</b> Asimismo, comunicar a su persona que el monto individual del Complemento Económico es <b>variable</b>, determinado semestralmente en base a un Estudio Técnico Financiero y Reglamentación, aprobado por el Directorio de la MUSERPOL, en función a las transferencias determinadas por Ley para el pago del Complemento Económico.
       </p>
       <p align="justify">
+
           Sin otro motivo en particular, saludo a usted.<br>
           Atentamente.
     </p>
