@@ -267,6 +267,44 @@ class CreatePlatformTables extends Migration
             $table->softDeletes();
         });
 
+        Schema::create('observation_states', function(Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->timestamps();
+        });
+        Schema::create('observation_types', function(Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('observation_state_id')->unsigned();
+            $table->bigInteger('module_id')->unsigned();
+            $table->enum('type', ['Supendido', 'Excluido','Observado']);
+            $table->string('observation');
+            $table->bigInteger('enable1')->unsigned();
+            $table->bigInteger('enable2')->unsigned();
+            $table->boolean('pending');
+            //$table->foreign('observation_state_id')->references('id')->on('observation_states')->onDelete('cascade');
+            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
+            $table->timestamps();
+            $table->softDeletes();
+
+        });
+        Schema::create('observation_records', function(Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('affiliate_id')->unsigned();
+            $table->bigInteger('observation_type_id')->unsigned();
+            $table->bigInteger('observation_state_id')->unsigned();
+            $table->date('date');
+            $table->string('description');
+            $table->boolean('pending');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
+            $table->foreign('observation_type_id')->references('id')->on('observation_types')->onDelete('cascade');
+            $table->foreign('observation_state_id')->references('id')->on('observation_states')->onDelete('cascade');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+
         Schema::create('direct_contributions', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
@@ -669,7 +707,7 @@ class CreatePlatformTables extends Migration
             $table->decimal('subtotal', 13, 2);
             $table->decimal('performance', 13, 2);
             $table->decimal('total', 13, 2);
-            $table->string('comment'); 
+            $table->string('comment');
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
             $table->foreign('ret_fun_modality_id')->references('id')->on('ret_fun_modalities');
             $table->foreign('city_id')->references('id')->on('cities');
@@ -711,7 +749,7 @@ class CreatePlatformTables extends Migration
         Schema::create('ret_fun_antecedents', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('retirement_fund_id')->unsigned();
-            $table->bigInteger('ret_fun_antecedent_file_id')->unsigned();  
+            $table->bigInteger('ret_fun_antecedent_file_id')->unsigned();
             $table->boolean('status')->default(0);
             $table->date('reception_date')->nullable();
             $table->string('code')->nullable();
@@ -783,6 +821,9 @@ class CreatePlatformTables extends Migration
         Schema::dropIfExists('ipc_rates');
         Schema::dropIfExists('contributions');
         Schema::dropIfExists('direct_contributions');
+        Schema::dropIfExists('observation_records');
+        Schema::dropIfExists('observation_types');
+        Schema::dropIfExists('observation_states');
         Schema::dropIfExists('affiliate_observations');
         Schema::dropIfExists('affiliate_records');
         Schema::dropIfExists('spouses');
