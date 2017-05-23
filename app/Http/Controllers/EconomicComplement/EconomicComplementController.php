@@ -361,7 +361,7 @@ class EconomicComplementController extends Controller
             $economic_complement->eco_com_procedure_id = $eco_com_pro->id;
             $economic_complement->workflow_id = 1;
             $economic_complement->wf_current_state_id = 1;
-            $economic_complement->state = 'Received';
+            $economic_complement->state = 'Edited';
             
             $economic_complement->code = $code ."/". $sem . "/" . $data['year'];
             $economic_complement->year = Util::datePickYear($data['year'], $data['semester']);
