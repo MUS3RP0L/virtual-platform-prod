@@ -621,7 +621,7 @@ class CreatePlatformTables extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('economic_complement_id')->unsigned();
             $table->bigInteger('city_identity_card_id')->unsigned()->nullable();
-            $table->string('identity_card');
+            $table->string('identity_card')->nullable();
             $table->string('last_name')->nullable();
             $table->string('mothers_last_name')->nullable();
             $table->string('first_name')->nullable();
