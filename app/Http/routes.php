@@ -141,7 +141,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('print_wallet/{id_complement}', array('as'=>'print_wallet', 'uses'=>'Affiliate\AffiliateController@print_wallet_in_arrears'));
 	Route::get('print_debtor/{id_complement}', array('as'=>'print_debtor', 'uses'=>'Affiliate\AffiliateController@print_debtor_conta'));
 	Route::get('print_with_legal_action', 'Affiliate\AffiliateController@print_legal_action');
-	Route::get('print_out_of_time_90', 'Affiliate\AffiliateController@print_out_time_90');
+	//Route::get('print_out_of_time_90', 'Affiliate\AffiliateController@print_out_time_90');
+	Route::get('print_out_of_time_90/{id_complement}', array('as'=>'print_out_of_time_90', 'uses'=>'Affiliate\AffiliateController@print_out_time_90'));
 	Route::get('print_out_of_time_120', 'Affiliate\AffiliateController@print_out_time_120');
 	Route::get('print_lackrequiriment', 'Affiliate\AffiliateController@print_miss_requiriments');
 	Route::get('print_without_requirement', 'Affiliate\AffiliateController@print_miss_requiriments_hab_inc');
