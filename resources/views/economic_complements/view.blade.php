@@ -20,6 +20,7 @@
                 </a>
             </div>
         </div>
+
 		<div class="col-md-2 text-right">
 	        <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Confirmar" style="margin:0px;">
                 <a href="" data-target="#myModal-confirm" class="btn btn-raised btn-warning dropdown-toggle enabled" data-toggle="modal">
@@ -27,6 +28,7 @@
                 </a>
             </div>
 		</div>
+
 	</div>
 
 @endsection
