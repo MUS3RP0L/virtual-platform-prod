@@ -25,6 +25,7 @@ use Muserpol\EconomicComplement;
 use Muserpol\PensionEntity;
 use Muserpol\Spouse;
 use Muserpol\Unit;
+use Muserpol\ObservationType;
 
 class AffiliateController extends Controller
 {
@@ -243,8 +244,17 @@ class AffiliateController extends Controller
             }
         }
 
-        $data = [
+        $canObservate=false;
+        $ObservationType=null;
+        $moduleObservation=Auth::user()->roles()->first()->module->id;
+        if($moduleObservation==8 || $moduleObservation==6 ||$moduleObservation==9 ){
+            $ObservationType=ObservationType::where('module_id',$moduleObservation)->first();
+            $canObservate=true;
+        }
 
+        $data = [
+            'canObservate'=>$canObservate,
+            'ObservationType'=>$ObservationType,
             'affiliate' => $affiliate,
             'AffiliateAddress' => $AffiliateAddress,
             'spouse' => $spouse,
@@ -274,6 +284,7 @@ class AffiliateController extends Controller
     }
     public function show($affiliate)
     {
+
         return view('affiliates.view', self::getData($affiliate->id));
     }
 

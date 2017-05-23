@@ -8,11 +8,20 @@
 				<h4 class="modal-title" id="myModalLabel">Crear una Observacion para el afiliado {{ $affiliate->identity_card}} </h4>
 			</div>
 			<div class="modal-body">
+
 				{!! Form::token() !!}
 				{!! Form::label('title', 'Titulo:', ['']) !!}
-				{!! Form::text('title', null, ['class'=>'form-control']) !!}
+				@if(isset($ObservationType))
+					{!! Form::text('title', $ObservationType->name, ['class'=>'form-control']) !!}
+				@else
+					{!! Form::text('title', null, ['class'=>'form-control']) !!}
+				@endif
 				{!! Form::label('message', 'Mensaje:', []) !!}
-				{!! Form::textarea('message', null, ['class'=>'form-control']) !!}
+				@if(isset($ObservationType))
+				{!! Form::textarea('message', $ObservationType->description, ['class'=>'form-control']) !!}
+					@else
+					{!! Form::textarea('message', null, ['class'=>'form-control']) !!}
+				@endif
 				{!! Form::hidden('affiliate_id', $affiliate->id  ) !!}
 				{!! Form::hidden('module_id', Auth::user()->roles()->first()->module_id ) !!}
 			</div>

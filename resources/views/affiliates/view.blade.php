@@ -589,6 +589,7 @@
             </div>
 
             <!-- observations -->
+            @if($canObservate)
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="row">
@@ -633,6 +634,7 @@
                     </div>
                 </div>
             </div>
+            @endif
             <!-- /observations -->
 
         </div>
