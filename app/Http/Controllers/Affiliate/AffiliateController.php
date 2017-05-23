@@ -408,9 +408,7 @@ class AffiliateController extends Controller
                     $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->first();
                     $economic_complement->city_id = $request->regional;
                     $economic_complement->save();
-
                     //end check!
-
 
                     $affiliate->affiliate_state_id = $request->state;
                     $affiliate->degree_id = $request->degree;
