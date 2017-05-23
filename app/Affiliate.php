@@ -95,12 +95,12 @@ class Affiliate extends Model
 
     public function city_identity_card()
     {
-        return $this->belongsTo('Muserpol\City', 'id','city_identity_card_id');
+        return $this->hasOne('Muserpol\City', 'id','city_identity_card_id');
     }
 
     public function city_birth()
     {
-        return $this->belongsTo('Muserpol\City', 'id','city_birth_id');
+        return $this->hasOne('Muserpol\City', 'id','city_birth_id');
     }
 
     public function reimbursements()
