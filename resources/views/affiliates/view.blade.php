@@ -38,7 +38,7 @@
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento  Económico" style="margin: 0;">
                     <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#" class="text-center"><i class="fa fa-eye"></i></i>Ver</a></li>
+                        <li><a href="{!! url('economic_complement/'.$affiliate->id) !!}" class="text-center"><i class="fa fa-eye"></i>Ver</a></li> 
                     </ul>
                 </div>
             @endif
@@ -1064,7 +1064,7 @@
 
                                     @endforeach
                                 </div>
-                                <div class="">
+                                <div class="form-group">
                                     <div class="col-md-offset-6">
                                     <button class="btn btn-success" id="addPhoneNumber" type="button" ><span class="fa fa-plus"></span></button>
                                     </div>

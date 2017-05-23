@@ -6,13 +6,23 @@
 		<div class="col-md-6">
 			{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-2">
 	        <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Declaración Jurada" style="margin:0px;">
 	            <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
 	                &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
 	            </a>
 	        </div>
 		</div>
+
+        <div class="col-md-2">
+            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción" style="margin:0px;">
+                <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReport');" >
+                    &nbsp;<span class="glyphicon glyphicon-list-alt"></span>&nbsp;
+                </a>
+            </div>
+        </div>
+
+
 		@can('eco_com_review')
 			@if($economic_complement->eco_com_state_id < 2)
 				<div class="col-md-2 text-right">
@@ -24,6 +34,15 @@
 				</div>
 			@endif
 		@endcan
+=======
+		<div class="col-md-2 text-right">
+	        <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Confirmar" style="margin:0px;">
+                <a href="" data-target="#myModal-confirm" class="btn btn-raised btn-warning dropdown-toggle enabled" data-toggle="modal">
+                    &nbsp;<span class="glyphicon glyphicon-ok"></span>&nbsp;
+                </a>
+            </div>
+		</div>
+>>>>>>> upstream/master
 	</div>
 
 @endsection
@@ -813,9 +832,6 @@
 		                    </div>
 		                </div>
 					{!! Form::close() !!}
-
-
-
             </div>
         </div>
     </div>
@@ -828,6 +844,7 @@
 		@else
         	<iframe src="{!! url('print_sworn_declaration1/' . $economic_complement->id) !!}" id="iFramePdf"></iframe>
         @endif
+        <iframe src="{!! url('print_reception_report/' . $economic_complement->id) !!}" id="iFramePdfReport" ></iframe>
 
     </div>
 
