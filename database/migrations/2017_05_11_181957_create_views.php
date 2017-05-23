@@ -15,11 +15,10 @@ class CreateViews extends Migration
              eco_com_types.name AS type,
              degrees.id AS degree_id,
              degrees.shortened AS degree,
-             eco_com_procedures.semester,
-             eco_com_procedures.year AS year1
+             economic_complements.semester,
+             economic_complements.year AS year1
                   FROM eco_com_applicants
                   LEFT JOIN economic_complements ON eco_com_applicants.economic_complement_id = economic_complements.id
-                  LEFT JOIN eco_com_procedures ON economic_complements.eco_com_procedure_id = eco_com_procedures.id
                   LEFT JOIN affiliates ON economic_complements.affiliate_id = affiliates.id
                   LEFT JOIN degrees ON affiliates.degree_id = degrees.id
                   LEFT JOIN cities ON economic_complements.city_id = cities.id
@@ -38,11 +37,10 @@ class CreateViews extends Migration
                      eco_com_types.name AS type,
                      degrees.id AS degree_id,
                      degrees.shortened AS degree,
-                     eco_com_procedures.semester,
-                     eco_com_procedures.year AS year1
+                     economic_complements.semester,
+                     economic_complements.year AS year1
                     FROM eco_com_applicants
                       LEFT JOIN economic_complements ON eco_com_applicants.economic_complement_id = economic_complements.id
-                      LEFT JOIN eco_com_procedures ON economic_complements.eco_com_procedure_id = eco_com_procedures.id
                       LEFT JOIN affiliates ON economic_complements.affiliate_id = affiliates.id
                       LEFT JOIN degrees ON affiliates.degree_id = degrees.id
                       LEFT JOIN cities ON economic_complements.city_id = cities.id
