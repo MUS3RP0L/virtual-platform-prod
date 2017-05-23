@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Muserpol\Helper\Util;
 
 use Muserpol\EconomicComplement;
+use Muserpol\EconomicComplementProcedure;
 use Muserpol\EconomicComplementState;
 use Muserpol\EconomicComplementStateType;
 use Muserpol\EconomicComplementType;
@@ -127,7 +128,7 @@ class EconomicComplementController extends Controller
         $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'created_at', 'total']);
         return Datatables::of($economic_complements)
                 ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
-                ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name; })
+                // ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name; })
                 ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
                 ->addColumn('action', function ($economic_complement) { return  '
                     <div class="btn-group" style="margin:-3px 0;">
@@ -170,7 +171,7 @@ class EconomicComplementController extends Controller
 
         $cities_list_short = ['' => ''];
         foreach ($cities as $item) {
-            $cities_list_short[$item->id]=$item->shortened;
+            $cities_list_short[$item->id]=$item->first_shortened;
         }
 
         $new_cities_list = ['Todo' => 'Todo'];
@@ -250,7 +251,7 @@ class EconomicComplementController extends Controller
 
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
-        $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->with('economic_complement_legal_guardian')->first();
+        $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
 
         $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
         $eco_com_modality = $economic_complement->economic_complement_modality;
@@ -326,10 +327,14 @@ class EconomicComplementController extends Controller
         $data = self::getViewModel();
 
         $affiliate = Affiliate::idIs($request->affiliate_id)->first();
+        
+        $eco_com_pro = EconomicComplementProcedure::where('year','=',Util::datePickYear(Carbon::now()->year))->where('semester','=',Util::getCurrentSemester())->first();
 
         $economic_complement = EconomicComplement::affiliateIs($affiliate->id)
                                     ->whereYear('year', '=', $data['year'])
                                     ->where('semester', '=', $data['semester'])->first();
+
+        $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
 
         if (!$economic_complement) {
 
@@ -353,7 +358,11 @@ class EconomicComplementController extends Controller
             $economic_complement->user_id = Auth::user()->id;
             $economic_complement->affiliate_id = $affiliate->id;
             $economic_complement->eco_com_modality_id = $eco_com_modality->id;
+            $economic_complement->eco_com_procedure_id = $eco_com_pro->id;
             $economic_complement->workflow_id = 1;
+            $economic_complement->wf_current_state_id = 1;
+            $economic_complement->state = 'Received';
+            
             $economic_complement->code = $code ."/". $sem . "/" . $data['year'];
             $economic_complement->year = Util::datePickYear($data['year'], $data['semester']);
             $economic_complement->semester = $data['semester'];
@@ -368,7 +377,6 @@ class EconomicComplementController extends Controller
 
         if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }
 
-        $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
 
         $economic_complement->category_id = $affiliate->category_id;
 
@@ -536,7 +544,6 @@ class EconomicComplementController extends Controller
                         $eco_com_applicant = new EconomicComplementApplicant;
                         $eco_com_applicant->economic_complement_id = $economic_complement->id;
                     }
-                    $eco_com_applicant->eco_com_applicant_type_id = $request->eco_com_type;
 
                     switch ($request->eco_com_type) {
                         case '1':

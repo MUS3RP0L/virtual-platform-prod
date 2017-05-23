@@ -23,6 +23,18 @@ class ComplementaryFactorTableSeeder extends Seeder
     {
         $statuses = [
 
+            ['user_id' => '1', 'year' => '2016-1-1', 'semester' => 'Segundo', 'normal_start_date' => '2016-1-1', 'normal_end_date' => '2016-12-1', 'lagging_start_date' => '2016-1-1', 'lagging_end_date' => '2016-12-1', 'additional_start_date' => '2016-1-1', 'additional_end_date' => '2016-12-1']
+
+        ];
+
+        foreach ($statuses as $status) {
+
+            Muserpol\EconomicComplementProcedure::create($status);
+
+        }
+
+        $statuses = [
+
             ['user_id' => '1', 'hierarchy_id' => '1', 'year' => '2015-1-1', 'semester' => 'Segundo', 'old_age' => '65', 'widowhood' => '75'],
             ['user_id' => '1', 'hierarchy_id' => '2', 'year' => '2015-1-1', 'semester' => 'Segundo', 'old_age' => '75', 'widowhood' => '75'],
             ['user_id' => '1', 'hierarchy_id' => '3', 'year' => '2015-1-1', 'semester' => 'Segundo', 'old_age' => '72', 'widowhood' => '72'],
@@ -33,19 +45,19 @@ class ComplementaryFactorTableSeeder extends Seeder
             ['user_id' => '1', 'hierarchy_id' => '2', 'year' => '2016-1-1', 'semester' => 'Primer', 'old_age' => '71', 'widowhood' => '71'],
             ['user_id' => '1', 'hierarchy_id' => '3', 'year' => '2016-1-1', 'semester' => 'Primer', 'old_age' => '70', 'widowhood' => '70'],
             ['user_id' => '1', 'hierarchy_id' => '4', 'year' => '2016-1-1', 'semester' => 'Primer', 'old_age' => '86', 'widowhood' => '80'],
-            ['user_id' => '1', 'hierarchy_id' => '5', 'year' => '2016-7-1', 'semester' => 'Primer', 'old_age' => '70', 'widowhood' => '70'],
+            ['user_id' => '1', 'hierarchy_id' => '5', 'year' => '2016-1-1', 'semester' => 'Primer', 'old_age' => '70', 'widowhood' => '70'],
 
-            ['user_id' => '1', 'hierarchy_id' => '1', 'year' => '2016-7-1', 'semester' => 'Segundo', 'old_age' => '61', 'widowhood' => '71'],
-            ['user_id' => '1', 'hierarchy_id' => '2', 'year' => '2016-7-1', 'semester' => 'Segundo', 'old_age' => '71', 'widowhood' => '71'],
-            ['user_id' => '1', 'hierarchy_id' => '3', 'year' => '2016-7-1', 'semester' => 'Segundo', 'old_age' => '70', 'widowhood' => '70'],
-            ['user_id' => '1', 'hierarchy_id' => '4', 'year' => '2016-7-1', 'semester' => 'Segundo', 'old_age' => '86', 'widowhood' => '80'],
-            ['user_id' => '1', 'hierarchy_id' => '5', 'year' => '2016-7-1', 'semester' => 'Segundo', 'old_age' => '70', 'widowhood' => '70']
+            ['user_id' => '1', 'hierarchy_id' => '1', 'year' => '2016-1-1', 'semester' => 'Segundo', 'old_age' => '61', 'widowhood' => '71'],
+            ['user_id' => '1', 'hierarchy_id' => '2', 'year' => '2016-1-1', 'semester' => 'Segundo', 'old_age' => '71', 'widowhood' => '71'],
+            ['user_id' => '1', 'hierarchy_id' => '3', 'year' => '2016-1-1', 'semester' => 'Segundo', 'old_age' => '70', 'widowhood' => '70'],
+            ['user_id' => '1', 'hierarchy_id' => '4', 'year' => '2016-1-1', 'semester' => 'Segundo', 'old_age' => '86', 'widowhood' => '80'],
+            ['user_id' => '1', 'hierarchy_id' => '5', 'year' => '2016-1-1', 'semester' => 'Segundo', 'old_age' => '70', 'widowhood' => '70']
         ];
 
-        // foreach ($statuses as $status) {
+        foreach ($statuses as $status) {
 
-        //     Muserpol\ComplementaryFactor::create($status);
+            Muserpol\ComplementaryFactor::create($status);
 
-        // }
+        }
     }
 }
