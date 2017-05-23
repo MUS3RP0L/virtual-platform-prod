@@ -234,6 +234,17 @@ class EconomicComplementController extends Controller
             $eco_com_modality = $economic_complement->economic_complement_modality->name;
         }
 
+        $last_year = Carbon::now()->subYear()->year;
+        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
+        if (EconomicComplement::affiliateIs($affiliate_id)
+                        ->whereYear('year', '=', $last_year)
+                        ->where('semester', '=', $last_semester)->first()) {
+            $affiliate->type_ecocom = 'Habitual';
+        }else{
+            $affiliate->type_ecocom = 'Inclusión';
+        }
+
+        $last_economic_complement;
         $data = [
             'affiliate' => $affiliate,
             'eco_com_type' => $eco_com_type,
@@ -268,6 +279,16 @@ class EconomicComplementController extends Controller
             $gender_list = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
         }
 
+        $last_year = Carbon::now()->subYear()->year;
+        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
+        if (EconomicComplement::affiliateIs($affiliate->id)
+                        ->whereYear('year', '=', $last_year)
+                        ->where('semester', '=', $last_semester)->first()) {
+            $affiliate->type_ecocom = 'Habitual';
+        }else{
+            $affiliate->type_ecocom = 'Inclusión';
+        }
+
         $data = [
 
             'affiliate' => $affiliate,
@@ -295,8 +316,6 @@ class EconomicComplementController extends Controller
 
         $eco_com_modality = $economic_complement->economic_complement_modality;
 
-        $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
-
         $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($economic_complement->id)->get();
 
         if (EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->first()) {
@@ -304,6 +323,19 @@ class EconomicComplementController extends Controller
         }else{
             $status_documents = FALSE;
         }
+
+        $last_year = Carbon::now()->subYear()->year;
+        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
+        if (EconomicComplement::affiliateIs($affiliate->id)
+                        ->whereYear('year', '=', $last_year)
+                        ->where('semester', '=', $last_semester)->first()) {
+            $affiliate->type_ecocom = 'Habitual';
+            $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->orderBy('id', 'asc')->take(2)->get();
+        }else{
+            $affiliate->type_ecocom = 'Inclusión';
+            $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
+        }
+
 
         $data = [
 
@@ -446,7 +478,6 @@ class EconomicComplementController extends Controller
             'gender_list' => $gender_list,
             'eco_com_states_block_list' => $eco_com_states_block_list,
             'eco_com_state_type_lists' => $eco_com_state_type_lists
-
 
         ];
 
@@ -616,6 +647,7 @@ class EconomicComplementController extends Controller
                     $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
 
                     $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+
                     $eco_com_applicant->identity_card = $request->identity_card;
                     if ($request->city_identity_card_id) { $eco_com_applicant->city_identity_card_id = $request->city_identity_card_id; } else { $eco_com_applicant->city_identity_card_id = null; }
                     $eco_com_applicant->last_name = $request->last_name;
