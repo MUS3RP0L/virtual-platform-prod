@@ -648,7 +648,8 @@ class EconomicComplementController extends Controller
                         }
                         $eco_com_legal_guardian->save();
                     }
-
+                    $economic_complement->state="Edited";
+                    $economic_complement->save();
                     return redirect('economic_complement_reception_second_step/'.$economic_complement->id);
 
                 }
@@ -901,8 +902,8 @@ class EconomicComplementController extends Controller
                 else{
 
                     $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
-                    $economic_complement->eco_com_state_id = 2;
                     $economic_complement->review_date = date('Y-m-d');
+                    $economic_complement->state = 'Edited';
                     $economic_complement->save();
 
                     return redirect('economic_complement/'.$economic_complement->id);

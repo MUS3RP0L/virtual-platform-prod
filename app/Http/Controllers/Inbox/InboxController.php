@@ -94,9 +94,10 @@ class InboxController extends Controller
             $e=EconomicComplement::find($key);
             $wfsq=WorkflowSequence::where('wf_state_current_id',$e->wf_current_state_id)->where('action','Aprobar')->first();
             $e->wf_current_state_id=$wfsq->wf_state_next_id;
+            $e->state='Received';
             $e->save();
         }
-        return; 
+        return view('inbox.view'); 
     }
 
     /**

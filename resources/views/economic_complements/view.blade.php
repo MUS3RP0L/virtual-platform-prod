@@ -399,7 +399,16 @@
         <div class="col-md-6">
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><span class="fa fa-money"></span> Cálculo de Total</h3>
+                    <div class="col-md-10">
+                        <h3 class="box-title"><span class="fa fa-money"></span> Cálculo de Total</h3>
+                    </div>
+                    <div class="col-md-2 text-right">
+                        <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                            <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals">&nbsp;&nbsp;
+                                <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="box-body">
                     <div class="row">
@@ -671,7 +680,60 @@
             </div>
         </div>
     </div>
+    
+    <div id="myModal-totals" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Editar Totales</h4>
+                </div>
+                <div class="modal-body">
+                    {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['affiliate_address.update', $economic_complement], 'class' => 'form-horizontal']) !!}
+                        <input type="hidden" name="type" value="rent"/>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    {!! Form::label('total_income', 'Renta Total Boleta', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-3">
+                                    {!! Form::text('total_income', '', ['class' => 'form-control', 'required' => 'required']) !!}
+                                        <span class="help-block">Escriba la Renta total boleta</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::label('reimbursement', 'Reintegro', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-3">
+                                    {!! Form::text('reimbursement', '', ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el reintegro</span>
+                                    </div>
+                                </div>
+                            <div class="form-group">
+                                        {!! Form::label('rent_dignity', 'Renta Dignidad', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-3">
+                                        {!! Form::text('rent_dignity', '', ['class'=> 'form-control']) !!}
+                                        <span class="help-block">Escriba la renta dignidad</span>
+                                    </div>
+                            </div>
+                            </div>
+                            
+                        </div>
 
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <a href="{!! url('economic_complement/'.$economic_complement->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                    &nbsp;&nbsp;
+                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    {!! Form::close() !!}
+
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="myModal-requirements" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
