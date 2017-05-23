@@ -7,7 +7,8 @@
             {!! Breadcrumbs::render('show_inbox') !!}
         </div>
 		<div class="col-md-6 text-right">
-			<div class="btn-group"  data-toggle="tooltip" data-placement="top" data-original-title="Actualizar" style="margin: 0;">
+			<div class="btn-group"  data-toggle="tooltip" data-original-title="Actualizar" style="margin: 0;">
+                <a href="{!! url('inbox') !!}" class="btn btn-success btn-raised bg-orange" ><i class="fa fa-refresh fa-lg"></i></a>
 			</div>
 		</div>
     </div>
