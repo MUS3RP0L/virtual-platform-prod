@@ -488,17 +488,6 @@ class EconomicComplementController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -653,8 +642,6 @@ class EconomicComplementController extends Controller
                             $affiliate->second_name = $request->second_name;
                             $affiliate->birth_date = Util::datePick($request->birth_date);
                             $affiliate->civil_status = $request->civil_status;
-                            /*$affiliate->phone_number = $request->phone_number;
-                            $affiliate->cell_phone_number = $request->cell_phone_number;*/
                             $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
                             $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number));
                             $affiliate->nua = $request->nua;
@@ -672,8 +659,6 @@ class EconomicComplementController extends Controller
                             $affiliate->mothers_last_name = $request->mothers_last_name_affi;
                             $affiliate->first_name = $request->first_name_affi;
                             $affiliate->birth_date = Util::datePick($request->birth_date_affi);
-                            /*$affiliate->phone_number = $request->phone_number;
-                            $affiliate->cell_phone_number = $request->cell_phone_number;*/
                             $affiliate->phone_number = trim(implode(",", $request->phone_number));
                             $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
 
@@ -700,8 +685,6 @@ class EconomicComplementController extends Controller
                         case '3':
 
                             $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
-                            /*$affiliate->phone_number = $request->phone_number;
-                            $affiliate->cell_phone_number = $request->cell_phone_number;*/
                             $affiliate->phone_number = trim(implode(",", $request->phone_number));
                             $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
                             $affiliate->nua = $request->nua;
@@ -712,7 +695,7 @@ class EconomicComplementController extends Controller
 
                     if ($economic_complement->has_legal_guardian) {
 
-                        $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementApplicantIs($eco_com_applicant->id)->first();
+                        $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
                         $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
                         if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
                         $eco_com_legal_guardian->last_name = $request->last_name_lg;
@@ -721,7 +704,6 @@ class EconomicComplementController extends Controller
                         $eco_com_legal_guardian->phone_number = $request->phone_number_lg;
                         $eco_com_legal_guardian->cell_phone_number = $request->cell_phone_number_lg;
                         $eco_com_legal_guardian->save();
-
                     }
 
                     if ($request->type == 'update') {
