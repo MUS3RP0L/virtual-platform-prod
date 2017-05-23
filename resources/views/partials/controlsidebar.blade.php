@@ -20,6 +20,13 @@
                 @endcan
                 @can('economic_complement')
                     <li>
+                        <a href="{!! url('averages') !!}">
+                            <div class="menu">
+                                <label class="control-sidebar-subheading">- Promedios</label>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
                       <a href="{{ url('economic_complement_procedure') }}">
                         <div class="menu">
                             <label class="control-sidebar-subheading">- Intervalos de Fechas</label>
@@ -96,13 +103,6 @@
                             <label class="control-sidebar-subheading">- Parametrizada</label>
                         </div>
                       </a>
-                    </li>
-                    <li>
-                        <a href="{!! url('averages') !!}">
-                            <div class="menu">
-                                <label class="control-sidebar-subheading">- Promedios</label>
-                            </div>
-                        </a>
                     </li>
                     <li>
                         <a href="{!! url('get_updated_list') !!}">
