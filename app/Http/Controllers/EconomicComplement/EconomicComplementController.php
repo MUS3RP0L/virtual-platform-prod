@@ -967,9 +967,9 @@ class EconomicComplementController extends Controller
         $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
         $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
         $affiliate = Affiliate::idIs($economic_complement_id)->first();
-        $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)-first();
-
-        $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant'))->render();
+        $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+        $user = Auth::user();
+        $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user'))->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view)->setPaper('letter');
         return $pdf->stream();
