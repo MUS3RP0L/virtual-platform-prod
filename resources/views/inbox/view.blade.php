@@ -21,16 +21,18 @@
 		<div class="box-header with-border">
 			<h3 class="box-title">Recibidos</h3>
 		</div>
-		<table id="received" class="table table-bordered table-hover">
-		   <thead>
-		      <tr>
-		         <th>id</th>
-		         <th>Número</th>
-		         <th>Opciones</th>
-		      </tr>
-		   </thead>
-		</table>
-   <br>
+    <div class="box-body">
+  		<table id="received" class="table table-bordered table-hover">
+  		   <thead>
+  		      <tr>
+  		         <th>id</th>
+  		         <th>Número</th>
+  		         <th>Opciones</th>
+  		      </tr>
+  		   </thead>
+  		</table>
+   
+  </div>
 	</div>
 </div>
 
@@ -67,7 +69,7 @@ $(document).ready(function (){
             "dom": '<"top">t<"bottom"p>',
             processing: true,
             serverSide: true,
-            pageLength: 8,
+            pageLength: 10,
             autoWidth: false,
             ajax: {
                 url: '{!! route('received_data') !!}',
@@ -79,41 +81,6 @@ $(document).ready(function (){
             ]
         });
 
-
-   /*var tableR = $('#received').DataTable({
-      'ajax': '/received_data',
-      'columnDefs': [
-         {
-            'targets': 0,
-            'checkboxes': {
-               'selectRow': true
-            }
-         }
-      ],
-      'select': {
-         'style': 'multi'
-      },
-      'order': [[1, 'asc']]
-   });
-
-
-   // Handle form submission event 
-   $('#frm-received').on('submit', function(e){
-      var form = this;
-      
-      var rows_selected = tableR.column(0).checkboxes.selected();
-
-      // Iterate over all selected checkboxes
-      $.each(rows_selected, function(index, rowId){
-         // Create a hidden element 
-         $(form).append(
-             $('<input>')
-                .attr('type', 'text')
-                .attr('name', 'edited[]')
-                .val(rowId)
-         );
-      });
-   });*/
    var tableE = $('#edited').DataTable({
       "dom": '<"top">t<"bottom"p>',
       'ajax': '/edited_data',
