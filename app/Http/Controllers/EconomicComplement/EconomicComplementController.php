@@ -110,7 +110,7 @@ class EconomicComplementController extends Controller
                 ->addColumn('affiliate_identitycard', function ($economic_complement) { return $economic_complement->affiliate->identity_card; })
                 ->addColumn('affiliate_name', function ($economic_complement) { return $economic_complement->affiliate->getTittleName(); })
                 ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
-                ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name; })
+                ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : 'En Proceso'; })
                 ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
                 ->addColumn('action', function ($economic_complement) { return
                     '<div class="btn-group" style="margin:-3px 0;">
