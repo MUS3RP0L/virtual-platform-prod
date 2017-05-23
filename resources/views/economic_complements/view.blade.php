@@ -18,6 +18,15 @@
                         &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
                     </a>
                 </div>
+
+                 <div class="col-md-4 text-right">
+                    <span data-toggle="modal" data-target="#observationModal">
+                        <a href="#" class="btn btn-sm bg-red"  data-toggle="tooltip"  data-placement="top" data-original-title="Observaciones"><i class="fa fa-lg fa-eye"></i></a>
+                    </span>
+                </div>
+
+                
+
     		</div>
         @endcan
 		@can('eco_com_review')
@@ -50,7 +59,7 @@
                         </div>
                          <div class="col-md-4 text-right">
                             <span data-toggle="modal" data-target="#policeModal">
-                                <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa-pencil"></i></a>
+                                <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
                             </span>
                         </div>
                        {{--  <div class="col-md-2 text-right">
@@ -489,7 +498,19 @@
             <iframe src="{!! url('print_sworn_declaration1/' . $economic_complement->id) !!}" id="iFramePdf"></iframe>
         @endif
         <iframe src="{!! url('print_reception_report/' . $economic_complement->id) !!}" id="iFramePdfReport" ></iframe>
+        
+        iFramePdfObsRango90 
+        iFramePdfObsRango120
+        iFramePdfObsRequisites
+        iFramePdfObsLegal
 
+
+        <iframe src="{!! url('print_wallet/' . $economic_complement->id) !!}" id="iFramePdfObsTesoreria" ></iframe>
+        <iframe src="{!! url('print_debtor/' . $economic_complement->id) !!}" id="iFramePdfObsContabilidad" ></iframe>
+        <iframe src="{!! url('print_out_of_time_90/' . $economic_complement->id) !!}" id="iFramePdfObsRango90" ></iframe>
+        <iframe src="{!! url('print_out_of_time_120/' . $economic_complement->id) !!}" id="iFramePdfObsRango120" ></iframe>
+        <iframe src="{!! url('print_without_requirement/' . $economic_complement->id) !!}" id="iFramePdfObsRequisites" ></iframe>
+        <iframe src="{!! url('print_with_legal_action/' . $economic_complement->id) !!}" id="iFramePdfObsLegal" ></iframe>
     </div>
 
 
@@ -932,6 +953,50 @@
                         </div>
                     </div>
                 </div>
+
+    </div>
+
+    <div id="observationModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Observaciones</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion Tesoreria" style="margin:0px;">
+                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsTesoreria');" >
+                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                        </a>
+                    </div>
+                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion de Contabilidad" style="margin:0px;">
+                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsContabilidad');" >
+                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                        </a>
+                    </div>
+                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion Fuera de Rango de Plazo 90" style="margin:0px;">
+                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsRango90');" >
+                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                        </a>
+                    </div>
+                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion Fuera de Rango de Plazo 120" style="margin:0px;">
+                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsRango120');" >
+                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                        </a>
+                    </div>
+                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion Falta de Requisitos" style="margin:0px;">
+                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsRequisites');" >
+                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                        </a>
+                    </div>
+                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion legal" style="margin:0px;">
+                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsLegal');" >
+                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
