@@ -138,9 +138,8 @@
 											<div class="col-md-6">
 												<strong>Estado</strong>
 											</div>
-
                                             <div class="col-md-6">
-												{!! $economic_complement->economic_complement_state->economic_complement_state_type->name !!}
+												{{-- {!! $economic_complement->economic_complement_state->economic_complement_state_type->name !!} --}}
 											</div>
 										</div>
 									</td>
@@ -152,7 +151,7 @@
 												<strong>Por</strong>
 											</div>
                                             <div class="col-md-6">
-												{!! $economic_complement->economic_complement_state->name !!}
+												{{-- {!! $economic_complement->economic_complement_state->name !!} --}}
 											</div>
 										</div>
 									</td>
@@ -497,7 +496,7 @@
 			<div class="modal-content">
 				<div class="box-header with-border">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="box-title">Editar Beneficiario - {{ $eco_com_applicant->economic_complement_applicant_type->name }}</h4>
+					<h4 class="box-title">Editar Beneficiario -{{--  {{ $eco_com_applicant->economic_complement_applicant_type->name }} --}}</h4>
 				</div>
 				<div class="modal-body">
 					{!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
