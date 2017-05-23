@@ -59,7 +59,7 @@
                         </div>
                          <div class="col-md-4 text-right">
                             <span data-toggle="modal" data-target="#policeModal">
-                                <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
+                                <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i><a/>
                             </span>
                         </div>
                        {{--  <div class="col-md-2 text-right">
