@@ -126,7 +126,15 @@ class EconomicComplement extends Model
     }
     public function economic_complement_procedure()
     {
-        $this->belongsTo(EconomicComplementProcedure::class);
+        return $this->belongsTo(EconomicComplementProcedure::class);
+    }
+    public function workflow()
+    {
+        return $this->belongsTo('Muserpol\Workflow');
+    }
+    public function wf_state()
+    {
+        return $this->belongsTo('Muserpol\WorkflowState','wf_current_state_id');
     }
 }
 
