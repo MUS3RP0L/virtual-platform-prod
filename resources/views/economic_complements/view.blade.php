@@ -20,15 +20,17 @@
                 </a>
             </div>
         </div>
-
-		<div class="col-md-2 text-right">
-	        <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Confirmar" style="margin:0px;">
-                <a href="" data-target="#myModal-confirm" class="btn btn-raised btn-warning dropdown-toggle enabled" data-toggle="modal">
-                    &nbsp;<span class="glyphicon glyphicon-ok"></span>&nbsp;
-                </a>
-            </div>
-		</div>
-
+		@can('eco_com_review')
+			@if($economic_complement->eco_com_state_id < 2)
+				<div class="col-md-2 text-right">
+			        <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Confirmar" style="margin:0px;">
+		                <a href="" data-target="#myModal-confirm" class="btn btn-raised btn-warning dropdown-toggle enabled" data-toggle="modal">
+		                    &nbsp;<span class="glyphicon glyphicon-ok"></span>&nbsp;
+		                </a>
+		            </div>
+				</div>
+			@endif
+		@endcan
 	</div>
 
 @endsection
@@ -474,6 +476,17 @@
         </div>
     </div>
 
+    <div class="modal fade" tabindex="-1" >
+
+        @if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
+            <iframe src="{!! url('print_sworn_declaration2/' . $economic_complement->id) !!}" id="iFramePdf"></iframe>
+        @else
+            <iframe src="{!! url('print_sworn_declaration1/' . $economic_complement->id) !!}" id="iFramePdf"></iframe>
+        @endif
+        <iframe src="{!! url('print_reception_report/' . $economic_complement->id) !!}" id="iFramePdfReport" ></iframe>
+
+    </div>
+
 
     <div id="myModal-applicant" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
@@ -773,13 +786,6 @@
         </div>
     </div>
 
-
-
-
-
-
-
-
     <div id="myModal-edit" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -827,19 +833,6 @@
             </div>
         </div>
     </div>
-
-
-    <div class="modal fade" tabindex="-1" >
-
-        @if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
-            <iframe src="{!! url('print_sworn_declaration2/' . $economic_complement->id) !!}" id="iFramePdf"></iframe>
-        @else
-            <iframe src="{!! url('print_sworn_declaration1/' . $economic_complement->id) !!}" id="iFramePdf"></iframe>
-        @endif
-        <iframe src="{!! url('print_reception_report/' . $economic_complement->id) !!}" id="iFramePdfReport" ></iframe>
-
-    </div>
-
 @endsection
 
 @push('scripts')
