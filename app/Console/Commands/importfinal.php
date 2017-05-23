@@ -105,6 +105,8 @@ class importfinal extends Command implements SelfHandling
                                 $eco_com->wf_current_state_id = 7;
                                 $eco_com->city_id = $result->regional_id;
                                 $eco_com->category_id = $result->eco_com_categoria;
+                                $eco_com->year = $result->year;
+                                $eco_com->semester = $result->semester;
                                 $eco_com->code = $result->code;
                                 $eco_com->reception_date = $result->reception_date;
                                 $eco_com->state = 'Edited';
@@ -193,6 +195,8 @@ class importfinal extends Command implements SelfHandling
                                 $eco_com->wf_current_state_id = 7;
                                 $eco_com->city_id = $result->regional_id;
                                 $eco_com->category_id = $result->eco_com_categoria;
+                                $eco_com->year = $result->year;
+                                $eco_com->semester = $result->semester;
                                 $eco_com->code = $result->code;
                                 $eco_com->reception_date = $result->reception_date;
                                 $eco_com->state = 'Edited';
@@ -267,6 +271,8 @@ class importfinal extends Command implements SelfHandling
                                 $eco_com->wf_current_state_id = 7;
                                 $eco_com->city_id = $result->regional_id;
                                 $eco_com->category_id = $result->eco_com_categoria;
+                                $eco_com->year = $result->year;
+                                $eco_com->semester = $result->semester;
                                 $eco_com->code = $result->code;
                                 $eco_com->reception_date = $result->reception_date;
                                 $eco_com->state = 'Edited';
