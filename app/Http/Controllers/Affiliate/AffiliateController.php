@@ -409,6 +409,7 @@ class AffiliateController extends Controller
         $data = $this->getData($affiliate);
         $affiliate = $data['affiliate'];
         $spouse = $data['spouse'];
+   dd($spouse);  
         $total_gain = $data['total_gain'];
         $total_public_security_bonus = $data['total_public_security_bonus'];
         $total_quotable = $data['total_quotable'];
@@ -448,17 +449,17 @@ class AffiliateController extends Controller
         return $pdf->stream();
     }
       
-public function print_debtor_conta()
-    {
+public function print_debtor_conta($affiliate)
+    { /*r*/
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
         $title = "NOTIFICACIÓN";
         $date = Util::getDateEdit(date('Y-m-d'));
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
-        //$data = $this->getData();
-       // dd($header1);
-      //  $affiliate = $data['affiliate'];
+        //dd($data);
+        $affiliate = self::getData($affiliate->id);
+        dd($affiliate);
         //$spouse = $data['spouse'];
         //$total_gain = $data['total_gain'];
         //$total_public_security_bonus = $data['total_public_security_bonus'];
@@ -466,9 +467,10 @@ public function print_debtor_conta()
         //$total_retirement_fund = $data['total_retirement_fund'];
         //$total_mortuary_quota = $data['total_mortuary_quota'];
         //$total = $data['total'];
-        //$contributions = Contribution::select(['id', 'month_year', 'degree_id', 'unit_id', 'item', 'base_wage','seniority_bonus', 'study_bonus', 'position_bonus', 'border_bonus', 'east_bonus', 'public_security_bonus', 'gain', 'quotable', 'retirement_fund', 'mortuary_quota', 'total'])->where('affiliate_id', $affiliate->id)->get();
+        $contributions = Contribution::select(['id', 'month_year', 'degree_id', 'unit_id', 'item', 'base_wage','seniority_bonus', 'study_bonus', 'position_bonus', 'border_bonus', 'east_bonus', 'public_security_bonus', 'gain', 'quotable', 'retirement_fund', 'mortuary_quota', 'total'])->where('affiliate_id', $affiliate->id)->get();
+        dd($contributions);
         $date = Util::getfulldate(date('Y-m-d'));
-        $view = \View::make('affiliates.print.print_debtor_in_contable', compact('header1','header2','title','date','hour'))->render();
+        $view = \View::make('affiliates.print.print_debtor_in_contable', compact('header1','header2','title','date','hour','affiliate'))->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view)->setPaper('legal');
         return $pdf->stream();

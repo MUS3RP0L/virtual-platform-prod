@@ -134,7 +134,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::resource('inbox', 'Inbox\InboxController');
 
 	//observants
-	Route::get('print_debtor', 'Affiliate\AffiliateController@print_debtor_conta');
+	Route::get('print_debtor/{affiliate_id}', 'Affiliate\AffiliateController@print_debtor_conta');
 	Route::get('print_wallet', 'Affiliate\AffiliateController@print_wallet_in_arrears');
 	Route::get('print_out_of_time_90', 'Affiliate\AffiliateController@print_out_time_90');
 	Route::get('print_out_of_time_120', 'Affiliate\AffiliateController@print_out_time_120');
