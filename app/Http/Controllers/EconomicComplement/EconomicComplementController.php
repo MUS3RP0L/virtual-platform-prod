@@ -58,7 +58,7 @@ class EconomicComplementController extends Controller
 
     public function Data(Request $request)
     {
-        $economic_complements = EconomicComplement::select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'created_at', 'total']);
+        $economic_complements = EconomicComplement::select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'created_at', 'total', 'wf_current_state_id']);
 
         if ($request->has('code'))
         {
@@ -111,7 +111,7 @@ class EconomicComplementController extends Controller
                 ->addColumn('affiliate_identitycard', function ($economic_complement) { return $economic_complement->affiliate->identity_card; })
                 ->addColumn('affiliate_name', function ($economic_complement) { return $economic_complement->affiliate->getTittleName(); })
                 ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
-                ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : 'En Proceso'; })
+                ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : $economic_complement->wf_state->name; })
                 ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
                 ->addColumn('action', function ($economic_complement) { return
                     '<div class="btn-group" style="margin:-3px 0;">
@@ -129,7 +129,7 @@ class EconomicComplementController extends Controller
         $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'created_at', 'total']);
         return Datatables::of($economic_complements)
                 ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
-                ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : 'En Proceso'; })
+                ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : $economic_complement->wf_state->name; })
                 ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
                 ->addColumn('action', function ($economic_complement) { return  '
                     <div class="btn-group" style="margin:-3px 0;">
@@ -410,15 +410,17 @@ class EconomicComplementController extends Controller
             if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }
             $economic_complement->code = $code ."/". $sem . "/" . $data['year'];
 
+            $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
+            $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
+                                        ->whereYear('year', '=', $data['year'])
+                                        ->where('semester', '=', $data['semester'])->first();
+            $economic_complement->base_wage_id = $base_wage->id;
+            $economic_complement->complementary_factor_id = $complementary_factor->id;
+
             $economic_complement->save();
         }
 
-        // $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
-        // $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
-        //                             ->whereYear('year', '=', $data['year'])
-        //                             ->where('semester', '=', $data['semester'])->first();
-        // $economic_complement->base_wage_id = $base_wage->id;
-        // $economic_complement->complementary_factor_id = $complementary_factor->id;
+
 
         return $this->save($request, $economic_complement);
     }
