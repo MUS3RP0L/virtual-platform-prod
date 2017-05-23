@@ -129,12 +129,12 @@
     <td class="grand service" style="text-align:center;">APORTE MUSERPOL</td>
   </tr>
   <tr>
-    <th class="info" style="text-align:center;" >{!! $total_gain !!}</th>
-    <th class="info" style="text-align:center;">{!! $total_public_security_bonus !!}</th>
-    <th class="info" style="text-align:center;">{!! $total_quotable !!}</th>
-    <th class="info" style="text-align:center;">{!! $total_retirement_fund !!}</th>
-    <th class="info" style="text-align:center;">{!! $total_mortuary_quota !!}</th>
-    <th class="info" style="text-align:center;">{{ $total }}</th>
+    {{--<th class="info" style="text-align:center;" >{!! $total_gain !!}</th>--}}
+    {{--<th class="info" style="text-align:center;">{!! $total_public_security_bonus !!}</th>--}}
+    {{--<th class="info" style="text-align:center;">{!! $total_quotable !!}</th>--}}
+    {{--<th class="info" style="text-align:center;">{!! $total_retirement_fund !!}</th>--}}
+    {{--<th class="info" style="text-align:center;">{!! $total_mortuary_quota !!}</th>--}}
+    {{--<th class="info" style="text-align:center;">{{ $total }}</th>--}}
   </tr>
 </table>
 
