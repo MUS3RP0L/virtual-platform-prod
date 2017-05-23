@@ -477,8 +477,16 @@
     </div>
 
 
+    <div class="modal fade" tabindex="-1" >
 
+        @if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
+            <iframe src="{!! url('print_sworn_declaration2/' . $economic_complement->id) !!}" id="iFramePdf"></iframe>
+        @else
+            <iframe src="{!! url('print_sworn_declaration1/' . $economic_complement->id) !!}" id="iFramePdf"></iframe>
+        @endif
 
+        <iframe src="{!! url('print_reception_report/' . $economic_complement->id) !!}" id="iFramePdfReport"></iframe>
+    </div>
 
 
 @endsection
