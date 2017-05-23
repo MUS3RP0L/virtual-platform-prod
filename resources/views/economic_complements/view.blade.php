@@ -148,6 +148,329 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-success box-solid">
+                <div class="box-header with-border">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h3 class="box-title"><span class="fa fa-user-plus"></span> Información de Beneficiario</h3>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-applicant">&nbsp;&nbsp;
+                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table" style="width:100%;">
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Carnet Identidad</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $eco_com_applicant->identity_card !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Apellido Paterno</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $eco_com_applicant->last_name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Apellido Materno</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $eco_com_applicant->mothers_last_name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @if ($eco_com_applicant->surname_husband)
+                                    <tr>
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <strong>Apellido de Esposo</strong>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    {!! $eco_com_applicant->surname_husband !!}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endif
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Primer Nombre</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $eco_com_applicant->first_name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Segundo Nombre</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $eco_com_applicant->second_name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table" style="width:100%;">
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Fecha Nacimiento</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                 {!! $eco_com_applicant->getShortBirthDate() !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Edad</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $eco_com_applicant->getHowOld() !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{-- <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>NUA/CUA</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $eco_com_applicant->nua !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> --}}
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Estado Civil</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $eco_com_applicant->getCivilStatus() !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Teléfono(s)</strong>
+                                            </div>
+                                            {{--<div class="col-md-6">
+                                                {!! $eco_com_applicant->getPhone() !!}
+                                            </div>
+                                            --}}
+
+                                            <div class="col-md-6">
+                                                @foreach(explode(',',$eco_com_applicant->phone_number) as $phone)
+                                                    {!! $phone !!}
+                                                    <br/>
+                                                @endforeach
+                                            </div>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Celular:</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                @foreach(explode(',',$eco_com_applicant->cell_phone_number) as $phone)
+                                                    {!! $phone !!}
+                                                    <br/>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box box-success box-solid">
+                <div class="box-header with-border">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span> Requisitos Presentados</h3>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-requirements">&nbsp;&nbsp;
+                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @if($status_documents)
+                                <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre de Requisito</th>
+                                            <th class="text-center">Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($eco_com_submitted_documents as $item)
+                                            <tr>
+                                                <td>{!! $item->economic_complement_requirement->shortened !!}</td>
+                                                <td>
+                                                    <div class="text-center">
+                                                        @if($item->status)
+                                                        <span class="fa fa-check-square-o fa-lg"></span>
+                                                        @else
+                                                        <span class="fa fa-square-o fa-lg"></span>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                No hay registros
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-success box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><span class="fa fa-money"></span> Cálculo de Total</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{-- @if($economic_complement->base_wage_id) --}}
+                                <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
+                                    <thead>
+                                        <tr>
+                                            <th>Concepto</th>
+                                            <th style="text-align: right">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 70%">Renta Total Boleta</td>
+                                            <td style="text-align: right">{!! $sub_total_rent !!}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 70%">Reintegro</td>
+                                            <td style="text-align: right">{!! $reimbursement !!}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 70%">Renta Dignidad</td>
+                                            <td style="text-align: right">{!! $dignity_pension !!}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 70%">Renta total Neta</td>
+                                            <td style="text-align: right">{!! $total_rent !!}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 70%">Neto</td>
+                                            <td style="text-align: right">{!! $total_rent_calc !!}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 70%">Referente Salarial</td>
+                                            <td style="text-align: right">{!! $salary_reference !!}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 70%">Antigüedad</td>
+                                            <td style="text-align: right">{!! $seniority !!}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 70%">Salario Cotizable</td>
+                                            <td style="text-align: right">{!! $salary_quotable !!}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 70%">Diferencia</td>
+                                            <td style="text-align: right">{!! $difference !!}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 70%">Total Semestre</td>
+                                            <td style="text-align: right">{!! $total_amount_semester !!}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 70%">Factor de Complementación</td>
+                                            <td style="text-align: right">{!! $complementary_factor !!}</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 70%">Total</td>
+                                            <td  style="text-align: right">{!! $total !!}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            {{-- @else
+                                <div class="row text-center">
+                                    <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
+                                    <h4 class="box-title">No hay registros</h4>
+                                </div>
+                            @endif --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
