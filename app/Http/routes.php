@@ -109,6 +109,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::get('print_sworn_declaration1/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_sworn_declaration1');
 	Route::get('print_sworn_declaration2/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_sworn_declaration2');
+	Route::get('print_reception_report/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_reception_report');
 	Route::get('print_inclusion_solicitude/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_inclusion_solicitude');
 	Route::get('print_pay_solicitude/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_pay_solicitude');
 
