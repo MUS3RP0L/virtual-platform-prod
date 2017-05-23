@@ -534,7 +534,7 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('eco_com_state_id')->unsigned()->nullable();
             $table->bigInteger('eco_com_procedure_id')->unsigned();
             $table->bigInteger('workflow_id')->unsigned();
-            $table->bigInteger('wf_current_state_id');
+            $table->bigInteger('wf_current_state_id')->unsigned();
             $table->bigInteger('city_id')->unsigned();
             $table->bigInteger('category_id')->unsigned();
             $table->bigInteger('base_wage_id')->nullable()->unsigned();

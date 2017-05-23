@@ -8,8 +8,11 @@ use Muserpol\Http\Requests;
 use Muserpol\Http\Controllers\Controller;
 
 use Muserpol\Affiliate;
+use Muserpol\WorkflowSequence;
+use Muserpol\EconomicComplement;
 use Datatables;
 use Util;
+use Auth;
 class InboxController extends Controller
 {
     /**
@@ -23,27 +26,49 @@ class InboxController extends Controller
     }
     public function DataReceived()
     {
-        $Affiliate=Affiliate::all();
-        $data=[];
-        foreach ($Affiliate as $a) {
-            $o=[];
-            array_push($o,$a->id);
-            array_push($o,$a->nua);
-            array_push($o,$a->type);
-            array_push($o,$a->gender);
-            array_push($o,$a->date_entry);
-            array_push($o,$a->last_name);
-            array_push($data,$o );
-        }
-       //dd($data);
+
+        $user_ids=Auth::user()->roles()->first();
+        $economic_complements=EconomicComplement::where('eco_com_state_id',null)->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
+            ->where('wf_states.role_id',($user_ids->id))
+            ->where('economic_complements.state','Received')
+            ->select('economic_complements.id','economic_complements.code')
+            ->get();
+            
+        // $economic_complements=EconomicComplement::where('eco_com_state_id',null)->where('state','Received')->select('id','code');
+        //$data=[];
+        return Datatables::of($economic_complements)
+                ->addColumn('action', function ($economic_complement) { return  '
+                    <div class="btn-group" style="margin:-3px 0;">
+                        <a href="economic_complement/'.$economic_complement->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
+                    </div>';})
+                ->make(true);
+        foreach ($e as $v) {
+            if ($v->wf_state->role_id == $user_ids->id) {
+                    $o=[];
+                    array_push($o,$v->id);
+                    array_push($o,$v->code);
+                    array_push($data,$o );
+            }
+        }        
+
        return ["data"=>$data];
     }
     public function DataEdited()
     {
-        $procedures = EconomicComplementProcedure::select(['id', 'year', 'semester', 'normal_start_date', 'normal_end_date', 'lagging_start_date', 'lagging_end_date',  'additional_start_date', 'additional_end_date']);
-        return Datatables::of($procedures)
-               ->editColumn('year', function ($procedure) { return Util::getYear($procedure->year); })
-            ->make(true);
+         $user_ids=Auth::user()->roles()->first();
+         $e=EconomicComplement::where('eco_com_state_id',null)->where('state','Edited')->get();
+         $data=[];
+         foreach ($e as $v) {
+             if ($v->wf_state->role_id == $user_ids->id) {
+                     $o=[];
+                     array_push($o,$v->id);
+                     array_push($o,$v->code);
+                     array_push($data,$o );
+                 
+             }
+         }        
+        //dd($data);
+        return ["data"=>$data];
     }
 
     /**
@@ -64,9 +89,12 @@ class InboxController extends Controller
      */
     public function store(Request $request)
     {
-        foreach ($request->edited as $v) {
-            echo(Affiliate::find($v)->last_name);
-            echo "<br>";
+
+        foreach ($request->edited as $key) {
+            $e=EconomicComplement::find($key);
+            $wfsq=WorkflowSequence::where('wf_state_current_id',$e->wf_current_state_id)->where('action','Aprobar')->first();
+            $e->wf_current_state_id=$wfsq->wf_state_next_id;
+            $e->save();
         }
         return; 
     }
