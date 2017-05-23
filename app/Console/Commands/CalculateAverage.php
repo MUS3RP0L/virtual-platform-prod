@@ -60,13 +60,13 @@ class CalculateAverage extends Command implements SelfHandling
                                                                 ->where('eco_com_type_id','=', $item->type_id)
                                                                 ->whereYear('year','=', $year)
                                                                 ->where('semester', '=', $semester)->first();
-                                    if($rent) {
+                                    if(!$rent) {
                                         $date = Carbon::now();
                                         $rent = new EconomicComplementRent;
                                         $rent->user_id = 1;
                                         $rent->degree_id = $item->degree_id;
                                         $rent->eco_com_type_id = $item->type_id;
-                                        $newdate = Carbon::createFromDate($year, $date->month, 1)->toDateString();
+                                        $newdate = Carbon::createFromDate($year, 1, 1)->toDateString();
                                         $rent->year = $newdate;
                                         $rent->semester = $semester;
                                         $rent->minor = $item->rmin;
