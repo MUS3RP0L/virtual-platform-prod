@@ -117,6 +117,7 @@ class EconomicComplementReportController extends Controller
                                            ->whereYear('economic_complements.year', '=', $request->year)
                                            ->where('economic_complements.semester', 'LIKE', $semester)
                                            ->where('economic_complements.user_id', '=', Auth::user()->id)
+                                           ->take(100)
                                            ->orderBy('economic_complements.id','ASC')
                                            ->get();
                            if ($eco_complements) {
@@ -158,6 +159,7 @@ class EconomicComplementReportController extends Controller
                                            ->whereRaw("economic_complements.city_id::text LIKE  '".$regional."'")
                                            ->whereYear('economic_complements.year', '=', $request->year)
                                            ->where('economic_complements.semester', 'LIKE', $semester)
+                                           ->take(100)
                                            ->orderBy('economic_complements.id','ASC')
                                            ->get();
                                            //dd($beneficiary_eco_complements);
