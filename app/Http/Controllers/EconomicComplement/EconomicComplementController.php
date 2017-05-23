@@ -510,16 +510,16 @@ class EconomicComplementController extends Controller
 
         ];
 
-        // if ($economic_complement->base_wage_id) {
-        //     $sub_total_rent = $economic_complement->sub_total_rent;
-        //     $salary_reference = $economic_complement->base_wage->amount;
-        //     $seniority = $economic_complement->category->percentage * $economic_complement->base_wage->amount;
-        //     $salary_quotable = $salary_reference + $seniority;
-        //     $difference = $salary_quotable - $sub_total_rent;
-        //     $months_of_payment = 6;
-        //     $total_amount_semester = $difference * $months_of_payment;
-        //     $complementary_factor = $eco_com_type->id == 1 ? $economic_complement->complementary_factor->old_age : $economic_complement->complementary_factor->widowhood;
-        //     $total = $total_amount_semester * $complementary_factor/100;
+        if ($economic_complement->base_wage_id) {
+            $sub_total_rent = $economic_complement->sub_total_rent;
+            $salary_reference = $economic_complement->base_wage->amount;
+            $seniority = $economic_complement->category->percentage * $economic_complement->base_wage->amount;
+            $salary_quotable = $salary_reference + $seniority;
+            $difference = $salary_quotable - $sub_total_rent;
+            $months_of_payment = 6;
+            $total_amount_semester = $difference * $months_of_payment;
+            $complementary_factor = $eco_com_type->id == 1 ? $economic_complement->complementary_factor->old_age : $economic_complement->complementary_factor->widowhood;
+            $total = $total_amount_semester * $complementary_factor/100;
 
 
             $second_data = [
@@ -540,7 +540,7 @@ class EconomicComplementController extends Controller
             ];
 
             $data = array_merge($data, $second_data);
-        // }
+        }
 
         $data = array_merge($data, self::getViewModel());
 
