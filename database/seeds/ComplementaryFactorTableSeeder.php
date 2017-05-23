@@ -42,10 +42,10 @@ class ComplementaryFactorTableSeeder extends Seeder
             ['user_id' => '1', 'hierarchy_id' => '5', 'year' => '2016-7-1', 'semester' => 'Segundo', 'old_age' => '70', 'widowhood' => '70']
         ];
 
-        // foreach ($statuses as $status) {
+        foreach ($statuses as $status) {
 
-        //     Muserpol\ComplementaryFactor::create($status);
+            Muserpol\ComplementaryFactor::create($status);
 
-        // }
+        }
     }
 }

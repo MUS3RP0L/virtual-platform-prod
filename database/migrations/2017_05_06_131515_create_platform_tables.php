@@ -501,14 +501,15 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('degree_id')->unsigned();
             $table->bigInteger('eco_com_type_id')->unsigned();
-            $table->bigInteger('eco_com_procedure_id')->unsigned();
+            $table->date('year')->required();
+            $table->enum('semester', ['Primer', 'Segundo'])->required();
             $table->decimal('minor', 13, 2);
             $table->decimal('higher', 13, 2);
             $table->decimal('average', 13, 2);
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('degree_id')->references('id')->on('degrees');
             $table->foreign('eco_com_type_id')->references('id')->on('eco_com_types');
-            $table->foreign('eco_com_procedure_id')->references('id')->on('eco_com_procedures');
+            $table->unique(['year','semester']);
             $table->timestamps();
         });
 
@@ -516,12 +517,12 @@ class CreatePlatformTables extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('hierarchy_id')->unsigned();
-            $table->bigInteger('eco_com_procedure_id')->unsigned();
+            $table->date('year')->required();
+            $table->enum('semester', ['Primer', 'Segundo'])->required();
             $table->decimal('old_age', 13, 2);
             $table->decimal('widowhood', 13, 2);
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('hierarchy_id')->references('id')->on('hierarchies');
-            $table->foreign('eco_com_procedure_id')->references('id')->on('eco_com_procedures');
             $table->timestamps();
         });
 

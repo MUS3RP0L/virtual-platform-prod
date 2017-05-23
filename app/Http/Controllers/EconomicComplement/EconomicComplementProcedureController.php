@@ -55,14 +55,14 @@ class EconomicComplementProcedureController extends Controller
     public function save($request, $eco_com_pro=false)
     {
        
-            $eco_com_pro=EconomicComplementProcedure::where('year','=',Carbon::create(Carbon::now()->year, 1, 1, 0, 0, 0))->where('semester','=',Util::getCurrentSemester())->first();
+            $eco_com_pro = EconomicComplementProcedure::where('year','=',Util::datePickYear(Carbon::now()->year))->where('semester','=',Util::getCurrentSemester())->first();
             if ($eco_com_pro) {
                 $message = "Rango de fechas Actualizado";
             }else {
                 $eco_com_pro = new EconomicComplementProcedure();
                 $message = "Rango de Fechas Creado con éxito";
             }
-            $eco_com_pro->year = Carbon::create(Carbon::now()->year, 1, 1, 0, 0, 0);
+            $eco_com_pro->year = Util::datePickYear(Carbon::now()->year);
             $eco_com_pro->user_id = Auth::user()->id;
             $eco_com_pro->semester = Util::getCurrentSemester();
             $eco_com_pro->normal_start_date = Util::datePick($request->normal_start_date);
