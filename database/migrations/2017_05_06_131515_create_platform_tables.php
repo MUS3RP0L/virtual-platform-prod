@@ -539,6 +539,8 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('category_id')->unsigned();
             $table->bigInteger('base_wage_id')->nullable()->unsigned();
             $table->bigInteger('complementary_factor_id')->unsigned()->nullable();
+            $table->date('year')->required();
+            $table->enum('semester', ['Primer', 'Segundo'])->required();
             $table->boolean('has_legal_guardian')->default(0);
             $table->string('code')->unique();
             $table->date('reception_date')->nullable();
