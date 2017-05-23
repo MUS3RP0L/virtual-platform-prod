@@ -117,7 +117,7 @@ class EconomicComplement extends Model
 
     public function getCreationDate()
     {
-        return Util::getDateShort($this->created_at);
+        return Util::getDateShort($this->reception_date);
     }
 
     public function getCode()
