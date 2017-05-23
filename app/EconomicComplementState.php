@@ -14,4 +14,12 @@ class EconomicComplementState extends Model
 
     protected $guarded = ['id'];
     public $timestamps=false;
+    public function economic_complement_state_type()
+    {
+    	return $this->belongsTo(EconomicComplementStateType::class);
+    }
+    public function economic_complements()
+    {
+    	return $this->hasMany(EconomicComplement::class);
+    }
 }

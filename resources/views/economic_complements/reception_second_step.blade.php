@@ -214,8 +214,8 @@
             $('[data-toggle="tooltip"]').tooltip();
             $("#birth_date_affi_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("#birth_date_appli_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
-            $("#phone_number").inputmask();
             $("#phone_number_lg").inputmask();
+            $("#cell_phone_number_lg").inputmask();
             $("input[name='phone_number[]']").inputmask();
             $("input[name='cell_phone_number[]']").inputmask();
         });

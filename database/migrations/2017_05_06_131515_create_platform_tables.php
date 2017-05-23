@@ -534,7 +534,7 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('eco_com_state_id')->unsigned()->nullable();
             $table->bigInteger('eco_com_procedure_id')->unsigned();
             $table->bigInteger('workflow_id')->unsigned();
-            $table->bigInteger('wf_current_state_id');
+            $table->bigInteger('wf_current_state_id')->unsigned();
             $table->bigInteger('city_id')->unsigned();
             $table->bigInteger('category_id')->unsigned();
             $table->bigInteger('base_wage_id')->nullable()->unsigned();
@@ -569,10 +569,6 @@ class CreatePlatformTables extends Migration
             // $table->decimal('bonus_reimbursement', 13, 2)->nullable();
             // $table->decimal('reimbursement_aditional_amount', 13, 2)->nullable();
             // $table->decimal('reimbursement_increase_year', 13, 2)->nullable();
-
-
-
-
 
             // $table->decimal('christmas_bonus', 13, 2)->nullable();
             // $table->decimal('quotable', 13, 2)->nullable();
@@ -643,7 +639,7 @@ class CreatePlatformTables extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('economic_complement_id')->unsigned()->index();
             $table->bigInteger('city_identity_card_id')->unsigned()->nullable();
-            $table->string('identity_card');
+            $table->string('identity_card')->nullable();
             $table->string('last_name')->nullable();
             $table->string('mothers_last_name')->nullable();
             $table->string('first_name')->nullable();

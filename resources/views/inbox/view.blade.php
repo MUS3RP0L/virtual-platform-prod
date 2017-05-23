@@ -1,92 +1,118 @@
 @extends('app')
 
 @section('contentheader_title')
-<div class="container">
+
     <div class="row">
         <div class="col-md-6">
             {!! Breadcrumbs::render('show_inbox') !!}
         </div>
-		<div class="col-md-6 text-right">
-			<div class="btn-group"  data-toggle="tooltip" data-placement="top" data-original-title="Actualizar" style="margin: 0;">
-					<a href="{!! url('inbox') !!}" class="btn btn-success btn-raised bg-orange" ><i class="fa fa-refresh" aria-hidden="true"></i></a>
-
-			</div>
-		</div>
+    		<div class="col-md-6 text-right">
+    			<div class="btn-group"  data-toggle="tooltip" data-original-title="Actualizar" style="margin: 0;">
+                    <a href="{!! url('inbox') !!}" class="btn btn-success btn-raised bg-orange" ><i class="fa fa-refresh fa-lg"></i></a>
+    			</div>
+    		</div>
     </div>
-</div>
+
 @endsection
 @section('main-content')
-
-<div class="col-md-6">
-	<div class="box box-danger">
-		<div class="box-header with-border">
-			<h3 class="box-title">Recibidos</h3>
-		</div>
-		<div class="box-body" style="width: 95%">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Firstname</th>
-						<th>Lastname</th>
-						<th>Email</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>John</td>
-						<td>Doe</td>
-						<td>john@example.com</td>
-					</tr>
-					<tr>
-						<td>Mary</td>
-						<td>Moe</td>
-						<td>mary@example.com</td>
-					</tr>
-					<tr>
-						<td>July</td>
-						<td>Dooley</td>
-						<td>july@example.com</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-</div>
+<div class="row">
 <div class="col-md-6">
 	<div class="box box-success">
 		<div class="box-header with-border">
-			<h3 class="box-title">HECHOS</h3>
+			<h3 class="box-title">Recibidos</h3>
 		</div>
-		<div class="box-body" style="width: 95%">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Firstname</th>
-						<th>Lastname</th>
-						<th>Email</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>John</td>
-						<td>Doe</td>
-						<td>john@example.com</td>
-					</tr>
-					<tr>
-						<td>Mary</td>
-						<td>Moe</td>
-						<td>mary@example.com</td>
-					</tr>
-					<tr>
-						<td>July</td>
-						<td>Dooley</td>
-						<td>july@example.com</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+    <div class="box-body">
+  		<table id="received" class="table table-bordered table-hover">
+  		   <thead>
+  		      <tr>
+  		         <th>id</th>
+  		         <th>Número</th>
+  		         <th>Opciones</th>
+  		      </tr>
+  		   </thead>
+  		</table>
+   
+  </div>
 	</div>
 </div>
 
+<div class="col-md-6">
+	<div class="box box-success">
+		<div class="box-header with-border">
+			<h3 class="box-title">{{Auth::user()->roles->first()->action}}</h3>
+		</div>
+		<div class="box-body">
+		{!! Form::open(['method' => 'POST', 'route' => ['inbox.store'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}
+		<table id="edited" class="table table-bordered table-hover">
+		   <thead>
+		      <tr>
+		         <th></th>
+		         <th>Número</th>
+		      </tr>
+		   </thead>
+		</table>
 
+   <button type="submit" class="btn btn-primary">Enviar</button>
+
+{!! Form::close() !!}
+		</div>
+	</div>
+</div>
+</div>
+@push('scripts')
+
+<script type="text/javascript" src="/js/datatables.min.js"></script>
+<script type="text/javascript" src="/js/dataTables.checkboxes.min.js"></script>
+<script>
+$(document).ready(function (){
+	var oTable = $('#received').DataTable({
+            "dom": '<"top">t<"bottom"p>',
+            processing: true,
+            serverSide: true,
+            pageLength: 10,
+            autoWidth: false,
+            ajax: {
+                url: '{!! route('received_data') !!}',
+            },
+            columns: [
+                { data: 'id'},
+                { data: 'code', bSortable: false },
+                { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
+            ]
+        });
+
+   var tableE = $('#edited').DataTable({
+      "dom": '<"top">t<"bottom"p>',
+      'ajax': '/edited_data',
+      'columnDefs': [
+         {
+            'targets': 0,
+            'checkboxes': {
+               'selectRow': true
+            }
+         }
+      ],
+      'select': {
+         'style': 'multi'
+      },
+      'order': [[1, 'asc']]
+   });
+
+
+   // Handle form submission event 
+   $('#frm-edited').on('submit', function(e){
+      var form = this;
+      var rows_selected = tableE.column(0).checkboxes.selected();
+      $.each(rows_selected, function(index, rowId){
+         $(form).append(
+             $('<input>')
+                .attr('type', 'text')
+                .attr('name', 'edited[]')
+                .val(rowId)
+         );
+      });
+   });
+});
+</script>
+@endpush
 @endsection

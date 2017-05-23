@@ -35,9 +35,9 @@ class EconomicComplementLegalGuardian extends Model
         return $this->belongsTo('Muserpol\City','city_identity_card_id');
     }
 
-    public function scopeEconomicComplementApplicantIs($query, $id)
+    public function scopeEconomicComplementIs($query, $id)
     {
-        return $query->where('eco_com_applicant_id', $id);
+        return $query->where('economic_complement_id', $id);
     }
 
     public function getTitleNameFull()

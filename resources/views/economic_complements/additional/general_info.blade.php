@@ -34,23 +34,10 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    Tipo
-                                </div>
-                                <div class="col-md-6">
-                                    {!! $eco_com_type . "-" . $eco_com_modality !!}
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
                 </table>
             </div>
             <div class="col-md-6">
                 <table class="table table-responsive" style="width:100%;">
-
                     <tr>
                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                             <div class="row">
@@ -67,23 +54,10 @@
                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                             <div class="row">
                                 <div class="col-md-6">
-                                    Estado
-                                </div>
-
-                                <div class="col-md-6">
-                                    {!! $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name : '' !!}
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    Por
+                                    Tipo
                                 </div>
                                 <div class="col-md-6">
-                                    {!! $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->name : '' !!}
+                                    {!! $eco_com_type . "-" . $eco_com_modality !!}
                                 </div>
                             </div>
                         </td>
