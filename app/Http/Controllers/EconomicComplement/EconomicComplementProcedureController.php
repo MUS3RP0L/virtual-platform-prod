@@ -62,15 +62,15 @@ class EconomicComplementProcedureController extends Controller
                 $eco_com_pro = new EconomicComplementProcedure();
                 $message = "Rango de Fechas Creado con éxito";
             }
-            $eco_com_pro->year=Carbon::create(Carbon::now()->year, 1, 1, 0, 0, 0);
-            $eco_com_pro->user_id=Auth::user()->id;
-            $eco_com_pro->semester=Util::getCurrentSemester();
-            $eco_com_pro->normal_start_date=$request->normal_start_date;
-            $eco_com_pro->normal_end_date=$request->normal_end_date;
-            $eco_com_pro->lagging_start_date=$request->lagging_start_date;
-            $eco_com_pro->lagging_end_date=$request->lagging_end_date;
-            $eco_com_pro->additional_start_date=$request->additional_start_date;
-            $eco_com_pro->additional_end_date=$request->additional_end_date;
+            $eco_com_pro->year = Carbon::create(Carbon::now()->year, 1, 1, 0, 0, 0);
+            $eco_com_pro->user_id = Auth::user()->id;
+            $eco_com_pro->semester = Util::getCurrentSemester();
+            $eco_com_pro->normal_start_date = Util::datePick($request->normal_start_date);
+            $eco_com_pro->normal_end_date = Util::datePick($request->normal_end_date);
+            $eco_com_pro->lagging_start_date = Util::datePick($request->lagging_start_date);
+            $eco_com_pro->lagging_end_date = Util::datePick($request->lagging_end_date);
+            $eco_com_pro->additional_start_date = Util::datePick($request->additional_start_date);
+            $eco_com_pro->additional_end_date = Util::datePick($request->additional_end_date);
             $eco_com_pro->save();
             
             Session::flash('message', $message);
