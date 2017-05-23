@@ -403,17 +403,12 @@ class EconomicComplementReportController extends Controller
    {
        if ($request->has('year') && $request->has('semester'))
        {
-           $average_list = DB::table('eco_com_applicants')
-                           ->select(DB::raw("degrees.id as degree_id,degrees.shortened as degree,eco_com_types.id as type_id, eco_com_types.name as type,min(economic_complements.total) as rmin, max(economic_complements.total) as rmax,round((max(economic_complements.total)+ min(economic_complements.total))/2,2) as average"))
-                           ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
-                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
-                           ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
-                           ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
-                           ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
-                           ->whereYear('economic_complements.year', '=', $request->year)
-                           ->where('economic_complements.semester', '=', $request->semester)
-                           ->where('economic_complements.total','>',0)
-                           ->groupBy('degrees.id','eco_com_types.id')
+           $average_list = DB::table('eco_com_rents')
+                           ->select(DB::raw("degrees.shortened as degree, eco_com_types.name as type,eco_com_rents.minor as rmin,eco_com_rents.higher as rmax, eco_com_rents.average as average "))
+                           ->leftJoin('eco_com_types','eco_com_rents.eco_com_type_id','=','eco_com_types.id')
+                           ->leftJoin('degrees','eco_com_rents.degree_id','=','degrees.id')
+                           ->whereYear('eco_com_rents.year', '=', $request->year)
+                           ->where('eco_com_rents.semester', '=', $request->semester)
                            ->orderBy('degrees.id','ASC');
                return Datatables::of($average_list)
                        ->addColumn('degree', function ($average_list) { return $average_list->degree; })
@@ -425,18 +420,13 @@ class EconomicComplementReportController extends Controller
        }
        else {
            $eco_com = EconomicComplement::select('semester')->orderBy('economic_complements.id','DESC')->first();
-           $average_list = DB::table('eco_com_applicants')
-                           ->select(DB::raw("degrees.id as degree_id,degrees.shortened as degree,eco_com_types.id as type_id, eco_com_types.name as type,min(economic_complements.total) as rmin, max(economic_complements.total) as rmax,round((max(economic_complements.total)+ min(economic_complements.total))/2,2) as average"))
-                           ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
-                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
-                           ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
-                           ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
-                           ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
-                           ->whereYear('economic_complements.year', '=', date("Y"))
-                           ->where('economic_complements.semester', '=', $eco_com->semester)
-                           ->whereNotNull('economic_complements.review_date')
-                           ->groupBy('degrees.id','eco_com_types.id')
-                           ->orderBy('degrees.id','ASC');
+               $average_list = DB::table('eco_com_rents')
+                              ->select(DB::raw("degrees.shortened as degree, eco_com_types.name as type,eco_com_rents.minor as rmin,eco_com_rents.higher as rmax, eco_com_rents.average as average "))
+                              ->leftJoin('eco_com_types','eco_com_rents.eco_com_type_id','=','eco_com_types.id')
+                              ->leftJoin('degrees','eco_com_rents.degree_id','=','degrees.id')
+                              ->whereYear('eco_com_rents.year', '=', date("Y"))
+                              ->where('eco_com_rents.semester', '=', $eco_com->semester)
+                              ->orderBy('degrees.id','ASC');
                return Datatables::of($average_list)
                        ->addColumn('degree', function ($average_list) { return $average_list->degree; })
                        ->editColumn('type', function ($average_list) { return $average_list->type; })
