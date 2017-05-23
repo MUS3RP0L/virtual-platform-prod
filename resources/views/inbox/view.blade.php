@@ -29,29 +29,24 @@
 		      </tr>
 		   </thead>
 		</table>
+   <br>
 	</div>
 </div>
 
 <div class="col-md-6">
 	<div class="box box-success">
 		<div class="box-header with-border">
-			<h3 class="box-title">HECHOS</h3>
+			<h3 class="box-title">{{Auth::user()->roles->first()->action}}</h3>
 		</div>
 		<div class="box-body" style="width: 95%">
 		{!! Form::open(['method' => 'POST', 'route' => ['inbox.store'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}
-		<table id="edited" class="display" cellspacing="0" width="100%">
+		<table id="edited" class="table table-bordered table-hover">
 		   <thead>
 		      <tr>
 		         <th></th>
 		         <th>code</th>
 		      </tr>
 		   </thead>
-		   <tfoot>
-		      <tr>
-		         <th></th>
-		         <th>code</th> 
-		      </tr>
-		  </tfoot>
 		</table>
 <p class="form-group">
    <button type="submit" class="btn btn-primary">Submit</button>
@@ -62,10 +57,10 @@
 </div>
 
 @push('scripts')
-<link type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.12/se-1.2.0/datatables.min.css" rel="stylesheet" />
-<link type="text/css" href="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.6/css/dataTables.checkboxes.css" rel="stylesheet" />
-<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.12/se-1.2.0/datatables.min.js"></script>
-<script type="text/javascript" src="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.6/js/dataTables.checkboxes.min.js"></script>
+<link type="text/css" href="/css/datatables.min.css" rel="stylesheet" /  >
+<link type="text/css" href="/css/dataTables.checkboxes.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/datatables.min.js"></script>
+<script type="text/javascript" src="/js/dataTables.checkboxes.min.js"></script>
 <script>
 $(document).ready(function (){
 	var oTable = $('#received').DataTable({
