@@ -13,17 +13,17 @@ use Datatables;
 use Carbon\Carbon;
 use Muserpol\Helper\Util;
 
-use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementProcedure;
-use Muserpol\EconomicComplementState;
+use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementStateType;
+use Muserpol\EconomicComplementState;
 use Muserpol\EconomicComplementType;
 use Muserpol\EconomicComplementModality;
 use Muserpol\EconomicComplementApplicant;
-use Muserpol\EconomicComplementApplicantType;
 use Muserpol\EconomicComplementLegalGuardian;
 use Muserpol\EconomicComplementRequirement;
 use Muserpol\EconomicComplementSubmittedDocument;
+
 use Muserpol\Affiliate;
 use Muserpol\Spouse;
 use Muserpol\PensionEntity;
@@ -128,7 +128,7 @@ class EconomicComplementController extends Controller
         $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'created_at', 'total']);
         return Datatables::of($economic_complements)
                 ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
-                // ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name; })
+                ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : 'En Proceso'; })
                 ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
                 ->addColumn('action', function ($economic_complement) { return  '
                     <div class="btn-group" style="margin:-3px 0;">
@@ -198,7 +198,7 @@ class EconomicComplementController extends Controller
             $report_type_list[$key] = $item;
         }
 
-      $semester = Util::getSemester(Carbon::now());
+        $semester = Util::getSemester(Carbon::now());
 
     return [
 
