@@ -112,7 +112,7 @@ class ComplementaryFactorController extends Controller
         ->where('cf4.hierarchy_id', '=', '4')
         ->where('cf5.hierarchy_id', '=', '5')
 
-        ->groupBy('complementary_factors.year', 'complementary_factors.semester');
+        ->groupBy('complementary_factors.year', 'complementary_factors.semester', 'cf1.old_age', 'cf2.old_age', 'cf3.old_age', 'cf4.old_age', 'cf5.old_age');
 
         return Datatables::of($complementary_factors)
         ->editColumn('year', function ($complementary_factor) { return Carbon::parse($complementary_factor->year)->year; })
@@ -144,7 +144,7 @@ class ComplementaryFactorController extends Controller
         ->where('cf4.hierarchy_id', '=', '4')
         ->where('cf5.hierarchy_id', '=', '5')
 
-        ->groupBy('complementary_factors.year', 'complementary_factors.semester');
+        ->groupBy('complementary_factors.year', 'complementary_factors.semester', 'cf1.widowhood', 'cf2.widowhood', 'cf3.widowhood', 'cf4.widowhood', 'cf5.widowhood');
 
         return Datatables::of($complementary_factors)
         ->editColumn('year', function ($complementary_factor) { return Carbon::parse($complementary_factor->year)->year; })
