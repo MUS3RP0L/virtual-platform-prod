@@ -509,7 +509,6 @@ class CreatePlatformTables extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('degree_id')->references('id')->on('degrees');
             $table->foreign('eco_com_type_id')->references('id')->on('eco_com_types');
-            $table->unique(['year','semester']);
             $table->timestamps();
         });
 

@@ -412,7 +412,7 @@ class EconomicComplementReportController extends Controller
                            ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
                            ->whereYear('economic_complements.year', '=', $request->year)
                            ->where('economic_complements.semester', '=', $request->semester)
-                           ->whereNotNull('economic_complements.review_date')
+                           ->where('economic_complements.total','>',0)
                            ->groupBy('degrees.id','eco_com_types.id')
                            ->orderBy('degrees.id','ASC');
                return Datatables::of($average_list)

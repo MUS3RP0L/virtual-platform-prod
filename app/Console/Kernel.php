@@ -16,7 +16,9 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\ImportEcoCom::class,
         \Muserpol\Console\Commands\CreateIpcRate::class,
         \Muserpol\Console\Commands\CreateContributionRate::class,
-        \Muserpol\Console\Commands\importfinal::class
+        \Muserpol\Console\Commands\importfinal::class,
+        \Muserpol\Console\Commands\CalculateAverage::class,
+
     ];
 
 
