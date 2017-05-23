@@ -128,7 +128,7 @@
                                 <div class="form-group" id="phonesNumbers" style="padding-bottom:5px;">
 
                                     {!! Form::label('phone_number', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
-                                    @foreach(explode(',',$affiliate->phone_number) as $key=>$phone)
+                                    @foreach(explode(',',$eco_com_applicant->phone_number) as $key=>$phone)
                                     @if($key>=1)
                                     <div class="col-md-offset-5">
                                     @endif
@@ -156,7 +156,7 @@
                                 </div>
                                 <div class="form-group" id="cellPhonesNumbers" style="padding-bottom:5px;">
                                         {!! Form::label('cell_phone_number', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
-                                        @foreach(explode(',',$affiliate->cell_phone_number) as $key=>$phone)
+                                        @foreach(explode(',',$eco_com_applicant->cell_phone_number) as $key=>$phone)
                                         @if($key>=1)
                                         <div class="col-md-offset-5">
                                         @endif
