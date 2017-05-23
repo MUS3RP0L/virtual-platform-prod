@@ -27,6 +27,7 @@ use Muserpol\PensionEntity;
 use Muserpol\Spouse;
 use Muserpol\Unit;
 use Muserpol\ObservationType;
+use Muserpol\EconomicComplementApplicant;
 
 class AffiliateController extends Controller
 {
@@ -481,7 +482,26 @@ class AffiliateController extends Controller
         $pdf->loadHTML($view)->setPaper('legal','landscape');
         return $pdf->stream();
     }
-      public function print_wallet_in_arrears()
+
+    public function print_debtor_conta($id_complement)
+    { /*r*/
+        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+        $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
+        $title = "NOTIFICACIÓN";
+        $date = Util::getDateEdit(date('Y-m-d'));
+        $current_date = Carbon::now();
+        $hour = Carbon::parse($current_date)->toTimeString();
+        $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year')->first();
+        $yearcomplement=new Carbon($eco_com_applicant->year);
+        
+        $view = \View::make('affiliates.print.print_debtor_in_contable', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view)->setPaper('legal');
+        return $pdf->stream();
+    }
+
+
+     public function print_wallet_in_arrears($id_complement)
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
@@ -489,19 +509,9 @@ class AffiliateController extends Controller
         $date = Util::getDateEdit(date('Y-m-d'));
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
-        //$data = $this->getData();
-       // dd($header1);
-      //  $affiliate = $data['affiliate'];
-        //$spouse = $data['spouse'];
-        //$total_gain = $data['total_gain'];
-        //$total_public_security_bonus = $data['total_public_security_bonus'];
-        //$total_quotable = $data['total_quotable'];
-        //$total_retirement_fund = $data['total_retirement_fund'];
-        //$total_mortuary_quota = $data['total_mortuary_quota'];
-        //$total = $data['total'];
-        //$contributions = Contribution::select(['id', 'month_year', 'degree_id', 'unit_id', 'item', 'base_wage','seniority_bonus', 'study_bonus', 'position_bonus', 'border_bonus', 'east_bonus', 'public_security_bonus', 'gain', 'quotable', 'retirement_fund', 'mortuary_quota', 'total'])->where('affiliate_id', $affiliate->id)->get();
-        $date = Util::getfulldate(date('Y-m-d'));
-        $view = \View::make('affiliates.print.wallet_arrear', compact('header1','header2','title','date','hour'))->render();
+        $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year')->first();
+        $yearcomplement=new Carbon($eco_com_applicant->year);
+        $view = \View::make('affiliates.print.wallet_arrear', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view)->setPaper('legal');
         return $pdf->stream();
