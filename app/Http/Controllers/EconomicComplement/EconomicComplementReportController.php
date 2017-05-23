@@ -70,7 +70,7 @@ class EconomicComplementReportController extends Controller
            $year_list[Util::getYear($item->year)] = Util::getYear($item->year);
        }
 
-       $report_type = ['' => '', '1' => 'Reporte diario de recepción', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Reporte de doble percepción', '5' => 'Resumen de habituales', '6' => 'Resumen de inclusiones', '7' => 'Reporte pago de complemento económico'];
+       $report_type = ['' => '', '1' => 'Reporte de recepción por usuario', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Reporte de doble percepción', '5' => 'Resumen de habituales', '6' => 'Resumen de inclusiones', '7' => 'Reporte pago de complemento económico'];
        foreach ($report_type as $key => $item) {
            $report_type_list[$key] = $item;
        }
@@ -490,7 +490,7 @@ class EconomicComplementReportController extends Controller
 
        foreach ($ecom as $item) {
            $afi = DB::table('economic_complements')
-               ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,affiliates.identity_card,cities.shortened,affiliates.nua,affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,affiliates.birth_date,pension_entities.type'))
+               ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,affiliates.identity_card,cities.first_shortened,affiliates.nua,affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,affiliates.birth_date,pension_entities.type'))
                ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
                ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
                ->leftJoin('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
@@ -511,7 +511,7 @@ class EconomicComplementReportController extends Controller
                  $i=1;
                  $sheet->row(1, array('NRO','TIPO_ID','NUM_ID', 'EXTENSION', 'CUA', 'PRIMER_APELLIDO_T', 'SEGUNDO_APELLIDO_T','PRIMER_NOMBRE_T','SEGUNDO_NOMBRE_T','APELLIDO_CASADA_T','FECHA_NACIMIENTO_T','ENTE_GESTOR'));
                  foreach ($ecom_list as $datos) {
-                     $sheet->row($j, array($i,"I",$datos->identity_card,$datos->shortened,$datos->nua, $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,$datos->birth_date,$datos->type));
+                     $sheet->row($j, array($i,"I",$datos->identity_card,$datos->first_shortened,$datos->nua, $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,$datos->birth_date,$datos->type));
                      $j++;
                      $i++;
                  }
