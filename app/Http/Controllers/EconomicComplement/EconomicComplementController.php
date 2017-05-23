@@ -222,8 +222,9 @@ class EconomicComplementController extends Controller
         $getViewModel = self::getViewModel();
         $affiliate = Affiliate::idIs($affiliate_id)->first();
         $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
-                                                    ->whereYear('created_at', '=', $getViewModel['year'])
-                                                    ->where('semester', '=', $getViewModel['semester'])->first();
+                                ->whereYear('year', '=', $getViewModel['year'])
+                                ->where('semester', '=', $getViewModel['semester'])->first();
+                                
         if (!$economic_complement) {
             $economic_complement = new EconomicComplement;
             $eco_com_type = false;
