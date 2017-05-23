@@ -290,7 +290,7 @@ class EconomicComplementReportController extends Controller
                                $types_list[$item2->name] = $degree_list;
                                $degree_list = null;
                            }
-                           $deparment_list[$item1->shortened] = $types_list;
+                           $deparment_list[$item1->first_shortened] = $types_list;
                            $types_list = null;
                        }
                        // total national by degree
@@ -352,7 +352,7 @@ class EconomicComplementReportController extends Controller
                                $types_list[$item2->name] = $degree_list;
                                $degree_list = null;
                            }
-                           $deparment_list[$item1->shortened] = $types_list;
+                           $deparment_list[$item1->first_shortened] = $types_list;
                            $types_list = null;
                        }
                        // total national by degree
