@@ -25,4 +25,8 @@ class Workflow extends Model
     {
     	return $this->hasMany(WorkflowSequence::class);
     }
+    public function economic_complements()
+    {
+        return $this->hasMany('Muserpol\EconomicComplement');
+    }
 }

@@ -109,6 +109,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::get('print_sworn_declaration1/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_sworn_declaration1');
 	Route::get('print_sworn_declaration2/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_sworn_declaration2');
+	Route::get('print_reception_report/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_reception_report');
 	Route::get('print_inclusion_solicitude/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_inclusion_solicitude');
 	Route::get('print_pay_solicitude/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_pay_solicitude');
 
@@ -132,6 +133,8 @@ Route::group(['middleware' => 'auth'], function() {
 
 	//Routes for inbox
 	Route::resource('inbox', 'Inbox\InboxController');
+	Route::get('received_data', array('as'=>'received_data','uses'=>'Inbox\InboxController@DataReceived'));
+	Route::get('edited_data', array('as'=>'edited_data','uses'=>'Inbox\InboxController@DataEdited'));
 
 	//observants
 	Route::get('print_without_requirement', 'Affiliate\AffiliateController@print_miss_requiriments_hab_inc');
