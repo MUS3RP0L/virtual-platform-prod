@@ -6,7 +6,7 @@
 
 <table>
   <p align="justify">
-      En fecha ……../…..…./.…., a horas…..…………se <b>NOTIFICA</b> en forma personal al Sr.(a)…………………………………………..………………….con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> …………de fecha….…/………/……., quien recibió en mano propia el original de dicho documento.
+      En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!!$eco_com_applicant->code !!} de fecha {!! $eco_com_applicant->reception_date!!}, quien recibió en mano propia el original de dicho documento.
   </p>
 </table>
 
@@ -57,20 +57,20 @@
   </h1>
 </header>
   <table>
-      <p align="right"> La Paz, Elija un elemento. de Elija un elemento. de 2017
+      <p align="right"> La Paz, {!! $date !!}
       <br>CITE: UCE – EGSB /2017
       </p>
   </table>
   <table>
       <p align="left">Señor (a): <br>
-      Haga clic aquí para escribir texto.……………………………………………..<br>
+      {!! $eco_com_applicant->getTitleNameFull() !!}<br>
       Presente.-
        </p>
   </table>
          <p align="right"><b>REF.- <ins> CARTA DE NOTIFICACIÓN </ins></b></p>
         <p align="justify">De nuestra consideracion.</p>
          <p>
-              De la revisión efectuada por el Área Técnica de la Unidad de otorgación del Complemento Económico, <b>se comunica a usted que ... Elija un elemento.figura como deudor, por registrar cartera en mora por préstamos otorgados por la MUSERPOL.</b>
+              De la revisión efectuada por el Área Técnica de la Unidad de otorgación del Complemento Económico, <b>se comunica a usted que a usted .figura como deudor, por registrar cartera en mora por préstamos otorgados por la MUSERPOL.</b>
         </p>
     <p align="justify"><b>Y en estricto cumplimiento al Decreto Supremo Nº 1446</b>, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 3º.- (Funciones y fines). La MUSERPOL tiene las siguientes funciones y fines: inc. <b>5) Pagar el Complemento Económico al sector pasivo de la Policía Boliviana conforme a Reglamento</b>.
     <p align="justify">Asimismo, se halla enmarcado en las normas legales vigentes, el <b>Reglamento del Complemento Económico de 2016</b>, aprobado mediante Resolución de Directorio Nº 36/2016 de fecha 09 de diciembre de 2016, que norma en su <b>ARTÍCULO 8° (Suspensión y habilitación).</b></p>
@@ -102,7 +102,7 @@
     </ol>
     </table>
         <p align="justify">
-          Por lo que usted no podrá cobrar el Beneficio del Complemento Económico, correspondiente al ... . Semestre de ... , en tanto continúe registrado en cartera en mora por préstamos otorgados por la MUSERPOL.<br>
+          Por lo que usted no podrá cobrar el Beneficio del Complemento Económico, correspondiente al <b> {!! $eco_com_applicant->semester !!} .</b> Semestre de   <b> {!! $yearcomplement->year !!} </b> , en tanto continúe registrado en cartera en mora por préstamos otorgados por la MUSERPOL.<br>
       Sin otro motivo en particular, saludo a usted.<br>
       Atentamente.
         </p>
