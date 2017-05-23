@@ -45,7 +45,7 @@
 
                 <div class="box box-warning box-solid">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Editar Beneficiario - {{ $eco_com_applicant->economic_complement_applicant_type->name }}</h3>
+                        <h3 class="box-title">Editar Beneficiario</h3>
                     </div>
                     <div class="box-body">
                         <br>
@@ -55,10 +55,10 @@
                                     <div class="col-md-12">
                                             {!! Form::label('identity_card', 'Carnet de Identidad', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-5">
-                                            {!! Form::text('identity_card', $eco_com_applicant->identity_card, ['class'=> 'form-control', 'required']) !!}
+                                            {!! Form::text('identity_card', $eco_com_applicant->identity_card, ['class'=> 'form-control']) !!}
                                             <span class="help-block">Número de CI</span>
                                         </div>
-                                            {!! Form::select('city_identity_card_id', $cities_list_short, $eco_com_applicant->city_identity_card_id, ['class' => 'col-md-2 combobox form-control', 'required']) !!}
+                                            {!! Form::select('city_identity_card_id', $cities_list_short, $eco_com_applicant->city_identity_card_id, ['class' => 'col-md-2 combobox form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
