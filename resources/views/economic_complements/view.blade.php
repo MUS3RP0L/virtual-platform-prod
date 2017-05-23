@@ -48,7 +48,12 @@
                         <div class="col-md-8">
                             <h3 class="box-title"><span class="glyphicon glyphicon-info-sign"></span> Información Adicional</h3>
                         </div>
-                        <div class="col-md-2 text-right">
+                         <div class="col-md-4 text-right">
+                            <span data-toggle="modal" data-target="#policeModal">
+                                <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa-pencil"></i></a>
+                            </span>
+                        </div>
+                       {{--  <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="top" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-edit">&nbsp;&nbsp;
                                     <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
@@ -61,7 +66,7 @@
                                     <span class="fa fa-lg fa-exclamation-triangle" aria-hidden="true"></span>&nbsp;&nbsp;
                                 </a>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="box-body">
@@ -832,6 +837,101 @@
                 </div>
             </div>
         </div>
+    </div>
+
+        <div id="policeModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="box-header with-border">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Editar Información de Policía</h4>
+                        </div>
+                        <div class="modal-body">
+                            {!! Form::model($affiliate, ['method' => 'PATCH', 'route' => ['affiliate.update', $affiliate], 'class' => 'form-horizontal']) !!}
+                            <input type="hidden" name="type" value="institutional"/>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                                {!! Form::label('date_entry', 'Fecha de Ingreso', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                                <div class="input-group">
+                                                    <input type="text" id="date_entry" class="form-control" name="date_entry" value="{!! $affiliate->date_entry !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                                    <div class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                                {!! Form::label('item', 'Num de Item', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                            {!! Form::text('item', $affiliate->item, ['class'=> 'form-control',  'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                           <span class="help-block">Escriba el Numero de item</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                                {!! Form::label('category', 'Categoria', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                                {!! Form::select('category',$categories, $affiliate->category_id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                <span class="help-block">Seleccione una Categoria para el policía</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        
+                                         <div class="form-group">
+                                                {!! Form::label('degree', 'Grado', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                                {!! Form::select('degree',$degrees, $affiliate->degree->id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                <span class="help-block">Seleccione un grado del policía</span>
+                                            </div>
+                                        </div>
+
+                                                {{--<div class="form-group">
+                                                        {!! Form::label('unit', 'Unidad', ['class' => 'col-md-5 control-label']) !!}
+                                                    <div class="col-md-7">
+                                                        {!! Form::select('unit',$units, $affiliate->unit_id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                        <span class="help-block">Seleccione una unidad del policía</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                        {!! Form::label('registration', 'Num de Matrícula', ['class' => 'col-md-5 control-label']) !!}
+                                                    <div class="col-md-7">
+                                                    {!! Form::text('registration', $affiliate->registration, ['class'=> 'form-control',  'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                                   <span class="help-block">Escriba el Numero de Matrícula</span>
+                                                    </div>
+                                                </div> --}}
+                                        <div class="form-group">
+                                                    {!! Form::label('regional', 'Regional', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                                {!! Form::select('regional', $cities_list, $economic_complement->city_id, ['class' => 'combobox form-control']) !!}
+                                                <span class="help-block">Seleccione Regional</span>
+                                            </div>
+                                        </div>
+                                         <div class="form-group">
+                                                {!! Form::label('affiliate_entity_pension', 'Ente Gestor', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                                {!! Form::select('affiliate_entity_pension',$entity_pensions, $affiliate->pension_entity->id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                <span class="help-block">Seleccione un ente gestor</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row text-center">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <a href="{!! url('affiliate/' . $affiliate->id) !!}" data-target="#" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {!! Form::close() !!}
+
+                        </div>
+                    </div>
+                </div>
     </div>
 @endsection
 

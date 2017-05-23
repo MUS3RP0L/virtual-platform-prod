@@ -32,6 +32,7 @@ use Muserpol\BaseWage;
 use Muserpol\ComplementaryFactor;
 use Muserpol\Degree;
 use Muserpol\Unit;
+use Muserpol\Category;
 
 class EconomicComplementController extends Controller
 {
@@ -466,6 +467,29 @@ class EconomicComplementController extends Controller
             $eco_com_state_type_lists[$item->id]=$item->name;
         }
 
+         $ca=Category::all();
+        $categories=[];
+        foreach ($ca as $key=>$d) {
+            if ($key==8) {
+                break;
+            }else{
+                $categories[$d->id]=$d->name;
+            }
+        }
+
+        $dg=Degree::all();
+        $degrees=[];
+        foreach ($dg as $d) {
+            $degrees[$d->id]=$d->name;
+        }
+
+        $ep=PensionEntity::all();
+        $entity_pensions=array(''=>'');
+
+        foreach ($ep as $e) {
+            $entity_pensions[$e->id]=$e->name;
+        }
+
         $data = [
 
             'affiliate' => $affiliate,
@@ -477,7 +501,10 @@ class EconomicComplementController extends Controller
             'status_documents' => $status_documents,
             'gender_list' => $gender_list,
             'eco_com_states_block_list' => $eco_com_states_block_list,
-            'eco_com_state_type_lists' => $eco_com_state_type_lists
+            'eco_com_state_type_lists' => $eco_com_state_type_lists,
+            'categories' => $categories,
+            'degrees' => $degrees,
+            'entity_pensions' => $entity_pensions
 
         ];
 
