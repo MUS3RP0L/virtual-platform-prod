@@ -284,6 +284,7 @@ class AffiliateController extends Controller
             'info_address' => $info_address,
             'info_spouse' => $info_spouse,
             'economic_complement' => $economic_complement,
+            'current_economic_complement' => $current_economic_complement,
             'has_current_eco_com' => $has_current_eco_com,
             // 'last_contribution' => $last_contribution,
             'observations'=>$affiliate->observations,
