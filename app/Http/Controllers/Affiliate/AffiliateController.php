@@ -457,6 +457,7 @@ public function print_debtor_conta($affiliate)
         $date = Util::getDateEdit(date('Y-m-d'));
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
+
         //dd($data);
         $affiliate = self::getData($affiliate->id);
         dd($affiliate);

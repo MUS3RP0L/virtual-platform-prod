@@ -252,21 +252,27 @@ class CreatePlatformTables extends Migration
             $table->softDeletes();
         });
 
+        Schema::create('observation_types', function(Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('module_id')->unsigned();
+            $table->string('name');
+            $table->string('description');
+            $table->foreign('module_id')->references('id')->on('modules');
+        });
+
         Schema::create('affiliate_observations', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('affiliate_id')->unsigned();
-            $table->bigInteger('module_id')->unsigned();
-            $table->date('date');
-            $table->string('title');
-            $table->string('description');
+            $table->bigInteger('observation_type_id')->unsigned();
+            $table->string('message');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
-            $table->foreign('module_id')->references('id')->on('modules');
+            $table->foreign('observation_type_id')->references('id')->on('observation_types');
             $table->timestamps();
             $table->softDeletes();
         });
-        
+
         Schema::create('direct_contributions', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
@@ -495,14 +501,15 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('degree_id')->unsigned();
             $table->bigInteger('eco_com_type_id')->unsigned();
-            $table->bigInteger('eco_com_procedure_id')->unsigned();
+            $table->date('year')->required();
+            $table->enum('semester', ['Primer', 'Segundo'])->required();
             $table->decimal('minor', 13, 2);
             $table->decimal('higher', 13, 2);
             $table->decimal('average', 13, 2);
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('degree_id')->references('id')->on('degrees');
             $table->foreign('eco_com_type_id')->references('id')->on('eco_com_types');
-            $table->foreign('eco_com_procedure_id')->references('id')->on('eco_com_procedures');
+            $table->unique(['year','semester']);
             $table->timestamps();
         });
 
@@ -510,12 +517,12 @@ class CreatePlatformTables extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('hierarchy_id')->unsigned();
-            $table->bigInteger('eco_com_procedure_id')->unsigned();
+            $table->date('year')->required();
+            $table->enum('semester', ['Primer', 'Segundo'])->required();
             $table->decimal('old_age', 13, 2);
             $table->decimal('widowhood', 13, 2);
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('hierarchy_id')->references('id')->on('hierarchies');
-            $table->foreign('eco_com_procedure_id')->references('id')->on('eco_com_procedures');
             $table->timestamps();
         });
 
@@ -540,26 +547,34 @@ class CreatePlatformTables extends Migration
             $table->string('payment_number')->nullable();
             $table->text('comment')->nullable();
             $table->enum('state', ['Received', 'Edited']);
-            // $table->decimal('sub_total_rent', 13, 2)->nullable();
+
+            $table->decimal('sub_total_rent', 13, 2)->nullable();
+            $table->decimal('dignity_pension', 13, 2)->nullable();
+            $table->decimal('total_rent', 13, 2)->nullable();
+            $table->decimal('total_rent_calc', 13, 2)->nullable();
+            $table->decimal('salary_reference', 13, 2)->nullable();
+            $table->decimal('seniority', 13, 2)->nullable();
+            $table->decimal('salary_quotable', 13, 2)->nullable();
+            $table->decimal('difference', 13, 2)->nullable();
+            $table->decimal('total_amount_semester', 13, 2)->nullable();
+            $table->decimal('complementary_factor', 13, 2)->nullable();
+            $table->decimal('reimbursement', 13, 2)->nullable();
+            $table->decimal('total', 13, 2)->nullable();
+
             // $table->decimal('reimbursement_basic_pension', 13, 2)->nullable();
-            // $table->decimal('dignity_pension', 13, 2)->nullable();
             // $table->decimal('dignity_pension_reimbursement', 13, 2)->nullable();
             // $table->decimal('dignity_pension_bonus', 13, 2)->nullable();
             // $table->decimal('bonus_reimbursement', 13, 2)->nullable();
             // $table->decimal('reimbursement_aditional_amount', 13, 2)->nullable();
             // $table->decimal('reimbursement_increase_year', 13, 2)->nullable();
-            // $table->decimal('total_rent', 13, 2)->nullable();
-            // $table->decimal('total_rent_calc', 13, 2)->nullable();
-            // $table->decimal('salary_reference', 13, 2)->nullable();
-            // $table->decimal('seniority', 13, 2)->nullable();
-            // $table->decimal('salary_quotable', 13, 2)->nullable();
-            // $table->decimal('difference', 13, 2)->nullable();
-            // $table->decimal('total_amount_semester', 13, 2)->nullable();
-            // $table->decimal('complementary_factor', 13, 2)->nullable();
-            // $table->decimal('reimbursement', 13, 2)->nullable();
+
+
+
+
+
             // $table->decimal('christmas_bonus', 13, 2)->nullable();
             // $table->decimal('quotable', 13, 2)->nullable();
-            // $table->decimal('total', 13, 2)->nullable();
+
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
             $table->foreign('eco_com_modality_id')->references('id')->on('eco_com_modalities');
@@ -754,7 +769,6 @@ class CreatePlatformTables extends Migration
      */
     public function down()
     {
-
         Schema::dropIfExists('ret_fun_applicants');
         Schema::dropIfExists('ret_fun_antecedents');
         Schema::dropIfExists('ret_fun_antecedent_files');
@@ -783,10 +797,8 @@ class CreatePlatformTables extends Migration
         Schema::dropIfExists('ipc_rates');
         Schema::dropIfExists('contributions');
         Schema::dropIfExists('direct_contributions');
-        Schema::dropIfExists('observation_records');
-        Schema::dropIfExists('observation_types');
-        Schema::dropIfExists('observation_states');
         Schema::dropIfExists('affiliate_observations');
+        Schema::dropIfExists('observation_types');
         Schema::dropIfExists('affiliate_records');
         Schema::dropIfExists('spouses');
         Schema::dropIfExists('affiliate_address');

@@ -34,12 +34,22 @@
             </div>
         @endcan
         @can('eco_com_reception')
-            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento Económico" style="margin: 0;">
-                <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
-                <ul class="dropdown-menu">
-                    <li><a href="{!! url('economic_complement_reception_first_step/' . $affiliate->id) !!}"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
-                </ul>
-            </div>
+            @if($has_current_eco_com=="edit")
+                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento  Económico" style="margin: 0;">
+                    <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" class="text-center"><i class="fa fa-eye"></i></i>Ver</a></li>
+                    </ul>
+                </div>
+            @endif
+            @if($has_current_eco_com=="create")
+                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento  Económico" style="margin: 0;">
+                    <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{!! url('economic_complement_reception_first_step/' . $affiliate->id) !!}"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
+                    </ul>
+                </div>
+            @endif
         @endcan
         @can('manage')
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Cuota Auxilio" style="margin: 0;">
@@ -54,11 +64,11 @@
                 <a href="" class="btn btn-success btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
             </div>
             <!-- /button of  Observations -->
-            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir" style="margin:0px;">
-                <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
-                    &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                </a>
-            </div>
+            {{--<div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir" style="margin:0px;">--}}
+                {{--<a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >--}}
+                    {{--&nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;--}}
+                {{--</a>--}}
+            {{--</div>--}}
             {{-- <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Caratula Imprimir" style="margin:0px;">
                 <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
                     &nbsp;<span class="glyphicon glyphicon-file"></span>&nbsp;
@@ -589,6 +599,7 @@
             </div>
 
             <!-- observations -->
+            @if($canObservate)
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="row">
@@ -633,6 +644,7 @@
                     </div>
                 </div>
             </div>
+            @endif
             <!-- /observations -->
 
         </div>

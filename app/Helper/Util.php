@@ -226,15 +226,10 @@ class Util
 		}
 	}
 
-	public static function datePickYear($year, $semester)
+	public static function datePickYear($year)
 	{
 		if ($year) {
-			if ($semester == "Primer") {
 			return date($year ."-1-1");
-			}
-			else{
-				return date($year ."-7-1");
-			}
 		}
 	}
 
@@ -550,6 +545,14 @@ class Util
     public static function getGender($gender)
     {
     	return $gender=='M'?'F':'M';
+    }
+
+    public static function getCurrentSemester()
+    {
+    	$current_date = Carbon::now();
+    	$current_month = $current_date->format('m');
+    	return $current_month<=8 ? "Primer" : "Segundo";
+    	
     }
 
 }
