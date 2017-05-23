@@ -1064,7 +1064,7 @@
 
                                     @endforeach
                                 </div>
-                                <div class="">
+                                <div class="form-group">
                                     <div class="col-md-offset-6">
                                     <button class="btn btn-success" id="addPhoneNumber" type="button" ><span class="fa fa-plus"></span></button>
                                     </div>

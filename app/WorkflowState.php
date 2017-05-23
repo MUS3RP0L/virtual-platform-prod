@@ -12,4 +12,8 @@ class WorkflowState extends Model
 	];
 	public $timestamps=false;
 	protected $guarded = ['id'];
+	public function economic_complements()
+	{
+		return $this->hasMany(EconomicComplement::class,'wf_current_state_id','id');
+	}
 }

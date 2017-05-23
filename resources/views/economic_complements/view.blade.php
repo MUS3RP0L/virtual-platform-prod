@@ -23,7 +23,6 @@
         </div>
 
 
-
 		@can('eco_com_review')
 			@if($economic_complement->eco_com_state_id < 2)
 				<div class="col-md-2 text-right">
@@ -35,6 +34,15 @@
 				</div>
 			@endif
 		@endcan
+=======
+		<div class="col-md-2 text-right">
+	        <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Confirmar" style="margin:0px;">
+                <a href="" data-target="#myModal-confirm" class="btn btn-raised btn-warning dropdown-toggle enabled" data-toggle="modal">
+                    &nbsp;<span class="glyphicon glyphicon-ok"></span>&nbsp;
+                </a>
+            </div>
+		</div>
+>>>>>>> upstream/master
 	</div>
 
 @endsection

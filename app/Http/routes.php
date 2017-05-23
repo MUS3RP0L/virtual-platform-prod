@@ -133,6 +133,8 @@ Route::group(['middleware' => 'auth'], function() {
 
 	//Routes for inbox
 	Route::resource('inbox', 'Inbox\InboxController');
+	Route::get('received_data', array('as'=>'received_data','uses'=>'Inbox\InboxController@DataReceived'));
+	Route::get('edited_data', array('as'=>'edited_data','uses'=>'Inbox\InboxController@DataEdited'));
 
 	//observants
 	Route::get('print_without_requirement', 'Affiliate\AffiliateController@print_miss_requiriments_hab_inc');
