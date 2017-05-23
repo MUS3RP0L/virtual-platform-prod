@@ -23,7 +23,8 @@ class ComplementaryFactorTableSeeder extends Seeder
     {
         $statuses = [
 
-            ['user_id' => '1', 'year' => '2016-1-1', 'semester' => 'Segundo', 'normal_start_date' => '2016-1-1', 'normal_end_date' => '2016-12-1', 'lagging_start_date' => '2016-1-1', 'lagging_end_date' => '2016-12-1', 'additional_start_date' => '2016-1-1', 'additional_end_date' => '2016-12-1']
+            ['user_id' => '1', 'year' => '2016-1-1', 'semester' => 'Segundo', 'normal_start_date' => '2016-1-1', 'normal_end_date' => '2016-12-1', 'lagging_start_date' => '2016-1-1', 'lagging_end_date' => '2016-12-1', 'additional_start_date' => '2016-1-1', 'additional_end_date' => '2016-12-1'],
+            ['user_id' => '1', 'year' => '2017-1-1', 'semester' => 'Primer', 'normal_start_date' => '2017-1-1', 'normal_end_date' => '2017-12-1', 'lagging_start_date' => '2017-1-1', 'lagging_end_date' => '2017-12-1', 'additional_start_date' => '2017-1-1', 'additional_end_date' => '2017-12-1']
 
         ];
 
