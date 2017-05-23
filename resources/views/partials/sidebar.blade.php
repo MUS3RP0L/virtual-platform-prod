@@ -15,11 +15,11 @@
             <li {!! (Request::is('affiliate') ? 'class=active' : '') !!}>
                 <a href="{!! url('affiliate') !!}"><i class='fa fa-fw fa-male fa-lg' aria-hidden="true"></i>&nbsp; <span>Afiliados</span></a>
             </li>
-
-            <li {!! (Request::is('direct_contribution') ? 'class=active' : '') !!}>
-                <a href="{!! url('direct_contribution') !!}"><i class='fa fa-fw fa-arrow-circle-down fa-lg' aria-hidden="true"></i>&nbsp; <span>Aportes Directos</span></a>
-            </li>
-
+            @can('retirement_fund')
+                <li {!! (Request::is('direct_contribution') ? 'class=active' : '') !!}>
+                    <a href="{!! url('direct_contribution') !!}"><i class='fa fa-fw fa-arrow-circle-down fa-lg' aria-hidden="true"></i>&nbsp; <span>Aportes Directos</span></a>
+                </li>
+            @endcan
             @can('loan')
                 <li {!! (Request::is('loan') ? 'class=active' : '') !!}>
                     <a href="#"><i class="fa fa-fw fa-money fa-lg" aria-hidden="true"></i>&nbsp; <span>Préstamos</span></a>
@@ -35,12 +35,12 @@
                     <a href="{!! url('economic_complement') !!}"><i class="fa fa-fw fa-puzzle-piece fa-lg" aria-hidden="true"></i>&nbsp; <span>Complemento Económico</span></a>
                 </li>
             @endcan
-      
-            <li {!! (Request::is('mortuary') ? 'class=active' : '') !!}>
-                <a href="#"><i class="fa fa-fw fa-heartbeat fa-lg" aria-hidden="true"></i>&nbsp; <span>Cuota, Auxilio Mortuorio</span></a>
-            </li>
-  
-            <li {!! (Request::is('budget') ? 'class=active' : '') !!}>
+            @can('retirement_fund')
+                <li {!! (Request::is('mortuary') ? 'class=active' : '') !!}>
+                    <a href="#"><i class="fa fa-fw fa-heartbeat fa-lg" aria-hidden="true"></i>&nbsp; <span>Cuota, Auxilio Mortuorio</span></a>
+                </li>
+            @endcan
+{{--             <li {!! (Request::is('budget') ? 'class=active' : '') !!}>
                 <a href="#"><i class="fa fa-fw fa-edit fa-lg" aria-hidden="true"></i>&nbsp; <span>Presupuesto</a>
             </li>
 
@@ -50,7 +50,7 @@
 
             <li {!! (Request::is('voucher') ? 'class=active' : '') !!}>
                 <a href="{!! url('voucher') !!}"><i class="fa fa-fw fa-usd fa-lg" aria-hidden="true"></i>&nbsp; <span>Tesorería</a>
-            </li>
+            </li> --}}
 
         </ul>
     </section>
