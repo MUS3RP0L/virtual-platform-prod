@@ -1,20 +1,21 @@
 @extends('app')
 
 @section('contentheader_title')
-<div class="container">
+
     <div class="row">
         <div class="col-md-6">
             {!! Breadcrumbs::render('show_inbox') !!}
         </div>
-		<div class="col-md-6 text-right">
-			<div class="btn-group"  data-toggle="tooltip" data-original-title="Actualizar" style="margin: 0;">
-                <a href="{!! url('inbox') !!}" class="btn btn-success btn-raised bg-orange" ><i class="fa fa-refresh fa-lg"></i></a>
-			</div>
-		</div>
+    		<div class="col-md-6 text-right">
+    			<div class="btn-group"  data-toggle="tooltip" data-original-title="Actualizar" style="margin: 0;">
+                    <a href="{!! url('inbox') !!}" class="btn btn-success btn-raised bg-orange" ><i class="fa fa-refresh fa-lg"></i></a>
+    			</div>
+    		</div>
     </div>
-</div>
+
 @endsection
 @section('main-content')
+<div class="row">
 <div class="col-md-6">
 	<div class="box box-success">
 		<div class="box-header with-border">
@@ -24,7 +25,7 @@
 		   <thead>
 		      <tr>
 		         <th>id</th>
-		         <th>code</th>
+		         <th>Número</th>
 		         <th>Opciones</th>
 		      </tr>
 		   </thead>
@@ -38,27 +39,26 @@
 		<div class="box-header with-border">
 			<h3 class="box-title">{{Auth::user()->roles->first()->action}}</h3>
 		</div>
-		<div class="box-body" style="width: 95%">
+		<div class="box-body">
 		{!! Form::open(['method' => 'POST', 'route' => ['inbox.store'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}
 		<table id="edited" class="table table-bordered table-hover">
 		   <thead>
 		      <tr>
 		         <th></th>
-		         <th>code</th>
+		         <th>Número</th>
 		      </tr>
 		   </thead>
 		</table>
-<p class="form-group">
-   <button type="submit" class="btn btn-primary">Submit</button>
-</p>
+
+   <button type="submit" class="btn btn-primary">Enviar</button>
+
 {!! Form::close() !!}
 		</div>
 	</div>
 </div>
-
+</div>
 @push('scripts')
-<link type="text/css" href="/css/datatables.min.css" rel="stylesheet" /  >
-<link type="text/css" href="/css/dataTables.checkboxes.css" rel="stylesheet" />
+
 <script type="text/javascript" src="/js/datatables.min.js"></script>
 <script type="text/javascript" src="/js/dataTables.checkboxes.min.js"></script>
 <script>
@@ -115,6 +115,7 @@ $(document).ready(function (){
       });
    });*/
    var tableE = $('#edited').DataTable({
+      "dom": '<"top">t<"bottom"p>',
       'ajax': '/edited_data',
       'columnDefs': [
          {
