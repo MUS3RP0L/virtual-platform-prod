@@ -109,7 +109,7 @@ class importfinal extends Command implements SelfHandling
                                 $eco_com->semester = $result->semester;
                                 $eco_com->code = $result->code;
                                 //$eco_com->reception_date = $result->reception_date;
-                                $eco_com->reception_date = Carbon::now();
+                                $eco_com->reception_date = $result->year;
                                 $eco_com->state = 'Edited';
                                 $eco_com->sub_total_rent = $result->sub_total_rent;
                                 $eco_com->dignity_pension = $result->dignity_pension;
@@ -200,7 +200,7 @@ class importfinal extends Command implements SelfHandling
                                 $eco_com->semester = $result->semester;
                                 $eco_com->code = $result->code;
                                 //$eco_com->reception_date = $result->reception_date;
-                                $eco_com->reception_date = Carbon::now();
+                                $eco_com->reception_date = $result->year;
                                 $eco_com->state = 'Edited';
                                 $eco_com->sub_total_rent = $result->sub_total_rent;
                                 $eco_com->dignity_pension = $result->dignity_pension;
@@ -276,8 +276,8 @@ class importfinal extends Command implements SelfHandling
                                 $eco_com->year = $result->year;
                                 $eco_com->semester = $result->semester;
                                 $eco_com->code = $result->code;
-                                //$eco_com->reception_date = $result->reception_date;
                                 $eco_com->reception_date = Carbon::now();
+                                $eco_com->reception_date = $result->year;
                                 $eco_com->state = 'Edited';
                                 $eco_com->sub_total_rent = $result->sub_total_rent;
                                 $eco_com->dignity_pension = $result->dignity_pension;
