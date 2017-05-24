@@ -6,7 +6,7 @@
 
 <table>
   <p align="justify">
-      En fecha ……../…..…./.…., a horas…..…………se <b>NOTIFICA</b> en forma personal al Sr.(a)…………………………………………..………………….con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> …………de fecha….…/………/……., quien recibió en mano propia el original de dicho documento.
+      En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!!$eco_com_applicant->code !!} de fecha {!! $eco_com_applicant->reception_date!!}, quien recibió en mano propia el original de dicho documento.
   </p>
 </table>
 
@@ -57,9 +57,9 @@
   </h1>
 </header>
   <table>
-      <p align="right"> La Paz, Elija un elemento. de Elija un elemento. de 2017
+      <p align="right"> La Paz, {!! $date !!}
 
-      <br>CITE: UCE - EGSB /Haga clic aquí para escribir texto./Elija un elemento.
+      <br>CITE: UCE - EGSB {!! $eco_com_applicant->semester !!}./{!! $yearcomplement->year !!}.
 
       <br>CITE: UCE – EGSB /2017
 
@@ -67,7 +67,7 @@
   </table>
   <table>
       <p align="left">Señor (a): <br>
-      Haga clic aquí para escribir texto.……………………………………………..<br>
+        {!! $eco_com_applicant->getTitleNameFull() !!}<br>
       Presente.-
        </p>
   </table>
@@ -84,7 +84,7 @@
       Asimismo, se halla enmarcado en las normas legales vigentes, el <b>Reglamento del Complemento Económico de 2016</b>, aprobado mediante Resolución de Directorio Nº 36/2016 de fecha 09 de diciembre de 2016, que norma en su <b>ARTICULO 18° (Complemento Económico No Cobrado). </b>El importe del Complemento Económico no cobrado por los beneficiarios permanecerá en el auxiliar contable individual por <b>Ciento Veinte (120) días calendario a partir desde el 1er. día hábil posterior a realizado el Pago por la Entidad Bancaria o Financiera. </b>. Cumplido el plazo, al igual que los importes remanentes de las transferencias por Gestión, con aprobación de la Máxima Autoridad Ejecutiva de la MUSERPOL, serán transferidos al saldo contable financiero del Complemento Económico. Situación que será puesta en conocimiento del Honorable Directorio.
       </p>
     <p align="justify">
-      <b>Por lo que, al haber ingresado su solicitud de pago (rezagado) en fecha Haga clic aquí para escribir una fecha. y de acuerdo a los plazos establecidos según Reglamento del Complemento Económico no Cobrado correspondiente al Elija un elemento. Semestre de la Gestión Elija un elemento., que feneció el Haga clic aquí para escribir una fecha., su solicitud ingreso fuera de plazo, por lo que no corresponde el pago del beneficio del Complemento Económico.
+      <b>Por lo que, al haber ingresado su solicitud de pago (rezagado) en fecha {!! $eco_com_applicant->reception_date!!}. y de acuerdo a los plazos establecidos según Reglamento del Complemento Económico no Cobrado {!! $eco_com_applicant->semester !!}. Semestre de la {!! $yearcomplement->year !!}., que feneció el {!! $procedure->additional_end_date !!}, su solicitud ingreso fuera de plazo, por lo que no corresponde el pago del beneficio del Complemento Económico.
       </b>
     </p>
    
