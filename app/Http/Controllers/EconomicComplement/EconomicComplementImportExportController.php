@@ -139,9 +139,9 @@ class EconomicComplementImportExportController extends Controller
               ->where('affiliates.nua', '=', rtrim(Util::zero($datos->cua_titular)))
               ->where('affiliates.identity_card', '=', rtrim(Util::zero($datos->nro_identificacion)))
               ->whereIn('affiliates.pension_entity_id', [1, 2, 3, 4])
-              ->whereYear('economic_complements.review_date', '=', $year)
+              ->whereYear('economic_complements.year', '=', $year)
               ->where('economic_complements.semester', '=', rtrim($semester))
-              ->where('economic_complements.eco_com_state_id', '=', 2)
+              //->where('economic_complements.eco_com_state_id', '=', 2)
               ->whereNull('economic_complements.deleted_at')->first();
               if ($afi){
                   //return response()->json($afi);
@@ -158,10 +158,13 @@ class EconomicComplementImportExportController extends Controller
                       $comp3 = 1;
                   }
                   $comp = $comp1 + $comp2 + $comp3;
-                  $ecomplement = EconomicComplement::where('id','=', $afi->id)->first();
+                  $ecomplement = EconomicComplement::where('id','=', $afi->id)
+                                ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                                ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','eco_com_types.id')->select('economic_complements.*','eco_com_modalities.*','eco_com_types.*')->first();
                   $ecomplement->total = $datos->total_pension;
+                  dd($ecomplement);
                   //Vejez
-                 if ($ecomplement->eco_com_modality_id == 1 || $ecomplement->eco_com_modality_id == 3)
+                 if ($ecomplement->eco_com_type_id == 1 || $ecomplement->eco_com_type_id == 3)
                  {
                      if ($comp == 1 && $datos->total_pension >= 2000)
                      {
@@ -177,7 +180,7 @@ class EconomicComplementImportExportController extends Controller
                      }
                  }
                  //Viudedad
-                 if ($ecomplement->eco_com_modality_id == 2) {
+                 if ($ecomplement->eco_com_type_id == 2) {
                      if($comp == 1 && $datos->total_pension >= 2000) {
                          $ecomplement->eco_com_modality_id = 5;
                      } elseif ($comp == 1 && $datos->total_pension < 2000) {
