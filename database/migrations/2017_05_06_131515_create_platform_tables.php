@@ -624,7 +624,7 @@ class CreatePlatformTables extends Migration
             $table->string('surname_husband')->nullable();
             $table->date('birth_date')->nullable();
             $table->bigInteger('nua')->nullable();
-            $table->enum('gender', ['M', 'F']);
+            $table->enum('gender', ['M', 'F'])->default('M');
             $table->enum('civil_status', ['C', 'S', 'V', 'D'])->nullable();
             $table->string('phone_number')->nullable();
             $table->string('cell_phone_number')->nullable();
