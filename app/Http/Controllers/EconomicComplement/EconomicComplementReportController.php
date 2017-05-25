@@ -93,6 +93,7 @@ class EconomicComplementReportController extends Controller
                            $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
                            $title = "REPORTE DIARIO DE TRÁMITES DEL COMPLEMENTO ECONÓMICO";
                            $date = Util::getDateEdit(date('Y-m-d'));
+                           $type = "user";
                            $current_date = Carbon::now();
                            $hour = Carbon::parse($current_date)->toTimeString();
                            $regional = ($request->city == 'Todo') ? '%%' : $request->city;
@@ -121,7 +122,7 @@ class EconomicComplementReportController extends Controller
                                            ->orderBy('economic_complements.id','ASC')
                                            ->get();
                            if ($eco_complements) {
-                               $view = \View::make('economic_complements.print.daily_report', compact('header1','header2','title','date','hour','eco_complements'))->render();
+                               $view = \View::make('economic_complements.print.daily_report', compact('header1','header2','title','date','type','hour','eco_complements'))->render();
                                $pdf = \App::make('dompdf.wrapper');
                                $pdf->loadHTML($view)->setPaper('legal','landscape');
                                return $pdf->stream();
@@ -136,6 +137,7 @@ class EconomicComplementReportController extends Controller
                            $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
                            $title = "REPORTE DE BENEFICIARIOS DEL COMPLEMENTO ECONÓMICO";
                            $date = Util::getDateEdit(date('Y-m-d'));
+                           $type = "user";
                            $current_date = Carbon::now();
                            $hour = Carbon::parse($current_date)->toTimeString();
                            $regional = ($request->city == 'Todo') ? '%%' : $request->city;
@@ -164,7 +166,7 @@ class EconomicComplementReportController extends Controller
                                            ->get();
                                            //dd($beneficiary_eco_complements);
                            if ($beneficiary_eco_complements) {
-                               $view = \View::make('economic_complements.print.beneficiary_report', compact('header1','header2','title','date','hour','beneficiary_eco_complements'))->render();
+                               $view = \View::make('economic_complements.print.beneficiary_report', compact('header1','header2','title','date','type','hour','beneficiary_eco_complements'))->render();
                                $pdf = \App::make('dompdf.wrapper');
                                $pdf->loadHTML($view)->setPaper('legal','landscape');
                                return $pdf->stream();
@@ -180,6 +182,7 @@ class EconomicComplementReportController extends Controller
                            $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
                            $title = "REPORTE DE APODERADOS DEL COMPLEMENTO ECONÓMICO";
                            $date = Util::getDateEdit(date('Y-m-d'));
+                           $type = "user";
                            $current_date = Carbon::now();
                            $hour = Carbon::parse($current_date)->toTimeString();
                            $regional = ($request->city == 'Todo') ? '%%' : $request->city;
@@ -224,6 +227,7 @@ class EconomicComplementReportController extends Controller
                                $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
                                $title = "REPORTE DE BENEFICIARIOS CON DOBLE PERCEPCION DE COMPLEMENTO ECONÓMICO";
                                $date = Util::getDateEdit(date('Y-m-d'));
+                               $type = "user";
                                $current_date = Carbon::now();
                                $hour = Carbon::parse($current_date)->toTimeString();
                                $regional = ($request->city == 'Todo') ? '%%' : $request->city;
@@ -255,7 +259,7 @@ class EconomicComplementReportController extends Controller
                                                })->orderBy('economic_complements.id','ASC')->get();
 
                                if ($double_perception_eco_complements) {
-                                   $view = \View::make('economic_complements.print.double_perception_report', compact('header1','header2','title','date','hour','double_perception_eco_complements'))->render();
+                                   $view = \View::make('economic_complements.print.double_perception_report', compact('header1','header2','title','date','type','hour','double_perception_eco_complements'))->render();
                                    $pdf = \App::make('dompdf.wrapper');
                                    $pdf->loadHTML($view)->setPaper('legal','landscape');
                                    return $pdf->stream();
@@ -271,6 +275,7 @@ class EconomicComplementReportController extends Controller
                        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
                        $title = "REPORTE HABITUALES DE COMPLEMENTO ECONÓMICO";
                        $date = Util::getDateEdit(date('Y-m-d'));
+                       $type = 'user';
                        $current_date = Carbon::now();
                        $hour = Carbon::parse($current_date)->toTimeString();
                        $regional = ($request->city == 'Todo') ? '%%' : $request->city;
@@ -318,7 +323,7 @@ class EconomicComplementReportController extends Controller
                        }
                        //dd($deparment_list);
                        if ($deparment_list) {
-                           $view = \View::make('economic_complements.print.summary_habitual', compact('header1','header2','title','date','hour','deparment_list','types_list1','totaln'))->render();
+                           $view = \View::make('economic_complements.print.summary_habitual', compact('header1','header2','title','date','type','hour','deparment_list','types_list1','totaln'))->render();
                            $pdf = \App::make('dompdf.wrapper');
                            $pdf->loadHTML($view)->setPaper('legal','landscape');
                            return $pdf->stream();
@@ -333,6 +338,7 @@ class EconomicComplementReportController extends Controller
                        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
                        $title = "REPORTE INCLUSIONES DE COMPLEMENTO ECONÓMICO";
                        $date = Util::getDateEdit(date('Y-m-d'));
+                       $type = "user";
                        $current_date = Carbon::now();
                        $hour = Carbon::parse($current_date)->toTimeString();
                        //$regional = ($request->city == 'Todo') ? '%%' : $request->city;
@@ -380,7 +386,7 @@ class EconomicComplementReportController extends Controller
                        }
                        //dd($types_list1);
                        if ($deparment_list) {
-                           $view = \View::make('economic_complements.print.summary_inclusion', compact('header1','header2','title','date','hour','deparment_list','types_list1','totaln'))->render();
+                           $view = \View::make('economic_complements.print.summary_inclusion', compact('header1','header2','title','date','type','hour','deparment_list','types_list1','totaln'))->render();
                            $pdf = \App::make('dompdf.wrapper');
                            $pdf->loadHTML($view)->setPaper('legal','landscape');
                            return $pdf->stream();
@@ -445,6 +451,7 @@ class EconomicComplementReportController extends Controller
        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
        $title = "REPORTE DE PROMEDIOS";
        $date = Util::getDateEdit(date('Y-m-d'));
+       $type = "user";
        $current_date = Carbon::now();
        $hour = Carbon::parse($current_date)->toTimeString();
        $average_list = DB::table('eco_com_applicants')
@@ -459,7 +466,7 @@ class EconomicComplementReportController extends Controller
                        ->whereNotNull('economic_complements.review_date')
                        ->groupBy('degrees.id','eco_com_types.id')
                        ->orderBy('degrees.id','ASC')->get();
-        $view = \View::make('economic_complements.print.average_report', compact('header1','header2','title','date','hour','average_list'))->render();
+        $view = \View::make('economic_complements.print.average_report', compact('header1','header2','title','date','type','hour','average_list'))->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view)->setPaper('letter');
         return $pdf->stream();
