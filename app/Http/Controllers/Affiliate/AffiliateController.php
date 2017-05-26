@@ -118,7 +118,7 @@ class AffiliateController extends Controller
 
         $cities_list_short = ['' => ''];
         foreach ($cities as $item) {
-            $cities_list_short[$item->id]=$item->shortened;
+            $cities_list_short[$item->id]=$item->first_shortened;
         }
 
         return [
@@ -437,6 +437,7 @@ class AffiliateController extends Controller
         $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
         $title = "REPORTE DE AFILIADO";
         $date = Util::getDateEdit(date('Y-m-d'));
+        $type = 'affiliate';
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
         $data = $this->getData($affiliate);

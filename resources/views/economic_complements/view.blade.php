@@ -640,17 +640,13 @@
     <div class="modal fade" tabindex="-1" >
 
         @if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
-            <iframe src="{!! url('print_sworn_declaration2/' . $economic_complement->id) !!}" id="iFramePdf"></iframe>
+            <iframe src="{!! url('print_sworn_declaration/' . $economic_complement->id . '/2') !!}" id="iFramePdf"></iframe>
         @else
-            <iframe src="{!! url('print_sworn_declaration1/' . $economic_complement->id) !!}" id="iFramePdf"></iframe>
-        @endif
-        <iframe src="{!! url('print_reception_report/' . $economic_complement->id) !!}" id="iFramePdfReport" ></iframe>
-        
-        iFramePdfObsRango90 
-        iFramePdfObsRango120
-        iFramePdfObsRequisites
-        iFramePdfObsLegal
 
+        <iframe src="{!! url('print_sworn_declaration/' . $economic_complement->id . '/1') !!}" id="iFramePdf"></iframe>
+        @endif 
+        
+        <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/report') !!}" id="iFramePdfReport" ></iframe>
 
         <iframe src="{!! url('print_wallet/' . $economic_complement->id) !!}" id="iFramePdfObsTesoreria" ></iframe>
         <iframe src="{!! url('print_debtor/' . $economic_complement->id) !!}" id="iFramePdfObsContabilidad" ></iframe>

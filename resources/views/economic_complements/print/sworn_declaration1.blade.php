@@ -92,21 +92,4 @@ Formulario Nº 1
 <p align="justify"><b>Nota.- El presente documento tiene carácter de DECLARACIÓN JURADA, por lo que en caso de evidenciarse la falsedad de este, se procederá con las acciones legales pertinentes. </b></p>
 </div>
 <p>.</p>
-<table>
-       <tr>
-              <th class="info" style="border: 0px;text-align:right;width: 100% ">
-
-                  <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(50)->generate(
-                      $eco_com_applicant->getTitleNameFull().' || '.
-                      'Carnet de Identidad: '.$eco_com_applicant->identity_card.' || '.
-                      'Edad del Afiliado: '.$eco_com_applicant->getHowOld().' || '.
-                      'CI: '.$eco_com_applicant->identity_card.' || '.
-                      'Numero de Affiliado-AFP: '.$eco_com_applicant->nua.' || '.
-                      'Matricula: '.$eco_com_applicant->registration
-                  )) !!} ">
-                    </div>
-              </th>
-          </tr>
-</table>
-
 @endsection
