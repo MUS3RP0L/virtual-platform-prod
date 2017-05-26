@@ -947,10 +947,10 @@ class EconomicComplementController extends Controller
                     /*$affiliate=Affiliate::find(1);
                     $base_wage = BaseWage::degreeIs($economic_complement->affiliate->degree_id)->first();
                     $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
-                                                ->whereYear('year', '=', $data['year'])
+                                                    ->whereYear('year', '=', $data['year'])
                                                 ->where('semester', '=', $data['semester'])->first();
                     $economic_complement->base_wage_id = $base_wage->id;*/
-                    $economic_complement->complementary_factor_id = $complementary_factor->id;
+    //                $economic_complement->complementary_factor_id = $complementary_factor->id;
 
                     $economic_complement->salary_reference=$economic_complement->base_wage->amount;
                     $economic_complement->state = 'Edited';
