@@ -1019,7 +1019,8 @@ class EconomicComplementController extends Controller
         return $pdf->stream();
     }
 
-    public function getCausesByState(Request $request) {
+    public function getCausesByState(Request $request) 
+    {
         if($request->ajax())
         {
             $causesState = EconomicComplementState::where('eco_com_state_type_id',$request->id)->get();
@@ -1028,6 +1029,27 @@ class EconomicComplementController extends Controller
             ];
             return response()->json($data);
         }
+    }
+
+        public function print_excluded_by_salary($economic_complement_id)
+    {
+        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+        $title = "REPORTE DE RECEPCIÓN DE COMPLEMENTO ECONÓMICO";
+        $date = Util::getDateEdit(date('Y-m-d'));
+        $current_date = Carbon::now();
+        $hour = Carbon::parse($current_date)->toTimeString();
+        $economic_complem = EconomicComplement::where($economic_complement_id)->first();
+     //   $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement
+        dd($economic_complem);
+        $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
+        $affiliate = Affiliate::idIs($economic_complement_id)->first();
+        $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+        $user = Auth::user();
+        $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view)->setPaper('letter');
+        return $pdf->stream();
     }
 
 }
