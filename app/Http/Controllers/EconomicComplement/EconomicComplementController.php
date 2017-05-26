@@ -80,12 +80,22 @@ class EconomicComplementController extends Controller
         {
             $economic_complements->where(function($economic_complements) use ($request)
             {
+
                 $affiliate_identitycard = trim($request->get('affiliate_identitycard'));
                 $affiliate = Affiliate::identitycardIs($affiliate_identitycard)->first();
                 if ($affiliate) {
-                    $economic_complements->where('affiliate_id', 'like', "{$affiliate->id}");
+                    $economic_complements->where('affiliate_id', '=', "{$affiliate->id}");
                 }else{
-                    $economic_complements->where('affiliate_id', 'like', "0");
+
+                    $applicants_identitycard=trim($request->get('affiliate_identitycard'));
+                    $applicants=EconomicComplementApplicant::identitycardIs($applicants_identitycard)->first();
+                    if($applicants){
+                        $economic_complements->where('id', '=' , "{$applicants->economic_complement_id}");
+                    }
+                    else{
+
+                        $economic_complements->where('affiliate_id', 0);
+                    }
                 }
             });
         }
@@ -108,8 +118,10 @@ class EconomicComplementController extends Controller
             });
         }
         return Datatables::of($economic_complements)
-                ->addColumn('affiliate_identitycard', function ($economic_complement) { return $economic_complement->affiliate->identity_card; })
-                ->addColumn('affiliate_name', function ($economic_complement) { return $economic_complement->affiliate->getTittleName(); })
+                ->addColumn('affiliate_identitycard', function ($economic_complement) { 
+
+                    return $economic_complement->economic_complement_applicant->city_identity_card_id ? $economic_complement->economic_complement_applicant->identity_card.' '.$economic_complement->economic_complement_applicant->city_identity_card->first_shortened: $economic_complement->economic_complement_applicant->identity_card; })
+                ->addColumn('affiliate_name', function ($economic_complement) { return $economic_complement->economic_complement_applicant->getTittleName(); })
                 ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
                 ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : $economic_complement->wf_state->name; })
                 ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
@@ -436,8 +448,8 @@ class EconomicComplementController extends Controller
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
         $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
-
         $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+        $eco_com_applicant->identity_card = $eco_com_applicant->city_identity_card_id ? $eco_com_applicant->identity_card.' '.$eco_com_applicant->city_identity_card->first_shortened : $eco_com_applicant->identity_card;
 
         $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
 

@@ -48,7 +48,10 @@ class Spouse extends Model
     {
         return $query->where('affiliate_id', $id);
     }
-
+    public function scopeIdentitycardIs($query, $ci)
+    {
+        return $query->where('identity_card', $ci);
+    }
     public function getShortBirthDate()
     {
         return Util::getDateShort($this->birth_date);
