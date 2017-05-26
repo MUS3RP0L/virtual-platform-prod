@@ -653,7 +653,7 @@
         <iframe src="{!! url('print_out_of_time_90/' . $economic_complement->id) !!}" id="iFramePdfObsRango90" ></iframe>
         <iframe src="{!! url('print_out_of_time_120/' . $economic_complement->id) !!}" id="iFramePdfObsRango120" ></iframe>
         <iframe src="{!! url('print_without_requirement/' . $economic_complement->id) !!}" id="iFramePdfObsRequisites" ></iframe>
-        <iframe src="{!! url('print_with_legal_action/' . $economic_complement->id) !!}" id="iFramePdfObsLegal" ></iframe>
+        <iframe src="{!! url('print_excluded_observations/legal_action/' . $economic_complement->id) !!}" id="iFramePdfObsLegal" ></iframe>
     </div>
 
 
