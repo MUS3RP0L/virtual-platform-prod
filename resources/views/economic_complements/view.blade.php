@@ -354,6 +354,141 @@
                     </div>
                 </div>
             </div>
+            @if($economic_complement->has_legal_guardian)
+            <div class="box box-success box-solid">
+                <div class="box-header with-border">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h3 class="box-title"><span class="fa fa-user"></span> Informacion del Apoderado</h3>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-guardian">&nbsp;&nbsp;
+                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table" style="width:100%;">
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Carnet Identidad</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $economic_complement_legal_guardian->identity_card !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Apellido Paterno</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $economic_complement_legal_guardian->last_name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Apellido Materno</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $economic_complement_legal_guardian->mothers_last_name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @if ($economic_complement_legal_guardian->surname_husband)
+                                    <tr>
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <strong>Apellido de Esposo</strong>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    {!! $economic_complement_legal_guardian->surname_husband !!}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endif
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Primer Nombre</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $economic_complement_legal_guardian->first_name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Segundo Nombre</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $economic_complement_legal_guardian->second_name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table" style="width:100%;">
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Teléfono(s)</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                @foreach(explode(',',$economic_complement_legal_guardian->phone_number) as $phone)
+                                                    {!! $phone !!}
+                                                    <br/>
+                                                @endforeach
+                                            </div>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Celular:</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                @foreach(explode(',',$economic_complement_legal_guardian->cell_phone_number) as $phone)
+                                                    {!! $phone !!}
+                                                    <br/>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="row">
@@ -404,11 +539,23 @@
                     </div>
                 </div>
             </div>
+            
         </div>
         <div class="col-md-6">
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><span class="fa fa-money"></span> Cálculo de Total</h3>
+                    <div class="col-md-10">
+                        <h3 class="box-title"><span class="fa fa-money"></span> Cálculo de Total</h3>
+                    </div>
+                    @cannot('eco_com_review')
+                    <div class="col-md-2 text-right">
+                        <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                            <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals">&nbsp;&nbsp;
+                                <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                            </a>
+                        </div>
+                    </div>
+                    @endcannot
                 </div>
                 <div class="box-body">
                     <div class="row">
@@ -493,17 +640,13 @@
     <div class="modal fade" tabindex="-1" >
 
         @if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
-            <iframe src="{!! url('print_sworn_declaration2/' . $economic_complement->id) !!}" id="iFramePdf"></iframe>
+            <iframe src="{!! url('print_sworn_declaration/' . $economic_complement->id . '/2') !!}" id="iFramePdf"></iframe>
         @else
-            <iframe src="{!! url('print_sworn_declaration1/' . $economic_complement->id) !!}" id="iFramePdf"></iframe>
-        @endif
-        <iframe src="{!! url('print_reception_report/' . $economic_complement->id) !!}" id="iFramePdfReport" ></iframe>
-        
-        iFramePdfObsRango90 
-        iFramePdfObsRango120
-        iFramePdfObsRequisites
-        iFramePdfObsLegal
 
+        <iframe src="{!! url('print_sworn_declaration/' . $economic_complement->id . '/1') !!}" id="iFramePdf"></iframe>
+        @endif 
+        
+        <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/report') !!}" id="iFramePdfReport" ></iframe>
 
         <iframe src="{!! url('print_wallet/' . $economic_complement->id) !!}" id="iFramePdfObsTesoreria" ></iframe>
         <iframe src="{!! url('print_debtor/' . $economic_complement->id) !!}" id="iFramePdfObsContabilidad" ></iframe>
@@ -692,7 +835,196 @@
             </div>
         </div>
     </div>
+    @if($economic_complement->has_legal_guardian)
+    <div id="myModal-guardian" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="box-title">Editar Apoderado</h4>
+                </div>
+                <div class="modal-body">
+                    {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
+                        <input type="hidden" name="step" value="legal_guardian"/>
+                        <input type="hidden" name="type" value="update"/>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                            {!! Form::label('identity_card_lg', 'Carnet de Identidad', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-5">
+                                            {!! Form::text('identity_card_lg', $economic_complement_legal_guardian->identity_card, ['class'=> 'form-control', 'required']) !!}
+                                            <span class="help-block">Número de CI</span>
+                                        </div>
+                                            {!! Form::select('city_identity_card_id_lg', $cities_list_short, $economic_complement_legal_guardian->city_identity_card_id, ['class' => 'col-md-2 combobox form-control', 'required']) !!}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('last_name_lg', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('last_name_lg', $economic_complement_legal_guardian->last_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Apellido Paterno</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('mothers_last_name_lg', 'Apellido Materno', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('mothers_last_name_lg', $economic_complement_legal_guardian->mothers_last_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Apellido Materno</span>
+                                    </div>
+                                </div>
+                                @if ($economic_complement_legal_guardian->gender == 'F')
+                                    <div class="form-group">
+                                            {!! Form::label('surname_husband_lg', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-6">
+                                            {!! Form::text('surname_husband_lg', $economic_complement_legal_guardian->surname_husband, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                            <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
+                                        </div>
+                                    </div>
+                                @endif
+                                <div class="form-group">
+                                        {!! Form::label('first_name_lg', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('first_name_lg', $economic_complement_legal_guardian->first_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el  Primer Nombre</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('second_name_lg', 'Segundo Nombre', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('second_name_lg', $economic_complement_legal_guardian->second_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Segundo Nombre</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group" id="phonesNumbersGuardian" style="padding-bottom:5px;">
+                                            {!! Form::label('phone_number_lg', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
+                                            @foreach(explode(',',$economic_complement_legal_guardian->phone_number) as $key=>$phone)
+                                            @if($key>=1)
+                                            <div class="col-md-offset-5">
+                                            @endif
+                                            @if($key>=1)
+                                            <div class="col-md-7">
+                                            @else
+                                            <div class="col-md-6">
+                                            @endif
+                                                <input type="text" id="phone_number_guardian" class="form-control" name="phone_number_lg[]" value="{!! $phone !!}" data-inputmask="'mask': '(9) 999-999'" data-mask>
+                                            </div>
+                                            @if($key>=1)
+                                            <div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div>
+                                            @endif
 
+                                            @if($key>=1)
+                                            </div>
+                                            @endif
+
+                                            @endforeach
+                                        </div>
+                                        <div class="">
+                                            <div class="col-md-offset-6">
+                                            <button class="btn btn-success" id="addPhoneNumberGuardian" type="button" ><span class="fa fa-plus"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="cellPhonesNumbersGuardian" style="padding-bottom:5px;">
+                                                {!! Form::label('cell_phone_number_lg', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
+                                                @foreach(explode(',',$economic_complement_legal_guardian->cell_phone_number) as $key=>$phone)
+                                                @if($key>=1)
+                                                <div class="col-md-offset-5">
+                                                @endif
+                                                @if($key>=1)
+                                                <div class="col-md-7">
+                                                @else
+                                                <div class="col-md-6">
+                                                @endif
+                                                <input type="text" id="cell_phone_number_guardian" class="form-control" name="cell_phone_number_lg[]" value="{!! $phone !!}" data-inputmask="'mask': '(999)-99999'" data-mask>
+                                                 </div>
+                                            @if($key>=1)
+                                            <div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div>
+                                            @endif
+
+                                            @if($key>=1)
+                                            </div>
+                                            @endif
+
+                                                @endforeach
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-offset-6">
+                                            <button class="btn btn-success" id="addCellPhoneNumberGuardian"><span class="fa fa-plus"></span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <a href="{!! url('economic_complement/' . $economic_complement->id) !!}" data-target="#" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;</button>
+                                </div>
+                            </div>
+                        </div>
+                    {!! Form::close() !!} <br />
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+    <div id="myModal-totals" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Editar Totales</h4>
+                </div>
+                <div class="modal-body">
+                    {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement], 'class' => 'form-horizontal']) !!}
+                        <input type="hidden" name="step" value="rent"/>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    {!! Form::label('sub_total_rent', 'Renta Total Boleta', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-3">
+                                    {!! Form::text('sub_total_rent', '', ['class' => 'form-control', 'required' => 'required']) !!}
+                                        <span class="help-block">Escriba la Renta total boleta</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::label('reimbursement', 'Reintegro', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-3">
+                                    {!! Form::text('reimbursement', '', ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el reintegro</span>
+                                    </div>
+                                </div>
+                            <div class="form-group">
+                                        {!! Form::label('rent_dignity', 'Renta Dignidad', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-3">
+                                        {!! Form::text('rent_dignity', '', ['class'=> 'form-control']) !!}
+                                        <span class="help-block">Escriba la renta dignidad</span>
+                                    </div>
+                            </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <a href="{!! url('economic_complement/'.$economic_complement->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                    &nbsp;&nbsp;
+                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    {!! Form::close() !!}
+
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="myModal-requirements" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -1014,7 +1346,9 @@
 	    $('[data-toggle="tooltip"]').tooltip();
 		$("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
 		$("#phone_number").inputmask();
-		$("#cell_phone_number").inputmask();
+        $("#cell_phone_number").inputmask();
+        $("#phone_number_guardian").inputmask();
+		$("#cell_phone_number_guardian").inputmask();
 
         $('#state').on('change', function() {
             var stateID = $(this).val();
@@ -1110,7 +1444,23 @@
 		event.preventDefault();
 	});
 
-
+    //for phone numbers legal guardians
+    $('#addPhoneNumberGuardian').on('click', function(event) {
+        $('#phonesNumbersGuardian').append('<div class="col-md-offset-5"><div class="col-md-7"><input type="text" class="form-control" name="phone_number_lg[]" data-inputmask="\'mask\': \'(9) 999-999\'" data-mask></div><div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div></div>')
+        event.preventDefault();
+        $("input[name='phone_number_lg[]']").each(function() {
+            $(this).inputmask();
+        });
+        $("input[name='phone_number_lg[]']").last().focus();
+    });
+    $('#addCellPhoneNumberGuardian').on('click', function(event) {
+        $('#cellPhonesNumbersGuardian').append('<div class="col-md-offset-5"><div class="col-md-8"><input type="text" class="form-control" name="cell_phone_number_lg[]" data-inputmask="\'mask\': \'(999)-99999\'" data-mask></div><div class="col-md-1"><button class="btn btn-warning deleteCellPhone" type="button" ><i class="fa fa-minus"></i></button></div></div>')
+        event.preventDefault();
+        $("input[name='cell_phone_number_lg[]']").each(function() {
+            $(this).inputmask();
+        });
+        $("input[name='cell_phone_number_lg[]']").last().focus();
+    });
 
 </script>
 @endpush

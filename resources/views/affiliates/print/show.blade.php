@@ -83,14 +83,8 @@
           <td class="service"><b>GRADO</b></td>
           <td class="info" ><h6>{!! $affiliate->degree->name !!}</h6></td>
         </tr>
-        <tr>
-          <td class="service"><b>UNIDAD</b></td>
-          <td class="info" ><h6>{!! $affiliate->unit->shortened !!}</h6></td>
-        </tr>
-        <tr>
-          <td class="service"><b>TIPO</b></td>
-          <td class="info" ><h6>{!! $affiliate->affiliate_type->name !!}</h6></td>
-        </tr>
+        
+      
         <tr>
           <td class="service"><b>NRO. ITEM</b></td>
           <td class="info" ><h6>{!! $affiliate->item !!}</td>

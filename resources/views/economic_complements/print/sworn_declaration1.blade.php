@@ -15,16 +15,16 @@ Formulario Nº 1
 
               <tr>
                 <th class="grand service"><h5><b>NOMBRE Y APELLIDOS</h5></b></th>
-                <td><h4>{!! $affiliate->getTittleNamePrint() !!}</h4></td>
+                <td><h4>{!! $eco_com_applicant->getTitleNameFull() !!}</h4></td>
               </tr>
               <tr>
                 <th class="grand service"><h5><b>CARNET DE IDENTIDAD</b></h5></th>
-                <td><h4>{!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card ? $affiliate->city_identity_card->shortened : '' !!}</h4></td>
+                <td><h4>{!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened !!}</h4></td>
               </tr>
 
               <tr>
                 <th class="grand service"><h5><b>FECHA DE NACIMIENTO</h5></b></th>
-                <td ><h4>{!! $affiliate->getShortBirthDate() !!}</h4></td>
+                <td ><h4>{!! $eco_com_applicant->getShortBirthDate() !!}</h4></td>
               </tr>
               <tr>
                 <th class="grand service"><h5><b>TIPO DE RENTA</h5></b></th>
@@ -32,12 +32,12 @@ Formulario Nº 1
               </tr>
               <tr>
                 <th class="grand service"><h5><b>Nº. CUA/NUA</h5></b></th>
-                <td ><h4>{!! $affiliate->nua !!}</h4></td>
+                <td ><h4>{!! $eco_com_applicant->nua !!}</h4></td>
               </tr>
 
   </table>
-  <p align="justify"> Yo, <b>{!! $affiliate->getTitleNameFull() !!}</b> boliviano (a) de nacimiento con Cédula de Identidad <b>N° {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card ? $affiliate->city_identity_card->shortened : '' !!}</b> .
-    con estado civil <b>{!! $affiliate->getCivilStatus() !!}</b> y con residencia actualmente en el Departamento de <b>{!! $economic_complement->city ? $economic_complement->city->name : '' !!}</b>.; mayor de edad,
+  <p align="justify"> Yo, <b>{!! $eco_com_applicant->getTitleNameFull() !!}</b> boliviano (a) de nacimiento con Cédula de Identidad <b>N° {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened !!}</b> .
+    con estado civil <b>{!! $eco_com_applicant->getCivilStatus() !!}</b> y con residencia actualmente en el Departamento de <b>{!! $economic_complement->city ? $economic_complement->city->name : '' !!}</b>.; mayor de edad,
     y hábil por derecho; consiente de la responsabilidad que asumo ante la Mutual de Servicios al Policía – MUSERPOL,
     de manera voluntaria y sin que medie ningún tipo de presión, mediante la presente, <b>DECLARO LO SIGUIENTE:</b>
   </p>
@@ -82,7 +82,7 @@ Formulario Nº 1
 
           </tr>
           <tr>
-            <th class="info" style="border: 0px;text-align:center;">{!! $affiliate->getTitleNameFull() !!}<br>C.I. {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card ? $affiliate->city_identity_card->shortened : '' !!} Telefono. {!! $affiliate->getPhone() !!}</th>
+            <th class="info" style="border: 0px;text-align:center;">{!! $eco_com_applicant->getTitleNameFull() !!}<br>C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened !!} Telefono. {!! $eco_com_applicant->getPhone() !!}</th>
              
             <th class="info" style="border: 0px;text-align:center;">Huella Digital Pulgar Derecho</th>
             <th class="info" style="border: 0px;text-align:center;width: 15%;"></th>
@@ -92,22 +92,4 @@ Formulario Nº 1
 <p align="justify"><b>Nota.- El presente documento tiene carácter de DECLARACIÓN JURADA, por lo que en caso de evidenciarse la falsedad de este, se procederá con las acciones legales pertinentes. </b></p>
 </div>
 <p>.</p>
-<table>
-       <tr>
-              <th class="info" style="border: 0px;text-align:right;width: 100% ">
-
-                  <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(50)->generate(
-                      $affiliate->getTittleNamePrint().' || '.
-                      'Carnet de Identidad: '.$affiliate->identity_card.' || '.
-                      'Edad del Afiliado: '.$affiliate->getHowOld().' || '.
-                      'CI: '.$affiliate->identity_card.' || '.
-                      'Numero de Affiliado-AFP: '.$affiliate->nua.' || '.
-                      'Matricula: '.$affiliate->registration.' || '.
-                      'Grado: '.$affiliate->degree->name.'Bs'
-                  )) !!} ">
-                    </div>
-              </th>
-          </tr>
-</table>
-
 @endsection

@@ -10,16 +10,16 @@
 		  	</tr>
 		  	<tr>
 		  		<th class="grand service"><h5><b>NOMBRE Y APELLIDOS</h5></b></th>
-		  		<td><h4> {!! $affiliate->getTittleNamePrint() !!}</h4></td>
+		  		<td><h4> {!! $eco_com_applicant->getTitleNameFull() !!}</h4></td>
 		  	</tr>
 		  	<tr>
 		  		<th class="grand service"><h5><b>CARNET DE IDENTIDAD</b></h5></th>
-		  		<td><h4>{!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card ? $affiliate->city_identity_card->shortened : '' !!}</h4></td>
+		  		<td><h4>{!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened !!}</h4></td>
 		  	</tr>
 
 		  	<tr>
 		  		<th class="grand service"><h5><b>FECHA DE NACIMIENTO</h5></b></th>
-		  		<td ><h4>{!! $affiliate->getShortBirthDate() !!}</h4></td>
+		  		<td ><h4>{!! $eco_com_applicant->getShortBirthDate() !!}</h4></td>
 		  	</tr>
 		  	<tr>
 		  		<th class="grand service"><h5><b>TIPO DE RENTA</h5></b></th>
@@ -27,7 +27,7 @@
 		  	</tr>
 		  	<tr>
 		  		<th class="grand service"><h5><b>Nº. CUA/NUA</h5></b></th>
-		  		<td ><h4>{!! $affiliate->nua !!}</h4></td>
+		  		<td ><h4>{!! $eco_com_applicant->nua !!}</h4></td>
 		  	</tr>
 	  </table>
 	  <br><br>
