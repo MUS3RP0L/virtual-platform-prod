@@ -138,10 +138,10 @@ class EconomicComplementController extends Controller
 
     public function Data_by_affiliate(Request $request)
     {
-        $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'created_at', 'total']);
+        $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'reception_date', 'total']);
         return Datatables::of($economic_complements)
                 ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
-                ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : $economic_complement->wf_state->name; })
+                ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : '$economic_complement->wf_state->name'; })
                 ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
                 ->addColumn('action', function ($economic_complement) { return  '
                     <div class="btn-group" style="margin:-3px 0;">
@@ -523,11 +523,11 @@ class EconomicComplementController extends Controller
         ];
 
         // if ($economic_complement->base_wage_id) {
-        //     $sub_total_rent = $economic_complement->sub_total_rent;
+        //     $total_rent = $economic_complement->total_rent;
         //     $salary_reference = $economic_complement->base_wage->amount;
         //     $seniority = $economic_complement->category->percentage * $economic_complement->base_wage->amount;
         //     $salary_quotable = $salary_reference + $seniority;
-        //     $difference = $salary_quotable - $sub_total_rent;
+        //     $difference = $salary_quotable - $total_rent;
         //     $months_of_payment = 6;
         //     $total_amount_semester = $difference * $months_of_payment;
         //     $complementary_factor = $eco_com_type->id == 1 ? $economic_complement->complementary_factor->old_age : $economic_complement->complementary_factor->widowhood;
@@ -545,7 +545,7 @@ class EconomicComplementController extends Controller
                 'seniority' => Util::formatMoney($economic_complement->seniority),
                 'salary_quotable' => Util::formatMoney($economic_complement->salary_quotable),
                 'difference' => Util::formatMoney($economic_complement->difference),
-                'total_amount_semester' => Util::formatMoney($economic_complement->total_amount_semester),
+                'total_amount_semester' => Util::formatMoney($economic_complement->difference*6),
                 'complementary_factor' => $economic_complement->complementary_factor,
                 'total' => Util::formatMoney($economic_complement->total)
 
