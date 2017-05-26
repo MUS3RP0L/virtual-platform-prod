@@ -143,8 +143,10 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('print_with_legal_action/{id_complement}', array('as'=>'print_with_legal_action', 'uses'=>'Affiliate\AffiliateController@print_legal_action'));
 
 	//excluded
-	Route::get('print_excsalary/{id_complement}', array('as'=>'print_excsalary', 'uses'=>'EconomicComplement\EconomicComplementController@print_excluded_by_salary'));
-	Route::get('print_invalidity', 'Affiliate\AffiliateController@print_invalidity_bonds');
+	Route::get('print_excsalary/{id_complement}', array('as'=>'print_excsalary', 'uses'=>'Affiliate\AffiliateController@print_excluded_by_salary'));
+
+	//Route::get('print_invalidity', 'Affiliate\AffiliateController@print_invalidity_bonds');
+	Route::get('print_invalidity/{id_complement}', array('as'=>'print_invalidity', 'uses'=>'Affiliate\AffiliateController@print_invalidity_bonds'));
 	Route::get('print_less_16', 'Affiliate\AffiliateController@print_iless_16');
 	//clarificación
 	Route::get('print_correct', 'Affiliate\AffiliateController@print_correct_grading');
