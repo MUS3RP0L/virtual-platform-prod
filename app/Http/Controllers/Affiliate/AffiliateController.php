@@ -47,10 +47,21 @@ class AffiliateController extends Controller
         $affiliates = Affiliate::select(['id', 'identity_card', 'registration', 'last_name', 'mothers_last_name', 'first_name', 'second_name',  'affiliate_state_id', 'degree_id', 'city_identity_card_id']);
         if ($request->has('last_name'))
         {
+
             $affiliates->where(function($affiliates) use ($request)
             {
                 $last_name = trim($request->get('last_name'));
-                $affiliates->where('last_name', 'like', "%{$last_name}%");
+                $affiliate=Affiliate::where('last_name', 'like', "%{$last_name}%")->first();
+                if(isset($affiliate)){
+                    $affiliates->where('last_name', 'like', "%{$affiliate->last_name}%");
+                }   
+                else{
+                    $spouses=Spouse::where('last_name','=',$last_name)->first();
+                    $affiliate=$spouses->affiliate;
+                    $affiliates->find($affiliate->id);         
+                }
+
+                
             });
         }
         if ($request->has('mothers_last_name'))
@@ -58,7 +69,15 @@ class AffiliateController extends Controller
             $affiliates->where(function($affiliates) use ($request)
             {
                 $mothers_last_name = trim($request->get('mothers_last_name'));
-                $affiliates->where('mothers_last_name', 'like', "%{$mothers_last_name}%");
+                $affiliate=Affiliate::where('mothers_last_name', 'like', "%{$mothers_last_name}%")->first();
+                if(isset($affiliate)){
+                    $affiliates->where('mothers_last_name', 'like', "%{$mothers_last_name}%");
+                }
+                else{
+                    $spouses=Spouse::where('mothers_last_name','=',$mothers_last_name)->first();
+                    $affiliate=$spouses->affiliate;
+                    $affiliates->find($affiliate->id); 
+                }
             });
         }
         if ($request->has('first_name'))
@@ -66,7 +85,15 @@ class AffiliateController extends Controller
             $affiliates->where(function($affiliates) use ($request)
             {
                 $first_name = trim($request->get('first_name'));
-                $affiliates->where('first_name', 'like', "%{$first_name}%");
+                $affiliate=Affiliate::where('first_name', 'like', "%{$first_name}%")->first();
+                if(isset($affiliate)){
+                    $affiliates->where('first_name', 'like', "%{$first_name}%");
+                }
+                else{
+                    $spouses=Spouse::where('first_name','=',$first_name)->first();
+                    $affiliate=$spouses->affiliate;
+                    $affiliates->find($affiliate->id); 
+                }
             });
         }
         if ($request->has('second_name'))
@@ -74,7 +101,15 @@ class AffiliateController extends Controller
             $affiliates->where(function($affiliates) use ($request)
             {
                 $second_name = trim($request->get('second_name'));
-                $affiliates->where('second_name', 'like', "%{$second_name}%");
+                $affiliate=Affiliate::where('second_name', 'like', "%{$second_name}%")->first();
+                if(isset($affiliate)){
+                    $affiliates->where('second_name', 'like', "%{$second_name}%");
+                }
+                else{
+                    $spouses=Spouse::where('second_name','=',$second_name)->first();
+                    $affiliate=$spouses->affiliate;
+                    $affiliates->find($affiliate->id);
+                }
             });
         }
         if ($request->has('identity_card'))
@@ -82,7 +117,15 @@ class AffiliateController extends Controller
             $affiliates->where(function($affiliates) use ($request)
             {
                 $identity_card = trim($request->get('identity_card'));
-                $affiliates->where('identity_card', 'like', "%{$identity_card}%");
+                $affiliate=Affiliate::identitycardIs($identity_card)->first();
+                if(isset($affiliate)){
+                    $affiliates->where('identity_card', 'like', "{$identity_card}");
+                }   
+                else{
+                    $spouses=Spouse::identitycardIs($identity_card)->first();
+                    $affiliate=$spouses->affiliate;
+                    $affiliates->find($affiliate->id);         
+                }
             });
         }
         if ($request->has('registration'))
@@ -95,17 +138,17 @@ class AffiliateController extends Controller
         }
 
         return Datatables::of($affiliates)
-                ->addColumn('identity_card', function($affiliate){ return $affiliate->city_identity_card_id ? $affiliate->identity_card . ' ' . $affiliate->city_identity_card->shortened : $affiliate->identity_card; })
-                ->addColumn('degree', function ($affiliate) { return $affiliate->degree_id ? $affiliate->degree->shortened : ''; })
-                ->editColumn('last_name', function ($affiliate) { return Util::ucw($affiliate->last_name); })
-                ->editColumn('mothers_last_name', function ($affiliate) { return Util::ucw($affiliate->mothers_last_name); })
-                ->addColumn('names', function ($affiliate) { return Util::ucw($affiliate->first_name) .' '. Util::ucw($affiliate->second_name); })
-                ->addColumn('state', function ($affiliate) { return $affiliate->affiliate_state->name; })
-                ->addColumn('action', function ($affiliate) { return  '
-                    <div class="btn-group" style="margin:-3px 0;">
-                        <a href="affiliate/'.$affiliate->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
-                    </div>';})
-                ->make(true);
+        ->addColumn('identity_card', function($affiliate){ return $affiliate->city_identity_card_id ? $affiliate->identity_card . ' ' . $affiliate->city_identity_card->shortened : $affiliate->identity_card; })
+        ->addColumn('degree', function ($affiliate) { return $affiliate->degree_id ? $affiliate->degree->shortened : ''; })
+        ->editColumn('last_name', function ($affiliate) { return Util::ucw($affiliate->last_name); })
+        ->editColumn('mothers_last_name', function ($affiliate) { return Util::ucw($affiliate->mothers_last_name); })
+        ->addColumn('names', function ($affiliate) { return Util::ucw($affiliate->first_name) .' '. Util::ucw($affiliate->second_name); })
+        ->addColumn('state', function ($affiliate) { return $affiliate->affiliate_state->name; })
+        ->addColumn('action', function ($affiliate) { return  '
+            <div class="btn-group" style="margin:-3px 0;">
+                <a href="affiliate/'.$affiliate->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
+            </div>';})
+        ->make(true);
     }
 
     public static function getViewModel()
@@ -123,8 +166,8 @@ class AffiliateController extends Controller
 
         return [
 
-            'cities_list' => $cities_list,
-            'cities_list_short' => $cities_list_short
+        'cities_list' => $cities_list,
+        'cities_list_short' => $cities_list_short
 
         ];
     }
@@ -215,7 +258,7 @@ class AffiliateController extends Controller
             $degrees[$d->id]=$d->name;
         }
 
-         $ep=PensionEntity::all();
+        $ep=PensionEntity::all();
         $entity_pensions=array(''=>'');
 
         foreach ($ep as $e) {
@@ -259,12 +302,12 @@ class AffiliateController extends Controller
         $semester = Util::getCurrentSemester();
         
         $eco_com_current_procedure = EconomicComplementProcedure::whereYear('year', '=',$year)
-                                                           ->where('semester',$semester)
-                                                           ->first();
+        ->where('semester',$semester)
+        ->first();
         if ($eco_com_current_procedure) {
             $current_economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)
-                                                             ->where('eco_com_procedure_id', $eco_com_current_procedure->id)
-                                                             ->first();
+            ->where('eco_com_procedure_id', $eco_com_current_procedure->id)
+            ->first();
             if ($current_economic_complement) {
                 $has_current_eco_com = "edit";
             } else {
@@ -275,32 +318,32 @@ class AffiliateController extends Controller
         }
 
         $data = [
-            'canObservate'=>$canObservate,
-            'ObservationType'=>$ObservationType,
-            'affiliate' => $affiliate,
-            'AffiliateAddress' => $AffiliateAddress,
-            'spouse' => $spouse,
-            'gender_list' => $gender_list,
-            'gender_list_s' => $gender_list_s,
-            'info_address' => $info_address,
-            'info_spouse' => $info_spouse,
-            'economic_complement' => $economic_complement,
-            'current_economic_complement' => $current_economic_complement,
-            'has_current_eco_com' => $has_current_eco_com,
+        'canObservate'=>$canObservate,
+        'ObservationType'=>$ObservationType,
+        'affiliate' => $affiliate,
+        'AffiliateAddress' => $AffiliateAddress,
+        'spouse' => $spouse,
+        'gender_list' => $gender_list,
+        'gender_list_s' => $gender_list_s,
+        'info_address' => $info_address,
+        'info_spouse' => $info_spouse,
+        'economic_complement' => $economic_complement,
+        'current_economic_complement' => $current_economic_complement,
+        'has_current_eco_com' => $has_current_eco_com,
             // 'last_contribution' => $last_contribution,
-            'observations'=>$affiliate->observations,
+        'observations'=>$affiliate->observations,
             // 'total_gain' => $total_gain,
             // 'total_public_security_bonus' => $total_public_security_bonus,
             // 'total_quotable' => $total_quotable,
             // 'total_retirement_fund' => $total_retirement_fund,
             // 'total_mortuary_quota' => $total_mortuary_quota,
             // 'total' => $total
-            'affiliate_state'=>$a_states,
-            'degrees'=>$degrees,
-            'affiliate_types'=>$affiliate->type,
-            'entity_pensions'=>$entity_pensions,
-            'units'=>$units,
-            'categories'=>$categories
+        'affiliate_state'=>$a_states,
+        'degrees'=>$degrees,
+        'affiliate_types'=>$affiliate->type,
+        'entity_pensions'=>$entity_pensions,
+        'units'=>$units,
+        'categories'=>$categories
 
         ];
         $data = array_merge($data, self::getViewModel());
@@ -377,55 +420,55 @@ class AffiliateController extends Controller
 
                 case 'personal':
 
-                    $affiliate->identity_card = trim($request->identity_card);
-                    if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
-                    $affiliate->last_name = trim($request->last_name);
-                    $affiliate->mothers_last_name = trim($request->mothers_last_name);
-                    $affiliate->first_name = trim($request->first_name);
-                    $affiliate->second_name = trim($request->second_name);
-                    $affiliate->surname_husband = trim($request->surname_husband);
-                    $affiliate->gender = trim($request->gender);
-                    $affiliate->nua = $request->nua >0 ? $request->nua:0;
-                    $affiliate->birth_date = Util::datePick($request->birth_date);
-                    $affiliate->civil_status = trim($request->civil_status);
-                    if ($request->city_birth_id) { $affiliate->city_birth_id = $request->city_birth_id; } else { $affiliate->city_birth_id = null; }
-                    $affiliate->phone_number = trim(implode(",", $request->phone_number));
-                    $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
-                    if ($request->DateDeathAffiliateCheck == "on") {
-                        $affiliate->date_death = Util::datePick($request->date_death);
-                        $affiliate->reason_death = trim($request->reason_death);
-                    }else {
-                        $affiliate->date_death = null;
-                        $affiliate->reason_death = null;
-                    }
-                    $affiliate->save();
-                    $message = "Información personal de Afiliado actualizado con éxito";
+                $affiliate->identity_card = trim($request->identity_card);
+                if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
+                $affiliate->last_name = trim($request->last_name);
+                $affiliate->mothers_last_name = trim($request->mothers_last_name);
+                $affiliate->first_name = trim($request->first_name);
+                $affiliate->second_name = trim($request->second_name);
+                $affiliate->surname_husband = trim($request->surname_husband);
+                $affiliate->gender = trim($request->gender);
+                $affiliate->nua = $request->nua >0 ? $request->nua:0;
+                $affiliate->birth_date = Util::datePick($request->birth_date);
+                $affiliate->civil_status = trim($request->civil_status);
+                if ($request->city_birth_id) { $affiliate->city_birth_id = $request->city_birth_id; } else { $affiliate->city_birth_id = null; }
+                $affiliate->phone_number = trim(implode(",", $request->phone_number));
+                $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
+                if ($request->DateDeathAffiliateCheck == "on") {
+                    $affiliate->date_death = Util::datePick($request->date_death);
+                    $affiliate->reason_death = trim($request->reason_death);
+                }else {
+                    $affiliate->date_death = null;
+                    $affiliate->reason_death = null;
+                }
+                $affiliate->save();
+                $message = "Información personal de Afiliado actualizado con éxito";
                 break;
 
                 case 'institutional':
 
                     //check!
-                    $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->first();
-                    $economic_complement->city_id = $request->regional;
-                    $economic_complement->save();
+                $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->first();
+                $economic_complement->city_id = $request->regional;
+                $economic_complement->save();
                     //end check!
 
-                    $affiliate->affiliate_state_id = $request->state;
-                    $affiliate->degree_id = $request->degree;
-                    $affiliate->type = $request->affiliate_type;
-                    $affiliate->unit_id = $request->unit;
-                    $affiliate->date_entry = Util::datePick($request->date_entry);
-                    $affiliate->item = $request->item > 0 ? $request->item: 0 ;
-                    $affiliate->category_id = $request->category;
-                    $affiliate->pension_entity_id=$request->affiliate_entity_pension;
-                    $affiliate->save();
-                    $message = "Información del Policia actualizada correctamene.";
-                    Session::flash('message', $message);
+                $affiliate->affiliate_state_id = $request->state;
+                $affiliate->degree_id = $request->degree;
+                $affiliate->type = $request->affiliate_type;
+                $affiliate->unit_id = $request->unit;
+                $affiliate->date_entry = Util::datePick($request->date_entry);
+                $affiliate->item = $request->item > 0 ? $request->item: 0 ;
+                $affiliate->category_id = $request->category;
+                $affiliate->pension_entity_id=$request->affiliate_entity_pension;
+                $affiliate->save();
+                $message = "Información del Policia actualizada correctamene.";
+                Session::flash('message', $message);
 
                 break;
 
             }
-                Session::flash('message', $message);
+            Session::flash('message', $message);
         }
 
         return redirect('affiliate/'.$affiliate->id);
@@ -499,8 +542,7 @@ class AffiliateController extends Controller
         return $pdf->stream();
     }
 
-
-     public function print_wallet_in_arrears($id_complement)
+    public function print_wallet_in_arrears($id_complement)
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
@@ -517,6 +559,7 @@ class AffiliateController extends Controller
     }
 
     public function print_excluded_observations($id_complement, $type)
+
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
@@ -576,7 +619,7 @@ class AffiliateController extends Controller
         $pdf->loadHTML($view)->setPaper('legal');
         return $pdf->stream();
     }
-    
+
     public function print_miss_requiriments_hab_inc($id_complement)
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
@@ -594,7 +637,7 @@ class AffiliateController extends Controller
         $pdf->loadHTML($view)->setPaper('legal');
         return $pdf->stream();
     }
-
+  
     public function print_correct_grading()
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
@@ -620,7 +663,7 @@ class AffiliateController extends Controller
         $pdf->loadHTML($view)->setPaper('legal');
         return $pdf->stream();
     }
-     public function print_out_time_90($id_complement)
+    public function print_out_time_90($id_complement)
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
@@ -628,7 +671,7 @@ class AffiliateController extends Controller
         $date = Util::getDateEdit(date('Y-m-d'));
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
-       $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year','economic_complements.reception_date')->first();
+        $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year','economic_complements.reception_date')->first();
       // $procedure=EconomicComplementProcedure::where('year','=',$eco_com_applicant);
         $procedure=EconomicComplementProcedure::whereYear('year','=',date("Y",strtotime($eco_com_applicant->year)))->where('semester','=',$eco_com_applicant->semester)->first();
         //$procedure->additional_end_date;
@@ -646,7 +689,7 @@ class AffiliateController extends Controller
         $date = Util::getDateEdit(date('Y-m-d'));
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
-         $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year','economic_complements.reception_date')->first();
+        $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year','economic_complements.reception_date')->first();
       // $procedure=EconomicComplementProcedure::where('year','=',$eco_com_applicant);
         $procedure=EconomicComplementProcedure::whereYear('year','=',date("Y",strtotime($eco_com_applicant->year)))->where('semester','=',$eco_com_applicant->semester)->first();
        // dd($procedure);

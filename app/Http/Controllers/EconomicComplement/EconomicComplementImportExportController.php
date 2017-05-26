@@ -320,7 +320,7 @@ class EconomicComplementImportExportController extends Controller
                  $i=1;
                  $sheet->row(1, array('NRO', 'TIPO_ID', 'NUM_ID', 'EXTENSION', 'CUA', 'PRIMER_APELLIDO_T', 'SEGUNDO_APELLIDO_T','PRIMER_NOMBRE_T','SEGUNDO_NOMBRE_T','APELLIDO_CASADA_T','FECHA_NACIMIENTO_T'));
                  $afi = DB::table('eco_com_applicants')
-                     ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,eco_com_applicants.identity_card,cities.third_shortened,affiliates.nua,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date'))
+                     ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,eco_com_applicants.identity_card,cities.third_shortened,eco_com_applicants.nua,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date'))
                      ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                      ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
                      ->leftJoin('cities', 'eco_com_applicants.city_identity_card_id', '=', 'cities.id')
