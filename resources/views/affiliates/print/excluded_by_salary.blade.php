@@ -6,7 +6,7 @@
 
 <table>
   <p align="justify">
-      En fecha ……../…..…./.…., a horas…..…………se <b>NOTIFICA</b> en forma personal al Sr.(a)…………………………………………..………………….con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> …………de fecha….…/………/……., quien recibió en mano propia el original de dicho documento.
+     En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!!$eco_com_applicant->code !!} de fecha {!! $eco_com_applicant->reception_date!!}, quien recibió en mano propia el original de dicho documento.
   </p>
 </table>
 
@@ -57,13 +57,13 @@
   </h1>
 </header>
   <table>
-      <p align="right"> La Paz, Elija un elemento. de Elija un elemento. de 2017
+      <p align="right"> La Paz, {{!!$date!!}}
       <br>CITE: UCE – EGSB /2017
       </p>
   </table>
   <table>
       <p align="left">Señor (a): <br>
-      Haga clic aquí para escribir texto.……………………………………………..<br>
+      {!! $eco_com_applicant->getTitleNameFull() !!}.<br>
       Presente.-
        </p>
   </table>
@@ -76,7 +76,7 @@
     <p align="justify">Asimismo, se halla enmarcado en las normas legales vigentes,  <b>el Reglamento del Complemento Económico de 2016</b>, aprobado mediante Resolución de Directorio Nº 36/2016 de fecha 09 de diciembre de 2016, que norma en su <b>ARTÍCULO 7° (Exclusión). Quedan excluidos del pago del beneficio del Complemento Económico: inc. 2.- Los titulares o derechohabientes de primer grado, con rentas en curso de pago iguales o superiores al haber básico más categoría que perciban los miembros del servicio activo de la Policía Boliviana en el grado correspondiente.</b></p>
     </p>
     <p align="justify">
-              Por lo que usted, <b>es excluido (a) por salario</b>, por percibir una prestación por vejez igual o superior al haber básico más categoría que perciben los miembros del servicio activo de la Policía Boliviana en el grado correspondiente y no podrá cobrar el Beneficio del Complemento Económico, correspondiente al  ... Semestre de ... .
+              Por lo que usted, <b>es excluido (a) por salario</b>, por percibir una prestación por vejez igual o superior al haber básico más categoría que perciben los miembros del servicio activo de la Policía Boliviana en el grado correspondiente y no podrá cobrar el Beneficio del Complemento Económico, correspondiente al   {!! $eco_com_applicant->semester !!} Semestre de {!! $yearcomplement->year !!} .
     </p>
         <p align="justify">
           Se sugiere aguardar a la fecha de convocatoria del ... Semestre de ... <b> para presentar la boleta de jubilación de vejez;</b> para que se proceda con una nueva calificación y determinar si procede o no el Pago del Beneficio del Complemento Económico.<br>
