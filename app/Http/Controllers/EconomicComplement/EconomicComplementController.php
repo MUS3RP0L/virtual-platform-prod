@@ -126,7 +126,7 @@ class EconomicComplementController extends Controller
 
     public function Data_by_affiliate(Request $request)
     {
-        $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'created_at', 'total']);
+        $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'reception_date', 'total']);
         return Datatables::of($economic_complements)
                 ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
                 ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : '$economic_complement->wf_state->name'; })
@@ -491,12 +491,11 @@ class EconomicComplementController extends Controller
         foreach ($ep as $e) {
             $entity_pensions[$e->id]=$e->name;
         }
-        $economic_complement_legal_guardian=$economic_complement->economic_complement_legal_guardian;
+
         $data = [
 
             'affiliate' => $affiliate,
             'economic_complement' => $economic_complement,
-            'economic_complement_legal_guardian' => $economic_complement_legal_guardian,
             'eco_com_type' => $eco_com_type->name,
             'eco_com_applicant' => $eco_com_applicant,
             'eco_com_requirements' => $eco_com_requirements,
@@ -649,8 +648,7 @@ class EconomicComplementController extends Controller
                         }
                         $eco_com_legal_guardian->save();
                     }
-                    $economic_complement->state="Edited";
-                    $economic_complement->save();
+
                     return redirect('economic_complement_reception_second_step/'.$economic_complement->id);
 
                 }
@@ -755,19 +753,19 @@ class EconomicComplementController extends Controller
 
                         break;
                         }
-                        if ($economic_complement->has_legal_guardian) {
-                            if($request->type != 'update'){
-                                $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
-                                $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
-                                if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
-                                $eco_com_legal_guardian->last_name = $request->last_name_lg;
-                                $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
-                                $eco_com_legal_guardian->first_name = $request->first_name_lg;
-                                $eco_com_legal_guardian->phone_number = $request->phone_number_lg;
-                                $eco_com_legal_guardian->cell_phone_number = $request->cell_phone_number_lg;
-                                $eco_com_legal_guardian->save();
-                            }
-                        }
+
+                    if ($economic_complement->has_legal_guardian) {
+
+                        $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
+                        $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
+                        if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
+                        $eco_com_legal_guardian->last_name = $request->last_name_lg;
+                        $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
+                        $eco_com_legal_guardian->first_name = $request->first_name_lg;
+                        $eco_com_legal_guardian->phone_number = $request->phone_number_lg;
+                        $eco_com_legal_guardian->cell_phone_number = $request->cell_phone_number_lg;
+                        $eco_com_legal_guardian->save();
+                    }
 
                     if ($request->type == 'update') {
                         return redirect('economic_complement/'.$economic_complement->id);
@@ -903,8 +901,8 @@ class EconomicComplementController extends Controller
                 else{
 
                     $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+                    $economic_complement->eco_com_state_id = 2;
                     $economic_complement->review_date = date('Y-m-d');
-                    $economic_complement->state = 'Edited';
                     $economic_complement->save();
 
                     return redirect('economic_complement/'.$economic_complement->id);
@@ -912,6 +910,7 @@ class EconomicComplementController extends Controller
                 }
 
             break;
+
             case 'rent':
               $rules = [
 
@@ -975,6 +974,7 @@ class EconomicComplementController extends Controller
                 $eco_com_legal_guardian->save();
                 return redirect('economic_complement/'.$economic_complement->id);
             break;
+
         }
 
 
@@ -1084,7 +1084,8 @@ class EconomicComplementController extends Controller
         return $pdf->stream();
     }
 
-    public function getCausesByState(Request $request) {
+    public function getCausesByState(Request $request) 
+    {
         if($request->ajax())
         {
             $causesState = EconomicComplementState::where('eco_com_state_type_id',$request->id)->get();
@@ -1094,5 +1095,24 @@ class EconomicComplementController extends Controller
             return response()->json($data);
         }
     }
+
+    //     public function print_reception_report($economic_complement_id)
+    // {
+    //     $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+    //     $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+    //     $title = "REPORTE DE RECEPCIÓN DE COMPLEMENTO ECONÓMICO";
+    //     $date = Util::getDateEdit(date('Y-m-d'));
+    //     $current_date = Carbon::now();
+    //     $hour = Carbon::parse($current_date)->toTimeString();
+    //     $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+    //     $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
+    //     $affiliate = Affiliate::idIs($economic_complement_id)->first();
+    //     $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+    //     $user = Auth::user();
+    //     $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user'))->render();
+    //     $pdf = \App::make('dompdf.wrapper');
+    //     $pdf->loadHTML($view)->setPaper('letter');
+    //     return $pdf->stream();
+    // }
 
 }

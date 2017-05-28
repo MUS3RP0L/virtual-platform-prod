@@ -107,16 +107,12 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('get_updated_list', array('as'=>'updated_list','uses' =>'EconomicComplement\EconomicComplementReportController@updated_list'));
 	Route::post('export_updated_list', array('as'=>'export_updated_list','uses' =>'EconomicComplement\EconomicComplementReportController@export_updated_list'));
 
-	Route::get('print_sworn_declaration1/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_sworn_declaration1');
-	Route::get('print_sworn_declaration2/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_sworn_declaration2');
-	Route::get('print_reception_report/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_reception_report');
-	Route::get('print_inclusion_solicitude/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_inclusion_solicitude');
-	Route::get('print_pay_solicitude/{economic_complement_id}', 'EconomicComplement\EconomicComplementController@print_pay_solicitude');
+	Route::get('print_sworn_declaration/{economic_complement_id}/{type}', 'EconomicComplement\EconomicComplementController@print_sworn_declaration');
+	Route::get('print_eco_com_reports/{economic_complement_id}/{type}', 'EconomicComplement\EconomicComplementController@print_eco_com_reports');
 
 	// Economic Complement Report
 	Route::resource('report_complement', 'EconomicComplement\EconomicComplementReportController');
 	Route::post('report_generator', array('as'=>'report_generator', 'uses'=> 'EconomicComplement\EconomicComplementReportController@report_generator'));
-
 	Route::resource('importexport', 'EconomicComplement\EconomicComplementImportExportController');
 	Route::post('import_senasir', array('as'=>'import_senasir', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@import_from_senasir'));
 	Route::post('import_aps', array('as'=>'import_aps', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@import_from_aps'));
@@ -137,23 +133,29 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('edited_data', array('as'=>'edited_data','uses'=>'Inbox\InboxController@DataEdited'));
 
 	//observants
-	Route::get('print_without_requirement', 'Affiliate\AffiliateController@print_miss_requiriments_hab_inc');
 	Route::get('print_wallet/{id_complement}', array('as'=>'print_wallet', 'uses'=>'Affiliate\AffiliateController@print_wallet_in_arrears'));
 	Route::get('print_debtor/{id_complement}', array('as'=>'print_debtor', 'uses'=>'Affiliate\AffiliateController@print_debtor_conta'));
-	Route::get('print_with_legal_action', 'Affiliate\AffiliateController@print_legal_action');
-	//Route::get('print_out_of_time_90', 'Affiliate\AffiliateController@print_out_time_90');
 	Route::get('print_out_of_time_90/{id_complement}', array('as'=>'print_out_of_time_90', 'uses'=>'Affiliate\AffiliateController@print_out_time_90'));
-	Route::get('print_out_of_time_120', 'Affiliate\AffiliateController@print_out_time_120');
-	Route::get('print_lackrequiriment', 'Affiliate\AffiliateController@print_miss_requiriments');
-	Route::get('print_without_requirement', 'Affiliate\AffiliateController@print_miss_requiriments_hab_inc');
+	Route::get('print_out_of_time_120/{id_complement}', array('as'=>'print_out_of_time_120', 'uses'=>'Affiliate\AffiliateController@print_out_time_120'));
+	Route::get('print_lackrequiriment/{id_complement}', array('as'=>'print_lackrequiriment', 'uses'=>'Affiliate\AffiliateController@print_miss_requiriments'));
+	Route::get('print_without_requirement/{id_complement}', array('as'=>'print_without_requirement', 'uses'=>'Affiliate\AffiliateController@print_miss_requiriments_hab_inc'));
+
 	//observants
-	Route::get('print_with_legal_action', 'Affiliate\AffiliateController@print_legal_action');
-	Route::get('print_out_of_time_90', 'Affiliate\AffiliateController@print_out_time_90');
+	//Route::get('print_with_legal_action/{id_complement}', array('as'=>'print_with_legal_action', 'uses'=>'Affiliate\AffiliateController@print_legal_action'));
 
 	//excluded
-	Route::get('print_excsalary', 'Affiliate\AffiliateController@print_excluded_by_salary');
-	Route::get('print_invalidity', 'Affiliate\AffiliateController@print_invalidity_bonds');
-	Route::get('print_less_16', 'Affiliate\AffiliateController@print_iless_16');
+	//Route::get('print_excsalary/{id_complement}', array('as'=>'print_excsalary', 'uses'=>'Affiliate\AffiliateController@print_excluded_by_salary'));
+
+	//Route::get('print_invalidity', 'Affiliate\AffiliateController@print_invalidity_bonds');
+	//Route::get('print_invalidity/{id_complement}', array('as'=>'print_invalidity', 'uses'=>'Affiliate\AffiliateController@print_invalidity_bonds'));
+	//Route::get('print_less_16', 'Affiliate\AffiliateController@print_iless_16');
+
+	//Route::get('print_with_legal_action', 'Affiliate\AffiliateController@print_legal_action');
+	Route::get('print_out_of_time_90/{id_complement0}', 'Affiliate\AffiliateController@print_out_time_90');
+
+	//excluded
+	Route::get('print_excluded_observations/{type}', 'Affiliate\AffiliateController@print_excluded_observations');
+
 	//clarificación
 	Route::get('print_correct', 'Affiliate\AffiliateController@print_correct_grading');
 	//procedures

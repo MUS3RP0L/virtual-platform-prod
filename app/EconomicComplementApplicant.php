@@ -41,6 +41,10 @@ class EconomicComplementApplicant extends Model
     {
         return $this->hasOne('Muserpol\EconomicComplementLegalGuardian', 'eco_com_applicant_id');
     }
+    public function scopeIdentitycardIs($query, $ci)
+    {
+        return $query->where('identity_card', $ci);
+    }
 
     public function city_identity_card()
     {

@@ -116,15 +116,4 @@ Formulario Nº 2
   </table>
   <p align="justify"><b>Nota.- El presente documento tiene carácter de DECLARACIÓN JURADA, por lo que en caso de evidenciarse la falsedad de este, se procederá con las acciones legales pertinentes. </b></p>
 </div>
-<div class="visible-print text-right">
-  <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate(
-  'Registro: Nº '.$economic_complement->code.' || '.
-  'Carnet de Identidad: '.$affiliate->identity_card.' || '.
-  $eco_com_applicant->city_identity_card->shortened.' || '.
-  'Nombre :'.$eco_com_applicant->getTitleNameFull().' || '.
-  'Fecha de nacimiento: '.$eco_com_applicant->getShortBirthDate().' || '.
-  'Tipo de Complemento: '. $economic_complement->economic_complement_modality->economic_complement_type->name.' || '.
-  'N° NUA: '.$affiliate->nua
-  ))!!} ">
-</div>
 @endsection
