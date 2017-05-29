@@ -51,16 +51,16 @@ class AffiliateController extends Controller
             $affiliates->where(function($affiliates) use ($request)
             {
                 $last_name = trim($request->get('last_name'));
+                $last_name=strtoupper($last_name);
                 $affiliate=Affiliate::where('last_name', 'like', "%{$last_name}%")->first();
                 if(isset($affiliate)){
                     $affiliates->where('last_name', 'like', "%{$affiliate->last_name}%");
                 }   
                 else{
-                    $spouses=Spouse::where('last_name','=',$last_name)->first();
+                    $spouses=Spouse::where('last_name','like',$last_name)->first();
                     $affiliate=$spouses->affiliate;
                     $affiliates->find($affiliate->id);         
                 }
-
                 
             });
         }
@@ -69,6 +69,7 @@ class AffiliateController extends Controller
             $affiliates->where(function($affiliates) use ($request)
             {
                 $mothers_last_name = trim($request->get('mothers_last_name'));
+                 $mothers_last_name=strtoupper($mothers_last_name);
                 $affiliate=Affiliate::where('mothers_last_name', 'like', "%{$mothers_last_name}%")->first();
                 if(isset($affiliate)){
                     $affiliates->where('mothers_last_name', 'like', "%{$mothers_last_name}%");
@@ -84,8 +85,9 @@ class AffiliateController extends Controller
         {
             $affiliates->where(function($affiliates) use ($request)
             {
-                $first_name = trim($request->get('first_name'));
-                $affiliate=Affiliate::where('first_name', 'like', "%{$first_name}%")->first();
+                $first_name = strtoupper(trim($request->get('first_name')));
+                $first_name=strtoupper($first_name);
+                $affiliate=Affiliate::where('first_name','like', $first_name)->get()->first();
                 if(isset($affiliate)){
                     $affiliates->where('first_name', 'like', "%{$first_name}%");
                 }
@@ -101,6 +103,7 @@ class AffiliateController extends Controller
             $affiliates->where(function($affiliates) use ($request)
             {
                 $second_name = trim($request->get('second_name'));
+                $second_name=strtoupper($second_name);
                 $affiliate=Affiliate::where('second_name', 'like', "%{$second_name}%")->first();
                 if(isset($affiliate)){
                     $affiliates->where('second_name', 'like', "%{$second_name}%");
@@ -117,6 +120,7 @@ class AffiliateController extends Controller
             $affiliates->where(function($affiliates) use ($request)
             {
                 $identity_card = trim($request->get('identity_card'));
+                $identity_card=strtoupper($identity_card);
                 $affiliate=Affiliate::identitycardIs($identity_card)->first();
                 if(isset($affiliate)){
                     $affiliates->where('identity_card', 'like', "{$identity_card}");
@@ -542,6 +546,7 @@ class AffiliateController extends Controller
         return $pdf->stream();
     }
 
+
     public function print_wallet_in_arrears($id_complement)
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
@@ -558,48 +563,30 @@ class AffiliateController extends Controller
         return $pdf->stream();
     }
 
-    public function print_excluded_observations($id_complement, $type)
-
+    public function print_excluded_by_salary()
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
-        $title = "OBSERVACION DE EXCLUSION";
+        $title = "NOTIFICACIÓN";
         $date = Util::getDateEdit(date('Y-m-d'));
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
-        
-        switch ($type) {
-            case 'salary':
-                $view = \View::make('affiliates.print.excluded_by_salary', compact('header1','header2','title','date','hour'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
-            
-            case 'invalidity':
-                $view = \View::make('affiliates.print.invalidity', compact('header1','header2','title','date','hour'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
-            
-            case 'less16':
-                $view = \View::make('affiliates.print.less_16', compact('header1','header2','title','date','hour'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
-
-            case 'legal_action':
-                $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year')->first();
-                $yearcomplement=new Carbon($eco_com_applicant->year);
-
-                //$view = \View::make('affiliates.print.print_miss_requiriments_habinc', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-                
-                $view = \View::make('affiliates.print.legal_action', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
-
-        }
-
+        //$data = $this->getData();
+       // dd($header1);
+      //  $affiliate = $data['affiliate'];
+        //$spouse = $data['spouse'];
+        //$total_gain = $data['total_gain'];
+        //$total_public_security_bonus = $data['total_public_security_bonus'];
+        //$total_quotable = $data['total_quotable'];
+        //$total_retirement_fund = $data['total_retirement_fund'];
+        //$total_mortuary_quota = $data['total_mortuary_quota'];
+        //$total = $data['total'];
+        //$contributions = Contribution::select(['id', 'month_year', 'degree_id', 'unit_id', 'item', 'base_wage','seniority_bonus', 'study_bonus', 'position_bonus', 'border_bonus', 'east_bonus', 'public_security_bonus', 'gain', 'quotable', 'retirement_fund', 'mortuary_quota', 'total'])->where('affiliate_id', $affiliate->id)->get();
+        $date = Util::getfulldate(date('Y-m-d'));
+        $view = \View::make('affiliates.print.excluded_by_salary', compact('header1','header2','title','date','hour'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view)->setPaper('legal');
+        return $pdf->stream();
     }
 
     public function print_miss_requiriments($id_complement)
@@ -620,7 +607,6 @@ class AffiliateController extends Controller
         $pdf->loadHTML($view)->setPaper('legal');
         return $pdf->stream();
     }
-
     public function print_miss_requiriments_hab_inc($id_complement)
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
@@ -638,8 +624,7 @@ class AffiliateController extends Controller
         $pdf->loadHTML($view)->setPaper('legal');
         return $pdf->stream();
     }
-
-    public function print_invalidity_bonds($id_complement)
+    public function print_invalidity_bonds()
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
@@ -647,11 +632,17 @@ class AffiliateController extends Controller
         $date = Util::getDateEdit(date('Y-m-d'));
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
-
-         $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year')->first();
-        $yearcomplement=new Carbon($eco_com_applicant->year);
-
-
+        //$data = $this->getData();
+       // dd($header1);
+      //  $affiliate = $data['affiliate'];
+        //$spouse = $data['spouse'];
+        //$total_gain = $data['total_gain'];
+        //$total_public_security_bonus = $data['total_public_security_bonus'];
+        //$total_quotable = $data['total_quotable'];
+        //$total_retirement_fund = $data['total_retirement_fund'];
+        //$total_mortuary_quota = $data['total_mortuary_quota'];
+        //$total = $data['total'];
+        //$contributions = Contribution::select(['id', 'month_year', 'degree_id', 'unit_id', 'item', 'base_wage','seniority_bonus', 'study_bonus', 'position_bonus', 'border_bonus', 'east_bonus', 'public_security_bonus', 'gain', 'quotable', 'retirement_fund', 'mortuary_quota', 'total'])->where('affiliate_id', $affiliate->id)->get();
         $date = Util::getfulldate(date('Y-m-d'));
         $view = \View::make('affiliates.print.invalidity', compact('header1','header2','title','date','hour'))->render();
         $pdf = \App::make('dompdf.wrapper');
@@ -659,7 +650,7 @@ class AffiliateController extends Controller
         return $pdf->stream();
     }
 
-      public function print_iless_16()
+    public function print_iless_16()
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
@@ -685,7 +676,7 @@ class AffiliateController extends Controller
         return $pdf->stream();
     }
 
-     public function print_legal_action($id_complement)
+    public function print_legal_action($id_complement)
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
@@ -694,17 +685,16 @@ class AffiliateController extends Controller
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
 
-          $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year')->first();
+        $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year')->first();
         $yearcomplement=new Carbon($eco_com_applicant->year);
 
         //$view = \View::make('affiliates.print.print_miss_requiriments_habinc', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-     
+
         $view = \View::make('affiliates.print.legal_action', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view)->setPaper('legal');
         return $pdf->stream();
     }
-
     public function print_correct_grading()
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
@@ -756,11 +746,11 @@ class AffiliateController extends Controller
         $date = Util::getDateEdit(date('Y-m-d'));
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
-
         $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year','economic_complements.reception_date')->first();
       // $procedure=EconomicComplementProcedure::where('year','=',$eco_com_applicant);
-
         $procedure=EconomicComplementProcedure::whereYear('year','=',date("Y",strtotime($eco_com_applicant->year)))->where('semester','=',$eco_com_applicant->semester)->first();
+       // dd($procedure);
+        //$procedure->additional_end_date;
         $yearcomplement=new Carbon($eco_com_applicant->year);
         $view = \View::make('affiliates.print.out_of_time120', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
         $pdf = \App::make('dompdf.wrapper');
