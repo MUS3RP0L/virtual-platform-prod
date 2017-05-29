@@ -25,6 +25,16 @@
 		@include('dashboard.economic_complement_of_the_management')
 	</div>
 </div>
+<div class="row">
+	<div class="col-md-12">
+		@include('dashboard.last_semesters')
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		@include('dashboard.sum_last_semesters')
+	</div>
+</div>
 @endcan
 @can('manage')
 
