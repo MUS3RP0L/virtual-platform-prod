@@ -548,13 +548,15 @@
                         <h3 class="box-title"><span class="fa fa-money"></span> Cálculo de Total</h3>
                     </div>
                     @cannot('eco_com_review')
-                    <div class="col-md-2 text-right">
-                        <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                            <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals">&nbsp;&nbsp;
-                                <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
-                            </a>
+                        @cannot('eco_com_reception')
+                        <div class="col-md-2 text-right">
+                            <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals">&nbsp;&nbsp;
+                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                        @endcannot
                     @endcannot
                 </div>
                 <div class="box-body">
@@ -653,7 +655,7 @@
         <iframe src="{!! url('print_out_of_time_90/' . $economic_complement->id) !!}" id="iFramePdfObsRango90" ></iframe>
         <iframe src="{!! url('print_out_of_time_120/' . $economic_complement->id) !!}" id="iFramePdfObsRango120" ></iframe>
         <iframe src="{!! url('print_without_requirement/' . $economic_complement->id) !!}" id="iFramePdfObsRequisites" ></iframe>
-        <iframe src="{!! url('print_with_legal_action/' . $economic_complement->id) !!}" id="iFramePdfObsLegal" ></iframe>
+        <iframe src="{!! url('print_excluded_observations/legal_action/' . $economic_complement->id) !!}" id="iFramePdfObsLegal" ></iframe>
     </div>
 
 

@@ -80,22 +80,12 @@ class EconomicComplementController extends Controller
         {
             $economic_complements->where(function($economic_complements) use ($request)
             {
-
                 $affiliate_identitycard = trim($request->get('affiliate_identitycard'));
                 $affiliate = Affiliate::identitycardIs($affiliate_identitycard)->first();
                 if ($affiliate) {
-                    $economic_complements->where('affiliate_id', '=', "{$affiliate->id}");
+                    $economic_complements->where('affiliate_id', 'like', "{$affiliate->id}");
                 }else{
-
-                    $applicants_identitycard=trim($request->get('affiliate_identitycard'));
-                    $applicants=EconomicComplementApplicant::identitycardIs($applicants_identitycard)->first();
-                    if($applicants){
-                        $economic_complements->where('id', '=' , "{$applicants->economic_complement_id}");
-                    }
-                    else{
-
-                        $economic_complements->where('affiliate_id', 0);
-                    }
+                    $economic_complements->where('affiliate_id', 'like', "0");
                 }
             });
         }
@@ -118,10 +108,8 @@ class EconomicComplementController extends Controller
             });
         }
         return Datatables::of($economic_complements)
-                ->addColumn('affiliate_identitycard', function ($economic_complement) { 
-
-                    return $economic_complement->economic_complement_applicant->city_identity_card_id ? $economic_complement->economic_complement_applicant->identity_card.' '.$economic_complement->economic_complement_applicant->city_identity_card->first_shortened: $economic_complement->economic_complement_applicant->identity_card; })
-                ->addColumn('affiliate_name', function ($economic_complement) { return $economic_complement->economic_complement_applicant->getTittleName(); })
+                ->addColumn('affiliate_identitycard', function ($economic_complement) { return $economic_complement->affiliate->identity_card; })
+                ->addColumn('affiliate_name', function ($economic_complement) { return $economic_complement->affiliate->getTittleName(); })
                 ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
                 ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : $economic_complement->wf_state->name; })
                 ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
@@ -448,8 +436,8 @@ class EconomicComplementController extends Controller
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
         $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
+
         $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
-        $eco_com_applicant->identity_card = $eco_com_applicant->city_identity_card_id ? $eco_com_applicant->identity_card.' '.$eco_com_applicant->city_identity_card->first_shortened : $eco_com_applicant->identity_card;
 
         $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
 
@@ -503,12 +491,11 @@ class EconomicComplementController extends Controller
         foreach ($ep as $e) {
             $entity_pensions[$e->id]=$e->name;
         }
-        $economic_complement_legal_guardian=$economic_complement->economic_complement_legal_guardian;
+
         $data = [
 
             'affiliate' => $affiliate,
             'economic_complement' => $economic_complement,
-            'economic_complement_legal_guardian' => $economic_complement_legal_guardian,
             'eco_com_type' => $eco_com_type->name,
             'eco_com_applicant' => $eco_com_applicant,
             'eco_com_requirements' => $eco_com_requirements,
@@ -661,8 +648,7 @@ class EconomicComplementController extends Controller
                         }
                         $eco_com_legal_guardian->save();
                     }
-                    $economic_complement->state="Edited";
-                    $economic_complement->save();
+
                     return redirect('economic_complement_reception_second_step/'.$economic_complement->id);
 
                 }
@@ -767,19 +753,19 @@ class EconomicComplementController extends Controller
 
                         break;
                         }
-                        if ($economic_complement->has_legal_guardian) {
-                            if($request->type != 'update'){
-                                $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
-                                $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
-                                if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
-                                $eco_com_legal_guardian->last_name = $request->last_name_lg;
-                                $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
-                                $eco_com_legal_guardian->first_name = $request->first_name_lg;
-                                $eco_com_legal_guardian->phone_number = $request->phone_number_lg;
-                                $eco_com_legal_guardian->cell_phone_number = $request->cell_phone_number_lg;
-                                $eco_com_legal_guardian->save();
-                            }
-                        }
+
+                    if ($economic_complement->has_legal_guardian) {
+
+                        $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
+                        $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
+                        if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
+                        $eco_com_legal_guardian->last_name = $request->last_name_lg;
+                        $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
+                        $eco_com_legal_guardian->first_name = $request->first_name_lg;
+                        $eco_com_legal_guardian->phone_number = $request->phone_number_lg;
+                        $eco_com_legal_guardian->cell_phone_number = $request->cell_phone_number_lg;
+                        $eco_com_legal_guardian->save();
+                    }
 
                     if ($request->type == 'update') {
                         return redirect('economic_complement/'.$economic_complement->id);
@@ -915,8 +901,8 @@ class EconomicComplementController extends Controller
                 else{
 
                     $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+                    $economic_complement->eco_com_state_id = 2;
                     $economic_complement->review_date = date('Y-m-d');
-                    $economic_complement->state = 'Edited';
                     $economic_complement->save();
 
                     return redirect('economic_complement/'.$economic_complement->id);
@@ -924,6 +910,7 @@ class EconomicComplementController extends Controller
                 }
 
             break;
+
             case 'rent':
               $rules = [
 
@@ -959,10 +946,10 @@ class EconomicComplementController extends Controller
                     /*$affiliate=Affiliate::find(1);
                     $base_wage = BaseWage::degreeIs($economic_complement->affiliate->degree_id)->first();
                     $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
-                                                ->whereYear('year', '=', $data['year'])
+                                                    ->whereYear('year', '=', $data['year'])
                                                 ->where('semester', '=', $data['semester'])->first();
                     $economic_complement->base_wage_id = $base_wage->id;*/
-                    $economic_complement->complementary_factor_id = $complementary_factor->id;
+    //                $economic_complement->complementary_factor_id = $complementary_factor->id;
 
                     $economic_complement->salary_reference=$economic_complement->base_wage->amount;
                     $economic_complement->state = 'Edited';
@@ -987,6 +974,7 @@ class EconomicComplementController extends Controller
                 $eco_com_legal_guardian->save();
                 return redirect('economic_complement/'.$economic_complement->id);
             break;
+
         }
 
 
@@ -1004,74 +992,100 @@ class EconomicComplementController extends Controller
         //
     }
 
-    public function print_sworn_declaration($economic_complement_id, $type)
+    public function print_sworn_declaration1($economic_complement_id)
     {
-        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-        $title = "FORMULARIO DE DECLARACIÓN JURADA VOLUNTARIA";
-        $date = Util::getDateEdit(date('Y-m-d'));
-        $current_date = Carbon::now();
-        $hour = Carbon::parse($current_date)->toTimeString();
-        $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
-        $affiliate = Affiliate::idIs($economic_complement_id)->first();
-        $eco_com_applicant = EconomicComplementApplicant::EconomicComplementIs($economic_complement->id)->first();
-        switch ($type) {
-            case '1':
-                $view = \View::make('economic_complements.print.sworn_declaration1', compact('header1','header2','title','date','type','hour','affiliate','economic_complement','eco_com_applicant'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
-            
-            case '2':
-                $spouse  = Spouse::where('affiliate_id', '=', $affiliate->id )->first();
-                $view = \View::make('economic_complements.print.sworn_declaration2', compact('header1','header2','title','date','type','hour','affiliate','spouse','economic_complement','eco_com_applicant'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
-        }
+          $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+          $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+          $title = "FORMULARIO DE DECLARACIÓN JURADA VOLUNTARIA";
+          $date = Util::getDateEdit(date('Y-m-d'));
+          $current_date = Carbon::now();
+          $hour = Carbon::parse($current_date)->toTimeString();
+          $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+          $affiliate = Affiliate::idIs($economic_complement_id)->first();
+          $eco_com_applicant = EconomicComplementApplicant::EconomicComplementIs($economic_complement->id)->first();
+          $view = \View::make('economic_complements.print.sworn_declaration1', compact('header1','header2','title','date','hour','affiliate','economic_complement','eco_com_applicant'))->render();
+          $pdf = \App::make('dompdf.wrapper');
+          $pdf->loadHTML($view)->setPaper('legal');
+          return $pdf->stream();
+
     }
 
-    public function print_eco_com_reports($economic_complement_id, $type)
+    public function print_sworn_declaration2($economic_complement_id)
+    {
+          $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+          $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+          $title = "FORMULARIO DE DECLARACIÓN JURADA VOLUNTARIA";
+          $date = Util::getDateEdit(date('Y-m-d'));
+          $current_date = Carbon::now();
+          $hour = Carbon::parse($current_date)->toTimeString();
+          $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+          $affiliate = Affiliate::idIs($economic_complement_id)->first();
+          $spouse  = Spouse::where('affiliate_id', '=', $affiliate->id )->first();
+          $eco_com_applicant = EconomicComplementApplicant::EconomicComplementIs($economic_complement->id)->first();
+          $view = \View::make('economic_complements.print.sworn_declaration2', compact('header1','header2','title','date','hour','affiliate','spouse','economic_complement','eco_com_applicant'))->render();
+          $pdf = \App::make('dompdf.wrapper');
+          $pdf->loadHTML($view)->setPaper('legal');
+          return $pdf->stream();
+
+    }
+
+    public function print_inclusion_solicitude($economic_complement_id)
+    {
+          $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+          $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+          $title = "";
+          $date = Util::getDateEdit(date('Y-m-d'));
+          $current_date = Carbon::now();
+          $hour = Carbon::parse($current_date)->toTimeString();
+          $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+          $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
+          $affiliate = Affiliate::idIs($economic_complement_id)->first();
+          $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+          $view = \View::make('economic_complements.print.inclusion_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant'))->render();
+          $pdf = \App::make('dompdf.wrapper');
+          $pdf->loadHTML($view)->setPaper('letter');
+          return $pdf->stream();
+    }
+
+    public function print_pay_solicitude($economic_complement_id)
+    {
+          $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+          $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+          $title = "";
+          $date = Util::getDateEdit(date('Y-m-d'));
+          $current_date = Carbon::now();
+          $hour = Carbon::parse($current_date)->toTimeString();
+          $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+          $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
+          $affiliate = Affiliate::idIs($economic_complement_id)->first();
+          $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+          $view = \View::make('economic_complements.print.pay_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant'))->render();
+          $pdf = \App::make('dompdf.wrapper');
+          $pdf->loadHTML($view)->setPaper('letter');
+          return $pdf->stream();
+    }
+
+    public function print_reception_report($economic_complement_id)
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+        $title = "REPORTE DE RECEPCIÓN DE COMPLEMENTO ECONÓMICO";
         $date = Util::getDateEdit(date('Y-m-d'));
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
         $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
-        $affiliate = Affiliate::idIs($economic_complement_id)->first();
         $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
+        $affiliate = Affiliate::idIs($economic_complement_id)->first();
         $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
-
-        switch ($type) {
-            //inclusion
-            case 'inclusion':
-            {
-                $title = "SOLICITUD DE INCLUSIÓN";
-                $view = \View::make('economic_complements.print.inclusion_solicitude', compact('header1','header2','title','date','type','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('letter');
-                return $pdf->stream();}  
-            //pay
-            case 'pay':
-                $title = "SOLICITUD DE PAGO";
-                $view = \View::make('economic_complements.print.pay_solicitude', compact('header1','header2','title','date','type','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('letter');
-                return $pdf->stream();
-            //report
-            case 'report':
-                $title = "REPORTE DE RECEPCIÓN DE COMPLEMENTO ECONÓMICO";
-                $user = Auth::user();
-                $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','type','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('letter');
-                return $pdf->stream();
-        }
-
+        $user = Auth::user();
+        $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view)->setPaper('letter');
+        return $pdf->stream();
     }
 
-    public function getCausesByState(Request $request) {
+    public function getCausesByState(Request $request) 
+    {
         if($request->ajax())
         {
             $causesState = EconomicComplementState::where('eco_com_state_type_id',$request->id)->get();
@@ -1081,5 +1095,24 @@ class EconomicComplementController extends Controller
             return response()->json($data);
         }
     }
+
+    //     public function print_reception_report($economic_complement_id)
+    // {
+    //     $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+    //     $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+    //     $title = "REPORTE DE RECEPCIÓN DE COMPLEMENTO ECONÓMICO";
+    //     $date = Util::getDateEdit(date('Y-m-d'));
+    //     $current_date = Carbon::now();
+    //     $hour = Carbon::parse($current_date)->toTimeString();
+    //     $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+    //     $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
+    //     $affiliate = Affiliate::idIs($economic_complement_id)->first();
+    //     $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+    //     $user = Auth::user();
+    //     $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user'))->render();
+    //     $pdf = \App::make('dompdf.wrapper');
+    //     $pdf->loadHTML($view)->setPaper('letter');
+    //     return $pdf->stream();
+    // }
 
 }
