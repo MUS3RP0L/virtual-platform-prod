@@ -213,6 +213,43 @@ class DashboardController extends Controller
 			$economic_complement_cities_data[$item->name]=$item->quantity;
 		}
 
+		// select count(*), substr(code,position('/' in code)+1,length(code)) as cantidad
+		// from economic_complements
+		// where EXTRACT(year from year ) <> EXTRACT(year from current_date)
+		// group by (substr(code,position('/' in code)+1,length(code)))
+		// order by (substr(substr(code,position('/' in code)+1,length(code)),length(substr(code,position('/' in code)+1,length(code)))-4, length(substr(code,position('/' in code)+1,length(code))) )) asc, cantidad
+		// limit 5
+
+		//for  (tramites) last 5 semesters
+		$last_semesters=DB::table('economic_complements')
+			->select(DB::raw("count(*) as quantity, substr(code,position('/' in code)+1,length(code)) as date"))
+			->whereRaw("EXTRACT(year from economic_complements.year ) <> EXTRACT(year from current_date) and economic_complements.semester  NOT LIKE '".Util::getCurrentSemester()."'")
+			->groupBy(DB::raw("substr(code,position('/' in code)+1,length(code))"))
+			->orderBy(DB::raw("substr(substr(code,position('/' in code)+1,length(code)),length(substr(code,position('/' in code)+1,length(code)))-4, length(substr(code,position('/' in code)+1,length(code))))"),'desc')
+			->orderBy('date','asc')
+			->limit(5)
+			->get();
+		$last_semesters_data=[];
+		foreach ($last_semesters as $item) {
+			$last_semesters_data[$item->date]=$item->quantity;
+		}
+		$last_semesters_data_reverse=array_reverse($last_semesters_data, true);
+
+		//for (total) last 5 semesters
+		$sum_last_semesters=DB::table('economic_complements')
+			->select(DB::raw("sum(economic_complements.total) as quantity, substr(code,position('/' in code)+1,length(code)) as date"))
+			->whereRaw("EXTRACT(year from economic_complements.year ) <> EXTRACT(year from current_date) and economic_complements.semester  NOT LIKE '".Util::getCurrentSemester()."'")
+			->groupBy(DB::raw("substr(code,position('/' in code)+1,length(code))"))
+			->orderBy(DB::raw("substr(substr(code,position('/' in code)+1,length(code)),length(substr(code,position('/' in code)+1,length(code)))-4, length(substr(code,position('/' in code)+1,length(code))))"),'desc')
+			->orderBy('date','asc')
+			->limit(5)
+			->get();
+		$sum_last_semesters_data=[];
+		foreach ($sum_last_semesters as $item) {
+			$sum_last_semesters_data[$item->date]=$item->quantity;
+		}
+		$sum_last_semesters_data_reverse=array_reverse($sum_last_semesters_data, true);
+		
 		$data = [
 			'activities' => $activities,
 			'totalAfiServ' => $totalAfiServ,
@@ -228,11 +265,14 @@ class DashboardController extends Controller
 			'economic_complement_pie_types'=>$economic_complement_pie_types,
 			'economic_complement_modalities_types'=>array(array_keys($economic_complement_modalities_types_datas),array_values($economic_complement_modalities_types_datas)),
 			'economic_complement_cities'=>array(array_keys($economic_complement_cities_data),array_values($economic_complement_cities_data)),
+			'last_semesters'=>array(array_keys($last_semesters_data_reverse),array_values($last_semesters_data_reverse)),
+			'sum_last_semesters'=>array(array_keys($sum_last_semesters_data_reverse),array_values($sum_last_semesters_data_reverse)),
 
 		];
 		//dd(array(array_keys($economic_complement_modalities_types),array_values($economic_complement_modalities_types)));
-	
-				return view('dashboard.index', $data);
+
+		
+		return view('dashboard.index', $data);
 
 	}
 
