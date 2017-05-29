@@ -11,6 +11,29 @@ class Util
         $count = EconomicComplement::where('affiliate_id','=', rtrim($affiliate))->count();
 		return $count;
     }
+	public static function addcero($dato, $ceros)
+	{	$numero_con_ceros='';
+		if ($ceros == 13) { //carnet
+			$diferencia = 13 - strlen($dato);
+			for($i = 0 ; $i < $diferencia; $i++)
+			{
+			        $numero_con_ceros .= 0;
+			}
+			$numero_con_ceros .= $dato;
+			return $numero_con_ceros;
+		}
+		elseif($ceros == 9) //cua
+		{
+			$diferencia = 9 - strlen($dato);
+			for($i = 0 ; $i < $diferencia; $i++)
+			{
+			        $numero_con_ceros .= 0;
+			}
+			$numero_con_ceros .= $dato;
+			return $numero_con_ceros;
+		}
+
+	}
 	public static function FirstName($nom)
 	{
 		if ($nom) {
@@ -215,6 +238,14 @@ class Util
 		if ($date) {
 			$newdate = explode("/", $date);
 			return date($newdate[2] ."-". $newdate[1] ."-". $newdate[0]);
+		}
+	}
+
+	public static function DateUnion($date)
+	{
+		if ($date) {
+			$newdate = explode("-", $date);
+			return date($newdate[0] . $newdate[1] . $newdate[2]);
 		}
 	}
 
@@ -552,7 +583,7 @@ class Util
     	$current_date = Carbon::now();
     	$current_month = $current_date->format('m');
     	return $current_month<=8 ? "Primer" : "Segundo";
-    	
+
     }
 
 }
