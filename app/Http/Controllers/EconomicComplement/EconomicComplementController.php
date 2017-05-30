@@ -83,11 +83,19 @@ class EconomicComplementController extends Controller
                 $affiliate_identitycard = trim($request->get('affiliate_identitycard'));
                 $affiliate = Affiliate::identitycardIs($affiliate_identitycard)->first();
                 if ($affiliate) {
-                    $economic_complements->where('affiliate_id', 'like', "{$affiliate->id}");
+                    $economic_complements->where('affiliate_id', '=', "{$affiliate->id}");
                 }else{
-                    $economic_complements->where('affiliate_id', 'like', "0");
-                }
-            });
+                    $applicants_identitycard=trim($request->get('affiliate_identitycard'));
+                    $applicants=EconomicComplementApplicant::identitycardIs($applicants_identitycard)->first();
+                    if($applicants){
+                       $economic_complements->where('id', '=' , "{$applicants->economic_complement_id}");
+                   }
+                   else{
+
+                       $economic_complements->where('affiliate_id', 0);
+                   }
+               }
+           });
         }
         if ($request->has('eco_com_state_id'))
         {
@@ -108,34 +116,36 @@ class EconomicComplementController extends Controller
             });
         }
         return Datatables::of($economic_complements)
-                ->addColumn('affiliate_identitycard', function ($economic_complement) { return $economic_complement->affiliate->identity_card; })
-                ->addColumn('affiliate_name', function ($economic_complement) { return $economic_complement->affiliate->getTittleName(); })
-                ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
-                ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : $economic_complement->wf_state->name; })
-                ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
-                ->addColumn('action', function ($economic_complement) { return
-                    '<div class="btn-group" style="margin:-3px 0;">
-                        <a href="economic_complement/'.$economic_complement->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
-                        <a href="" class="btn btn-primary btn-raised btn-sm dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="voucher/delete/ '.$economic_complement->id.' " style="padding:3px 10px;"><i class="glyphicon glyphicon-ban-circle"></i> Anular</a></li>
-                        </ul>
-                    </div>';})
-                ->make(true);
+        ->addColumn('affiliate_identitycard', function ($economic_complement) { 
+
+           return $economic_complement->economic_complement_applicant->city_identity_card_id ? $economic_complement->economic_complement_applicant->identity_card.' '.$economic_complement->economic_complement_applicant->city_identity_card->first_shortened: $economic_complement->economic_complement_applicant->identity_card; })
+        ->addColumn('affiliate_name', function ($economic_complement) { return $economic_complement->economic_complement_applicant->getTittleName(); })
+        ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
+        ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : $economic_complement->wf_state->name; })
+        ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
+        ->addColumn('action', function ($economic_complement) { return
+            '<div class="btn-group" style="margin:-3px 0;">
+            <a href="economic_complement/'.$economic_complement->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
+            <a href="" class="btn btn-primary btn-raised btn-sm dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</a>
+            <ul class="dropdown-menu">
+                <li><a href="voucher/delete/ '.$economic_complement->id.' " style="padding:3px 10px;"><i class="glyphicon glyphicon-ban-circle"></i> Anular</a></li>
+            </ul>
+        </div>';})
+        ->make(true);
     }
 
     public function Data_by_affiliate(Request $request)
     {
         $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'reception_date', 'total']);
         return Datatables::of($economic_complements)
-                ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
-                ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : '$economic_complement->wf_state->name'; })
-                ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
-                ->addColumn('action', function ($economic_complement) { return  '
-                    <div class="btn-group" style="margin:-3px 0;">
-                        <a href="/economic_complement/'.$economic_complement->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
-                    </div>';})
-                ->make(true);
+        ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
+        ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : '$economic_complement->wf_state->name'; })
+        ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
+        ->addColumn('action', function ($economic_complement) { return  '
+            <div class="btn-group" style="margin:-3px 0;">
+                <a href="/economic_complement/'.$economic_complement->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
+            </div>';})
+        ->make(true);
     }
 
     /**
@@ -201,20 +211,20 @@ class EconomicComplementController extends Controller
 
         $semester = Util::getSemester(Carbon::now());
 
-    return [
+        return [
 
-            'eco_com_states_list' => $eco_com_states_list,
-            'eco_com_types_list' => $eco_com_types_list,
-            'semester_list' => $semester_list,
-            'pension_entities_list' => $pension_entities_list,
-            'cities_list' => $cities_list,
-            'cities_list_short' => $cities_list_short,
-            'year' => Carbon::now()->year,
-            'semester' => $semester,
-            'year_list' => $year_list,
-            'report_type_list' => $report_type_list,
-            'new_cities_list' => $new_cities_list,
-            'all_semester_list' => $all_semester_list
+        'eco_com_states_list' => $eco_com_states_list,
+        'eco_com_types_list' => $eco_com_types_list,
+        'semester_list' => $semester_list,
+        'pension_entities_list' => $pension_entities_list,
+        'cities_list' => $cities_list,
+        'cities_list_short' => $cities_list_short,
+        'year' => Carbon::now()->year,
+        'semester' => $semester,
+        'year_list' => $year_list,
+        'report_type_list' => $report_type_list,
+        'new_cities_list' => $new_cities_list,
+        'all_semester_list' => $all_semester_list
         ];
     }
 
@@ -223,9 +233,9 @@ class EconomicComplementController extends Controller
         $getViewModel = self::getViewModel();
         $affiliate = Affiliate::idIs($affiliate_id)->first();
         $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
-                                ->whereYear('year', '=', $getViewModel['year'])
-                                ->where('semester', '=', $getViewModel['semester'])->first();
-                                
+        ->whereYear('year', '=', $getViewModel['year'])
+        ->where('semester', '=', $getViewModel['semester'])->first();
+
         if (!$economic_complement) {
             $economic_complement = new EconomicComplement;
             $eco_com_type = false;
@@ -238,121 +248,121 @@ class EconomicComplementController extends Controller
         $last_year = Carbon::now()->subYear()->year;
         $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
         if (EconomicComplement::affiliateIs($affiliate_id)
-                        ->whereYear('year', '=', $last_year)
-                        ->where('semester', '=', $last_semester)->first()) {
+            ->whereYear('year', '=', $last_year)
+            ->where('semester', '=', $last_semester)->first()) {
             $affiliate->type_ecocom = 'Habitual';
-        }else{
-            $affiliate->type_ecocom = 'Inclusión';
-        }
-
-        $last_economic_complement;
-        $data = [
-            'affiliate' => $affiliate,
-            'eco_com_type' => $eco_com_type,
-            'eco_com_modality' => $eco_com_modality,
-            'economic_complement' => $economic_complement
-        ];
-
-        $data = array_merge($data, $getViewModel);
-
-        return view('economic_complements.reception_first_step', $data);
+    }else{
+        $affiliate->type_ecocom = 'Inclusión';
     }
 
-    public function ReceptionSecondStep($economic_complement_id)
-    {
-        $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+    $last_economic_complement;
+    $data = [
+    'affiliate' => $affiliate,
+    'eco_com_type' => $eco_com_type,
+    'eco_com_modality' => $eco_com_modality,
+    'economic_complement' => $economic_complement
+    ];
 
-        $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+    $data = array_merge($data, $getViewModel);
 
-        $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+    return view('economic_complements.reception_first_step', $data);
+}
 
-        if ($economic_complement->has_legal_guardian) {
-            $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
-        }else{
-            $eco_com_legal_guardian = '';
-        }
-        $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
-        $eco_com_modality = $economic_complement->economic_complement_modality;
+public function ReceptionSecondStep($economic_complement_id)
+{
+    $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
 
-        if ($eco_com_applicant->gender == 'M') {
-            $gender_list = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
-        }elseif ($eco_com_applicant->gender == 'F') {
-            $gender_list = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
-        }
+    $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
-        $last_year = Carbon::now()->subYear()->year;
-        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
-        if (EconomicComplement::affiliateIs($affiliate->id)
-                        ->whereYear('year', '=', $last_year)
-                        ->where('semester', '=', $last_semester)->first()) {
-            $affiliate->type_ecocom = 'Habitual';
-        }else{
-            $affiliate->type_ecocom = 'Inclusión';
-        }
+    $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
 
-        $data = [
+    if ($economic_complement->has_legal_guardian) {
+        $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
+    }else{
+        $eco_com_legal_guardian = '';
+    }
+    $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
+    $eco_com_modality = $economic_complement->economic_complement_modality;
 
-            'affiliate' => $affiliate,
-            'eco_com_type' => $eco_com_type->name,
-            'eco_com_modality' => $eco_com_modality->name,
-            'economic_complement' => $economic_complement,
-            'eco_com_applicant' => $eco_com_applicant,
-            'eco_com_legal_guardian' => $eco_com_legal_guardian,
-            'gender_list' => $gender_list
-
-        ];
-
-        $data = array_merge($data, self::getViewModel());
-
-        return view('economic_complements.reception_second_step', $data);
+    if ($eco_com_applicant->gender == 'M') {
+        $gender_list = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
+    }elseif ($eco_com_applicant->gender == 'F') {
+        $gender_list = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
     }
 
-    public function ReceptionThirdStep($economic_complement_id)
-    {
-        $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+    $last_year = Carbon::now()->subYear()->year;
+    $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
+    if (EconomicComplement::affiliateIs($affiliate->id)
+        ->whereYear('year', '=', $last_year)
+        ->where('semester', '=', $last_semester)->first()) {
+        $affiliate->type_ecocom = 'Habitual';
+}else{
+    $affiliate->type_ecocom = 'Inclusión';
+}
 
-        $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+$data = [
 
-        $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
+'affiliate' => $affiliate,
+'eco_com_type' => $eco_com_type->name,
+'eco_com_modality' => $eco_com_modality->name,
+'economic_complement' => $economic_complement,
+'eco_com_applicant' => $eco_com_applicant,
+'eco_com_legal_guardian' => $eco_com_legal_guardian,
+'gender_list' => $gender_list
 
-        $eco_com_modality = $economic_complement->economic_complement_modality;
+];
 
-        $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($economic_complement->id)->get();
+$data = array_merge($data, self::getViewModel());
 
-        if (EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->first()) {
-            $status_documents = TRUE;
-        }else{
-            $status_documents = FALSE;
-        }
+return view('economic_complements.reception_second_step', $data);
+}
 
-        $last_year = Carbon::now()->subYear()->year;
-        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
-        if (EconomicComplement::affiliateIs($affiliate->id)
-                        ->whereYear('year', '=', $last_year)
-                        ->where('semester', '=', $last_semester)->first()) {
-            $affiliate->type_ecocom = 'Habitual';
-            $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->orderBy('id', 'asc')->take(2)->get();
-        }else{
-            $affiliate->type_ecocom = 'Inclusión';
-            $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
-        }
+public function ReceptionThirdStep($economic_complement_id)
+{
+    $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
 
+    $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
-        $data = [
+    $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
 
-            'affiliate' => $affiliate,
-            'economic_complement' => $economic_complement,
-            'eco_com_type' => $eco_com_type->name,
-            'eco_com_modality' => $eco_com_modality->name,
-            'eco_com_requirements' => $eco_com_requirements,
-            'eco_com_submitted_documents' => $eco_com_submitted_documents,
-            'status_documents' => $status_documents
-        ];
+    $eco_com_modality = $economic_complement->economic_complement_modality;
 
-        $data = array_merge($data, self::getViewModel());
+    $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($economic_complement->id)->get();
 
-        return view('economic_complements.reception_third_step', $data);
+    if (EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->first()) {
+        $status_documents = TRUE;
+    }else{
+        $status_documents = FALSE;
     }
+
+    $last_year = Carbon::now()->subYear()->year;
+    $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
+    if (EconomicComplement::affiliateIs($affiliate->id)
+        ->whereYear('year', '=', $last_year)
+        ->where('semester', '=', $last_semester)->first()) {
+        $affiliate->type_ecocom = 'Habitual';
+    $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->orderBy('id', 'asc')->take(2)->get();
+}else{
+    $affiliate->type_ecocom = 'Inclusión';
+    $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
+}
+
+
+$data = [
+
+'affiliate' => $affiliate,
+'economic_complement' => $economic_complement,
+'eco_com_type' => $eco_com_type->name,
+'eco_com_modality' => $eco_com_modality->name,
+'eco_com_requirements' => $eco_com_requirements,
+'eco_com_submitted_documents' => $eco_com_submitted_documents,
+'status_documents' => $status_documents
+];
+
+$data = array_merge($data, self::getViewModel());
+
+return view('economic_complements.reception_third_step', $data);
+}
 
     /**
      * Store a newly created resource in storage.
@@ -370,8 +380,8 @@ class EconomicComplementController extends Controller
         $eco_com_pro = EconomicComplementProcedure::where('year','=',Util::datePickYear(Carbon::now()->year))->where('semester','=',Util::getCurrentSemester())->first();
 
         $economic_complement = EconomicComplement::affiliateIs($affiliate->id)
-                                    ->whereYear('year', '=', $data['year'])
-                                    ->where('semester', '=', $data['semester'])->first();
+        ->whereYear('year', '=', $data['year'])
+        ->where('semester', '=', $data['semester'])->first();
 
         $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
 
@@ -379,51 +389,51 @@ class EconomicComplementController extends Controller
 
             $economic_complement = new EconomicComplement;
             if ($last_economic_complement = EconomicComplement::whereYear('year', '=', $data['year'])
-                                                ->where('semester', '=', $data['semester'])
-                                                ->whereNull('deleted_at')->orderBy('id', 'desc')->first()) {
+                ->where('semester', '=', $data['semester'])
+                ->whereNull('deleted_at')->orderBy('id', 'desc')->first()) {
                 $number_code = Util::separateCode($last_economic_complement->code);
-                $code = $number_code + 1;
-            }else{
-                $code = 1;
-            }
-
-            $sem='';
-            if($data['semester']=='Primer'){
-                $sem='P';
-            }else{
-                $sem='S';
-            }
-
-            $economic_complement->user_id = Auth::user()->id;
-            $economic_complement->affiliate_id = $affiliate->id;
-            $economic_complement->eco_com_modality_id = $eco_com_modality->id;
-            $economic_complement->eco_com_procedure_id = $eco_com_pro->id;
-            $economic_complement->workflow_id = 1;
-            $economic_complement->wf_current_state_id = 1;
-            $economic_complement->city_id = trim($request->city);
-            $economic_complement->category_id = $affiliate->category_id;
-
-            $economic_complement->state = 'Edited';
-            
-            $economic_complement->year = Util::datePickYear($data['year'], $data['semester']);
-            $economic_complement->semester = $data['semester'];
-            if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }
-            $economic_complement->code = $code ."/". $sem . "/" . $data['year'];
-
-            $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
-            $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
-                                        ->whereYear('year', '=', $data['year'])
-                                        ->where('semester', '=', $data['semester'])->first();
-            $economic_complement->base_wage_id = $base_wage->id;
-            $economic_complement->complementary_factor_id = $complementary_factor->id;
-
-            $economic_complement->save();
+            $code = $number_code + 1;
+        }else{
+            $code = 1;
         }
 
+        $sem='';
+        if($data['semester']=='Primer'){
+            $sem='P';
+        }else{
+            $sem='S';
+        }
 
+        $economic_complement->user_id = Auth::user()->id;
+        $economic_complement->affiliate_id = $affiliate->id;
+        $economic_complement->eco_com_modality_id = $eco_com_modality->id;
+        $economic_complement->eco_com_procedure_id = $eco_com_pro->id;
+        $economic_complement->workflow_id = 1;
+        $economic_complement->wf_current_state_id = 1;
+        $economic_complement->city_id = trim($request->city);
+        $economic_complement->category_id = $affiliate->category_id;
 
-        return $this->save($request, $economic_complement);
+        $economic_complement->state = 'Edited';
+
+        $economic_complement->year = Util::datePickYear($data['year'], $data['semester']);
+        $economic_complement->semester = $data['semester'];
+        if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }
+        $economic_complement->code = $code ."/". $sem . "/" . $data['year'];
+
+        $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
+        $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
+        ->whereYear('year', '=', $data['year'])
+        ->where('semester', '=', $data['semester'])->first();
+        $economic_complement->base_wage_id = $base_wage->id;
+        $economic_complement->complementary_factor_id = $complementary_factor->id;
+
+        $economic_complement->save();
     }
+
+
+
+    return $this->save($request, $economic_complement);
+}
 
     /**
      * Display the specified resource.
@@ -459,7 +469,7 @@ class EconomicComplementController extends Controller
         $eco_com_states_block_list =  ['' => ''];
         foreach ($eco_com_states_block as $item) {
             if($item->eco_com_state_type_id > 4){
-            $eco_com_states_block_list[$item->id]=$item->name;
+                $eco_com_states_block_list[$item->id]=$item->name;
             }
         }
 
@@ -469,7 +479,7 @@ class EconomicComplementController extends Controller
             $eco_com_state_type_lists[$item->id]=$item->name;
         }
 
-         $ca=Category::all();
+        $ca=Category::all();
         $categories=[];
         foreach ($ca as $key=>$d) {
             if ($key==8) {
@@ -494,19 +504,19 @@ class EconomicComplementController extends Controller
 
         $data = [
 
-            'affiliate' => $affiliate,
-            'economic_complement' => $economic_complement,
-            'eco_com_type' => $eco_com_type->name,
-            'eco_com_applicant' => $eco_com_applicant,
-            'eco_com_requirements' => $eco_com_requirements,
-            'eco_com_submitted_documents' => $eco_com_submitted_documents,
-            'status_documents' => $status_documents,
-            'gender_list' => $gender_list,
-            'eco_com_states_block_list' => $eco_com_states_block_list,
-            'eco_com_state_type_lists' => $eco_com_state_type_lists,
-            'categories' => $categories,
-            'degrees' => $degrees,
-            'entity_pensions' => $entity_pensions
+        'affiliate' => $affiliate,
+        'economic_complement' => $economic_complement,
+        'eco_com_type' => $eco_com_type->name,
+        'eco_com_applicant' => $eco_com_applicant,
+        'eco_com_requirements' => $eco_com_requirements,
+        'eco_com_submitted_documents' => $eco_com_submitted_documents,
+        'status_documents' => $status_documents,
+        'gender_list' => $gender_list,
+        'eco_com_states_block_list' => $eco_com_states_block_list,
+        'eco_com_state_type_lists' => $eco_com_state_type_lists,
+        'categories' => $categories,
+        'degrees' => $degrees,
+        'entity_pensions' => $entity_pensions
 
         ];
 
@@ -522,24 +532,24 @@ class EconomicComplementController extends Controller
         //     $total = $total_amount_semester * $complementary_factor/100;
 
 
-            $second_data = [
+        $second_data = [
 
-                'sub_total_rent' => Util::formatMoney($economic_complement->sub_total_rent),
-                'reimbursement' => Util::formatMoney($economic_complement->reimbursement),
-                'dignity_pension' => Util::formatMoney($economic_complement->dignity_pension),
-                'total_rent' => Util::formatMoney($economic_complement->total_rent),
-                'total_rent_calc' => Util::formatMoney($economic_complement->total_rent_calc),
-                'salary_reference' => Util::formatMoney($economic_complement->salary_reference),
-                'seniority' => Util::formatMoney($economic_complement->seniority),
-                'salary_quotable' => Util::formatMoney($economic_complement->salary_quotable),
-                'difference' => Util::formatMoney($economic_complement->difference),
-                'total_amount_semester' => Util::formatMoney($economic_complement->difference*6),
-                'complementary_factor' => $economic_complement->complementary_factor,
-                'total' => Util::formatMoney($economic_complement->total)
+        'sub_total_rent' => Util::formatMoney($economic_complement->sub_total_rent),
+        'reimbursement' => Util::formatMoney($economic_complement->reimbursement),
+        'dignity_pension' => Util::formatMoney($economic_complement->dignity_pension),
+        'total_rent' => Util::formatMoney($economic_complement->total_rent),
+        'total_rent_calc' => Util::formatMoney($economic_complement->total_rent_calc),
+        'salary_reference' => Util::formatMoney($economic_complement->salary_reference),
+        'seniority' => Util::formatMoney($economic_complement->seniority),
+        'salary_quotable' => Util::formatMoney($economic_complement->salary_quotable),
+        'difference' => Util::formatMoney($economic_complement->difference),
+        'total_amount_semester' => Util::formatMoney($economic_complement->difference*6),
+        'complementary_factor' => $economic_complement->complementary_factor,
+        'total' => Util::formatMoney($economic_complement->total)
 
-            ];
+        ];
 
-            $data = array_merge($data, $second_data);
+        $data = array_merge($data, $second_data);
         // }
 
         $data = array_merge($data, self::getViewModel());
@@ -566,316 +576,316 @@ class EconomicComplementController extends Controller
 
             case 'first':
 
-                $rules = [
-                    'eco_com_type' => 'required',
-                    'city' => 'required',
-                ];
+            $rules = [
+            'eco_com_type' => 'required',
+            'city' => 'required',
+            ];
 
-                $messages = [
+            $messages = [
 
-                    'eco_com_type.required' => 'El campo Tipo de Trámite es requerido',
-                    'city.required' => 'El campo Ciudad es requerido',
+            'eco_com_type.required' => 'El campo Tipo de Trámite es requerido',
+            'city.required' => 'El campo Ciudad es requerido',
 
-                ];
+            ];
 
-                $validator = Validator::make($request->all(), $rules, $messages);
-                if ($validator->fails()){
-                    return redirect('economic_complement_reception_first_step/'.$request->affiliate_id)
-                    ->withErrors($validator)
-                    ->withInput();
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()){
+                return redirect('economic_complement_reception_first_step/'.$request->affiliate_id)
+                ->withErrors($validator)
+                ->withInput();
+            }
+            else{
+
+                $affiliate = Affiliate::idIs($request->affiliate_id)->first();
+                $affiliate->pension_entity_id = $request->pension_entity;
+                $affiliate->save();
+
+                $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+
+                if (!$eco_com_applicant) {
+
+                    $eco_com_applicant = new EconomicComplementApplicant;
+                    $eco_com_applicant->economic_complement_id = $economic_complement->id;
                 }
-                else{
 
-                    $affiliate = Affiliate::idIs($request->affiliate_id)->first();
-                    $affiliate->pension_entity_id = $request->pension_entity;
-                    $affiliate->save();
+                switch ($request->eco_com_type) {
+                    case '1':
+                    $eco_com_applicant->identity_card = $affiliate->identity_card;
+                    $eco_com_applicant->city_identity_card_id = $affiliate->city_identity_card_id;
+                    $eco_com_applicant->last_name = $affiliate->last_name;
+                    $eco_com_applicant->mothers_last_name = $affiliate->mothers_last_name;
+                    $eco_com_applicant->first_name = $affiliate->first_name;
+                    $eco_com_applicant->second_name = $affiliate->second_name;
+                    $eco_com_applicant->birth_date = $affiliate->birth_date;
+                    $eco_com_applicant->nua = $affiliate->nua;
+                    $eco_com_applicant->gender = $affiliate->gender;
+                    $eco_com_applicant->civil_status = $affiliate->civil_status;
+                    $eco_com_applicant->phone_number = $affiliate->phone_number;
+                    $eco_com_applicant->cell_phone_number = $affiliate->cell_phone_number;
 
-                    $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+                    break;
 
-                    if (!$eco_com_applicant) {
+                    case '2':
 
-                        $eco_com_applicant = new EconomicComplementApplicant;
-                        $eco_com_applicant->economic_complement_id = $economic_complement->id;
+                    $spouse = Spouse::affiliateidIs($request->affiliate_id)->first();
+                    if ($spouse) {
+                        $eco_com_applicant->identity_card = $spouse->identity_card;
+                        $eco_com_applicant->city_identity_card_id = $spouse->city_identity_card_id;
+                        $eco_com_applicant->last_name = $spouse->last_name;
+                        $eco_com_applicant->mothers_last_name = $spouse->mothers_last_name;
+                        $eco_com_applicant->first_name = $spouse->first_name;
+                        $eco_com_applicant->second_name = $spouse->second_name;
+                        $eco_com_applicant->birth_date = $spouse->birth_date;
                     }
+                    $eco_com_applicant->nua = $affiliate->nua;
+                    if ($affiliate->gender == 'M') { $eco_com_applicant->gender = 'F'; }else{ $eco_com_applicant->gender = 'M'; }
+                    $eco_com_applicant->civil_status = 'V';
+                    $eco_com_applicant->phone_number = $affiliate->phone_number;
+                    $eco_com_applicant->cell_phone_number = $affiliate->cell_phone_number;
 
-                    switch ($request->eco_com_type) {
-                        case '1':
-                            $eco_com_applicant->identity_card = $affiliate->identity_card;
-                            $eco_com_applicant->city_identity_card_id = $affiliate->city_identity_card_id;
-                            $eco_com_applicant->last_name = $affiliate->last_name;
-                            $eco_com_applicant->mothers_last_name = $affiliate->mothers_last_name;
-                            $eco_com_applicant->first_name = $affiliate->first_name;
-                            $eco_com_applicant->second_name = $affiliate->second_name;
-                            $eco_com_applicant->birth_date = $affiliate->birth_date;
-                            $eco_com_applicant->nua = $affiliate->nua;
-                            $eco_com_applicant->gender = $affiliate->gender;
-                            $eco_com_applicant->civil_status = $affiliate->civil_status;
-                            $eco_com_applicant->phone_number = $affiliate->phone_number;
-                            $eco_com_applicant->cell_phone_number = $affiliate->cell_phone_number;
-
-                        break;
-
-                        case '2':
-
-                            $spouse = Spouse::affiliateidIs($request->affiliate_id)->first();
-                            if ($spouse) {
-                                $eco_com_applicant->identity_card = $spouse->identity_card;
-                                $eco_com_applicant->city_identity_card_id = $spouse->city_identity_card_id;
-                                $eco_com_applicant->last_name = $spouse->last_name;
-                                $eco_com_applicant->mothers_last_name = $spouse->mothers_last_name;
-                                $eco_com_applicant->first_name = $spouse->first_name;
-                                $eco_com_applicant->second_name = $spouse->second_name;
-                                $eco_com_applicant->birth_date = $spouse->birth_date;
-                            }
-                            $eco_com_applicant->nua = $affiliate->nua;
-                            if ($affiliate->gender == 'M') { $eco_com_applicant->gender = 'F'; }else{ $eco_com_applicant->gender = 'M'; }
-                            $eco_com_applicant->civil_status = 'V';
-                            $eco_com_applicant->phone_number = $affiliate->phone_number;
-                            $eco_com_applicant->cell_phone_number = $affiliate->cell_phone_number;
-
-                        break;
-                    }
-
-                    $eco_com_applicant->save();
-
-                    if ($request->legal_guardian) {
-                        $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
-
-                        if (!$eco_com_legal_guardian) {
-
-                            $eco_com_legal_guardian = new EconomicComplementLegalGuardian;
-                            $eco_com_legal_guardian->economic_complement_id = $economic_complement->id;
-                        }
-                        $eco_com_legal_guardian->save();
-                    }
-
-                    return redirect('economic_complement_reception_second_step/'.$economic_complement->id);
-
+                    break;
                 }
+
+                $eco_com_applicant->save();
+
+                if ($request->legal_guardian) {
+                    $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
+
+                    if (!$eco_com_legal_guardian) {
+
+                        $eco_com_legal_guardian = new EconomicComplementLegalGuardian;
+                        $eco_com_legal_guardian->economic_complement_id = $economic_complement->id;
+                    }
+                    $eco_com_legal_guardian->save();
+                }
+
+                return redirect('economic_complement_reception_second_step/'.$economic_complement->id);
+
+            }
 
             break;
 
             case 'second':
 
-                $rules = [
+            $rules = [
 
-                ];
+            ];
 
-                $messages = [
+            $messages = [
 
-                ];
+            ];
 
-                $validator = Validator::make($request->all(), $rules, $messages);
+            $validator = Validator::make($request->all(), $rules, $messages);
 
-                if ($validator->fails()){
-                    return redirect('economic_complement_reception_second_step/' . $economic_complement->id)
-                    ->withErrors($validator)
-                    ->withInput();
-                }
-                else{
-                    $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+            if ($validator->fails()){
+                return redirect('economic_complement_reception_second_step/' . $economic_complement->id)
+                ->withErrors($validator)
+                ->withInput();
+            }
+            else{
+                $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
 
-                    $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+                $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
 
-                    $eco_com_applicant->identity_card = $request->identity_card;
-                    if ($request->city_identity_card_id) { $eco_com_applicant->city_identity_card_id = $request->city_identity_card_id; } else { $eco_com_applicant->city_identity_card_id = null; }
-                    $eco_com_applicant->last_name = $request->last_name;
-                    $eco_com_applicant->mothers_last_name = $request->mothers_last_name;
-                    $eco_com_applicant->first_name = $request->first_name;
-                    $eco_com_applicant->second_name = $request->second_name;
-                    $eco_com_applicant->birth_date = Util::datePick($request->birth_date);
-                    $eco_com_applicant->civil_status = $request->civil_status;
+                $eco_com_applicant->identity_card = $request->identity_card;
+                if ($request->city_identity_card_id) { $eco_com_applicant->city_identity_card_id = $request->city_identity_card_id; } else { $eco_com_applicant->city_identity_card_id = null; }
+                $eco_com_applicant->last_name = $request->last_name;
+                $eco_com_applicant->mothers_last_name = $request->mothers_last_name;
+                $eco_com_applicant->first_name = $request->first_name;
+                $eco_com_applicant->second_name = $request->second_name;
+                $eco_com_applicant->birth_date = Util::datePick($request->birth_date);
+                $eco_com_applicant->civil_status = $request->civil_status;
+                $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
+                $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number));
+                $eco_com_applicant->nua = $request->nua;
+                $eco_com_applicant->save();
+
+                switch ($economic_complement->economic_complement_modality->economic_complement_type->id) {
+
+                    case '1':
+
+                    $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+                    $affiliate->identity_card = $request->identity_card;
+                    if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
+                    $affiliate->last_name = $request->last_name;
+                    $affiliate->mothers_last_name = $request->mothers_last_name;
+                    $affiliate->first_name = $request->first_name;
+                    $affiliate->second_name = $request->second_name;
+                    $affiliate->birth_date = Util::datePick($request->birth_date);
+                    $affiliate->civil_status = $request->civil_status;
                     $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
                     $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number));
-                    $eco_com_applicant->nua = $request->nua;
-                    $eco_com_applicant->save();
+                    $affiliate->nua = $request->nua;
+                    $affiliate->save();
 
-                    switch ($economic_complement->economic_complement_modality->economic_complement_type->id) {
+                    break;
 
-                        case '1':
+                    case '2':
 
-                            $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
-                            $affiliate->identity_card = $request->identity_card;
-                            if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
-                            $affiliate->last_name = $request->last_name;
-                            $affiliate->mothers_last_name = $request->mothers_last_name;
-                            $affiliate->first_name = $request->first_name;
-                            $affiliate->second_name = $request->second_name;
-                            $affiliate->birth_date = Util::datePick($request->birth_date);
-                            $affiliate->civil_status = $request->civil_status;
-                            $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
-                            $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number));
-                            $affiliate->nua = $request->nua;
-                            $affiliate->save();
+                    $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
-                        break;
+                    $affiliate->identity_card = $request->identity_card_affi;
+                    if ($request->city_identity_card_id_affi) { $affiliate->city_identity_card_id = $request->city_identity_card_id_affi; } else { $affiliate->city_identity_card_id = null; }
+                    $affiliate->last_name = $request->last_name_affi;
+                    $affiliate->mothers_last_name = $request->mothers_last_name_affi;
+                    $affiliate->first_name = $request->first_name_affi;
+                    $affiliate->birth_date = Util::datePick($request->birth_date_affi);
+                    $affiliate->phone_number = trim(implode(",", $request->phone_number));
+                    $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
 
-                        case '2':
+                    $affiliate->save();
 
-                            $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+                    $spouse = Spouse::affiliateidIs($affiliate->id)->first();
 
-                            $affiliate->identity_card = $request->identity_card_affi;
-                            if ($request->city_identity_card_id_affi) { $affiliate->city_identity_card_id = $request->city_identity_card_id_affi; } else { $affiliate->city_identity_card_id = null; }
-                            $affiliate->last_name = $request->last_name_affi;
-                            $affiliate->mothers_last_name = $request->mothers_last_name_affi;
-                            $affiliate->first_name = $request->first_name_affi;
-                            $affiliate->birth_date = Util::datePick($request->birth_date_affi);
-                            $affiliate->phone_number = trim(implode(",", $request->phone_number));
-                            $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
+                    if (!$spouse) { $spouse = new Spouse; }
 
-                            $affiliate->save();
+                    $spouse->user_id = Auth::user()->id;
+                    $spouse->affiliate_id = $affiliate->id;
+                    $spouse->identity_card = trim($request->identity_card);
+                    if ($request->city_identity_card_id) { $spouse->city_identity_card_id = $request->city_identity_card_id; } else { $spouse->city_identity_card_id = null; }
+                    $spouse->last_name = trim($request->last_name);
+                    $spouse->mothers_last_name = trim($request->mothers_last_name);
+                    $spouse->first_name = trim($request->first_name);
+                    $spouse->second_name = trim($request->second_name);
+                    $spouse->birth_date = Util::datePick($request->birth_date);
+                    $spouse->registration=Util::CalcRegistration(Util::datePick($request->birth_date),trim($request->last_name),trim($request->mothers_last_name), trim($request->first_name),Util::getGender($affiliate->gender));
+                    $spouse->save();
 
-                            $spouse = Spouse::affiliateidIs($affiliate->id)->first();
+                    break;
 
-                            if (!$spouse) { $spouse = new Spouse; }
+                    case '3':
 
-                            $spouse->user_id = Auth::user()->id;
-                            $spouse->affiliate_id = $affiliate->id;
-                            $spouse->identity_card = trim($request->identity_card);
-                            if ($request->city_identity_card_id) { $spouse->city_identity_card_id = $request->city_identity_card_id; } else { $spouse->city_identity_card_id = null; }
-                            $spouse->last_name = trim($request->last_name);
-                            $spouse->mothers_last_name = trim($request->mothers_last_name);
-                            $spouse->first_name = trim($request->first_name);
-                            $spouse->second_name = trim($request->second_name);
-                            $spouse->birth_date = Util::datePick($request->birth_date);
-                            $spouse->registration=Util::CalcRegistration(Util::datePick($request->birth_date),trim($request->last_name),trim($request->mothers_last_name), trim($request->first_name),Util::getGender($affiliate->gender));
-                            $spouse->save();
+                    $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+                    $affiliate->phone_number = trim(implode(",", $request->phone_number));
+                    $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
+                    $affiliate->nua = $request->nua;
+                    $affiliate->save();
 
-                        break;
-
-                        case '3':
-
-                            $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
-                            $affiliate->phone_number = trim(implode(",", $request->phone_number));
-                            $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
-                            $affiliate->nua = $request->nua;
-                            $affiliate->save();
-
-                        break;
-                        }
-
-                    if ($economic_complement->has_legal_guardian) {
-
-                        $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
-                        $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
-                        if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
-                        $eco_com_legal_guardian->last_name = $request->last_name_lg;
-                        $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
-                        $eco_com_legal_guardian->first_name = $request->first_name_lg;
-                        $eco_com_legal_guardian->phone_number = $request->phone_number_lg;
-                        $eco_com_legal_guardian->cell_phone_number = $request->cell_phone_number_lg;
-                        $eco_com_legal_guardian->save();
-                    }
-
-                    if ($request->type == 'update') {
-                        return redirect('economic_complement/'.$economic_complement->id);
-                    }
-                    else{
-                        return redirect('economic_complement_reception_third_step/'.$economic_complement->id);
-                    }
+                    break;
                 }
+
+                if ($economic_complement->has_legal_guardian) {
+
+                    $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
+                    $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
+                    if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
+                    $eco_com_legal_guardian->last_name = $request->last_name_lg;
+                    $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
+                    $eco_com_legal_guardian->first_name = $request->first_name_lg;
+                    $eco_com_legal_guardian->phone_number = $request->phone_number_lg;
+                    $eco_com_legal_guardian->cell_phone_number = $request->cell_phone_number_lg;
+                    $eco_com_legal_guardian->save();
+                }
+
+                if ($request->type == 'update') {
+                    return redirect('economic_complement/'.$economic_complement->id);
+                }
+                else{
+                    return redirect('economic_complement_reception_third_step/'.$economic_complement->id);
+                }
+            }
 
             break;
 
             case 'third':
 
-                $rules = [
+            $rules = [
 
-                ];
+            ];
 
-                $messages = [
+            $messages = [
 
-                ];
+            ];
 
-                $validator = Validator::make($request->all(), $rules, $messages);
+            $validator = Validator::make($request->all(), $rules, $messages);
 
-                if ($validator->fails()){
-                    return redirect('economic_complement_reception_second_step/' . $economic_complement->id)
-                    ->withErrors($validator)
-                    ->withInput();
-                }
-                else{
+            if ($validator->fails()){
+                return redirect('economic_complement_reception_second_step/' . $economic_complement->id)
+                ->withErrors($validator)
+                ->withInput();
+            }
+            else{
 
-                    foreach (json_decode($request->data) as $item)
-                    {
-                        $eco_com_submitted_document = EconomicComplementSubmittedDocument::where('economic_complement_id', '=', $economic_complement->id)
-                                    ->where('eco_com_requirement_id', '=', $item->id)->first();
+                foreach (json_decode($request->data) as $item)
+                {
+                    $eco_com_submitted_document = EconomicComplementSubmittedDocument::where('economic_complement_id', '=', $economic_complement->id)
+                    ->where('eco_com_requirement_id', '=', $item->id)->first();
 
-                        if (!$eco_com_submitted_document) {
-                            $eco_com_submitted_document = new EconomicComplementSubmittedDocument;
-                            $eco_com_submitted_document->economic_complement_id = $economic_complement->id;
-                            $eco_com_submitted_document->eco_com_requirement_id = $item->id;
-                        }
-                        $eco_com_submitted_document->status = $item->status;
-                        $eco_com_submitted_document->reception_date = date('Y-m-d');
-                        $eco_com_submitted_document->save();
+                    if (!$eco_com_submitted_document) {
+                        $eco_com_submitted_document = new EconomicComplementSubmittedDocument;
+                        $eco_com_submitted_document->economic_complement_id = $economic_complement->id;
+                        $eco_com_submitted_document->eco_com_requirement_id = $item->id;
                     }
-
-                    $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
-                    $economic_complement->reception_date = date('Y-m-d');
-                    $economic_complement->save();
-
-                    return redirect('economic_complement/'.$economic_complement->id);
-
+                    $eco_com_submitted_document->status = $item->status;
+                    $eco_com_submitted_document->reception_date = date('Y-m-d');
+                    $eco_com_submitted_document->save();
                 }
+
+                $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+                $economic_complement->reception_date = date('Y-m-d');
+                $economic_complement->save();
+
+                return redirect('economic_complement/'.$economic_complement->id);
+
+            }
 
             break;
 
             case 'block':
 
-                $rules = [
+            $rules = [
 
-                ];
+            ];
 
-                $messages = [
+            $messages = [
 
-                ];
+            ];
 
-                $validator = Validator::make($request->all(), $rules, $messages);
+            $validator = Validator::make($request->all(), $rules, $messages);
 
-                if ($validator->fails()){
-                    return redirect('economic_complement/' . $economic_complement->id)
-                    ->withErrors($validator)
-                    ->withInput();
-                }
-                else{
+            if ($validator->fails()){
+                return redirect('economic_complement/' . $economic_complement->id)
+                ->withErrors($validator)
+                ->withInput();
+            }
+            else{
 
-                    $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
-                    $economic_complement->eco_com_state_id = $request->eco_com_state_id;
-                    $economic_complement->save();
+                $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+                $economic_complement->eco_com_state_id = $request->eco_com_state_id;
+                $economic_complement->save();
 
-                    return redirect('economic_complement/'.$economic_complement->id);
+                return redirect('economic_complement/'.$economic_complement->id);
 
-                }
+            }
 
             break;
 
             case 'edit_aditional_info':
 
-                $rules = [
+            $rules = [
 
-                ];
+            ];
 
-                $messages = [
+            $messages = [
 
-                ];
+            ];
 
-                $validator = Validator::make($request->all(), $rules, $messages);
+            $validator = Validator::make($request->all(), $rules, $messages);
 
-                if ($validator->fails()){
-                    return redirect('economic_complement/' . $economic_complement->id)
-                    ->withErrors($validator)
-                    ->withInput();
-                }
-                else{
+            if ($validator->fails()){
+                return redirect('economic_complement/' . $economic_complement->id)
+                ->withErrors($validator)
+                ->withInput();
+            }
+            else{
 
-                    $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+                $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
 
 
 
-                    return redirect('economic_complement/'.$economic_complement->id);
+                return redirect('economic_complement/'.$economic_complement->id);
 
-                }
+            }
 
 
 
@@ -883,52 +893,52 @@ class EconomicComplementController extends Controller
 
             case 'pass':
 
-                $rules = [
+            $rules = [
 
-                ];
+            ];
 
-                $messages = [
+            $messages = [
 
-                ];
+            ];
 
-                $validator = Validator::make($request->all(), $rules, $messages);
+            $validator = Validator::make($request->all(), $rules, $messages);
 
-                if ($validator->fails()){
-                    return redirect('economic_complement/' . $economic_complement->id)
-                    ->withErrors($validator)
-                    ->withInput();
-                }
-                else{
+            if ($validator->fails()){
+                return redirect('economic_complement/' . $economic_complement->id)
+                ->withErrors($validator)
+                ->withInput();
+            }
+            else{
 
-                    $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
-                    $economic_complement->eco_com_state_id = 2;
-                    $economic_complement->review_date = date('Y-m-d');
-                    $economic_complement->save();
+                $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+                $economic_complement->eco_com_state_id = 2;
+                $economic_complement->review_date = date('Y-m-d');
+                $economic_complement->save();
 
-                    return redirect('economic_complement/'.$economic_complement->id);
+                return redirect('economic_complement/'.$economic_complement->id);
 
-                }
+            }
 
             break;
 
             case 'rent':
-              $rules = [
+            $rules = [
 
-                ];
+            ];
 
-                $messages = [
+            $messages = [
 
-                ];
+            ];
 
-                $validator = Validator::make($request->all(), $rules, $messages);
-                if ($validator->fails()){
-                    dd("error");
-                    return redirect('economic_complement/' . $economic_complement->id)
-                    ->withErrors($validator)
-                    ->withInput();
-                }
-                else{
-                    $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()){
+                dd("error");
+                return redirect('economic_complement/' . $economic_complement->id)
+                ->withErrors($validator)
+                ->withInput();
+            }
+            else{
+                $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
                     //     $total_rent = $economic_complement->total_rent;
                     //     $salary_reference = $economic_complement->base_wage->amount;
                     //     $seniority = $economic_complement->category->percentage * $economic_complement->base_wage->amount;
@@ -938,47 +948,47 @@ class EconomicComplementController extends Controller
                     //     $total_amount_semester = $difference * $months_of_payment;
                     //     $complementary_factor = $eco_com_type->id == 1 ? $economic_complement->complementary_factor->old_age : $economic_complement->complementary_factor->widowhood;
                     //     $total = $total_amount_semester * $complementary_factor/100;
-                    $economic_complement->sub_total_rent=$request->sub_total_rent;
-                    $economic_complement->reimbursement=$request->reimbursement;
-                    $economic_complement->dignity_pension=$request->rent_dignity;
-                    $economic_complement->total_rent=floatval($request->sub_total_rent)-floatval($request->reimbursement)-floatval($request->rent_dignity);
+                $economic_complement->sub_total_rent=$request->sub_total_rent;
+                $economic_complement->reimbursement=$request->reimbursement;
+                $economic_complement->dignity_pension=$request->rent_dignity;
+                $economic_complement->total_rent=floatval($request->sub_total_rent)-floatval($request->reimbursement)-floatval($request->rent_dignity);
 
                     /*$affiliate=Affiliate::find(1);
                     $base_wage = BaseWage::degreeIs($economic_complement->affiliate->degree_id)->first();
                     $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
                                                     ->whereYear('year', '=', $data['year'])
                                                 ->where('semester', '=', $data['semester'])->first();
-                    $economic_complement->base_wage_id = $base_wage->id;*/
+                                                $economic_complement->base_wage_id = $base_wage->id;*/
     //                $economic_complement->complementary_factor_id = $complementary_factor->id;
 
-                    $economic_complement->salary_reference=$economic_complement->base_wage->amount;
-                    $economic_complement->state = 'Edited';
-                    $economic_complement->save();  
-                    dd($economic_complement);
+                                                $economic_complement->salary_reference=$economic_complement->base_wage->amount;
+                                                $economic_complement->state = 'Edited';
+                                                $economic_complement->save();  
+                                                dd($economic_complement);
 
-                    return redirect('economic_complement/'.$economic_complement->id);
+                                                return redirect('economic_complement/'.$economic_complement->id);
 
-                }   
-            break;
+                                            }   
+                                            break;
 
-            case 'legal_guardian':
-                $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
-                $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
-                if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
-                $eco_com_legal_guardian->last_name = $request->last_name_lg;
-                $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
-                $eco_com_legal_guardian->first_name = $request->first_name_lg;
-                $eco_com_legal_guardian->second_name = $request->second_name_lg;
-                $eco_com_legal_guardian->phone_number =trim(implode(",", $request->phone_number_lg));
-                $eco_com_legal_guardian->cell_phone_number =trim(implode(",", $request->cell_phone_number_lg));
-                $eco_com_legal_guardian->save();
-                return redirect('economic_complement/'.$economic_complement->id);
-            break;
+                                            case 'legal_guardian':
+                                            $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
+                                            $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
+                                            if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
+                                            $eco_com_legal_guardian->last_name = $request->last_name_lg;
+                                            $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
+                                            $eco_com_legal_guardian->first_name = $request->first_name_lg;
+                                            $eco_com_legal_guardian->second_name = $request->second_name_lg;
+                                            $eco_com_legal_guardian->phone_number =trim(implode(",", $request->phone_number_lg));
+                                            $eco_com_legal_guardian->cell_phone_number =trim(implode(",", $request->cell_phone_number_lg));
+                                            $eco_com_legal_guardian->save();
+                                            return redirect('economic_complement/'.$economic_complement->id);
+                                            break;
 
-        }
+                                        }
 
 
-    }
+                                    }
 
 
     /**
@@ -994,107 +1004,107 @@ class EconomicComplementController extends Controller
 
     public function print_sworn_declaration1($economic_complement_id)
     {
-          $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-          $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-          $title = "FORMULARIO DE DECLARACIÓN JURADA VOLUNTARIA";
-          $date = Util::getDateEdit(date('Y-m-d'));
-          $current_date = Carbon::now();
-          $hour = Carbon::parse($current_date)->toTimeString();
-          $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
-          $affiliate = Affiliate::idIs($economic_complement_id)->first();
-          $eco_com_applicant = EconomicComplementApplicant::EconomicComplementIs($economic_complement->id)->first();
-          $view = \View::make('economic_complements.print.sworn_declaration1', compact('header1','header2','title','date','hour','affiliate','economic_complement','eco_com_applicant'))->render();
-          $pdf = \App::make('dompdf.wrapper');
-          $pdf->loadHTML($view)->setPaper('legal');
-          return $pdf->stream();
+      $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+      $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+      $title = "FORMULARIO DE DECLARACIÓN JURADA VOLUNTARIA";
+      $date = Util::getDateEdit(date('Y-m-d'));
+      $current_date = Carbon::now();
+      $hour = Carbon::parse($current_date)->toTimeString();
+      $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+      $affiliate = Affiliate::idIs($economic_complement_id)->first();
+      $eco_com_applicant = EconomicComplementApplicant::EconomicComplementIs($economic_complement->id)->first();
+      $view = \View::make('economic_complements.print.sworn_declaration1', compact('header1','header2','title','date','hour','affiliate','economic_complement','eco_com_applicant'))->render();
+      $pdf = \App::make('dompdf.wrapper');
+      $pdf->loadHTML($view)->setPaper('legal');
+      return $pdf->stream();
 
-    }
+  }
 
-    public function print_sworn_declaration2($economic_complement_id)
+  public function print_sworn_declaration2($economic_complement_id)
+  {
+      $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+      $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+      $title = "FORMULARIO DE DECLARACIÓN JURADA VOLUNTARIA";
+      $date = Util::getDateEdit(date('Y-m-d'));
+      $current_date = Carbon::now();
+      $hour = Carbon::parse($current_date)->toTimeString();
+      $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+      $affiliate = Affiliate::idIs($economic_complement_id)->first();
+      $spouse  = Spouse::where('affiliate_id', '=', $affiliate->id )->first();
+      $eco_com_applicant = EconomicComplementApplicant::EconomicComplementIs($economic_complement->id)->first();
+      $view = \View::make('economic_complements.print.sworn_declaration2', compact('header1','header2','title','date','hour','affiliate','spouse','economic_complement','eco_com_applicant'))->render();
+      $pdf = \App::make('dompdf.wrapper');
+      $pdf->loadHTML($view)->setPaper('legal');
+      return $pdf->stream();
+
+  }
+
+  public function print_inclusion_solicitude($economic_complement_id)
+  {
+      $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+      $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+      $title = "";
+      $date = Util::getDateEdit(date('Y-m-d'));
+      $current_date = Carbon::now();
+      $hour = Carbon::parse($current_date)->toTimeString();
+      $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+      $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
+      $affiliate = Affiliate::idIs($economic_complement_id)->first();
+      $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+      $view = \View::make('economic_complements.print.inclusion_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant'))->render();
+      $pdf = \App::make('dompdf.wrapper');
+      $pdf->loadHTML($view)->setPaper('letter');
+      return $pdf->stream();
+  }
+
+  public function print_pay_solicitude($economic_complement_id)
+  {
+      $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+      $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+      $title = "";
+      $date = Util::getDateEdit(date('Y-m-d'));
+      $current_date = Carbon::now();
+      $hour = Carbon::parse($current_date)->toTimeString();
+      $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+      $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
+      $affiliate = Affiliate::idIs($economic_complement_id)->first();
+      $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+      $view = \View::make('economic_complements.print.pay_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant'))->render();
+      $pdf = \App::make('dompdf.wrapper');
+      $pdf->loadHTML($view)->setPaper('letter');
+      return $pdf->stream();
+  }
+
+  public function print_reception_report($economic_complement_id)
+  {
+    $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+    $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+    $title = "REPORTE DE RECEPCIÓN DE COMPLEMENTO ECONÓMICO";
+    $date = Util::getDateEdit(date('Y-m-d'));
+    $current_date = Carbon::now();
+    $hour = Carbon::parse($current_date)->toTimeString();
+    $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+    $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
+    $affiliate = Affiliate::idIs($economic_complement_id)->first();
+    $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+    $user = Auth::user();
+    $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user'))->render();
+    $pdf = \App::make('dompdf.wrapper');
+    $pdf->loadHTML($view)->setPaper('letter');
+    return $pdf->stream();
+}
+
+public function getCausesByState(Request $request) 
+{
+    if($request->ajax())
     {
-          $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-          $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-          $title = "FORMULARIO DE DECLARACIÓN JURADA VOLUNTARIA";
-          $date = Util::getDateEdit(date('Y-m-d'));
-          $current_date = Carbon::now();
-          $hour = Carbon::parse($current_date)->toTimeString();
-          $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
-          $affiliate = Affiliate::idIs($economic_complement_id)->first();
-          $spouse  = Spouse::where('affiliate_id', '=', $affiliate->id )->first();
-          $eco_com_applicant = EconomicComplementApplicant::EconomicComplementIs($economic_complement->id)->first();
-          $view = \View::make('economic_complements.print.sworn_declaration2', compact('header1','header2','title','date','hour','affiliate','spouse','economic_complement','eco_com_applicant'))->render();
-          $pdf = \App::make('dompdf.wrapper');
-          $pdf->loadHTML($view)->setPaper('legal');
-          return $pdf->stream();
-
+        $causesState = EconomicComplementState::where('eco_com_state_type_id',$request->id)->get();
+        $data = [
+        'causes' => $causesState
+        ];
+        return response()->json($data);
     }
-
-    public function print_inclusion_solicitude($economic_complement_id)
-    {
-          $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-          $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-          $title = "";
-          $date = Util::getDateEdit(date('Y-m-d'));
-          $current_date = Carbon::now();
-          $hour = Carbon::parse($current_date)->toTimeString();
-          $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
-          $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
-          $affiliate = Affiliate::idIs($economic_complement_id)->first();
-          $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
-          $view = \View::make('economic_complements.print.inclusion_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant'))->render();
-          $pdf = \App::make('dompdf.wrapper');
-          $pdf->loadHTML($view)->setPaper('letter');
-          return $pdf->stream();
-    }
-
-    public function print_pay_solicitude($economic_complement_id)
-    {
-          $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-          $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-          $title = "";
-          $date = Util::getDateEdit(date('Y-m-d'));
-          $current_date = Carbon::now();
-          $hour = Carbon::parse($current_date)->toTimeString();
-          $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
-          $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
-          $affiliate = Affiliate::idIs($economic_complement_id)->first();
-          $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
-          $view = \View::make('economic_complements.print.pay_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant'))->render();
-          $pdf = \App::make('dompdf.wrapper');
-          $pdf->loadHTML($view)->setPaper('letter');
-          return $pdf->stream();
-    }
-
-    public function print_reception_report($economic_complement_id)
-    {
-        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-        $title = "REPORTE DE RECEPCIÓN DE COMPLEMENTO ECONÓMICO";
-        $date = Util::getDateEdit(date('Y-m-d'));
-        $current_date = Carbon::now();
-        $hour = Carbon::parse($current_date)->toTimeString();
-        $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
-        $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
-        $affiliate = Affiliate::idIs($economic_complement_id)->first();
-        $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
-        $user = Auth::user();
-        $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view)->setPaper('letter');
-        return $pdf->stream();
-    }
-
-    public function getCausesByState(Request $request) 
-    {
-        if($request->ajax())
-        {
-            $causesState = EconomicComplementState::where('eco_com_state_type_id',$request->id)->get();
-            $data = [
-                'causes' => $causesState
-            ];
-            return response()->json($data);
-        }
-    }
+}
 
     //     public function print_reception_report($economic_complement_id)
     // {
