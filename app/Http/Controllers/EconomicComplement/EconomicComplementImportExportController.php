@@ -320,7 +320,7 @@ class EconomicComplementImportExportController extends Controller
                  $i=1;
                  $sheet->row(1, array('NRO', 'TIPO_ID', 'NUM_ID', 'EXTENSION', 'CUA', 'PRIMER_APELLIDO_T', 'SEGUNDO_APELLIDO_T','PRIMER_NOMBRE_T','SEGUNDO_NOMBRE_T','APELLIDO_CASADA_T','FECHA_NACIMIENTO_T'));
                  $afi = DB::table('eco_com_applicants')
-                     ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,affiliates.identity_card,cities.first_shortened,affiliates.nua,affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,affiliates.birth_date'))
+                     ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,affiliates.identity_card,cities.third_shortened,affiliates.nua,affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,affiliates.birth_date'))
                      ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                      ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
                      ->leftJoin('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
@@ -328,7 +328,7 @@ class EconomicComplementImportExportController extends Controller
                      ->whereYear('economic_complements.year', '=', $year)
                      ->where('economic_complements.semester', '=', $semester)->get();
                  foreach ($afi as $datos) {
-                     $sheet->row($j, array($i, "I",$datos->identity_card,$datos->first_shortened,$datos->nua, $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,$datos->birth_date));
+                     $sheet->row($j, array($i, "I",Util::addcero($datos->identity_card,13),$datos->first_shortened,Util::addcero($datos->nua,9), $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,Util::DateUnion($datos->birth_date)));
                      $j++;
                      $i++;
                  }
