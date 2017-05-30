@@ -6,7 +6,8 @@
 
 <table>
   <p align="justify">
-      En fecha ……../…..…./.…., a horas…..…………se <b>NOTIFICA</b> en forma personal al Sr.(a)…………………………………………..………………….con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> …………de fecha….…/………/……., quien recibió en mano propia el original de dicho documento.
+      
+      En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!!$eco_com_applicant->code !!} de fecha {!! $eco_com_applicant->reception_date!!}, quien recibió en mano propia el original de dicho documento.
   </p>
 </table>
 
@@ -57,20 +58,20 @@
   </h1>
 </header>
   <table>
-      <p align="right"> La Paz, Elija un elemento. de Elija un elemento. de 2017
+      <p align="right"> La Paz, {{!!$date!!}}
       <br>CITE: UCE – EGSB /2017
       </p>
   </table>
   <table>
       <p align="left">Señor (a): <br>
-      Haga clic aquí para escribir texto.……………………………………………..<br>
+      {!! $eco_com_applicant->getTitleNameFull() !!} .<br>
       Presente.-
        </p>
   </table>
          <p align="right"><b>REF.- <ins> CARTA DE NOTIFICACIÓN </ins></b></p>
         <p align="justify">De nuestra consideracion.</p>
          <p>
-              De la revisión efectuada por el Área Técnica de la Unidad de otorgación del Complemento Económico, <b>se comunica que  no acredita como mínimo 16 años de servicio en la Policía Boliviana.</b>
+              De la revisión efectuada por el Área Técnica de la Unidad de otorgación del Complemento Económico, <b>se comunica que usted no acredita como mínimo 16 años de servicio en la Policía Boliviana.</b>
         </p>
     <p align="justify"><b>
       Y en estricto cumplimiento al Decreto Supremo Nº 1446</b>, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 3º.- (Funciones y fines). La MUSERPOL tiene las siguientes funciones y fines: inc. 5) <b>Pagar el Complemento Económico al sector pasivo de la Policía Boliviana conforme a Reglamento. </b>
@@ -90,7 +91,8 @@
           </p>
 
     <p align="justify">
-    En consecuencia, <b> siendo que  no ... cuenta con un mínimo de 16 años de servicio en la Policía Boliviana</b>, no podrá acceder al Pago del Beneficio del Complemento Económico correspondiente al ... Semestre de la Gestión ... .
+    En consecuencia, <b> siendo que usted no  cuenta con un mínimo de 16 años de servicio en la Policía Boliviana</b>, no podrá acceder al Pago del Beneficio del Complemento Económico correspondiente al {!! $eco_com_applicant->semester !!}  Semestre de la Gestión {!! $yearcomplement->year !!} .
+    </p> .
           Sin otro motivo en particular, saludo a usted.<br>
           Atentamente.
     </p>

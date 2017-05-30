@@ -88,7 +88,7 @@
       <ins><b>Los Beneficiarios habituales </b></ins> que no hayan presentado su solicitud, en los plazos determinados según convocatoria semestral, <ins><b>contarán con un plazo de Noventa (90) días calendario</b></ins>, para presentar solicitud del beneficio, posteriores a la fecha de pago, por lo que no se dará curso a solicitudes posteriores.   
     </p>
     <p align="justify"><b>
-      Por lo que, al haber ingresado su trámite en fecha {!! $eco_com_applicant->reception_date!!}. y de acuerdo a los plazos establecidos de recepción de requisitos correspondiente al  {!! $eco_com_applicant->semester !!}. Semestre de la Gestión  {!! $yearcomplement->year !!}, que fenece el Haga clic aquí para escribir una fecha {!! $procedure->additional_end_date !!}., su trámite ingreso fuera de plazo, por lo que no corresponde el pago del beneficio del Complemento Económico. </b>
+      Por lo que, al haber ingresado su trámite en fecha {!! $eco_com_applicant->reception_date!!}. y de acuerdo a los plazos establecidos de recepción de requisitos correspondiente al  {!! $eco_com_applicant->semester !!}. Semestre de la Gestión  {!! $yearcomplement->year !!}, que fenece el {!! $procedure->additional_end_date !!}., su trámite ingreso fuera de plazo, por lo que no corresponde el pago del beneficio del Complemento Económico. </b>
     </p>
    
     <p align="justify">
