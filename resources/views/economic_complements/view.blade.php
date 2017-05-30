@@ -642,20 +642,20 @@
     <div class="modal fade" tabindex="-1" >
 
         @if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
-            <iframe src="{!! url('print_sworn_declaration/' . $economic_complement->id . '/2') !!}" id="iFramePdf"></iframe>
+            <iframe src="{!! url('print_sworn_declaration/' . $economic_complement->id . '/viudedad') !!}" id="iFramePdf"></iframe>
         @else
+            <iframe src="{!! url('print_sworn_declaration/' . $economic_complement->id . '/vejez') !!}" id="iFramePdf"></iframe>
+        @endif
 
-        <iframe src="{!! url('print_sworn_declaration/' . $economic_complement->id . '/1') !!}" id="iFramePdf"></iframe>
-        @endif 
-        
         <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/report') !!}" id="iFramePdfReport" ></iframe>
 
-        <iframe src="{!! url('print_wallet/' . $economic_complement->id) !!}" id="iFramePdfObsTesoreria" ></iframe>
-        <iframe src="{!! url('print_debtor/' . $economic_complement->id) !!}" id="iFramePdfObsContabilidad" ></iframe>
-        <iframe src="{!! url('print_out_of_time_90/' . $economic_complement->id) !!}" id="iFramePdfObsRango90" ></iframe>
-        <iframe src="{!! url('print_out_of_time_120/' . $economic_complement->id) !!}" id="iFramePdfObsRango120" ></iframe>
-        <iframe src="{!! url('print_without_requirement/' . $economic_complement->id) !!}" id="iFramePdfObsRequisites" ></iframe>
-        <iframe src="{!! url('print_excluded_observations/legal_action/' . $economic_complement->id) !!}" id="iFramePdfObsLegal" ></iframe>
+        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/wallet_pres') !!}" id="iFramePdfObsTesoreria" ></iframe>
+        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/debtor_conta') !!}" id="iFramePdfObsContabilidad" ></iframe>
+        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/out_time90') !!}" id="iFramePdfObsRango90" ></iframe>
+        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/out_time120') !!}" id="iFramePdfObsRango120" ></iframe>
+        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/miss_requirements') !!}" id="iFramePdfObsRequisites" ></iframe>
+        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/miss_requirements_hi') !!}" id="iFramePdfObsRequisites_hi" ></iframe>
+        <iframe src="{!! url('print_excluded_observations/' . $economic_complement->id . '/legal') !!}" id="iFramePdfObsLegal" ></iframe>
     </div>
 
 
@@ -1320,6 +1320,11 @@
                     </div>
                     <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion Falta de Requisitos" style="margin:0px;">
                         <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsRequisites');" >
+                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                        </a>
+                    </div>
+                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion Falta de Requisitos Habitual/Inclusion" style="margin:0px;">
+                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsRequisites_hi');" >
                             &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
                         </a>
                     </div>

@@ -6,7 +6,7 @@
 
 <table>
   <p align="justify">
-      En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!! $economic_complement->code !!} de fecha {!! $economic_complement->reception_date !!}, quien recibió en mano propia el original de dicho documento.
+      En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!! $eco_com_applicant->code !!} de fecha {!! $eco_com_applicant->reception_date !!}, quien recibió en mano propia el original de dicho documento.
   </p>
 </table>
 
@@ -70,7 +70,7 @@
          <p align="right"><b>REF.- <ins> CARTA DE NOTIFICACIÓN </ins></b></p>
         <p align="justify">De nuestra consideracion.</p>
          <p>
-              De la revisión efectuada por el Área Técnica de la Unidad de Otorgación del Complemento Económico, <b>se comunica que ... figura como ... en los procesos judiciales seguido por la MUSEPOL y/o MUSERPOL.</b>
+              De la revisión efectuada por el Área Técnica de la Unidad de Otorgación del Complemento Económico, <b>se comunica que usted figura como acusado en los procesos judiciales seguido por la MUSEPOL y/o MUSERPOL.</b>
         </p>
     <p align="justify"><b>
       Y en estricto cumplimiento al Decreto Supremo Nº 1446</b>, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 3º.- (Funciones y fines). La MUSERPOL tiene las siguientes funciones y fines: inc. 5) <b>Pagar el Complemento Económico al sector pasivo de la Policía Boliviana conforme a Reglamento. </b>
@@ -80,7 +80,7 @@
     </p>
 
     <p align="justify">
-          Por lo que no se puede efectuar el Pago del Beneficio del Complemento Económico, correspondiente al  ... Semestre de la Gestión {!! $eco_com_applicant->semester !!}, en tanto continúe figurando con Procesos Judiciales<br>
+          Por lo que no se puede efectuar el Pago del Beneficio del Complemento Económico, correspondiente al {!! $eco_com_applicant->semester !!}  Semestre de la Gestión {!! $yearcomplement->year !!}, en tanto continúe figurando con Procesos Judiciales<br>
           Sin otro motivo en particular, saludo a usted.<br>
           Atentamente.
     </p>

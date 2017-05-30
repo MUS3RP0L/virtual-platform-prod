@@ -132,38 +132,17 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('received_data', array('as'=>'received_data','uses'=>'Inbox\InboxController@DataReceived'));
 	Route::get('edited_data', array('as'=>'edited_data','uses'=>'Inbox\InboxController@DataEdited'));
 
-	//observants
-	Route::get('print_wallet/{id_complement}', array('as'=>'print_wallet', 'uses'=>'Affiliate\AffiliateController@print_wallet_in_arrears'));
-	Route::get('print_debtor/{id_complement}', array('as'=>'print_debtor', 'uses'=>'Affiliate\AffiliateController@print_debtor_conta'));
-	Route::get('print_out_of_time_90/{id_complement}', array('as'=>'print_out_of_time_90', 'uses'=>'Affiliate\AffiliateController@print_out_time_90'));
-	Route::get('print_out_of_time_120/{id_complement}', array('as'=>'print_out_of_time_120', 'uses'=>'Affiliate\AffiliateController@print_out_time_120'));
-	Route::get('print_lackrequiriment/{id_complement}', array('as'=>'print_lackrequiriment', 'uses'=>'Affiliate\AffiliateController@print_miss_requiriments'));
-	Route::get('print_without_requirement/{id_complement}', array('as'=>'print_without_requirement', 'uses'=>'Affiliate\AffiliateController@print_miss_requiriments_hab_inc'));
-
-	//observants
-	//Route::get('print_with_legal_action/{id_complement}', array('as'=>'print_with_legal_action', 'uses'=>'Affiliate\AffiliateController@print_legal_action'));
-
-	//excluded
-	//Route::get('print_excsalary/{id_complement}', array('as'=>'print_excsalary', 'uses'=>'Affiliate\AffiliateController@print_excluded_by_salary'));
-
-	//Route::get('print_invalidity', 'Affiliate\AffiliateController@print_invalidity_bonds');
-	//Route::get('print_invalidity/{id_complement}', array('as'=>'print_invalidity', 'uses'=>'Affiliate\AffiliateController@print_invalidity_bonds'));
-	//Route::get('print_less_16', 'Affiliate\AffiliateController@print_iless_16');
-
-	//Route::get('print_with_legal_action', 'Affiliate\AffiliateController@print_legal_action');
-	Route::get('print_out_of_time_90/{id_complement0}', 'Affiliate\AffiliateController@print_out_time_90');
-
+	//Observations
+	//suspended
+	Route::get('print_suspended_observations/{id_complement}/{type}', 'Affiliate\AffiliateController@print_suspended_observations');
 	//excluded
 	Route::get('print_excluded_observations/{id_complement}/{type}', 'Affiliate\AffiliateController@print_excluded_observations');
+	//complaints
+	Route::get('print_correct/{id_complement}', 'Affiliate\AffiliateController@print_correct_grading');
 
-	//clarificación
-	Route::get('print_correct', 'Affiliate\AffiliateController@print_correct_grading');
 	//procedures
 	Route::resource('economic_complement_procedure', 'EconomicComplement\EconomicComplementProcedureController');
 	Route::get('eco_com_pro_data',array('as'=>'eco_com_pro_data','uses'=> 'EconomicComplement\EconomicComplementProcedureController@Data'));
-
-
-
 });
 
 define('ACCESS', env('ACCESS_PASS'));

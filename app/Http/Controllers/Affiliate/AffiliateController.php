@@ -537,174 +537,120 @@ class AffiliateController extends Controller
         $date = Util::getDateEdit(date('Y-m-d'));
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
-        // $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year')->first();
+        $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year')->first();
+        $yearcomplement=new Carbon($eco_com_applicant->year);
         switch ($type) {
             case 'less16':
-               $view = \View::make('affiliates.print.less_16', compact('header1','header2','title','date','hour','eco_com_applicant'))->render();
+               $view = \View::make('affiliates.print.less_16', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
                $pdf = \App::make('dompdf.wrapper');
                $pdf->loadHTML($view)->setPaper('legal');
                return $pdf->stream();
            
 
             case 'invalidity':
-                $view = \View::make('affiliates.print.invalidity', compact('header1','header2','title','date','hour','eco_com_applicant'))->render();
+                $view = \View::make('affiliates.print.invalidity', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
             
 
             case 'salary':
-                $view = \View::make('affiliates.print.excluded_by_salary', compact('header1','header2','title','date','hour','eco_com_applicant'))->render();
+                // if($eco_com_applicant->semester=="Primero"){
+                //     $nextSemester = "Segundo";
+                //     $nextYear = $yearcomplement->format('Y');
+                // }
+
+                // if($eco_com_applicant->semester=="Segundo") {
+                //     $nextSemester = "Primero";
+                //     $nextYear = $yearcomplement->addYear(1);
+                // }
+
+                $view = \View::make('affiliates.print.excluded_by_salary', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
             
 
             case 'legal':
-                $eco_com_applicant = EconomicComplementApplicant::where('economic_complement_id',$id_complement)->first();
-                $economic_complement = EconomicComplement::where('id',$id_complement)->first();
-                $yearcomplement=new Carbon($eco_com_applicant->year);
-                $view = \View::make('affiliates.print.legal_action', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','economic_complement'))->render();
+                $view = \View::make('affiliates.print.legal_action', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','nextSemester','nextYear'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
         }
     }
 
-    public function print_debtor_conta($id_complement)
-    { /*r*/
+    //observations suspension
+    public function print_suspended_observations($id_complement,$type)
+    {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
         $title = "NOTIFICACIÓN";
         $date = Util::getDateEdit(date('Y-m-d'));
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
-        $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year')->first();
+        $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year','economic_complements.reception_date')->first();
         $yearcomplement=new Carbon($eco_com_applicant->year);
+        $procedure=EconomicComplementProcedure::whereYear('year','=',date("Y",strtotime($eco_com_applicant->year)))->where('semester','=',$eco_com_applicant->semester)->first();
         
-        $view = \View::make('affiliates.print.print_debtor_in_contable', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view)->setPaper('legal');
-        return $pdf->stream();
-    }
-
-
-    public function print_wallet_in_arrears($id_complement)
-    {
-        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-        $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
-        $title = "NOTIFICACIÓN";
-        $date = Util::getDateEdit(date('Y-m-d'));
-        $current_date = Carbon::now();
-        $hour = Carbon::parse($current_date)->toTimeString();
-        $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year')->first();
-        $yearcomplement=new Carbon($eco_com_applicant->year);
-        $view = \View::make('affiliates.print.wallet_arrear', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view)->setPaper('legal');
-        return $pdf->stream();
-    }
- 
-    
-
-    public function print_miss_requiriments($id_complement)
-    {
-        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-        $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
-        $title = "NOTIFICACIÓN";
-        $date = Util::getDateEdit(date('Y-m-d'));
-        $current_date = Carbon::now();
-        $hour = Carbon::parse($current_date)->toTimeString();
-        $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year')->first();
-        $yearcomplement=new Carbon($eco_com_applicant->year);
-       // $view = \View::make('affiliates.print.wallet_arrear', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-      //  $pdf = \App::make('dompdf.wrapper');
-
-        $view = \View::make('affiliates.print.miss_requiriments', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view)->setPaper('legal');
-        return $pdf->stream();
-    }
-    public function print_miss_requiriments_hab_inc($id_complement)
-    {
-        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-        $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
-        $title = "NOTIFICACIÓN";
-        $date = Util::getDateEdit(date('Y-m-d'));
-        $current_date = Carbon::now();
-        $hour = Carbon::parse($current_date)->toTimeString();
-
-        $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year')->first();
-        $yearcomplement=new Carbon($eco_com_applicant->year);
-
-        $view = \View::make('affiliates.print.print_miss_requiriments_habinc', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view)->setPaper('legal');
-        return $pdf->stream();
+        switch ($type) {
+            case 'debtor_conta':
+                $view = \View::make('affiliates.print.print_debtor_in_contable', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();
+            break;
+            
+            case 'wallet_pres':
+                $view = \View::make('affiliates.print.wallet_arrear', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();
+            break;
+            
+            case 'out_time90':
+                $view = \View::make('affiliates.print.out_of_time90', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();
+            break;
+            
+            case 'out_time120':
+                $view = \View::make('affiliates.print.out_of_time120', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();
+            break;
+            
+            case 'miss_requirements':
+                $view = \View::make('affiliates.print.miss_requiriments', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();
+            break;
+            
+            case 'miss_requirements_hi':
+                $view = \View::make('affiliates.print.print_miss_requiriments_habinc', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();
+            break;
+        }
     }
     
-
+    public function print_correct_grading($id_complement)
+    {
+        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+        $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
+        $title = "NOTIFICACIÓN";
+        $date = Util::getDateEdit(date('Y-m-d'));
+        $current_date = Carbon::now();
+        $hour = Carbon::parse($current_date)->toTimeString();
+        $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year','economic_complements.reception_date', 'economic_complements.total')->first();
+        $yearcomplement=new Carbon($eco_com_applicant->year);
+        $view = \View::make('affiliates.print.correct_grading', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view)->setPaper('legal');
+        return $pdf->stream();
+    }
     
-    public function print_correct_grading()
-    {
-        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-        $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
-        $title = "NOTIFICACIÓN";
-        $date = Util::getDateEdit(date('Y-m-d'));
-        $current_date = Carbon::now();
-        $hour = Carbon::parse($current_date)->toTimeString();
-        //$data = $this->getData();
-       // dd($header1);
-      //  $affiliate = $data['affiliate'];
-        //$spouse = $data['spouse'];
-        //$total_gain = $data['total_gain'];
-        //$total_public_security_bonus = $data['total_public_security_bonus'];
-        //$total_quotable = $data['total_quotable'];
-        //$total_retirement_fund = $data['total_retirement_fund'];
-        //$total_mortuary_quota = $data['total_mortuary_quota'];
-        //$total = $data['total'];
-        //$contributions = Contribution::select(['id', 'month_year', 'degree_id', 'unit_id', 'item', 'base_wage','seniority_bonus', 'study_bonus', 'position_bonus', 'border_bonus', 'east_bonus', 'public_security_bonus', 'gain', 'quotable', 'retirement_fund', 'mortuary_quota', 'total'])->where('affiliate_id', $affiliate->id)->get();
-        $date = Util::getfulldate(date('Y-m-d'));
-        $view = \View::make('affiliates.print.correct_grading', compact('header1','header2','title','date','hour'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view)->setPaper('legal');
-        return $pdf->stream();
-    }
-    public function print_out_time_90($id_complement)
-    {
-        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-        $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
-        $title = "NOTIFICACIÓN";
-        $date = Util::getDateEdit(date('Y-m-d'));
-        $current_date = Carbon::now();
-        $hour = Carbon::parse($current_date)->toTimeString();
-        $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year','economic_complements.reception_date')->first();
-      // $procedure=EconomicComplementProcedure::where('year','=',$eco_com_applicant);
-        $procedure=EconomicComplementProcedure::whereYear('year','=',date("Y",strtotime($eco_com_applicant->year)))->where('semester','=',$eco_com_applicant->semester)->first();
-        //$procedure->additional_end_date;
-        $yearcomplement=new Carbon($eco_com_applicant->year);
-        $view = \View::make('affiliates.print.out_of_time90', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view)->setPaper('legal');
-        return $pdf->stream();
-    }
-    public function print_out_time_120($id_complement)
-    {
-        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-        $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
-        $title = "NOTIFICACIÓN";
-        $date = Util::getDateEdit(date('Y-m-d'));
-        $current_date = Carbon::now();
-        $hour = Carbon::parse($current_date)->toTimeString();
-        $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','economic_complements.semester','economic_complements.year','economic_complements.reception_date')->first();
-      // $procedure=EconomicComplementProcedure::where('year','=',$eco_com_applicant);
-        $procedure=EconomicComplementProcedure::whereYear('year','=',date("Y",strtotime($eco_com_applicant->year)))->where('semester','=',$eco_com_applicant->semester)->first();
-       // dd($procedure);
-        //$procedure->additional_end_date;
-        $yearcomplement=new Carbon($eco_com_applicant->year);
-        $view = \View::make('affiliates.print.out_of_time120', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view)->setPaper('legal');
-        return $pdf->stream();
-    }
 }
