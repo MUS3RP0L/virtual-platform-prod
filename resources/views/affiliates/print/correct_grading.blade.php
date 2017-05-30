@@ -6,7 +6,7 @@
 
 <table>
   <p align="justify">
-      En fecha ……../…..…./.…., a horas…..…………se <b>NOTIFICA</b> en forma personal al Sr.(a)…………………………………………..………………….con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> …………de fecha….…/………/……., quien recibió en mano propia el original de dicho documento.
+      En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!!$eco_com_applicant->code !!} de fecha {!! $eco_com_applicant->reception_date!!}, quien recibió en mano propia el original de dicho documento.
   </p>
 </table>
 
@@ -57,20 +57,21 @@
   </h1>
 </header>
   <table>
-      <p align="right"> La Paz, Elija un elemento. de Elija un elemento. de 2017
+      <p align="right"> La Paz, {!! $date !!}
       <br>CITE: UCE – EGSB /2017
       </p>
   </table>
   <table>
       <p align="left">Señor (a): <br>
-      Haga clic aquí para escribir texto.……………………………………………..<br>
+      {!! $eco_com_applicant->getTitleNameFull() !!}.<br>
       Presente.-
        </p>
   </table>
          <p align="right"><b>REF.- <ins> CARTA DE NOTIFICACIÓN </ins></b></p>
         <p align="justify">De nuestra consideracion.</p>
          <p>
-              Mediante la presente y en atención al reclamo realizado por su persona, se comunica que de la recalificación realizada por el Área Técnica de la Unidad de Otorgación del Complemento Económico, <b>el importe pagado de Bs. ... es el correcto.</b>
+              Mediante la presente y en atención al reclamo realizado por su persona, se comunica que de la recalificación realizada por el Área Técnica de la Unidad de Otorgación del Complemento Económico, <b>el importe pagado de Bs. {!!$eco_com_applicant->total!!} es el correcto.</b>
+              
         </p>
     <p align="justify"><b>
       Y en estricto cumplimiento al Decreto Supremo Nº 1446</b>, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 3º.- (Funciones y fines). La MUSERPOL tiene las siguientes funciones y fines: inc. 5) <b>Pagar el Complemento Económico al sector pasivo de la Policía Boliviana conforme a Reglamento. </b>
@@ -89,7 +90,7 @@
           Una vez recepcionado el reclamo escrito, se dará respuesta a la (el) solicitante, mediante carta de notificación, en caso de ser representado, la Unidad de Complemento Económico, efectuará un análisis técnico-legal de la documentación presentada por el beneficiario, asimismo se podrá solicitar complementaciones e información adicional a la Autoridad de Fiscalización y Control de Pensiones y Seguros, Servicio Nacional de Sistema de Reparto, Comando General de la Policía Boliviana y otras entidades requeridas. Una vez revisada la documentación presentada, se procederá a la emisión de un informe técnico-legal dentro del plazo de quince (15) días hábiles desde el día hábil siguiente a la presentación de reclamo.
       </p>
       <p align="justify">
-          Por lo que de la recalificación y revisión realizada con referencia al monto de pago del Beneficio del Complemento Económico, correspondiente al ... Semestre de la Gestión ... , por el importe de Bs ... . Haga clic aquí para escribir texto., <b>no existe error en el monto pagado.</b> Asimismo, comunicar a su persona que el monto individual del Complemento Económico es <b>variable</b>, determinado semestralmente en base a un Estudio Técnico Financiero y Reglamentación, aprobado por el Directorio de la MUSERPOL, en función a las transferencias determinadas por Ley para el pago del Complemento Económico.
+          Por lo que de la recalificación y revisión realizada con referencia al monto de pago del Beneficio del Complemento Económico, correspondiente al {!! $eco_com_applicant->semester !!} Semestre de la Gestión {!! $yearcomplement->year !!} , por el importe de Bs {!!$eco_com_applicant->total!!} , <b>no existe error en el monto pagado.</b> Asimismo, comunicar a su persona que el monto individual del Complemento Económico es <b>variable</b>, determinado semestralmente en base a un Estudio Técnico Financiero y Reglamentación, aprobado por el Directorio de la MUSERPOL, en función a las transferencias determinadas por Ley para el pago del Complemento Económico.
       </p>
       <p align="justify">
           Sin otro motivo en particular, saludo a usted.<br>
