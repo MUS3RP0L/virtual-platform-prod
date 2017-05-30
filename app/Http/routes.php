@@ -154,7 +154,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('print_out_of_time_90/{id_complement0}', 'Affiliate\AffiliateController@print_out_time_90');
 
 	//excluded
-	Route::get('print_excluded_observations/{type}', 'Affiliate\AffiliateController@print_excluded_observations');
+	Route::get('print_excluded_observations/{id_complement}/{type}', 'Affiliate\AffiliateController@print_excluded_observations');
 
 	//clarificación
 	Route::get('print_correct', 'Affiliate\AffiliateController@print_correct_grading');

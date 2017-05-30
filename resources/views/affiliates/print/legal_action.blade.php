@@ -6,7 +6,7 @@
 
 <table>
   <p align="justify">
-      En fecha ……../…..…./.…., a horas…..…………se <b>NOTIFICA</b> en forma personal al Sr.(a)…………………………………………..………………….con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> …………de fecha….…/………/……., quien recibió en mano propia el original de dicho documento.
+      En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!! $economic_complement->code !!} de fecha {!! $economic_complement->reception_date !!}, quien recibió en mano propia el original de dicho documento.
   </p>
 </table>
 
@@ -57,13 +57,13 @@
   </h1>
 </header>
   <table>
-      <p align="right"> La Paz, Elija un elemento. de Elija un elemento. de 2017
+      <p align="right"> La Paz, {!! $date !!}
       <br>CITE: UCE – EGSB /2017
       </p>
   </table>
   <table>
       <p align="left">Señor (a): <br>
-      Haga clic aquí para escribir texto.……………………………………………..<br>
+      {!! $eco_com_applicant->getTitleNameFull() !!}<br>
       Presente.-
        </p>
   </table>
@@ -80,7 +80,7 @@
     </p>
 
     <p align="justify">
-          Por lo que no se puede efectuar el Pago del Beneficio del Complemento Económico, correspondiente al  ... Semestre de la Gestión ... , en tanto continúe figurando como ... . <br>
+          Por lo que no se puede efectuar el Pago del Beneficio del Complemento Económico, correspondiente al  ... Semestre de la Gestión {!! $eco_com_applicant->semester !!}, en tanto continúe figurando con Procesos Judiciales<br>
           Sin otro motivo en particular, saludo a usted.<br>
           Atentamente.
     </p>
