@@ -548,7 +548,7 @@ class CreatePlatformTables extends Migration
             $table->string('payment_number')->nullable();
             $table->text('comment')->nullable();
             $table->enum('state', ['Received', 'Edited']);
-
+            //calculate complement
             $table->decimal('sub_total_rent', 13, 2)->nullable();
             $table->decimal('dignity_pension', 13, 2)->nullable();
             $table->decimal('total_rent', 13, 2)->nullable();
@@ -562,15 +562,9 @@ class CreatePlatformTables extends Migration
             $table->decimal('reimbursement', 13, 2)->nullable();
             $table->decimal('total', 13, 2)->nullable();
 
-            // $table->decimal('reimbursement_basic_pension', 13, 2)->nullable();
-            // $table->decimal('dignity_pension_reimbursement', 13, 2)->nullable();
-            // $table->decimal('dignity_pension_bonus', 13, 2)->nullable();
-            // $table->decimal('bonus_reimbursement', 13, 2)->nullable();
-            // $table->decimal('reimbursement_aditional_amount', 13, 2)->nullable();
-            // $table->decimal('reimbursement_increase_year', 13, 2)->nullable();
-
-            // $table->decimal('christmas_bonus', 13, 2)->nullable();
-            // $table->decimal('quotable', 13, 2)->nullable();
+            $table->decimal('aps_total_cc', 13, 2)->nullable();// componente de aps
+            $table->decimal('aps_total_fsa', 13, 2)->nullable();// componente de aps
+            $table->decimal('aps_total_fs', 13, 2)->nullable();// componente de aps
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
