@@ -562,8 +562,9 @@ class AffiliateController extends Controller
 
             case 'legal':
                 $eco_com_applicant = EconomicComplementApplicant::where('economic_complement_id',$id_complement)->first();
+                $economic_complement = EconomicComplement::where('id',$id_complement)->first();
                 $yearcomplement=new Carbon($eco_com_applicant->year);
-                $view = \View::make('affiliates.print.legal_action', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $view = \View::make('affiliates.print.legal_action', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','economic_complement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
