@@ -502,6 +502,7 @@ return view('economic_complements.reception_third_step', $data);
             $entity_pensions[$e->id]=$e->name;
         }
 
+        $economic_complement_legal_guardian=$economic_complement->economic_complement_legal_guardian;
         $data = [
 
         'affiliate' => $affiliate,
@@ -509,7 +510,7 @@ return view('economic_complements.reception_third_step', $data);
         'eco_com_type' => $eco_com_type->name,
         'eco_com_applicant' => $eco_com_applicant,
         'eco_com_requirements' => $eco_com_requirements,
-        'economic_complement_legal_guardian' => $eco_com_legal_guardian,
+        'economic_complement_legal_guardian' => $economic_complement_legal_guardian,
         'eco_com_submitted_documents' => $eco_com_submitted_documents,
         'status_documents' => $status_documents,
         'gender_list' => $gender_list,
@@ -648,7 +649,8 @@ return view('economic_complements.reception_third_step', $data);
                 }
 
                 $eco_com_applicant->save();
-
+                $economic_complement->state="Edited";
+                $economic_complement->save();
                 if ($request->legal_guardian) {
                     $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
 
@@ -766,17 +768,19 @@ return view('economic_complements.reception_third_step', $data);
                 }
 
                 if ($economic_complement->has_legal_guardian) {
-
-                    $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
-                    $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
-                    if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
-                    $eco_com_legal_guardian->last_name = $request->last_name_lg;
-                    $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
-                    $eco_com_legal_guardian->first_name = $request->first_name_lg;
-                    $eco_com_legal_guardian->phone_number = $request->phone_number_lg;
-                    $eco_com_legal_guardian->cell_phone_number = $request->cell_phone_number_lg;
-                    $eco_com_legal_guardian->save();
-                }
+                             if($request->type != 'update'){
+                                 $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
+                                 $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
+                                 if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
+                                 $eco_com_legal_guardian->last_name = $request->last_name_lg;
+                                 $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
+                                 $eco_com_legal_guardian->first_name = $request->first_name_lg;
+                                 $eco_com_legal_guardian->second_name = $request->second_name_lg;
+                                 $eco_com_legal_guardian->phone_number = $request->phone_number_lg;
+                                 $eco_com_legal_guardian->cell_phone_number = $request->cell_phone_number_lg;
+                                 $eco_com_legal_guardian->save();
+                             }
+                         }
 
                 if ($request->type == 'update') {
                     return redirect('economic_complement/'.$economic_complement->id);
@@ -922,15 +926,11 @@ return view('economic_complements.reception_third_step', $data);
 
             break;
 
-            case 'rent':
-            $rules = [
-
+          case 'rent':
+          $rules = [
             ];
-
             $messages = [
-
             ];
-
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()){
                 dd("error");
@@ -940,53 +940,47 @@ return view('economic_complements.reception_third_step', $data);
             }
             else{
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
-                    //     $total_rent = $economic_complement->total_rent;
-                    //     $salary_reference = $economic_complement->base_wage->amount;
-                    //     $seniority = $economic_complement->category->percentage * $economic_complement->base_wage->amount;
-                    //     $salary_quotable = $salary_reference + $seniority;
-                    //     $difference = $salary_quotable - $total_rent;
-                    //     $months_of_payment = 6;
-                    //     $total_amount_semester = $difference * $months_of_payment;
-                    //     $complementary_factor = $eco_com_type->id == 1 ? $economic_complement->complementary_factor->old_age : $economic_complement->complementary_factor->widowhood;
-                    //     $total = $total_amount_semester * $complementary_factor/100;
+                //     $total_rent = $economic_complement->total_rent;
+                //     $salary_reference = $economic_complement->base_wage->amount;
+                //     $seniority = $economic_complement->category->percentage * $economic_complement->base_wage->amount;
+                //     $salary_quotable = $salary_reference + $seniority;
+                //     $difference = $salary_quotable - $total_rent;
+                //     $months_of_payment = 6;
+                //     $total_amount_semester = $difference * $months_of_payment;
+                //     $complementary_factor = $eco_com_type->id == 1 ? $economic_complement->complementary_factor->old_age : $economic_complement->complementary_factor->widowhood;
+                //     $total = $total_amount_semester * $complementary_factor/100;
                 $economic_complement->sub_total_rent=$request->sub_total_rent;
                 $economic_complement->reimbursement=$request->reimbursement;
                 $economic_complement->dignity_pension=$request->rent_dignity;
                 $economic_complement->total_rent=floatval($request->sub_total_rent)-floatval($request->reimbursement)-floatval($request->rent_dignity);
-
-                    /*$affiliate=Affiliate::find(1);
-                    $base_wage = BaseWage::degreeIs($economic_complement->affiliate->degree_id)->first();
-                    $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
-                                                    ->whereYear('year', '=', $data['year'])
-                                                ->where('semester', '=', $data['semester'])->first();
-                                                $economic_complement->base_wage_id = $base_wage->id;*/
-    //                $economic_complement->complementary_factor_id = $complementary_factor->id;
-
-                                                $economic_complement->salary_reference=$economic_complement->base_wage->amount;
-                                                $economic_complement->state = 'Edited';
-                                                $economic_complement->save();  
-                                                dd($economic_complement);
-
-                                                return redirect('economic_complement/'.$economic_complement->id);
-
-                                            }   
-                                            break;
-
-                                            case 'legal_guardian':
-                                            $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
-                                            $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
-                                            if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
-                                            $eco_com_legal_guardian->last_name = $request->last_name_lg;
-                                            $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
-                                            $eco_com_legal_guardian->first_name = $request->first_name_lg;
-                                            $eco_com_legal_guardian->second_name = $request->second_name_lg;
-                                            $eco_com_legal_guardian->phone_number =trim(implode(",", $request->phone_number_lg));
-                                            $eco_com_legal_guardian->cell_phone_number =trim(implode(",", $request->cell_phone_number_lg));
-                                            $eco_com_legal_guardian->save();
-                                            return redirect('economic_complement/'.$economic_complement->id);
-                                            break;
-
-                                        }
+                /*$affiliate=Affiliate::find(1);
+                $base_wage = BaseWage::degreeIs($economic_complement->affiliate->degree_id)->first();
+                $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
+                                            ->whereYear('year', '=', $data['year'])
+                                            ->where('semester', '=', $data['semester'])->first();
+                $economic_complement->base_wage_id = $base_wage->id;*/
+                $economic_complement->complementary_factor_id = $complementary_factor->id;
+                $economic_complement->salary_reference=$economic_complement->base_wage->amount;
+                $economic_complement->state = 'Edited';
+                $economic_complement->save();  
+                dd($economic_complement);
+                return redirect('economic_complement/'.$economic_complement->id);
+            }   
+        break;
+        case 'legal_guardian':
+            $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
+              $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
+              if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
+              $eco_com_legal_guardian->last_name = $request->last_name_lg;
+              $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
+              $eco_com_legal_guardian->first_name = $request->first_name_lg;
+              $eco_com_legal_guardian->second_name = $request->second_name_lg;
+              $eco_com_legal_guardian->phone_number =trim(implode(",", $request->phone_number_lg));
+              $eco_com_legal_guardian->cell_phone_number =trim(implode(",", $request->cell_phone_number_lg));
+              $eco_com_legal_guardian->save();
+              return redirect('economic_complement/'.$economic_complement->id);
+          break;
+          }
 
 
                                     }
