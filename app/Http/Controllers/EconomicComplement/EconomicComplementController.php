@@ -235,7 +235,6 @@ class EconomicComplementController extends Controller
         $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
         ->whereYear('year', '=', $getViewModel['year'])
         ->where('semester', '=', $getViewModel['semester'])->first();
-
         if (!$economic_complement) {
             $economic_complement = new EconomicComplement;
             $eco_com_type = false;
@@ -417,7 +416,9 @@ return view('economic_complements.reception_third_step', $data);
 
         $economic_complement->year = Util::datePickYear($data['year'], $data['semester']);
         $economic_complement->semester = $data['semester'];
-        if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }
+        if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }else{
+            $economic_complement->has_legal_guardian = false;
+        }
         $economic_complement->code = $code ."/". $sem . "/" . $data['year'];
 
         $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
@@ -648,7 +649,6 @@ return view('economic_complements.reception_third_step', $data);
 
                     break;
                 }
-
                 $eco_com_applicant->save();
                 $economic_complement->state="Edited";
                 $economic_complement->save();
