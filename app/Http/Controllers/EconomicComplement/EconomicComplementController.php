@@ -209,8 +209,6 @@ class EconomicComplementController extends Controller
             $report_type_list[$key] = $item;
         }
 
-        $semester = Util::getSemester(Carbon::now());
-
         return [
 
         'eco_com_states_list' => $eco_com_states_list,
@@ -220,7 +218,7 @@ class EconomicComplementController extends Controller
         'cities_list' => $cities_list,
         'cities_list_short' => $cities_list_short,
         'year' => Carbon::now()->year,
-        'semester' => $semester,
+        'semester' => Util::getSemester(Carbon::now()),
         'year_list' => $year_list,
         'report_type_list' => $report_type_list,
         'new_cities_list' => $new_cities_list,
@@ -231,7 +229,9 @@ class EconomicComplementController extends Controller
     public function ReceptionFirstStep($affiliate_id)
     {
         $getViewModel = self::getViewModel();
+
         $affiliate = Affiliate::idIs($affiliate_id)->first();
+
         $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
         ->whereYear('year', '=', $getViewModel['year'])
         ->where('semester', '=', $getViewModel['semester'])->first();
@@ -255,7 +255,6 @@ class EconomicComplementController extends Controller
         $affiliate->type_ecocom = 'Inclusión';
     }
 
-    $last_economic_complement;
     $data = [
     'affiliate' => $affiliate,
     'eco_com_type' => $eco_com_type,
