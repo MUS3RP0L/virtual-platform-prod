@@ -69,7 +69,7 @@
                                     <strong>Estado</strong>
                                 </div>
                                 <div class="col-md-6">
-                                    {!! $economic_complement->wf_state->name !!}
+                                    -
                                 </div>
                             </div>
                         </td>
