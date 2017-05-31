@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 
 use Muserpol\Http\Requests;
 use Muserpol\Http\Controllers\Controller;
-use Muserpol\Observation;
+use Muserpol\AffiliateObservation;
+use Muserpol\Affiliate;
 use Carbon\Carbon;
 
 use Auth;
@@ -14,7 +15,7 @@ use Datatables;
 use Session;
 use Validator;
 
-class ObservationController extends Controller
+class AffiliateObservationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -47,13 +48,11 @@ class ObservationController extends Controller
 
         $rules = [
             'affiliate_id' => 'required',
-            'module_id' => 'required',
-            'title' => 'required|min:3',
+            'observation_type_id' => 'required',
             'message' => 'required|min:5',
         ];
         $messages = [
-            'title.required' => 'El campo titulo es requerido',
-            'title.min' => 'El mínimo de caracteres permitidos en titulo es 3',
+            'observation_type_id.required' => 'El campo tipo de observacion es requerido',
 
             'message.required' => 'El campo mensaje es requerido',
             'message.min' => 'El mínimo de caracteres permitidos en mensaje es 3'
@@ -65,12 +64,11 @@ class ObservationController extends Controller
             ->withInput();
         }else{
             $message="Observacion Creada";
-            $observation=new Observation();
+            $observation=new AffiliateObservation();
             $observation->user_id=Auth::user()->id;
             $observation->affiliate_id=$request->affiliate_id;
-            $observation->module_id=$request->module_id;
             $observation->date=Carbon::now();
-            $observation->title=$request->title;
+            $observation->observation_type_id=$request->observation_type_id;
             $observation->message=$request->message;
             $observation->save();
             Session::flash('message', $message);
@@ -87,12 +85,12 @@ class ObservationController extends Controller
     public function show($id)
     {   
         
-        $observation=Observation::find($id);
+        $observation=AffiliateObservation::find($id);
         return $observation;
     }
     public function deleteOb($id)
     {
-        $observation=Observation::find($id);        
+        $observation=AffiliateObservation::find($id);        
         $observation->delete();
         return back();
     }
@@ -108,13 +106,14 @@ class ObservationController extends Controller
         //
     }
     public function showOfAffiliate(Request $request)
-    {
-        $observations=Observation::select(['id','date','title','message'])->where('affiliate_id','=',$request->id);
-        
-        return Datatables::of($observations)
+    {   
+        /*$observations_type = ObsrvationType 
+        $observations=AffiliateObservation::where('affiliate_id',$request->id)->leftJoin('observation_types','observation_types.id','=','affiliates_observations.observation_type_id')->select(['affiliates_observations.id','affiliates_observations.date','observation_types.name','affiliates_observations.message'])->get();*/
+        $os=AffiliateObservation::where('affiliate_id',$request->id)->select(['id','date','message','observation_type_id'])->get();
+        return Datatables::of($os)
                 ->addColumn('action', function ($observation) { return  '
                     <div class="btn-group" style="margin:-3px 0;">
-                        <a href="/observation/deleteOb/'.$observation->id.'" style="padding:3px 5px;" class="btn btn-warning btn-raised btn-sm"><i class="glyphicon glyphicon-minus"></i> Eliminar</a>
+                        <a href="/observation/deleteOb/'.$observation->id.'" style="padding:3px 5px;" class="btn btn-warning btn-raised btn-sm">'.$observation->observation_type.'<i class="glyphicon glyphicon-minus"></i> Eliminar</a>
                     </div>';})
                 ->make(true);
     }

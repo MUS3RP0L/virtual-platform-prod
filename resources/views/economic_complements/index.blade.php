@@ -501,7 +501,6 @@
             serverSide: true,
             pageLength: 8,
             autoWidth: false,
-            order: [0, "desc"],
             ajax: {
                 url: '{!! route('get_economic_complement') !!}',
                 data: function (d) {
