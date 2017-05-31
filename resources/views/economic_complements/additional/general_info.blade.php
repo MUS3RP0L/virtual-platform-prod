@@ -14,7 +14,7 @@
                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                             <div class="row">
                                 <div class="col-md-6">
-                                    Semestre
+                                    <strong>Semestre</strong>
                                 </div>
                                 <div class="col-md-6">
                                     {!! $semester !!}
@@ -26,7 +26,7 @@
                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                             <div class="row">
                                 <div class="col-md-6">
-                                    Gestión
+                                    <strong>Gestión</strong>
                                 </div>
                                 <div class="col-md-6">
                                     {!! $year !!}
@@ -42,7 +42,7 @@
                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                             <div class="row">
                                 <div class="col-md-6">
-                                    Ciudad
+                                    <strong>Ciudad</strong>
                                 </div>
                                 <div class="col-md-6">
                                     {!! $economic_complement->city ? $economic_complement->city->name : '' !!}
@@ -54,7 +54,7 @@
                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                             <div class="row">
                                 <div class="col-md-6">
-                                    Tipo
+                                    <strong>Tipo</strong>
                                 </div>
                                 <div class="col-md-6">
                                     {!! $eco_com_type . "-" . $eco_com_modality !!}
