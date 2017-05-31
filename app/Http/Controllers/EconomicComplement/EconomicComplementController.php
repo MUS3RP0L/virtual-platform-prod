@@ -209,8 +209,6 @@ class EconomicComplementController extends Controller
             $report_type_list[$key] = $item;
         }
 
-        $semester = Util::getSemester(Carbon::now());
-
         return [
 
         'eco_com_states_list' => $eco_com_states_list,
@@ -220,7 +218,7 @@ class EconomicComplementController extends Controller
         'cities_list' => $cities_list,
         'cities_list_short' => $cities_list_short,
         'year' => Carbon::now()->year,
-        'semester' => $semester,
+        'semester' => Util::getSemester(Carbon::now()),
         'year_list' => $year_list,
         'report_type_list' => $report_type_list,
         'new_cities_list' => $new_cities_list,
@@ -231,7 +229,9 @@ class EconomicComplementController extends Controller
     public function ReceptionFirstStep($affiliate_id)
     {
         $getViewModel = self::getViewModel();
+
         $affiliate = Affiliate::idIs($affiliate_id)->first();
+
         $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
         ->whereYear('year', '=', $getViewModel['year'])
         ->where('semester', '=', $getViewModel['semester'])->first();
@@ -254,7 +254,6 @@ class EconomicComplementController extends Controller
         $affiliate->type_ecocom = 'Inclusión';
     }
 
-    $last_economic_complement;
     $data = [
     'affiliate' => $affiliate,
     'eco_com_type' => $eco_com_type,
@@ -1028,7 +1027,6 @@ return view('economic_complements.reception_third_step', $data);
     {
       $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
       $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-      $title = "";
       $date = Util::getDateEdit(date('Y-m-d'));
       $current_date = Carbon::now();
       $hour = Carbon::parse($current_date)->toTimeString();
@@ -1036,11 +1034,12 @@ return view('economic_complements.reception_third_step', $data);
       $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
       $affiliate = Affiliate::idIs($economic_complement_id)->first();
       $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement_id)->first();
-      
+      $yearcomplement=new Carbon($economic_complement->year);
         switch ($type) {
             case 'report':
+                $title= "RECEPCIÓN DE REQUISITOS";
                 $user = Auth::user();
-                $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user'))->render();
+                $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user','yearcomplement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('letter');
                 return $pdf->stream();

@@ -1417,7 +1417,7 @@
                                                 <span class="help-block">Seleccione una Categoria para el policía</span>
                                             </div>
                                         </div>
-                                         <div class="form-group">
+                                        <div class="form-group">
                                                 {!! Form::label('degree', 'Grado', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
                                                 {!! Form::select('degree',$degrees, $affiliate->degree->id , ['class'=> 'combobox form-control', 'required']) !!}

@@ -64,7 +64,7 @@ class AffiliateRecord extends Model
 		if ($affiliate->affiliate_state_id) {
 
 			$aff_record = new AffiliateRecord;
-			if (Auth::user()) {$aff_record->$user_id = Auth::user()->id;}else{$aff_record->user_id = 1;}
+			if (Auth::user()) {$aff_record->user_id = Auth::user()->id;}else{$aff_record->user_id = 1;}
 			$aff_record->affiliate_id = $affiliate->id;
 			$aff_record->date = $affiliate->change_date;
 			$aff_record->affiliate_state_id = $affiliate->affiliate_state_id;
@@ -77,7 +77,7 @@ class AffiliateRecord extends Model
 		if ($affiliate->degree_id) {
 
 			$aff_record = new AffiliateRecord;
-			if (Auth::user()) {$aff_record->$user_id = Auth::user()->id;}else{$aff_record->user_id = 1;}
+			if (Auth::user()) {$aff_record->user_id = Auth::user()->id;}else{$aff_record->user_id = 1;}
 			$aff_record->affiliate_id = $affiliate->id;
 			$aff_record->date = $affiliate->change_date;
 			$aff_record->degree_id = $affiliate->degree_id;
@@ -90,7 +90,7 @@ class AffiliateRecord extends Model
 		if ($affiliate->unit_id) {
 
 			$aff_record = new AffiliateRecord;
-			if (Auth::user()) {$aff_record->$user_id = Auth::user()->id;}else{$aff_record->user_id = 1;}
+			if (Auth::user()) {$aff_record->user_id = Auth::user()->id;}else{$aff_record->user_id = 1;}
 			$aff_record->affiliate_id = $affiliate->id;
 			$aff_record->date = $affiliate->change_date;
 			$aff_record->unit_id = $affiliate->unit_id;
