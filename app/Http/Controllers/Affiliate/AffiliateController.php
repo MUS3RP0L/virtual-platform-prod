@@ -44,129 +44,108 @@ class AffiliateController extends Controller
 
     public function Data(Request $request)
     {
-        $affiliates = Affiliate::select(['id', 'identity_card', 'registration', 'last_name', 'mothers_last_name', 'first_name', 'second_name',  'affiliate_state_id', 'degree_id', 'city_identity_card_id']);
+        $affiliates = Affiliate::select(['affiliates.id', 'affiliates.identity_card', 'affiliates.registration', 'affiliates.last_name', 'affiliates.mothers_last_name', 'affiliates.first_name', 'affiliates.second_name',  'affiliates.affiliate_state_id', 'affiliates.degree_id', 'affiliates.city_identity_card_id']);
         if ($request->has('last_name'))
-        {
+        {  
+            $last_name = strtoupper(trim($request->get('last_name')));
+            $last_name=strtoupper($last_name);
+           
+           $affiliates->leftJoin('spouses','affiliates.id','=','spouses.affiliate_id')
+           ->where(function($affiliates) use ($last_name){
+            $affiliates->where('affiliates.last_name','like',"%".$last_name."%")
+            ->orWhere('spouses.last_name','like',"%".$last_name."%");
+        })->get();
 
-            $affiliates->where(function($affiliates) use ($request)
-            {
-                $last_name = trim($request->get('last_name'));
-                $last_name=strtoupper($last_name);
-                $affiliate=Affiliate::where('last_name', 'like', "%{$last_name}%")->first();
-                if(isset($affiliate)){
-                    $affiliates->where('last_name', 'like', "%{$affiliate->last_name}%");
-                }   
-                else{
-                    $spouses=Spouse::where('last_name','like',$last_name)->first();
-                    $affiliate=$spouses->affiliate;
-                    $affiliates->find($affiliate->id);         
-                }
-                
-            });
+         
         }
         if ($request->has('mothers_last_name'))
         {
-            $affiliates->where(function($affiliates) use ($request)
-            {
-                $mothers_last_name = trim($request->get('mothers_last_name'));
-                 $mothers_last_name=strtoupper($mothers_last_name);
-                $affiliate=Affiliate::where('mothers_last_name', 'like', "%{$mothers_last_name}%")->first();
-                if(isset($affiliate)){
-                    $affiliates->where('mothers_last_name', 'like', "%{$mothers_last_name}%");
-                }
-                else{
-                    $spouses=Spouse::where('mothers_last_name','=',$mothers_last_name)->first();
-                    $affiliate=$spouses->affiliate;
-                    $affiliates->find($affiliate->id); 
-                }
-            });
-        }
-        if ($request->has('first_name'))
-        {
-            $affiliates->where(function($affiliates) use ($request)
-            {
-                $first_name = strtoupper(trim($request->get('first_name')));
-                $first_name=strtoupper($first_name);
-                $affiliate=Affiliate::where('first_name','like', $first_name)->get()->first();
-                if(isset($affiliate)){
-                    $affiliates->where('first_name', 'like', "%{$first_name}%");
-                }
-                else{
-                    $spouses=Spouse::where('first_name','=',$first_name)->first();
-                    $affiliate=$spouses->affiliate;
-                    $affiliates->find($affiliate->id); 
-                }
-            });
-        }
-        if ($request->has('second_name'))
-        {
-            $affiliates->where(function($affiliates) use ($request)
-            {
-                $second_name = trim($request->get('second_name'));
-                $second_name=strtoupper($second_name);
-                $affiliate=Affiliate::where('second_name', 'like', "%{$second_name}%")->first();
-                if(isset($affiliate)){
-                    $affiliates->where('second_name', 'like', "%{$second_name}%");
-                }
-                else{
-                    $spouses=Spouse::where('second_name','=',$second_name)->first();
-                    $affiliate=$spouses->affiliate;
-                    $affiliates->find($affiliate->id);
-                }
-            });
-        }
-        if ($request->has('identity_card'))
-        {
-            $affiliates->where(function($affiliates) use ($request)
-            {
-                $identity_card = trim($request->get('identity_card'));
-                $identity_card=strtoupper($identity_card);
-                $affiliate=Affiliate::identitycardIs($identity_card)->first();
-                if(isset($affiliate)){
-                    $affiliates->where('identity_card', 'like', "{$identity_card}");
-                }   
-                else{
-                    $spouses=Spouse::identitycardIs($identity_card)->first();
-                    $affiliate=$spouses->affiliate;
-                    $affiliates->find($affiliate->id);         
-                }
-            });
-        }
-        if ($request->has('registration'))
-        {
-            $affiliates->where(function($affiliates) use ($request)
-            {
-                $registration = trim($request->get('registration'));
-                $affiliates->where('registration', 'like', "%{$registration}%");
-            });
-        }
+          $mothers_last_name = strtoupper(trim($request->get('mothers_last_name')));
+          $mothers_last_name=strtoupper($mothers_last_name);
 
-        return Datatables::of($affiliates)
-        ->addColumn('identity_card', function($affiliate){ return $affiliate->city_identity_card_id ? $affiliate->identity_card . ' ' . $affiliate->city_identity_card->shortened : $affiliate->identity_card; })
-        ->addColumn('degree', function ($affiliate) { return $affiliate->degree_id ? $affiliate->degree->shortened : ''; })
-        ->editColumn('last_name', function ($affiliate) { return Util::ucw($affiliate->last_name); })
-        ->editColumn('mothers_last_name', function ($affiliate) { return Util::ucw($affiliate->mothers_last_name); })
-        ->addColumn('names', function ($affiliate) { return Util::ucw($affiliate->first_name) .' '. Util::ucw($affiliate->second_name); })
-        ->addColumn('state', function ($affiliate) { return $affiliate->affiliate_state->name; })
-        ->addColumn('action', function ($affiliate) { return  '
-            <div class="btn-group" style="margin:-3px 0;">
-                <a href="affiliate/'.$affiliate->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
-            </div>';})
-        ->make(true);
+          $affiliates->leftJoin('spouses','affiliates.id','=','spouses.affiliate_id')
+          ->where(function($affiliates) use ($mothers_last_name){
+            $affiliates->where('affiliates.mothers_last_name','like',"%".$mothers_last_name."%")
+            ->orWhere('spouses.mothers_last_name','like',"%".$mothers_last_name."%");
+        })->get();
+
+      }
+      if ($request->has('first_name'))
+      {
+        $first_name = strtoupper(trim($request->get('first_name')));
+        $first_name=strtoupper($first_name);
+
+        $affiliates->leftJoin('spouses','affiliates.id','=','spouses.affiliate_id')
+        ->where(function($affiliates) use ($first_name){
+            $affiliates->where('affiliates.first_name','like',"%".$first_name."%")
+            ->orWhere('spouses.first_name','like',"%".$first_name."%");
+        })->get();
+    }
+    if ($request->has('second_name'))
+    {
+     $second_name = strtoupper(trim($request->get('second_name')));
+     $second_name=strtoupper($second_name);
+
+     $affiliates->leftJoin('spouses','affiliates.id','=','spouses.affiliate_id')
+     ->where(function($affiliates) use ($second_name){
+        $affiliates->where('affiliates.second_name','like',"%".$second_name."%")
+        ->orWhere('spouses.second_name','like',"%".$second_name."%");
+    })->get();
+ }
+ if ($request->has('identity_card'))
+ {
+
+
+    $affiliates->where(function($affiliates) use ($request)
+    {
+        $identity_card = trim($request->get('identity_card'));
+        $identity_card=strtoupper($identity_card);
+        $affiliate=Affiliate::identitycardIs($identity_card)->first();
+        if(isset($affiliate)){
+            $affiliates->where('identity_card', 'like', "{$identity_card}");
+        }   
+        else{
+            $spouses=Spouse::identitycardIs($identity_card)->first();
+            $affiliate=$spouses->affiliate;
+            $affiliates->find($affiliate->id);         
+        }
+    });
+}
+if ($request->has('registration'))
+{
+    $affiliates->where(function($affiliates) use ($request)
+    {
+        $registration = trim($request->get('registration'));
+        $affiliates->where('registration', 'like', "%{$registration}%");
+    });
+}
+
+return Datatables::of($affiliates)
+->addColumn('identity_card', function($affiliate){ return $affiliate->city_identity_card_id ? $affiliate->identity_card . ' ' . $affiliate->city_identity_card->shortened : $affiliate->identity_card; })
+->addColumn('degree', function ($affiliate) { return $affiliate->degree_id ? $affiliate->degree->shortened : ''; })
+->editColumn('last_name', function ($affiliate) { return Util::ucw($affiliate->last_name); })
+->editColumn('mothers_last_name', function ($affiliate) { return Util::ucw($affiliate->mothers_last_name); })
+->addColumn('names', function ($affiliate) { return Util::ucw($affiliate->first_name) .' '. Util::ucw($affiliate->second_name); })
+->addColumn('state', function ($affiliate) { return $affiliate->affiliate_state->name; })
+->addColumn('action', function ($affiliate) { return  '
+    <div class="btn-group" style="margin:-3px 0;">
+        <a href="affiliate/'.$affiliate->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
+    </div>';})
+->make(true);
+}
+
+public static function getViewModel()
+{
+    $cities = City::all();
+    $cities_list = ['' => ''];
+    foreach ($cities as $item) {
+        $cities_list[$item->id]=$item->name;
     }
 
-    public static function getViewModel()
-    {
-        $cities = City::all();
-        $cities_list = ['' => ''];
-        foreach ($cities as $item) {
-            $cities_list[$item->id]=$item->name;
-        }
-
-        $cities_list_short = ['' => ''];
-        foreach ($cities as $item) {
-            $cities_list_short[$item->id]=$item->first_shortened;
-        }
+    $cities_list_short = ['' => ''];
+    foreach ($cities as $item) {
+        $cities_list_short[$item->id]=$item->first_shortened;
+    }
 
         $gender_list = ['' => '', 'C' => 'CASADO(A)', 'S' => 'SOLTERO(A)', 'V' => 'VIUDO(A)', 'D' => 'DIVORCIADO(A)'];
 
@@ -177,8 +156,8 @@ class AffiliateController extends Controller
         'cities_list_short' => $cities_list_short,
         'gender_list' => $gender_list
 
-        ];
-    }
+    ];
+}
 
     /**
      * Display the specified resource.
@@ -551,17 +530,17 @@ class AffiliateController extends Controller
         $yearcomplement=new Carbon($eco_com_applicant->year);
         switch ($type) {
             case 'less16':
-               $view = \View::make('affiliates.print.less_16', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-               $pdf = \App::make('dompdf.wrapper');
-               $pdf->loadHTML($view)->setPaper('legal');
-               return $pdf->stream();
-           
+            $view = \View::make('affiliates.print.less_16', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($view)->setPaper('legal');
+            return $pdf->stream();
+
 
             case 'invalidity':
-                $view = \View::make('affiliates.print.invalidity', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
+            $view = \View::make('affiliates.print.invalidity', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($view)->setPaper('legal');
+            return $pdf->stream();
             
 
             case 'salary':
@@ -575,17 +554,17 @@ class AffiliateController extends Controller
                 //     $nextYear = $yearcomplement->addYear(1);
                 // }
 
-                $view = \View::make('affiliates.print.excluded_by_salary', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
+            $view = \View::make('affiliates.print.excluded_by_salary', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($view)->setPaper('legal');
+            return $pdf->stream();
             
 
             case 'legal':
-                $view = \View::make('affiliates.print.legal_action', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
+            $view = \View::make('affiliates.print.legal_action', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($view)->setPaper('legal');
+            return $pdf->stream();
         }
     }
 
@@ -604,45 +583,45 @@ class AffiliateController extends Controller
         
         switch ($type) {
             case 'debtor_conta':
-                $view = \View::make('affiliates.print.print_debtor_in_contable', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
+            $view = \View::make('affiliates.print.print_debtor_in_contable', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($view)->setPaper('legal');
+            return $pdf->stream();
             break;
             
             case 'wallet_pres':
-                $view = \View::make('affiliates.print.wallet_arrear', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
+            $view = \View::make('affiliates.print.wallet_arrear', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($view)->setPaper('legal');
+            return $pdf->stream();
             break;
             
             case 'out_time90':
-                $view = \View::make('affiliates.print.out_of_time90', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
+            $view = \View::make('affiliates.print.out_of_time90', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($view)->setPaper('legal');
+            return $pdf->stream();
             break;
             
             case 'out_time120':
-                $view = \View::make('affiliates.print.out_of_time120', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
+            $view = \View::make('affiliates.print.out_of_time120', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($view)->setPaper('legal');
+            return $pdf->stream();
             break;
             
             case 'miss_requirements':
-                $view = \View::make('affiliates.print.miss_requiriments', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
+            $view = \View::make('affiliates.print.miss_requiriments', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($view)->setPaper('legal');
+            return $pdf->stream();
             break;
             
             case 'miss_requirements_hi':
-                $view = \View::make('affiliates.print.print_miss_requiriments_habinc', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
+            $view = \View::make('affiliates.print.print_miss_requiriments_habinc', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($view)->setPaper('legal');
+            return $pdf->stream();
             break;
         }
     }
