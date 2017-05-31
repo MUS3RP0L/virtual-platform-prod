@@ -297,6 +297,11 @@ class AffiliateController extends Controller
             }
         }
 
+        $observations_types = ObservationType::all();
+        $observation_types_list = array('' => '');
+        foreach ($observations_types as $item) {
+            $observation_types_list[$item->id]=$item->name;
+        }
 
         $canObservate=false;
         $ObservationType=null;
@@ -339,7 +344,7 @@ class AffiliateController extends Controller
         'current_economic_complement' => $current_economic_complement,
         'has_current_eco_com' => $has_current_eco_com,
             // 'last_contribution' => $last_contribution,
-        'observations'=>$affiliate->observations,
+        'observations_types'=>$observation_types_list,
             // 'total_gain' => $total_gain,
             // 'total_public_security_bonus' => $total_public_security_bonus,
             // 'total_quotable' => $total_quotable,

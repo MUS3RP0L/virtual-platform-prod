@@ -619,13 +619,13 @@
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        @if(sizeof($observations))
+                        @if(sizeof($observations_types))
                             <div class="col-md-12">
                                 <table class="table table-bordered table-hover table-striped" id="observations-table">
                                     <thead>
                                         <tr class="success">
                                             <th>Fecha</th>
-                                            <th>Titulo</th>
+                                            <th>Tipo</th>
                                             <th>Mensaje</th>
                                             <th>Opciones</th>
                                         </tr>
@@ -1589,7 +1589,7 @@
             columns: [
 
                 { data: 'date', bSortable: false },
-                { data: 'title', bSortable: false },
+                { data: 'type', bSortable: false },
                 { data: 'message', bSortable: false },
                 { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
             ]
