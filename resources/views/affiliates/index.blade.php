@@ -130,7 +130,7 @@
                 <div class="modal-body">
                         
                     {!! Form::open(['method' => 'POST', 'route' => ['affiliate.store'], 'class' => 'form-horizontal']) !!}
-                        <input type="hidden" name="type" value="personal"/>
+                        <input type="hidden" name="type" value="personal_new"/>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -219,7 +219,14 @@
                                         {!! Form::select('city_birth_id', $cities_list, '', ['class' => 'combobox form-control']) !!}
                                         <span class="help-block">Seleccione Departamento</span>
                                     </div>
-                                </div>                       
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('degree', 'Grado', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::select('degree',$degrees, '', ['class'=> 'combobox form-control', 'required']) !!}
+                                        <span class="help-block">Seleccione un grado del policía</span>
+                                    </div>
+                                </div>                     
                             </div>
                         </div>
 
@@ -244,6 +251,10 @@
 
 @push('scripts')
     <script>
+
+        $(document).ready(function(){
+            $("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+        });
 
         $(document).ready(function(){
             $('.combobox').combobox();
