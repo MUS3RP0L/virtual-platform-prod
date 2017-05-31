@@ -34,6 +34,18 @@
                             </div>
                         </td>
                     </tr>
+                    <tr>
+                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong>Tipo</strong>
+                                </div>
+                                <div class="col-md-6">
+                                    {!! $eco_com_type . "-" . $eco_com_modality !!}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
                 </table>
             </div>
             <div class="col-md-6">
@@ -54,10 +66,10 @@
                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <strong>Tipo</strong>
+                                    <strong>Estado</strong>
                                 </div>
                                 <div class="col-md-6">
-                                    {!! $eco_com_type . "-" . $eco_com_modality !!}
+                                    {!! $economic_complement->wf_state->name !!}
                                 </div>
                             </div>
                         </td>

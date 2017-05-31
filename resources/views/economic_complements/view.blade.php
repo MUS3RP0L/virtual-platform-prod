@@ -55,7 +55,7 @@
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-8">
-                            <h3 class="box-title"><span class="glyphicon glyphicon-info-sign"></span> Información Adicional</h3>
+                            <h3 class="box-title"><span class="glyphicon glyphicon-info-sign"></span> Información del Trámite</h3>
                         </div>
                          <div class="col-md-4 text-right">
                             <span data-toggle="modal" data-target="#policeModal">
