@@ -58,7 +58,7 @@ class EconomicComplementController extends Controller
 
     public function Data(Request $request)
     {
-        $economic_complements = EconomicComplement::select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'created_at', 'total', 'wf_current_state_id']);
+        $economic_complements = EconomicComplement::select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'created_at', 'total', 'wf_current_state_id'])->orderBy('created_at','desc');
 
         if ($request->has('code'))
         {
