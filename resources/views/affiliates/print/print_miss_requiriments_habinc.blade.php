@@ -70,7 +70,7 @@
          <p align="right"><b>REF.- <ins> CARTA DE NOTIFICACIÓN </ins></b></p>
         <p align="justify">De nuestra consideracion.</p>
          <p>
-              De la revisión efectuada por el Área Técnica de la Unidad de otorgación del Complemento Económico, <b>se comunica a usted  que no cumple con los requisitos establecidos según Reglamento vigente, para acceder al Beneficio del Complemento Económico correspondiente al  Elija un elemento. Semestre de la Gestión Elija un elemento..</b>
+              De la revisión efectuada por el Área Técnica de la Unidad de otorgación del Complemento Económico, <b>se comunica a usted  que no cumple con los requisitos establecidos según Reglamento vigente, para acceder al Beneficio del Complemento Económico correspondiente al  {!! $eco_com_applicant->semester !!}. Semestre de la Gestión{!! $yearcomplement->year !!} .</b>
         </p>
     <p align="justify"><b>
       Y en estricto cumplimiento al Decreto Supremo Nº 1446</b>, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 3º.- (Funciones y fines). La MUSERPOL tiene las siguientes funciones y fines: inc. <b>5) Pagar el Complemento Económico al sector pasivo de la Policía Boliviana conforme a Reglamento</b>.
