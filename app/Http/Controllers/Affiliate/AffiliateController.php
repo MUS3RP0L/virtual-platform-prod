@@ -39,7 +39,7 @@ class AffiliateController extends Controller
 
     public function index()
     {
-        return view('affiliates.index');
+        return view('affiliates.index', self::getViewModel());
     }
 
     public function Data(Request $request)
@@ -147,10 +147,14 @@ public static function getViewModel()
         $cities_list_short[$item->id]=$item->first_shortened;
     }
 
-    return [
+        $gender_list = ['' => '', 'C' => 'CASADO(A)', 'S' => 'SOLTERO(A)', 'V' => 'VIUDO(A)', 'D' => 'DIVORCIADO(A)'];
 
-    'cities_list' => $cities_list,
-    'cities_list_short' => $cities_list_short
+
+        return [
+
+        'cities_list' => $cities_list,
+        'cities_list_short' => $cities_list_short,
+        'gender_list' => $gender_list
 
     ];
 }
@@ -332,6 +336,12 @@ public static function getViewModel()
         $data = array_merge($data, self::getViewModel());
         return $data;
     }
+
+    public function create()
+    {
+        //
+    }
+
     public function show($affiliate)
     {
 
