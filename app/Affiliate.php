@@ -125,7 +125,6 @@ class Affiliate extends Model
         return $this->hasMany(AffiliateObservation::class);
     }
 
-
     public function scopeIdIs($query, $id)
     {
         return $query->where('id', $id);

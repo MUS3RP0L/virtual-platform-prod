@@ -11,10 +11,9 @@ class AffiliateObservation extends Model
 
         'user_id',
 		'affiliate_id',
-		'module_id',
+		'observation_type_id',
 		'date',
-		'title',
-		'description'
+		'message'
 
 	];
 	protected $guarded = ['id'];
@@ -22,9 +21,10 @@ class AffiliateObservation extends Model
 	{
 		return $this->belongsTo(Affiliate::class);
 	}
-	public function module()
-	{
-		return $this->belongsTo(Module::class);
-	}
 
+	public function observationsType()
+	{
+		return $this->belongsTo(ObservationType::class);
+	}
+	
 }

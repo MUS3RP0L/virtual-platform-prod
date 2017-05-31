@@ -123,9 +123,9 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('get_causes_by_state', array('as'=>'get_causes_by_state', 'uses'=>'EconomicComplement\EconomicComplementController@getCausesByState'));
 
 	//Routes for Observations
-	Route::resource('observation','Observation\ObservationController');
-	Route::get('get_observations',['as'=>'get_observations','uses'=>'Observation\ObservationController@showOfAffiliate']);
-	Route::get('observation/deleteOb/{id}',['as'=>'deleteOb','uses'=>'Observation\ObservationController@deleteOb']);
+	Route::resource('observation','Observation\AffiliateObservationController');
+	Route::get('get_observations',['as'=>'get_observations','uses'=>'Observation\AffiliateObservationController@showOfAffiliate']);
+	Route::get('observation/deleteOb/{id}',['as'=>'deleteOb','uses'=>'Observation\AffiliateObservationController@deleteOb']);
 
 	//Routes for inbox
 	Route::resource('inbox', 'Inbox\InboxController');
