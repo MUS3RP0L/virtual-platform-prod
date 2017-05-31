@@ -25,7 +25,7 @@
                     </span>
                 </div>
 
-                
+
 
     		</div>
         @endcan
@@ -539,7 +539,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
         <div class="col-md-6">
             <div class="box box-success box-solid">
@@ -670,6 +670,7 @@
                     {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
                         <input type="hidden" name="step" value="second"/>
                         <input type="hidden" name="type" value="update"/>
+						<input type="hidden" name="type1" value="update"/>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -1008,7 +1009,7 @@
                                     </div>
                             </div>
                             </div>
-                            
+
                         </div>
 
                         <div class="row text-center">
@@ -1233,7 +1234,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        
+
                                          <div class="form-group">
                                                 {!! Form::label('degree', 'Grado', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">

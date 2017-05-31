@@ -116,7 +116,7 @@ class EconomicComplementController extends Controller
             });
         }
         return Datatables::of($economic_complements)
-        ->addColumn('affiliate_identitycard', function ($economic_complement) { 
+        ->addColumn('affiliate_identitycard', function ($economic_complement) {
 
            return $economic_complement->economic_complement_applicant->city_identity_card_id ? $economic_complement->economic_complement_applicant->identity_card.' '.$economic_complement->economic_complement_applicant->city_identity_card->first_shortened: $economic_complement->economic_complement_applicant->identity_card; })
         ->addColumn('affiliate_name', function ($economic_complement) { return $economic_complement->economic_complement_applicant->getTittleName(); })
@@ -375,7 +375,7 @@ return view('economic_complements.reception_third_step', $data);
         $data = self::getViewModel();
 
         $affiliate = Affiliate::idIs($request->affiliate_id)->first();
-        
+
         $eco_com_pro = EconomicComplementProcedure::where('year','=',Util::datePickYear(Carbon::now()->year))->where('semester','=',Util::getCurrentSemester())->first();
 
         $economic_complement = EconomicComplement::affiliateIs($affiliate->id)
@@ -700,7 +700,7 @@ return view('economic_complements.reception_third_step', $data);
                 $eco_com_applicant->civil_status = $request->civil_status;
                 $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
                 $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number));
-                $eco_com_applicant->nua = $request->nua;
+                $eco_com_applicant->nua = ($request->nua == null) ? 0 : $request->nua;
                 $eco_com_applicant->save();
 
                 switch ($economic_complement->economic_complement_modality->economic_complement_type->id) {
@@ -724,35 +724,49 @@ return view('economic_complements.reception_third_step', $data);
                     break;
 
                     case '2':
+                        $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+                        if($request->type1 == 'update')
+                        {
+                            $spouse = Spouse::affiliateidIs($affiliate->id)->first();
+                            if (!$spouse) { $spouse = new Spouse; }
+                            $spouse->user_id = Auth::user()->id;
+                            $spouse->affiliate_id = $affiliate->id;
+                            $spouse->identity_card = trim($request->identity_card);
+                            if ($request->city_identity_card_id) { $spouse->city_identity_card_id = $request->city_identity_card_id; } else { $spouse->city_identity_card_id = null; }
+                            $spouse->last_name = trim($request->last_name);
+                            $spouse->mothers_last_name = trim($request->mothers_last_name);
+                            $spouse->first_name = trim($request->first_name);
+                            $spouse->second_name = trim($request->second_name);
+                            $spouse->birth_date = Util::datePick($request->birth_date);
+                            $spouse->registration=Util::CalcRegistration(Util::datePick($request->birth_date),trim($request->last_name),trim($request->mothers_last_name), trim($request->first_name),Util::getGender($affiliate->gender));
+                            $spouse->save();
+                        }
+                        else{
+                            $affiliate->identity_card = $request->identity_card_affi;
+                            if ($request->city_identity_card_id_affi) { $affiliate->city_identity_card_id = $request->city_identity_card_id_affi; } else { $affiliate->city_identity_card_id = null; }
+                            $affiliate->last_name = $request->last_name_affi;
+                            $affiliate->mothers_last_name = $request->mothers_last_name_affi;
+                            $affiliate->first_name = $request->first_name_affi;
+                            $affiliate->birth_date = Util::datePick($request->birth_date_affi);
+                            $affiliate->phone_number = trim(implode(",", $request->phone_number));
+                            $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
+                            $affiliate->save();
 
-                    $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+                            $spouse = Spouse::affiliateidIs($affiliate->id)->first();
+                            if (!$spouse) { $spouse = new Spouse; }
+                            $spouse->user_id = Auth::user()->id;
+                            $spouse->affiliate_id = $affiliate->id;
+                            $spouse->identity_card = trim($request->identity_card);
+                            if ($request->city_identity_card_id) { $spouse->city_identity_card_id = $request->city_identity_card_id; } else { $spouse->city_identity_card_id = null; }
+                            $spouse->last_name = trim($request->last_name);
+                            $spouse->mothers_last_name = trim($request->mothers_last_name);
+                            $spouse->first_name = trim($request->first_name);
+                            $spouse->second_name = trim($request->second_name);
+                            $spouse->birth_date = Util::datePick($request->birth_date);
+                            $spouse->registration=Util::CalcRegistration(Util::datePick($request->birth_date),trim($request->last_name),trim($request->mothers_last_name), trim($request->first_name),Util::getGender($affiliate->gender));
+                            $spouse->save();
+                        }
 
-                    $affiliate->identity_card = $request->identity_card_affi;
-                    if ($request->city_identity_card_id_affi) { $affiliate->city_identity_card_id = $request->city_identity_card_id_affi; } else { $affiliate->city_identity_card_id = null; }
-                    $affiliate->last_name = $request->last_name_affi;
-                    $affiliate->mothers_last_name = $request->mothers_last_name_affi;
-                    $affiliate->first_name = $request->first_name_affi;
-                    $affiliate->birth_date = Util::datePick($request->birth_date_affi);
-                    $affiliate->phone_number = trim(implode(",", $request->phone_number));
-                    $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
-
-                    $affiliate->save();
-
-                    $spouse = Spouse::affiliateidIs($affiliate->id)->first();
-
-                    if (!$spouse) { $spouse = new Spouse; }
-
-                    $spouse->user_id = Auth::user()->id;
-                    $spouse->affiliate_id = $affiliate->id;
-                    $spouse->identity_card = trim($request->identity_card);
-                    if ($request->city_identity_card_id) { $spouse->city_identity_card_id = $request->city_identity_card_id; } else { $spouse->city_identity_card_id = null; }
-                    $spouse->last_name = trim($request->last_name);
-                    $spouse->mothers_last_name = trim($request->mothers_last_name);
-                    $spouse->first_name = trim($request->first_name);
-                    $spouse->second_name = trim($request->second_name);
-                    $spouse->birth_date = Util::datePick($request->birth_date);
-                    $spouse->registration=Util::CalcRegistration(Util::datePick($request->birth_date),trim($request->last_name),trim($request->mothers_last_name), trim($request->first_name),Util::getGender($affiliate->gender));
-                    $spouse->save();
 
                     break;
 
@@ -761,7 +775,7 @@ return view('economic_complements.reception_third_step', $data);
                     $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
                     $affiliate->phone_number = trim(implode(",", $request->phone_number));
                     $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
-                    $affiliate->nua = $request->nua;
+                    $affiliate->nua = ($request->nua == null) ? 0 : $request->nua;
                     $affiliate->save();
 
                     break;
@@ -962,10 +976,10 @@ return view('economic_complements.reception_third_step', $data);
                 $economic_complement->complementary_factor_id = $complementary_factor->id;
                 $economic_complement->salary_reference=$economic_complement->base_wage->amount;
                 $economic_complement->state = 'Edited';
-                $economic_complement->save();  
+                $economic_complement->save();
                 dd($economic_complement);
                 return redirect('economic_complement/'.$economic_complement->id);
-            }   
+            }
         break;
         case 'legal_guardian':
             $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
@@ -1059,7 +1073,7 @@ return view('economic_complements.reception_third_step', $data);
 
     }
 
-    public function getCausesByState(Request $request) 
+    public function getCausesByState(Request $request)
     {
         if($request->ajax())
         {
