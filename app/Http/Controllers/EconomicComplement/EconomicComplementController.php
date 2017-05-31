@@ -1033,7 +1033,6 @@ return view('economic_complements.reception_third_step', $data);
     {
       $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
       $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-      $title = "";
       $date = Util::getDateEdit(date('Y-m-d'));
       $current_date = Carbon::now();
       $hour = Carbon::parse($current_date)->toTimeString();
@@ -1041,11 +1040,12 @@ return view('economic_complements.reception_third_step', $data);
       $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
       $affiliate = Affiliate::idIs($economic_complement_id)->first();
       $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement_id)->first();
-      
+      $yearcomplement=new Carbon($economic_complement->year);
         switch ($type) {
             case 'report':
+                $title= "RECEPCIÓN DE REQUISITOS";
                 $user = Auth::user();
-                $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user'))->render();
+                $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user','yearcomplement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('letter');
                 return $pdf->stream();
