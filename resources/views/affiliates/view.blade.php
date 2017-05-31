@@ -1,7 +1,11 @@
 @extends('app')
 
 @section('contentheader_title')
-
+<style>
+    .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+        background: indigo;
+    }
+</style>
     <div class="row">
         <div class="col-md-6">
             {!! Breadcrumbs::render('show_affiliate', $affiliate) !!}
@@ -1478,7 +1482,6 @@
         <iframe src="{!! url('print_affiliate/' . $affiliate->id) !!}" id="iFramePdf"></iframe>
         <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/report') !!}" id="iFramePdfReport" ></iframe>
 
-    </div>
         <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/wallet_pres') !!}" id="iFramePdfObsTesoreria" ></iframe>
         <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/debtor_conta') !!}" id="iFramePdfObsContabilidad" ></iframe>
         <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/out_time90') !!}" id="iFramePdfObsRango90" ></iframe>
@@ -1486,6 +1489,7 @@
         <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/miss_requirements') !!}" id="iFramePdfObsRequisites" ></iframe>
         <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/miss_requirements_hi') !!}" id="iFramePdfObsRequisites_hi" ></iframe>
 
+    </div>
 <!--     buttons observations -->
  <div id="observationMo" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
