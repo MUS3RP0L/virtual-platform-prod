@@ -532,7 +532,7 @@ class AffiliateController extends Controller
     public function print_excluded_observations($id_complement,$type)
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-        $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
+        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
         $title = "NOTIFICACIÓN";
         $date = Util::getDateEdit(date('Y-m-d'));
         $current_date = Carbon::now();
@@ -583,7 +583,7 @@ class AffiliateController extends Controller
     public function print_suspended_observations($id_complement,$type)
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-        $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
+        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
         $title = "NOTIFICACIÓN";
         $date = Util::getDateEdit(date('Y-m-d'));
         $current_date = Carbon::now();
@@ -640,7 +640,7 @@ class AffiliateController extends Controller
     public function print_correct_grading($id_complement)
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-        $header2 = "UNIDAD DE FONDO DE RETIRO POLICIAL INDIVIDUAL";
+        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
         $title = "NOTIFICACIÓN";
         $date = Util::getDateEdit(date('Y-m-d'));
         $current_date = Carbon::now();
