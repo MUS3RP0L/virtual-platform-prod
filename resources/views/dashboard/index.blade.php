@@ -10,29 +10,27 @@
 @can('economic_complement')
 <div class="row">
 	<div class="col-md-4">
-		@include('dashboard.economic_complement_by_type')
-		
+		@include('dashboard.economic_complement_by_type')	
 	</div>
-	<div class="col-md-4">
-		@include('dashboard.economic_complement_by_type_of_modalities')
+	<div class="col-md-8">
+		@include('dashboard.last_semesters')
+	</div>
+</div>
+<div class="row">
+<div class="col-md-8">
+		@include('dashboard.sum_last_semesters')
 	</div>
 	<div class="col-md-4">
 		@include('dashboard.complementary_economic_by_departments')	
 	</div>
 </div>
 <div class="row">
-	<div class="col-md-12">
+
+	<div class="col-md-4">
+		@include('dashboard.economic_complement_by_type_of_modalities')
+	</div>
+	<div class="col-md-8">
 		@include('dashboard.economic_complement_of_the_management')
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-12">
-		@include('dashboard.last_semesters')
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-12">
-		@include('dashboard.sum_last_semesters')
 	</div>
 </div>
 @endcan
