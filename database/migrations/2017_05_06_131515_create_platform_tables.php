@@ -84,16 +84,16 @@ class CreatePlatformTables extends Migration
 
         Schema::create('wf_records', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
+            $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('wf_state_id');
             $table->bigInteger('eco_com_id')->nullable();
             $table->bigInteger('ret_fun_id')->nullable();
             //other wf's
+            $table->date('date');
+            $table->integer('record_type_id');
             $table->longText('message');
             $table->timestamps();
         });
-
-
 
         Schema::create('hierarchies', function (Blueprint $table) {
             $table->bigIncrements('id');
