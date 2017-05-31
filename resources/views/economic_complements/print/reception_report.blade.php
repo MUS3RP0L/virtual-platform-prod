@@ -16,7 +16,6 @@
 		  		<th class="grand service"><h5><b>CARNET DE IDENTIDAD</b></h5></th>
 		  		<td><h4>{!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened !!}</h4></td>
 		  	</tr>
-
 		  	<tr>
 		  		<th class="grand service"><h5><b>FECHA DE NACIMIENTO</h5></b></th>
 		  		<td ><h4>{!! $eco_com_applicant->getShortBirthDate() !!}</h4></td>
@@ -26,8 +25,8 @@
 		  		<td ><h4> {!! $economic_complement->economic_complement_modality->economic_complement_type->name !!}</h4></td>
 		  	</tr>
 		  	<tr>
-		  		<th class="grand service"><h5><b>Nº. CUA/NUA</h5></b></th>
-		  		<td ><h4>{!! $eco_com_applicant->nua !!}</h4></td>
+		  		<th class="grand service"><h5><b>FECHA DE RECEPCION</h5></b></th>
+		  		<td ><h4> {!! $economic_complement->reception_date !!}</h4></td>
 		  	</tr>
 	  </table>
 	  <br><br>
@@ -37,7 +36,7 @@
       		</tr>
             <tr>
               <th class="grand">N°</th>
-              <th class="grand">REQUISITOS</th>
+              <th class="grand">Requisitos de {!! $economic_complement->economic_complement_modality->economic_complement_type->name !!}</th>
               <th class="grand">ESTADO</th>
             </tr>
             @foreach($eco_com_submitted_document as $i=>$item)

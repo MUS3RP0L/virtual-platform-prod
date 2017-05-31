@@ -452,6 +452,7 @@ return view('economic_complements.reception_third_step', $data);
         $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
 
         $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($economic_complement->id)->get();
+        $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
 
         if (EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->first()) {
             $status_documents = TRUE;
@@ -509,6 +510,7 @@ return view('economic_complements.reception_third_step', $data);
         'eco_com_type' => $eco_com_type->name,
         'eco_com_applicant' => $eco_com_applicant,
         'eco_com_requirements' => $eco_com_requirements,
+        'economic_complement_legal_guardian' => $eco_com_legal_guardian,
         'eco_com_submitted_documents' => $eco_com_submitted_documents,
         'status_documents' => $status_documents,
         'gender_list' => $gender_list,
@@ -1010,9 +1012,8 @@ return view('economic_complements.reception_third_step', $data);
       $current_date = Carbon::now();
       $hour = Carbon::parse($current_date)->toTimeString();
       $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
-      $affiliate = Affiliate::idIs($economic_complement_id)->first();
+      $affiliate = Affiliate::where('id',$economic_complement->affiliate_id)->first();
       $eco_com_applicant = EconomicComplementApplicant::EconomicComplementIs($economic_complement->id)->first();
-        
         switch ($type) {
             case 'vejez':
                 $view = \View::make('economic_complements.print.sworn_declaration1', compact('header1','header2','title','date','hour','affiliate','economic_complement','eco_com_applicant'))->render();
@@ -1020,7 +1021,7 @@ return view('economic_complements.reception_third_step', $data);
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
             case 'viudedad':
-                $spouse  = Spouse::where('affiliate_id', '=', $affiliate->id )->first();
+                $spouse = Spouse::where('affiliate_id',$affiliate->id)->first();
                 $view = \View::make('economic_complements.print.sworn_declaration2', compact('header1','header2','title','date','hour','affiliate','spouse','economic_complement','eco_com_applicant'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
@@ -1040,7 +1041,7 @@ return view('economic_complements.reception_third_step', $data);
       $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
       $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
       $affiliate = Affiliate::idIs($economic_complement_id)->first();
-      $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+      $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement_id)->first();
       
         switch ($type) {
             case 'report':
