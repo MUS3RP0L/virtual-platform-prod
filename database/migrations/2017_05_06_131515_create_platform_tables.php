@@ -377,7 +377,7 @@ class CreatePlatformTables extends Migration
 
         Schema::create('activities', function (Blueprint $table) {
             $table->increments('id');
-            $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('user_id');
             $table->bigInteger('affiliate_id')->unsigned();
             $table->bigInteger('spouse_id')->unsigned()->nullable();
             $table->bigInteger('retirement_fund_id')->unsigned()->nullable();
@@ -396,7 +396,6 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('eco_com_submitted_document_id')->unsigned()->nullable();
             $table->text('message')->nullable();
             $table->integer('activity_type_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
 
