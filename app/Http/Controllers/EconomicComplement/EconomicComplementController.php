@@ -163,26 +163,26 @@ class EconomicComplementController extends Controller
         }
 
         $eco_com_types = EconomicComplementType::all();
-        $eco_com_types_list = array('' => '');
+        $eco_com_types_list = ['' => ''];
         foreach ($eco_com_types as $item) {
             $eco_com_types_list[$item->id]=$item->name;
         }
 
         $cities = City::all();
-        $cities_list = array('' => '');
+        $cities_list = ['' => ''];
         foreach ($cities as $item) {
             $cities_list[$item->id]=$item->name;
         }
-
-        $pension_entities = PensionEntity::all();
-        $pension_entities_list = array('' => '');
-        foreach ($pension_entities as $item) {
-            $pension_entities_list[$item->id]=$item->name;
-        }
-
+     
         $cities_list_short = ['' => ''];
         foreach ($cities as $item) {
             $cities_list_short[$item->id]=$item->first_shortened;
+        }
+
+        $pension_entities = PensionEntity::all();
+        $pension_entities_list = ['' => ''];
+        foreach ($pension_entities as $item) {
+            $pension_entities_list[$item->id]=$item->name;
         }
 
         $new_cities_list = ['Todo' => 'Todo'];
