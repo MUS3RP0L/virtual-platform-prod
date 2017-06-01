@@ -147,6 +147,46 @@ public static function getViewModel()
         $cities_list_short[$item->id]=$item->first_shortened;
     }
 
+        $affiliate_states=AffiliateState::all();
+        $a_states=[];
+        foreach ($affiliate_states as $as) {
+            $a_states[$as->id]=$as->name;
+        }
+        $dg=Degree::all();
+        $degrees=[];
+        foreach ($dg as $d) {
+            $degrees[$d->id]=$d->name;
+        }
+
+        $ep=PensionEntity::all();
+        $entity_pensions=array(''=>'');
+
+        foreach ($ep as $e) {
+            $entity_pensions[$e->id]=$e->name;
+        }
+
+        $at=Affiliate::all();
+        $affiliate_types=[];
+        foreach ($at as $d) {
+            $affiliate_types[$d->id]=$d->type;
+        }
+
+        $un=Unit::all();
+        $units=[];
+        foreach ($un as $d) {
+            $units[$d->id]=$d->name;
+        }
+
+        $ca=Category::all();
+        $categories=[];
+        foreach ($ca as $key=>$d) {
+            if ($key==8) {
+                break;
+            }else{
+                $categories[$d->id]=$d->name;
+            }
+        }
+
         $gender_list = ['' => '', 'C' => 'CASADO(A)', 'S' => 'SOLTERO(A)', 'V' => 'VIUDO(A)', 'D' => 'DIVORCIADO(A)'];
 
 
@@ -154,7 +194,13 @@ public static function getViewModel()
 
         'cities_list' => $cities_list,
         'cities_list_short' => $cities_list_short,
-        'gender_list' => $gender_list
+        'gender_list' => $gender_list,
+        'affiliate_state'=>$a_states,
+        'degrees'=>$degrees,
+        'affiliate_types'=>$affiliate_types,
+        'entity_pensions'=>$entity_pensions,
+        'units'=>$units,
+        'categories'=>$categories
 
     ];
 }
@@ -234,48 +280,8 @@ public static function getViewModel()
         //     $total_mortuary_quota = Util::formatMoney($item->mortuary_quota);
         //     $total = Util::formatMoney($item->total);
         // }
-        $affiliate_states=AffiliateState::all();
-        $a_states=[];
-        foreach ($affiliate_states as $as) {
-            $a_states[$as->id]=$as->name;
-        }
-        $dg=Degree::all();
-        $degrees=[];
-        foreach ($dg as $d) {
-            $degrees[$d->id]=$d->name;
-        }
-
-        $ep=PensionEntity::all();
-        $entity_pensions=array(''=>'');
-
-        foreach ($ep as $e) {
-            $entity_pensions[$e->id]=$e->name;
-        }
-
-        $at=Affiliate::all();
-        $affiliate_types=[];
-        foreach ($at as $d) {
-            $affiliate_types[$d->id]=$d->type;
-        }
-
-        $un=Unit::all();
-        $units=[];
-        foreach ($un as $d) {
-            $units[$d->id]=$d->name;
-        }
 
         $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->first();
-
-        $ca=Category::all();
-        $categories=[];
-        foreach ($ca as $key=>$d) {
-            if ($key==8) {
-                break;
-            }else{
-                $categories[$d->id]=$d->name;
-            }
-        }
-
 
         $canObservate=false;
         $ObservationType=null;
@@ -325,21 +331,10 @@ public static function getViewModel()
             // 'total_retirement_fund' => $total_retirement_fund,
             // 'total_mortuary_quota' => $total_mortuary_quota,
             // 'total' => $total
-        'affiliate_state'=>$a_states,
-        'degrees'=>$degrees,
-        'affiliate_types'=>$affiliate->type,
-        'entity_pensions'=>$entity_pensions,
-        'units'=>$units,
-        'categories'=>$categories
 
         ];
         $data = array_merge($data, self::getViewModel());
         return $data;
-    }
-
-    public function create()
-    {
-        //
     }
 
     public function show($affiliate)
@@ -358,6 +353,11 @@ public static function getViewModel()
     public function update(Request $request, $affiliate)
     {
         return $this->save($request, $affiliate);
+    }
+
+    public function store(Request $request)
+    {
+        return $this->save($request);
     }
 
     public function save($request, $affiliate = false)
@@ -398,8 +398,6 @@ public static function getViewModel()
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
-
-
         if ($validator->fails()) {
             return redirect('affiliate/'.$affiliate->id)
             ->withErrors($validator)
@@ -407,12 +405,10 @@ public static function getViewModel()
         }
         else {
 
-            $affiliate->user_id = Auth::user()->id;
-
             switch ($request->type) {
 
                 case 'personal':
-
+                $affiliate->user_id = Auth::user()->id;
                 $affiliate->identity_card = trim($request->identity_card);
                 if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
                 $affiliate->last_name = trim($request->last_name);
@@ -435,7 +431,33 @@ public static function getViewModel()
                     $affiliate->reason_death = null;
                 }
                 $affiliate->save();
-                $message = "Información personal de Afiliado actualizado con éxito";
+                $message = "Información Afiliado actualizado con éxito";
+                break;
+
+                case 'personal_new':
+                if (!Affiliate::where('identity_card', '=', $request->identity_card)->first()) {
+                    $affiliate = new Affiliate;
+                    $affiliate->user_id = Auth::user()->id;
+                    $affiliate->identity_card = trim($request->identity_card);
+                    if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
+                    $affiliate->last_name = trim($request->last_name);
+                    $affiliate->mothers_last_name = trim($request->mothers_last_name);
+                    $affiliate->first_name = trim($request->first_name);
+                    $affiliate->second_name = trim($request->second_name);
+                    $affiliate->surname_husband = trim($request->surname_husband);
+                    $affiliate->gender = trim($request->gender);
+                    $affiliate->nua = $request->nua >0 ? $request->nua:0;
+                    $affiliate->birth_date = Util::datePick($request->birth_date);
+                    $affiliate->civil_status = trim($request->civil_status);
+                    $affiliate->degree_id = $request->degree;
+                    $affiliate->change_date = Carbon::now();
+                    $affiliate->affiliate_state_id = 5;
+                    if ($request->city_birth_id) { $affiliate->city_birth_id = $request->city_birth_id; } else { $affiliate->city_birth_id = null; }
+                    $affiliate->registration = Util::CalcRegistration($affiliate->birth_date, $affiliate->last_name, $affiliate->mothers_last_name, $affiliate->first_name, $affiliate->gender);
+                    $affiliate->save();
+                    $message = "Información Afiliado creado con éxito";
+                }
+
                 break;
 
                 case 'institutional':

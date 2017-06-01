@@ -157,16 +157,16 @@ class CreatePlatformTables extends Migration
         Schema::create('affiliates', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('affiliate_state_id')->unsigned();
+            $table->bigInteger('affiliate_state_id')->unsigned()->nullable();
             $table->bigInteger('city_identity_card_id')->unsigned()->nullable();
             $table->bigInteger('city_birth_id')->unsigned()->nullable();
-            $table->bigInteger('degree_id')->unsigned();
+            $table->bigInteger('degree_id')->unsigned()->nullable();
             $table->bigInteger('unit_id')->unsigned()->nullable();
             $table->bigInteger('category_id')->unsigned()->nullable();
             $table->bigInteger('pension_entity_id')->unsigned()->nullable();
             $table->string('identity_card')->unique();
             $table->string('registration');
-            $table->enum('type',['Comando', 'Batallón']);
+            $table->enum('type',['Comando', 'Batallón'])->nullable();
             $table->string('last_name')->nullable();
             $table->string('mothers_last_name')->nullable();
             $table->string('first_name')->nullable();
