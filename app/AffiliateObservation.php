@@ -22,7 +22,7 @@ class AffiliateObservation extends Model
 		return $this->belongsTo(Affiliate::class);
 	}
 
-	public function observationsType()
+	public function observationType()
 	{
 		return $this->belongsTo(ObservationType::class);
 	}

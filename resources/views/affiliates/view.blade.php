@@ -67,13 +67,14 @@
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
             </div>
-            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observaciones" style="margin:0px;">
-                    <span data-toggle="modal" data-target="#observationMo">
-                    <a href="#" class="btn btn-success btn-raised bg-red"  data-toggle="modal" value="Print" >
-                        &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                    </a>
-            </div>
-
+            @if($canObservate)
+                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observaciones" style="margin:0px;">
+                        <span data-toggle="modal" data-target="#observationMo">
+                        <a href="#" class="btn btn-success btn-raised bg-red"  data-toggle="modal" value="Print" >
+                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                        </a>
+                </div>
+            @endif
             <!-- /button of  Observations -->
             {{--<div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir" style="margin:0px;">--}}
                 {{--<a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >--}}
@@ -1652,7 +1653,7 @@
             columns: [
 
                 { data: 'date', bSortable: false },
-                { data: 'type', bSortable: false },
+                { data: 'type',name:"type" },
                 { data: 'message', bSortable: false },
                 { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
             ]

@@ -17,7 +17,7 @@
 				</div>
 				{!! Form::label('message', 'Mensaje:', []) !!}
 				@if(isset($ObservationType))
-				{!! Form::textarea('message', $ObservationType->description, ['class'=>'form-control','required' => 'required']) !!}
+				{!! Form::textarea('message', '', ['class'=>'form-control','required' => 'required']) !!}
 					@else
 					{!! Form::textarea('message', null, ['class'=>'form-control']) !!}
 				@endif

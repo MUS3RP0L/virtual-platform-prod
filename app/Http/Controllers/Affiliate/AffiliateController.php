@@ -302,7 +302,7 @@ public static function getViewModel()
         $canObservate=false;
         $ObservationType=null;
         $moduleObservation=Auth::user()->roles()->first()->module->id;
-        if($moduleObservation==8 || $moduleObservation==6 ||$moduleObservation==9 ){
+        if($moduleObservation==8 || $moduleObservation==6 || $moduleObservation==9 || $moduleObservation==1 ){
             $ObservationType=ObservationType::where('module_id',$moduleObservation)->first();
             $canObservate=true;
         }
