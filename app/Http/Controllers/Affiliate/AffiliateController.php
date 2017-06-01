@@ -299,7 +299,6 @@ public static function getViewModel()
             $observation_types_list[$item->id]=$item->name;
         }
 
-
         $canObservate=false;
         $ObservationType=null;
         $moduleObservation=Auth::user()->roles()->first()->module->id;
