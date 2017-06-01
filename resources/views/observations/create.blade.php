@@ -10,20 +10,18 @@
 			<div class="modal-body">
 
 				{!! Form::token() !!}
-				{!! Form::label('title', 'Titulo:', ['']) !!}
-				@if(isset($ObservationType))
-					{!! Form::text('title', $ObservationType->name, ['class'=>'form-control']) !!}
-				@else
-					{!! Form::text('title', null, ['class'=>'form-control']) !!}
-				@endif
+				        {!! Form::label('observation_type_id', 'Tipo', ['']) !!}
+
+				<div class="form-group">
+				        {!! Form::select('observation_type_id', $observations_types, '', ['class' => 'col-md-2 combobox form-control','required' => 'required']) !!}
+				</div>
 				{!! Form::label('message', 'Mensaje:', []) !!}
 				@if(isset($ObservationType))
-				{!! Form::textarea('message', $ObservationType->description, ['class'=>'form-control']) !!}
+				{!! Form::textarea('message', $ObservationType->description, ['class'=>'form-control','required' => 'required']) !!}
 					@else
 					{!! Form::textarea('message', null, ['class'=>'form-control']) !!}
 				@endif
 				{!! Form::hidden('affiliate_id', $affiliate->id  ) !!}
-				{!! Form::hidden('module_id', Auth::user()->roles()->first()->module_id ) !!}
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-warning" data-dismiss="modal">Cancelar</button>

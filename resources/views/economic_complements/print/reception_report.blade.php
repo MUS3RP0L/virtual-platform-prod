@@ -29,6 +29,9 @@
 		  		<th class="grand service"><h4><b>FECHA DE RECEPCION</h4></b></th>
 		  		<td ><h3> {!! $economic_complement->reception_date !!}</h3></td>
 		  	</tr>
+		  	</table>
+		  	<br>
+		  	<table>
 		  	<tr>
 		  		<th colspan="2" class="grand service"><b>DATOS DEL BENEFICIARIO<b></th>
 		  	</tr>
@@ -45,6 +48,7 @@
 		  		<td ><h3>{!! $eco_com_applicant->getShortBirthDate() !!}</h3></td>
 		  	</tr>
 	  </table>
+	  <br>
       <table align="center">
       		<tr>
       		  <th colspan="3" class="grand service"><b>DOCUMENTOS RECEPCIONADOS<b></th>
