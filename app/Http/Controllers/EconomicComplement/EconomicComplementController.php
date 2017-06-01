@@ -173,7 +173,7 @@ class EconomicComplementController extends Controller
         foreach ($cities as $item) {
             $cities_list[$item->id]=$item->name;
         }
-     
+
         $cities_list_short = ['' => ''];
         foreach ($cities as $item) {
             $cities_list_short[$item->id]=$item->first_shortened;
@@ -619,6 +619,7 @@ return view('economic_complements.reception_third_step', $data);
                     $eco_com_applicant->mothers_last_name = $affiliate->mothers_last_name;
                     $eco_com_applicant->first_name = $affiliate->first_name;
                     $eco_com_applicant->second_name = $affiliate->second_name;
+                    $eco_com_applicant->surname_husband = $affiliate->surname_husband;
                     $eco_com_applicant->birth_date = $affiliate->birth_date;
                     $eco_com_applicant->nua = $affiliate->nua;
                     $eco_com_applicant->gender = $affiliate->gender;
@@ -638,6 +639,7 @@ return view('economic_complements.reception_third_step', $data);
                         $eco_com_applicant->mothers_last_name = $spouse->mothers_last_name;
                         $eco_com_applicant->first_name = $spouse->first_name;
                         $eco_com_applicant->second_name = $spouse->second_name;
+                        $eco_com_applicant->surname_husband = $spouse->surname_husband;
                         $eco_com_applicant->birth_date = $spouse->birth_date;
                     }
                     $eco_com_applicant->nua = $affiliate->nua;
