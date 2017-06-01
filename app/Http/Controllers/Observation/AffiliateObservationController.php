@@ -8,6 +8,7 @@ use Muserpol\Http\Requests;
 use Muserpol\Http\Controllers\Controller;
 use Muserpol\AffiliateObservation;
 use Muserpol\Affiliate;
+use Muserpol\ObservationType;
 use Carbon\Carbon;
 
 use Auth;
@@ -107,14 +108,44 @@ class AffiliateObservationController extends Controller
     }
     public function showOfAffiliate(Request $request)
     {   
-        /*$observations_type = ObsrvationType 
-        $observations=AffiliateObservation::where('affiliate_id',$request->id)->leftJoin('observation_types','observation_types.id','=','affiliates_observations.observation_type_id')->select(['affiliates_observations.id','affiliates_observations.date','observation_types.name','affiliates_observations.message'])->get();*/
-        $os=AffiliateObservation::where('affiliate_id',$request->id)->select(['id','date','message','observation_type_id'])->get();
-        return Datatables::of($os)
-                ->addColumn('action', function ($observation) { return  '
-                    <div class="btn-group" style="margin:-3px 0;">
-                        <a href="/observation/deleteOb/'.$observation->id.'" style="padding:3px 5px;" class="btn btn-warning btn-raised btn-sm">'.$observation->observation_type.'<i class="glyphicon glyphicon-minus"></i> Eliminar</a>
-                    </div>';})
+        $observations=AffiliateObservation::where('affiliate_id',$request->id)->select(['id','date','message','observation_type_id'])->get();
+        return Datatables::of($observations)
+                ->addColumn('type',function ($observation)
+                {
+                    return $observation->observationType->name;
+                })
+                ->addColumn('action', function ($observation) { return  
+                        '<div class="btn-group">
+                          <button type="button" class="btn btn-warning btn-raised btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Opciones <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu">
+                              <li><a href="#" style="padding:3px 10px;"><i class="glyphicon glyphicon-print"></i> Imprimir Observación</a></li>
+                              <li><a href="/observation/deleteOb/' .$observation->id. '" style="padding:3px 10px;" class="btn btn-danger btn-raised btn-sm">' .$observation->observation_type. '<i class="glyphicon glyphicon-minus"></i> Eliminar</a></li>
+                          </ul>
+                        </div>';})
+
+                // Nuevo
+                // '<div class="btn-group">
+                //   <a href="/observation/deleteOb/' .$observation->id. '" class="btn btn-danger">' .$observation->observation_type. '<i class="glyphicon glyphicon-minus"></i> Eliminar</a>
+                //   <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                //     <span class="caret"></span>
+                //     <span class="sr-only">Toggle Dropdown</span>
+                //   </button>
+                //   <ul class="dropdown-menu">
+                //       <li><a href="#" style="padding:3px 10px;"><i class="glyphicon glyphicon-print"></i> Imprimir Observación</a></li>
+                //   </ul>
+                // </div>'
+
+                // Original
+                // '<div class="btn-group" style="margin:-3px 0;">
+                //         <a href="/observation/deleteOb/'.$observation->id.'" style="padding:3px 5px;" class="btn btn-warning btn-raised ">'.$observation->observation_type.'<i class="glyphicon glyphicon-minus"></i> Eliminar</a>
+                //         <a href="" class="btn btn-warning btn-raised btn-sm dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</a>
+                //         <ul class="dropdown-menu">
+                //             <li><a href="#" style="padding:3px 10px;"><i class="glyphicon glyphicon-print"></i> Imprimir Observación</a></li>
+                //         </ul>
+                //     </div>'
+
                 ->make(true);
     }
 
