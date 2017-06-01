@@ -1,4 +1,4 @@
-
+@extends('app')
 
 @section('contentheader_title')
 
