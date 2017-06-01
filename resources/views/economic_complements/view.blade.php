@@ -1204,14 +1204,14 @@
                         </div>
                         <div class="modal-body">
                             {!! Form::model($affiliate, ['method' => 'PATCH', 'route' => ['affiliate.update', $affiliate], 'class' => 'form-horizontal']) !!}
-                            <input type="hidden" name="type" value="institutional"/>
+                            <input type="hidden" name="type" value="institutional_eco_com"/>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                                 {!! Form::label('date_entry', 'Fecha de Ingreso', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
                                                 <div class="input-group">
-                                                    <input type="text" id="date_entry" class="form-control" name="date_entry" value="{!! $affiliate->date_entry !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                                    <input type="text" id="date_entry" class="form-control" name="date_entry" value="{!! $affiliate->getEditDateEntry() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                                     <div class="input-group-addon">
                                                         <span class="glyphicon glyphicon-calendar"></span>
                                                     </div>
@@ -1277,7 +1277,7 @@
                                 <div class="row text-center">
                                     <div class="form-group">
                                         <div class="col-md-12">
-                                            <a href="{!! url('affiliate/' . $affiliate->id) !!}" data-target="#" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
+                                            <a href="{!! url('economic_complement/' . $economic_complement->id) !!}" data-target="#" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
                                             &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;</button>
                                         </div>
                                     </div>
@@ -1356,6 +1356,7 @@
 		$("#phone_number").inputmask();
         $("#cell_phone_number").inputmask();
         $("#phone_number_guardian").inputmask();
+        $('#date_entry').inputmask();
 		$("#cell_phone_number_guardian").inputmask();
 
         $('#state').on('change', function() {

@@ -243,7 +243,10 @@ class Affiliate extends Model
     {
         return Util::getDateEdit($this->birth_date);
     }
-
+    public function getEditDateEntry()
+    {
+        return Util::getDateEdit($this->date_entry);
+    }
     public function getEditDateDeath()
     {
         return Util::getDateEdit($this->date_death);
