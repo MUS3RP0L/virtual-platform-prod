@@ -29,7 +29,7 @@ class EconomicComplementRequirementTableSeeder extends Seeder
             ['eco_com_type_id' => '1', 'name' => 'Fotocopia legible de Certificación de Años de Servicio emitida por el Comando General de la Policía Boliviana, que acredite como mínimo Dieciséis (16) años de servicio en la Policía Boliviana', 'shortened' => 'Fotocopia de Certificación de Años de Servicio'],
             ['eco_com_type_id' => '1', 'name' => 'Fotocopia de la Resolución de SENASIR o contrato de la AFP o de la Aseguradora; excepcionalmente se podrá admitir fotocopia legalizada de la Resolución otorgada de renta de vejez', 'shortened' => 'Fotocopia de Resolución de SENASIR o contrato de la AFP o de la Aseguradora'],
 
-            ['eco_com_type_id' => '2', 'name' => 'Fotocopia de Boleta de Renta', 'shortened' => 'Fotocopia de Boleta de Renta'],
+            ['eco_com_type_id' => '2', 'name' => 'Fotocopia de Boleta de Renta o Pensión', 'shortened' => 'Fotocopia de Boleta de Renta'],
             ['eco_com_type_id' => '2', 'name' => 'Fotocopia de Cédula de Identidad del causahabiente ', 'shortened' => 'Fotocopia de Cédula de Identidad del causahabiente'],
             ['eco_com_type_id' => '2', 'name' => 'Fotocopia de Cédula de Identidad del derechohabiente', 'shortened' => 'Fotocopia de Cédula de Identidad del derechohabiente'],
             ['eco_com_type_id' => '2', 'name' => 'Certificado Original de Defunción del causahabiente', 'shortened' => 'Certificado Original de Defunción del causahabiente'],
