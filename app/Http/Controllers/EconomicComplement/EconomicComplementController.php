@@ -343,7 +343,17 @@ class EconomicComplementController extends Controller
             ->whereYear('year', '=', $last_year)
             ->where('semester', '=', $last_semester)->first()) {
             $affiliate->type_ecocom = 'Habitual';
-        $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->orderBy('id', 'asc')->take(2)->get();
+            if ($economic_complement->economic_complement_modality->economic_complement_type->name== 'Viudedad') {
+                $eco_com_requirements = EconomicComplementRequirement::where(function ($query)
+                {
+                    $query->where('id','=',6)
+                          ->orWhere('id','=',7)
+                          ->orWhere('id','=',13);
+                })->orderBy('id','asc')->get();
+            }else{
+            $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->orderBy('id', 'asc')->take(2)->get();
+            }
+
     }else{
         $affiliate->type_ecocom = 'Inclusión';
         $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
