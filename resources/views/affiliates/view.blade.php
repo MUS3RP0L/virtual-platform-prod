@@ -176,6 +176,7 @@
                                     </td>
                                 </tr>
                                
+                                @if ($affiliate->surname_husband)
                                 <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
@@ -183,13 +184,12 @@
                                                 <strong>Apellido de Esposo:</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                @if ($affiliate->surname_husband)
-                                                    {!! $affiliate->surname_husband !!}
-                                                @endif
+                                                {!! $affiliate->surname_husband !!}
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
+                                @endif
                                 <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
