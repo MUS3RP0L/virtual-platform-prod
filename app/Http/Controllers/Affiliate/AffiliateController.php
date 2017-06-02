@@ -479,15 +479,15 @@ public static function getViewModel()
                 case 'institutional':
 
                     //check!
-                $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->first();
+                $current =  Carbon::now();
+                $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->orderBy('created_at','desc')->first();
                 $economic_complement->city_id = $request->regional;
                 $economic_complement->save();
                     //end check!
-
-                $affiliate->affiliate_state_id = $request->state;
-                $affiliate->degree_id = $request->degree;
-                $affiliate->type = $request->affiliate_type;
-                $affiliate->unit_id = $request->unit;
+              // $affiliate->affiliate_state_id = $request->state;
+              //  $affiliate->type = $request->affiliate_type;
+                //$affiliate->unit_id = $request->unit;
+              $affiliate->degree_id = $request->degree;
                 $affiliate->date_entry = Util::datePick($request->date_entry);
                 $affiliate->item = $request->item > 0 ? $request->item: 0 ;
                 $affiliate->category_id = $request->category;
@@ -502,7 +502,13 @@ public static function getViewModel()
             Session::flash('message', $message);
         }
 
-        return redirect('affiliate/'.$affiliate->id);
+        if($request->type=='institutional'){
+            return redirect('economic_complement/'.$economic_complement->id);
+        }
+        else{
+            return redirect('affiliate/'.$affiliate->id);
+        }
+
     }
 
     public function print_affiliate($affiliate)
