@@ -472,8 +472,8 @@ public static function getViewModel()
                         $affiliate->birth_date = Util::datePick($request->birth_date);
                         $affiliate->civil_status = trim($request->civil_status);
                         $affiliate->change_date = Carbon::now();
-                        $affiliate->phone_number = $request->phone;
-                        $affiliate->cell_phone_number = $request->cellphone;
+                        $affiliate->phone_number = trim(implode(",", $request->phone_number));
+                        $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
                         $affiliate->registration = Util::CalcRegistration($affiliate->birth_date, $affiliate->last_name, $affiliate->mothers_last_name, $affiliate->first_name, $affiliate->gender);
                         $affiliate->save();
                         $message = "Información Afiliado creado con éxito";
