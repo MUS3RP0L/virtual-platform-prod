@@ -8,6 +8,11 @@
 		</div>
         @can('eco_com_reception')
     		<div class="col-md-4">
+                <div class="btn-group">
+                    <span data-toggle="modal" data-target="#observationModal">
+                        <a href="#" class="btn btn-raised btn-lg bg-red"  data-toggle="tooltip"  data-placement="top" data-original-title="Observaciones"><i class="fa fa-lg fa-eye"></i></a>
+                    </span>
+                </div>
     	        <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Declaración Jurada" style="margin:0px;">
     	            <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
     	                &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
@@ -18,15 +23,6 @@
                         &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
                     </a>
                 </div>
-
-                 <div class="col-md-4 text-right">
-                    <span data-toggle="modal" data-target="#observationModal">
-                        <a href="#" class="btn btn-sm bg-red"  data-toggle="tooltip"  data-placement="top" data-original-title="Observaciones"><i class="fa fa-lg fa-eye"></i></a>
-                    </span>
-                </div>
-
-
-
     		</div>
         @endcan
 		@can('eco_com_review')
@@ -59,7 +55,7 @@
                         </div>
                          <div class="col-md-4 text-right">
                             <span data-toggle="modal" data-target="#policeModal">
-                                <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i><a/>
+                                <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
                             </span>
                         </div>
                        {{--  <div class="col-md-2 text-right">
