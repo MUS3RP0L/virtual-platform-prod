@@ -18,7 +18,7 @@
     	                &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
     	            </a>
     	        </div>
-<<<<<<< HEAD
+
                 @if($type_eco_com=="Inclusión")
                     <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción Inclusiones" style="margin:0px;">
                         <a href="" class="btn btn-raised btn-warning dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReportInclusion');" >
@@ -33,21 +33,6 @@
                         </a>
                     </div>
                 @endif
-                 <div class="col-md-4 text-right">
-                    <span data-toggle="modal" data-target="#observationModal">
-                        <a href="#" class="btn btn-sm bg-red"  data-toggle="tooltip"  data-placement="top" data-original-title="Observaciones"><i class="fa fa-lg fa-eye"></i></a>
-                    </span>
-                </div>
-
-
-
-=======
-                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción" style="margin:0px;">
-                    <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReport');" >
-                        &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                    </a>
-                </div>
->>>>>>> upstream/master
     		</div>
         @endcan
 		@can('eco_com_review')
