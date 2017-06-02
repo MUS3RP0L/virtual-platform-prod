@@ -479,7 +479,6 @@ public static function getViewModel()
                 case 'institutional':
 
                     //check!
-                $current =  Carbon::now();
                 $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->orderBy('created_at','desc')->first();
                 $economic_complement->city_id = $request->regional;
                 $economic_complement->save();
