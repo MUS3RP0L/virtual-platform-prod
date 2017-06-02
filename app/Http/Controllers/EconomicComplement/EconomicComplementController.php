@@ -745,6 +745,8 @@ class EconomicComplementController extends Controller
                             $spouse->mothers_last_name = trim($request->mothers_last_name);
                             $spouse->first_name = trim($request->first_name);
                             $spouse->second_name = trim($request->second_name);
+                            $spouse->civil_status = trim($request->civil_status);
+                            $spouse->surname_husband = trim($request->surname_husband);
                             $spouse->birth_date = Util::datePick($request->birth_date);
                             $spouse->registration=Util::CalcRegistration(Util::datePick($request->birth_date),trim($request->last_name),trim($request->mothers_last_name), trim($request->first_name),Util::getGender($affiliate->gender));
                             $spouse->save();
@@ -759,6 +761,8 @@ class EconomicComplementController extends Controller
                             $affiliate->birth_date = Util::datePick($request->birth_date_affi);
                             $affiliate->phone_number = trim(implode(",", $request->phone_number));
                             $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
+                            $affiliate->nua = trim($request->nua);
+                            $affiliate->nua = ($request->nua == null) ? 0 : $request->nua;
                             $affiliate->save();
 
                             $spouse = Spouse::affiliateidIs($affiliate->id)->first();
