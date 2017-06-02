@@ -479,11 +479,9 @@ public static function getViewModel()
                 case 'institutional':
 
                     //check!
-                $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->orderBy('created_at','desc')->first();
-                $economic_complement->city_id = $request->regional;
-                $economic_complement->save();
+
                     //end check!
-              // $affiliate->affiliate_state_id = $request->state;
+                $affiliate->affiliate_state_id = $request->state;
               //  $affiliate->type = $request->affiliate_type;
                 //$affiliate->unit_id = $request->unit;
               $affiliate->degree_id = $request->degree;
@@ -496,12 +494,31 @@ public static function getViewModel()
                 Session::flash('message', $message);
 
                 break;
+                case 'institutional_eco_com':
+
+                    //check!
+                    $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->orderBy('created_at','desc')->first();
+                    $economic_complement->city_id = $request->regional;
+                    $economic_complement->save();
+                    //end check!
+                    //$affiliate->affiliate_state_id = $request->state;
+                    //  $affiliate->type = $request->affiliate_type;
+                    //$affiliate->unit_id = $request->unit;
+                    $affiliate->degree_id = $request->degree;
+                    $affiliate->date_entry = Util::datePick($request->date_entry);
+                    $affiliate->item = $request->item > 0 ? $request->item: 0 ;
+                    $affiliate->category_id = $request->category;
+                    $affiliate->pension_entity_id=$request->affiliate_entity_pension;
+                    $affiliate->save();
+                    $message = "Información del Policia actualizada correctamene.";
+                    Session::flash('message', $message);
+
 
             }
             Session::flash('message', $message);
         }
 
-        if($request->type=='institutional'){
+        if($request->type=='institutional_eco_com'){
             return redirect('economic_complement/'.$economic_complement->id);
         }
         else{

@@ -1204,7 +1204,7 @@
                         </div>
                         <div class="modal-body">
                             {!! Form::model($affiliate, ['method' => 'PATCH', 'route' => ['affiliate.update', $affiliate], 'class' => 'form-horizontal']) !!}
-                            <input type="hidden" name="type" value="institutional"/>
+                            <input type="hidden" name="type" value="institutional_eco_com"/>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
