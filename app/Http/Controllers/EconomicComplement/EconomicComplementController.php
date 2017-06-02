@@ -787,11 +787,8 @@ class EconomicComplementController extends Controller
                         if ($request->city_identity_card_id_affi) {
                             $affiliate->city_identity_card_id = $request->city_identity_card_id_affi;
                         } else {
-                            echo "tyry";
-                            return;
                             $affiliate->city_identity_card_id = null;
                         }
-
                         $affiliate->last_name = $request->last_name_affi;
                         $affiliate->mothers_last_name = $request->mothers_last_name_affi;
                         $affiliate->first_name = $request->first_name_affi;
@@ -802,8 +799,6 @@ class EconomicComplementController extends Controller
                         $affiliate->nua = ($request->nua == null) ? 0 : $request->nua;
                         $affiliate->save();
                     }
-                    
-                    
                     break;
                 }
 
