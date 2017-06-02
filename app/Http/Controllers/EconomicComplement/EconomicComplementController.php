@@ -136,7 +136,7 @@ class EconomicComplementController extends Controller
 
     public function Data_by_affiliate(Request $request)
     {
-        $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'reception_date', 'total']);
+        $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'reception_date', 'total'])->orderBy('id','desc');
         return Datatables::of($economic_complements)
         ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
         ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : '$economic_complement->wf_state->name'; })
@@ -343,7 +343,17 @@ class EconomicComplementController extends Controller
             ->whereYear('year', '=', $last_year)
             ->where('semester', '=', $last_semester)->first()) {
             $affiliate->type_ecocom = 'Habitual';
-        $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->orderBy('id', 'asc')->take(2)->get();
+            if ($economic_complement->economic_complement_modality->economic_complement_type->name== 'Viudedad') {
+                $eco_com_requirements = EconomicComplementRequirement::where(function ($query)
+                {
+                    $query->where('id','=',6)
+                          ->orWhere('id','=',7)
+                          ->orWhere('id','=',13);
+                })->orderBy('id','asc')->get();
+            }else{
+            $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->orderBy('id', 'asc')->take(2)->get();
+            }
+
     }else{
         $affiliate->type_ecocom = 'Inclusión';
         $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
@@ -713,6 +723,7 @@ class EconomicComplementController extends Controller
                 $eco_com_applicant->mothers_last_name = $request->mothers_last_name;
                 $eco_com_applicant->first_name = $request->first_name;
                 $eco_com_applicant->second_name = $request->second_name;
+                $eco_com_applicant->surname_husband = $request->surname_husband;
                 $eco_com_applicant->birth_date = Util::datePick($request->birth_date);
                 $eco_com_applicant->civil_status = $request->civil_status;
                 $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
@@ -731,6 +742,7 @@ class EconomicComplementController extends Controller
                     $affiliate->mothers_last_name = $request->mothers_last_name;
                     $affiliate->first_name = $request->first_name;
                     $affiliate->second_name = $request->second_name;
+                    $affiliate->surname_husband = $request->surname_husband;
                     $affiliate->birth_date = Util::datePick($request->birth_date);
                     $affiliate->civil_status = $request->civil_status;
                     $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
@@ -754,9 +766,13 @@ class EconomicComplementController extends Controller
                             $spouse->mothers_last_name = trim($request->mothers_last_name);
                             $spouse->first_name = trim($request->first_name);
                             $spouse->second_name = trim($request->second_name);
+                            $spouse->civil_status = trim($request->civil_status);
+                            $spouse->surname_husband = trim($request->surname_husband);
                             $spouse->birth_date = Util::datePick($request->birth_date);
+                            $affiliate->nua = ($request->nua == null) ? 0 : $request->nua;
                             $spouse->registration=Util::CalcRegistration(Util::datePick($request->birth_date),trim($request->last_name),trim($request->mothers_last_name), trim($request->first_name),Util::getGender($affiliate->gender));
                             $spouse->save();
+                            $affiliate->save();
                         }
                         else{
                             $affiliate->identity_card = $request->identity_card_affi;
@@ -764,9 +780,11 @@ class EconomicComplementController extends Controller
                             $affiliate->last_name = $request->last_name_affi;
                             $affiliate->mothers_last_name = $request->mothers_last_name_affi;
                             $affiliate->first_name = $request->first_name_affi;
+                            $affiliate->second_name = $request->second_name_affi;
                             $affiliate->birth_date = Util::datePick($request->birth_date_affi);
                             $affiliate->phone_number = trim(implode(",", $request->phone_number));
                             $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
+                            $affiliate->nua = ($request->nua == null) ? 0 : $request->nua;
                             $affiliate->save();
 
                             $spouse = Spouse::affiliateidIs($affiliate->id)->first();
@@ -788,13 +806,25 @@ class EconomicComplementController extends Controller
                     break;
 
                     case '3':
-
-                    $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
-                    $affiliate->phone_number = trim(implode(",", $request->phone_number));
-                    $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
-                    $affiliate->nua = ($request->nua == null) ? 0 : $request->nua;
-                    $affiliate->save();
-
+                    if ($request->type1!='update') {
+                        
+                        $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+                        $affiliate->identity_card = $request->identity_card_affi;
+                        if ($request->city_identity_card_id_affi) {
+                            $affiliate->city_identity_card_id = $request->city_identity_card_id_affi;
+                        } else {
+                            $affiliate->city_identity_card_id = null;
+                        }
+                        $affiliate->last_name = $request->last_name_affi;
+                        $affiliate->mothers_last_name = $request->mothers_last_name_affi;
+                        $affiliate->first_name = $request->first_name_affi;
+                        $affiliate->second_name = $request->second_name_affi;
+                        $affiliate->birth_date = Util::datePick($request->birth_date_affi);
+                        $affiliate->phone_number = trim(implode(",", $request->phone_number));
+                        $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
+                        $affiliate->nua = ($request->nua == null) ? 0 : $request->nua;
+                        $affiliate->save();
+                    }
                     break;
                 }
 
@@ -1070,11 +1100,9 @@ class EconomicComplementController extends Controller
       if($economic_complement->economic_complement_modality->economic_complement_type->name=='Viudedad'){
           $applicant_type=$eco_com_applicant->gender=='F' ? "VIUDA" : "VIUDO";
       }
-
       if($economic_complement->economic_complement_modality->economic_complement_type->name=='Orfandad'){
         $applicant_type=$eco_com_applicant->gender=='F' ? "HUERFANA" : "HUERFANO";
       }
-
       if($economic_complement->economic_complement_modality->economic_complement_type->name=='Vejez'){
           $applicant_type="TITULAR";
       }
