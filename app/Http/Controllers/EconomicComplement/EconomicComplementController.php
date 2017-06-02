@@ -1068,12 +1068,17 @@ class EconomicComplementController extends Controller
       $yearcomplement=new Carbon($economic_complement->year);
       $applicant_gender="";
       if($economic_complement->economic_complement_modality->economic_complement_type->name=='Viudedad'){
-          if($eco_com_applicant->gender=='F'){
-              $applicant_gender="VIUDA";
-          } else {
-              $applicant_gender="VIUDO";
-          }
+          $applicant_type=$eco_com_applicant->gender=='F' ? "VIUDA" : "VIUDO";
       }
+
+      if($economic_complement->economic_complement_modality->economic_complement_type->name=='Orfandad'){
+        $applicant_type=$eco_com_applicant->gender=='F' ? "HUERFANA" : "HUERFANO";
+      }
+
+      if($economic_complement->economic_complement_modality->economic_complement_type->name=='Vejez'){
+          $applicant_type="TITULAR";
+      }
+
         switch ($type) {
             case 'report':
                 $title= "RECEPCIÓN DE REQUISITOS";
@@ -1085,16 +1090,14 @@ class EconomicComplementController extends Controller
 
             case 'inclusion':
                 $title= "";
-               
-
-                $view = \View::make('economic_complements.print.inclusion_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_gender'))->render();
+                $view = \View::make('economic_complements.print.inclusion_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('letter');
                 return $pdf->stream();
 
             case 'habitual':
                 $title= "";
-                $view = \View::make('economic_complements.print.habitual_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant'))->render();
+                $view = \View::make('economic_complements.print.habitual_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('letter');
                 return $pdf->stream();
