@@ -398,55 +398,50 @@ class EconomicComplementController extends Controller
             $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
 
             if (!$economic_complement) {
-
                 $economic_complement = new EconomicComplement;
                 if ($last_economic_complement = EconomicComplement::whereYear('year', '=', $data['year'])
                     ->where('semester', '=', $data['semester'])
                     ->whereNull('deleted_at')->orderBy('id', 'desc')->first()) {
-                    $number_code = Util::separateCode($last_economic_complement->code);
-                $code = $number_code + 1;
-            }else{
-                $code = 1;
+                        $number_code = Util::separateCode($last_economic_complement->code);
+                        $code = $number_code + 1;
+                }else{
+                        $code = 1;
+                }
+
+                $sem='';
+                if($data['semester']=='Primer'){
+                    $sem='P';
+                }else{
+                    $sem='S';
+                }
+
+                $economic_complement->user_id = Auth::user()->id;
+                $economic_complement->affiliate_id = $affiliate->id;
+                $economic_complement->eco_com_modality_id = $eco_com_modality->id;
+                $economic_complement->eco_com_procedure_id = $eco_com_pro->id;
+                $economic_complement->workflow_id = 1;
+                $economic_complement->wf_current_state_id = 1;
+                $economic_complement->city_id = trim($request->city);
+                $economic_complement->category_id = $affiliate->category_id;
+
+                $economic_complement->state = 'Edited';
+
+                $economic_complement->year = Util::datePickYear($data['year'], $data['semester']);
+                $economic_complement->semester = $data['semester'];
+                if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }else{
+                    $economic_complement->has_legal_guardian = false;
+                }
+                $economic_complement->code = $code ."/". $sem . "/" . $data['year'];
+
+                $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
+                $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
+                ->whereYear('year', '=', $data['year'])
+                ->where('semester', '=', $data['semester'])->first();
+                $economic_complement->base_wage_id = $base_wage->id;
+                $economic_complement->complementary_factor_id = $complementary_factor->id;
+                $economic_complement->save();
             }
-
-            $sem='';
-            if($data['semester']=='Primer'){
-                $sem='P';
-            }else{
-                $sem='S';
-            }
-
-            $economic_complement->user_id = Auth::user()->id;
-            $economic_complement->affiliate_id = $affiliate->id;
-            $economic_complement->eco_com_modality_id = $eco_com_modality->id;
-            $economic_complement->eco_com_procedure_id = $eco_com_pro->id;
-            $economic_complement->workflow_id = 1;
-            $economic_complement->wf_current_state_id = 1;
-            $economic_complement->city_id = trim($request->city);
-            $economic_complement->category_id = $affiliate->category_id;
-
-            $economic_complement->state = 'Edited';
-
-            $economic_complement->year = Util::datePickYear($data['year'], $data['semester']);
-            $economic_complement->semester = $data['semester'];
-            if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }else{
-                $economic_complement->has_legal_guardian = false;
-            }
-            $economic_complement->code = $code ."/". $sem . "/" . $data['year'];
-
-            $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
-            $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
-            ->whereYear('year', '=', $data['year'])
-            ->where('semester', '=', $data['semester'])->first();
-            $economic_complement->base_wage_id = $base_wage->id;
-            $economic_complement->complementary_factor_id = $complementary_factor->id;
-
-            $economic_complement->save();
-        }
-
-
-
-        return $this->save($request, $economic_complement);
+            return $this->save($request, $economic_complement);
     }
 
     /**
@@ -665,6 +660,12 @@ class EconomicComplementController extends Controller
                     break;
                 }
                 $eco_com_applicant->save();
+                $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
+                $economic_complement->eco_com_modality_id=$eco_com_modality->id;
+                $economic_complement->city_id = trim($request->city);
+                if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }else{
+                    $economic_complement->has_legal_guardian = false;
+                }
                 $economic_complement->state="Edited";
                 $economic_complement->save();
                 if ($request->legal_guardian) {
