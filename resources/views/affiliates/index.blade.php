@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('contentheader_title')
-    
+
     <div class="row">
         <div class="col-md-10">
             {!! Breadcrumbs::render('affiliates') !!}
@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-                           
+
 @endsection
 
 @section('main-content')
@@ -128,7 +128,7 @@
                     <h4 class="modal-title">Editar Información Personal</h4>
                 </div>
                 <div class="modal-body">
-                        
+
                     {!! Form::open(['method' => 'POST', 'route' => ['affiliate.store'], 'class' => 'form-horizontal']) !!}
                         <input type="hidden" name="type" value="personal_new"/>
                         <div class="row">
@@ -221,12 +221,35 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    {!! Form::label('type_affiliate', 'Tipo Afiliado', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        <select name="type_affiliate" class="combobox form-control" >
+                                          <option>Comando</option>
+                                          <option>Batallón</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::label('category', 'Categoría', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::select('category',$categories, '', ['class'=> 'combobox form-control', 'required']) !!}
+                                        <span class="help-block">Seleccione Categoría</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::label('pension', 'Ente Gestor', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::select('pension',$entity_pensions, '', ['class'=> 'combobox form-control', 'required']) !!}
+                                        <span class="help-block">Seleccione un ente gestor</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                         {!! Form::label('degree', 'Grado', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
                                         {!! Form::select('degree',$degrees, '', ['class'=> 'combobox form-control', 'required']) !!}
                                         <span class="help-block">Seleccione un grado del policía</span>
                                     </div>
-                                </div>                     
+                                </div>
                             </div>
                         </div>
 

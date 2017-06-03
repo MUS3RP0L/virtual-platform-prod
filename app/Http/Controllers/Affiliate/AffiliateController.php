@@ -46,17 +46,17 @@ class AffiliateController extends Controller
     {
         $affiliates = Affiliate::select(['affiliates.id', 'affiliates.identity_card', 'affiliates.registration', 'affiliates.last_name', 'affiliates.mothers_last_name', 'affiliates.first_name', 'affiliates.second_name',  'affiliates.affiliate_state_id', 'affiliates.degree_id', 'affiliates.city_identity_card_id']);
         if ($request->has('last_name'))
-        {  
+        {
             $last_name = strtoupper(trim($request->get('last_name')));
             $last_name=strtoupper($last_name);
-           
+
            $affiliates->leftJoin('spouses','affiliates.id','=','spouses.affiliate_id')
            ->where(function($affiliates) use ($last_name){
             $affiliates->where('affiliates.last_name','like',"%".$last_name."%")
             ->orWhere('spouses.last_name','like',"%".$last_name."%");
         })->get();
 
-         
+
         }
         if ($request->has('mothers_last_name'))
         {
@@ -103,11 +103,11 @@ class AffiliateController extends Controller
         $affiliate=Affiliate::identitycardIs($identity_card)->first();
         if(isset($affiliate)){
             $affiliates->where('identity_card', 'like', "{$identity_card}");
-        }   
+        }
         else{
             $spouses=Spouse::identitycardIs($identity_card)->first();
             $affiliate=$spouses->affiliate;
-            $affiliates->find($affiliate->id);         
+            $affiliates->find($affiliate->id);
         }
     });
 }
@@ -309,7 +309,7 @@ public static function getViewModel()
 
         $year = Util::getYear(Carbon::now());
         $semester = Util::getCurrentSemester();
-        
+
         $eco_com_current_procedure = EconomicComplementProcedure::whereYear('year', '=',$year)
         ->where('semester',$semester)
         ->first();
@@ -454,8 +454,14 @@ public static function getViewModel()
                 if (!Affiliate::where('identity_card', '=', $request->identity_card)->first()) {
                     $affiliate = new Affiliate;
                     $affiliate->user_id = Auth::user()->id;
-                    $affiliate->identity_card = trim($request->identity_card);
+                    $affiliate->affiliate_state_id = 5;
                     if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
+                    $affiliate->identity_card = trim($request->identity_card);
+                    $affiliate->category_id = $request->category;
+                    $affiliate->type = $request->type_affiliate;
+                    $affiliate->pension_entity_id = $request->pension;
+                    $affiliate->city_birth_id = $request->city_birth_id;
+                    $affiliate->degree_id = $request->degree;
                     $affiliate->last_name = trim($request->last_name);
                     $affiliate->mothers_last_name = trim($request->mothers_last_name);
                     $affiliate->first_name = trim($request->first_name);
@@ -465,13 +471,12 @@ public static function getViewModel()
                     $affiliate->nua = $request->nua >0 ? $request->nua:0;
                     $affiliate->birth_date = Util::datePick($request->birth_date);
                     $affiliate->civil_status = trim($request->civil_status);
-                    $affiliate->degree_id = $request->degree;
                     $affiliate->change_date = Carbon::now();
-                    $affiliate->affiliate_state_id = 5;
-                    if ($request->city_birth_id) { $affiliate->city_birth_id = $request->city_birth_id; } else { $affiliate->city_birth_id = null; }
                     $affiliate->registration = Util::CalcRegistration($affiliate->birth_date, $affiliate->last_name, $affiliate->mothers_last_name, $affiliate->first_name, $affiliate->gender);
                     $affiliate->save();
                     $message = "Información Afiliado creado con éxito";
+                    Session::flash('message', $message);
+                    return redirect('affiliate/'.$affiliate->id);
                 }
 
                 break;
@@ -515,7 +520,7 @@ public static function getViewModel()
 
 
             }
-            Session::flash('message', $message);
+
         }
 
         if($request->type=='institutional_eco_com'){
@@ -601,7 +606,7 @@ public static function getViewModel()
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($view)->setPaper('legal');
             return $pdf->stream();
-            
+
 
             case 'salary':
                 // if($eco_com_applicant->semester=="Primero"){
@@ -618,7 +623,7 @@ public static function getViewModel()
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($view)->setPaper('legal');
             return $pdf->stream();
-            
+
 
             case 'legal':
             $view = \View::make('affiliates.print.legal_action', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
@@ -640,7 +645,7 @@ public static function getViewModel()
         $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','eco_com_applicants.identity_card','eco_com_applicants.nua','eco_com_applicants.city_identity_card_id','eco_com_applicants.birth_date','economic_complements.semester','economic_complements.year','economic_complements.reception_date')->first();
         $yearcomplement=new Carbon($eco_com_applicant->year);
         $procedure=EconomicComplementProcedure::whereYear('year','=',date("Y",strtotime($eco_com_applicant->year)))->where('semester','=',$eco_com_applicant->semester)->first();
-        
+
         switch ($type) {
             case 'debtor_conta':
             $view = \View::make('affiliates.print.print_debtor_in_contable', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
@@ -648,35 +653,35 @@ public static function getViewModel()
             $pdf->loadHTML($view)->setPaper('legal');
             return $pdf->stream();
             break;
-            
+
             case 'wallet_pres':
             $view = \View::make('affiliates.print.wallet_arrear', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($view)->setPaper('legal');
             return $pdf->stream();
             break;
-            
+
             case 'out_time90':
             $view = \View::make('affiliates.print.out_of_time90', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($view)->setPaper('legal');
             return $pdf->stream();
             break;
-            
+
             case 'out_time120':
             $view = \View::make('affiliates.print.out_of_time120', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($view)->setPaper('legal');
             return $pdf->stream();
             break;
-            
+
             case 'miss_requirements':
             $view = \View::make('affiliates.print.miss_requiriments', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($view)->setPaper('legal');
             return $pdf->stream();
             break;
-            
+
             case 'miss_requirements_hi':
             $view = \View::make('affiliates.print.print_miss_requiriments_habinc', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
             $pdf = \App::make('dompdf.wrapper');
@@ -685,7 +690,7 @@ public static function getViewModel()
             break;
         }
     }
-    
+
     public function print_correct_grading($id_complement)
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
@@ -701,5 +706,5 @@ public static function getViewModel()
         $pdf->loadHTML($view)->setPaper('legal');
         return $pdf->stream();
     }
-    
+
 }

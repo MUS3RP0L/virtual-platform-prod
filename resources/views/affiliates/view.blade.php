@@ -42,7 +42,7 @@
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento  Económico" style="margin: 0;">
                     <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{!! url('economic_complement/'.$current_economic_complement->id) !!}" class="text-center"><i class="fa fa-eye"></i>Ver</a></li> 
+                        <li><a href="{!! url('economic_complement/'.$current_economic_complement->id) !!}" class="text-center"><i class="fa fa-eye"></i>Ver</a></li>
                     </ul>
                 </div>
             @endif
@@ -175,7 +175,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                               
+
                                 @if ($affiliate->surname_husband)
                                 <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
@@ -202,7 +202,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                
+
                                 @if($affiliate->date_death)
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
@@ -554,7 +554,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
@@ -831,7 +831,7 @@
                                     </tr>
                                 @endif
                             </table>
-                        </div>                    
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1452,7 +1452,7 @@
                                                    <span class="help-block">Escriba el Numero de Matrícula</span>
                                                     </div>
                                                 </div> --}}
-                                        
+
                                          <div class="form-group">
                                                 {!! Form::label('affiliate_entity_pension', 'Ente Gestor', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
@@ -1479,7 +1479,7 @@
     </div>
     <!-- /Edition of a police officer-->
 
-    <div class="modal fade" tabindex="-1" >
+{{--    <div class="modal fade" tabindex="-1" >
         <iframe src="{!! url('print_affiliate/' . $affiliate->id) !!}" id="iFramePdf"></iframe>
         <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/report') !!}" id="iFramePdfReport" ></iframe>
 
@@ -1490,7 +1490,7 @@
         <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/miss_requirements') !!}" id="iFramePdfObsRequisites" ></iframe>
         <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/miss_requirements_hi') !!}" id="iFramePdfObsRequisites_hi" ></iframe>
 
-    </div>
+    </div>--}}
 <!--     buttons observations -->
  <div id="observationMo" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -1530,7 +1530,7 @@
                             &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
                         </a>
                     </div>
-                     
+
                 </div>
             </div>
         </div>
