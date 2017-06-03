@@ -1096,7 +1096,6 @@ class EconomicComplementController extends Controller
       $affiliate = Affiliate::where('id',$economic_complement->affiliate_id)->first();
       $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement_id)->first();
       $yearcomplement=new Carbon($economic_complement->year);
-      $applicant_gender="";
       if($economic_complement->economic_complement_modality->economic_complement_type->name=='Viudedad'){
           $applicant_type=$eco_com_applicant->gender=='F' ? "VIUDA" : "VIUDO";
       }
