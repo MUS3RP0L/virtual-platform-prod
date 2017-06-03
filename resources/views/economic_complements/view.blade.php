@@ -21,7 +21,7 @@
 
                 @if($type_eco_com=="Inclusión")
                     <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción Inclusiones" style="margin:0px;">
-                        <a href="" class="btn btn-raised btn-warning dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReportInclusion');" >
+                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReportInclusion');" >
                             &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
                         </a>
                     </div>
