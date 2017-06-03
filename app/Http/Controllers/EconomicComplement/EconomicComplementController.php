@@ -734,8 +734,8 @@ class EconomicComplementController extends Controller
                     $affiliate->surname_husband = $request->surname_husband;
                     $affiliate->birth_date = Util::datePick($request->birth_date);
                     $affiliate->civil_status = $request->civil_status;
-                    $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
-                    $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number));
+                    $affiliate->phone_number = trim(implode(",", $request->phone_number));
+                    $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
                     $affiliate->nua = $request->nua;
                     $affiliate->save();
 
@@ -796,7 +796,7 @@ class EconomicComplementController extends Controller
 
                     case '3':
                     if ($request->type1!='update') {
-                        
+
                         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
                         $affiliate->identity_card = $request->identity_card_affi;
                         if ($request->city_identity_card_id_affi) {
