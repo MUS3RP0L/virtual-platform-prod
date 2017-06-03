@@ -483,6 +483,16 @@ class EconomicComplementController extends Controller
             }
         }
 
+        $last_year = Carbon::now()->subYear()->year;
+        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
+        if (EconomicComplement::affiliateIs($affiliate->id)
+                ->whereYear('year', '=', $last_year)
+                ->where('semester', '=', $last_semester)->first()) {
+                $affiliate->type_ecocom = 'Habitual';
+        }else{
+            $affiliate->type_ecocom = 'Inclusión';
+        }
+
         $eco_com_state_type_list = EconomicComplementStateType::all();
         $eco_com_state_type_lists = [];
         foreach ($eco_com_state_type_list as $item) {
@@ -528,6 +538,7 @@ class EconomicComplementController extends Controller
         'eco_com_state_type_lists' => $eco_com_state_type_lists,
         'categories' => $categories,
         'degrees' => $degrees,
+        'type_eco_com' => $affiliate->type_ecocom,
         'entity_pensions' => $entity_pensions
 
         ];
@@ -1083,9 +1094,19 @@ class EconomicComplementController extends Controller
       $hour = Carbon::parse($current_date)->toTimeString();
       $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
       $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
-      $affiliate = Affiliate::idIs($economic_complement_id)->first();
+      $affiliate = Affiliate::where('id',$economic_complement->affiliate_id)->first();
       $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement_id)->first();
       $yearcomplement=new Carbon($economic_complement->year);
+      if($economic_complement->economic_complement_modality->economic_complement_type->name=='Viudedad'){
+          $applicant_type=$eco_com_applicant->gender=='F' ? "VIUDA" : "VIUDO";
+      }
+      if($economic_complement->economic_complement_modality->economic_complement_type->name=='Orfandad'){
+        $applicant_type=$eco_com_applicant->gender=='F' ? "HUERFANA" : "HUERFANO";
+      }
+      if($economic_complement->economic_complement_modality->economic_complement_type->name=='Vejez'){
+          $applicant_type="TITULAR";
+      }
+
         switch ($type) {
             case 'report':
                 $title= "RECEPCIÓN DE REQUISITOS";
@@ -1095,14 +1116,16 @@ class EconomicComplementController extends Controller
                 $pdf->loadHTML($view)->setPaper('letter');
                 return $pdf->stream();
 
-            case 'inclusion_solicitude':
-                $view = \View::make('economic_complements.print.inclusion_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant'))->render();
+            case 'inclusion':
+                $title= "";
+                $view = \View::make('economic_complements.print.inclusion_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('letter');
                 return $pdf->stream();
 
-            case 'pay_solicitude':
-                $view = \View::make('economic_complements.print.pay_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant'))->render();
+            case 'habitual':
+                $title= "";
+                $view = \View::make('economic_complements.print.habitual_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('letter');
                 return $pdf->stream();
