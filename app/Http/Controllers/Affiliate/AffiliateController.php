@@ -451,52 +451,51 @@ public static function getViewModel()
                 break;
 
                 case 'personal_new':
-                if (!Affiliate::where('identity_card', '=', $request->identity_card)->first()) {
-                    $affiliate = new Affiliate;
-                    $affiliate->user_id = Auth::user()->id;
-                    $affiliate->affiliate_state_id = 5;
-                    if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
-                    $affiliate->identity_card = trim($request->identity_card);
-                    $affiliate->category_id = $request->category;
-                    $affiliate->type = $request->type_affiliate;
-                    $affiliate->pension_entity_id = $request->pension;
-                    $affiliate->city_birth_id = $request->city_birth_id;
-                    $affiliate->degree_id = $request->degree;
-                    $affiliate->last_name = trim($request->last_name);
-                    $affiliate->mothers_last_name = trim($request->mothers_last_name);
-                    $affiliate->first_name = trim($request->first_name);
-                    $affiliate->second_name = trim($request->second_name);
-                    $affiliate->surname_husband = trim($request->surname_husband);
-                    $affiliate->gender = trim($request->gender);
-                    $affiliate->nua = $request->nua >0 ? $request->nua:0;
-                    $affiliate->birth_date = Util::datePick($request->birth_date);
-                    $affiliate->civil_status = trim($request->civil_status);
-                    $affiliate->change_date = Carbon::now();
-                    $affiliate->registration = Util::CalcRegistration($affiliate->birth_date, $affiliate->last_name, $affiliate->mothers_last_name, $affiliate->first_name, $affiliate->gender);
-                    $affiliate->save();
-                    $message = "Información Afiliado creado con éxito";
-                    Session::flash('message', $message);
-                    return redirect('affiliate/'.$affiliate->id);
-                }
+                    if (!Affiliate::where('identity_card', '=', $request->identity_card)->first()) {
+                        $affiliate = new Affiliate;
+                        $affiliate->user_id = Auth::user()->id;
+                        $affiliate->affiliate_state_id = 5;
+                        if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
+                        $affiliate->identity_card = trim($request->identity_card);
+                        $affiliate->category_id = $request->category;
+                        $affiliate->type = $request->type_affiliate;
+                        $affiliate->pension_entity_id = $request->pension;
+                        $affiliate->city_birth_id = $request->city_birth_id;
+                        $affiliate->degree_id = $request->degree;
+                        $affiliate->last_name = trim($request->last_name);
+                        $affiliate->mothers_last_name = trim($request->mothers_last_name);
+                        $affiliate->first_name = trim($request->first_name);
+                        $affiliate->second_name = trim($request->second_name);
+                        $affiliate->surname_husband = trim($request->surname_husband);
+                        $affiliate->gender = trim($request->gender);
+                        $affiliate->nua = $request->nua >0 ? $request->nua:0;
+                        $affiliate->birth_date = Util::datePick($request->birth_date);
+                        $affiliate->civil_status = trim($request->civil_status);
+                        $affiliate->change_date = Carbon::now();
+                        $affiliate->phone_number = $request->phone;
+                        $affiliate->cell_phone_number = $request->cellphone;
+                        $affiliate->registration = Util::CalcRegistration($affiliate->birth_date, $affiliate->last_name, $affiliate->mothers_last_name, $affiliate->first_name, $affiliate->gender);
+                        $affiliate->save();
+                        $message = "Información Afiliado creado con éxito";
+                        Session::flash('message', $message);
+                        return redirect('affiliate/'.$affiliate->id);
+                    }
 
                 break;
 
                 case 'institutional':
 
-                    //check!
-
-                    //end check!
-                $affiliate->affiliate_state_id = $request->state;
-              //  $affiliate->type = $request->affiliate_type;
-                //$affiliate->unit_id = $request->unit;
-              $affiliate->degree_id = $request->degree;
-                $affiliate->date_entry = Util::datePick($request->date_entry);
-                $affiliate->item = $request->item > 0 ? $request->item: 0 ;
-                $affiliate->category_id = $request->category;
-                $affiliate->pension_entity_id=$request->affiliate_entity_pension;
-                $affiliate->save();
-                $message = "Información del Policia actualizada correctamene.";
-                Session::flash('message', $message);
+                    $affiliate->affiliate_state_id = $request->state;
+                  //  $affiliate->type = $request->affiliate_type;
+                    //$affiliate->unit_id = $request->unit;
+                    $affiliate->degree_id = $request->degree;
+                    $affiliate->date_entry = Util::datePick($request->date_entry);
+                    $affiliate->item = $request->item > 0 ? $request->item: 0 ;
+                    $affiliate->category_id = $request->category;
+                    $affiliate->pension_entity_id=$request->affiliate_entity_pension;
+                    $affiliate->save();
+                    $message = "Información del Policia actualizada correctamene.";
+                    Session::flash('message', $message);
 
                 break;
                 case 'institutional_eco_com':

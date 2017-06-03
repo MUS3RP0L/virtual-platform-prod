@@ -185,6 +185,21 @@
                                         <span class="help-block">Escriba el CUA/NUA</span>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                        {!! Form::label('phone', 'Telefono', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('phone', '', ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el telefono</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('cellphone', 'Celular', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('cellphone', '', ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el celular</span>
+                                    </div>
+                                </div>
+
                             </div>
 
                             <div class="col-md-6">
