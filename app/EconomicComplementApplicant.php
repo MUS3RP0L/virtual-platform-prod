@@ -68,13 +68,21 @@ class EconomicComplementApplicant extends Model
     public function getPhone()
     {
         if($this->phone_number && $this->cell_phone_number) {
-            return $this->phone_number." - ".$this->cell_phone_number;
+            $phone_number = explode(",", $this->phone_number);
+            $cell_phone_number = explode(",", $this->cell_phone_number);
+            $phone_number = $phone_number[0];
+            $cell_phone_number = $cell_phone_number[0];
+            return $phone_number." - ".$cell_phone_number;
         }
         else if($this->phone_number) {
-            return $this->phone_number;
+            $phone_number = explode(",", $this->phone_number);
+            $phone_number = $phone_number[0];
+            return $phone_number;
         }
         else if($this->cell_phone_number) {
-            return $this->cell_phone_number;
+            $cell_phone_number = explode(",", $this->cell_phone_number);
+            $cell_phone_number = $cell_phone_number[0];
+            return $cell_phone_number;
         }
     }
 
