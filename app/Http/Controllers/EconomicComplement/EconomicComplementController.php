@@ -91,7 +91,6 @@ class EconomicComplementController extends Controller
                        $economic_complements->where('id', '=' , "{$applicants->economic_complement_id}");
                    }
                    else{
-
                        $economic_complements->where('affiliate_id', 0);
                    }
                }
@@ -141,8 +140,8 @@ class EconomicComplementController extends Controller
         ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
         ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : '$economic_complement->wf_state->name'; })
         ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
-        ->addColumn('action', function ($economic_complement) { return  '
-            <div class="btn-group" style="margin:-3px 0;">
+        ->addColumn('action', function ($economic_complement) { return
+            '<div class="btn-group" style="margin:-3px 0;">
                 <a href="/economic_complement/'.$economic_complement->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
             </div>';})
         ->make(true);
@@ -185,44 +184,20 @@ class EconomicComplementController extends Controller
             $pension_entities_list[$item->id]=$item->name;
         }
 
-        $new_cities_list = ['Todo' => 'Todo'];
-        foreach ($cities as $item) {
-            $new_cities_list[$item->id] = $item->name;
-        }
-
         $semestre = ['F' => 'Primer', 'S' => 'Segundo'];
         foreach ($semestre as $item) {
             $semester_list[$item]=$item;
         }
-        $all_semester = ['Todo' => 'Todo'];
-        $all_semester_list = array_merge($all_semester, $semester_list);
-
-        $current_year = Carbon::now()->year;
-        $year_list =[$current_year => $current_year];
-        $eco_com_year = EconomicComplement::distinct()->select('year')->orderBy('year', 'desc')->get();
-        foreach ($eco_com_year as $item) {
-            $year_list[Util::getYear($item->year)] = Util::getYear($item->year);
-        }
-
-        $report_type = ['' => '', '1' => 'Reporte diario de recepción', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Resumen de inclusiones', '5' => 'Resumen de habituales', '6' => 'Reporte pago de complemento económico'];
-        foreach ($report_type as $key => $item) {
-            $report_type_list[$key] = $item;
-        }
 
         return [
-
-        'eco_com_states_list' => $eco_com_states_list,
-        'eco_com_types_list' => $eco_com_types_list,
-        'semester_list' => $semester_list,
-        'pension_entities_list' => $pension_entities_list,
-        'cities_list' => $cities_list,
-        'cities_list_short' => $cities_list_short,
-        'year' => Carbon::now()->year,
-        'semester' => Util::getSemester(Carbon::now()),
-        'year_list' => $year_list,
-        'report_type_list' => $report_type_list,
-        'new_cities_list' => $new_cities_list,
-        'all_semester_list' => $all_semester_list
+            'eco_com_states_list' => $eco_com_states_list,
+            'eco_com_types_list' => $eco_com_types_list,
+            'semester_list' => $semester_list,
+            'pension_entities_list' => $pension_entities_list,
+            'cities_list' => $cities_list,
+            'cities_list_short' => $cities_list_short,
+            'year' => Carbon::now()->year,
+            'semester' => Util::getSemester(Carbon::now())
         ];
     }
 
