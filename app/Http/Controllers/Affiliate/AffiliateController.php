@@ -44,95 +44,78 @@ class AffiliateController extends Controller
 
     public function Data(Request $request)
     {
-        $affiliates = Affiliate::select(['affiliates.id', 'affiliates.identity_card', 'affiliates.registration', 'affiliates.last_name', 'affiliates.mothers_last_name', 'affiliates.first_name', 'affiliates.second_name',  'affiliates.affiliate_state_id', 'affiliates.degree_id', 'affiliates.city_identity_card_id']);
+        $affiliates = Affiliate::select(['affiliates.id', 'affiliates.identity_card', 
+            'affiliates.registration', 'affiliates.last_name', 'affiliates.mothers_last_name',
+            'affiliates.first_name', 'affiliates.second_name',  'affiliates.affiliate_state_id', 
+            'affiliates.degree_id', 'affiliates.city_identity_card_id'])->leftJoin('spouses','affiliates.id','=','spouses.affiliate_id');
+        
         if ($request->has('last_name'))
         {
             $last_name = strtoupper(trim($request->get('last_name')));
-            $last_name=strtoupper($last_name);
-
-           $affiliates->leftJoin('spouses','affiliates.id','=','spouses.affiliate_id')
-           ->where(function($affiliates) use ($last_name){
-            $affiliates->where('affiliates.last_name','like',"%".$last_name."%")
-            ->orWhere('spouses.last_name','like',"%".$last_name."%");
-        })->get();
-
-
+            $affiliates->where(function($affiliates) use ($last_name){
+                $affiliates->where('affiliates.last_name','like',"%".$last_name."%")
+                ->orWhere('spouses.last_name','like',"%".$last_name."%");
+            });
         }
+
+        if ($request->has('first_name'))
+        {
+            $first_name = strtoupper(trim($request->get('first_name')));
+            $affiliates->where(function($affiliates) use ($first_name){
+                $affiliates->where('affiliates.first_name','like',"%".$first_name."%")
+                ->orWhere('spouses.first_name','like',"%".$first_name."%");
+            });
+        }
+
         if ($request->has('mothers_last_name'))
         {
-          $mothers_last_name = strtoupper(trim($request->get('mothers_last_name')));
-          $mothers_last_name=strtoupper($mothers_last_name);
+            $mothers_last_name = strtoupper(trim($request->get('mothers_last_name')));
+            $affiliates->where(function($affiliates) use ($mothers_last_name){
+                $affiliates->where('affiliates.mothers_last_name','like',"%".$mothers_last_name."%")
+                ->orWhere('spouses.mothers_last_name','like',"%".$mothers_last_name."%");
+            });
+        }
+      
+        if ($request->has('second_name'))
+        {
+            $second_name = strtoupper(trim($request->get('second_name')));
+            $affiliates->where(function($affiliates) use ($second_name){
+                $affiliates->where('affiliates.second_name','like',"%".$second_name."%")
+                ->orWhere('spouses.second_name','like',"%".$second_name."%");
+            });
+        }
 
-          $affiliates->leftJoin('spouses','affiliates.id','=','spouses.affiliate_id')
-          ->where(function($affiliates) use ($mothers_last_name){
-            $affiliates->where('affiliates.mothers_last_name','like',"%".$mothers_last_name."%")
-            ->orWhere('spouses.mothers_last_name','like',"%".$mothers_last_name."%");
-        })->get();
+        if ($request->has('identity_card'))
+        {
+            $identity_card = strtoupper(trim($request->get('identity_card')));
+            $affiliates->where(function($affiliates) use ($identity_card){
+                $affiliates->where('affiliates.identity_card','like',"%".$identity_card."%")
+                ->orWhere('spouses.identity_card','like',"%".$identity_card."%");
+            });
+        }
 
-      }
-      if ($request->has('first_name'))
-      {
-        $first_name = strtoupper(trim($request->get('first_name')));
-        $first_name=strtoupper($first_name);
+        if ($request->has('registration'))
+        {
+            $registration = strtoupper(trim($request->get('registration')));
+            $affiliates->where(function($affiliates) use ($registration){
+                $affiliates->where('affiliates.registration','like',"%".$registration."%")
+                ->orWhere('spouses.registration','like',"%".$registration."%");
+            });
+        }
 
-        $affiliates->leftJoin('spouses','affiliates.id','=','spouses.affiliate_id')
-        ->where(function($affiliates) use ($first_name){
-            $affiliates->where('affiliates.first_name','like',"%".$first_name."%")
-            ->orWhere('spouses.first_name','like',"%".$first_name."%");
-        })->get();
+        return Datatables::of($affiliates)
+        ->addColumn('identity_card', function($affiliate){ return $affiliate->city_identity_card_id ? $affiliate->identity_card . ' ' . $affiliate->city_identity_card->shortened : $affiliate->identity_card; })
+        ->addColumn('degree', function ($affiliate) { return $affiliate->degree_id ? $affiliate->degree->shortened : ''; })
+        ->editColumn('last_name', function ($affiliate) { return Util::ucw($affiliate->last_name); })
+        ->editColumn('mothers_last_name', function ($affiliate) { return Util::ucw($affiliate->mothers_last_name); })
+        ->addColumn('names', function ($affiliate) { return Util::ucw($affiliate->first_name) .' '. Util::ucw($affiliate->second_name); })
+        ->addColumn('state', function ($affiliate) { return $affiliate->affiliate_state->name; })
+        ->addColumn('action', function ($affiliate) { return
+            '<div class="btn-group" style="margin:-3px 0;">
+                <a href="affiliate/'.$affiliate->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
+            </div>';})
+        ->make(true);
     }
-    if ($request->has('second_name'))
-    {
-     $second_name = strtoupper(trim($request->get('second_name')));
-     $second_name=strtoupper($second_name);
-
-     $affiliates->leftJoin('spouses','affiliates.id','=','spouses.affiliate_id')
-     ->where(function($affiliates) use ($second_name){
-        $affiliates->where('affiliates.second_name','like',"%".$second_name."%")
-        ->orWhere('spouses.second_name','like',"%".$second_name."%");
-    })->get();
- }
- if ($request->has('identity_card'))
- {
-
-
-    $affiliates->where(function($affiliates) use ($request)
-    {
-        $identity_card = trim($request->get('identity_card'));
-        $identity_card=strtoupper($identity_card);
-        $affiliate=Affiliate::identitycardIs($identity_card)->first();
-        if(isset($affiliate)){
-            $affiliates->where('identity_card', 'like', "{$identity_card}");
-        }
-        else{
-            $spouses=Spouse::identitycardIs($identity_card)->first();
-            $affiliate=$spouses->affiliate;
-            $affiliates->find($affiliate->id);
-        }
-    });
-}
-if ($request->has('registration'))
-{
-    $affiliates->where(function($affiliates) use ($request)
-    {
-        $registration = trim($request->get('registration'));
-        $affiliates->where('registration', 'like', "%{$registration}%");
-    });
-}
-
-return Datatables::of($affiliates)
-->addColumn('identity_card', function($affiliate){ return $affiliate->city_identity_card_id ? $affiliate->identity_card . ' ' . $affiliate->city_identity_card->shortened : $affiliate->identity_card; })
-->addColumn('degree', function ($affiliate) { return $affiliate->degree_id ? $affiliate->degree->shortened : ''; })
-->editColumn('last_name', function ($affiliate) { return Util::ucw($affiliate->last_name); })
-->editColumn('mothers_last_name', function ($affiliate) { return Util::ucw($affiliate->mothers_last_name); })
-->addColumn('names', function ($affiliate) { return Util::ucw($affiliate->first_name) .' '. Util::ucw($affiliate->second_name); })
-->addColumn('state', function ($affiliate) { return $affiliate->affiliate_state->name; })
-->addColumn('action', function ($affiliate) { return  '
-    <div class="btn-group" style="margin:-3px 0;">
-        <a href="affiliate/'.$affiliate->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
-    </div>';})
-->make(true);
-}
 
 public static function getViewModel()
 {
