@@ -454,7 +454,7 @@ class EconomicComplementController extends Controller
     {
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
-        $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
+        $eco_com_type = $economic_complement->economic_complement_modality;
 
         $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
 
@@ -527,7 +527,7 @@ class EconomicComplementController extends Controller
 
         'affiliate' => $affiliate,
         'economic_complement' => $economic_complement,
-        'eco_com_type' => $eco_com_type->name,
+        'eco_com_type' => $eco_com_type->shortened,
         'eco_com_applicant' => $eco_com_applicant,
         'eco_com_requirements' => $eco_com_requirements,
         'economic_complement_legal_guardian' => $economic_complement_legal_guardian,
