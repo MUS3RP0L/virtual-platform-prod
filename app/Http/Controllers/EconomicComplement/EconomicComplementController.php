@@ -33,7 +33,7 @@ use Muserpol\ComplementaryFactor;
 use Muserpol\Degree;
 use Muserpol\Unit;
 use Muserpol\Category;
-
+use Muserpol\WorkflowRecord;
 class EconomicComplementController extends Controller
 {
     /**
@@ -953,8 +953,9 @@ class EconomicComplementController extends Controller
             else{
 
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
-                $economic_complement->eco_com_state_id = 2;
+                //$economic_complement->eco_com_state_id = 2;
                 $economic_complement->review_date = date('Y-m-d');
+                $economic_complement->state = 'Edited';
                 $economic_complement->save();
 
                 return redirect('economic_complement/'.$economic_complement->id);
@@ -1118,5 +1119,12 @@ class EconomicComplementController extends Controller
             ];
             return response()->json($data);
         }
+    }
+
+    public function get_record(Request $request)
+    {
+        $records = WorkflowRecord::select(['date', 'message'])->where('eco_com_id', $request->id);
+        
+        return Datatables::of($records)->make(true);
     }
 }

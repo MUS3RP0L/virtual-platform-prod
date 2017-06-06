@@ -3,7 +3,7 @@
 namespace Muserpol\Helper;
 use Carbon\Carbon;
 use Muserpol\EconomicComplement;
-
+use Auth;
 class Util
 {
 	public static function getType1($affiliate)
@@ -584,6 +584,10 @@ class Util
     	$current_month = $current_date->format('m');
     	return $current_month<=8 ? "Primer" : "Segundo";
 
+    }
+    public static function getFullNameUser()
+    {
+    	return Auth::user()->first_name." ".Auth::user()->last_name; 
     }
 
 }
