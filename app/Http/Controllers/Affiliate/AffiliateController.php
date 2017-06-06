@@ -117,45 +117,45 @@ class AffiliateController extends Controller
         ->make(true);
     }
 
-public static function getViewModel()
-{
-    $cities = City::all();
-    $cities_list = ['' => ''];
-    foreach ($cities as $item) {
-        $cities_list[$item->id]=$item->name;
-    }
-
-    $cities_list_short = ['' => ''];
-    foreach ($cities as $item) {
-        $cities_list_short[$item->id]=$item->first_shortened;
-    }
-
-        $affiliate_states=AffiliateState::all();
-        $a_states=[];
-        foreach ($affiliate_states as $as) {
-            $a_states[$as->id]=$as->name;
+    public static function getViewModel()
+    {
+        $cities = City::all();
+        $cities_list = ['' => ''];
+        foreach ($cities as $item) {
+            $cities_list[$item->id]=$item->name;
         }
-        $dg=Degree::all();
-        $degrees=[];
-        foreach ($dg as $d) {
-            $degrees[$d->id]=$d->name;
+
+        $cities_list_short = ['' => ''];
+        foreach ($cities as $item) {
+            $cities_list_short[$item->id]=$item->first_shortened;
+        }
+
+        $affiliate_states = AffiliateState::all();
+        $affiliate_states = ['' => ''];
+        foreach ($affiliate_states as $as) {
+            $a_states[$as->id] = $as->name;
+        }
+
+        $degrees = Degree::all();
+        $degrees = ['' => ''];
+        foreach ($degrees as $item) {
+            $degrees[$d->id] = $d->name;
         }
 
         $ep=PensionEntity::all();
-        $entity_pensions=array(''=>'');
-
+        $entity_pensions=['' => ''];;
         foreach ($ep as $e) {
             $entity_pensions[$e->id]=$e->name;
         }
 
         $at=Affiliate::all();
-        $affiliate_types=[];
+        $affiliate_types=['' => ''];
         foreach ($at as $d) {
             $affiliate_types[$d->id]=$d->type;
         }
 
         $un=Unit::all();
-        $units=[];
+        $units=['' => ''];
         foreach ($un as $d) {
             $units[$d->id]=$d->name;
         }
