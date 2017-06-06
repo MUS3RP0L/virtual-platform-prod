@@ -14,47 +14,62 @@
             </div>
             <br />
             <div class="box-body">
-                    <div class="row">
-                            {!! Form::open(['method' => 'POST', 'route' => ['report_generator'], 'class' => 'form-horizontal']) !!}
-                            <div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        {!! Form::label('type', 'Tipo Reporte', ['class' => 'col-md-4 control-label']) !!}
-                                        <div class="col-md-8">
-                                            {!! Form::select('type', $report_type_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
-                                            <span class="help-block">Tipo Reporte</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        {!! Form::label('city', 'Regional', ['class' => 'col-md-4 control-label']) !!}
-                                        <div class="col-md-7">
-                                            {!! Form::select('city',$cities_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
-                                            <span class="help-block">Seleccione Regional</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        {!! Form::label('year', 'Gestión', ['class' => 'col-md-4 control-label']) !!}
-                                        <div class="col-md-7">
-                                            {!! Form::select('year', $year_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
-                                            <span class="help-block">Seleccione Gestión</span>
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="row">
+                    <div class="col-md-12" style="text-align: cesnter">                        
+                        {!! Form::open(['method' => 'POST', 'route' => ['report_generator'], 'class' => 'form-inline']) !!}                                
+                            <div class="form-group col-md-3">
+                                {!! Form::label('type', 'Reporte', ['class' => 'control-label']) !!}                                       
+                                {!! Form::select('type', $report_type_list, null, ['class' => 'combobox form-control ', 'required' ]) !!}                                                                                
+                                    
+                            </div> 
+                            <div id = "input1">                        
+                                <div class="form-group col-md-3">                                    
+                                    {!! Form::label('city', 'Regional', ['class' => 'control-label']) !!}
+                                    {!! Form::select('city',$cities_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
+                                    <span class="help-block">Seleccione Regional</span>                                   
+                                        
+                                </div>                            
+                                   
+                                <div class="form-group col-md-3">                                    
+                                    {!! Form::label('year', 'Gestión', ['class' => 'control-label']) !!}
+                                    {!! Form::select('year', $year_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
+                                    <span class="help-block">Seleccione Gestión</span>
+                                        
+                                </div>           
 
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        {!! Form::label('semester', 'Semestre', ['class' => 'col-md-4 control-label']) !!}
-                                        <div class="col-md-7">
-                                            {!! Form::select('semester', $semester_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
-                                            <span class="help-block">Seleccione Semestre</span>
-                                        </div>
-                                    </div>
+                                <div class="form-group col-md-3">                                    
+                                    {!! Form::label('semester', 'Semestre', ['class' => 'control-label']) !!}
+                                    {!! Form::select('semester', $semester_list, null, ['class' => ' combobox form-control', 'required' ]) !!}
+                                    <span class="help-block">Seleccione Semestre</span>                                        
+                                        
                                 </div>
                             </div>
+                            
+                            <div class="form-group col-md-9" id="inputs">
+                                <div class=" input-daterange input-group" id="datepicker">
+                                    <div class="input-group"> 
+                                        {!! Form::label('from', 'Desde', ['class' => 'control-label']) !!}                                           
+                                                                                                                       
+                                        <input type="text" class="input form-control" name="from" />                                                    
+                                        <div class="input-group-addon" style="background-color:#fff!important;border:0!important;">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </div>
+                                                      
+                                    </div>          
+                                   
+                                        <div class="input-group">
+                                            {!! Form::label('to', 'Hasta', ['class' => 'control-label']) !!}                                            
+                                            
+                                                <input type="text" class="input form-control" name="to" />
+                                                <div class="input-group-addon" style="background-color:#fff!important;border:0!important;">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </div>
+                                        </div>                                          
+                                    
+                                </div>
+                            </div>
+                                
+                                
 
                             <br>
                             <div class="col-md-12">
@@ -72,7 +87,10 @@
                         </form>
                     </div>
 
+                </div>
+
             </div>
+
         </div>
     </div>
 </div>
@@ -82,7 +100,32 @@
 <script>
     $(document).ready(function(){
        $('.combobox').combobox();
+     $('.input-daterange').datepicker({
+
+        format: "dd/mm/yyyy",
+        language: "es",
+        orientation: "bottom right",
+        daysOfWeekDisabled: "0,6",
+        autoclose: true
     });
 
+    $('#inputs').hide();
+    $('#type').on('change',function (event) {
+            event.preventDefault();
+            var valor = $(this).val();
+            console.log(valor);
+            if(valor == 1){                
+                
+                $('#input1').hide();
+                $('#inputs').show();
+            }
+            else{
+                $('#inputs').hide();
+                $('#input1').show();
+            }            
+        
+     });
+
+    });
 </script>
 @endpush

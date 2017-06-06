@@ -81,7 +81,7 @@ class ContributionController extends Controller
 
         return Datatables::of($contributions)
                 ->editColumn('month_year', function ($contribution) { return Carbon::parse($contribution->month_year)->month . "-" . Carbon::parse($contribution->month_year)->year ; })
-                ->editColumn('degree_id', function ($contribution) { return $contribution->degree_id ? $contribution->degree->code_level . "-" . $contribution->degree->code_degree : ''; })
+                ->editColumn('degree_id', function ($contribution) { return $contribution->degree_id ? $contribution->degree->getCode() : ''; })
                 ->editColumn('unit_id', function ($contribution) { return $contribution->unit_id ? $contribution->unit->code : ''; })
                 ->editColumn('base_wage', function ($contribution) { return Util::formatMoney($contribution->base_wage); })
                 ->editColumn('seniority_bonus', function ($contribution) { return Util::formatMoney($contribution->seniority_bonus); })

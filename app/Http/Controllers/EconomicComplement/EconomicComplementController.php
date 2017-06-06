@@ -58,7 +58,9 @@ class EconomicComplementController extends Controller
 
     public function Data(Request $request)
     {
-        $economic_complements = EconomicComplement::select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'created_at', 'total', 'wf_current_state_id'])->orderBy('created_at','desc');
+        $economic_complements = EconomicComplement::select(['id', 'affiliate_id',
+            'eco_com_modality_id', 'eco_com_state_id', 'code', 'created_at', 'total',
+            'wf_current_state_id'])->orderBy('created_at','desc');
 
         if ($request->has('code'))
         {
@@ -115,9 +117,7 @@ class EconomicComplementController extends Controller
             });
         }
         return Datatables::of($economic_complements)
-        ->addColumn('affiliate_identitycard', function ($economic_complement) {
-
-           return $economic_complement->economic_complement_applicant->city_identity_card_id ? $economic_complement->economic_complement_applicant->identity_card.' '.$economic_complement->economic_complement_applicant->city_identity_card->first_shortened: $economic_complement->economic_complement_applicant->identity_card; })
+        ->addColumn('affiliate_identitycard', function ($economic_complement) {return $economic_complement->economic_complement_applicant->city_identity_card_id ? $economic_complement->economic_complement_applicant->identity_card.' '.$economic_complement->economic_complement_applicant->city_identity_card->first_shortened: $economic_complement->economic_complement_applicant->identity_card; })
         ->addColumn('affiliate_name', function ($economic_complement) { return $economic_complement->economic_complement_applicant->getTittleName(); })
         ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
         ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : $economic_complement->wf_state->name; })
@@ -129,7 +129,7 @@ class EconomicComplementController extends Controller
             <ul class="dropdown-menu">
                 <li><a href="voucher/delete/ '.$economic_complement->id.' " style="padding:3px 10px;"><i class="glyphicon glyphicon-ban-circle"></i> Anular</a></li>
             </ul>
-        </div>';})
+            </div>';})
         ->make(true);
     }
 

@@ -54,4 +54,9 @@ class Degree extends Model
     {
         return $this->hierarchy->code ."-". $this->code ." ". $this->name;
     }
+
+    public function getCode()
+    {
+        return $this->hierarchy->code ."-". $this->code;
+    }
 }
