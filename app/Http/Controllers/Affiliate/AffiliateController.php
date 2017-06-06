@@ -122,71 +122,68 @@ class AffiliateController extends Controller
         $cities = City::all();
         $cities_list = ['' => ''];
         foreach ($cities as $item) {
-            $cities_list[$item->id]=$item->name;
+            $cities_list[$item->id] = $item->name;
         }
 
         $cities_list_short = ['' => ''];
         foreach ($cities as $item) {
-            $cities_list_short[$item->id]=$item->first_shortened;
+            $cities_list_short[$item->id] = $item->first_shortened;
         }
 
         $affiliate_states = AffiliateState::all();
-        $affiliate_states = ['' => ''];
-        foreach ($affiliate_states as $as) {
-            $a_states[$as->id] = $as->name;
+        $affiliate_states_list = ['' => ''];
+        foreach ($affiliate_states as $item) {
+            $affiliate_states_list[$item->id] = $item->name;
         }
 
         $degrees = Degree::all();
-        $degrees = ['' => ''];
+        $degrees_list = ['' => ''];
         foreach ($degrees as $item) {
-            $degrees[$d->id] = $d->name;
+            $degrees_list[$item->id] = $item->name;
         }
 
-        $ep=PensionEntity::all();
-        $entity_pensions=['' => ''];;
-        foreach ($ep as $e) {
-            $entity_pensions[$e->id]=$e->name;
+        $pension_entities = PensionEntity::all();
+        $pension_entities_list = ['' => ''];;
+        foreach ($pension_entities as $item) {
+            $pension_entities_list[$item->id] = $item->name;
         }
 
-        $at=Affiliate::all();
-        $affiliate_types=['' => ''];
-        foreach ($at as $d) {
-            $affiliate_types[$d->id]=$d->type;
+        $units = Unit::all();
+        $units_list = ['' => ''];
+        foreach ($units as $item) {
+            $units_list[$item->id] = $item->name;
         }
 
-        $un=Unit::all();
-        $units=['' => ''];
-        foreach ($un as $d) {
-            $units[$d->id]=$d->name;
-        }
-
-        $ca=Category::all();
-        $categories=[];
-        foreach ($ca as $key=>$d) {
-            if ($key==8) {
+        $categories = Category::all();
+        $categories_list = ['' => ''];
+        foreach ($categories as $item) {
+            if ($item->id > 8) {
                 break;
             }else{
-                $categories[$d->id]=$d->name;
+                $categories_list[$item->id]=$item->name;
             }
+        }
+
+        $observations_types = ObservationType::all();
+        $observation_types_list = array('' => '');
+        foreach ($observations_types as $item) {
+            $observation_types_list[$item->id]=$item->name;
         }
 
         $gender_list = ['' => '', 'C' => 'CASADO(A)', 'S' => 'SOLTERO(A)', 'V' => 'VIUDO(A)', 'D' => 'DIVORCIADO(A)'];
 
-
         return [
-
-        'cities_list' => $cities_list,
-        'cities_list_short' => $cities_list_short,
-        'gender_list' => $gender_list,
-        'affiliate_state'=>$a_states,
-        'degrees'=>$degrees,
-        'affiliate_types'=>$affiliate_types,
-        'entity_pensions'=>$entity_pensions,
-        'units'=>$units,
-        'categories'=>$categories
-
-    ];
-}
+            'cities_list' => $cities_list,
+            'cities_list_short' => $cities_list_short,
+            'affiliate_states_list' => $affiliate_states_list,
+            'degrees_list' => $degrees_list,
+            'pension_entities_list' => $pension_entities_list,
+            'units_list' => $units_list,
+            'categories_list' => $categories_list,
+            'observation_types_list' => $observation_types_list,
+            'gender_list' => $gender_list
+        ];
+    }
 
     /**
      * Display the specified resource.
@@ -194,15 +191,17 @@ class AffiliateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function getData($affiliate)
     {
-        $affiliate = Affiliate::idIs($affiliate)->first();
-
-        $AffiliateAddress = AffiliateAddress::affiliateidIs($affiliate->id)->first();
-        if (!$AffiliateAddress) { $AffiliateAddress = new AffiliateAddress; }
+        $affiliate_address = AffiliateAddress::affiliateidIs($affiliate->id)->first();
+        
+        if (!$affiliate_address) { $affiliate_address = new AffiliateAddress; }
+        
         $spouse = Spouse::affiliateidIs($affiliate->id)->first();
 
         if (!$spouse) { $spouse = new Spouse; }
+
         if ($spouse->city_identity_card_id) {
             $spouse->city_identity_card = City::idIs($spouse->city_identity_card_id)->first()->shortened;
         }else {
@@ -229,12 +228,12 @@ class AffiliateController extends Controller
         }else {
             $affiliate->city_birth = '';
         }
-        if ($AffiliateAddress->city_address_id) {
-            $AffiliateAddress->city_address = City::idIs($AffiliateAddress->city_address_id)->first()->name;
+        if ($affiliate_address->city_address_id) {
+            $affiliate_address->city_address = City::idIs($affiliate_address->city_address_id)->first()->name;
         }else {
-            $AffiliateAddress->city_address = '';
+            $affiliate_address->city_address = '';
         }
-        if ($AffiliateAddress->city_address_id || $AffiliateAddress->zone || $AffiliateAddress->Street || $AffiliateAddress->number_address) {
+        if ($affiliate_address->city_address_id || $affiliate_address->zone || $affiliate_address->Street || $affiliate_address->number_address) {
             $info_address = TRUE;
         }else{
             $info_address = FALSE;
@@ -245,15 +244,13 @@ class AffiliateController extends Controller
             $info_spouse = FALSE;
         }
 
-        // $last_contribution = Contribution::affiliateidIs($affiliate->id)->orderBy('month_year', 'desc')->first();
-
         // $totals = DB::table('affiliates')
-        //                 ->select(DB::raw('SUM(contributions.gain) as gain, SUM(contributions.public_security_bonus) as public_security_bonus,
-        //                                 SUM(contributions.quotable) as quotable, SUM(contributions.total) as total,
-        //                                 SUM(contributions.retirement_fund) as retirement_fund, SUM(contributions.mortuary_quota) as mortuary_quota'))
-        //                 ->leftJoin('contributions', 'affiliates.id', '=', 'contributions.affiliate_id')
-        //                 ->where('affiliates.id', '=', $affiliate->id)
-        //                 ->get();
+        //     ->select(DB::raw('SUM(contributions.gain) as gain, SUM(contributions.public_security_bonus) as public_security_bonus,
+        //                     SUM(contributions.quotable) as quotable, SUM(contributions.total) as total,
+        //                     SUM(contributions.retirement_fund) as retirement_fund, SUM(contributions.mortuary_quota) as mortuary_quota'))
+        //     ->leftJoin('contributions', 'affiliates.id', '=', 'contributions.affiliate_id')
+        //     ->where('affiliates.id', '=', $affiliate->id)
+        //     ->get();
 
         // foreach ($totals as $item) {
         //     $total_gain = Util::formatMoney($item->gain);
@@ -264,38 +261,10 @@ class AffiliateController extends Controller
         //     $total = Util::formatMoney($item->total);
         // }
 
-        $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->first();
-
-        $ca=Category::all();
-        $categories=[];
-        foreach ($ca as $key=>$d) {
-            if ($key==8) {
-                break;
-            }else{
-                $categories[$d->id]=$d->name;
-            }
-        }
-
-        $observations_types = ObservationType::all();
-        $observation_types_list = array('' => '');
-        foreach ($observations_types as $item) {
-            $observation_types_list[$item->id]=$item->name;
-        }
-
-        $canObservate=false;
-        $ObservationType=null;
-        $moduleObservation=Auth::user()->roles()->first()->module->id;
-        if($moduleObservation==8 || $moduleObservation==6 || $moduleObservation==9 || $moduleObservation==1 ){
-            $ObservationType=ObservationType::where('module_id',$moduleObservation)->first();
-            $canObservate=true;
-        }
-
         $year = Util::getYear(Carbon::now());
         $semester = Util::getCurrentSemester();
 
-        $eco_com_current_procedure = EconomicComplementProcedure::whereYear('year', '=',$year)
-        ->where('semester',$semester)
-        ->first();
+        $eco_com_current_procedure = EconomicComplementProcedure::whereYear('year', '=',$year)->where('semester',$semester)->first();
         if ($eco_com_current_procedure) {
             $current_economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)
             ->where('eco_com_procedure_id', $eco_com_current_procedure->id)
@@ -310,27 +279,21 @@ class AffiliateController extends Controller
         }
 
         $data = [
-        'canObservate'=>$canObservate,
-        'ObservationType'=>$ObservationType,
-        'affiliate' => $affiliate,
-        'AffiliateAddress' => $AffiliateAddress,
-        'spouse' => $spouse,
-        'gender_list' => $gender_list,
-        'gender_list_s' => $gender_list_s,
-        'info_address' => $info_address,
-        'info_spouse' => $info_spouse,
-        'economic_complement' => $economic_complement,
-        'current_economic_complement' => $current_economic_complement,
-        'has_current_eco_com' => $has_current_eco_com,
-            // 'last_contribution' => $last_contribution,
-        'observations_types'=>$observation_types_list,
-            // 'total_gain' => $total_gain,
-            // 'total_public_security_bonus' => $total_public_security_bonus,
-            // 'total_quotable' => $total_quotable,
-            // 'total_retirement_fund' => $total_retirement_fund,
-            // 'total_mortuary_quota' => $total_mortuary_quota,
-            // 'total' => $total
-
+            'affiliate' => $affiliate,
+            'affiliate_address' => $affiliate_address,
+            'spouse' => $spouse,
+            'gender_list' => $gender_list,
+            'gender_list_s' => $gender_list_s,
+            'info_address' => $info_address,
+            'info_spouse' => $info_spouse,
+            'current_economic_complement' => $current_economic_complement,
+            'has_current_eco_com' => $has_current_eco_com,
+                // 'total_gain' => $total_gain,
+                // 'total_public_security_bonus' => $total_public_security_bonus,
+                // 'total_quotable' => $total_quotable,
+                // 'total_retirement_fund' => $total_retirement_fund,
+                // 'total_mortuary_quota' => $total_mortuary_quota,
+                // 'total' => $total
         ];
         $data = array_merge($data, self::getViewModel());
         return $data;
@@ -339,7 +302,7 @@ class AffiliateController extends Controller
     public function show($affiliate)
     {
 
-        return view('affiliates.view', self::getData($affiliate->id));
+        return view('affiliates.view', self::getData($affiliate));
     }
 
     /**

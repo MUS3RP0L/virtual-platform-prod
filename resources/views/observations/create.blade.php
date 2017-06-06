@@ -13,7 +13,7 @@
 				        {!! Form::label('observation_type_id', 'Tipo', ['']) !!}
 
 				<div class="form-group">
-				        {!! Form::select('observation_type_id', $observations_types, '', ['class' => 'col-md-2 combobox form-control','required' => 'required']) !!}
+				        {!! Form::select('observation_type_id', $observation_types_list, '', ['class' => 'col-md-2 combobox form-control','required' => 'required']) !!}
 				</div>
 				{!! Form::label('message', 'Mensaje:', []) !!}
 				@if(isset($ObservationType))

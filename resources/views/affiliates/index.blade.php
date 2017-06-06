@@ -290,21 +290,21 @@
                                 <div class="form-group">
                                     {!! Form::label('category', 'Categoría', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('category',$categories, '', ['class'=> 'combobox form-control', 'required']) !!}
+                                        {!! Form::select('category',$categories_list, '', ['class'=> 'combobox form-control', 'required']) !!}
                                         <span class="help-block">Seleccione Categoría</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     {!! Form::label('pension', 'Ente Gestor', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('pension',$entity_pensions, '', ['class'=> 'combobox form-control', 'required']) !!}
+                                        {!! Form::select('pension',$pension_entities_list, '', ['class'=> 'combobox form-control', 'required']) !!}
                                         <span class="help-block">Seleccione un ente gestor</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('degree', 'Grado', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('degree',$degrees, '', ['class'=> 'combobox form-control', 'required']) !!}
+                                        {!! Form::select('degree',$degrees_list, '', ['class'=> 'combobox form-control', 'required']) !!}
                                         <span class="help-block">Seleccione un grado del policía</span>
                                     </div>
                                 </div>
