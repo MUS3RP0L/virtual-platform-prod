@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\CreateContributionRate::class,
         \Muserpol\Console\Commands\importfinal::class,
         \Muserpol\Console\Commands\CalculateAverage::class,
+        \Muserpol\Console\Commands\ImportComplement::class,
 
     ];
 
