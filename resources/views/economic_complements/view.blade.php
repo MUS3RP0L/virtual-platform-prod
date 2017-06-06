@@ -7,7 +7,7 @@
 			{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
 		</div>
         @can('eco_com_reception')
-    		<div class="col-md-4">
+    		<div class="col-md-2">
                 <div class="btn-group">
                     <span data-toggle="modal" data-target="#observationModal">
                         <a href="#" class="btn btn-raised btn-lg bg-red"  data-toggle="tooltip"  data-placement="top" data-original-title="Observaciones"><i class="fa fa-lg fa-eye"></i></a>
@@ -46,6 +46,13 @@
 				</div>
 			@endif
 		@endcan
+        <div class="col-md-2">
+            <div class="btn-group">
+                <span data-toggle="modal" data-target="#recordEcoModal">
+                    <a href="#" class="btn btn-raised btn-lg bg-blue"  data-toggle="tooltip"  data-placement="right" data-original-title="Historial"><i class="fa fa-lg fa-clock-o"></i></a>
+                </span>
+            </div>
+        </div>
 	</div>
 
 @endsection
@@ -1353,6 +1360,26 @@
             </div>
         </div>
     </div>
+    <div id="recordEcoModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Historial del Tramite</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-hover" id="recordEcoTable" width="100%">
+                        <thead>
+                            <tr class="success">
+                                <th>Fecha</th>
+                                <th>descripción</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -1485,6 +1512,28 @@
         });
         $("input[name='cell_phone_number_lg[]']").last().focus();
     });
-
+    //for record of econmic complement
+    $(document).ready(function() {
+        
+        $('#recordEcoTable').DataTable({
+            "dom": '<"top">t<"bottom"p>',
+            "order": [[ 0, "desc" ]],
+            processing: true,
+            serverSide: true,
+            pageLength: 12,
+            bFilter: false,
+            ajax: {
+                url: '{!! route('get_economic_complement_record') !!}',
+                data: function (d) {
+                    d.id = {{ $economic_complement->id }};
+                }
+            },
+            columns: [
+                { data: 'date' },
+                { data: 'message', bSortable: false }
+            ]
+        });
+        
+    });
 </script>
 @endpush

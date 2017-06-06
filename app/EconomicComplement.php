@@ -19,7 +19,7 @@ class EconomicComplement extends Model
         'user_id',
         'affiliate_id',
     	'eco_com_modality_id',
-    	'wf_step_id',
+    	'wf_current_state_id',
         'city_id',
         'category_id',
         'base_wage_id',
@@ -145,6 +145,7 @@ class EconomicComplement extends Model
 EconomicComplement::created(function($ecomplement)
 {
     Activity::createdEconomicComplement($ecomplement);
+    //WorkflowRecord::creatingEconomicComplement($ecomplement);
 
 });
 
