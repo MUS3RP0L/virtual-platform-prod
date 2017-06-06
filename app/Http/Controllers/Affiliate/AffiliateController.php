@@ -104,7 +104,7 @@ class AffiliateController extends Controller
         }
 
         return Datatables::of($affiliates)
-        ->addColumn('identity_card', function($affiliate){ return $affiliate->city_identity_card_id ? $affiliate->identity_card . ' ' . $affiliate->city_identity_card->shortened : $affiliate->identity_card; })
+        ->addColumn('identity_card', function($affiliate){ return $affiliate->city_identity_card_id ? $affiliate->identity_card . ' ' . $affiliate->city_identity_card->first_shortened : $affiliate->identity_card; })
         ->addColumn('degree', function ($affiliate) { return $affiliate->degree_id ? $affiliate->degree->shortened : ''; })
         ->editColumn('last_name', function ($affiliate) { return Util::ucw($affiliate->last_name); })
         ->editColumn('mothers_last_name', function ($affiliate) { return Util::ucw($affiliate->mothers_last_name); })
@@ -203,7 +203,7 @@ class AffiliateController extends Controller
         if (!$spouse) { $spouse = new Spouse; }
 
         if ($spouse->city_identity_card_id) {
-            $spouse->city_identity_card = City::idIs($spouse->city_identity_card_id)->first()->shortened;
+            $spouse->city_identity_card = City::idIs($spouse->city_identity_card_id)->first()->first_shortened;
         }else {
             $spouse->city_identity_card = '';
         }
@@ -219,7 +219,7 @@ class AffiliateController extends Controller
         }
 
         if ($affiliate->city_identity_card_id) {
-            $affiliate->city_identity_card = City::idIs($affiliate->city_identity_card_id)->first()->shortened;
+            $affiliate->city_identity_card = City::idIs($affiliate->city_identity_card_id)->first()->first_shortened;
         }else {
             $affiliate->city_identity_card = '';
         }
