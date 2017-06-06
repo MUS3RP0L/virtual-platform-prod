@@ -21,7 +21,7 @@
 					@else
 					{!! Form::textarea('message', null, ['class'=>'form-control']) !!}
 				@endif
-				{!! Form::hidden('affiliate_id', $affiliate->id  ) !!}
+				{!! Form::hidden('affiliate_id', $affiliate->id) !!}
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-warning" data-dismiss="modal">Cancelar</button>

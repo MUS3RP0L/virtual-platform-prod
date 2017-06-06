@@ -288,12 +288,12 @@ class AffiliateController extends Controller
             'info_spouse' => $info_spouse,
             'current_economic_complement' => $current_economic_complement,
             'has_current_eco_com' => $has_current_eco_com,
-                // 'total_gain' => $total_gain,
-                // 'total_public_security_bonus' => $total_public_security_bonus,
-                // 'total_quotable' => $total_quotable,
-                // 'total_retirement_fund' => $total_retirement_fund,
-                // 'total_mortuary_quota' => $total_mortuary_quota,
-                // 'total' => $total
+            // 'total_gain' => $total_gain,
+            // 'total_public_security_bonus' => $total_public_security_bonus,
+            // 'total_quotable' => $total_quotable,
+            // 'total_retirement_fund' => $total_retirement_fund,
+            // 'total_mortuary_quota' => $total_mortuary_quota,
+            // 'total' => $total
         ];
         $data = array_merge($data, self::getViewModel());
         return $data;
@@ -301,7 +301,6 @@ class AffiliateController extends Controller
 
     public function show($affiliate)
     {
-
         return view('affiliates.view', self::getData($affiliate));
     }
 
@@ -370,30 +369,30 @@ class AffiliateController extends Controller
             switch ($request->type) {
 
                 case 'personal':
-                $affiliate->user_id = Auth::user()->id;
-                $affiliate->identity_card = trim($request->identity_card);
-                if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
-                $affiliate->last_name = trim($request->last_name);
-                $affiliate->mothers_last_name = trim($request->mothers_last_name);
-                $affiliate->first_name = trim($request->first_name);
-                $affiliate->second_name = trim($request->second_name);
-                $affiliate->surname_husband = trim($request->surname_husband);
-                $affiliate->gender = trim($request->gender);
-                $affiliate->nua = $request->nua >0 ? $request->nua:0;
-                $affiliate->birth_date = Util::datePick($request->birth_date);
-                $affiliate->civil_status = trim($request->civil_status);
-                if ($request->city_birth_id) { $affiliate->city_birth_id = $request->city_birth_id; } else { $affiliate->city_birth_id = null; }
-                $affiliate->phone_number = trim(implode(",", $request->phone_number));
-                $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
-                if ($request->DateDeathAffiliateCheck == "on") {
-                    $affiliate->date_death = Util::datePick($request->date_death);
-                    $affiliate->reason_death = trim($request->reason_death);
-                }else {
-                    $affiliate->date_death = null;
-                    $affiliate->reason_death = null;
-                }
-                $affiliate->save();
-                $message = "Información Afiliado actualizado con éxito";
+                    $affiliate->user_id = Auth::user()->id;
+                    $affiliate->identity_card = trim($request->identity_card);
+                    if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
+                    $affiliate->last_name = trim($request->last_name);
+                    $affiliate->mothers_last_name = trim($request->mothers_last_name);
+                    $affiliate->first_name = trim($request->first_name);
+                    $affiliate->second_name = trim($request->second_name);
+                    $affiliate->surname_husband = trim($request->surname_husband);
+                    $affiliate->gender = trim($request->gender);
+                    $affiliate->nua = $request->nua >0 ? $request->nua:0;
+                    $affiliate->birth_date = Util::datePick($request->birth_date);
+                    $affiliate->civil_status = trim($request->civil_status);
+                    if ($request->city_birth_id) { $affiliate->city_birth_id = $request->city_birth_id; } else { $affiliate->city_birth_id = null; }
+                    $affiliate->phone_number = trim(implode(",", $request->phone_number));
+                    $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
+                    if ($request->DateDeathAffiliateCheck == "on") {
+                        $affiliate->date_death = Util::datePick($request->date_death);
+                        $affiliate->reason_death = trim($request->reason_death);
+                    }else {
+                        $affiliate->date_death = null;
+                        $affiliate->reason_death = null;
+                    }
+                    $affiliate->save();
+                    $message = "Información Afiliado actualizado con éxito";
                 break;
 
                 case 'personal_new':
@@ -414,7 +413,7 @@ class AffiliateController extends Controller
                         $affiliate->second_name = trim($request->second_name);
                         $affiliate->surname_husband = trim($request->surname_husband);
                         $affiliate->gender = trim($request->gender);
-                        $affiliate->nua = $request->nua >0 ? $request->nua:0;
+                        $affiliate->nua = $request->nua > 0 ? $request->nua : s0;
                         $affiliate->birth_date = Util::datePick($request->birth_date);
                         $affiliate->civil_status = trim($request->civil_status);
                         $affiliate->change_date = Carbon::now();
@@ -423,16 +422,14 @@ class AffiliateController extends Controller
                         $affiliate->registration = Util::CalcRegistration($affiliate->birth_date, $affiliate->last_name, $affiliate->mothers_last_name, $affiliate->first_name, $affiliate->gender);
                         $affiliate->save();
                         $message = "Información Afiliado creado con éxito";
-                        Session::flash('message', $message);
-                        return redirect('affiliate/'.$affiliate->id);
+                    }else{
+                        $message = "El Afiliado ya existe";
                     }
-
                 break;
 
                 case 'institutional':
-
                     $affiliate->affiliate_state_id = $request->state;
-                  //  $affiliate->type = $request->affiliate_type;
+                    $affiliate->type = $request->affiliate_type;
                     //$affiliate->unit_id = $request->unit;
                     $affiliate->degree_id = $request->degree;
                     $affiliate->date_entry = Util::datePick($request->date_entry);
@@ -445,12 +442,9 @@ class AffiliateController extends Controller
 
                 break;
                 case 'institutional_eco_com':
-
-                    //check!
                     $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->orderBy('created_at','desc')->first();
                     $economic_complement->city_id = $request->regional;
                     $economic_complement->save();
-                    //end check!
                     //$affiliate->affiliate_state_id = $request->state;
                     //  $affiliate->type = $request->affiliate_type;
                     //$affiliate->unit_id = $request->unit;
