@@ -409,11 +409,9 @@ class EconomicComplementController extends Controller
                 $economic_complement->code = $code ."/". $sem . "/" . $data['year'];
 
                 $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
-                $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
-                ->whereYear('year', '=', $data['year'])
-                ->where('semester', '=', $data['semester'])->first();
                 $economic_complement->base_wage_id = $base_wage->id;
-                $economic_complement->complementary_factor_id = $complementary_factor->id;
+                // $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)->whereYear('year', '=', $data['year'])->where('semester', '=', $data['semester'])->first();
+                // $economic_complement->complementary_factor_id = $complementary_factor->id;
                 $economic_complement->save();
             }
             return $this->save($request, $economic_complement);
