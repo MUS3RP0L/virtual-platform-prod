@@ -108,44 +108,34 @@ class AffiliateObservationController extends Controller
     }
     public function showOfAffiliate(Request $request)
     {   
-        $observations=AffiliateObservation::where('affiliate_id',$request->id)->select(['id','date','message','observation_type_id'])->get();
+        $observations=AffiliateObservation::where('affiliate_id',$request->id)->select(['id','affiliate_id','date','message','observation_type_id'])->get();
         return Datatables::of($observations)
                 ->addColumn('type',function ($observation)
                 {
                     return $observation->observationType->name;
                 })
-                ->addColumn('action', function ($observation) { return  
+                ->addColumn('action', function ($observation) {
+                    switch ($observation->observation_type_id) {
+                        case '1':
+                            $report_obs_type="debtor_conta";
+                        break;
+                        case '2':
+                            $report_obs_type="wallet_pres";
+                        break;
+                        case '3':
+                            $report_obs_type="legal";
+                    }
+                    return
                         '<div class="btn-group">
                           <button type="button" class="btn btn-warning btn-raised btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               Opciones <span class="caret"></span>
                           </button>
                           <ul class="dropdown-menu">
-                              <li><a href="#" style="padding:3px 10px;"><i class="glyphicon glyphicon-print"></i> Imprimir Observación</a></li>
+                              <li><a href="/print_suspended_observations/'.$observation->affiliate_id.'/'.$report_obs_type.'" style="padding:3px 10px;"><i class="glyphicon glyphicon-print"></i> Imprimir Observación</a></li>
                               <li><a href="/observation/deleteOb/' .$observation->id. '" style="padding:3px 10px;" class="btn btn-danger btn-raised btn-sm">' .$observation->observation_type. '<i class="glyphicon glyphicon-minus"></i> Eliminar</a></li>
                           </ul>
+
                         </div>';})
-
-                // Nuevo
-                // '<div class="btn-group">
-                //   <a href="/observation/deleteOb/' .$observation->id. '" class="btn btn-danger">' .$observation->observation_type. '<i class="glyphicon glyphicon-minus"></i> Eliminar</a>
-                //   <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                //     <span class="caret"></span>
-                //     <span class="sr-only">Toggle Dropdown</span>
-                //   </button>
-                //   <ul class="dropdown-menu">
-                //       <li><a href="#" style="padding:3px 10px;"><i class="glyphicon glyphicon-print"></i> Imprimir Observación</a></li>
-                //   </ul>
-                // </div>'
-
-                // Original
-                // '<div class="btn-group" style="margin:-3px 0;">
-                //         <a href="/observation/deleteOb/'.$observation->id.'" style="padding:3px 5px;" class="btn btn-warning btn-raised ">'.$observation->observation_type.'<i class="glyphicon glyphicon-minus"></i> Eliminar</a>
-                //         <a href="" class="btn btn-warning btn-raised btn-sm dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</a>
-                //         <ul class="dropdown-menu">
-                //             <li><a href="#" style="padding:3px 10px;"><i class="glyphicon glyphicon-print"></i> Imprimir Observación</a></li>
-                //         </ul>
-                //     </div>'
-
                 ->make(true);
     }
 

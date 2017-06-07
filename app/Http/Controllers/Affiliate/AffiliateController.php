@@ -28,6 +28,7 @@ use Muserpol\Spouse;
 use Muserpol\Unit;
 use Muserpol\ObservationType;
 use Muserpol\EconomicComplementApplicant;
+use Muserpol\AffiliateObservation;
 
 class AffiliateController extends Controller
 {
@@ -276,23 +277,15 @@ public static function getViewModel()
             }
         }
 
-        $observations_types = ObservationType::all();
+        $moduleObservation=Auth::user()->roles()->first()->module->id;
+        $observations_types = $moduleObservation == 1 ? ObservationType::all() : ObservationType::where('module_id',$moduleObservation)->get();
         $observation_types_list = array('' => '');
         foreach ($observations_types as $item) {
             $observation_types_list[$item->id]=$item->name;
         }
 
-        $canObservate=false;
-        $ObservationType=null;
-        $moduleObservation=Auth::user()->roles()->first()->module->id;
-        if($moduleObservation==8 || $moduleObservation==6 || $moduleObservation==9 || $moduleObservation==1 ){
-            $ObservationType=ObservationType::where('module_id',$moduleObservation)->first();
-            $canObservate=true;
-        }
-
         $year = Util::getYear(Carbon::now());
         $semester = Util::getCurrentSemester();
-
         $eco_com_current_procedure = EconomicComplementProcedure::whereYear('year', '=',$year)
         ->where('semester',$semester)
         ->first();
@@ -300,18 +293,15 @@ public static function getViewModel()
             $current_economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)
             ->where('eco_com_procedure_id', $eco_com_current_procedure->id)
             ->first();
-            if ($current_economic_complement) {
-                $has_current_eco_com = "edit";
-            } else {
-                $has_current_eco_com = "create";
-            }
+            $has_current_eco_com = $current_economic_complement ? "edit" : "create";
         } else {
             $has_current_eco_com = "disabled";
         }
+        $affi_observations = AffiliateObservation::where('affiliate_id',$affiliate->id)->first();
 
         $data = [
-        'canObservate'=>$canObservate,
-        'ObservationType'=>$ObservationType,
+        // 'canObservate'=>$canObservate,
+        // 'ObservationType'=>$ObservationType,
         'affiliate' => $affiliate,
         'AffiliateAddress' => $AffiliateAddress,
         'spouse' => $spouse,
@@ -323,7 +313,9 @@ public static function getViewModel()
         'current_economic_complement' => $current_economic_complement,
         'has_current_eco_com' => $has_current_eco_com,
             // 'last_contribution' => $last_contribution,
-        'observations_types'=>$observation_types_list,
+        'observations_types' => $observation_types_list,
+        'affi_observations' => $affi_observations,
+        'module_observations' => $moduleObservation,
             // 'total_gain' => $total_gain,
             // 'total_public_security_bonus' => $total_public_security_bonus,
             // 'total_quotable' => $total_quotable,
@@ -591,27 +583,10 @@ public static function getViewModel()
 
 
             case 'salary':
-                // if($eco_com_applicant->semester=="Primero"){
-                //     $nextSemester = "Segundo";
-                //     $nextYear = $yearcomplement->format('Y');
-                // }
-
-                // if($eco_com_applicant->semester=="Segundo") {
-                //     $nextSemester = "Primero";
-                //     $nextYear = $yearcomplement->addYear(1);
-                // }
-
             $view = \View::make('affiliates.print.excluded_by_salary', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($view)->setPaper('legal');
-            return $pdf->stream();
-
-
-            case 'legal':
-            $view = \View::make('affiliates.print.legal_action', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-            $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($view)->setPaper('legal');
-            return $pdf->stream();
+            return $pdf->stream(); 
         }
     }
 
@@ -629,6 +604,12 @@ public static function getViewModel()
         $procedure=EconomicComplementProcedure::whereYear('year','=',date("Y",strtotime($eco_com_applicant->year)))->where('semester','=',$eco_com_applicant->semester)->first();
 
         switch ($type) {
+            case 'legal':
+            $view = \View::make('affiliates.print.legal_action', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($view)->setPaper('legal');
+            return $pdf->stream();
+
             case 'debtor_conta':
             $view = \View::make('affiliates.print.print_debtor_in_contable', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
             $pdf = \App::make('dompdf.wrapper');

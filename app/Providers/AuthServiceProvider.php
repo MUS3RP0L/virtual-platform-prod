@@ -132,6 +132,15 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
+        $gate->define('observate', function($user){
+            foreach ($user->roles as $role) {
+                if($role->id == 6 || $role->id == 7 || $role->id == 8 || $role->id == 9){
+                    return true;
+                }
+            }
+            return false;
+        });
+
         // verify if icurrent user have role reception of Retirement fund
         // $gate->define('reti_fund_reception',function($user){
         //         foreach ($user->roles as $role) {

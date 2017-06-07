@@ -44,8 +44,6 @@ Formulario Nº 3
             @endforeach
     </table>
     <p>Sin otro particular me despido de usted muy atentamente. </p>
-
-    <br><br><br><br><br><br><br>
     <table>
               <tr>
                   <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>----------------------------------------------------------------------</th>
