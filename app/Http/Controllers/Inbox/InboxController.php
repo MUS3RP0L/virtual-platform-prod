@@ -55,19 +55,17 @@ class InboxController extends Controller
     }
     public function DataEdited()
     {
-         $user_ids=Auth::user()->roles()->first();
-         $e=EconomicComplement::where('eco_com_state_id',null)->where('state','Edited')->get();
+         $user_id=Auth::user()->roles()->first();
+         $economic_complements=EconomicComplement::where('eco_com_state_id',null)->where('state','Edited')->get();
          $data=[];
-         foreach ($e as $v) {
-             if ($v->wf_state->role_id == $user_ids->id) {
-                     $o=[];
-                     array_push($o,$v->id);
-                     array_push($o,$v->code);
-                     array_push($data,$o );
-                 
+         foreach ($economic_complements as $economic_complement) {
+             if ($economic_complement->wf_state->role_id == $user_id->id && $economic_complement->user_id ==Auth::user()->id) {
+                 $o=[];
+                 array_push($o,$economic_complement->id);
+                 array_push($o,$economic_complement->code);
+                 array_push($data,$o );
              }
          }        
-        //dd($data);
         return ["data"=>$data];
     }
 
