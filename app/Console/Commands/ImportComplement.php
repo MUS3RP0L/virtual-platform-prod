@@ -157,19 +157,19 @@ class ImportComplement extends Command implements SelfHandling
                                     $spouse = new Spouse;
                                     $spouse->user_id = 1;
                                     $spouse->affiliate_id = $afi->id;
-                                }
-                                $spouse->city_identity_card_id = $result->ap_city_identity_card_id;
-                                $spouse->identity_card = $result->ap_identity_card;                                
-                                $spouse->registration = "0";
-                                $spouse->last_name = $result->ap_last_name;
-                                $spouse->mothers_last_name = $result->ap_mothers_last_name;
-                                $spouse->first_name = $result->ap_first_name;
-                                $spouse->second_name = $result->ap_second_name;
-                                $spouse->surname_husband = $result->ap_surname_husband;
-                                $spouse->civil_status = $result->ap_civil_status;
-                                $spouse->birth_date = $result->ap_birth_date;
-                                $spouse->save();
-                                $viu++;                               
+                                    $spouse->city_identity_card_id = $result->ap_city_identity_card_id;
+                                    $spouse->identity_card = $result->ap_identity_card;                                
+                                    $spouse->registration = "0";
+                                    $spouse->last_name = $result->ap_last_name;
+                                    $spouse->mothers_last_name = $result->ap_mothers_last_name;
+                                    $spouse->first_name = $result->ap_first_name;
+                                    $spouse->second_name = $result->ap_second_name;
+                                    $spouse->surname_husband = $result->ap_surname_husband;
+                                    $spouse->civil_status = $result->ap_civil_status;
+                                    $spouse->birth_date = $result->ap_birth_date;
+                                    $spouse->save();
+                                    $viu++;
+                                }                               
                             }
                             else{
                                 $orf++;
