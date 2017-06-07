@@ -2,7 +2,6 @@
 
 namespace Muserpol\Console\Commands;
 
-
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Console\Command;
 use Maatwebsite\Excel\Facades\Excel;
@@ -16,17 +15,14 @@ use Muserpol\EconomicComplementApplicant;
 
 class ImportComplement extends Command implements SelfHandling
 {
-    protected $signature = 'import:complement';
-    protected $description = 'Command description';
-    public function __construct()
-    {
-        parent::__construct();
-    }
-    
-
+    protected $signature = 'import:com';
    
+    protected $description = 'Command description';
+
     public function handle()
-    {   global $Progress,$vej, $viu, $orf,$newafi,$oldafi,$totalafi;
+    {   
+        global $Progress,$vej, $viu, $orf,$newafi,$oldafi,$totalafi;
+        
         $password = $this->ask('Enter the password');
         if ($password == ACCESS) {
 
@@ -83,7 +79,7 @@ class ImportComplement extends Command implements SelfHandling
                             //dd($afi->id);
                             $ecom = EconomicComplement::where('affiliate_id','=',$afi->id)
                                     ->whereYear('year', '=', Carbon::parse($result->c_year)->year)
-                                    ->where('semester', '=', $result->c_semestre)->first();
+                                    ->where('semester', '=', $result->c_semester)->first();
                             if (!$ecom) {
                                 $ecom = new EconomicComplement;
 
@@ -204,7 +200,5 @@ class ImportComplement extends Command implements SelfHandling
             $this->error('Incorrect password!');
             exit();
         }
-
-
     }
 }
