@@ -19,7 +19,7 @@
                     <div class="form-group">
                             {!! Form::label('last_name_lg', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
                         <div class="col-md-6">
-                            {!! Form::text('last_name_lg', $eco_com_legal_guardian->last_name, ['class'=> 'form-control', 'required', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                            {!! Form::text('last_name_lg', $eco_com_legal_guardian->last_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                             <span class="help-block">Escriba el Apellido Paterno</span>
                         </div>
                     </div>
