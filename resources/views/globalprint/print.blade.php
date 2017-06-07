@@ -49,7 +49,7 @@
     @yield('content')
   </header>
   <footer>
-    PLATAFORMA VIRUTAL - MUTUAL DE SERVICIOS AL POLICÍA
+    PLATAFORMA VIRTUAL - MUTUAL DE SERVICIOS AL POLICÍA
 
       <div class="visible-print text-right">
         <table>

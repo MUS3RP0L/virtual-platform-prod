@@ -28,7 +28,7 @@ Formulario Nº 4
             @foreach($eco_com_submitted_document as $i=>$item)
             <tr>
                 <td><center>{!! $i+1 !!}</center></td>
-                <td>{!! $item->economic_complement_requirement->shortened !!}</td>
+                <td>{!! $item->economic_complement_requirement->name !!}</td>
                 @if ($item->status == 1)
                     <td class="info" style='text-align:center;'>
                       <img class="circle" src="img/check.png" style="width:70%" alt="icon">
