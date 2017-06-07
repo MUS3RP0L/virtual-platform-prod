@@ -139,7 +139,7 @@
                                         {!! Form::text('identity_card', '', ['class'=> 'form-control', 'required']) !!}
                                         <span class="help-block">Número de CI</span>
                                     </div>
-                                        {!! Form::select('city_identity_card_id', $cities_list_short,'', ['class' => 'col-md-2 combobox form-control','required' => 'required']) !!}
+                                        {!! Form::select('city_identity_card_id', $cities_list_short,'', ['class' => 'col-md-2 combobox form-control', 'required']) !!}
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
@@ -274,7 +274,7 @@
                                 <div class="form-group">
                                             {!! Form::label('city_birth_id', 'Lugar de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('city_birth_id', $cities_list, '', ['class' => 'combobox form-control']) !!}
+                                        {!! Form::select('city_birth_id', $cities_list, '', ['class' => 'combobox form-control', 'required']) !!}
                                         <span class="help-block">Seleccione Departamento</span>
                                     </div>
                                 </div>

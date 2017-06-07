@@ -7,7 +7,7 @@
 			{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
 		</div>
         @can('eco_com_reception')
-    		<div class="col-md-2">
+    		<div class="col-md-4">
                 <div class="btn-group">
                     <span data-toggle="modal" data-target="#observationModal">
                         <a href="#" class="btn btn-raised btn-lg bg-red"  data-toggle="tooltip"  data-placement="top" data-original-title="Observaciones"><i class="fa fa-lg fa-eye"></i></a>
