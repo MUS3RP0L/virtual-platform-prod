@@ -11,7 +11,7 @@ Formulario Nº 3
  <b>Señor (a) </b><br />
  <b>DIRECTOR (A) GENERAL EJECUTIVO</b><br />
  <b>MUTUAL DE SERVICIOS AL POLICIA</b><br />
- Presente.-<br /><br />
+ Presente.-<br />
  <p align="justify"><b>REF: {!! $applicant_type !!} SOLICITA NUEVA INCLUSIÓN {!! strtoupper($economic_complement->semester) !!} SEMESTRE COMPLEMENTO ECONÓMICO DE LA GESTIÓN {!! Util::getYear($economic_complement->reception_date) !!}</b></p>
 
  <p>Distinguido (a) Director (a): </p>
@@ -43,7 +43,7 @@ Formulario Nº 3
             </tr>
             @endforeach
     </table>
-    <p>Sin otro particular me despido de usted muy atentamente.</p>
+    <p>Sin otro particular me despido de usted muy atentamente.</p><br /><br />
 
     <table>
       <tr>
