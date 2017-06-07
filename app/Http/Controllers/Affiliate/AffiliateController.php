@@ -429,7 +429,7 @@ class AffiliateController extends Controller
 
                 case 'institutional':
                     $affiliate->affiliate_state_id = $request->state;
-                    $affiliate->type = $request->affiliate_type;
+                    //$affiliate->type = $request->affiliate_type;
                     //$affiliate->unit_id = $request->unit;
                     $affiliate->degree_id = $request->degree;
                     $affiliate->date_entry = Util::datePick($request->date_entry);
