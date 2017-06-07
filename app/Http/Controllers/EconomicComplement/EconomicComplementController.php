@@ -408,8 +408,8 @@ class EconomicComplementController extends Controller
                 }
                 $economic_complement->code = $code ."/". $sem . "/" . $data['year'];
 
-                $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
-                $economic_complement->base_wage_id = $base_wage->id;
+                // $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
+                // $economic_complement->base_wage_id = $base_wage->id;
                 // $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)->whereYear('year', '=', $data['year'])->where('semester', '=', $data['semester'])->first();
                 // $economic_complement->complementary_factor_id = $complementary_factor->id;
                 $economic_complement->save();
@@ -1065,6 +1065,7 @@ class EconomicComplementController extends Controller
       $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
       $date = Util::getDateEdit(date('Y-m-d'));
       $current_date = Carbon::now();
+      $user = Auth::user();
       $hour = Carbon::parse($current_date)->toTimeString();
       $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
       $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
@@ -1084,24 +1085,23 @@ class EconomicComplementController extends Controller
         switch ($type) {
             case 'report':
                 $title= "RECEPCIÓN DE REQUISITOS";
-                $user = Auth::user();
                 $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user','yearcomplement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('letter');
+                $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
 
             case 'inclusion':
                 $title= "";
-                $view = \View::make('economic_complements.print.inclusion_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type'))->render();
+                $view = \View::make('economic_complements.print.inclusion_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type', 'user'))->render();
                 $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('letter');
+                $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
 
             case 'habitual':
                 $title= "";
-                $view = \View::make('economic_complements.print.habitual_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type'))->render();
+                $view = \View::make('economic_complements.print.habitual_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type', 'user'))->render();
                 $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('letter');
+                $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
         }
 
