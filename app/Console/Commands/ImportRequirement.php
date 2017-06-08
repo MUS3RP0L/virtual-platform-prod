@@ -59,12 +59,13 @@ class ImportRequirement extends Command implements SelfHandling
                                                     $submit->economic_complement_id = $ecom->id;
                                                     $submit->eco_com_requirement_id = $item->id;
                                                     $submit->reception_date =  Carbon::createFromDate(2016, 7, 1);
+                                                    //dd($item);
                                                     switch ($item->id) 
                                                     {
-                                                                case 1:
+                                                                case "1":
                                                                         $submit->status = false;                                                                 
                                                                         break;
-                                                                case 2:
+                                                                case "2":
                                                                         if($result->v_ci2 == "SI") {
                                                                             $submit->status = true;
                                                                         }
@@ -72,7 +73,7 @@ class ImportRequirement extends Command implements SelfHandling
                                                                             $submit->status = false;
                                                                         }
                                                                         break;
-                                                                case 3:
+                                                                case "3":
                                                                         if($result->v_agra_servicio3 == "SI"){
                                                                             $submit->status = true;
                                                                         }
@@ -80,7 +81,7 @@ class ImportRequirement extends Command implements SelfHandling
                                                                             $submit->status = false;
                                                                         }
                                                                         break;
-                                                                 case 4:
+                                                                 case "4":
                                                                         if($result->v_anos_servicio4 == "SI"){
                                                                             $submit->status = true;
                                                                         }
@@ -99,13 +100,13 @@ class ImportRequirement extends Command implements SelfHandling
 
                                                     }
                                                    $submit->save(); 
-                                                   //dd($item->id); 
+                                                   
                                                                               
                                             }
                                             $vej++;
                                         }        
                                     }
-                                   /* elseif($result->tiporenta == 'VIUDEDAD' or $result->tiporenta == 'RENT-M2000-VIU' or $result->tiporenta == 'RENT-1COM-M2000-VIU' or $result->tiporenta == 'RENT-1COMP-VIU') //Viudedad
+                                    elseif($result->tiporenta == 'VIUDEDAD' or $result->tiporenta == 'RENT-M2000-VIU' or $result->tiporenta == 'RENT-1COM-M2000-VIU' or $result->tiporenta == 'RENT-1COMP-VIU') //Viudedad
                                     {	$app = Affiliate::where('identity_card','=', $result->c_ci)->first();
                                         if($app) 
                                         {
@@ -119,10 +120,10 @@ class ImportRequirement extends Command implements SelfHandling
             	                            	$submit->reception_date =  Carbon::createFromDate(2016, 7, 1);
                                                 switch ($item->id) 
                                                 {
-                                                                case 6:
+                                                                case "6":
                                                                         $submit->status = false;
                                                                         break;
-                                                                case 7:
+                                                                case "7":
                                                                         if($result->viu_ci_causa7 == "SI") {
                                                                             $submit->status = true;
                                                                         }
@@ -130,7 +131,7 @@ class ImportRequirement extends Command implements SelfHandling
                                                                             $submit->status = false;
                                                                         }
                                                                     break;
-                                                                case 8:
+                                                                case "8":
                                                                         if($result->viu_ci_derecho8 == "SI") {
                                                                             $submit->status = true;
                                                                         }
@@ -139,7 +140,7 @@ class ImportRequirement extends Command implements SelfHandling
                                                                         }
                                                                     break;
 
-                                                                case 9:
+                                                                case "9":
                                                                         if($result->viu_defuncion9 == "SI") {
                                                                             $submit->status = true;
                                                                         }
@@ -147,7 +148,7 @@ class ImportRequirement extends Command implements SelfHandling
                                                                             $submit->status = false;
                                                                         }
                                                                     break;
-                                                                case 10:
+                                                                case "10":
                                                                         if($result->viu_senasir10 == "SI") {
                                                                             $submit->status = true;
                                                                         }
@@ -155,7 +156,7 @@ class ImportRequirement extends Command implements SelfHandling
                                                                             $submit->status = false;
                                                                         }
                                                                     break;
-                                                                case 11:
+                                                                case "11":
                                                                         if($result->viu_agra_servicio11 == "SI") {
                                                                             $submit->status = true;
                                                                         }
@@ -163,7 +164,7 @@ class ImportRequirement extends Command implements SelfHandling
                                                                             $submit->status = false;
                                                                         }
                                                                     break;                                                
-                                                                case 12:
+                                                                case "12":
                                                                         if($result->viu_anos_servicio12 == "SI") {
                                                                             $submit->status = true;
                                                                         }
@@ -187,10 +188,11 @@ class ImportRequirement extends Command implements SelfHandling
                                         	
 
                                         	}
+                                            $viu++;
                                         }  
 
-                                        $viu++;		                        		
-                                    }*/
+                                        		                        		
+                                    }
                                 
                              
                          
