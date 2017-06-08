@@ -44,12 +44,13 @@ class ImportSpouse extends Command implements SelfHandling
                         set_time_limit('-1');
                         $Progress->advance();    
 
-                        if ($result->c_tipo == 2) {
+                        if ($result->c_tipo == '2') {
                             
-                            if(Affiliate::where('identity_card','=', trim($result->afi_identity_card))->first()) {  
+                            if(Affiliate::where('identity_card','=', ltrim($result->afi_identity_card))->first()) {  
                                 
-                                $afi = Affiliate::where('identity_card','=', trim($result->afi_identity_card))->first();
-                                if (!Spouse::where('affiliate_id','=', $afi->id)) {
+                                $afi = Affiliate::where('identity_card','=', ltrim($result->afi_identity_card))->first();
+
+                                if (!Spouse::where('affiliate_id','=', $afi->id)->first()) {                                   
                                     $spouse = new Spouse;
                                     $spouse->user_id = 1;
                                     $spouse->affiliate_id = $afi->id;
