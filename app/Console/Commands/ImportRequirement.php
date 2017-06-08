@@ -130,7 +130,7 @@ class ImportRequirement extends Command implements SelfHandling
                                                             $sreq->status = false;
                                                             break;
                                                     case '7':
-                                                            if($result->v_ci2 == "SI") {
+                                                            if($result->viu_ci_causa7 == "SI") {
                                                                 $sreq->status = true;
                                                             }
                                                             else{
@@ -138,7 +138,7 @@ class ImportRequirement extends Command implements SelfHandling
                                                             }
                                                         break;
                                                     case '8':
-                                                            if($result->v_ci2 == "SI") {
+                                                            if($result->viu_ci_derecho8 == "SI") {
                                                                 $sreq->status = true;
                                                             }
                                                             else{
@@ -147,7 +147,7 @@ class ImportRequirement extends Command implements SelfHandling
                                                         break;
 
                                                     case '9':
-                                                            if($result->v_ci2 == "SI") {
+                                                            if($result->viu_defuncion9 == "SI") {
                                                                 $sreq->status = true;
                                                             }
                                                             else{
@@ -155,7 +155,7 @@ class ImportRequirement extends Command implements SelfHandling
                                                             }
                                                         break;
                                                     case '10':
-                                                            if($result->v_ci2 == "SI") {
+                                                            if($result->viu_senasir10 == "SI") {
                                                                 $sreq->status = true;
                                                             }
                                                             else{
@@ -163,7 +163,7 @@ class ImportRequirement extends Command implements SelfHandling
                                                             }
                                                         break;
                                                     case '11':
-                                                            if($result->v_ci2 == "SI") {
+                                                            if($result->viu_agra_servicio11 == "SI") {
                                                                 $sreq->status = true;
                                                             }
                                                             else{
@@ -171,7 +171,7 @@ class ImportRequirement extends Command implements SelfHandling
                                                             }
                                                         break;                                                
                                                     case '12':
-                                                            if($result->v_ci2 == "SI") {
+                                                            if($result->viu_anos_servicio12 == "SI") {
                                                                 $sreq->status = true;
                                                             }
                                                             else{
@@ -179,7 +179,7 @@ class ImportRequirement extends Command implements SelfHandling
                                                             }
                                                         break;
                                                     default:
-                                                            if($result->v_anos_servicio4 == "SI"){
+                                                            if($result->viu_matri13 == "SI"){
                                                                 $sreq->status = true;
                                                             }
                                                             else{
