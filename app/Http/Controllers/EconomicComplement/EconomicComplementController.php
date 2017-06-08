@@ -952,6 +952,7 @@ class EconomicComplementController extends Controller
 
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
                 //$economic_complement->eco_com_state_id = 2;
+                $economic_complement->user_id = Auth::user()->id;
                 $economic_complement->review_date = date('Y-m-d');
                 $economic_complement->state = 'Edited';
                 $economic_complement->save();

@@ -55,16 +55,16 @@
                                     <div class="col-md-12">
                                             {!! Form::label('identity_card', 'Carnet de Identidad', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-5">
-                                            {!! Form::text('identity_card', $eco_com_applicant->identity_card, ['class'=> 'form-control']) !!}
+                                            {!! Form::text('identity_card', $eco_com_applicant->identity_card, ['class'=> 'form-control','required']) !!}
                                             <span class="help-block">Número de CI</span>
                                         </div>
-                                            {!! Form::select('city_identity_card_id', $cities_list_short, $eco_com_applicant->city_identity_card_id, ['class' => 'col-md-2 combobox form-control']) !!}
+                                            {!! Form::select('city_identity_card_id', $cities_list_short, $eco_com_applicant->city_identity_card_id, ['class' => 'col-md-2 combobox form-control','required']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
-                                        {!! Form::text('last_name', $eco_com_applicant->last_name, ['class'=> 'form-control', 'required', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        {!! Form::text('last_name', $eco_com_applicant->last_name, ['class'=> 'form-control','onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                         <span class="help-block">Escriba el Apellido Paterno</span>
                                     </div>
                                 </div>
