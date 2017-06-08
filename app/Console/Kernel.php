@@ -20,6 +20,8 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\CalculateAverage::class,
         \Muserpol\Console\Commands\ImportComplement::class,
         \Muserpol\Console\Commands\ImportRequirement::class,
+        \Muserpol\Console\Commands\ImportSpouse::class,
+        
         
 
     ];

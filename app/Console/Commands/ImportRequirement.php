@@ -91,7 +91,7 @@ class ImportRequirement extends Command implements SelfHandling
                                                 break;
                                             
                                             default:
-                                                    if($result->v_resolucion_senasir5 == "SI"){
+                                                    if($result->v_resolucion_senasir5 == "SI") {
                                                         $sreq->status = true;
                                                     }
                                                     else{
@@ -178,6 +178,7 @@ class ImportRequirement extends Command implements SelfHandling
                                                                 $sreq->status = false;
                                                             }
                                                         break;
+
                                                     default:
                                                             if($result->viu_matri13 == "SI"){
                                                                 $sreq->status = true;
@@ -185,7 +186,8 @@ class ImportRequirement extends Command implements SelfHandling
                                                             else{
                                                                 $sreq->status = false;
                                                             }
-                     			
+
+                     			                    }
 
                             		        }
                             	
