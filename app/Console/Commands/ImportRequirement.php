@@ -42,147 +42,156 @@ class ImportRequirement extends Command implements SelfHandling
                             ini_set('max_execution_time', '-1');
                             ini_set('max_input_time', '-1');
                             set_time_limit('-1');
-                            $Progress->advance(); 
-
-                            $app = EconomicComplementApplicant::where('identity_card','=', $result->ci)->first();
-                            if($app) 
-                            {
-                                    $ecom = EconomicComplement::where('economic_complements.affiliate_id','=', $app->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first();   
+                            $Progress->advance();                           
+                           
+                                    
 
                                     if ($result->tiporenta == 'VEJEZ' or $result->tiporenta == 'RENT-M2000-VEJ' or $result->tiporenta == 'RENT-1COM-M2000-VEJ' or $result->tiporenta == 'RENT-1COMP-VEJ') 
-                                    {                               
-                                        $req = EconomicComplementRequirement::where('eco_com_type_id','=', 1 )->get();
-                                        foreach ($req as $item) 
-                                        {
-                                            $sreq = new EconomicComplementSubmittedDocument;
-                                            $sreq->economic_complement_id = $ecom->id;
-                                            $sreq->eco_com_requirement_id = $item->id;
-                                            $sreq->reception_date =  Carbon::createFromDate(2016, 7, 1);
-                                            switch ($item->id) 
-                                            {
-                                                        case '1':
-                                                                $sreq->status = false;
-                                                                break;
-                                                        case '2':
-                                                                if($result->v_ci2 == "SI") {
-                                                                    $sreq->status = true;
-                                                                }
-                                                                else{
-                                                                    $sreq->status = false;
-                                                                }
-                                                            break;
-                                                        case '3':
-                                                                if($result->v_agra_servicio3 == "SI"){
-                                                                    $sreq->status = true;
-                                                                }
-                                                                else{
-                                                                    $sreq->status = false;
-                                                                }
-                                                            break;
-                                                         case '4':
-                                                                if($result->v_anos_servicio4 == "SI"){
-                                                                    $sreq->status = true;
-                                                                }
-                                                                else{
-                                                                    $sreq->status = false;
-                                                                }
-                                                            break;
-                                                        
-                                                        default:
-                                                                if($result->v_resolucion_senasir5 == "SI") {
-                                                                    $sreq->status = true;
-                                                                }
-                                                                else{
-                                                                    $sreq->status = false;
-                                                                }
-                                                $sreq->save();         
+                                    {   $app = Affiliate::where('identity_card','=', $result->ci)->first();
+                                        if($app) 
+                                        {  
+                                            $ecom = EconomicComplement::where('economic_complements.affiliate_id','=', $app->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first();   
+                                            $req = EconomicComplementRequirement::where('eco_com_type_id','=', 1 )->get();
+                                            //dd($req);
+                                            foreach ($req as $item) 
+                                            {   
+                                                    $submit = new EconomicComplementSubmittedDocument;
+                                                    $submit->economic_complement_id = $ecom->id;
+                                                    $submit->eco_com_requirement_id = $item->id;
+                                                    $submit->reception_date =  Carbon::createFromDate(2016, 7, 1);
+                                                    switch ($item->id) 
+                                                    {
+                                                                case 1:
+                                                                        $submit->status = false;                                                                 
+                                                                        break;
+                                                                case 2:
+                                                                        if($result->v_ci2 == "SI") {
+                                                                            $submit->status = true;
+                                                                        }
+                                                                        else{
+                                                                            $submit->status = false;
+                                                                        }
+                                                                        break;
+                                                                case 3:
+                                                                        if($result->v_agra_servicio3 == "SI"){
+                                                                            $submit->status = true;
+                                                                        }
+                                                                        else{
+                                                                            $submit->status = false;
+                                                                        }
+                                                                        break;
+                                                                 case 4:
+                                                                        if($result->v_anos_servicio4 == "SI"){
+                                                                            $submit->status = true;
+                                                                        }
+                                                                        else{
+                                                                            $submit->status = false;
+                                                                        }
+                                                                        break;
+                                                                    
+                                                                default:
+                                                                        if($result->v_resolucion_senasir5 == "SI") {
+                                                                            $submit->status = true;
+                                                                        }
+                                                                        else{
+                                                                            $submit->status = false;
+                                                                        }
+
+                                                    }
+                                                   $submit->save(); 
+                                                   //dd($item->id); 
+                                                                              
                                             }
-                                                                          
-                                        }
-                                        $vej++;        
+                                            $vej++;
+                                        }        
                                     }
-                                    elseif($result->tiporenta == 'VIUDEDAD' or $result->tiporenta == 'RENT-M2000-VIU' or $result->tiporenta == 'RENT-1COM-M2000-VIU' or $result->tiporenta == 'RENT-1COMP-VIU') //Viudedad
-                                    {	     
-                                        $req = EconomicComplementRequirement::where('eco_com_type_id','=', 2 )->get();
-        	                            foreach ($req as $item) 
+                                   /* elseif($result->tiporenta == 'VIUDEDAD' or $result->tiporenta == 'RENT-M2000-VIU' or $result->tiporenta == 'RENT-1COM-M2000-VIU' or $result->tiporenta == 'RENT-1COMP-VIU') //Viudedad
+                                    {	$app = Affiliate::where('identity_card','=', $result->c_ci)->first();
+                                        if($app) 
                                         {
-        	                            	$sreq = new EconomicComplementSubmittedDocument;
-        	                            	$sreq->economic_complement_id = $ecom->id;
-        	                            	$sreq->eco_com_requirement_id = $item->id;
-        	                            	$sreq->reception_date =  Carbon::createFromDate(2016, 7, 1);
-                                            switch ($item->id) 
+                                            $ecom = EconomicComplement::where('economic_complements.affiliate_id','=', $app->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first();
+                                            $req = EconomicComplementRequirement::where('eco_com_type_id','=', 2 )->get();
+            	                            foreach ($req as $item) 
                                             {
-                                                            case '6':
-                                                                    $sreq->status = false;
+            	                            	$submit = new EconomicComplementSubmittedDocument;
+            	                            	$submit->economic_complement_id = $ecom->id;
+            	                            	$submit->eco_com_requirement_id = $item->id;
+            	                            	$submit->reception_date =  Carbon::createFromDate(2016, 7, 1);
+                                                switch ($item->id) 
+                                                {
+                                                                case 6:
+                                                                        $submit->status = false;
+                                                                        break;
+                                                                case 7:
+                                                                        if($result->viu_ci_causa7 == "SI") {
+                                                                            $submit->status = true;
+                                                                        }
+                                                                        else{
+                                                                            $submit->status = false;
+                                                                        }
                                                                     break;
-                                                            case '7':
-                                                                    if($result->viu_ci_causa7 == "SI") {
-                                                                        $sreq->status = true;
-                                                                    }
-                                                                    else{
-                                                                        $sreq->status = false;
-                                                                    }
-                                                                break;
-                                                            case '8':
-                                                                    if($result->viu_ci_derecho8 == "SI") {
-                                                                        $sreq->status = true;
-                                                                    }
-                                                                    else{
-                                                                        $sreq->status = false;
-                                                                    }
-                                                                break;
+                                                                case 8:
+                                                                        if($result->viu_ci_derecho8 == "SI") {
+                                                                            $submit->status = true;
+                                                                        }
+                                                                        else{
+                                                                            $submit->status = false;
+                                                                        }
+                                                                    break;
 
-                                                            case '9':
-                                                                    if($result->viu_defuncion9 == "SI") {
-                                                                        $sreq->status = true;
-                                                                    }
-                                                                    else{
-                                                                        $sreq->status = false;
-                                                                    }
-                                                                break;
-                                                            case '10':
-                                                                    if($result->viu_senasir10 == "SI") {
-                                                                        $sreq->status = true;
-                                                                    }
-                                                                    else{
-                                                                        $sreq->status = false;
-                                                                    }
-                                                                break;
-                                                            case '11':
-                                                                    if($result->viu_agra_servicio11 == "SI") {
-                                                                        $sreq->status = true;
-                                                                    }
-                                                                    else{
-                                                                        $sreq->status = false;
-                                                                    }
-                                                                break;                                                
-                                                            case '12':
-                                                                    if($result->viu_anos_servicio12 == "SI") {
-                                                                        $sreq->status = true;
-                                                                    }
-                                                                    else{
-                                                                        $sreq->status = false;
-                                                                    }
-                                                                break;
+                                                                case 9:
+                                                                        if($result->viu_defuncion9 == "SI") {
+                                                                            $submit->status = true;
+                                                                        }
+                                                                        else{
+                                                                            $submit->status = false;
+                                                                        }
+                                                                    break;
+                                                                case 10:
+                                                                        if($result->viu_senasir10 == "SI") {
+                                                                            $submit->status = true;
+                                                                        }
+                                                                        else{
+                                                                            $submit->status = false;
+                                                                        }
+                                                                    break;
+                                                                case 11:
+                                                                        if($result->viu_agra_servicio11 == "SI") {
+                                                                            $submit->status = true;
+                                                                        }
+                                                                        else{
+                                                                            $submit->status = false;
+                                                                        }
+                                                                    break;                                                
+                                                                case 12:
+                                                                        if($result->viu_anos_servicio12 == "SI") {
+                                                                            $submit->status = true;
+                                                                        }
+                                                                        else{
+                                                                            $submit->status = false;
+                                                                        }
+                                                                    break;
 
-                                                            default:
-                                                                    if($result->viu_matri13 == "SI"){
-                                                                        $sreq->status = true;
-                                                                    }
-                                                                    else{
-                                                                        $sreq->status = false;
-                                                                    }
+                                                                default:
+                                                                        if($result->viu_matri13 == "SI"){
+                                                                            $submit->status = true;
+                                                                        }
+                                                                        else{
+                                                                            $submit->status = false;
+                                                                        }
 
-                             			                    
-                                            $sreq->save();   
-                                    		}
-                                    	
+                                 			                    
+                                                
+                                        		}
+                                                $submit->save();   
+                                        	
 
-                                    	}  
-                                        
+                                        	}
+                                        }  
+
                                         $viu++;		                        		
-                                    }
-                                }
+                                    }*/
+                                
                              
                          
                     });
