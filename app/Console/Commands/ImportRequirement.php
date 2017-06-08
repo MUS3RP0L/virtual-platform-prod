@@ -51,8 +51,8 @@ class ImportRequirement extends Command implements SelfHandling
                             								->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
                             								->select('economic_complements.id','eco_com_types.id AS c_type')
                             								->first();
-                            	$cont = 0;
-                            	if($ecom->c_type == 1)
+                            	
+                            	if($ecom->c_type == 1) //Vejez
                             	{	
                             		$req = EconomicComplementRequirement::where('eco_com_type_id','=', $ecom->c_type )->get();
 
@@ -61,50 +61,56 @@ class ImportRequirement extends Command implements SelfHandling
                             			$sreq->economic_complement_id = $ecom->id;
                             			$sreq->eco_com_requirement_id = $item->id;
                             			$sreq->reception_date =  Carbon::createFromDate(2016, 7, 1);
-                            			$cont++;
-                            			if($cont == 1){
-                            				$sreq->status = false;
-                            			}
-                            			elseif($cont == 2){
-                            				if($result->v_ci2 == "SI"){
-                            					$sreq->status = true;
-                            				}
-                            				else{
-                            					$sreq->status = false;
-                            				}
-                            				
-                            			}
-                            			elseif($cont == 3){
-                            				if($result->v_agra_servicio3 == "SI"){
-                            					$sreq->status = true;
-                            				}
-                            				else{
-                            					$sreq->status = false;
-                            				}
-                            			}
-                            			elseif($cont == 4){
-                            				if($result->v_anos_servicio4 == "SI"){
-                            					$sreq->status = true;
-                            				}
-                            				else{
-                            					$sreq->status = false;
-                            				}
-                            			}
-                            			elseif($cont == 5){
-                            				if($result->v_resolucion_senasir5 == "SI"){
-                            					$sreq->status = true;
-                            				}
-                            				else{
-                            					$sreq->status = false;
-                            				}
-                            			}
-                            		    $sreq->save();
+                                        switch ($item->id) {
+                                            case '1':
+                                                    $sreq->status = false;
+                                                    break;
+                                            case '2':
+                                                    if($result->v_ci2 == "SI") {
+                                                        $sreq->status = true;
+                                                    }
+                                                    else{
+                                                        $sreq->status = false;
+                                                    }
+                                                break;
+                                            case '3':
+                                                    if($result->v_agra_servicio3 == "SI"){
+                                                        $sreq->status = true;
+                                                    }
+                                                    else{
+                                                        $sreq->status = false;
+                                                    }
+                                                break;
+                                             case '4':
+                                                    if($result->v_anos_servicio4 == "SI"){
+                                                        $sreq->status = true;
+                                                    }
+                                                    else{
+                                                        $sreq->status = false;
+                                                    }
+                                                break;
+                                            
+                                            default:
+                                                    if($result->v_resolucion_senasir5 == "SI"){
+                                                        $sreq->status = true;
+                                                    }
+                                                    else{
+                                                        $sreq->status = false;
+                                                    }
+                                                
+                                        }
+                                        $sreq->save();                     			
+                            		    
                             		   
                             		}
-                            		$cont = 0;
-                            	}
-                            	elseif($ecom->c_type == 2)
-                            	{	$afi = Affiliate::where('identity_card','=', $result->c_ci)->first();
+                            		
+                            	}  //End Vejez
+
+                            	
+
+                                elseif($ecom->c_type == 2) //Viudedad
+                            	{	
+                                    $afi = Affiliate::where('identity_card','=', $result->c_ci)->first();
                             		if($afi){
                             			$ecom1 = EconomicComplement::where('economic_complements.affiliate_id','=', $afi->id)
                             								->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
@@ -117,82 +123,80 @@ class ImportRequirement extends Command implements SelfHandling
 	                            			$sreq->economic_complement_id = $ecom1->id;
 	                            			$sreq->eco_com_requirement_id = $item->id;
 	                            			$sreq->reception_date =  Carbon::createFromDate(2016, 7, 1);
-	                            			$cont++;
-	                            			if($cont == 1){
-	                            				$sreq->status = false;
-	                            			}
-	                            			elseif($cont == 2){
-	                            				if($result->viu_ci_causa7 == "SI"){
-	                            					$sreq->status = true;
-	                            				}
-	                            				else{
-	                            					$sreq->status = false;
-	                            				}
-	                            				
-	                            			}
-	                            			elseif($cont == 3){
-	                            				if($result->viu_ci_derecho8 == "SI"){
-	                            					$sreq->status = true;
-	                            				}
-	                            				else{
-	                            					$sreq->status = false;
-	                            				}
-	                            			}
-	                            			elseif($cont == 4){
-	                            				if($result->viu_defuncion9 == "SI"){
-	                            					$sreq->status = true;
-	                            				}
-	                            				else{
-	                            					$sreq->status = false;
-	                            				}
-	                            			}
-	                            			elseif($cont == 5){
-	                            				if($result->viu_senasir10 == "SI"){
-	                            					$sreq->status = true;
-	                            				}
-	                            				else{
-	                            					$sreq->status = false;
-	                            				}
-	                            			}
-	                            			elseif($cont == 6){
-	                            				if($result->viu_agra_servicio11 == "SI"){
-	                            					$sreq->status = true;
-	                            				}
-	                            				else{
-	                            					$sreq->status = false;
-	                            				}
-	                            			}
-	                            			elseif($cont == 7){
-	                            				if($result->viu_anos_servicio12 == "SI"){
-	                            					$sreq->status = true;
-	                            				}
-	                            				else{
-	                            					$sreq->status = false;
-	                            				}
-	                            			}
-	                            			elseif($cont == 8){
-	                            				if($result->viu_matri13 == "SI"){
-	                            					$sreq->status = true;
-	                            				}
-	                            				else{
-	                            					$sreq->status = false;
-	                            				}
-	                            			}
-	                            		                              		    
-	                            			$sreq->save();
-	                            		    
-	                            		}
-	                            		$cont = 0;
+	                            			
+                                            switch ($item->id) {
 
-                            		}
-                            		
+                                                    case '6':
+                                                            $sreq->status = false;
+                                                            break;
+                                                    case '7':
+                                                            if($result->v_ci2 == "SI") {
+                                                                $sreq->status = true;
+                                                            }
+                                                            else{
+                                                                $sreq->status = false;
+                                                            }
+                                                        break;
+                                                    case '8':
+                                                            if($result->v_ci2 == "SI") {
+                                                                $sreq->status = true;
+                                                            }
+                                                            else{
+                                                                $sreq->status = false;
+                                                            }
+                                                        break;
 
-                            	}
+                                                    case '9':
+                                                            if($result->v_ci2 == "SI") {
+                                                                $sreq->status = true;
+                                                            }
+                                                            else{
+                                                                $sreq->status = false;
+                                                            }
+                                                        break;
+                                                    case '10':
+                                                            if($result->v_ci2 == "SI") {
+                                                                $sreq->status = true;
+                                                            }
+                                                            else{
+                                                                $sreq->status = false;
+                                                            }
+                                                        break;
+                                                    case '11':
+                                                            if($result->v_ci2 == "SI") {
+                                                                $sreq->status = true;
+                                                            }
+                                                            else{
+                                                                $sreq->status = false;
+                                                            }
+                                                        break;                                                
+                                                    case '12':
+                                                            if($result->v_ci2 == "SI") {
+                                                                $sreq->status = true;
+                                                            }
+                                                            else{
+                                                                $sreq->status = false;
+                                                            }
+                                                        break;
+                                                    default:
+                                                            if($result->v_anos_servicio4 == "SI"){
+                                                                $sreq->status = true;
+                                                            }
+                                                            else{
+                                                                $sreq->status = false;
+                                                            }
+                     			
+
+                            		        }
+                            	
+
+                            	        }  
 
                             		                        		
-                            }
+                                    }
+                                } // End Viudedad
                          
-                     });
+                    });
                 });
 
                 $time_end = microtime(true);
