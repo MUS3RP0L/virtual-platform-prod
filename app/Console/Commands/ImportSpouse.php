@@ -36,55 +36,39 @@ class ImportSpouse extends Command implements SelfHandling
                 $Progress->setFormat("%current%/%max% [%bar%] %percent:3s%%");
 
                 Excel::batch('public/file_to_import/' . $FolderName . '/', function($rows, $file) {
-                        $rows->each(function($result) {
-                                global $Progress,$vej, $viu, $orf,$newafi,$oldafi,$totalafi;
-                                ini_set('memory_limit', '-1');
-                                ini_set('max_execution_time', '-1');
-                                ini_set('max_input_time', '-1');
-                                set_time_limit('-1');
-                                $Progress->advance();                   
+                    $rows->each(function($result) {
+                        global $Progress,$vej, $viu, $orf,$newafi,$oldafi,$totalafi;
+                        ini_set('memory_limit', '-1');
+                        ini_set('max_execution_time', '-1');
+                        ini_set('max_input_time', '-1');
+                        set_time_limit('-1');
+                        $Progress->advance();    
 
-                                $afi = Affiliate::where('identity_card','=', trim($result->afi_identity_card));
-                                if($afi)
-                                {
-                                    $ecom = EconmicComplement::where('affiliate_id','=', $afi->id);
+                        if ($result->c_tipo == 2) {
+                            
+                            if(Affiliate::where('identity_card','=', trim($result->afi_identity_card))->first()) {  
+                                
+                                $afi = Affiliate::where('identity_card','=', trim($result->afi_identity_card))->first();
+                                if (!Spouse::where('affiliate_id','=', $afi->id)) {
+                                    $spouse = new Spouse;
+                                    $spouse->user_id = 1;
+                                    $spouse->affiliate_id = $afi->id;
+                                    $spouse->city_identity_card_id = $result->ap_city_identity_card_id;
+                                    $spouse->identity_card = $result->ap_identity_card;                                
+                                    $spouse->registration = "0";
+                                    $spouse->last_name = $result->ap_last_name;
+                                    $spouse->mothers_last_name = $result->ap_mothers_last_name;
+                                    $spouse->first_name = $result->ap_first_name;
+                                    $spouse->second_name = $result->ap_second_name;
+                                    $spouse->surname_husband = $result->ap_surname_husband;
+                                    $spouse->civil_status = $result->ap_civil_status;
+                                    $spouse->birth_date = $result->ap_birth_date;
+                                    $spouse->save();
+                                    $viu++;
                                 }
-
-                                $afi = EconmicComplement::leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
-                                                          ->whereYear('year','=' 2016)
-                                                          ->where('semester', '=', 'Segundo')
-                                                          ->where('identity_card','=', trim($result->afi_identity_card))
-                                                          ->first();                            
-                                if($afi->)
-                                if($result->c_tipo = 2) // create spouse
-                                {   
-                                    $spouse = Spouse::where('affiliate_id','=', $afi->id);
-                                    
-                                    if (!$spouse)
-                                    {
-                                        $spouse = new Spouse;
-                                        $spouse->user_id = 1;
-                                        $spouse->affiliate_id = $afi->id;
-                                        $spouse->city_identity_card_id = $result->ap_city_identity_card_id;
-                                        $spouse->identity_card = $result->ap_identity_card;                                
-                                        $spouse->registration = "0";
-                                        $spouse->last_name = $result->ap_last_name;
-                                        $spouse->mothers_last_name = $result->ap_mothers_last_name;
-                                        $spouse->first_name = $result->ap_first_name;
-                                        $spouse->second_name = $result->ap_second_name;
-                                        $spouse->surname_husband = $result->ap_surname_husband;
-                                        $spouse->civil_status = $result->ap_civil_status;
-                                        $spouse->birth_date = $result->ap_birth_date;
-                                        $spouse->save();
-                                        $viu++;
-                                    }                               
-                                }
-
-
-
-
-
-                        });
+                            }
+                        }
+                    });
                 });
 
                 $time_end = microtime(true);
@@ -92,9 +76,9 @@ class ImportSpouse extends Command implements SelfHandling
                 $Progress->finish();
 
                 $this->info("\n\nReport Update:\n
-                $vej Vejez.\n
+ 
                 $viu Viudadedad.\n
-                $orf orfandad.\n               
+             
                 Execution time $execution_time [minutes].\n");
             }
 
