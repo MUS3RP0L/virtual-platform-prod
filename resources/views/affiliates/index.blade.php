@@ -144,7 +144,7 @@
                                 <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::text('last_name', '', ['class'=> 'form-control',  'onkeyup' => 'this.value=this.value.toUpperCase()', 'required']) !!}
+                                        {!! Form::text('last_name', '', ['class'=> 'form-control',  'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                         <span class="help-block">Escriba el Apellido Paterno</span>
                                     </div>
                                 </div>
