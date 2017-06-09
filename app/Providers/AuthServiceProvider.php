@@ -134,7 +134,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $gate->define('observate', function($user){
             foreach ($user->roles as $role) {
-                if($role->id == 6 || $role->id == 7 || $role->id == 8 || $role->id == 9){
+                if($role->id == 2 || $role->id == 3 || $role->id == 4 || $role->id == 7 || $role->id == 16 || $role->id == 17){
                     return true;
                 }
             }

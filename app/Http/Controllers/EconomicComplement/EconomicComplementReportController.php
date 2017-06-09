@@ -95,9 +95,9 @@ class EconomicComplementReportController extends Controller
                            $date = Util::getDateEdit(date('Y-m-d'));
                            $type = "user";
                            $current_date = Carbon::now();
-                           $hour = Carbon::parse($current_date)->toTimeString();
-                           $regional = ($request->city == 'Todo') ? '%%' : $request->city;
-                           $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
+                           $hour = Carbon::parse($current_date)->toTimeString();                           
+                           $from = Util::datePick($request->get('from'));
+                           $to = Util::datePick($request->get('to'));                          
                            $eco_complements = DB::table('eco_com_applicants')
                                            ->select(DB::raw("economic_complements.id,economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.first_shortened as exp, concat_ws(' ', NULLIF(eco_com_applicants.last_name,null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null), NULLIF(eco_com_applicants.first_name, null), NULLIF(eco_com_applicants.second_name, null)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name as pension_entity,users.username,eco_com_applicants.phone_number,eco_com_applicants.cell_phone_number"))
                                            ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
@@ -105,8 +105,7 @@ class EconomicComplementReportController extends Controller
                                            ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
                                            ->leftJoin('cities', 'economic_complements.city_id', '=', 'cities.id')
                                            ->leftJoin('cities as cities0','affiliates.city_identity_card_id','=','cities0.id')
-                                           ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
-                                           //->leftJoin('eco_com_applicant_types', 'eco_com_applicants.eco_com_applicant_type_id', '=', 'eco_com_applicant_types.id')
+                                           ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')                                           
                                            ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
                                            ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
                                            ->leftJoin('eco_com_states', 'economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
@@ -114,9 +113,7 @@ class EconomicComplementReportController extends Controller
                                            ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
                                            ->leftJoin('units','affiliates.unit_id','=','units.id')
                                            ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
-                                           ->whereRaw("economic_complements.city_id::text LIKE  '".$regional."'")
-                                           ->whereYear('economic_complements.year', '=', $request->year)
-                                           ->where('economic_complements.semester', 'LIKE', $semester)
+                                           ->whereDate('reception_date','>=', $from)->whereDate('reception_date','<=', $to)                                         
                                            ->where('economic_complements.user_id', '=', Auth::user()->id)
                                            ->take(100)
                                            ->orderBy('economic_complements.id','ASC')

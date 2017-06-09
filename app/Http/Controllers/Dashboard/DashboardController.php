@@ -49,7 +49,7 @@ class DashboardController extends Controller
 
 	public function showIndex()
 	{
-			$AfiServ = DB::table('affiliates')
+		/*	$AfiServ = DB::table('affiliates')
 										->select(DB::raw('count(*) as totalafis'))
 										->where('affiliates.affiliate_state_id', '=', 1)
 										->get();
@@ -125,10 +125,11 @@ class DashboardController extends Controller
 				}
 
 			}
+			*/
 			$current_year=Carbon::now()->year;
 
 			//voluntary contribution by current year
-			$monthVoluntaryContribution = DB::table('contributions')
+		/*	$monthVoluntaryContribution = DB::table('contributions')
 				->select(DB::raw('DISTINCT(EXTRACT(MONTH FROM contributions.month_year)) as month'))
 				->where('contributions.type', '=', 'Directo')
 				->where(DB::raw('EXTRACT(MONTH FROM contributions.month_year)'), '=', $current_year)
@@ -155,6 +156,7 @@ class DashboardController extends Controller
 
 		$activities = Activity::orderBy('created_at', 'desc')->take(10)->get();
 		$totalAfi = $totalAfiServ + $totalAfiComi;
+		*/
 
 
 		//for economic complement
@@ -251,7 +253,7 @@ class DashboardController extends Controller
 		$sum_last_semesters_data_reverse=array_reverse($sum_last_semesters_data, true);
 		
 		$data = [
-			'activities' => $activities,
+			/*'activities' => $activities,
 			'totalAfiServ' => $totalAfiServ,
 			'totalAfiComi' => $totalAfiComi,
 			'totalAfi' => $totalAfi,
@@ -259,7 +261,7 @@ class DashboardController extends Controller
 			'Total_AffiliatebyType' => array(array_keys($Total_AffiliatebyType),array_values($Total_AffiliatebyType)),
 			'totalContributionByYear' => $totalContributionByYear,
 			'list_affiliateByDisctrict' => array(array_keys($list_affiliateByDisctrict),array_values($list_affiliateByDisctrict)),
-			'total_voluntayContributionByMonth' => $total_voluntayContributionByMonth,
+			'total_voluntayContributionByMonth' => $total_voluntayContributionByMonth,*/
 			'current_year' => $current_year,
 			'economic_complement_bar'=>$economic_complement_bar,
 			'economic_complement_pie_types'=>$economic_complement_pie_types,

@@ -28,7 +28,7 @@ Formulario Nº 4
             @foreach($eco_com_submitted_document as $i=>$item)
             <tr>
                 <td><center>{!! $i+1 !!}</center></td>
-                <td>{!! $item->economic_complement_requirement->shortened !!}</td>
+                <td>{!! $item->economic_complement_requirement->name !!}</td>
                 @if ($item->status == 1)
                     <td class="info" style='text-align:center;'>
                       <img class="circle" src="img/check.png" style="width:70%" alt="icon">
@@ -42,13 +42,17 @@ Formulario Nº 4
             </tr>
             @endforeach
 </table>
+<<<<<<< HEAD
  <p>Sin otro particular me despido de usted my atentamente. </p>
+=======
+ <p>Sin otro particular me despido de usted my atentamente. </p> <br /><br /><br /><br />
+>>>>>>> upstream/master
     <table>
               <tr>
                   <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>----------------------------------------------------------------------</th>
               </tr>
               <tr>
-                <th class="info" style="border: 0px;text-align:center;"><b>{!! $eco_com_applicant->getTitleNameFull() !!}<br />C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->shortened !!} <br /> Telefono. {!! $eco_com_applicant->getPhone() !!}</b></th>
+                <th class="info" style="border: 0px;text-align:center;"><b>{!! $eco_com_applicant->getTitleNameFull() !!}<br />C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened !!} <br /> Telefono. {!! $eco_com_applicant->getPhone() !!}</b></th>
               </tr>
     </table>
 

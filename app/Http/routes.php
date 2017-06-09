@@ -122,6 +122,9 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::get('get_causes_by_state', array('as'=>'get_causes_by_state', 'uses'=>'EconomicComplement\EconomicComplementController@getCausesByState'));
 
+	// Economic Complement Record
+	Route::get('get_economic_complement_record/{ecomomic_complement_id}', array('as'=>'get_economic_complement_record', 'uses'=>'EconomicComplement\EconomicComplementController@get_record'));
+
 	//Routes for Observations
 	Route::resource('observation','Observation\AffiliateObservationController');
 	Route::get('get_observations',['as'=>'get_observations','uses'=>'Observation\AffiliateObservationController@showOfAffiliate']);
@@ -133,10 +136,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('edited_data', array('as'=>'edited_data','uses'=>'Inbox\InboxController@DataEdited'));
 
 	//Observations
-	//suspended
-	Route::get('print_suspended_observations/{id_complement}/{type}', 'Affiliate\AffiliateController@print_suspended_observations');
-	//excluded
-	Route::get('print_excluded_observations/{id_complement}/{type}', 'Affiliate\AffiliateController@print_excluded_observations');
+	Route::get('print_observations/{id_complement}/{type}', 'Affiliate\AffiliateController@print_observations');
 	//complaints
 	Route::get('print_correct/{id_complement}', 'Affiliate\AffiliateController@print_correct_grading');
 

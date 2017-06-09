@@ -139,7 +139,7 @@
                                         {!! Form::text('identity_card', '', ['class'=> 'form-control', 'required']) !!}
                                         <span class="help-block">Número de CI</span>
                                     </div>
-                                        {!! Form::select('city_identity_card_id', $cities_list_short,'', ['class' => 'col-md-2 combobox form-control','required' => 'required']) !!}
+                                        {!! Form::select('city_identity_card_id', $cities_list_short,'', ['class' => 'col-md-2 combobox form-control', 'required']) !!}
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
@@ -274,7 +274,7 @@
                                 <div class="form-group">
                                             {!! Form::label('city_birth_id', 'Lugar de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('city_birth_id', $cities_list, '', ['class' => 'combobox form-control']) !!}
+                                        {!! Form::select('city_birth_id', $cities_list, '', ['class' => 'combobox form-control', 'required']) !!}
                                         <span class="help-block">Seleccione Departamento</span>
                                     </div>
                                 </div>
@@ -290,21 +290,21 @@
                                 <div class="form-group">
                                     {!! Form::label('category', 'Categoría', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('category',$categories, '', ['class'=> 'combobox form-control', 'required']) !!}
+                                        {!! Form::select('category',$categories_list, '', ['class'=> 'combobox form-control', 'required']) !!}
                                         <span class="help-block">Seleccione Categoría</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     {!! Form::label('pension', 'Ente Gestor', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('pension',$entity_pensions, '', ['class'=> 'combobox form-control', 'required']) !!}
+                                        {!! Form::select('pension',$pension_entities_list, '', ['class'=> 'combobox form-control', 'required']) !!}
                                         <span class="help-block">Seleccione un ente gestor</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('degree', 'Grado', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('degree',$degrees, '', ['class'=> 'combobox form-control', 'required']) !!}
+                                        {!! Form::select('degree',$degrees_list, '', ['class'=> 'combobox form-control', 'required']) !!}
                                         <span class="help-block">Seleccione un grado del policía</span>
                                     </div>
                                 </div>

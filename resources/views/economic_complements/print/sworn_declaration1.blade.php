@@ -44,27 +44,23 @@ Formulario Nº 1
   <table>
     <tr>
       <td>1</td>
-      <td style="text-align:justify">No me encuentro realizando una actividad laboral pública o privada incurriendo en <b>Doble Percepción</b>.</td>
-    </tr>
-    <tr>
-      <td>2</td>
       <td style="text-align:justify">No percibo una renta y/o pensión de jubilación por Riesgo Común y/o Profesional e Invalidez Común y/o Profesional o Muerte, por lo cual, la renta o pensión en curso de pago que percibo por parte de las Administradoras del Fondo de Pensiones (AFP’S), Aseguradoras o en su caso del SENASIR es una <b>PRESTACIÓN POR VEJEZ</b>, en aplicación del Artículo N° 17, Parágrafo I del Decreto Supremo N° 1446 de fecha 19 de diciembre de 2012.</td>
     </tr>
     <tr>
-      <td>3</td>
+      <td>2</td>
       <td style="text-align:justify">Pertenezco al sector pasivo de la Policía Boliviana y acredito en la Certificación de Años de Servicio emitido por el Comando General de la Policía Boliviana como mínimo de 16 años de servicio, asimismo, <b>No</b> fui dado de baja en forma obligatoria o voluntaria de la Policía Boliviana.</td>
     </tr>
     <tr>
-      <td>4</td>
+      <td>3</td>
       <td style="text-align:justify">La información y documentación proporcionada por mi persona, tanto verbal como la contenida en documentos respecto a los requisitos mínimos para acceder al Beneficio del Complemento Económico, es totalmente <b>real y fidedigna</b>, por lo que me hago totalmente responsable de la misma.
       </td>
     </tr>
     <tr>
-      <td>5</td>
+      <td>4</td>
       <td style="text-align:justify">No me encuentro en calidad de denunciado, imputado, acusado o sentenciado con proceso judicial seguido por la MUSEPOL y/o MUSERPOL en mi contra. Asimismo, no tengo sentencia condenatoria ejecutoriada por delitos cometidos contra la Policía Boliviana y/o MUSEPOL y/o MUSERPOL.</td>
     </tr>
     <tr>
-      <td>6</td>
+      <td>5</td>
       <td style="text-align:justify">Estoy consciente de que existe la probabilidad de ser excluido (a) por salario, por percibir una prestación por vejez <b>IGUAL O SUPERIOR</b> al haber básico más categoría que perciban los miembros del servicio activo de la Policía Boliviana en el grado correspondiente, tal como lo señala en el Decreto Supremo N° 1446, Artículo 17, Parágrafo I y el Reglamento del Beneficio del Complemento Económico.</td>
     </tr>
     <tr>

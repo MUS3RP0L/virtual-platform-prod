@@ -105,7 +105,7 @@ class AffiliateController extends Controller
         }
 
         return Datatables::of($affiliates)
-        ->addColumn('identity_card', function($affiliate){ return $affiliate->city_identity_card_id ? $affiliate->identity_card . ' ' . $affiliate->city_identity_card->shortened : $affiliate->identity_card; })
+        ->addColumn('identity_card', function($affiliate){ return $affiliate->city_identity_card_id ? $affiliate->identity_card . ' ' . $affiliate->city_identity_card->first_shortened : $affiliate->identity_card; })
         ->addColumn('degree', function ($affiliate) { return $affiliate->degree_id ? $affiliate->degree->shortened : ''; })
         ->editColumn('last_name', function ($affiliate) { return Util::ucw($affiliate->last_name); })
         ->editColumn('mothers_last_name', function ($affiliate) { return Util::ucw($affiliate->mothers_last_name); })
@@ -118,76 +118,73 @@ class AffiliateController extends Controller
         ->make(true);
     }
 
-public static function getViewModel()
-{
-    $cities = City::all();
-    $cities_list = ['' => ''];
-    foreach ($cities as $item) {
-        $cities_list[$item->id]=$item->name;
-    }
-
-    $cities_list_short = ['' => ''];
-    foreach ($cities as $item) {
-        $cities_list_short[$item->id]=$item->first_shortened;
-    }
-
-        $affiliate_states=AffiliateState::all();
-        $a_states=[];
-        foreach ($affiliate_states as $as) {
-            $a_states[$as->id]=$as->name;
-        }
-        $dg=Degree::all();
-        $degrees=[];
-        foreach ($dg as $d) {
-            $degrees[$d->id]=$d->name;
+    public static function getViewModel()
+    {
+        $cities = City::all();
+        $cities_list = ['' => ''];
+        foreach ($cities as $item) {
+            $cities_list[$item->id] = $item->name;
         }
 
-        $ep=PensionEntity::all();
-        $entity_pensions=array(''=>'');
-
-        foreach ($ep as $e) {
-            $entity_pensions[$e->id]=$e->name;
+        $cities_list_short = ['' => ''];
+        foreach ($cities as $item) {
+            $cities_list_short[$item->id] = $item->first_shortened;
         }
 
-        $at=Affiliate::all();
-        $affiliate_types=[];
-        foreach ($at as $d) {
-            $affiliate_types[$d->id]=$d->type;
+        $affiliate_states = AffiliateState::all();
+        $affiliate_states_list = ['' => ''];
+        foreach ($affiliate_states as $item) {
+            $affiliate_states_list[$item->id] = $item->name;
         }
 
-        $un=Unit::all();
-        $units=[];
-        foreach ($un as $d) {
-            $units[$d->id]=$d->name;
+        $degrees = Degree::all();
+        $degrees_list = ['' => ''];
+        foreach ($degrees as $item) {
+            $degrees_list[$item->id] = $item->name;
         }
 
-        $ca=Category::all();
-        $categories=[];
-        foreach ($ca as $key=>$d) {
-            if ($key==8) {
+        $pension_entities = PensionEntity::all();
+        $pension_entities_list = ['' => ''];;
+        foreach ($pension_entities as $item) {
+            $pension_entities_list[$item->id] = $item->name;
+        }
+
+        $units = Unit::all();
+        $units_list = ['' => ''];
+        foreach ($units as $item) {
+            $units_list[$item->id] = $item->name;
+        }
+
+        $categories = Category::all();
+        $categories_list = ['' => ''];
+        foreach ($categories as $item) {
+            if ($item->id > 8) {
                 break;
             }else{
-                $categories[$d->id]=$d->name;
+                $categories_list[$item->id]=$item->name;
             }
+        }
+
+        $observations_types = ObservationType::all();
+        $observation_types_list = array('' => '');
+        foreach ($observations_types as $item) {
+            $observation_types_list[$item->id]=$item->name;
         }
 
         $gender_list = ['' => '', 'C' => 'CASADO(A)', 'S' => 'SOLTERO(A)', 'V' => 'VIUDO(A)', 'D' => 'DIVORCIADO(A)'];
 
-
         return [
-
-        'cities_list' => $cities_list,
-        'cities_list_short' => $cities_list_short,
-        'gender_list' => $gender_list,
-        'affiliate_state'=>$a_states,
-        'degrees'=>$degrees,
-        'affiliate_types'=>$affiliate_types,
-        'entity_pensions'=>$entity_pensions,
-        'units'=>$units,
-        'categories'=>$categories
-
-    ];
-}
+            'cities_list' => $cities_list,
+            'cities_list_short' => $cities_list_short,
+            'affiliate_states_list' => $affiliate_states_list,
+            'degrees_list' => $degrees_list,
+            'pension_entities_list' => $pension_entities_list,
+            'units_list' => $units_list,
+            'categories_list' => $categories_list,
+            'observation_types_list' => $observation_types_list,
+            'gender_list' => $gender_list
+        ];
+    }
 
     /**
      * Display the specified resource.
@@ -195,17 +192,19 @@ public static function getViewModel()
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function getData($affiliate)
     {
-        $affiliate = Affiliate::idIs($affiliate)->first();
-
-        $AffiliateAddress = AffiliateAddress::affiliateidIs($affiliate->id)->first();
-        if (!$AffiliateAddress) { $AffiliateAddress = new AffiliateAddress; }
+        $affiliate_address = AffiliateAddress::affiliateidIs($affiliate->id)->first();
+        
+        if (!$affiliate_address) { $affiliate_address = new AffiliateAddress; }
+        
         $spouse = Spouse::affiliateidIs($affiliate->id)->first();
 
         if (!$spouse) { $spouse = new Spouse; }
+
         if ($spouse->city_identity_card_id) {
-            $spouse->city_identity_card = City::idIs($spouse->city_identity_card_id)->first()->shortened;
+            $spouse->city_identity_card = City::idIs($spouse->city_identity_card_id)->first()->first_shortened;
         }else {
             $spouse->city_identity_card = '';
         }
@@ -221,7 +220,7 @@ public static function getViewModel()
         }
 
         if ($affiliate->city_identity_card_id) {
-            $affiliate->city_identity_card = City::idIs($affiliate->city_identity_card_id)->first()->shortened;
+            $affiliate->city_identity_card = City::idIs($affiliate->city_identity_card_id)->first()->first_shortened;
         }else {
             $affiliate->city_identity_card = '';
         }
@@ -230,12 +229,12 @@ public static function getViewModel()
         }else {
             $affiliate->city_birth = '';
         }
-        if ($AffiliateAddress->city_address_id) {
-            $AffiliateAddress->city_address = City::idIs($AffiliateAddress->city_address_id)->first()->name;
+        if ($affiliate_address->city_address_id) {
+            $affiliate_address->city_address = City::idIs($affiliate_address->city_address_id)->first()->name;
         }else {
-            $AffiliateAddress->city_address = '';
+            $affiliate_address->city_address = '';
         }
-        if ($AffiliateAddress->city_address_id || $AffiliateAddress->zone || $AffiliateAddress->Street || $AffiliateAddress->number_address) {
+        if ($affiliate_address->city_address_id || $affiliate_address->zone || $affiliate_address->Street || $affiliate_address->number_address) {
             $info_address = TRUE;
         }else{
             $info_address = FALSE;
@@ -246,15 +245,13 @@ public static function getViewModel()
             $info_spouse = FALSE;
         }
 
-        // $last_contribution = Contribution::affiliateidIs($affiliate->id)->orderBy('month_year', 'desc')->first();
-
         // $totals = DB::table('affiliates')
-        //                 ->select(DB::raw('SUM(contributions.gain) as gain, SUM(contributions.public_security_bonus) as public_security_bonus,
-        //                                 SUM(contributions.quotable) as quotable, SUM(contributions.total) as total,
-        //                                 SUM(contributions.retirement_fund) as retirement_fund, SUM(contributions.mortuary_quota) as mortuary_quota'))
-        //                 ->leftJoin('contributions', 'affiliates.id', '=', 'contributions.affiliate_id')
-        //                 ->where('affiliates.id', '=', $affiliate->id)
-        //                 ->get();
+        //     ->select(DB::raw('SUM(contributions.gain) as gain, SUM(contributions.public_security_bonus) as public_security_bonus,
+        //                     SUM(contributions.quotable) as quotable, SUM(contributions.total) as total,
+        //                     SUM(contributions.retirement_fund) as retirement_fund, SUM(contributions.mortuary_quota) as mortuary_quota'))
+        //     ->leftJoin('contributions', 'affiliates.id', '=', 'contributions.affiliate_id')
+        //     ->where('affiliates.id', '=', $affiliate->id)
+        //     ->get();
 
         // foreach ($totals as $item) {
         //     $total_gain = Util::formatMoney($item->gain);
@@ -300,10 +297,11 @@ public static function getViewModel()
         $affi_observations = AffiliateObservation::where('affiliate_id',$affiliate->id)->first();
 
         $data = [
+
         // 'canObservate'=>$canObservate,
         // 'ObservationType'=>$ObservationType,
         'affiliate' => $affiliate,
-        'AffiliateAddress' => $AffiliateAddress,
+        'affiliate_address' => $affiliate_address,
         'spouse' => $spouse,
         'gender_list' => $gender_list,
         'gender_list_s' => $gender_list_s,
@@ -322,7 +320,6 @@ public static function getViewModel()
             // 'total_retirement_fund' => $total_retirement_fund,
             // 'total_mortuary_quota' => $total_mortuary_quota,
             // 'total' => $total
-
         ];
         $data = array_merge($data, self::getViewModel());
         return $data;
@@ -330,8 +327,7 @@ public static function getViewModel()
 
     public function show($affiliate)
     {
-
-        return view('affiliates.view', self::getData($affiliate->id));
+        return view('affiliates.view', self::getData($affiliate));
     }
 
     /**
@@ -399,30 +395,30 @@ public static function getViewModel()
             switch ($request->type) {
 
                 case 'personal':
-                $affiliate->user_id = Auth::user()->id;
-                $affiliate->identity_card = trim($request->identity_card);
-                if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
-                $affiliate->last_name = trim($request->last_name);
-                $affiliate->mothers_last_name = trim($request->mothers_last_name);
-                $affiliate->first_name = trim($request->first_name);
-                $affiliate->second_name = trim($request->second_name);
-                $affiliate->surname_husband = trim($request->surname_husband);
-                $affiliate->gender = trim($request->gender);
-                $affiliate->nua = $request->nua >0 ? $request->nua:0;
-                $affiliate->birth_date = Util::datePick($request->birth_date);
-                $affiliate->civil_status = trim($request->civil_status);
-                if ($request->city_birth_id) { $affiliate->city_birth_id = $request->city_birth_id; } else { $affiliate->city_birth_id = null; }
-                $affiliate->phone_number = trim(implode(",", $request->phone_number));
-                $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
-                if ($request->DateDeathAffiliateCheck == "on") {
-                    $affiliate->date_death = Util::datePick($request->date_death);
-                    $affiliate->reason_death = trim($request->reason_death);
-                }else {
-                    $affiliate->date_death = null;
-                    $affiliate->reason_death = null;
-                }
-                $affiliate->save();
-                $message = "Información Afiliado actualizado con éxito";
+                    $affiliate->user_id = Auth::user()->id;
+                    $affiliate->identity_card = trim($request->identity_card);
+                    if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
+                    $affiliate->last_name = trim($request->last_name);
+                    $affiliate->mothers_last_name = trim($request->mothers_last_name);
+                    $affiliate->first_name = trim($request->first_name);
+                    $affiliate->second_name = trim($request->second_name);
+                    $affiliate->surname_husband = trim($request->surname_husband);
+                    $affiliate->gender = trim($request->gender);
+                    $affiliate->nua = $request->nua >0 ? $request->nua:0;
+                    $affiliate->birth_date = Util::datePick($request->birth_date);
+                    $affiliate->civil_status = trim($request->civil_status);
+                    if ($request->city_birth_id) { $affiliate->city_birth_id = $request->city_birth_id; } else { $affiliate->city_birth_id = null; }
+                    $affiliate->phone_number = trim(implode(",", $request->phone_number));
+                    $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
+                    if ($request->DateDeathAffiliateCheck == "on") {
+                        $affiliate->date_death = Util::datePick($request->date_death);
+                        $affiliate->reason_death = trim($request->reason_death);
+                    }else {
+                        $affiliate->date_death = null;
+                        $affiliate->reason_death = null;
+                    }
+                    $affiliate->save();
+                    $message = "Información Afiliado actualizado con éxito";
                 break;
 
                 case 'personal_new':
@@ -443,7 +439,7 @@ public static function getViewModel()
                         $affiliate->second_name = trim($request->second_name);
                         $affiliate->surname_husband = trim($request->surname_husband);
                         $affiliate->gender = trim($request->gender);
-                        $affiliate->nua = $request->nua >0 ? $request->nua:0;
+                        $affiliate->nua = $request->nua > 0 ? $request->nua : s0;
                         $affiliate->birth_date = Util::datePick($request->birth_date);
                         $affiliate->civil_status = trim($request->civil_status);
                         $affiliate->change_date = Carbon::now();
@@ -452,16 +448,14 @@ public static function getViewModel()
                         $affiliate->registration = Util::CalcRegistration($affiliate->birth_date, $affiliate->last_name, $affiliate->mothers_last_name, $affiliate->first_name, $affiliate->gender);
                         $affiliate->save();
                         $message = "Información Afiliado creado con éxito";
-                        Session::flash('message', $message);
-                        return redirect('affiliate/'.$affiliate->id);
+                    }else{
+                        $message = "El Afiliado ya existe";
                     }
-
                 break;
 
                 case 'institutional':
-
                     $affiliate->affiliate_state_id = $request->state;
-                  //  $affiliate->type = $request->affiliate_type;
+                    //$affiliate->type = $request->affiliate_type;
                     //$affiliate->unit_id = $request->unit;
                     $affiliate->degree_id = $request->degree;
                     $affiliate->date_entry = Util::datePick($request->date_entry);
@@ -474,12 +468,9 @@ public static function getViewModel()
 
                 break;
                 case 'institutional_eco_com':
-
-                    //check!
                     $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->orderBy('created_at','desc')->first();
                     $economic_complement->city_id = $request->regional;
                     $economic_complement->save();
-                    //end check!
                     //$affiliate->affiliate_state_id = $request->state;
                     //  $affiliate->type = $request->affiliate_type;
                     //$affiliate->unit_id = $request->unit;
@@ -557,41 +548,7 @@ public static function getViewModel()
         return $pdf->stream();
     }
 
-    public function print_excluded_observations($id_complement,$type)
-    {
-        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-        $title = "NOTIFICACIÓN";
-        $date = Util::getDateEdit(date('Y-m-d'));
-        $current_date = Carbon::now();
-        $hour = Carbon::parse($current_date)->toTimeString();
-        $eco_com_applicant=EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$id_complement)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','eco_com_applicants.identity_card','eco_com_applicants.nua','eco_com_applicants.city_identity_card_id','eco_com_applicants.birth_date','economic_complements.semester','economic_complements.year')->first();
-        $yearcomplement=new Carbon($eco_com_applicant->year);
-        switch ($type) {
-            case 'less16':
-            $view = \View::make('affiliates.print.less_16', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-            $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($view)->setPaper('legal');
-            return $pdf->stream();
-
-
-            case 'invalidity':
-            $view = \View::make('affiliates.print.invalidity', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-            $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($view)->setPaper('legal');
-            return $pdf->stream();
-
-
-            case 'salary':
-            $view = \View::make('affiliates.print.excluded_by_salary', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-            $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($view)->setPaper('legal');
-            return $pdf->stream(); 
-        }
-    }
-
-    //observations suspension
-    public function print_suspended_observations($id_complement,$type)
+    public function print_observations($id_complement,$type)
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
@@ -604,53 +561,77 @@ public static function getViewModel()
         $procedure=EconomicComplementProcedure::whereYear('year','=',date("Y",strtotime($eco_com_applicant->year)))->where('semester','=',$eco_com_applicant->semester)->first();
 
         switch ($type) {
-            case 'legal':
-            $view = \View::make('affiliates.print.legal_action', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-            $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($view)->setPaper('legal');
-            return $pdf->stream();
+            //OBSERVACIONES AL AFILIADO
+            //contabilidad
+            case '1':
+                $view = \View::make('affiliates.print.print_debtor_in_contable', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();
+            
+            //prestamos
+            case '2':
+                $view = \View::make('affiliates.print.wallet_arrear', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();
+            
+            //juridica
+            case '3':
+                $view = \View::make('affiliates.print.legal_action', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();
 
-            case 'debtor_conta':
-            $view = \View::make('affiliates.print.print_debtor_in_contable', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-            $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($view)->setPaper('legal');
-            return $pdf->stream();
-            break;
-
-            case 'wallet_pres':
-            $view = \View::make('affiliates.print.wallet_arrear', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-            $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($view)->setPaper('legal');
-            return $pdf->stream();
-            break;
-
-            case 'out_time90':
-            $view = \View::make('affiliates.print.out_of_time90', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
-            $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($view)->setPaper('legal');
-            return $pdf->stream();
-            break;
-
-            case 'out_time120':
-            $view = \View::make('affiliates.print.out_of_time120', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
-            $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($view)->setPaper('legal');
-            return $pdf->stream();
-            break;
-
-            case 'miss_requirements':
-            $view = \View::make('affiliates.print.miss_requiriments', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-            $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($view)->setPaper('legal');
-            return $pdf->stream();
-            break;
-
-            case 'miss_requirements_hi':
-            $view = \View::make('affiliates.print.print_miss_requiriments_habinc', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
-            $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($view)->setPaper('legal');
-            return $pdf->stream();
-            break;
+            //OBSERVACIONES AL TRAMITE
+            //Fuera de plazo 90 dias
+            case '4':
+                $view = \View::make('affiliates.print.out_of_time90', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();
+            
+            //Fuera de plazo 120 dias
+            case '5':
+                $view = \View::make('affiliates.print.out_of_time120', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();
+            
+            //Falta de requisitos
+            case '6':
+                $view = \View::make('affiliates.print.miss_requiriments', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();
+            
+            //Falta de requisitos Habitual-Inclusion
+            case '7':
+                $view = \View::make('affiliates.print.print_miss_requiriments_habinc', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();
+            
+            //Menor a 16 años de servicio
+            case '8':
+                $view = \View::make('affiliates.print.less_16', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();
+            
+            //Por invalidez
+            case '9':
+                $view = \View::make('affiliates.print.invalidity', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();
+            
+            //Por salario
+            case '10':
+                $view = \View::make('affiliates.print.excluded_by_salary', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream(); 
         }
     }
 

@@ -49,7 +49,7 @@
     @yield('content')
   </header>
   <footer>
-    PLATAFORMA VIRUTAL - MUTUAL DE SERVICIOS AL POLICÍA
+    PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICÍA - 2017
 
       <div class="visible-print text-right">
         <table>

@@ -115,23 +115,14 @@ class AffiliateObservationController extends Controller
                     return $observation->observationType->name;
                 })
                 ->addColumn('action', function ($observation) {
-                    switch ($observation->observation_type_id) {
-                        case '1':
-                            $report_obs_type="debtor_conta";
-                        break;
-                        case '2':
-                            $report_obs_type="wallet_pres";
-                        break;
-                        case '3':
-                            $report_obs_type="legal";
-                    }
+                    $eco_com = \Muserpol\EconomicComplement::where('affiliate_id',$observation->affiliate_id)->first();
                     return
                         '<div class="btn-group">
                           <button type="button" class="btn btn-warning btn-raised btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               Opciones <span class="caret"></span>
                           </button>
                           <ul class="dropdown-menu">
-                              <li><a href="/print_suspended_observations/'.$observation->affiliate_id.'/'.$report_obs_type.'" style="padding:3px 10px;"><i class="glyphicon glyphicon-print"></i> Imprimir Observación</a></li>
+                              <li><a href="/print_observations/'.$eco_com->id.'/'.$observation->observation_type_id.'" style="padding:3px 10px;"><i class="glyphicon glyphicon-print"></i> Imprimir Observación</a></li>
                               <li><a href="/observation/deleteOb/' .$observation->id. '" style="padding:3px 10px;" class="btn btn-danger btn-raised btn-sm">' .$observation->observation_type. '<i class="glyphicon glyphicon-minus"></i> Eliminar</a></li>
                           </ul>
 

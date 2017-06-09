@@ -8,11 +8,11 @@
 		</div>
         @can('eco_com_reception')
     		<div class="col-md-4">
-                <div class="btn-group">
-                    <span data-toggle="modal" data-target="#observationModal">
-                        <a href="#" class="btn btn-raised btn-lg bg-red"  data-toggle="tooltip"  data-placement="top" data-original-title="Observaciones"><i class="fa fa-lg fa-eye"></i></a>
-                    </span>
+                @can('observate')
+                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
+                    <a href="" class="btn btn-success btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
                 </div>
+                @endcan
     	        <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Declaración Jurada" style="margin:0px;">
     	            <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
     	                &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
@@ -46,6 +46,13 @@
 				</div>
 			@endif
 		@endcan
+        <div class="col-md-2">
+            <div class="btn-group">
+                <span data-toggle="modal" data-target="#recordEcoModal">
+                    <a href="#" class="btn btn-raised btn-lg bg-blue"  data-toggle="tooltip"  data-placement="right" data-original-title="Historial"><i class="fa fa-lg fa-clock-o"></i></a>
+                </span>
+            </div>
+        </div>
 	</div>
 
 @endsection
@@ -545,6 +552,7 @@
                     </div>
                 </div>
             </div>
+            @include('observations.show')
 
         </div>
         <div class="col-md-6">
@@ -655,15 +663,6 @@
 
         <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/inclusion') !!}" id="iFramePdfReportInclusion" ></iframe>
         <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/habitual') !!}" id="iFramePdfReportHabitual" ></iframe>
-
-
-        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/wallet_pres') !!}" id="iFramePdfObsTesoreria" ></iframe>
-        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/debtor_conta') !!}" id="iFramePdfObsContabilidad" ></iframe>
-        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/out_time90') !!}" id="iFramePdfObsRango90" ></iframe>
-        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/out_time120') !!}" id="iFramePdfObsRango120" ></iframe>
-        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/miss_requirements') !!}" id="iFramePdfObsRequisites" ></iframe>
-        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/miss_requirements_hi') !!}" id="iFramePdfObsRequisites_hi" ></iframe>
-        <iframe src="{!! url('print_excluded_observations/' . $economic_complement->id . '/legal') !!}" id="iFramePdfObsLegal" ></iframe>
     </div>
 
 
@@ -1306,53 +1305,28 @@
 
     </div>
 
-    <div id="observationModal" class="modal fade" tabindex="-1" role="dialog">
+    <div id="recordEcoModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Observaciones</h4>
+                    <h4 class="modal-title">Historial del Tramite</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion Tesoreria" style="margin:0px;">
-                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsTesoreria');" >
-                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                        </a>
-                    </div>
-                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion de Contabilidad" style="margin:0px;">
-                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsContabilidad');" >
-                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                        </a>
-                    </div>
-                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion Fuera de Rango de Plazo 90" style="margin:0px;">
-                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsRango90');" >
-                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                        </a>
-                    </div>
-                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion Fuera de Rango de Plazo 120" style="margin:0px;">
-                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsRango120');" >
-                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                        </a>
-                    </div>
-                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion Falta de Requisitos" style="margin:0px;">
-                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsRequisites');" >
-                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                        </a>
-                    </div>
-                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion Falta de Requisitos Habitual/Inclusion" style="margin:0px;">
-                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsRequisites_hi');" >
-                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                        </a>
-                    </div>
-                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion legal" style="margin:0px;">
-                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsLegal');" >
-                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                        </a>
-                    </div>
+                    <table class="table table-bordered table-hover" id="recordEcoTable" width="100%">
+                        <thead>
+                            <tr class="success">
+                                <th>Fecha</th>
+                                <th>descripción</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+@include('observations.create')
+
 @endsection
 
 @push('scripts')
@@ -1485,6 +1459,28 @@
         });
         $("input[name='cell_phone_number_lg[]']").last().focus();
     });
-
+    //for record of econmic complement
+    $(document).ready(function() {
+        
+        $('#recordEcoTable').DataTable({
+            "dom": '<"top">t<"bottom"p>',
+            "order": [[ 0, "desc" ]],
+            processing: true,
+            serverSide: true,
+            pageLength: 12,
+            bFilter: false,
+            ajax: {
+                url: '{!! route('get_economic_complement_record') !!}',
+                data: function (d) {
+                    d.id = {{ $economic_complement->id }};
+                }
+            },
+            columns: [
+                { data: 'date' },
+                { data: 'message', bSortable: false }
+            ]
+        });
+        
+    });
 </script>
 @endpush

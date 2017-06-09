@@ -348,7 +348,7 @@
                                                     <strong>Departamento:</strong>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    {!! $AffiliateAddress->city_address !!}
+                                                    {!! $affiliate_address->city_address !!}
                                                 </div>
                                             </div>
                                         </td>
@@ -360,7 +360,7 @@
                                                     <strong>Zona:</strong>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    {!! $AffiliateAddress->zone !!}
+                                                    {!! $affiliate_address->zone !!}
                                                 </div>
                                             </div>
                                         </td>
@@ -377,7 +377,7 @@
                                                     <strong>Calle, Avenida:</strong>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    {!! $AffiliateAddress->street !!}
+                                                    {!! $affiliate_address->street !!}
                                                 </div>
                                             </div>
                                         </td>
@@ -389,7 +389,7 @@
                                                     <strong>Núm Domicilio</strong>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    {!! $AffiliateAddress->number_address !!}
+                                                    {!! $affiliate_address->number_address !!}
                                                 </div>
                                             </div>
                                         </td>
@@ -591,9 +591,9 @@
                     </div>
                 </div>
             </div>
-
+@include('observations.show')
             <!-- observations -->
-            @can('observate')
+            {{-- @can('observate')
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="row">
@@ -638,7 +638,7 @@
                     </div>
                 </div>
             </div>
-            @endcan
+            @endcan --}}
             <!-- /observations -->
 
         </div>
@@ -1152,21 +1152,21 @@
                     <h4 class="modal-title">Editar Información Domicilio</h4>
                 </div>
                 <div class="modal-body">
-                    {!! Form::model($AffiliateAddress, ['method' => 'PATCH', 'route' => ['affiliate_address.update', $affiliate], 'class' => 'form-horizontal']) !!}
+                    {!! Form::model($affiliate_address, ['method' => 'PATCH', 'route' => ['affiliate_address.update', $affiliate], 'class' => 'form-horizontal']) !!}
                         <input type="hidden" name="type" value="address"/>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                             {!! Form::label('city_address_id', 'Departamento', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('city_address_id', $cities_list, $AffiliateAddress->city_address_id, ['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                        {!! Form::select('city_address_id', $cities_list, $affiliate_address->city_address_id, ['class' => 'combobox form-control', 'required' => 'required']) !!}
                                         <span class="help-block">Seleccione Departamento</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('zone', 'Zona', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::text('zone', $AffiliateAddress->zone, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        {!! Form::text('zone', $affiliate_address->zone, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                         <span class="help-block">Escriba la Zona</span>
                                     </div>
                                 </div>
@@ -1175,14 +1175,14 @@
                                 <div class="form-group">
                                         {!! Form::label('number_address', 'Número de Domicilio', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::text('number_address', $AffiliateAddress->number_address, ['class'=> 'form-control']) !!}
+                                        {!! Form::text('number_address', $affiliate_address->number_address, ['class'=> 'form-control']) !!}
                                         <span class="help-block">Escriba el Número de Domicilio</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                         {!! Form::label('street', 'Calle, Avenida', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::text('street', $AffiliateAddress->street, ['class'=> 'form-control', 'required' => 'required','onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        {!! Form::text('street', $affiliate_address->street, ['class'=> 'form-control', 'required' => 'required','onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                         <span class="help-block">Escriba la Calle y/o Avenida</span>
                                     </div>
                                 </div>
@@ -1373,7 +1373,7 @@
                                         <div class="form-group">
                                                 {!! Form::label('state', 'Estado', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
-                                                {!! Form::select('state',$affiliate_state, $affiliate->affiliate_state->id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                {!! Form::select('state',$affiliate_states_list, $affiliate->affiliate_state->id , ['class'=> 'combobox form-control', 'required']) !!}
                                                 <span class="help-block">Seleccione un estado del policía</span>
                                             </div>
                                         </div>
@@ -1407,14 +1407,14 @@
                                         <div class="form-group">
                                                 {!! Form::label('category', 'Categoria', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
-                                                {!! Form::select('category',$categories, $affiliate->category_id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                {!! Form::select('category',$categories_list, $affiliate->category_id , ['class'=> 'combobox form-control', 'required']) !!}
                                                 <span class="help-block">Seleccione una Categoria para el policía</span>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                                 {!! Form::label('degree', 'Grado', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
-                                                {!! Form::select('degree',$degrees, $affiliate->degree->id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                {!! Form::select('degree',$degrees_list, $affiliate->degree->id , ['class'=> 'combobox form-control', 'required']) !!}
                                                 <span class="help-block">Seleccione un grado del policía</span>
                                             </div>
                                         </div>
@@ -1438,7 +1438,7 @@
                                          <div class="form-group">
                                                 {!! Form::label('affiliate_entity_pension', 'Ente Gestor', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
-                                                {!! Form::select('affiliate_entity_pension',$entity_pensions, $affiliate->pension_entity->id ?? null , ['class'=> 'combobox form-control', 'required']) !!}
+                                                {!! Form::select('affiliate_entity_pension',$pension_entities_list, $affiliate->pension_entity->id ?? null , ['class'=> 'combobox form-control', 'required']) !!}
                                                 <span class="help-block">Seleccione un ente gestor</span>
                                             </div>
                                         </div>
@@ -1563,26 +1563,26 @@
 
         //for observations
 
-        var observationsTable = $('#observations-table').DataTable({
-            "dom": '<"top">t<"bottom"p>',
-            processing: true,
-            serverSide: true,
-            pageLength: 8,
-            autoWidth: false,
-            ajax: {
-                url: '{!! route('get_observations') !!}',
-                data: function (d) {
-                    d.id={{$affiliate->id}}
-                }
-            },
-            columns: [
+        // var observationsTable = $('#observations-table').DataTable({
+        //     "dom": '<"top">t<"bottom"p>',
+        //     processing: true,
+        //     serverSide: true,
+        //     pageLength: 8,
+        //     autoWidth: false,
+        //     ajax: {
+        //         url: '{!! route('get_observations') !!}',
+        //         data: function (d) {
+        //             d.id={{$affiliate->id}}
+        //         }
+        //     },
+        //     columns: [
 
-                { data: 'date', bSortable: false },
-                { data: 'type',name:"type" },
-                { data: 'message', bSortable: false },
-                { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
-            ]
-        });
+        //         { data: 'date', bSortable: false },
+        //         { data: 'type',name:"type" },
+        //         { data: 'message', bSortable: false },
+        //         { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
+        //     ]
+        // });
 
         //tooltip
         $(document).ready(function() {

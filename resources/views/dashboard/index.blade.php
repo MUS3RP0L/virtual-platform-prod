@@ -35,7 +35,7 @@
 </div>
 @endcan
 @can('manage')
-
+{{--
 <div class="row">
 
 	<div class="col-md-4">
@@ -49,9 +49,7 @@
 
 <div class="row">
 
-	{{-- <div class="col-md-4">
-		@include('dashboard.affiliates_by_type')
-	</div> --}}
+	
 	<div class="col-md-8">
 		@include('dashboard.voluntary_management_contributions')
 		
@@ -69,6 +67,7 @@
 	</div>
 
 </div>
+--}}
 @endcan
 
 
