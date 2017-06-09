@@ -21,7 +21,7 @@ class ImportRequirement extends Command implements SelfHandling
     protected $description = 'Command description';
 
     public function handle()
-    {   global $Progress,$vej, $viu, $orf,$newafi,$oldafi,$totalafi;
+    {   global $Progress,$vej, $viu, $orf,$newafi,$total;
         
         $password = $this->ask('Enter the password');
 
@@ -37,7 +37,7 @@ class ImportRequirement extends Command implements SelfHandling
 
                 Excel::batch('public/file_to_import/' . $FolderName . '/', function($rows, $file) {
                     $rows->each(function($result) {
-                            global $Progress,$vej, $viu, $orf,$newafi,$oldafi,$totalafi;
+                            global $Progress,$vej, $viu, $orf,$newafi,$oldafi,$total;
                             ini_set('memory_limit', '-1');
                             ini_set('max_execution_time', '-1');
                             ini_set('max_input_time', '-1');
@@ -193,6 +193,93 @@ class ImportRequirement extends Command implements SelfHandling
 
                                         		                        		
                                     }
+                                    elseif($result->tiporenta == "ORFANDAD")
+                                    {
+                                        $app = Affiliate::where('identity_card','=', $result->c_ci)->first();
+                                        if($app) 
+                                        {
+                                            $ecom = EconomicComplement::where('economic_complements.affiliate_id','=', $app->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first();
+                                            $req = EconomicComplementRequirement::where('eco_com_type_id','=', 3 )->get();
+                                            foreach ($req as $item) 
+                                            {
+                                                $submit = new EconomicComplementSubmittedDocument;
+                                                $submit->economic_complement_id = $ecom->id;
+                                                $submit->eco_com_requirement_id = $item->id;
+                                                $submit->reception_date =  Carbon::createFromDate(2016, 7, 1);
+                                                switch ($item->id) 
+                                                {
+                                                                case "14":
+                                                                        $submit->status = false;
+                                                                        break;
+                                                                case "15":
+                                                                        if($result->viu_ci_causa7 == "SI") {
+                                                                            $submit->status = true;
+                                                                        }
+                                                                        else{
+                                                                            $submit->status = false;
+                                                                        }
+                                                                    break;
+                                                                case "16":
+                                                                        if($result->viu_ci_derecho8 == "SI") {
+                                                                            $submit->status = true;
+                                                                        }
+                                                                        else{
+                                                                            $submit->status = false;
+                                                                        }
+                                                                    break;
+
+                                                                case "17":
+                                                                        if($result->viu_defuncion9 == "SI") {
+                                                                            $submit->status = true;
+                                                                        }
+                                                                        else{
+                                                                            $submit->status = false;
+                                                                        }
+                                                                    break;
+                                                                case "18":
+                                                                        if($result->viu_senasir10 == "SI") {
+                                                                            $submit->status = true;
+                                                                        }
+                                                                        else{
+                                                                            $submit->status = false;
+                                                                        }
+                                                                    break;
+                                                                case "19":                                                                        
+                                                                        
+                                                                            $submit->status = false;
+                                                                        
+                                                                    break;                                                
+                                                                case "20":
+
+                                                                        if($result->viu_agra_servicio11 == "SI") {
+                                                                            $submit->status = true;
+                                                                        }
+                                                                        else{
+                                                                            $submit->status = false;
+                                                                        }
+                                                                    break;
+
+                                                                default:
+                                                                        if($result->viu_anos_servicio12 == "SI"){
+                                                                            $submit->status = true;
+                                                                        }
+                                                                        else{
+                                                                            $submit->status = false;
+                                                                        }
+
+                                                                
+                                                
+                                                }
+                                                $submit->save();   
+                                            
+
+                                            }
+                                            $orf++;
+                                        }  
+                                    }
+                                    $total = $vej + $viu + $orf;
+                                    
+
                                 
                              
                          
@@ -206,7 +293,8 @@ class ImportRequirement extends Command implements SelfHandling
                 $this->info("\n\nReport Update:\n
                 $vej Vejez.\n
                 $viu Viudadedad.\n
-                $orf orfandad.\n               
+                $orf orfandad.\n 
+                $total Total.\n               
                 Execution time $execution_time [minutes].\n");
             }
 
