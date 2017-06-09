@@ -150,9 +150,8 @@ class ImportComplement extends Command implements SelfHandling
                             }                        
                             elseif($result->c_tipo == 2) // create spouse
                             {   
-                                $spouse = Spouse::where('affiliate_id','=', $afi->id);
                                 
-                                if (!$spouse)
+                                if (!Spouse::where('affiliate_id','=', $afi->id)->first())
                                 {
                                     $spouse = new Spouse;
                                     $spouse->user_id = 1;
