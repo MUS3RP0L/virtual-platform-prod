@@ -2,9 +2,15 @@
 
 @section('contentheader_title')
 <style>
-    .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
-        background: indigo;
+    .nav-tabs-custom > .nav-tabs > li.active > a, .nav-tabs-custom > .nav-tabs > li.active:hover > a{
+        background: #008F71;
     }
+    .nav-tabs {
+        background: #1AB394;
+    }
+    .nav-tabs-custom > .nav-tabs > li.active {
+        border:none;
+    }    
 </style>
     <div class="row">
         <div class="col-md-6">
@@ -831,16 +837,6 @@
                     </div>
                 </div>
             </div>
-            <style>
-            .nav-tabs {
-                background: #1AB394;
-            }
-            .nav-tabs-custom > .nav-tabs > li.active {
-                /*background: #026b61; */
-                background: #008F71;
-                border:none;
-            }
-            </style>
             <div class="box box-success box-solid">
 
             <div class="nav-tabs-custom">
