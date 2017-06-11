@@ -14,14 +14,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // EconomicComplement::created(function ($economic_complement)
-        // {
-        //     WorkflowRecord::creatingEconomicComplement($economic_complement);
-        // });
-        // EconomicComplement::updating(function ($economic_complement)
-        // {
-        //     WorkflowRecord::updatedEconomicComplement($economic_complement);
-        // });
+        EconomicComplement::created(function ($economic_complement)
+        {
+            WorkflowRecord::creatingEconomicComplement($economic_complement);
+        });
+        EconomicComplement::updating(function ($economic_complement)
+        {
+            WorkflowRecord::updatedEconomicComplement($economic_complement);
+        });
     }
 
     /**
