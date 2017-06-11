@@ -7,7 +7,6 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-
     protected $commands = [
 
         \Muserpol\Console\Commands\ImportPayroll::class,
@@ -20,18 +19,11 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\CalculateAverage::class,
         \Muserpol\Console\Commands\ImportComplement::class,
         \Muserpol\Console\Commands\ImportRequirement::class,
-        \Muserpol\Console\Commands\ImportSpouse::class,
-        
-        
-
     ];
-
 
     protected function schedule(Schedule $schedule)
     {
-
-         $schedule->command('create:ipcrate')->monthly();
-         $schedule->command('create:contributionrate')->monthly();
-
+        $schedule->command('create:ipcrate')->monthly();
+        $schedule->command('create:contributionrate')->monthly();
     }
 }
