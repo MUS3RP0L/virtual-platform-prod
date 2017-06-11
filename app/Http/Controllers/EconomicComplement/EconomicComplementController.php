@@ -781,6 +781,22 @@ class EconomicComplementController extends Controller
 
                     case '3':
                     if ($request->type1!='update') {
+                        
+                        $rules = [
+                            'age_eco_com_applicant' => 'integer|max:25'
+                        ];
+
+                        $messages = [
+                            'age_eco_com_applicant.max' => 'El Huerfano no puede cobrar debido a que tiene mas de 25 anios'
+                        ];
+
+                        $age = ['age_eco_com_applicant' => $eco_com_applicant->getHowOldInt()];
+
+                        $validator = Validator::make($age, $rules, $messages);
+
+                        if($validator->fails())
+                            
+                            return redirect('economic_complement_reception_second_step/' . $economic_complement->id)->withErrors($validator)->withInput();  
 
                         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
                         $affiliate->identity_card = $request->identity_card_affi;
