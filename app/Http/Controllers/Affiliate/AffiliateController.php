@@ -289,6 +289,7 @@ class AffiliateController extends Controller
         }else{
             $eco_com_submitted_documents = null;
             $status_documents = null;
+            $last_ecocom = null;
         }
 
 
