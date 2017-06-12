@@ -839,107 +839,151 @@
             </div>
             <div class="box box-success box-solid">
 
-            <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs">
-                    <li><a href="#tab_1" data-toggle="tab" title="Aportes">&nbsp;<i class='fa fa-fw fa-arrow-circle-down fa-lg' aria-hidden="true"></i>&nbsp;</a></li>
-                    <li><a href="#tab_2" data-toggle="tab" title="Prestamos">&nbsp;<i class="fa fa-fw fa-money fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
-                    <li><a href="#tab_3" data-toggle="tab" title="Fondo de Retiro">&nbsp;<i class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></i>&nbsp;</a></li>
-                    <li  class="active"><a href="#tab_4" data-toggle="tab" title="Complemento Económico">&nbsp;<i class="fa fa-fw fa-puzzle-piece fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
-                    <li><a href="#tab_5" data-toggle="tab" title="Cuota o Auxilio Mortuorio">&nbsp;<i class="fa fa-fw fa-heartbeat fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="tab_1">
-                        {{-- <h4 class="box-title">Aportes</h4> --}}
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li><a href="#tab_1" data-toggle="tab" title="Aportes">&nbsp;<i class='fa fa-fw fa-arrow-circle-down fa-lg' aria-hidden="true"></i>&nbsp;</a></li>
+                        <li><a href="#tab_2" data-toggle="tab" title="Prestamos">&nbsp;<i class="fa fa-fw fa-money fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
+                        <li><a href="#tab_3" data-toggle="tab" title="Fondo de Retiro">&nbsp;<i class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></i>&nbsp;</a></li>
+                        <li  class="active"><a href="#tab_4" data-toggle="tab" title="Complemento Económico">&nbsp;<i class="fa fa-fw fa-puzzle-piece fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
+                        <li><a href="#tab_5" data-toggle="tab" title="Cuota o Auxilio Mortuorio">&nbsp;<i class="fa fa-fw fa-heartbeat fa-lg" aria-hidden="true"></i>&nbsp;</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1">
+                            {{-- <h4 class="box-title">Aportes</h4> --}}
 
-                       {{--  <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
-                            <thead>
-                            <tr>
-                                <th>Concepto</th>
-                                <th style="text-align: right;">Totales</th>
-                            </tr>
-                            </thead>
-                            <tr>
-                                <td style="width: 70%">Ganado</td>
-                                <td style="text-align: right">{{ $total_gain }}</td>
-                            </tr>
-                            <tr>
-                                <td style="width: 70%">Bono de Seguridad Ciudadana</td>
-                                <td style="text-align: right">{{ $total_public_security_bonus }}</td>
-                            </tr>
-                            <tr>
-                                <td style="width: 70%">Cotizable</td>
-                                <td style="text-align: right">{{ $total_quotable }}</td>
-                            </tr>
-                            <tr>
-                                <td style="width: 70%">Aporte Fondo de Retiro</td>
-                                <td style="text-align: right">{{ $total_retirement_fund }}</td>
-                            </tr>
-                            <tr>
-                                <td style="width: 70%">Aporte Cuota o Auxilio Mortuorio</td>
-                                <td style="text-align: right">{{ $total_mortuary_quota }}</td>
-                            </tr>
-                            <tr class="active">
-                                <td style="width: 70%">Aporte Muserpol</td>
-                                <td style="text-align: right">{{ $total }}</td>
-                            </tr>
-                        </table> --}}
-                    </div>
-                    <div class="tab-pane" id="tab_2">
+                           {{--  <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
+                                <thead>
+                                <tr>
+                                    <th>Concepto</th>
+                                    <th style="text-align: right;">Totales</th>
+                                </tr>
+                                </thead>
+                                <tr>
+                                    <td style="width: 70%">Ganado</td>
+                                    <td style="text-align: right">{{ $total_gain }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 70%">Bono de Seguridad Ciudadana</td>
+                                    <td style="text-align: right">{{ $total_public_security_bonus }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 70%">Cotizable</td>
+                                    <td style="text-align: right">{{ $total_quotable }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 70%">Aporte Fondo de Retiro</td>
+                                    <td style="text-align: right">{{ $total_retirement_fund }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 70%">Aporte Cuota o Auxilio Mortuorio</td>
+                                    <td style="text-align: right">{{ $total_mortuary_quota }}</td>
+                                </tr>
+                                <tr class="active">
+                                    <td style="width: 70%">Aporte Muserpol</td>
+                                    <td style="text-align: right">{{ $total }}</td>
+                                </tr>
+                            </table> --}}
+                        </div>
+                        <div class="tab-pane" id="tab_2">
 
-                        {{-- @if(!)
-                            registros
-                        @else --}}
-                            <div class="row text-center">
-                                <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
-                                <h4 class="box-title">No hay registros de Préstamos</h4>
-                            </div>
-                        {{-- @endif --}}
+                            {{-- @if(!)
+                                registros
+                            @else --}}
+                                <div class="row text-center">
+                                    <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
+                                    <h4 class="box-title">No hay registros de Préstamos</h4>
+                                </div>
+                            {{-- @endif --}}
 
-                    </div>
-                    <div class="tab-pane" id="tab_3">
+                        </div>
+                        <div class="tab-pane" id="tab_3">
 
-                        {{-- @if(!)
-                            registros
-                        @else --}}
-                            <div class="row text-center">
-                                <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
-                                <h4 class="box-title">No hay registros de Fondo de Retiro</h4>
-                            </div>
-                        {{-- @endif --}}
+                            {{-- @if(!)
+                                registros
+                            @else --}}
+                                <div class="row text-center">
+                                    <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
+                                    <h4 class="box-title">No hay registros de Fondo de Retiro</h4>
+                                </div>
+                            {{-- @endif --}}
 
-                    </div>
-                    <div class="tab-pane active" id="tab_4">
-                          <h4 class="box-title">Complemento Económico</h4>
-                          <div class="row">
-                              <div class="col-md-12">
-                                  <table class="table table-bordered table-hover" id="economic_complements-table">
-                                      <thead>
-                                          <tr class="success">
-                                              <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Número de Trámite">Número</div></th>
-                                              <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Fecha de Emisión">Fecha Emisión</div></th>
-                                              <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Estado">Estado</div></th>
-                                              <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Modalidad">Modalidad</div></th>
-                                              {{-- <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Opciones">Opciones</div></th> --}}
-                                          </tr>
-                                      </thead>
-                                  </table>
+                        </div>
+                        <div class="tab-pane active" id="tab_4">
+                              <h4 class="box-title">Complemento Económico</h4>
+                              <div class="row">
+                                  <div class="col-md-12">
+                                      <table class="table table-bordered table-hover" id="economic_complements-table">
+                                          <thead>
+                                              <tr class="success">
+                                                  <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Número de Trámite">Número</div></th>
+                                                  <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Fecha de Emisión">Fecha Emisión</div></th>
+                                                  <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Estado">Estado</div></th>
+                                                  <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Modalidad">Modalidad</div></th>
+                                                  {{-- <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Opciones">Opciones</div></th> --}}
+                                              </tr>
+                                          </thead>
+                                      </table>
+                                  </div>
                               </div>
-                          </div>
-                    </div>
-                    <div class="tab-pane" id="tab_5">
+                        </div>
+                        <div class="tab-pane" id="tab_5">
 
-                        {{-- @if(!$info_spouse)
-                            registros
-                        @else --}}
-                            <div class="row text-center">
-                                <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
-                                <h4 class="box-title">No hay registros de Cuota, Auxilio Mortuorio</h4>
-                            </div>
-                        {{-- @endif --}}
+                            {{-- @if(!$info_spouse)
+                                registros
+                            @else --}}
+                                <div class="row text-center">
+                                    <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
+                                    <h4 class="box-title">No hay registros de Cuota, Auxilio Mortuorio</h4>
+                                </div>
+                            {{-- @endif --}}
 
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div class="box box-danger box-solid">
+                <div class="box-header with-border">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span>Documentos Presentados</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @if($status_documents)
+                                <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre de Requisito</th>
+                                            <th class="text-center">Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($eco_com_submitted_documents as $item)
+                                            <tr>
+                                                <td>{!! $item->economic_complement_requirement->shortened !!}</td>
+                                                <td>
+                                                    <div class="text-center">
+                                                        @if($item->status)
+                                                        <span class="fa fa-check-square-o fa-lg"></span>
+                                                        @else
+                                                        <span class="fa fa-square-o fa-lg"></span>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                No hay registros
+                            @endif
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

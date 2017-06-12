@@ -28,6 +28,7 @@ use Muserpol\Spouse;
 use Muserpol\Unit;
 use Muserpol\ObservationType;
 use Muserpol\EconomicComplementApplicant;
+use Muserpol\EconomicComplementSubmittedDocument;
 
 class AffiliateController extends Controller
 {
@@ -278,6 +279,14 @@ class AffiliateController extends Controller
             $has_current_eco_com = "disabled";
         }
 
+        $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first();   
+        $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($last_ecocom->id)->get();
+        if (EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->first()) {
+            $status_documents = TRUE;
+        }else{
+            $status_documents = FALSE;
+        }
+
         $data = [
             'affiliate' => $affiliate,
             'affiliate_address' => $affiliate_address,
@@ -288,6 +297,10 @@ class AffiliateController extends Controller
             'info_spouse' => $info_spouse,
             'current_economic_complement' => $current_economic_complement,
             'has_current_eco_com' => $has_current_eco_com,
+            'last_ecocom' => $last_ecocom,
+            'eco_com_submitted_documents' => $eco_com_submitted_documents,
+            'status_documents' => $status_documents
+
             // 'total_gain' => $total_gain,
             // 'total_public_security_bonus' => $total_public_security_bonus,
             // 'total_quotable' => $total_quotable,
