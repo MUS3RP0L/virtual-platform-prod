@@ -278,14 +278,19 @@ class AffiliateController extends Controller
         } else {
             $has_current_eco_com = "disabled";
         }
-
-        $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first();   
-        $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($last_ecocom->id)->get();
-        if (EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->first()) {
-            $status_documents = TRUE;
+        if (EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first()) {
+            $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first();   
+            $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($last_ecocom->id)->get();
+            if (EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->first()) {
+                $status_documents = TRUE;
+            }else{
+                $status_documents = FALSE;
+            }
         }else{
-            $status_documents = FALSE;
+            $eco_com_submitted_documents = null;
+            $status_documents = null;
         }
+
 
         $data = [
             'affiliate' => $affiliate,
