@@ -145,8 +145,6 @@ class EconomicComplement extends Model
 EconomicComplement::created(function($ecomplement)
 {
     Activity::createdEconomicComplement($ecomplement);
-    //WorkflowRecord::creatingEconomicComplement($ecomplement);
-
 });
 
 EconomicComplement::updated(function($ecomplement)

@@ -101,6 +101,16 @@ class EconomicComplementApplicant extends Model
         }
     }
 
+    public function getHowOldInt()
+    {
+        if ($this->date_death) {
+            return Util::getHowOldF($this->birth_date, $this->date_death);
+        }
+        else{
+            return Carbon::parse($this->birth_date)->age;
+        }
+    }
+
     public function getTittleName()
     {
         return Util::ucw($this->first_name) . ' ' . Util::ucw($this->second_name)  . ' ' . Util::ucw($this->last_name) . ' ' . Util::ucw($this->mothers_last_name) . ' ' . Util::ucw($this->surname_husband);

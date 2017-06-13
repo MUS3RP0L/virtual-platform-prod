@@ -29,6 +29,7 @@ use Muserpol\Unit;
 use Muserpol\ObservationType;
 use Muserpol\EconomicComplementApplicant;
 use Muserpol\AffiliateObservation;
+use Muserpol\EconomicComplementSubmittedDocument;
 
 class AffiliateController extends Controller
 {
@@ -294,26 +295,37 @@ class AffiliateController extends Controller
         } else {
             $has_current_eco_com = "disabled";
         }
+
         $affi_observations = AffiliateObservation::where('affiliate_id',$affiliate->id)->first();
+      
+        if (EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first()) {
+            $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first();   
+            $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($last_ecocom->id)->get();
+            if (EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->first()) {
+                $status_documents = TRUE;
+            }else{
+                $status_documents = FALSE;
+            }
+        }else{
+            $eco_com_submitted_documents = null;
+            $status_documents = null;
+            $last_ecocom = null;
+        }
+
 
         $data = [
-
-        // 'canObservate'=>$canObservate,
-        // 'ObservationType'=>$ObservationType,
-        'affiliate' => $affiliate,
-        'affiliate_address' => $affiliate_address,
-        'spouse' => $spouse,
-        'gender_list' => $gender_list,
-        'gender_list_s' => $gender_list_s,
-        'info_address' => $info_address,
-        'info_spouse' => $info_spouse,
-        'economic_complement' => $economic_complement,
-        'current_economic_complement' => $current_economic_complement,
-        'has_current_eco_com' => $has_current_eco_com,
-            // 'last_contribution' => $last_contribution,
-        'observations_types' => $observation_types_list,
-        'affi_observations' => $affi_observations,
-        'module_observations' => $moduleObservation,
+            'affiliate' => $affiliate,
+            'affiliate_address' => $affiliate_address,
+            'spouse' => $spouse,
+            'gender_list' => $gender_list,
+            'gender_list_s' => $gender_list_s,
+            'info_address' => $info_address,
+            'info_spouse' => $info_spouse,
+            'current_economic_complement' => $current_economic_complement,
+            'has_current_eco_com' => $has_current_eco_com,
+            'last_ecocom' => $last_ecocom,
+            'eco_com_submitted_documents' => $eco_com_submitted_documents,
+            'status_documents' => $status_documents
             // 'total_gain' => $total_gain,
             // 'total_public_security_bonus' => $total_public_security_bonus,
             // 'total_quotable' => $total_quotable,
