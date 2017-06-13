@@ -136,10 +136,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('edited_data', array('as'=>'edited_data','uses'=>'Inbox\InboxController@DataEdited'));
 
 	//Observations
-	//suspended
-	Route::get('print_suspended_observations/{id_complement}/{type}', 'Affiliate\AffiliateController@print_suspended_observations');
-	//excluded
-	Route::get('print_excluded_observations/{id_complement}/{type}', 'Affiliate\AffiliateController@print_excluded_observations');
+	Route::get('print_observations/{id_complement}/{type}', 'Affiliate\AffiliateController@print_observations');
 	//complaints
 	Route::get('print_correct/{id_complement}', 'Affiliate\AffiliateController@print_correct_grading');
 
