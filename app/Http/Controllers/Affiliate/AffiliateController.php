@@ -451,7 +451,7 @@ class AffiliateController extends Controller
                         $affiliate->second_name = trim($request->second_name);
                         $affiliate->surname_husband = trim($request->surname_husband);
                         $affiliate->gender = trim($request->gender);
-                        $affiliate->nua = $request->nua > 0 ? $request->nua : s0;
+                        $affiliate->nua = $request->nua > 0 ? $request->nua : 0;
                         $affiliate->birth_date = Util::datePick($request->birth_date);
                         $affiliate->civil_status = trim($request->civil_status);
                         $affiliate->change_date = Carbon::now();
