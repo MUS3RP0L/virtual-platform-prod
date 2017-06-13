@@ -34,6 +34,8 @@ use Muserpol\Degree;
 use Muserpol\Unit;
 use Muserpol\Category;
 use Muserpol\WorkflowRecord;
+use Muserpol\ObservationType;
+use Muserpol\AffiliateObservation;
 class EconomicComplementController extends Controller
 {
     /**
@@ -189,6 +191,13 @@ class EconomicComplementController extends Controller
             $semester_list[$item]=$item;
         }
 
+        $moduleObservation=Auth::user()->roles()->first()->module->id;
+        $observations_types = $moduleObservation == 1 ? ObservationType::all() : ObservationType::where('module_id',$moduleObservation)->get();
+        $observation_types_list = array('' => '');
+                foreach ($observations_types as $item) {
+                    $observation_types_list[$item->id]=$item->name;
+                }
+        
         return [
             'eco_com_states_list' => $eco_com_states_list,
             'eco_com_types_list' => $eco_com_types_list,
@@ -197,6 +206,8 @@ class EconomicComplementController extends Controller
             'cities_list' => $cities_list,
             'cities_list_short' => $cities_list_short,
             'year' => Carbon::now()->year,
+            'observations_types' => $observation_types_list,
+            // 'affi_observations' => $affi_observations,
             'semester' => Util::getSemester(Carbon::now())
         ];
     }
@@ -496,6 +507,7 @@ class EconomicComplementController extends Controller
         }
 
         $economic_complement_legal_guardian=$economic_complement->economic_complement_legal_guardian;
+        $affi_observations = AffiliateObservation::where('affiliate_id',$affiliate->id)->first();
         $data = [
 
         'affiliate' => $affiliate,
@@ -512,6 +524,7 @@ class EconomicComplementController extends Controller
         'categories' => $categories,
         'degrees' => $degrees,
         'type_eco_com' => $affiliate->type_ecocom,
+        'affi_observations' => $affi_observations,
         'entity_pensions' => $entity_pensions
 
         ];

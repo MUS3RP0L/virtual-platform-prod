@@ -42,7 +42,7 @@ Formulario Nº 4
             </tr>
             @endforeach
 </table>
- <p>Sin otro particular me despido de usted my atentamente. </p> <br /><br /><br /><br />
+ <p>Sin otro particular me despido de usted my atentamente. </p>
     <table>
               <tr>
                   <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>----------------------------------------------------------------------</th>

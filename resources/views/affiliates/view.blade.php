@@ -70,27 +70,11 @@
             </div>
         @endcan
             <!-- button of Observations -->
+            @can('observate')
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
             </div>
-                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observaciones" style="margin:0px;">
-                        <span data-toggle="modal" data-target="#observationMo">
-                        <a href="#" class="btn btn-success btn-raised bg-red"  data-toggle="modal" value="Print" >
-                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                        </a>
-                </div>
-            <!-- /button of  Observations -->
-            {{--<div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir" style="margin:0px;">--}}
-                {{--<a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >--}}
-                    {{--&nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;--}}
-                {{--</a>--}}
-            {{--</div>--}}
-            {{-- <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Caratula Imprimir" style="margin:0px;">
-                <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
-                    &nbsp;<span class="glyphicon glyphicon-file"></span>&nbsp;
-                </a>
-            </div> --}}
-
+            @endcan
         </div>
     </div>
 
@@ -613,8 +597,9 @@
                     </div>
                 </div>
             </div>
-
+@include('observations.show')
             <!-- observations -->
+            {{-- @can('observate')
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="row">
@@ -634,7 +619,7 @@
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        @if(sizeof($observation_types_list))
+                        @if(isset($affi_observations))
                             <div class="col-md-12">
                                 <table class="table table-bordered table-hover table-striped" id="observations-table">
                                     <thead>
@@ -659,6 +644,7 @@
                     </div>
                 </div>
             </div>
+            @endcan --}}
             <!-- /observations -->
 
         </div>
@@ -1514,63 +1500,6 @@
                 </div>
     </div>
     <!-- /Edition of a police officer-->
-
-{{--    <div class="modal fade" tabindex="-1" >
-        <iframe src="{!! url('print_affiliate/' . $affiliate->id) !!}" id="iFramePdf"></iframe>
-        <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/report') !!}" id="iFramePdfReport" ></iframe>
-
-        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/wallet_pres') !!}" id="iFramePdfObsTesoreria" ></iframe>
-        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/debtor_conta') !!}" id="iFramePdfObsContabilidad" ></iframe>
-        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/out_time90') !!}" id="iFramePdfObsRango90" ></iframe>
-        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/out_time120') !!}" id="iFramePdfObsRango120" ></iframe>
-        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/miss_requirements') !!}" id="iFramePdfObsRequisites" ></iframe>
-        <iframe src="{!! url('print_suspended_observations/' . $economic_complement->id . '/miss_requirements_hi') !!}" id="iFramePdfObsRequisites_hi" ></iframe>
-
-    </div>--}}
-<!--     buttons observations -->
- <div id="observationMo" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="box-header with-border">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Observaciones</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion Tesoreria" style="margin:0px;">
-                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsTesoreria');" >
-                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                        </a>
-                    </div>
-                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion de Contabilidad" style="margin:0px;">
-                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsContabilidad');" >
-                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                        </a>
-                    </div>
-                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion Fuera de Rango de Plazo 90" style="margin:0px;">
-                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsRango90');" >
-                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                        </a>
-                    </div>
-                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion Fuera de Rango de Plazo 120" style="margin:0px;">
-                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsRango120');" >
-                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                        </a>
-                    </div>
-                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion Falta de Requisitos" style="margin:0px;">
-                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsRequisites');" >
-                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                        </a>
-                    </div>
-                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Observacion Falta de Requisitos Habitual/Inclusion" style="margin:0px;">
-                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfObsRequisites_hi');" >
-                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @push('scripts')
@@ -1674,26 +1603,26 @@
 
         //for observations
 
-        var observationsTable = $('#observations-table').DataTable({
-            "dom": '<"top">t<"bottom"p>',
-            processing: true,
-            serverSide: true,
-            pageLength: 8,
-            autoWidth: false,
-            ajax: {
-                url: '{!! route('get_observations') !!}',
-                data: function (d) {
-                    d.id={{$affiliate->id}}
-                }
-            },
-            columns: [
+        // var observationsTable = $('#observations-table').DataTable({
+        //     "dom": '<"top">t<"bottom"p>',
+        //     processing: true,
+        //     serverSide: true,
+        //     pageLength: 8,
+        //     autoWidth: false,
+        //     ajax: {
+        //         url: '{!! route('get_observations') !!}',
+        //         data: function (d) {
+        //             d.id={{$affiliate->id}}
+        //         }
+        //     },
+        //     columns: [
 
-                { data: 'date', bSortable: false },
-                { data: 'type',name:"type" },
-                { data: 'message', bSortable: false },
-                { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
-            ]
-        });
+        //         { data: 'date', bSortable: false },
+        //         { data: 'type',name:"type" },
+        //         { data: 'message', bSortable: false },
+        //         { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
+        //     ]
+        // });
 
         //tooltip
         $(document).ready(function() {

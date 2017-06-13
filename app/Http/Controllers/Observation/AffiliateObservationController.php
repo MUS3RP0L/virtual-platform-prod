@@ -9,7 +9,9 @@ use Muserpol\Http\Controllers\Controller;
 use Muserpol\AffiliateObservation;
 use Muserpol\Affiliate;
 use Muserpol\ObservationType;
+use Muserpol\EconomicComplement;
 use Carbon\Carbon;
+use Util;
 
 use Auth;
 use Datatables;
@@ -33,17 +35,7 @@ class AffiliateObservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 
@@ -96,79 +88,34 @@ class AffiliateObservationController extends Controller
         return back();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
     public function showOfAffiliate(Request $request)
     {   
-        $observations=AffiliateObservation::where('affiliate_id',$request->id)->select(['id','date','message','observation_type_id'])->get();
+        $economic_complement = EconomicComplement::where('id',$request->eid)->first();
+        $observations=AffiliateObservation::where('affiliate_id',$request->id)->select(['id','affiliate_id','date','message','observation_type_id'])->first();
+        dd($economic_complement->year,$observations->date);
+        // if($observations->date==$economic_complement->year){
+        //     dd($economic_complement->year,$observations->date);
+        // } else {
+        //     dd("No quiero mostrar nada");
+        // }
+        // // $observations = AffiliateObservation::where('affiliate_observations.affiliate_id',$request->id)->leftJoin('economic_complements','affiliate_observations.affiliate_id','=','economic_complements.affiliate_id')->select('affiliate_observations.id','affiliate_observations.date','affiliate_observations.message',' bn
+        //     ikaffiliate_observations.observation_type_id','economic_complements.id as eco_id')->get();
         return Datatables::of($observations)
                 ->addColumn('type',function ($observation)
                 {
                     return $observation->observationType->name;
                 })
-                ->addColumn('action', function ($observation) { return  
+                ->addColumn('action', function ($observation) {
+                    return
                         '<div class="btn-group">
                           <button type="button" class="btn btn-warning btn-raised btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               Opciones <span class="caret"></span>
                           </button>
                           <ul class="dropdown-menu">
-                              <li><a href="#" style="padding:3px 10px;"><i class="glyphicon glyphicon-print"></i> Imprimir Observación</a></li>
+                              <li><a href="/print_observations/'.$observation->affiliate_id.'/'.$observation->observation_type_id.'" style="padding:3px 10px;"><i class="glyphicon glyphicon-print"></i> Imprimir Observación</a></li>
                               <li><a href="/observation/deleteOb/' .$observation->id. '" style="padding:3px 10px;" class="btn btn-danger btn-raised btn-sm">' .$observation->observation_type. '<i class="glyphicon glyphicon-minus"></i> Eliminar</a></li>
                           </ul>
                         </div>';})
-
-                // Nuevo
-                // '<div class="btn-group">
-                //   <a href="/observation/deleteOb/' .$observation->id. '" class="btn btn-danger">' .$observation->observation_type. '<i class="glyphicon glyphicon-minus"></i> Eliminar</a>
-                //   <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                //     <span class="caret"></span>
-                //     <span class="sr-only">Toggle Dropdown</span>
-                //   </button>
-                //   <ul class="dropdown-menu">
-                //       <li><a href="#" style="padding:3px 10px;"><i class="glyphicon glyphicon-print"></i> Imprimir Observación</a></li>
-                //   </ul>
-                // </div>'
-
-                // Original
-                // '<div class="btn-group" style="margin:-3px 0;">
-                //         <a href="/observation/deleteOb/'.$observation->id.'" style="padding:3px 5px;" class="btn btn-warning btn-raised ">'.$observation->observation_type.'<i class="glyphicon glyphicon-minus"></i> Eliminar</a>
-                //         <a href="" class="btn btn-warning btn-raised btn-sm dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</a>
-                //         <ul class="dropdown-menu">
-                //             <li><a href="#" style="padding:3px 10px;"><i class="glyphicon glyphicon-print"></i> Imprimir Observación</a></li>
-                //         </ul>
-                //     </div>'
-
                 ->make(true);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
