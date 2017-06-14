@@ -325,7 +325,8 @@ class AffiliateController extends Controller
             'has_current_eco_com' => $has_current_eco_com,
             'last_ecocom' => $last_ecocom,
             'eco_com_submitted_documents' => $eco_com_submitted_documents,
-            'status_documents' => $status_documents
+            'status_documents' => $status_documents,
+            'observations_types'=>$observation_types_list
             // 'total_gain' => $total_gain,
             // 'total_public_security_bonus' => $total_public_security_bonus,
             // 'total_quotable' => $total_quotable,

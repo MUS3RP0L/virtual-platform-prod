@@ -70,6 +70,11 @@ Formulario Nº 1
   </table>
 <p align="justify">En mérito de los datos registrados en forma precedente, el interesado aprueba y ratifica su tenor de manera íntegra, quien en señal de conformidad en forma expresa y voluntaria firma el presente documento en la ciudad de La Paz, {!! Util::getfulldate(date('Y-m-d')) !!}.</p>
 <br>
+<div class="row">
+  <div class="cols">hola</div>
+  <div class="cols">hola1</div>
+  <div class="cols">hola2</div>
+</div>
 <table>
           <tr>
               <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>-------------------------------------------</th>
@@ -80,7 +85,7 @@ Formulario Nº 1
           <tr>
             <th class="info" style="border: 0px;text-align:center;">{!! $eco_com_applicant->getTitleNameFull() !!}<br>C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened !!} Telefono. {!! $eco_com_applicant->getPhone() !!}</th>
              
-            <th class="info" style="border: 0px;text-align:center;">Huella Digital Pulgar Derecho</th>
+            <th class="info" style="border: 0px;text-align:center;">Huella Digital<br> Pulgar Derecho</th>
             <th class="info" style="border: 0px;text-align:center;width: 15%;"></th>
           </tr>
 </table>
