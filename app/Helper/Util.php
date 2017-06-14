@@ -589,5 +589,4 @@ class Util
     {
     	return Auth::user()->first_name." ".Auth::user()->last_name; 
     }
-
 }
