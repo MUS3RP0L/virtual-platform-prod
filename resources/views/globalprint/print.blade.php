@@ -55,45 +55,6 @@
     <br>
     @yield('content')
   </header>
-
-  <div class="qrCode">
-    @if(isset($eco_com_applicant))
-
-        <img src="data:image/png;base64,{!! base64_encode(QrCode::format('png')->size(150)->generate(
-        $title.'                                     '.
-        'Registro: Nº '.$eco_com_applicant->code.' || '.
-        $eco_com_applicant->getTitleNameFull().' || '.
-        'Carnet de Identidad: '.$eco_com_applicant->identity_card.' '.$eco_com_applicant->city_identity_card->first_shortened.' || '.
-        'Edad del Afiliado: '.$eco_com_applicant->getHowOld().' || '.
-        'Numero de CUA/NUA: '.$eco_com_applicant->nua
-        )) !!}">
-    @else
-        @if(isset($affiliate))
-            <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate(
-            $title.'                                     '.
-            $affiliate->getTitleNameFull().' || '.
-            'Carnet de Identidad: '.$affiliate->identity_card.' '.$affiliate->city_identity_card->first_shortened.' || '.
-            'Edad del Afiliado: '.$affiliate->getHowOld().' || '.
-            'Numero de CUA/NUA: '.$affiliate->nua
-            )) !!} ">
-        @endif
-    @endif
-    @if(isset($double_perception_eco_complements))
-        <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate(
-        $title.'                                     '
-        )) !!} ">
-    @endif
-    @if(isset($representative_eco_complements))
-        <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate(
-        $title.'                                     '
-        )) !!} ">
-    @endif
-    @if(isset($beneficiary_eco_complements))
-        <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate(
-        $title.'                                     '
-        )) !!} ">
-    @endif
-  </div>
   <footer>
     PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICÍA - 2017
 
@@ -102,7 +63,7 @@
           <tr>
             <th class="info" style="border: 0px;text-align:right;width: 100% ">
                 @if(isset($eco_com_applicant))
-                    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate(
+                    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(90)->generate(
                     $title.'                                     '.
                     'Registro: Nº '.$eco_com_applicant->code.' || '.
                     $eco_com_applicant->getTitleNameFull().' || '.
@@ -112,7 +73,7 @@
                     )) !!} ">
                     @else
                         @if(isset($affiliate))
-                            <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate(
+                            <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(90)->generate(
                             $title.'                                     '.
                             $affiliate->getTitleNameFull().' || '.
                             'Carnet de Identidad: '.$affiliate->identity_card.' '.$affiliate->city_identity_card->first_shortened.' || '.
@@ -122,17 +83,17 @@
                         @endif
                 @endif
                 @if(isset($double_perception_eco_complements))
-                    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate(
+                    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(90)->generate(
                     $title.'                                     '
                     )) !!} ">
                 @endif
                 @if(isset($representative_eco_complements))
-                    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate(
+                    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(90)->generate(
                     $title.'                                     '
                     )) !!} ">
                 @endif
                 @if(isset($beneficiary_eco_complements))
-                    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate(
+                    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(90)->generate(
                     $title.'                                     '
                     )) !!} ">
                 @endif
