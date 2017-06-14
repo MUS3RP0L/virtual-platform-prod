@@ -604,7 +604,16 @@ class EconomicComplementController extends Controller
                 ->withInput();
             }
             else{
-
+                $new_eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
+                if($new_eco_com_modality){
+                    if($economic_complement->eco_com_modality_id <> $new_eco_com_modality->id){
+                        $eco_com_submitted_document = EconomicComplementSubmittedDocument::where('economic_complement_id', '=', $economic_complement->id)->get();
+                        foreach ($eco_com_submitted_document as $submitted_document) {
+                            $submitted_document->delete();
+                        }
+                    }
+                }
+                
                 $affiliate = Affiliate::idIs($request->affiliate_id)->first();
                 $affiliate->pension_entity_id = $request->pension_entity;
                 $affiliate->save();
@@ -874,7 +883,6 @@ class EconomicComplementController extends Controller
                 ->withInput();
             }
             else{
-
                 foreach (json_decode($request->data) as $item)
                 {
                     $eco_com_submitted_document = EconomicComplementSubmittedDocument::where('economic_complement_id', '=', $economic_complement->id)
