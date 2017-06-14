@@ -74,6 +74,9 @@
                             <span data-toggle="modal" data-target="#policeModal">
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
                             </span>
+                            <span>
+                                <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i aria-hidden="true" class="fa fa-pencil-square"></i></a>
+                            </span>
                         </div>
                        {{--  <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="top" data-original-title="Editar">
