@@ -539,7 +539,12 @@ class EconomicComplementController extends Controller
         //     $total_amount_semester = $difference * $months_of_payment;
         //     $complementary_factor = $eco_com_type->id == 1 ? $economic_complement->complementary_factor->old_age : $economic_complement->complementary_factor->widowhood;
         //     $total = $total_amount_semester * $complementary_factor/100;
+        
+        $showEdit=false;
 
+        if(strval(Carbon::parse($economic_complement->year)->year) == Util::getYear(Carbon::now()) ){
+             $showEdit = true;
+        }
 
         $second_data = [
 
@@ -554,7 +559,8 @@ class EconomicComplementController extends Controller
         'difference' => Util::formatMoney($economic_complement->difference),
         'total_amount_semester' => Util::formatMoney($economic_complement->difference*6),
         'complementary_factor' => $economic_complement->complementary_factor,
-        'total' => Util::formatMoney($economic_complement->total)
+        'total' => Util::formatMoney($economic_complement->total),
+        'showEdit' => $showEdit
 
         ];
 
