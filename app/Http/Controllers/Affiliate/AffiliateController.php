@@ -329,6 +329,7 @@ class AffiliateController extends Controller
             'status_documents' => $status_documents,
             'observations_types' => $observation_types_list,
             'affi_observations' => $affi_observations,
+
             // 'total_gain' => $total_gain,
             // 'total_public_security_bonus' => $total_public_security_bonus,
             // 'total_quotable' => $total_quotable,
