@@ -90,17 +90,21 @@ class AffiliateObservationController extends Controller
 
     public function showOfAffiliate(Request $request)
     {   
-        $economic_complement = EconomicComplement::where('id',$request->eid)->first();
-        $observations=AffiliateObservation::where('affiliate_id',$request->id)->select(['id','affiliate_id','date','message','observation_type_id'])->first();
-        dd($economic_complement->year,$observations->date);
-        // if($observations->date==$economic_complement->year){
-        //     dd($economic_complement->year,$observations->date);
-        // } else {
-        //     dd("No quiero mostrar nada");
-        // }
-        // // $observations = AffiliateObservation::where('affiliate_observations.affiliate_id',$request->id)->leftJoin('economic_complements','affiliate_observations.affiliate_id','=','economic_complements.affiliate_id')->select('affiliate_observations.id','affiliate_observations.date','affiliate_observations.message',' bn
-        //     ikaffiliate_observations.observation_type_id','economic_complements.id as eco_id')->get();
-        return Datatables::of($observations)
+        if (isset($request->eid)) {
+          $economic_complement = EconomicComplement::where('id',$request->eid)->first();
+          $observations=AffiliateObservation::where('affiliate_id',$request->id)->select(['id','affiliate_id','date','message','observation_type_id'])->get();
+          
+          $observations_list = collect(new AffiliateObservation);
+          foreach ($observations as $obs) {
+            if(Util::getYear($economic_complement->year)==Util::getYear($obs->date)){
+              $observations_list->push($obs);
+            }
+          }
+        } else {
+          $observations_list=AffiliateObservation::where('affiliate_id',$request->id)->select(['id','affiliate_id','date','message','observation_type_id'])->get();
+        }
+        // $observations_list=AffiliateObservation::where('affiliate_id',$request->id)->select(['id','affiliate_id','date','message','observation_type_id'])->get();
+        return Datatables::of($observations_list)
                 ->addColumn('type',function ($observation)
                 {
                     return $observation->observationType->name;

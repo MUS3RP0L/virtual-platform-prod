@@ -293,6 +293,7 @@ class AffiliateController extends Controller
             ->first();
             $has_current_eco_com = $current_economic_complement ? "edit" : "create";
         } else {
+            $current_economic_complement='';
             $has_current_eco_com = "disabled";
         }
 
@@ -326,7 +327,9 @@ class AffiliateController extends Controller
             'last_ecocom' => $last_ecocom,
             'eco_com_submitted_documents' => $eco_com_submitted_documents,
             'status_documents' => $status_documents,
-            'observations_types'=>$observation_types_list
+            'observations_types' => $observation_types_list,
+            'affi_observations' => $affi_observations,
+
             // 'total_gain' => $total_gain,
             // 'total_public_security_bonus' => $total_public_security_bonus,
             // 'total_quotable' => $total_quotable,
@@ -642,10 +645,12 @@ class AffiliateController extends Controller
             
             //Por salario
             case '10':
-                $view = \View::make('affiliates.print.excluded_by_salary', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $nextSemester = $eco_com_applicant->semester == 'Primer' ? 'Segundo' : 'Primer'; 
+                $nextYear = $eco_com_applicant->semester == 'Segundo' ? Util::getYear($eco_com_applicant->year) : $eco_com_applicant->year;
+                $view = \View::make('affiliates.print.excluded_by_salary', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','nextSemester','nextYear'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream(); 
+                return $pdf->stream();
         }
     }
 
