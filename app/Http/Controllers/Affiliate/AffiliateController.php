@@ -308,10 +308,10 @@ class AffiliateController extends Controller
             }
         }else{
             $eco_com_submitted_documents = null;
-            $status_documents = null;
+            $status_documents = false;
             $last_ecocom = null;
         }
-        // dd($eco_com_submitted_documents);
+
         $data = [
             'affiliate' => $affiliate,
             'affiliate_address' => $affiliate_address,

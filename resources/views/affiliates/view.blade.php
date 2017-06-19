@@ -980,59 +980,6 @@
             </div>
         </div>
     </div>
-    <div id="myModal-requirements" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="box-header with-border">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Editar Documentos</h4>
-                </div>
-                <div class="box-body" data-bind="event: {mouseover: save, mouseout: save}">
-                    {!! Form::model($last_ecocom, ['method' => 'PATCH', 'route' => ['economic_complement.update', $last_ecocom->id], 'class' => 'form-horizontal']) !!}
-                        <input type="hidden" name="step" value="requirements"/>
-                        {!!Form::hidden('affiliate_id',$affiliate->id)!!}
-                        <div class="row">
-                            <div class="col-md-12">
-                                <table class="table table-bordered table-hover" style="font-size: 16px">
-                                    <thead>
-                                        <tr class="success">
-                                            <th class="text-center">Requisitos</th>
-                                            <th class="text-center">Estado</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody data-bind="foreach: requirements">
-                                        <tr>
-                                            <td data-bind='text: name'></td>
-                                            <td>
-                                                <div class="row text-center">
-                                                    <div class="checkbox">
-                                                        <label><input type="checkbox" data-bind='checked: status, valueUpdate: "afterkeydown"'/></label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        {!! Form::hidden('data', null, ['data-bind'=> 'value: lastSavedJson']) !!}
-                        <br>
-                        <div class="row text-center">
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <a href="{!! url('affiliate/' . $affiliate->id) !!}" data-target="#" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
-                                </div>
-                            </div>
-                        </div>
-                    {!! Form::close() !!}
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     <div id="myModal-personal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -1560,7 +1507,7 @@
                 </div>
     </div>
     <!-- /Edition of a police officer-->
-
+    @if($status_documents)
     <div id="myModal-requirements" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -1612,6 +1559,7 @@
             </div>
         </div>
     </div>
+    @endif
 
 @endsection
 
