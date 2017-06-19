@@ -931,8 +931,15 @@
             <div class="box box-danger box-solid">
                 <div class="box-header with-border">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-10">
                             <h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span>Documentos Presentados</h3>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                <a href="" class="btn btn-sm bg-red-active" data-toggle="modal" data-target="#myModal-requirements">&nbsp;&nbsp;
+                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -973,6 +980,58 @@
             </div>
         </div>
     </div>
+    <div id="myModal-requirements" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Editar Documentos</h4>
+                </div>
+                <div class="box-body" data-bind="event: {mouseover: save, mouseout: save}">
+                    {!! Form::model($last_ecocom, ['method' => 'PATCH', 'route' => ['economic_complement.update', $last_ecocom->id], 'class' => 'form-horizontal']) !!}
+                        <input type="hidden" name="step" value="requirements"/>
+                        {!!Form::hidden('affiliate_id',$affiliate->id)!!}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-bordered table-hover" style="font-size: 16px">
+                                    <thead>
+                                        <tr class="success">
+                                            <th class="text-center">Requisitos</th>
+                                            <th class="text-center">Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: requirements">
+                                        <tr>
+                                            <td data-bind='text: name'></td>
+                                            <td>
+                                                <div class="row text-center">
+                                                    <div class="checkbox">
+                                                        <label><input type="checkbox" data-bind='checked: status, valueUpdate: "afterkeydown"'/></label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {!! Form::hidden('data', null, ['data-bind'=> 'value: lastSavedJson']) !!}
+                        <br>
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <a href="{!! url('affiliate/' . $affiliate->id) !!}" data-target="#" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
+                                </div>
+                            </div>
+                        </div>
+                    {!! Form::close() !!}
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div id="myModal-personal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
@@ -1660,6 +1719,38 @@
                 $(this).parent().parent().remove();
                 event.preventDefault();
             });
+            //for requirements
+            function SelectRequeriments(requirements) {
 
+                var self = this;
+
+                @if ($status_documents)
+                    self.requirements = ko.observableArray(ko.utils.arrayMap(requirements, function(document) {
+                    return { id: document.eco_com_requirement_id, name: document.economic_complement_requirement.shortened, status: document.status };
+                    }));
+                @else
+                    self.requirements = ko.observableArray(ko.utils.arrayMap(requirements, function(document) {
+                    return { id: document.id, name: document.shortened, status: false };
+                    }));
+                @endif
+
+                self.save = function() {
+                    var dataToSave = $.map(self.requirements(), function(requirement) {
+                        return  {
+                            id: requirement.id,
+                            name: requirement.name,
+                            status: requirement.status
+                        }
+                    });
+                    self.lastSavedJson(JSON.stringify(dataToSave));
+                };
+                self.lastSavedJson = ko.observable("");
+
+            };
+
+            @if ($status_documents)
+                window.model = new SelectRequeriments({!! $eco_com_submitted_documents !!});
+            @endif
+            ko.applyBindings(model);
     </script>
 @endpush
