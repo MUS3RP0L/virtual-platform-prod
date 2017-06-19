@@ -936,7 +936,7 @@
                         </div>
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-requirements">&nbsp;&nbsp;
+                                <a href="" class="btn btn-sm bg-red-active" data-toggle="modal" data-target="#myModal-requirements">&nbsp;&nbsp;
                                     <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
                                 </a>
                             </div>
@@ -980,7 +980,6 @@
             </div>
         </div>
     </div>
-
     <div id="myModal-personal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -1508,7 +1507,7 @@
                 </div>
     </div>
     <!-- /Edition of a police officer-->
-
+    @if($status_documents)
     <div id="myModal-requirements" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -1560,6 +1559,7 @@
             </div>
         </div>
     </div>
+    @endif
 
 @endsection
 
@@ -1743,6 +1743,5 @@
                 $(this).parent().parent().remove();
                 event.preventDefault();
             });
-
     </script>
 @endpush

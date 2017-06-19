@@ -907,7 +907,6 @@ class EconomicComplementController extends Controller
             }
 
             break;
-
             case 'requirements':
 
             $rules = [
