@@ -1743,38 +1743,5 @@
                 $(this).parent().parent().remove();
                 event.preventDefault();
             });
-            //for requirements
-            function SelectRequeriments(requirements) {
-
-                var self = this;
-
-                @if ($status_documents)
-                    self.requirements = ko.observableArray(ko.utils.arrayMap(requirements, function(document) {
-                    return { id: document.eco_com_requirement_id, name: document.economic_complement_requirement.shortened, status: document.status };
-                    }));
-                @else
-                    self.requirements = ko.observableArray(ko.utils.arrayMap(requirements, function(document) {
-                    return { id: document.id, name: document.shortened, status: false };
-                    }));
-                @endif
-
-                self.save = function() {
-                    var dataToSave = $.map(self.requirements(), function(requirement) {
-                        return  {
-                            id: requirement.id,
-                            name: requirement.name,
-                            status: requirement.status
-                        }
-                    });
-                    self.lastSavedJson(JSON.stringify(dataToSave));
-                };
-                self.lastSavedJson = ko.observable("");
-
-            };
-
-            @if ($status_documents)
-                window.model = new SelectRequeriments({!! $eco_com_submitted_documents !!});
-            @endif
-            ko.applyBindings(model);
     </script>
 @endpush
