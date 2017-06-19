@@ -1,3 +1,4 @@
+@can('showEdit', $economic_complement)
 @can('observate')
 <div class="box box-success box-solid">
     <div class="box-header with-border">
@@ -43,6 +44,7 @@
         </div>
     </div>
 </div>
+@endcan
 @endcan
 @push('scripts')
 <script>
