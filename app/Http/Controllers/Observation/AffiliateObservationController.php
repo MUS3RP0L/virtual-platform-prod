@@ -90,9 +90,9 @@ class AffiliateObservationController extends Controller
 
     public function showOfAffiliate(Request $request)
     {   
-      if (isset($request->eid)) {
-        $economic_complement = EconomicComplement::where('id',$request->eid)->first();
-        $observations=AffiliateObservation::where('affiliate_id',$request->id)->select(['id','affiliate_id','date','message','observation_type_id'])->get();
+      if (isset($request->economic_complement_id)) {
+        $economic_complement = EconomicComplement::where('id',$request->economic_complement_id)->first();
+        $observations=AffiliateObservation::where('affiliate_id',$request->affiliate_id)->select(['id','affiliate_id','date','message','observation_type_id'])->get();
         $observations_list = collect(new AffiliateObservation);
         foreach ($observations as $obs) {
           if(Util::getYear($economic_complement->year)==Util::getYear($obs->date) && Util::getSemester($economic_complement->year) == Util::getSemester($obs->date)){
@@ -100,7 +100,7 @@ class AffiliateObservationController extends Controller
           }
         }
       } else {
-        $observations_list=AffiliateObservation::where('affiliate_id',$request->id)->select(['id','affiliate_id','date','message','observation_type_id'])->get();
+        $observations_list=AffiliateObservation::where('affiliate_id',$request->affiliate_id)->select(['id','affiliate_id','date','message','observation_type_id'])->get();
       }
 
       return Datatables::of($observations_list)
