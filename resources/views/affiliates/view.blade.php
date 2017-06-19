@@ -932,18 +932,7 @@
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-10">
-<<<<<<< HEAD
                             <h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span>Documentos Presentados</h3>
-=======
-                            <h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span> Documentos Presentados</h3>
-                        </div>
-                        <div class="col-md-2 text-right">
-                            <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-requirements">&nbsp;&nbsp;
-                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
-                                </a>
-                            </div>
->>>>>>> upstream/master
                         </div>
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
