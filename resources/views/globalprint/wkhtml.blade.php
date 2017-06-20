@@ -33,7 +33,7 @@
             <div id="der"><b>Usuario: </b> {!! $user->first_name !!} {!! $user->last_name !!} - {!! $user->getAllRolesToString() !!}</div>
        
         @endif
-     
+        <br>
  
     <h2>
       <center><b>{{ $title }} - {{$anio}}</b></center>
