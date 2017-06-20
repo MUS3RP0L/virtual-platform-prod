@@ -107,7 +107,7 @@
                                                 <strong>Semestre</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $semester !!}
+                                                {!! $economic_complement->semester !!}
                                             </div>
                                         </div>
                                     </td>
@@ -119,7 +119,7 @@
                                                 <strong>Gestión</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $year !!}
+                                                {!! $economic_complement->getYear() !!}
                                             </div>
                                         </div>
                                     </td>

@@ -298,12 +298,32 @@ class AffiliateController extends Controller
         }
 
         $affi_observations = AffiliateObservation::where('affiliate_id',$affiliate->id)->first();
+
         if (EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first()) {
             $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first();   
-            $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($last_ecocom->id)->get();
+
             if (EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->first()) {
+                if ($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Vejez') {
+                    $eco_com_submitted_documents = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
+                    {
+                        $query->where('eco_com_requirement_id','=',2)
+                              ->orWhere('eco_com_requirement_id','=',3)
+                              ->orWhere('eco_com_requirement_id','=',4)
+                              ->orWhere('eco_com_requirement_id','=',5);
+                    })->orderBy('id','asc')->get();
+                }else{
+                    $eco_com_submitted_documents = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
+                    {
+                        $query->where('eco_com_requirement_id','=',9)
+                              ->orWhere('eco_com_requirement_id','=',10)
+                              ->orWhere('eco_com_requirement_id','=',11)
+                              ->orWhere('eco_com_requirement_id','=',12);
+                    })->orderBy('id','asc')->get();
+                }
+
                 $status_documents = TRUE;
             }else{
+                $eco_com_submitted_documents = null;
                 $status_documents = FALSE;
             }
         }else{

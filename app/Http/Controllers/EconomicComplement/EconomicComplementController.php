@@ -46,7 +46,12 @@ class EconomicComplementController extends Controller
 
     public function index()
     {
-        return view('economic_complements.index', self::getViewModel());
+        $data = [
+            'year' => Carbon::now()->year,
+            'semester' => Util::getSemester(Carbon::now())
+        ];
+
+        return view('economic_complements.index', array_merge($data, self::getViewModel()));
     }
 
     public function getEconomicComplementType(Request $request, $id)
@@ -205,10 +210,8 @@ class EconomicComplementController extends Controller
             'pension_entities_list' => $pension_entities_list,
             'cities_list' => $cities_list,
             'cities_list_short' => $cities_list_short,
-            'year' => Carbon::now()->year,
             'observations_types' => $observation_types_list,
             // 'affi_observations' => $affi_observations,
-            'semester' => Util::getSemester(Carbon::now())
         ];
     }
 
@@ -225,6 +228,7 @@ class EconomicComplementController extends Controller
             $economic_complement = new EconomicComplement;
             $eco_com_type = false;
             $eco_com_modality = false;
+            $economic_complement->semester = '';
         }else{
             $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->id;
             $eco_com_modality = $economic_complement->economic_complement_modality->name;
@@ -240,16 +244,16 @@ class EconomicComplementController extends Controller
         $affiliate->type_ecocom = 'Inclusión';
     }
 
-    $data = [
-    'affiliate' => $affiliate,
-    'eco_com_type' => $eco_com_type,
-    'eco_com_modality' => $eco_com_modality,
-    'economic_complement' => $economic_complement
-    ];
+        $data = [
+            'affiliate' => $affiliate,
+            'eco_com_type' => $eco_com_type,
+            'eco_com_modality' => $eco_com_modality,
+            'economic_complement' => $economic_complement
+        ];
 
-    $data = array_merge($data, $getViewModel);
+        $data = array_merge($data, $getViewModel);
 
-    return view('economic_complements.reception_first_step', $data);
+        return view('economic_complements.reception_first_step', $data);
     }
 
     public function ReceptionSecondStep($economic_complement_id)
