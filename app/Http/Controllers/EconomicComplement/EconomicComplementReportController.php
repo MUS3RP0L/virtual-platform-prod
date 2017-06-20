@@ -120,7 +120,7 @@ class EconomicComplementReportController extends Controller
                                            ->get();
                            if ($eco_complements) {
                                
-                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','eco_complements','anio'))->setPaper('legal')->setOrientation('landscape')->stream('report_by_user.pdf');
+                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','eco_complements','anio'))->setPaper('letter')->setOrientation('landscape')->stream('report_by_user.pdf');
                            } else {
                                $message = "No existen registros para visualizar";
                                Session::flash('message', $message);
