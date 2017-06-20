@@ -383,15 +383,15 @@ class EconomicComplementController extends Controller
             $eco_com_pro = EconomicComplementProcedure::where('year','=',Util::datePickYear(Carbon::now()->year))->where('semester','=',Util::getCurrentSemester())->first();
 
             $economic_complement = EconomicComplement::affiliateIs($affiliate->id)
-            ->whereYear('year', '=', $data['year'])
-            ->where('semester', '=', $data['semester'])->first();
+            ->whereYear('year', '=', Carbon::now()->year)
+            ->where('semester', '=', Util::getSemester(Carbon::now()))->first();
 
             $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
 
             if (!$economic_complement) {
                 $economic_complement = new EconomicComplement;
-                if ($last_economic_complement = EconomicComplement::whereYear('year', '=', $data['year'])
-                    ->where('semester', '=', $data['semester'])
+                if ($last_economic_complement = EconomicComplement::whereYear('year', '=', Carbon::now()->year)
+                    ->where('semester', '=', Util::getSemester(Carbon::now()))
                     ->whereNull('deleted_at')->orderBy('id', 'desc')->first()) {
                         $number_code = Util::separateCode($last_economic_complement->code);
                         $code = $number_code + 1;
@@ -400,7 +400,7 @@ class EconomicComplementController extends Controller
                 }
 
                 $sem='';
-                if($data['semester']=='Primer'){
+                if(Util::getSemester(Carbon::now())=='Primer'){
                     $sem='P';
                 }else{
                     $sem='S';
@@ -417,16 +417,16 @@ class EconomicComplementController extends Controller
 
                 $economic_complement->state = 'Edited';
 
-                $economic_complement->year = Util::datePickYear($data['year'], $data['semester']);
-                $economic_complement->semester = $data['semester'];
+                $economic_complement->year = Util::datePickYear(Carbon::now()->year, Util::getSemester(Carbon::now()));
+                $economic_complement->semester = Util::getSemester(Carbon::now());
                 if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }else{
                     $economic_complement->has_legal_guardian = false;
                 }
-                $economic_complement->code = $code ."/". $sem . "/" . $data['year'];
+                $economic_complement->code = $code ."/". $sem . "/" . Carbon::now()->year;
 
                 // $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
                 // $economic_complement->base_wage_id = $base_wage->id;
-                // $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)->whereYear('year', '=', $data['year'])->where('semester', '=', $data['semester'])->first();
+                // $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)->whereYear('year', '=', Carbon::now()->year)->where('semester', '=', Util::getSemester(Carbon::now()))->first();
                 // $economic_complement->complementary_factor_id = $complementary_factor->id;
                 $economic_complement->save();
             }
@@ -1082,8 +1082,8 @@ class EconomicComplementController extends Controller
                 /*$affiliate=Affiliate::find(1);
                 $base_wage = BaseWage::degreeIs($economic_complement->affiliate->degree_id)->first();
                 $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
-                                            ->whereYear('year', '=', $data['year'])
-                                            ->where('semester', '=', $data['semester'])->first();
+                                            ->whereYear('year', '=', Carbon::now()->year)
+                                            ->where('semester', '=', Util::getSemester(Carbon::now()))->first();
                 $economic_complement->base_wage_id = $base_wage->id;*/
                 $economic_complement->complementary_factor_id = $complementary_factor->id;
                 $economic_complement->salary_reference=$economic_complement->base_wage->amount;
