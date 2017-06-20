@@ -93,7 +93,8 @@ class EconomicComplementReportController extends Controller
                            $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
                            $title = "REPORTE DIARIO DE TRÁMITES DEL COMPLEMENTO ECONÓMICO";
                            $date = Util::getDateEdit(date('Y-m-d'));
-                           $type = "user";
+                           $type = "user"; 
+                           $user = Auth::user();                          
                            $current_date = Carbon::now();
                            $anio = Util::getYear($request->from);
                            $hour = Carbon::parse($current_date)->toTimeString();                           
@@ -120,7 +121,7 @@ class EconomicComplementReportController extends Controller
                                            ->get();
                            if ($eco_complements) {
                                
-                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','eco_complements','anio'))->setPaper('letter')->setOrientation('landscape')->stream('report_by_user.pdf');
+                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','eco_complements','anio','user'))->setPaper('letter')->setOrientation('landscape')->stream('report_by_user.pdf');
                            } else {
                                $message = "No existen registros para visualizar";
                                Session::flash('message', $message);
@@ -133,6 +134,7 @@ class EconomicComplementReportController extends Controller
                            $title = "REPORTE DE BENEFICIARIOS DEL COMPLEMENTO ECONÓMICO";
                            $date = Util::getDateEdit(date('Y-m-d'));
                            $type = "user";
+                           $user = Auth::user();
                            $anio = $request->year;
                            $current_date = Carbon::now();
                            $hour = Carbon::parse($current_date)->toTimeString();
@@ -160,7 +162,7 @@ class EconomicComplementReportController extends Controller
                                            ->orderBy('economic_complements.id','ASC')
                                            ->get();                                           
                            if ($beneficiary_eco_complements) {                              
-                             return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio'))->setPaper('letter')->setOrientation('landscape')->stream('report_beneficiary.pdf');
+                             return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user'))->setPaper('letter')->setOrientation('landscape')->stream('report_beneficiary.pdf');
 
                            } else {
                                $message = "No existen registros para visualizar";
