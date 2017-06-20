@@ -158,15 +158,17 @@ class EconomicComplementReportController extends Controller
                                            ->whereRaw("economic_complements.city_id::text LIKE  '".$regional."'")
                                            ->whereYear('economic_complements.year', '=', $request->year)
                                            ->where('economic_complements.semester', 'LIKE', $semester)
-                                           ->take(100)
+                                           //->take(100)
                                            ->orderBy('economic_complements.id','ASC')
                                            ->get();
                                            //dd($beneficiary_eco_complements);
                            if ($beneficiary_eco_complements) {
-                               $view = \View::make('economic_complements.print.beneficiary_report', compact('header1','header2','title','date','type','hour','beneficiary_eco_complements'))->render();
-                               $pdf = \App::make('dompdf.wrapper');
-                               $pdf->loadHTML($view)->setPaper('legal','landscape');
-                               return $pdf->stream();
+                               // $view = \View::make('economic_complements.print.beneficiary_report', compact('header1','header2','title','date','type','hour','beneficiary_eco_complements'))->render();
+                               // $pdf = \App::make('dompdf.wrapper');
+                               // $pdf->loadHTML($view)->setPaper('legal','landscape');
+                               // return $pdf->stream();
+                             return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements'))->stream('nombre-archivo.pdf');
+
                            } else {
                                $message = "No existen registros para visualizar";
                                Session::flash('message', $message);
