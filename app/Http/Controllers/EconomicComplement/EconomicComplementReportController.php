@@ -93,13 +93,15 @@ class EconomicComplementReportController extends Controller
                            $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
                            $title = "REPORTE DIARIO DE TRÁMITES DEL COMPLEMENTO ECONÓMICO";
                            $date = Util::getDateEdit(date('Y-m-d'));
-                           $type = "user";
+                           $type = "user"; 
+                           $user = Auth::user();                          
                            $current_date = Carbon::now();
+                           $anio = Util::getYear($request->from);
                            $hour = Carbon::parse($current_date)->toTimeString();                           
                            $from = Util::datePick($request->get('from'));
                            $to = Util::datePick($request->get('to'));                          
                            $eco_complements = DB::table('eco_com_applicants')
-                                           ->select(DB::raw("economic_complements.id,economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.first_shortened as exp, concat_ws(' ', NULLIF(eco_com_applicants.last_name,null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null), NULLIF(eco_com_applicants.first_name, null), NULLIF(eco_com_applicants.second_name, null)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name as pension_entity,users.username,eco_com_applicants.phone_number,eco_com_applicants.cell_phone_number"))
+                                           ->select(DB::raw("economic_complements.id,economic_complements.code,economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.first_shortened as exp, concat_ws(' ', NULLIF(eco_com_applicants.last_name,null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null), NULLIF(eco_com_applicants.first_name, null), NULLIF(eco_com_applicants.second_name, null)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name as pension_entity,users.username,eco_com_applicants.phone_number,eco_com_applicants.cell_phone_number"))
                                            ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                                            ->leftJoin('users','economic_complements.user_id','=','users.id')
                                            ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
@@ -114,15 +116,12 @@ class EconomicComplementReportController extends Controller
                                            ->leftJoin('units','affiliates.unit_id','=','units.id')
                                            ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
                                            ->whereDate('reception_date','>=', $from)->whereDate('reception_date','<=', $to)                                         
-                                           ->where('economic_complements.user_id', '=', Auth::user()->id)
-                                           ->take(100)
+                                           ->where('economic_complements.user_id', '=', Auth::user()->id)                                          
                                            ->orderBy('economic_complements.id','ASC')
                                            ->get();
                            if ($eco_complements) {
-                               $view = \View::make('economic_complements.print.daily_report', compact('header1','header2','title','date','type','hour','eco_complements'))->render();
-                               $pdf = \App::make('dompdf.wrapper');
-                               $pdf->loadHTML($view)->setPaper('legal','landscape');
-                               return $pdf->stream();
+                               
+                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','eco_complements','anio','user'))->setPaper('letter')->setOrientation('landscape')->stream('report_by_user.pdf');
                            } else {
                                $message = "No existen registros para visualizar";
                                Session::flash('message', $message);
@@ -135,12 +134,14 @@ class EconomicComplementReportController extends Controller
                            $title = "REPORTE DE BENEFICIARIOS DEL COMPLEMENTO ECONÓMICO";
                            $date = Util::getDateEdit(date('Y-m-d'));
                            $type = "user";
+                           $user = Auth::user();
+                           $anio = $request->year;
                            $current_date = Carbon::now();
                            $hour = Carbon::parse($current_date)->toTimeString();
                            $regional = ($request->city == 'Todo') ? '%%' : $request->city;
                            $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
                            $beneficiary_eco_complements = DB::table('eco_com_applicants')
-                                           ->select(DB::raw("economic_complements.id, economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.first_shortened as exp, concat_ws(' ', NULLIF(eco_com_applicants.last_name,null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null), NULLIF(eco_com_applicants.first_name, null), NULLIF(eco_com_applicants.second_name, null)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username,eco_com_applicants.phone_number,eco_com_applicants.cell_phone_number"))
+                                           ->select(DB::raw("economic_complements.id, economic_complements.code,economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.first_shortened as exp, concat_ws(' ', NULLIF(eco_com_applicants.last_name,null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null), NULLIF(eco_com_applicants.first_name, null), NULLIF(eco_com_applicants.second_name, null)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username,eco_com_applicants.phone_number,eco_com_applicants.cell_phone_number"))
                                            ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                                            ->leftJoin('users','economic_complements.user_id','=','users.id')
                                            ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
@@ -157,16 +158,12 @@ class EconomicComplementReportController extends Controller
                                            ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
                                            ->whereRaw("economic_complements.city_id::text LIKE  '".$regional."'")
                                            ->whereYear('economic_complements.year', '=', $request->year)
-                                           ->where('economic_complements.semester', 'LIKE', $semester)
-                                           ->take(100)
+                                           ->where('economic_complements.semester', 'LIKE', $semester)                                           
                                            ->orderBy('economic_complements.id','ASC')
-                                           ->get();
-                                           //dd($beneficiary_eco_complements);
-                           if ($beneficiary_eco_complements) {
-                               $view = \View::make('economic_complements.print.beneficiary_report', compact('header1','header2','title','date','type','hour','beneficiary_eco_complements'))->render();
-                               $pdf = \App::make('dompdf.wrapper');
-                               $pdf->loadHTML($view)->setPaper('legal','landscape');
-                               return $pdf->stream();
+                                           ->get();                                           
+                           if ($beneficiary_eco_complements) {                              
+                             return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user'))->setPaper('letter')->setOrientation('landscape')->stream('report_beneficiary.pdf');
+
                            } else {
                                $message = "No existen registros para visualizar";
                                Session::flash('message', $message);

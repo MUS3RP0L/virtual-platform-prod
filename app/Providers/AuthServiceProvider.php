@@ -7,6 +7,8 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Muserpol\User;
 use Muserpol\Policies\EconomicComplementPolicy;
 use Muserpol\EconomicComplement;
+use Carbon\Carbon;
+use Muserpol\Helper\Util;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -140,6 +142,22 @@ class AuthServiceProvider extends ServiceProvider
             }
             return false;
         });
+
+
+         $gate->define('showEdit', function ($user, $economic_complement) {
+
+            $showEdit=false;
+            
+            if(strval(Carbon::parse($economic_complement->year)->year) == Util::getYear(Carbon::now()) &&
+                Util::getCurrentSemester() == $economic_complement->semester
+                ){
+                 $showEdit = true;
+            }
+
+            return $showEdit;
+        });
+
+      
 
         // verify if icurrent user have role reception of Retirement fund
         // $gate->define('reti_fund_reception',function($user){

@@ -298,7 +298,6 @@ class AffiliateController extends Controller
         }
 
         $affi_observations = AffiliateObservation::where('affiliate_id',$affiliate->id)->first();
-      
         if (EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first()) {
             $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first();   
             $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($last_ecocom->id)->get();
@@ -309,10 +308,9 @@ class AffiliateController extends Controller
             }
         }else{
             $eco_com_submitted_documents = null;
-            $status_documents = null;
+            $status_documents = false;
             $last_ecocom = null;
         }
-
 
         $data = [
             'affiliate' => $affiliate,
