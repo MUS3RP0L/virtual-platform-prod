@@ -33,7 +33,7 @@
     </table>
  
     <h2>
-      <center><b>{{ $title }} - $anio</b></center>
+      <center><b>{{ $title }} - {{$anio}}</b></center>
       @yield('title2')
     </h2>
    
