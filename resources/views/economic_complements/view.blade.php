@@ -119,7 +119,7 @@
                                                 <strong>Gestión</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $economic_complement->getYear() !!}
+                                                {{-- {!! $economic_complement->getYear() !!} --}}
                                             </div>
                                         </div>
                                     </td>
