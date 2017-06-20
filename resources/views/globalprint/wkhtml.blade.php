@@ -21,12 +21,12 @@
     <table class="table">
       <tr>
         <td style="border: 0px;text-align:left;">
-          <div class="title"><b>Fecha Emisi&#243n: </b> La Paz, {!! $date !!}-{!! $hour !!}<br></div>
+          <div ><b>Fecha Emisi&#243n: </b> La Paz, {!! $date !!}-{!! $hour !!}<br></div>
         </td>
 
         @if(isset($user))
         <td style="border: 0px;text-align:right;">
-          <div class="title"><b>Usuario: </b> {!! $user->first_name !!} {!! $user->last_name !!} - {!! $user->getAllRolesToString() !!} <br></div>
+          <div ><b>Usuario: </b> {!! $user->first_name !!} {!! $user->last_name !!} - {!! $user->getAllRolesToString() !!} <br></div>
         </td>
         @endif
       </tr>
