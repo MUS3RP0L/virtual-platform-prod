@@ -95,7 +95,7 @@ class EconomicComplementReportController extends Controller
                            $date = Util::getDateEdit(date('Y-m-d'));
                            $type = "user";
                            $current_date = Carbon::now();
-                           $anio = Util::getYear($request->get('from'));
+                           $anio = Util::getYear($request->from);
                            $hour = Carbon::parse($current_date)->toTimeString();                           
                            $from = Util::datePick($request->get('from'));
                            $to = Util::datePick($request->get('to'));                          
