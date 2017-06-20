@@ -10,6 +10,12 @@
       left: 80%;
       bottom: 15%;
     }
+    div#izq{
+        float:left;
+    }
+    div#der{
+      float:right;
+    }
   </style>
 </head>
 <body>
@@ -17,20 +23,17 @@
     <center><h4><b>MUTUAL DE SERVICIOS AL POLIC&#205A<br>
             {!! $header1 !!}<br>{!! $header2 !!}
             @yield('title')
-          </b></h4></center>    
-    <table >
-      <tr>
-        <td style="border: 0px;text-align:left;">
-          <div ><b>Fecha Emisi&#243n: </b> La Paz, {!! $date !!}-{!! $hour !!}<br></div>
-        </td>
+          </b></h4></center>
 
+    
+       
+        <div id="izq"><b>Fecha Emisi&#243n: </b> La Paz, {!! $date !!}-{!! $hour !!}</div>
+       
         @if(isset($user))
-        <td style="border: 0px;text-align:right;">
-          <div ><b>Usuario: </b> {!! $user->first_name !!} {!! $user->last_name !!} - {!! $user->getAllRolesToString() !!} <br></div>
-        </td>
+            <div id="der"><b>Usuario: </b> {!! $user->first_name !!} {!! $user->last_name !!} - {!! $user->getAllRolesToString() !!}</div>
+       
         @endif
-      </tr>
-    </table>
+     
  
     <h2>
       <center><b>{{ $title }} - {{$anio}}</b></center>
