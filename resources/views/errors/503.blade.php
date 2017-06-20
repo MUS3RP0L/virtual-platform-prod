@@ -1,34 +1,13 @@
-@extends('app')
+<!DOCTYPE html>
 
-@section('htmlheader_title')
-    Service unavailable
-@endsection
+<html>
 
-@section('contentheader_title')
-    503 Error Page
-@endsection
-
-@section('$contentheader_description')
-@endsection
-
-@section('main-content')
-
-    <div class="error-page">
-        <h2 class="headline text-red">530</h2>
-        <div class="error-content">
-            <h3><i class="fa fa-warning text-red"></i> Oops! Something went wrong.</h3>
-            <p>
-                We will work on fixing that right away.
-                Meanwhile, you may <a href='{{ url('/home') }}'>return to dashboard</a> or try using the search form.
-            </p>
-            <form class='search-form'>
-                <div class='input-group'>
-                    <input type="text" name="search" class='form-control' placeholder="Search"/>
-                    <div class="input-group-btn">
-                        <button type="submit" name="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
-                    </div>
-                </div><!-- /.input-group -->
-            </form>
+    <body class="skin-green sidebar-mini fixed wysihtml5-supported sidebar-collapse">
+    
+        <div class="wrapper">
+            <h1><span style="color: #008080;">Plataforma Virtual&nbsp;MUSERPOL</span></h1>
+            <h1><span style="color: #008080;">Estamos realizando actualizaciones.</span></h1>
         </div>
-    </div><!-- /.error-page -->
-@endsection
+
+    </body>
+</html>
