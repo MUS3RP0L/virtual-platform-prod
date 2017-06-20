@@ -18,7 +18,7 @@
             {!! $header1 !!}<br>{!! $header2 !!}
             @yield('title')
           </b></h4></center>    
-    <table class="table">
+    <table >
       <tr>
         <td style="border: 0px;text-align:left;">
           <div ><b>Fecha Emisi&#243n: </b> La Paz, {!! $date !!}-{!! $hour !!}<br></div>
