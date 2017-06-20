@@ -228,7 +228,8 @@ class EconomicComplementController extends Controller
             $economic_complement = new EconomicComplement;
             $eco_com_type = false;
             $eco_com_modality = false;
-            $economic_complement->semester = '';
+            $economic_complement->semester =  Util::getSemester(Carbon::now());
+            $economic_complement->year = Carbon::now()->year;
         }else{
             $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->id;
             $eco_com_modality = $economic_complement->economic_complement_modality->name;
