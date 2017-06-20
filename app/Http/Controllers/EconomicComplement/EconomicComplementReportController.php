@@ -95,6 +95,7 @@ class EconomicComplementReportController extends Controller
                            $date = Util::getDateEdit(date('Y-m-d'));
                            $type = "user";
                            $current_date = Carbon::now();
+                           $anio = Util::getYear($request->get('from'));
                            $hour = Carbon::parse($current_date)->toTimeString();                           
                            $from = Util::datePick($request->get('from'));
                            $to = Util::datePick($request->get('to'));                          
@@ -114,15 +115,12 @@ class EconomicComplementReportController extends Controller
                                            ->leftJoin('units','affiliates.unit_id','=','units.id')
                                            ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
                                            ->whereDate('reception_date','>=', $from)->whereDate('reception_date','<=', $to)                                         
-                                           ->where('economic_complements.user_id', '=', Auth::user()->id)
-                                           ->take(100)
+                                           ->where('economic_complements.user_id', '=', Auth::user()->id)                                          
                                            ->orderBy('economic_complements.id','ASC')
                                            ->get();
                            if ($eco_complements) {
-                               $view = \View::make('economic_complements.print.daily_report', compact('header1','header2','title','date','type','hour','eco_complements'))->render();
-                               $pdf = \App::make('dompdf.wrapper');
-                               $pdf->loadHTML($view)->setPaper('legal','landscape');
-                               return $pdf->stream();
+                               
+                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','eco_complements','anio'))->setPaper('letter')->stream('report_by_user.pdf');
                            } else {
                                $message = "No existen registros para visualizar";
                                Session::flash('message', $message);
@@ -158,13 +156,11 @@ class EconomicComplementReportController extends Controller
                                            ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
                                            ->whereRaw("economic_complements.city_id::text LIKE  '".$regional."'")
                                            ->whereYear('economic_complements.year', '=', $request->year)
-                                           ->where('economic_complements.semester', 'LIKE', $semester)
-                                           //->take(100)
+                                           ->where('economic_complements.semester', 'LIKE', $semester)                                           
                                            ->orderBy('economic_complements.id','ASC')
-                                           ->get();
-                                           //dd($beneficiary_eco_complements);
+                                           ->get();                                           
                            if ($beneficiary_eco_complements) {                              
-                             return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio'))->setPaper('letter')->stream('nombre-archivo.pdf');
+                             return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio'))->setPaper('letter')->stream('report_beneficiary.pdf');
 
                            } else {
                                $message = "No existen registros para visualizar";
