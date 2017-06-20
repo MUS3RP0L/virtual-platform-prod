@@ -57,10 +57,10 @@
                 url: '{!! route('get_observations') !!}',
                 data: function (d) {
                     @if(isset($economic_complement))
-                        d.id={{$economic_complement->affiliate_id}},
-                        d.eid={{$economic_complement->id}}
+                        d.affiliate_id={{$economic_complement->affiliate_id}},
+                        d.economic_complement_id={{$economic_complement->id}}
                     @else
-                        d.id={{$affiliate->id}}
+                        d.affiliate_id={{$affiliate->id}}
                     @endif
                 }
             },

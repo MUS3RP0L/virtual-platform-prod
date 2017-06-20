@@ -52,6 +52,7 @@
                                                 {!! Form::text('code', '', ['class'=> 'form-control']) !!}
                                                 <span class="help-block">Escriba el Número Trámite</span>
                                             </div>
+
                                         </div>
                                     </div>
                                     <div class="col-md-4">
