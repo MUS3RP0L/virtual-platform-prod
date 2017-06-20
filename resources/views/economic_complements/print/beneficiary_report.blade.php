@@ -1,6 +1,6 @@
 @extends('globalprint.print')
 @section('title2')
-    <h3>(Página 1/2)</h3>
+    
 @endsection
 @section('content')
   <style type="text/css">
@@ -21,7 +21,7 @@
       <div id="project">
         <table class="tablee">
            <tr>
-               <th class="grand number"><h4>N°</h4></th>
+               <th class="number"><h4>N°</h4></th>
                <th class="grand"><h4>REGION</h4></th>
                <th class="grand"><h4>CI</h4></th>
                <th class="grand"><h4>NOMBRES Y APELLIDOS</h4></th>

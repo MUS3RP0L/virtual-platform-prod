@@ -135,6 +135,7 @@ class EconomicComplementReportController extends Controller
                            $title = "REPORTE DE BENEFICIARIOS DEL COMPLEMENTO ECONÓMICO";
                            $date = Util::getDateEdit(date('Y-m-d'));
                            $type = "user";
+                           $anio = $request->year;
                            $current_date = Carbon::now();
                            $hour = Carbon::parse($current_date)->toTimeString();
                            $regional = ($request->city == 'Todo') ? '%%' : $request->city;
@@ -162,12 +163,8 @@ class EconomicComplementReportController extends Controller
                                            ->orderBy('economic_complements.id','ASC')
                                            ->get();
                                            //dd($beneficiary_eco_complements);
-                           if ($beneficiary_eco_complements) {
-                               // $view = \View::make('economic_complements.print.beneficiary_report', compact('header1','header2','title','date','type','hour','beneficiary_eco_complements'))->render();
-                               // $pdf = \App::make('dompdf.wrapper');
-                               // $pdf->loadHTML($view)->setPaper('legal','landscape');
-                               // return $pdf->stream();
-                             return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements'))->stream('nombre-archivo.pdf');
+                           if ($beneficiary_eco_complements) {                              
+                             return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio'))->setPaper('letter')->stream('nombre-archivo.pdf');
 
                            } else {
                                $message = "No existen registros para visualizar";
