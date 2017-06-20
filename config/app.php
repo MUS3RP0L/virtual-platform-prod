@@ -136,7 +136,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Barryvdh\Snappy\ServiceProvider::class,
 
 
         /*
@@ -158,6 +157,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Barryvdh\Snappy\ServiceProvider::class,
 
     ],
 
