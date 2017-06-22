@@ -109,15 +109,25 @@ class AffiliateObservationController extends Controller
         })
         ->addColumn('action', function ($observation) {
           return
-            '<div class="btn-group">
-              <button type="button" class="btn btn-warning btn-raised btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Opciones <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a href="/print_observations/'.$observation->affiliate_id.'/'.$observation->observation_type_id.'" style="padding:3px 10px;"><i class="glyphicon glyphicon-print"></i> Imprimir Observación</a></li>
-                <li><a href="/observation/deleteOb/' .$observation->id. '" style="padding:3px 10px;" class="btn btn-danger btn-raised btn-sm">' .$observation->observation_type. '<i class="glyphicon glyphicon-minus"></i> Eliminar</a></li>
+            '<div class="btn-group" style="margin:-3px 0;">
+            <button type="button" class="btn btn-primary btn-raised btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="/print_observations/'.$observation->affiliate_id.'/'.$observation->observation_type_id.'"><i class="glyphicon glyphicon-print"></i> Imprimir</a></li>
+                <li><a data-id="'.$observation->id.'" class="editObservation" href="#" role="button" data-toggle="modal" data-target="#observationEditModal" ><i class="fa fa-pencil" ></i> Editar</a></li>
+                <li><a href="/observation/deleteOb/' .$observation->id. '">' .$observation->observation_type. '<i class="fa fa-times-circle"></i> Eliminar</a></li>
               </ul>
             </div>';})
         ->make(true);
+    }
+    public function update(Request $request)
+    {
+      $affiliateObservation=AffiliateObservation::find($request->observation_id);
+      $affiliateObservation->user_id=Auth::user()->id;
+      $affiliateObservation->affiliate_id=$request->affiliate_id;
+      $affiliateObservation->date=Carbon::now();
+      $affiliateObservation->observation_type_id=$request->observation_type_id;
+      $affiliateObservation->message=$request->message;
+      $affiliateObservation->save();
+      return redirect('affiliate/'.$request->affiliate_id);
     }
   }

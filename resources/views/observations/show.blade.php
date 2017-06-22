@@ -43,10 +43,37 @@
         </div>
     </div>
 </div>
+<!-- Edit Observation Modal -->
+<div class="modal fade" id="observationEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            {!! Form::open(['url' => 'observation/update']) !!}
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Editando Observación</h4>
+            </div>
+            <div class="modal-body">
+                {!! Form::token() !!}
+                {!! Form::label('observation_type_id_edit', 'Tipo', ['']) !!}
+                <div class="form-group">
+                    {!! Form::select('observation_type_id', $observations_types, '', ['class' => 'col-md-2 form-control','required' => 'required', 'id'=>'observation_type_id_edit']) !!}                    
+                </div>
+                {!! Form::label('message', 'Mensaje:', []) !!}
+                <textarea name="message" id="message_edit" cols="50" rows="10" required="required" class="form-control"></textarea>
+                {!! Form::hidden('affiliate_id', $affiliate->id,['id'=>'affiliate_id_edit']) !!}
+                {!! Form::hidden('observation_id','',['id'=>'observation_id_edit']) !!}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Cancelar</button>
+                {!! Form::submit('Guardar Observacion!',['class'=>"btn btn-primary"]) !!}
+            </div>
+                {!! Form::close() !!}
+        </div>
+    </div>
+</div>
 @endcan
 @push('scripts')
 <script>
-
     var observationsTable = $('#observations-table').DataTable({
             "dom": '<"top">t<"bottom"p>',
             processing: true,
@@ -72,5 +99,18 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
             ]
         });
+    $(document).ready(function() {
+        // edit observations
+        $(document).on('click', '.editObservation', function(event) {
+            $.get('/observation/'+$(this).data('id'), function(data) {
+                $('#observation_type_id_edit').val(data.observation_type_id);
+                $('#message_edit').val(data.message);
+                $('#affiliate_id').val(data.affiliate_id);
+                $('#observation_id_edit').val(data.id);
+                console.log(data)
+            });
+            event.preventDefault();
+        });
+    });
 </script>
 @endpush
