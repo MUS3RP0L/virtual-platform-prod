@@ -616,7 +616,13 @@ class EconomicComplementController extends Controller
                         foreach ($eco_com_submitted_document as $submitted_document) {
                             $submitted_document->delete();
                         }
-                        //borrar_aplicant
+                            // $eco_com_applicant->delete();
+                            // $old_spouse = Spouse::affiliateidIs($request->affiliate_id)->first();
+                            // if($old_spouse){
+                            //     $old_spouse->delete();
+                            // }
+                            // $eco_com_applicant = new EconomicComplementApplicant;
+                            // $eco_com_applicant->economic_complement_id = $economic_complement->id;
                     }
                 }
                 
@@ -627,18 +633,6 @@ class EconomicComplementController extends Controller
                 $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
 
                 if (!$eco_com_applicant) {
-                    $eco_com_applicant = new EconomicComplementApplicant;
-                    $eco_com_applicant->economic_complement_id = $economic_complement->id;
-                } else {
-                    $eco_com_applicant->delete();
-                    $old_spouse = Spouse::affiliateidIs($request->affiliate_id)->first();
-                    // $old_eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
-                    if($old_spouse){
-                        $old_spouse->delete();
-                    }
-                    // if ($old_eco_com_legal_guardian) {
-                    //     $old_eco_com_legal_guardian->delete();
-                    // }
                     $eco_com_applicant = new EconomicComplementApplicant;
                     $eco_com_applicant->economic_complement_id = $economic_complement->id;
                 }
