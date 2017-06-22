@@ -266,7 +266,7 @@ class CreatePlatformTables extends Migration
             $table->bigInteger('affiliate_id')->unsigned();
             $table->bigInteger('observation_type_id')->unsigned();
             $table->date('date');
-            $table->string('message');
+            $table->longText('message');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
             $table->foreign('observation_type_id')->references('id')->on('observation_types');
