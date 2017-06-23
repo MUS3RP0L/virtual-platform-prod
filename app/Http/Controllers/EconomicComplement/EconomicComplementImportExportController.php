@@ -48,38 +48,35 @@ class EconomicComplementImportExportController extends Controller
           $afi;
           $found=0;
           $nofound=0;
-          foreach ($results as $datos){
+          foreach ($results as $datos) {
 
-            $afi = DB::table('economic_complements')
-                ->select(DB::raw('economic_complements.*'))
-                ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+            $comp = DB::table('economic_complements')
+                ->select(DB::raw('economic_complements.*, eco_com_types.id as type'))
+                ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')              
                 ->where('affiliates.identity_card', '=', trim($datos->carnet))
+                ->where('affiliates.pension_entity_id','=', 5)
+                ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
                 ->whereYear('economic_complements.review_date', '=', $year)
-                ->where('economic_complements.semester', '=', $semester)
-                ->where('economic_complements.eco_com_state_id', '=', 2)->first();
-            if ($afi){
-                $ecomplement = EconomicComplement::where('affiliate_id','=', $afi->affiliate_id)->whereYear('review_date','=', $afi->review_date)->where('semester','=', $afi->semester)->where('eco_com_state_id','=', $afi->eco_com_state_id)->first();
-                if($ecomplement->eco_com_modality_id == 1 && $datos->total_ganado < 2000)  //Vejez Senasir
+                ->where('economic_complements.semester', '=', $semester)->first();
+                //->where('economic_complements.eco_com_state_id', '=', 2)
+            if ($comp){
+                $ecomplement = EconomicComplement::where('affiliate_id','=', $comp->affiliate_id)->whereYear('reception_date','=', $year)->where('semester','=', $comp->semester)->first();
+                $liquid = $datos->total_ganado - $datos->renta_dignidad -$datos->reintegro_inc_gestion;
+                if($comp->type == 1 && $liquid < 2000)  //Vejez Senasir
                 {
+                  $ecomplement->eco_com_modality_id = 8;
+                } 
+                elseif ($comp->type == 2 && $liquid < 2000) //Viudedad 
+                {  
+                  $ecomplement->eco_com_modality_id = 9;
+                } 
+                elseif($comp->type == 3 && $liquid < 2000) //Orfandad 
+                {  
                     $ecomplement->eco_com_modality_id = 8;
-                } elseif ($ecomplement->eco_com_modality_id == 2 && $datos->total_ganado < 2000) {  //Viudedad
-                    $ecomplement->eco_com_modality_id = 9;
-                } elseif ($ecomplement->eco_com_modality_id == 3 && $datos->total_ganado < 2000) {  //Orfandad
-                    $ecomplement->eco_com_modality_id = 8;
-                }
-                $ecomplement->reimbursement_basic_pension = $datos->rentegro_r_basica;
-                $ecomplement->dignity_pension = $datos->renta_dignidad;
-                $ecomplement->dignity_pension_reimbursement = $datos->reintegro_renta_dignidad;
-                $ecomplement->dignity_pension_bonus = $datos->aguinaldo_renta_dignidad;
-                $ecomplement->bonus_reimbursement = $datos->reintegro_aguinaldo;
-                $ecomplement->reimbursement_aditional_amount = $datos->reintegro_importe_adicional;
-                $ecomplement->reimbursement_increase_year = $datos->reintegro_inc_gestion;
-                //$reimbursements = $datos->rentegro_r_basica + $datos->renta_dignidad + $datos->reintegro_renta_dignidad +  $datos->aguinaldo_renta_dignidad + $datos->reintegro_aguinaldo + $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
-                $ecomplement->total = $datos->total_ganado;
-                $ecomplement->save();
-                $affiliates = Affiliate::where('id','=', $afi->affiliate_id)->first();
-                $affiliates->pension_entity_id = 5;
-                $affiliates->save();
+                }                
+                $ecomplement->total_rent =  $liquid;
+                $ecomplement->save();                
                 $found ++;
             }
             else{
