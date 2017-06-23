@@ -91,7 +91,7 @@ class EconomicComplementReportController extends Controller
                    case '1':
                            $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
                            $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-                           $title = "REPORTE DIARIO DE TRÁMITES DEL COMPLEMENTO ECONÓMICO";
+                           $title = "REPORTE DIARIO DE TRÁMITES DEL COMPLEMENTO ECONÓMICO".$request->get('from')." AL ".$request->get('to');
                            $date = Util::getDateEdit(date('Y-m-d'));
                            $type = "user"; 
                            $user = Auth::user();                          
