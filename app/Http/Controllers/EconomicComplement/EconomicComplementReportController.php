@@ -70,7 +70,7 @@ class EconomicComplementReportController extends Controller
            $year_list[Util::getYear($item->year)] = Util::getYear($item->year);
        }
 
-       $report_type = ['' => '', '1' => 'Reporte de recepción por usuario', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Reporte de doble percepción', '5' => 'Resumen de habituales', '6' => 'Resumen de inclusiones', '7' => 'Reporte pago de complemento económico'];
+       $report_type = ['' => '', '1' => 'Reporte de recepción por usuario', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Reporte de doble percepción', '5' => 'Resumen de habituales', '6' => 'Resumen de inclusiones', '7' => 'Reporte por Intervalo de fechas'];
        foreach ($report_type as $key => $item) {
            $report_type_list[$key] = $item;
        }
@@ -390,6 +390,44 @@ class EconomicComplementReportController extends Controller
                            return redirect('report_complement');
                        }
                        break;
+                       case '7':
+                           $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+                           $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+                           $title = "REPORTE DE TRÁMITES DEL COMPLEMENTO ECONÓMICO DEL ".$request->get('from')." AL ".$request->get('to');
+                           $date = Util::getDateEdit(date('Y-m-d'));
+                           $type = "user";                          
+                           $current_date = Carbon::now();
+                           $anio = Util::getYear($request->from);
+                           $hour = Carbon::parse($current_date)->toTimeString();                           
+                           $from = Util::datePick($request->get('from'));
+                           $to = Util::datePick($request->get('to'));                          
+                           $eco_complements = DB::table('eco_com_applicants')
+                                           ->select(DB::raw("economic_complements.id,economic_complements.code,economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.first_shortened as exp, concat_ws(' ', NULLIF(eco_com_applicants.last_name,null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null), NULLIF(eco_com_applicants.first_name, null), NULLIF(eco_com_applicants.second_name, null)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name as pension_entity,users.username,eco_com_applicants.phone_number,eco_com_applicants.cell_phone_number"))
+                                           ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                                           ->leftJoin('users','economic_complements.user_id','=','users.id')
+                                           ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                                           ->leftJoin('cities', 'economic_complements.city_id', '=', 'cities.id')
+                                           ->leftJoin('cities as cities0','affiliates.city_identity_card_id','=','cities0.id')
+                                           ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')                                           
+                                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+                                           ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
+                                           ->leftJoin('eco_com_states', 'economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
+                                           ->leftJoin('eco_com_state_types', 'eco_com_states.eco_com_state_type_id', '=', 'eco_com_state_types.id')
+                                           ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                           ->leftJoin('units','affiliates.unit_id','=','units.id')
+                                           ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
+                                           ->whereDate('reception_date','>=', $from)->whereDate('reception_date','<=', $to)                                           
+                                           ->orderBy('economic_complements.id','ASC')
+                                           ->get();
+                           if ($eco_complements) {
+                               
+                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','eco_complements','anio','user'))->setPaper('letter')->setOrientation('landscape')->stream('report_by_user.pdf');
+                           } else {
+                               $message = "No existen registros para visualizar";
+                               Session::flash('message', $message);
+                               return redirect('report_complement');
+                           }
+                           break;
                        default:
                                return redirect('report_complement');
                }
