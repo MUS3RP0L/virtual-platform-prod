@@ -100,6 +100,7 @@
 <script>
     $(document).ready(function(){
        $('.combobox').combobox();
+
      $('.input-daterange').datepicker({
 
         format: "dd/mm/yyyy",
@@ -114,7 +115,7 @@
             event.preventDefault();
             var valor = $(this).val();
             console.log(valor);
-            if(valor == 1){                
+            if(valor == 1 || valor == 7){                
                 
                 $('#input1').hide();
                 $('#inputs').show();
