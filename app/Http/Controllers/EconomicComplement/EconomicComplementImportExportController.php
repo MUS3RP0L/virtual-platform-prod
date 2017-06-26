@@ -53,13 +53,14 @@ class EconomicComplementImportExportController extends Controller
             $comp = DB::table('economic_complements')
                 ->select(DB::raw('economic_complements.*, eco_com_types.id as type'))
                 ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')              
-                ->where('affiliates.identity_card', '=', trim($datos->carnet))
+                ->where('affiliates.identity_card', '=', rtrim($datos->carnet))
                 ->where('affiliates.pension_entity_id','=', 5)
                 ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
                 ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
-                ->whereYear('economic_complements.review_date', '=', $year)
+                ->whereYear('economic_complements.reception_date', '=', $year)
                 ->where('economic_complements.semester', '=', $semester)->first();
                 //->where('economic_complements.eco_com_state_id', '=', 2)
+            dd($comp);
             if ($comp){
                 $ecomplement = EconomicComplement::where('affiliate_id','=', $comp->affiliate_id)->whereYear('reception_date','=', $year)->where('semester','=', $comp->semester)->first();
                 $liquid = $datos->total_ganado - $datos->renta_dignidad -$datos->reintegro_inc_gestion;
