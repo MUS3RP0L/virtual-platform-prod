@@ -28,7 +28,7 @@
                <th class="grand"><h4>GRADO</h4></th>
                <th class="grand"><h4>RENTA</h4></th>
                <th class="grand"><h4>FECHA</h4></th>
-               <th class="grand"><h4>AFP</h4></th>
+               <th class="grand"><h4>GESTOR</h4></th>
                <th class="grand"><h4>TIPO</h4></th>
                <th class="grand"><h4>TELF/CEL</h4></th>
                <th class="grand"><h4>CODIGO</h4></th>
