@@ -6,7 +6,7 @@
             {!! Breadcrumbs::render('economic_complements') !!}
         </div>
         <div class="col-md-4 text-right">
-            <div class="btn-group" style="margin:-3px 0;">
+            <div class="btn-group" style="margin:-3px 0;" data-toggle="tooltip" data-placement="top" data-original-title="Exportar">
                 <a href="" class="btn btn-primary btn-raised" data-toggle="dropdown"><i class="glyphicon glyphicon-export"></i></a>
                 <a href="" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                 <ul class="dropdown-menu">
@@ -15,9 +15,8 @@
                     <li><a href="" data-toggle="modal" data-target="#myModal-exportbanco" style="padding:3px 5px;"><i class="fa fa-money"></i>Banco</a></li>
                 </ul>
             </div>
-
-            <div class="btn-group" style="margin:-3px 0;">
-                <a href="" class="btn btn-primary btn-raised" data-toggle="dropdown"><i class="glyphicon glyphicon-import"></i></a>
+            <div class="btn-group" style="margin:-3px 0;" data-toggle="tooltip" data-placement="top" data-original-title="Importar">
+                <a href="" class="btn btn-primary btn-raised" data-toggle="dropdown"><i class="glyphicon glyphicon-import fa-flip-horizontal"></i></a>
                 <a href="" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="" data-toggle="modal" data-target="#myModal-importsenasir" style="padding:3px 5px;"><i class="fa fa-bank"></i>Senasir</a></li>
@@ -72,7 +71,7 @@
                                         <div class="form-group">
                                             {!! Form::label('eco_com_type', 'Tipo', ['class' => 'col-md-5 control-label']) !!}
         									<div class="col-md-7">
-        										{!! Form::select('eco_com_type', $eco_com_types_list, null, ['class' => 'form-control']) !!}
+        										{!! Form::select('eco_com_type', $eco_com_types_list, null, ['class' => 'form-control combobox']) !!}
         										<span class="help-block">Selecione el tipo de Proceso</span>
         									</div>
     									</div>
@@ -100,7 +99,7 @@
                                         <div class="form-group">
         									{!! Form::label('eco_com_modality_id', 'Modalidad', ['class' => 'col-md-5 control-label']) !!}
         									<div class="col-md-7">
-        										{!! Form::select('eco_com_modality_id', ['clear' => ''], null, ['class' => 'form-control']) !!}
+        										{!! Form::select('eco_com_modality_id', ['clear' => ''], null, ['class' => 'form-control combobox']) !!}
 
         										<span class="help-block">Selecione la Modalidad</span>
         									</div>
