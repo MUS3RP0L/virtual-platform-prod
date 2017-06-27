@@ -71,7 +71,7 @@
          <p align="right"><b>REF.- <ins> CARTA DE NOTIFICACIÓN </ins></b></p>
         <p align="justify">De nuestra consideracion.</p>
          <p align="justify">
-              De la revisión efectuada por el Área Técnica de la Unidad de Otorgación del Complemento Económico, <b>se comunica a usted figura como deudor por cuentas por cobrar en el Sistema contable de la MUSERPOL.</b>
+              De la revisión efectuada por el Área Técnica de la Unidad de Otorgación del Complemento Económico, <b>Se comunica a usted, que figura como: Deudor por cuentas por cobrar en el Sistema Contable de la MUSERPOL.</b>
         </p>
                 <p align="justify"><b>Y en estricto cumplimiento al Decreto Supremo Nº 1446</b>,  de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 3º.- (Funciones y fines). La MUSERPOL tiene las siguientes funciones y fines: inc. 5) <b>Pagar el Complemento Económico al sector pasivo de la Policía Boliviana conforme a Reglamento.</b>
                 </p>
@@ -110,7 +110,9 @@
   
    
     <p align="justify">
+
           Por lo que usted no podrá cobrar el Beneficio del Complemento Económico, correspondiente al  <b> {!! $eco_com_applicant->semester !!}</b> Semestre de<b> {!! $yearcomplement->year !!} </b>  en tanto continúe registrado como deudor en el Sistema Contable de la MUSERPOL. <br>
+
           Sin otro motivo en particular, saludo a usted.<br>
           Atentamente.
     </p>
