@@ -6,7 +6,7 @@
 
 <table>
   <p align="justify">
-       En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!!$eco_com_applicant->code !!} de fecha {!! $eco_com_applicant->reception_date!!}, quien recibió en mano propia el original de dicho documento.
+       En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!!$eco_com_applicant->code !!} de fecha {!! $eco_com_applicant_date !!}, quien recibió en mano propia el original de dicho documento.
   </p>
   </p>
 </table>
@@ -58,9 +58,8 @@
   </h1>
 </header>
   <table>
-      <p align="right"> La Paz, {!! $date !!}
+      <p align="right"> La Paz {!! $dateHeader !!}
       <br>CITE: UCE – EGSB /2017
-
       </p>
   </table>
   <table>
@@ -111,7 +110,7 @@
   
    
     <p align="justify">
-          Por lo que usted no podrá cobrar el Beneficio del Complemento Económico, correspondiente al  <b> {!! $eco_com_applicant->semester !!} .</b> . Semestre de<b> {!! $yearcomplement->year !!} </b>  en tanto continúe registrado como deudor en el Sistema Contable de la MUSERPOL. <br>
+          Por lo que usted no podrá cobrar el Beneficio del Complemento Económico, correspondiente al  <b> {!! $eco_com_applicant->semester !!}</b> Semestre de<b> {!! $yearcomplement->year !!} </b>  en tanto continúe registrado como deudor en el Sistema Contable de la MUSERPOL. <br>
           Sin otro motivo en particular, saludo a usted.<br>
           Atentamente.
     </p>
