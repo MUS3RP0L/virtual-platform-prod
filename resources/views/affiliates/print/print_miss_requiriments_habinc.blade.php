@@ -6,7 +6,7 @@
 
 <table>
   <p align="justify">
-      En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!!$eco_com_applicant->code !!} de fecha {!! $eco_com_applicant->reception_date!!}, quien recibió en mano propia el original de dicho documento.
+      En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!!$eco_com_applicant->code !!} de fecha {!! $eco_com_applicant_date!!}, quien recibió en mano propia el original de dicho documento.
   </p>
   </p>
 </table>
@@ -58,7 +58,7 @@
   </h1>
 </header>
   <table>
-      <p align="right"> La Paz, {!! $date !!}
+      <p align="right"> La Paz, {!! $dateHeader !!}
       </p>
   </table>
   <table>
@@ -84,7 +84,7 @@
       <b>En observancia al Artículo 28° (Observación documental).</b> I. En los casos que se haya presentado solicitud de Pago del Complemento Económico y se evidencie alguna observación o inconsistencia de índole documental, será comunicado mediante carta de notificación y <b>tendrá un plazo de 90 días calendario, para gestionar la documentación faltante.</b> En caso de no presentar la documentación faltante y prescrito el plazo señalado, no podrá acceder al Pago del Complemento Económico del semestre o semestres solicitados. En caso de ser representada dicha carta, se procederá con la emisión de un Informe Técnico – Legal.
     </p>
     <p align="justify">
-          Por lo que usted no podrá acceder al Beneficio del Complemento Económico, correspondiente al  {!! $eco_com_applicant->semester !!}. Semestre de la gestión {!! $yearcomplement->year !!} , en tanto no presente  los requisitos establecidos según el Art. 17° del Reglamento.<br>
+          Por lo que usted no podrá acceder al Beneficio del Complemento Económico, correspondiente al <strong>{!! $eco_com_applicant->semester !!}</strong>. Semestre de la gestión <strong>{!! $yearcomplement->year !!}</strong>, en tanto no presente  los requisitos establecidos según el Art. 17° del Reglamento.<br>
           Sin otro motivo en particular, saludo a usted.<br>
           Atentamente.
     </p>

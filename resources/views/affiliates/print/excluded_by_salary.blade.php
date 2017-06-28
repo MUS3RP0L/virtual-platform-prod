@@ -6,7 +6,7 @@
 
 <table>
   <p align="justify">
-     En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!!$eco_com_applicant->code !!} de fecha {!! $eco_com_applicant->reception_date!!}, quien recibió en mano propia el original de dicho documento.
+     En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!!$eco_com_applicant->code !!} de fecha {!! $eco_com_applicant_date!!}, quien recibió en mano propia el original de dicho documento.
   </p>
 </table>
 
@@ -57,8 +57,7 @@
   </h1>
 </header>
   <table>
-      <p align="right"> La Paz, {{!!$date!!}}
-      <br>CITE: UCE – EGSB /2017
+      <p align="right">La Paz {!! $dateHeader !!}<br>CITE: UCE – EGSB /2017
       </p>
   </table>
   <table>

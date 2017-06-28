@@ -6,7 +6,7 @@
 
 <table>
   <p align="justify">
-      En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!!$eco_com_applicant->code !!} de fecha {!! $eco_com_applicant->reception_date!!}, quien recibió en mano propia el original de dicho documento.
+      En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!!$eco_com_applicant->code !!} de fecha {!! $eco_com_applicant_date!!}, quien recibió en mano propia el original de dicho documento.
   </p>
 </table>
 
@@ -58,8 +58,7 @@
   </h1>
 </header>
   <table>
-      <p align="right"> La Paz, {!! $date !!}
-      <br>CITE: UCE – EGSB /2017
+      <p align="right"> La Paz {!! $dateHeader !!}<br>CITE: UCE – EGSB /2017
       </p>
   </table>
   <table>
@@ -101,7 +100,8 @@
                           Al fallecimiento del titular solo podrán cobrar el beneficio del Complemento Económico, la Viuda o Huérfanos Absolutos.
                   </p>
                   <p align="justify">
-                            <b>En observancia al Artículo 28° (Observación documental). </b> I. En los casos que se haya presentado solicitud de Pago del Complemento Económico y se evidencie alguna observación o inconsistencia de índole documental, será comunicado mediante carta de notificación <b> y tendrá un plazo de 90 días calendario, para gestionar la documentación faltante.</b> En caso de no presentar la documentación faltante y prescrito el plazo señalado, no podrá acceder al Pago del Complemento Económico del semestre o semestres solicitados. En caso de ser representada dicha carta, se procederá con la emisión de un Informe Técnico – Legal.
+                            <b>En observancia al Artículo 28° (Observación documental). </b> I. En los casos que se haya presentado solicitud de Pago del Complemento Económico y se evidencie alguna observación o inconsistencia de índole documental, será comunicado mediante carta de notificación <b> y tendrá un plazo de 90 días calendario, para gestionar la documentación faltante.</b> En caso de no presentar la documentación faltante y prescrito el plazo señalado, no podrá acceder al Pago del Complemento Económico del semestre o semestres solicitados.
+                            
                   </p>
 <footer>
   PLATAFORMA VIRUTAL - MUTUAL DE SERVICIOS AL POLICIA
@@ -136,10 +136,11 @@
             </header>
                       <table>
                               <p align="justify">
-                                Por lo que usted no podrá cobrar el Beneficio del Complemento Económico, correspondiente al {!! $eco_com_applicant->semester !!} . Semestre de {!! $yearcomplement->year !!} , en tanto continúe registrado en cartera en mora por préstamos otorgados por la MUSERPOL.<br>
+                                Por lo que usted no podrá cobrar el Beneficio del Complemento Económico, correspondiente al <strong>{!! $eco_com_applicant->semester !!}</strong>. Semestre de <strong>{!! $yearcomplement->year !!}</strong>, en tanto continúe registrado en cartera en mora por préstamos otorgados por la MUSERPOL.<br>
                                 Sin otro motivo en particular, saludo a usted.<br>
                                 Atentamente.
                               </p>
+                              <p align="justify">En caso de ser representada dicha carta, se procederá con la emisión de un Informe Técnico – Legal.</p>
                       </table>
 
 </div>

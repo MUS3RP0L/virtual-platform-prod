@@ -588,10 +588,15 @@ class AffiliateController extends Controller
         $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
         $title = "NOTIFICACIÓN";
         $date = Util::getDateEdit(date('Y-m-d'));
+        setlocale(LC_ALL, "es_ES.UTF-8");
+        $dateHeader = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
+        $current_semester=util::getCurrentSemester();
+        $current_year=Carbon::now()->year;
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
         $eco_com = EconomicComplement::where('affiliate_id',$id_affiliate)->first();
         $eco_com_applicant = EconomicComplementApplicant::where ('eco_com_applicants.economic_complement_id','=',$eco_com->id)->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')->select('economic_complements.code','economic_complements.reception_date','eco_com_applicants.first_name','eco_com_applicants.second_name','eco_com_applicants.last_name','eco_com_applicants.mothers_last_name','eco_com_applicants.surname_husband','eco_com_applicants.identity_card','eco_com_applicants.nua','eco_com_applicants.city_identity_card_id','eco_com_applicants.birth_date','economic_complements.semester','economic_complements.year','economic_complements.reception_date')->first();
+        $eco_com_applicant_date=strftime("%e de %B de %Y",strtotime($eco_com_applicant->reception_date));
         $yearcomplement=new Carbon($eco_com_applicant->year);
         $procedure=EconomicComplementProcedure::whereYear('year','=',date("Y",strtotime($eco_com_applicant->year)))->where('semester','=',$eco_com_applicant->semester)->first();
 
@@ -599,21 +604,21 @@ class AffiliateController extends Controller
             //OBSERVACIONES AL AFILIADO
             //contabilidad
             case '1':
-                $view = \View::make('affiliates.print.print_debtor_in_contable', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $view = \View::make('affiliates.print.print_debtor_in_contable', compact('header1','header2','title','date','dateHeader','hour','eco_com_applicant','eco_com_applicant_date','yearcomplement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
             
             //prestamos
             case '2':
-                $view = \View::make('affiliates.print.wallet_arrear', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $view = \View::make('affiliates.print.wallet_arrear', compact('header1','header2','title','date','dateHeader','eco_com_applicant_date','hour','eco_com_applicant','yearcomplement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
             
             //juridica
             case '3':
-                $view = \View::make('affiliates.print.legal_action', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $view = \View::make('affiliates.print.legal_action', compact('header1','header2','title','date','dateHeader','eco_com_applicant_date','hour','eco_com_applicant','yearcomplement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
@@ -621,42 +626,42 @@ class AffiliateController extends Controller
             //OBSERVACIONES AL TRAMITE
             //Fuera de plazo 90 dias
             case '4':
-                $view = \View::make('affiliates.print.out_of_time90', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
+                $view = \View::make('affiliates.print.out_of_time90', compact('header1','header2','title','date','dateHeader','eco_com_applicant_date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
             
             //Fuera de plazo 120 dias
             case '5':
-                $view = \View::make('affiliates.print.out_of_time120', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
+                $view = \View::make('affiliates.print.out_of_time120', compact('header1','header2','title','date','dateHeader','eco_com_applicant_date','hour','eco_com_applicant','yearcomplement','procedure'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
             
             //Falta de requisitos
             case '6':
-                $view = \View::make('affiliates.print.miss_requiriments', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $view = \View::make('affiliates.print.miss_requiriments', compact('header1','header2','title','date','dateHeader','eco_com_applicant_date','hour','eco_com_applicant','yearcomplement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
             
             //Falta de requisitos Habitual-Inclusion
             case '7':
-                $view = \View::make('affiliates.print.print_miss_requiriments_habinc', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $view = \View::make('affiliates.print.print_miss_requiriments_habinc', compact('header1','header2','title','date','dateHeader','eco_com_applicant_date','hour','eco_com_applicant','yearcomplement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
             
             //Menor a 16 años de servicio
             case '8':
-                $view = \View::make('affiliates.print.less_16', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $view = \View::make('affiliates.print.less_16', compact('header1','header2','title','date','dateHeader','eco_com_applicant_date','hour','eco_com_applicant','yearcomplement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
             
             //Por invalidez
             case '9':
-                $view = \View::make('affiliates.print.invalidity', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement'))->render();
+                $view = \View::make('affiliates.print.invalidity', compact('header1','header2','title','dateHeader','date','eco_com_applicant_date','current_year','current_semester','hour','eco_com_applicant','yearcomplement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
@@ -665,7 +670,7 @@ class AffiliateController extends Controller
             case '10':
                 $nextSemester = $eco_com_applicant->semester == 'Primer' ? 'Segundo' : 'Primer'; 
                 $nextYear = $eco_com_applicant->semester == 'Segundo' ? Util::getYear($eco_com_applicant->year) : $eco_com_applicant->year;
-                $view = \View::make('affiliates.print.excluded_by_salary', compact('header1','header2','title','date','hour','eco_com_applicant','yearcomplement','nextSemester','nextYear'))->render();
+                $view = \View::make('affiliates.print.excluded_by_salary', compact('header1','header2','title','date','dateHeader','eco_com_applicant_date','hour','eco_com_applicant','yearcomplement','nextSemester','nextYear'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
