@@ -50,19 +50,41 @@ class EconomicComplementImportExportController extends Controller
           $nofound=0;
           foreach ($results as $datos) {
             
-            $ext = ($datos->num_com ? "-".$datos->num_com : ''); 
-            $ext1 = ($datos->num_com_tit ? "-".$datos->num_com_tit : '');                         
-            $comp = DB::table('economic_complements')
-                ->select(DB::raw('economic_complements.*, eco_com_types.id as type'))
-                ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                            
-                ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
-                ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
-                ->whereRaw("LTRIM(affiliates.identity_card,'0') ='".rtrim($datos->carnet.''.$ext)."'")
-                //->orWhereRaw("LTRIM(affiliates.identity_card,'0') ='".rtrim($datos->carnet_tit.$ext1)."'")
-                ->where('affiliates.pension_entity_id','=', 5)
-                ->whereYear('economic_complements.reception_date', '=', $year)
-                ->where('economic_complements.semester', '=', $semester)->first();
-            $ci_ti = ltrim($datos->carnet_tit,"0");
+            $ext = ($datos->num_com ? "-".$datos->num_com : '');
+            $ext = str_replace(' ','', $ext);
+            //dd($ext) ;
+            //$ext1 = ($datos->num_com_tit ? "-".$datos->num_com_tit : '');                         
+            if($datos->renta == "DERECHOHABIENTE"){
+              $comp = DB::table('eco_com_applicants')
+                  ->select(DB::raw('eco_com_applicants.identity_card as ci_app,economic_complements.*, eco_com_types.id as type'))
+                  ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                  ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                            
+                  ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                  ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
+                  ->whereRaw("LTRIM(eco_com_applicants.identity_card,'0') ='".rtrim($datos->carnet.''.$ext)."'")                
+                  ->where('eco_com_types.id','=', 2)
+                  ->where('affiliates.pension_entity_id','=', 5)
+                  ->whereYear('economic_complements.year', '=', $year)
+                  ->where('economic_complements.semester', '=', $semester)->first();
+            }
+            elseif($datos->renta == "TITULAR")
+            {
+                $comp = DB::table('eco_com_applicants')
+                  ->select(DB::raw('eco_com_applicants.identity_card as ci_app,economic_complements.*, eco_com_types.id as type'))
+                  ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                  ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                            
+                  ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                  ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
+                  ->whereRaw("LTRIM(eco_com_applicants.identity_card,'0') ='".rtrim($datos->carnet.''.$ext)."'")                
+                  ->where('eco_com_types.id','=', 1)
+                  ->where('affiliates.pension_entity_id','=', 5)
+                  ->whereYear('economic_complements.year', '=', $year)
+                  ->where('economic_complements.semester', '=', $semester)->first();
+            }
+
+
+
+            /*$ci_ti = ltrim($datos->carnet_tit,"0");
             $comp1 = DB::table('economic_complements')
                 ->select(DB::raw('economic_complements.*, eco_com_types.id as type'))
                 ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                            
@@ -78,36 +100,39 @@ class EconomicComplementImportExportController extends Controller
             }elseif($comp1){
                 $data = null;
                 $data = $comp1;
-            }
+            }*/
 
             //dd($comp);
-            if ($data){
+            if ($comp){
                // $ecomplement = EconomicComplement::where('affiliate_id','=', $comp->affiliate_id)->whereYear('reception_date','=', $year)->where('semester','=', $comp->semester)->first();
-                $ecomplement = EconomicComplement::where('id','=', $data->id)->first();
+                $ecomplement = EconomicComplement::where('id','=', $comp->id)->first();
+                $reimbursements = $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
                 $discount = $datos->renta_dignidad + $datos->reintegro_renta_dignidad + $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
-                $liquid = $datos->total_ganado - $discount;
+                $total_rent = $datos->total_ganado - $discount;
                 
-                if($data->type == 1 && $liquid < 2000)  //Vejez Senasir
+                if($comp->type == 1 && $total_rent < 2000)  //Vejez Senasir
                 {
                   $ecomplement->eco_com_modality_id = 8;
                 } 
-                elseif ($data->type == 2 && $liquid < 2000) //Viudedad 
+                elseif ($comp->type == 2 && $total_rent < 2000) //Viudedad 
                 {  
                   $ecomplement->eco_com_modality_id = 9;
                 } 
-                elseif($data->type == 3 && $liquid < 2000) //Orfandad 
+                elseif($comp->type == 3 && $total_rent < 2000) //Orfandad 
                 {  
                     $ecomplement->eco_com_modality_id = 8;
-                }                
-                $ecomplement->total_rent =  $liquid;
-
+                }
+                $ecomplement->sub_total_rent = $datos->total_ganado;                
+                $ecomplement->total_rent =  $total_rent;
+                $ecomplement->dignity_pension = $datos->renta_dignidad;
+                $ecomplement->reimbursement = $reimbursements;
                 $ecomplement->save();                
                 $found ++;
             }
             else{
               $nofound ++;
               $i ++;
-              $list = $data;
+              $list = $comp;
             }
           }
           
@@ -124,8 +149,8 @@ class EconomicComplementImportExportController extends Controller
               }
             });
 
-          })->export('xlsx');          
-          Session::flash('message', "Importación Exitosa"." F:".$found." NF:".$nofound);*/
+          })->export('xlsx');    */      
+          Session::flash('message', "Importación Exitosa"." F:".$found." NF:".$nofound);
           return redirect('economic_complement');
         }
         return back();
