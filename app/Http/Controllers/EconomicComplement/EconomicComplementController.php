@@ -1060,30 +1060,47 @@ class EconomicComplementController extends Controller
             }
             else{
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
-                //     $total_rent = $economic_complement->total_rent;
-                //     $salary_reference = $economic_complement->base_wage->amount;
-                //     $seniority = $economic_complement->category->percentage * $economic_complement->base_wage->amount;
-                //     $salary_quotable = $salary_reference + $seniority;
-                //     $difference = $salary_quotable - $total_rent;
-                //     $months_of_payment = 6;
-                //     $total_amount_semester = $difference * $months_of_payment;
-                //     $complementary_factor = $eco_com_type->id == 1 ? $economic_complement->complementary_factor->old_age : $economic_complement->complementary_factor->widowhood;
+                    $total_rent = floatval($request->sub_total_rent)-floatval($request->reimbursement)-floatval($request->rent_dignity);
+                    $economic_complement->total_rent=$total_rent;
+                    $base_wage = BaseWage::degreeIs($economic_complement->affiliate->degree_id)->whereYear('month_year','=',Carbon::parse($economic_complement->year)->year)->first();
+                    $salary_reference = $base_wage->amount;
+                    $economic_complement->salary_reference=$salary_reference;
+                    $seniority = $economic_complement->category->percentage * $base_wage->amount;
+                    //dd($seniority);
+                    $economic_complement->seniority=$seniority;
+                    $salary_quotable = $salary_reference + $seniority;
+                    $economic_complement->salary_quotable=$salary_quotable;
+                    $difference = $salary_quotable - $total_rent;
+                    $economic_complement->difference=$difference;
+                    $months_of_payment = 6;
+                    $total_amount_semester = $difference * $months_of_payment;
+                    $economic_complement->total_amount_semester=$total_amount_semester;
+                    //$complementary_factor = $eco_com_type->id == 1 ? $economic_complement->complementary_factor->old_age : $economic_complement->complementary_factor->widowhood;
                 //     $total = $total_amount_semester * $complementary_factor/100;
                 $economic_complement->sub_total_rent=$request->sub_total_rent;
                 $economic_complement->reimbursement=$request->reimbursement;
                 $economic_complement->dignity_pension=$request->rent_dignity;
-                $economic_complement->total_rent=floatval($request->sub_total_rent)-floatval($request->reimbursement)-floatval($request->rent_dignity);
-                /*$affiliate=Affiliate::find(1);
-                $base_wage = BaseWage::degreeIs($economic_complement->affiliate->degree_id)->first();
+                //$economic_complement->total_rent=floatval($request->sub_total_rent)-floatval($request->reimbursement)-floatval($request->rent_dignity);
+                //$affiliate=Affiliate::find(52444);
                 $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
-                                            ->whereYear('year', '=', Carbon::now()->year)
-                                            ->where('semester', '=', Util::getSemester(Carbon::now()))->first();
-                $economic_complement->base_wage_id = $base_wage->id;*/
+                                            ->whereYear('year', '=', Carbon::parse($economic_complement->year)->year)
+                                            ->where('semester', '=', $economic_complement->semester)->first();
                 $economic_complement->complementary_factor_id = $complementary_factor->id;
-                $economic_complement->salary_reference=$economic_complement->base_wage->amount;
+                if ($economic_complement->economic_complement_modality->eco_com_type_id == 1) {
+                    //vejez
+                    $complementary_factor=$complementary_factor->old_age;
+                }else{
+                    //viudedad
+                    $complementary_factor=$complementary_factor->widowhood;
+                }
+                $economic_complement->complementary_factor=$complementary_factor;
+                $total = $total_amount_semester * floatval($complementary_factor)/100;
+                $economic_complement->total=$total;
+                $economic_complement->base_wage_id = $base_wage->id;
+                $economic_complement->salary_reference=$base_wage->amount;
                 $economic_complement->state = 'Edited';
                 $economic_complement->save();
-                dd($economic_complement);
+                //dd($economic_complement);
                 return redirect('economic_complement/'.$economic_complement->id);
             }
         break;

@@ -595,7 +595,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td style="width: 70%">Renta Total Boleta</td>
+                                            <td style="width: 70%">Renta Boleta</td>
                                             <td style="text-align: right">{!! $sub_total_rent !!}</td>
                                         </tr>
                                         <tr>
