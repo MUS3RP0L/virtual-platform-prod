@@ -69,7 +69,7 @@
          <p align="right"><b>REF.- <ins> CARTA DE NOTIFICACIÓN </ins></b></p>
         <p align="justify">De nuestra consideracion.</p>
          <p>
-              De la revisión efectuada por el Área Técnica de la Unidad de otorgación del Complemento Económico, <b>se comunica a usted que a usted .figura como deudor, por registrar cartera en mora por préstamos otorgados por la MUSERPOL.</b>
+              De la revisión efectuada por el Área Técnica de la Unidad de otorgación del Complemento Económico, <b>Se comunica a usted, que figura como deudor, por registrar cartera en mora por préstamos otorgados por la MUSERPOL.</b>
         </p>
     <p align="justify"><b>Y en estricto cumplimiento al Decreto Supremo Nº 1446</b>, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 3º.- (Funciones y fines). La MUSERPOL tiene las siguientes funciones y fines: inc. <b>5) Pagar el Complemento Económico al sector pasivo de la Policía Boliviana conforme a Reglamento</b>.
     <p align="justify">Asimismo, se halla enmarcado en las normas legales vigentes, el <b>Reglamento del Complemento Económico de 2016</b>, aprobado mediante Resolución de Directorio Nº 36/2016 de fecha 09 de diciembre de 2016, que norma en su <b>ARTÍCULO 8° (Suspensión y habilitación).</b></p>
@@ -101,7 +101,7 @@
     </ol>
     </table>
         <p align="justify">
-          Por lo que usted no podrá cobrar el Beneficio del Complemento Económico, correspondiente al <b> {!! $eco_com_applicant->semester !!} .</b> Semestre de   <b> {!! $yearcomplement->year !!} </b> , en tanto continúe registrado en cartera en mora por préstamos otorgados por la MUSERPOL.<br>
+          Por lo que usted no podrá cobrar el Beneficio del Complemento Económico, correspondiente al <b> {!! $eco_com_applicant->semester !!}.</b> Semestre de   <b> {!! $yearcomplement->year !!} </b>, en tanto continúe registrado en cartera en mora por préstamos otorgados por la MUSERPOL.<br>
       Sin otro motivo en particular, saludo a usted.<br>
       Atentamente.
         </p>
