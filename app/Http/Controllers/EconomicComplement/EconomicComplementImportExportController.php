@@ -110,9 +110,8 @@ class EconomicComplementImportExportController extends Controller
               $list = $data;
             }
           }
-          //return response()->json($list);
-          //export record no found
-          Excel::create('Senasir CE', function($excel) {
+          
+          /*Excel::create('Senasir CE', function($excel) {
               global $list, $j;
               $j = 2;
               $excel->sheet('Lista', function($sheet) {
@@ -126,7 +125,7 @@ class EconomicComplementImportExportController extends Controller
             });
 
           })->export('xlsx');          
-          Session::flash('message', "Importación Exitosa"." F:".$found." NF:".$nofound);
+          Session::flash('message', "Importación Exitosa"." F:".$found." NF:".$nofound);*/
           return redirect('economic_complement');
         }
         return back();
