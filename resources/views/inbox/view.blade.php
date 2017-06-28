@@ -35,7 +35,13 @@
   </div>
 	</div>
 </div>
-
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
+<style>
+  table.dataTable.select tbody tr,
+  table.dataTable thead th:first-child {
+    cursor: pointer;
+  }
+</style>
 <div class="col-md-6">
 	<div class="box box-success">
 		<div class="box-header with-border">
@@ -43,7 +49,7 @@
 		</div>
 		<div class="box-body">
 		{!! Form::open(['method' => 'POST', 'route' => ['inbox.store'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}
-		<table id="edited" class="table table-bordered table-hover">
+		<table id="edited" style="width:100%" class="table table-bordered table-hover">
 		   <thead>
 		      <tr>
 		         <th></th>
