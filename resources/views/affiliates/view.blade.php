@@ -17,7 +17,7 @@
             {!! Breadcrumbs::render('show_affiliate', $affiliate) !!}
         </div>
         <div class="col-md-6">
-       @can('manage')
+       @can('retirement_fund')
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Aportes" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
                 <ul class="dropdown-menu">
