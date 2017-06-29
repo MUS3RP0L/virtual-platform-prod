@@ -26,47 +26,37 @@ class InboxController extends Controller
     }
     public function DataReceived()
     {
-
         $user_ids=Auth::user()->roles()->first();
         $economic_complements=EconomicComplement::where('eco_com_state_id',null)->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
             ->where('wf_states.role_id',($user_ids->id))
             ->where('economic_complements.state','Received')
             ->select('economic_complements.id','economic_complements.code')
             ->get();
-            
-        // $economic_complements=EconomicComplement::where('eco_com_state_id',null)->where('state','Received')->select('id','code');
-        //$data=[];
         return Datatables::of($economic_complements)
                 ->addColumn('action', function ($economic_complement) { return  '
                     <div class="btn-group" style="margin:-3px 0;">
                         <a href="economic_complement/'.$economic_complement->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
                     </div>';})
                 ->make(true);
-        foreach ($e as $v) {
-            if ($v->wf_state->role_id == $user_ids->id) {
-                    $o=[];
-                    array_push($o,$v->id);
-                    array_push($o,$v->code);
-                    array_push($data,$o );
-            }
-        }        
-
-       return ["data"=>$data];
     }
     public function DataEdited()
     {
-         $user_id=Auth::user()->roles()->first();
-         $economic_complements=EconomicComplement::where('eco_com_state_id',null)->where('state','Edited')->get();
-         $data=[];
-         foreach ($economic_complements as $economic_complement) {
-             if ($economic_complement->wf_state->role_id == $user_id->id && $economic_complement->user_id ==Auth::user()->id) {
-                 $o=[];
-                 array_push($o,$economic_complement->id);
-                 array_push($o,$economic_complement->code);
-                 array_push($data,$o );
-             }
-         }        
-        return ["data"=>$data];
+        $user_role_id=Auth::user()->roles()->first();
+        $economic_complements=EconomicComplement::where('eco_com_state_id',null)->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
+            ->where('wf_states.role_id',($user_role_id->id))
+            ->where('economic_complements.state','Edited')
+            ->where('economic_complements.user_id',Auth::user()->id)
+            ->select('economic_complements.id','economic_complements.code')
+            ->get();
+        return Datatables::of($economic_complements)
+                ->addColumn('action', function ($economic_complement) {
+                    return '<div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="'.$economic_complement->id.'" name="edited[]"><span class="checkbox-material"><span class="check"></span></span> 
+                        </label>
+                        </div>';
+                })
+                ->make(true);
     }
 
     /**
@@ -87,7 +77,6 @@ class InboxController extends Controller
      */
     public function store(Request $request)
     {
-
         foreach ($request->edited as $key) {
             $e=EconomicComplement::find($key);
             $wfsq=WorkflowSequence::where('wf_state_current_id',$e->wf_current_state_id)->where('action','Aprobar')->first();
