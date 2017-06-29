@@ -504,6 +504,7 @@ class AffiliateController extends Controller
                 case 'institutional_eco_com':
                     $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->orderBy('created_at','desc')->first();
                     $economic_complement->city_id = $request->regional;
+                    $economic_complement->category_id = $request->category;
                     $economic_complement->save();
                     //$affiliate->affiliate_state_id = $request->state;
                     //  $affiliate->type = $request->affiliate_type;

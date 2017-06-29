@@ -35,13 +35,13 @@
   </div>
 	</div>
 </div>
-<link rel="stylesheet" href="http://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
+{{-- <link rel="stylesheet" href="http://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
 <style>
   table.dataTable.select tbody tr,
   table.dataTable thead th:first-child {
     cursor: pointer;
   }
-</style>
+</style> --}}
 <div class="col-md-6">
 	<div class="box box-success">
 		<div class="box-header with-border">
@@ -52,23 +52,24 @@
 		<table id="edited" style="width:100%" class="table table-bordered table-hover">
 		   <thead>
 		      <tr>
-		         <th></th>
+		         <th>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" id="editedCheckboxAll"> Todo
+                    </label>
+                </div>
+              </th>
 		         <th>Número</th>
 		      </tr>
 		   </thead>
 		</table>
-
-   <button type="submit" class="btn btn-primary">Enviar</button>
-
+   <button type="submit" class="btn btn-primary btn btn-success btn-raised">Enviar</button>
 {!! Form::close() !!}
 		</div>
 	</div>
 </div>
 </div>
 @push('scripts')
-
-<script type="text/javascript" src="/js/datatables.min.js"></script>
-<script type="text/javascript" src="/js/dataTables.checkboxes.min.js"></script>
 <script>
 $(document).ready(function (){
 	var oTable = $('#received').DataTable({
@@ -86,38 +87,34 @@ $(document).ready(function (){
                 { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
             ]
         });
-
-   var tableE = $('#edited').DataTable({
-      "dom": '<"top">t<"bottom"p>',
-      'ajax': '/edited_data',
-      'columnDefs': [
-         {
-            'targets': 0,
-            'checkboxes': {
-               'selectRow': true
-            }
-         }
-      ],
-      'select': {
-         'style': 'multi'
+  var tableEdited = $('#edited').DataTable({
+    "dom": '<"top">t<"bottom"p>',
+    processing: true,
+    serverSide: true,
+    pageLength: 10,
+    autoWidth: false,
+    ajax: {
+      url: '{!! route('edited_data') !!}',
+    },
+    columns: [
+      { 
+        data: 'action',
+        name: 'action',
+        orderable: false,
+        searchable: false,
+        bSortable: false,
+        sClass: 'text-center'
       },
-      'order': [[1, 'asc']]
-   });
-
-
-   // Handle form submission event 
-   $('#frm-edited').on('submit', function(e){
-      var form = this;
-      var rows_selected = tableE.column(0).checkboxes.selected();
-      $.each(rows_selected, function(index, rowId){
-         $(form).append(
-             $('<input>')
-                .attr('type', 'text')
-                .attr('name', 'edited[]')
-                .val(rowId)
-         );
-      });
-   });
+      { 
+        data: 'code',
+        bSortable: false 
+      },
+    ]
+  });
+  $("#editedCheckboxAll").change(function () {
+    $(".checkBoxClass").prop('checked', $(this).prop('checked'))    
+  });
+     
 });
 </script>
 @endpush

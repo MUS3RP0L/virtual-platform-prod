@@ -1013,21 +1013,21 @@
                                 <div class="form-group">
                                     {!! Form::label('sub_total_rent', 'Renta Total Boleta', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-3">
-                                    {!! Form::text('sub_total_rent', '', ['class' => 'form-control', 'required' => 'required']) !!}
+                                    {!! Form::text('sub_total_rent', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                         <span class="help-block">Escriba la Renta total boleta</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     {!! Form::label('reimbursement', 'Reintegro', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-3">
-                                    {!! Form::text('reimbursement', '', ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                    {!! Form::text('reimbursement', null, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                         <span class="help-block">Escriba el reintegro</span>
                                     </div>
                                 </div>
                             <div class="form-group">
-                                        {!! Form::label('rent_dignity', 'Renta Dignidad', ['class' => 'col-md-5 control-label']) !!}
+                                        {!! Form::label('dignity_pension', 'Renta Dignidad', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-3">
-                                        {!! Form::text('rent_dignity', '', ['class'=> 'form-control']) !!}
+                                        {!! Form::text('dignity_pension', null, ['class'=> 'form-control']) !!}
                                         <span class="help-block">Escriba la renta dignidad</span>
                                     </div>
                             </div>
