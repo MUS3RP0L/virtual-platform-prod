@@ -1060,7 +1060,7 @@ class EconomicComplementController extends Controller
             }
             else{
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
-                    $total_rent = floatval($request->sub_total_rent)-floatval($request->reimbursement)-floatval($request->rent_dignity);
+                    $total_rent = floatval($request->sub_total_rent)-floatval($request->reimbursement)-floatval($request->dignity_pension);
                     $economic_complement->total_rent=$total_rent;
                     $base_wage = BaseWage::degreeIs($economic_complement->affiliate->degree_id)->whereYear('month_year','=',Carbon::parse($economic_complement->year)->year)->first();
                     $salary_reference = $base_wage->amount;
@@ -1079,8 +1079,8 @@ class EconomicComplementController extends Controller
                 //     $total = $total_amount_semester * $complementary_factor/100;
                 $economic_complement->sub_total_rent=$request->sub_total_rent;
                 $economic_complement->reimbursement=$request->reimbursement;
-                $economic_complement->dignity_pension=$request->rent_dignity;
-                //$economic_complement->total_rent=floatval($request->sub_total_rent)-floatval($request->reimbursement)-floatval($request->rent_dignity);
+                $economic_complement->dignity_pension=$request->dignity_pension;
+                //$economic_complement->total_rent=floatval($request->sub_total_rent)-floatval($request->reimbursement)-floatval($request->dignity_pension);
                 //$affiliate=Affiliate::find(52444);
                 $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
                                             ->whereYear('year', '=', Carbon::parse($economic_complement->year)->year)
