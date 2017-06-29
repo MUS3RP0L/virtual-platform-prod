@@ -52,7 +52,13 @@
 		<table id="edited" style="width:100%" class="table table-bordered table-hover">
 		   <thead>
 		      <tr>
-		         <th></th>
+		         <th>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" id="editedCheckboxAll"> Todo
+                    </label>
+                </div>
+              </th>
 		         <th>Número</th>
 		      </tr>
 		   </thead>
@@ -105,6 +111,10 @@ $(document).ready(function (){
       },
     ]
   });
+  $("#editedCheckboxAll").change(function () {
+    $(".checkBoxClass").prop('checked', $(this).prop('checked'))    
+  });
+     
 });
 </script>
 @endpush

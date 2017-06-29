@@ -13,6 +13,8 @@ use Muserpol\EconomicComplement;
 use Datatables;
 use Util;
 use Auth;
+use Validator;
+use Session;
 class InboxController extends Controller
 {
     /**
@@ -52,7 +54,7 @@ class InboxController extends Controller
                 ->addColumn('action', function ($economic_complement) {
                     return '<div class="checkbox">
                         <label>
-                            <input type="checkbox" value="'.$economic_complement->id.'" name="edited[]"><span class="checkbox-material"><span class="check"></span></span> 
+                            <input type="checkbox" class="checkBoxClass" value="'.$economic_complement->id.'" name="edited[]"><span class="checkbox-material"><span class="check"></span></span> 
                         </label>
                         </div>';
                 })
@@ -77,14 +79,27 @@ class InboxController extends Controller
      */
     public function store(Request $request)
     {
-        foreach ($request->edited as $key) {
-            $e=EconomicComplement::find($key);
-            $wfsq=WorkflowSequence::where('wf_state_current_id',$e->wf_current_state_id)->where('action','Aprobar')->first();
-            $e->wf_current_state_id=$wfsq->wf_state_next_id;
-            $e->state='Received';
-            $e->save();
+        $rules = [
+             'edited' =>'required',
+        ];
+        $messages = [
+            'edited.required' => 'Debe seleccionar por lo menos un tramite para enviar',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            return redirect('inbox')
+            ->withErrors($validator)
+            ->withInput();
+        }else{
+            foreach ($request->edited as $key) {
+                $e=EconomicComplement::find($key);
+                $wfsq=WorkflowSequence::where('wf_state_current_id',$e->wf_current_state_id)->where('action','Aprobar')->first();
+                $e->wf_current_state_id=$wfsq->wf_state_next_id;
+                $e->state='Received';
+                $e->save();
+            }
+            return view('inbox.view'); 
         }
-        return view('inbox.view'); 
     }
 
     /**
