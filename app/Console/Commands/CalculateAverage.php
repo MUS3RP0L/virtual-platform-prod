@@ -53,8 +53,7 @@ class CalculateAverage extends Command implements SelfHandling
                                     ->where('economic_complements.total_rent','>', 0)
                                     ->groupBy('degrees.id','eco_com_types.id')
                                     ->orderBy('degrees.id','ASC')->get();
-                    dd($average_list);
-
+                    
                     if($average_list)
                     {
                         foreach($average_list as $item) {
