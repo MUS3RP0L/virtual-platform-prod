@@ -12,7 +12,6 @@
     			</div>
     		</div>
     </div>
-
 @endsection
 @section('main-content')
 <div class="row">
@@ -31,17 +30,9 @@
   		      </tr>
   		   </thead>
   		</table>
-   
   </div>
 	</div>
 </div>
-{{-- <link rel="stylesheet" href="http://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
-<style>
-  table.dataTable.select tbody tr,
-  table.dataTable thead th:first-child {
-    cursor: pointer;
-  }
-</style> --}}
 <div class="col-md-6">
 	<div class="box box-success">
 		<div class="box-header with-border">
@@ -113,8 +104,7 @@ $(document).ready(function (){
   });
   $("#editedCheckboxAll").change(function () {
     $(".checkBoxClass").prop('checked', $(this).prop('checked'))    
-  });
-     
+  });  
 });
 </script>
 @endpush
