@@ -1,7 +1,5 @@
 @extends('app')
-
 @section('contentheader_title')
-
     <div class="row">
         <div class="col-md-6">
             {!! Breadcrumbs::render('show_inbox') !!}
