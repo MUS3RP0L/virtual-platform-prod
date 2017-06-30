@@ -23,6 +23,7 @@ use Muserpol\EconomicComplementApplicant;
 use Muserpol\EconomicComplementLegalGuardian;
 use Muserpol\EconomicComplementRequirement;
 use Muserpol\EconomicComplementSubmittedDocument;
+use Muserpol\EconomicComplementRent;
 
 use Muserpol\Affiliate;
 use Muserpol\Spouse;
@@ -1062,6 +1063,14 @@ class EconomicComplementController extends Controller
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
                     $total_rent = floatval($request->sub_total_rent)-floatval($request->reimbursement)-floatval($request->dignity_pension);
                     $economic_complement->total_rent=$total_rent;
+                    if (!array_search($economic_complement->eco_com_modality_id, array(1,2,3)) && $total_rent < 2000) {
+                        $economic_complement_rent=EconomicComplementRent::where('degree_id','=',$economic_complement->affiliate->degree->id)
+                            ->where('eco_com_type_id','=',$economic_complement->economic_complement_modality->economic_complement_type->id)
+                            ->whereYear('year','=',Carbon::parse($economic_complement->year)->year)
+                            ->where('semester','=',$economic_complement->semester)
+                            ->first();
+                        $total_rent=$economic_complement_rent->average;
+                    }
                     $base_wage = BaseWage::degreeIs($economic_complement->affiliate->degree_id)->whereYear('month_year','=',Carbon::parse($economic_complement->year)->year)->first();
                     $salary_reference = $base_wage->amount;
                     $economic_complement->salary_reference=$salary_reference;
