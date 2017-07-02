@@ -428,79 +428,101 @@ class EconomicComplementReportController extends Controller
                                return redirect('report_complement');
                            }
                            break;
-                        case '8':
-                            global $year, $semester,$i,$afi,$report,$list,$item,$final;
-                            $year = $request->year;
-                            $semester = $request->semester;
-                            $afi = DB::table('eco_com_applicants')
-                                           ->select(DB::raw('economic_complements.id,eco_com_types.id as tipo, economic_complements.affiliate_id,affiliates.identity_card,cities.third_shortened,affiliates.nua,affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,affiliates.birth_date'))
-                                           ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
-                                           ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
-                                           ->leftJoin('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
-                                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
-                                           ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')                                           
-                                           ->whereYear('economic_complements.year', '=', 2016)
-                                           ->where('economic_complements.semester', '=', 'Segundo')->orderBy('economic_complements.id', 'ASC')->get();
-                            //dd($afi );
-                            foreach ($afi as $list) 
-                            {
-                                $req = EconomicComplementSubmittedDocument::where('economic_complement_id','=',$list->id)->get();
-
-                                $count =0;                               
-                                foreach ($req as $item) 
-                                {
-                                    if($list->tipo = 1 && $item->status == true)
-                                    {
-                                        $count++;                                        
-
-                                    }
-                                    elseif ($list->tipo = 2 && $item->status == true) 
-                                    {
-                                      $count++;
-                                    }
-                                    elseif($list->tipo = 3 && $item->status == true)
-                                    {
-                                      $count++;
-                                    }                                   
-
-                                }
-                                  
-                               
-                                 if($list->tipo == 1 && $count == 4)
-                                    {
-                                        $report[] = $list;
-                                        
-                                    }
-                                    elseif ($list->tipo == 2 && $count == 7) 
-                                    {
-                                      $report[] = $list;
-                                    }
-                                    elseif($list->tipo == 2 && $count == 7)
-                                    {
-                                      $report[] = $list;
-                                    }
+                        case '8':                          
                                 
+                                global $list,$list_date,$list_req,$final;
+                                $regional = ($request->city == 'Todo') ? '%%' : $request->city;
+                                $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
+                                $list = DB::table('eco_com_applicants')
+                                               ->select(DB::raw("economic_complements.id, economic_complements.code,economic_complements.semester,eco_com_modalities.shortened as modality,eco_com_types.id as tipo_comple,eco_com_types.name as eco_type,eco_com_states.name as eco_state,economic_complements.reception_date,degrees.shortened as afi_degree,pension_entities.name as pension_entity,cities.name as city,eco_com_applicants.identity_card as ap_identity_card,cities1.first_shortened as ap_exp, eco_com_applicants.last_name as ap_last_name, eco_com_applicants.mothers_last_name as ap_mothers_last_name, eco_com_applicants.surname_husband as ap_surname_husband, eco_com_applicants.first_name as ap_first_name, eco_com_applicants.second_name as ap_second_name, eco_com_applicants.phone_number as ap_phone_number,eco_com_applicants.cell_phone_number as ap_cell_phone_number,affiliates.identity_card as afi_identity_card,cities0.first_shortened as afi_exp,affiliates.last_name as afi_last_name,affiliates.mothers_last_name as afi_mothers_last_name,affiliates.first_name as afi_first_name,affiliates.second_name as afi_second_name,affiliates.surname_husband as afi_surname_husband,affiliates.gender as afi_gender,affiliates.civil_status as afi_civil_status,affiliates.birth_date as afi_birth_date,users.username"))
+                                               ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                                               ->leftJoin('users','economic_complements.user_id','=','users.id')
+                                               ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                                               ->leftJoin('cities', 'economic_complements.city_id', '=', 'cities.id')
+                                               ->leftJoin('cities as cities0','affiliates.city_identity_card_id','=','cities0.id')
+                                               ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')                                               
+                                               ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+                                               ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
+                                               ->leftJoin('eco_com_states', 'economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
+                                               ->leftJoin('eco_com_state_types', 'eco_com_states.eco_com_state_type_id', '=', 'eco_com_state_types.id')
+                                               ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                               ->leftJoin('units','affiliates.unit_id','=','units.id')
+                                               ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
+                                               ->whereRaw("economic_complements.city_id::text LIKE  '".$regional."'")
+                                               ->whereYear('economic_complements.year', '=', $request->year)
+                                               ->where('economic_complements.semester', 'LIKE', $semester)                      
+                                               ->orderBy('economic_complements.id','ASC')
+                                               ->get();
+                                foreach ($list as $comple) 
+                                {   if($comple->tipo_comple == 1 || $comple->tipo_comple == 2)
+                                    {
 
-                            }
+                                          $req = DB::table('eco_com_submitted_documents')->select(DB::raw('eco_com_submitted_documents.eco_com_requirement_id,eco_com_requirements.shortened,eco_com_submitted_documents.reception_date as req_date,eco_com_submitted_documents.status,eco_com_submitted_documents.created_at as req_update'))
+                                                                              ->leftJoin('eco_com_requirements','eco_com_submitted_documents.eco_com_requirement_id','=','eco_com_requirements.id')
+                                                                              ->where('eco_com_submitted_documents.economic_complement_id','=',$comple->id)->orderBy('eco_com_submitted_documents.id','ASC')->get();
+                                          //dd($req);  
+                                          $num =0;                                                                                             
+                                          foreach ($req as $item) 
+                                          {                                                         
+                                              //dd($item->eco_com_requirement_id);
+                                              if($comple->tipo_comple == 1 && $item->eco_com_requirement_id == 4)
+                                              {
+                                                  $list_date["req_date"] =  $item->req_date;
+                                                  $list_date["req_update"] =  $item->req_update;
+                                              }
+                                              elseif($comple->tipo_comple == 2 && $item->eco_com_requirement_id == 12)
+                                              {
+                                                  $list_date["req_date"] =  $item->req_date;
+                                                  $list_date["req_update"] =  $item->req_update;
+                                              }
+                                             
+                                              // requirement is true  or false
+                                              if($item->status == true)
+                                              {
+                                                  $list_req["req".$num] = "SI";
+
+                                              }
+                                              else{
+                                                  $list_req["req".$num] = "NO";
+                                              }
+                                              $num++;
+                                          }
+                                          $data_req = array_merge($list_date, $list_req);
+                                         
+                                          $data = [  'comple' =>(array)$comple ,'requi' => $data_req];
+                                          //dd($data);
+                                          $data1[] = $data;
+                                    }
+                                   
+                                                                         
+                                    
+                                  
+                                }
+                              
+                               dd($data1);
+                                Excel::create('REPORTE EXCEL', function($excel) {
+                                        global  $j,$final;
+                                        $j = 2;
+                                        $excel->sheet("TRAMITES DE COMPLEMENTO", function($sheet) {
+                                           global $j, $i,$final;
+                                           $i=1;  
+                                          
+                                           $sheet->row(1, array('NRO', 'CODIGO','SEMESTRE','MODALIDAD','TIPO_COMPLEMENTO','ESTADO_COMPL','FECHA_RECEP','GRADO','ENTE_GESTOR','REGIONAL','BE_CI','BE_EXP','BE_PATERNO','BE_MATERNO','BE_AP_ESPOSO','BE_PNOMBRE','BE_SNOMBRE','BE_TELEFONO','BE_CELULAR','AF_CI', 'AF_EXP','AF_PATERNO','AF_MATERNO','AF_PNOMBRE','AF_SNOMBRE','AF_AP_ESPOSO','AF_SEXO','AF_ESTADO_CIVIL','AF_FECHA_NAC','USUARIO'));
+                                           
+                                           foreach ($final as $datos) {
+                                               dd($datos->code);
+                                               $sheet->row($j, array($i,$datos->code,$datos->semester,$datos->modality,$datos->eco_type,$datos->eco_state,$datos->reception_date,$datos->afi_degree,$datos->pension_entity,$datos->city,$datos->ap_identity_card,$datos->ap_exp,$datos->ap_last_name,$datos->ap_mothers_last_name,$datos->ap_surname_husband,$datos->ap_first_name, $datos->ap_second_name,$datos->ap_phone_number,$datos->ap_cell_phone_number,$datos->afi_identity_card,$datos->afi_exp,$datos->afi_last_name,$datos->afi_mothers_last_name,$datos->afi_first_name,$datos->afi_second_name, $datos->afi_surname_husband, $datos->afi_gender,$datos->afi_civil_status,$datos->afi_birth_date,$datos->username));
+                                               $j++;
+                                               $i++;
+                                           }
+                                        });
+                                })->export('xlsx');
+                                
+                              break;                                   
+
+                           
                             
-                            Excel::create('REPORTE 8', function($excel) {
-                                       global $year,$semester, $j,$report,$final;
-                                       $j = 2;
-                                       $excel->sheet("BENEFICIARIOS SUBSANADOS", function($sheet) {
-                                       global $year,$semester, $j, $i,$report;
-                                       $i=1;
-                                       $sheet->row(1, array('NRO', 'NUM_ID', 'CUA', 'PRIMER_APELLIDO_T', 'SEGUNDO_APELLIDO_T','PRIMER_NOMBRE_T','SEGUNDO_NOMBRE_T','APELLIDO_CASADA_T','FECHA_NACIMIENTO_T'));
-                                       
-                                       foreach ($report as $datos) {
-                                           $sheet->row($j, array($i,$datos->identity_card,$datos->nua, $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,$datos->birth_date));
-                                           $j++;
-                                           $i++;
-                                       }
-                                     });
-                            })->export('xlsx');
-                                   Session::flash('message', "Importación Exitosa");
-                                   return redirect('economic_complement');
-                              break;
+                            
                         case '9':
                                 global $list;
                                 $regional = ($request->city == 'Todo') ? '%%' : $request->city;
@@ -550,7 +572,7 @@ class EconomicComplementReportController extends Controller
                                   Session::flash('message', $message);
                                   return redirect('report_complement');
                                 }
-
+                              break;
 
                         default:
                                return redirect('report_complement');
