@@ -488,18 +488,17 @@ class EconomicComplementReportController extends Controller
                                               $num++;
                                           }
                                           $data_req = array_merge($list_date, $list_req);
-                                         
-                                          $data = [  'comple' =>(array)$comple ,'requi' => $data_req];
-                                          //dd($data);
-                                          $data1[] = $data;
+                                          $ecom = (array)$comple;
+                                          $list_c = array_merge($ecom,$data_req); 
+                                          $final[]   = $list_c;
                                     }
                                    
                                                                          
                                     
                                   
                                 }
-                              
-                               dd($data1);
+                               
+                               dd($final);
                                 Excel::create('REPORTE EXCEL', function($excel) {
                                         global  $j,$final;
                                         $j = 2;
