@@ -453,6 +453,7 @@ class EconomicComplementReportController extends Controller
                                                ->where('economic_complements.semester', 'LIKE', $semester)                      
                                                ->orderBy('economic_complements.id','ASC')
                                                ->get();
+                                $deu =0;
                                 foreach ($list as $comple) 
                                 {   if($comple->tipo_comple == 1 || $comple->tipo_comple == 2)
                                     {
@@ -487,18 +488,36 @@ class EconomicComplementReportController extends Controller
                                               }
                                               $num++;
                                           }
+                                         
                                           $data_req = array_merge($list_date, $list_req);
                                           $ecom = (array)$comple;
                                           $list_c = array_merge($ecom,$data_req); 
-                                          $final[]   = $list_c;
+                                          $final[$deu]  = $list_c;
+                                          $deu++;
                                     }
                                    
                                                                          
                                     
                                   
                                 }
-                               
-                               dd($final);
+                               /*foreach ($final as $datos) {
+                                //foreach ($datos as $item) {
+                                  dd($datos[0][0]->code);
+
+                               // }
+                               }*/
+
+                              Excel::create('Filename', function($excel) use($final) {
+
+                                  $excel->sheet('Sheetname', function($sheet) use($final) {
+
+                                      $sheet->fromArray($final);
+
+                                  });
+
+                              })->export('xls');
+
+                              /* dd($final);
                                 Excel::create('REPORTE EXCEL', function($excel) {
                                         global  $j,$final;
                                         $j = 2;
@@ -515,7 +534,7 @@ class EconomicComplementReportController extends Controller
                                                $i++;
                                            }
                                         });
-                                })->export('xlsx');
+                                })->export('xlsx');*/
                                 
                               break;                                   
 
