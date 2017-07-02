@@ -494,18 +494,10 @@ class EconomicComplementReportController extends Controller
                                           $list_c = array_merge($ecom,$data_req); 
                                           $final[$deu]  = $list_c;
                                           $deu++;
-                                    }
-                                   
-                                                                         
-                                    
+                                    }                               
+                                                               
                                   
-                                }
-                               /*foreach ($final as $datos) {
-                                //foreach ($datos as $item) {
-                                  dd($datos[0][0]->code);
-
-                               // }
-                               }*/
+                                }                              
 
                               Excel::create('Filename', function($excel) use($final) {
 
@@ -515,26 +507,7 @@ class EconomicComplementReportController extends Controller
 
                                   });
 
-                              })->export('xls');
-
-                              /* dd($final);
-                                Excel::create('REPORTE EXCEL', function($excel) {
-                                        global  $j,$final;
-                                        $j = 2;
-                                        $excel->sheet("TRAMITES DE COMPLEMENTO", function($sheet) {
-                                           global $j, $i,$final;
-                                           $i=1;  
-                                          
-                                           $sheet->row(1, array('NRO', 'CODIGO','SEMESTRE','MODALIDAD','TIPO_COMPLEMENTO','ESTADO_COMPL','FECHA_RECEP','GRADO','ENTE_GESTOR','REGIONAL','BE_CI','BE_EXP','BE_PATERNO','BE_MATERNO','BE_AP_ESPOSO','BE_PNOMBRE','BE_SNOMBRE','BE_TELEFONO','BE_CELULAR','AF_CI', 'AF_EXP','AF_PATERNO','AF_MATERNO','AF_PNOMBRE','AF_SNOMBRE','AF_AP_ESPOSO','AF_SEXO','AF_ESTADO_CIVIL','AF_FECHA_NAC','USUARIO'));
-                                           
-                                           foreach ($final as $datos) {
-                                               dd($datos->code);
-                                               $sheet->row($j, array($i,$datos->code,$datos->semester,$datos->modality,$datos->eco_type,$datos->eco_state,$datos->reception_date,$datos->afi_degree,$datos->pension_entity,$datos->city,$datos->ap_identity_card,$datos->ap_exp,$datos->ap_last_name,$datos->ap_mothers_last_name,$datos->ap_surname_husband,$datos->ap_first_name, $datos->ap_second_name,$datos->ap_phone_number,$datos->ap_cell_phone_number,$datos->afi_identity_card,$datos->afi_exp,$datos->afi_last_name,$datos->afi_mothers_last_name,$datos->afi_first_name,$datos->afi_second_name, $datos->afi_surname_husband, $datos->afi_gender,$datos->afi_civil_status,$datos->afi_birth_date,$datos->username));
-                                               $j++;
-                                               $i++;
-                                           }
-                                        });
-                                })->export('xlsx');*/
+                              })->export('xls');                            
                                 
                               break;                                   
 
