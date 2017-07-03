@@ -430,7 +430,7 @@ class EconomicComplementReportController extends Controller
                            break;
                         case '8':                          
                                 
-                                global $list,$list_date,$list_req,$final;
+                                global $list,$list_date,$final;
                                 $regional = ($request->city == 'Todo') ? '%%' : $request->city;
                                 $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
                                 $list = DB::table('eco_com_applicants')
@@ -478,14 +478,17 @@ class EconomicComplementReportController extends Controller
                                               }
                                              
                                               // requirement is true  or false
-                                              if($item->status == true)
+                                              if($comple->tipo_comple != 3)
                                               {
-                                                  $list_req["req".$num] = "SI";
+                                                if($item->status == true)
+                                                  {
+                                                      $list_req["req".$num] = "SI";
 
-                                              }
-                                              else{
-                                                  $list_req["req".$num] = "NO";
-                                              }
+                                                  }
+                                                  else{
+                                                      $list_req["req".$num] = "NO";
+                                                  }
+                                              }                                                  
                                               $num++;
                                           }
                                          
@@ -499,7 +502,7 @@ class EconomicComplementReportController extends Controller
                                                                
                                   
                                 }                              
-
+                              //dd($final);
                               Excel::create('Filename', function($excel) use($final) {
 
                                   $excel->sheet('Sheetname', function($sheet) use($final) {
