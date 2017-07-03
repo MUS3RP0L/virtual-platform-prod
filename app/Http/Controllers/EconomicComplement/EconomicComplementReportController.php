@@ -460,7 +460,7 @@ class EconomicComplementReportController extends Controller
 
                                           $req = DB::table('eco_com_submitted_documents')->select(DB::raw('eco_com_submitted_documents.eco_com_requirement_id,eco_com_requirements.shortened,eco_com_submitted_documents.reception_date as req_date,eco_com_submitted_documents.status,eco_com_submitted_documents.created_at as req_update'))
                                                                               ->leftJoin('eco_com_requirements','eco_com_submitted_documents.eco_com_requirement_id','=','eco_com_requirements.id')
-                                                                              ->where('eco_com_submitted_documents.economic_complement_id','=',$comple->id)->orderBy('eco_com_submitted_documents.id','ASC')->get();
+                                                                              ->where('eco_com_submitted_documents.economic_complement_id','=',$comple->id)->orderBy('eco_com_submitted_documents.eco_com_requirement_id','ASC')->get();
                                           //dd($req);  
                                           $num =0;                                                                                             
                                           foreach ($req as $item) 
@@ -494,6 +494,7 @@ class EconomicComplementReportController extends Controller
                                           $list_c = array_merge($ecom,$data_req); 
                                           $final[$deu]  = $list_c;
                                           $deu++;
+                                          
                                     }                               
                                                                
                                   
