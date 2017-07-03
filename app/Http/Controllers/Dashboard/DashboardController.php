@@ -168,6 +168,8 @@ class DashboardController extends Controller
 		$economic_complement=DB::table('economic_complements')
 			->select(DB::raw('COUNT(*) as quantity, EXTRACT(MONTH FROM economic_complements.reception_date) as month'))
 			//->groupBy(DB::raw('EXTRACT(MONTH FROM economic_complements.reception_date)'))
+			->whereYear('economic_complements.year','=',$last_year)
+			->where('economic_complements.semester','=',$last_economic_complement->semester)
 			->groupBy('month')
 			->orderBy('month')
 			->get();
@@ -232,14 +234,15 @@ class DashboardController extends Controller
 		// order by (substr(substr(code,position('/' in code)+1,length(code)),length(substr(code,position('/' in code)+1,length(code)))-4, length(substr(code,position('/' in code)+1,length(code))) )) asc, cantidad
 		// limit 5
 
+		$limit_semesters=5;
 		//for  (tramites) last 5 semesters
-		$last_semesters=DB::table('economic_complements')
+			$last_semesters=DB::table('economic_complements')
 			->select(DB::raw("count(*) as quantity, substr(code,position('/' in code)+1,length(code)) as date"))
-			->whereRaw("EXTRACT(year from economic_complements.year ) <> EXTRACT(year from current_date) and economic_complements.semester  NOT LIKE '".Util::getCurrentSemester()."'")
+			->whereRaw("EXTRACT(year from economic_complements.year ) <= ".$last_year."")
 			->groupBy(DB::raw("substr(code,position('/' in code)+1,length(code))"))
 			->orderBy(DB::raw("substr(substr(code,position('/' in code)+1,length(code)),length(substr(code,position('/' in code)+1,length(code)))-4, length(substr(code,position('/' in code)+1,length(code))))"),'desc')
-			->orderBy('date','asc')
-			->limit(5)
+			->orderBy('date','desc')
+			->limit($limit_semesters)
 			->get();
 		$last_semesters_data=[];
 		foreach ($last_semesters as $item) {
@@ -254,7 +257,7 @@ class DashboardController extends Controller
 			->groupBy(DB::raw("substr(code,position('/' in code)+1,length(code))"))
 			->orderBy(DB::raw("substr(substr(code,position('/' in code)+1,length(code)),length(substr(code,position('/' in code)+1,length(code)))-4, length(substr(code,position('/' in code)+1,length(code))))"),'desc')
 			->orderBy('date','asc')
-			->limit(5)
+			->limit($limit_semesters)
 			->get();
 		$sum_last_semesters_data=[];
 		foreach ($sum_last_semesters as $item) {
