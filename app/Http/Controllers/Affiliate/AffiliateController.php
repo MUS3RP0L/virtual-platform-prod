@@ -314,10 +314,13 @@ class AffiliateController extends Controller
                 }else{
                     $eco_com_submitted_documents = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
                     {
-                        $query->where('eco_com_requirement_id','=',9)
+                        $query->where('eco_com_requirement_id','=',7)
+                              ->orWhere('eco_com_requirement_id','=',8)
+                              ->orWhere('eco_com_requirement_id','=',9)
                               ->orWhere('eco_com_requirement_id','=',10)
                               ->orWhere('eco_com_requirement_id','=',11)
-                              ->orWhere('eco_com_requirement_id','=',12);
+                              ->orWhere('eco_com_requirement_id','=',12)
+                              ->orWhere('eco_com_requirement_id','=',13);
                     })->orderBy('id','asc')->get();
                 }
 
