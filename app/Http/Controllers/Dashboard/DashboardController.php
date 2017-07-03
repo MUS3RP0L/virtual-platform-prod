@@ -49,6 +49,10 @@ class DashboardController extends Controller
 
 	public function showIndex()
 	{
+		//get last economonomic complement and last year
+		$last_economic_complement=EconomicComplement::all()->last();
+		$last_year=Carbon::parse($last_economic_complement->year)->year;
+
 		/*	$AfiServ = DB::table('affiliates')
 										->select(DB::raw('count(*) as totalafis'))
 										->where('affiliates.affiliate_state_id', '=', 1)
@@ -159,6 +163,7 @@ class DashboardController extends Controller
 		*/
 
 
+
 		//for economic complement
 		$economic_complement=DB::table('economic_complements')
 			->select(DB::raw('COUNT(*) as quantity, EXTRACT(MONTH FROM economic_complements.reception_date) as month'))
@@ -175,11 +180,12 @@ class DashboardController extends Controller
 		$economic_complement_bar= array($economic_complement_bar_labels, $economic_complement_bar_datas);
 		
 		// for economic complement types
-
 		$economic_complement_types=DB::table('eco_com_types')
 			->select(DB::raw('count(*) as quantity, eco_com_types.name as type_name'))
 			->join('eco_com_modalities','eco_com_types.id', '=', 'eco_com_modalities.eco_com_type_id')
 			->join('economic_complements','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+			->whereYear('economic_complements.year','=',$last_year)
+			->where('economic_complements.semester','=',$last_economic_complement->semester)
 			->groupBy('eco_com_types.name')
 			->get();
 		$economic_complement_pie_types_labels=[];
@@ -189,13 +195,15 @@ class DashboardController extends Controller
 			$economic_complement_pie_types_datas[]= $item->quantity;
 		}
 		$economic_complement_pie_types=array($economic_complement_pie_types_labels,$economic_complement_pie_types_datas);
-		
+		//dd($economic_complement_pie_types);
 		//for economic complement  modalities types
 
 		$economic_complement_modalities_types=DB::table('eco_com_types')
 			->select(DB::raw('count(*) as quantity, eco_com_modalities.shortened'))
 			->join('eco_com_modalities','eco_com_types.id' ,'=', 'eco_com_modalities.eco_com_type_id')
 			->join('economic_complements','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+			->whereYear('economic_complements.year','=',$last_year)
+			->where('economic_complements.semester','=',$last_economic_complement->semester)
 			->groupBy('eco_com_modalities.shortened')
 			->get();
 			$economic_complement_modalities_types_datas=[];
@@ -208,6 +216,8 @@ class DashboardController extends Controller
 			->select(DB::raw('count(*) as quantity, cities.name'))
 			->join('economic_complements','economic_complements.city_id','=','cities.id')
 			->groupBy('cities.name')
+			->whereYear('economic_complements.year','=',$last_year)
+			->where('economic_complements.semester','=',$last_economic_complement->semester)
 			->orderBy('quantity')
 			->get();
 		$economic_complement_cities_data=[];
@@ -269,6 +279,8 @@ class DashboardController extends Controller
 			'economic_complement_cities'=>array(array_keys($economic_complement_cities_data),array_values($economic_complement_cities_data)),
 			'last_semesters'=>array(array_keys($last_semesters_data_reverse),array_values($last_semesters_data_reverse)),
 			'sum_last_semesters'=>array(array_keys($sum_last_semesters_data_reverse),array_values($sum_last_semesters_data_reverse)),
+			'last_economic_complement'=>$last_economic_complement,
+			'last_year'=>$last_year	
 
 		];
 		//dd(array(array_keys($economic_complement_modalities_types),array_values($economic_complement_modalities_types)));
