@@ -80,31 +80,9 @@ class EconomicComplementImportExportController extends Controller
                   ->where('affiliates.pension_entity_id','=', 5)
                   ->whereYear('economic_complements.year', '=', $year)
                   ->where('economic_complements.semester', '=', $semester)->first();
-            }
-
-
-
-            /*$ci_ti = ltrim($datos->carnet_tit,"0");
-            $comp1 = DB::table('economic_complements')
-                ->select(DB::raw('economic_complements.*, eco_com_types.id as type'))
-                ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                            
-                ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
-                ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')                
-                ->whereRaw("LTRIM(affiliates.identity_card,'0') ='".rtrim($ci_ti.$ext1)."'")
-                ->where('affiliates.pension_entity_id','=', 5)
-                ->whereYear('economic_complements.reception_date', '=', $year)
-                ->where('economic_complements.semester', '=', $semester)->first();
-            if($comp){
-                $data = null;
-                $data = $comp;
-            }elseif($comp1){
-                $data = null;
-                $data = $comp1;
-            }*/
-
-            //dd($comp);
+            }           
             if ($comp){
-               // $ecomplement = EconomicComplement::where('affiliate_id','=', $comp->affiliate_id)->whereYear('reception_date','=', $year)->where('semester','=', $comp->semester)->first();
+               
                 $ecomplement = EconomicComplement::where('id','=', $comp->id)->first();
                 $reimbursements = $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
                 $discount = $datos->renta_dignidad + $datos->reintegro_renta_dignidad + $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
@@ -134,22 +112,8 @@ class EconomicComplementImportExportController extends Controller
               $i ++;
               $list = $comp;
             }
-          }
-          
-          /*Excel::create('Senasir CE', function($excel) {
-              global $list, $j;
-              $j = 2;
-              $excel->sheet('Lista', function($sheet) {
-              global $list, $j;
-              $sheet->row(1, array('mat_titular', 'carnet', 'num_com', 'total_ganado', 'renta_dignidad', 'reintegro_renta_dignidad', 'reintegro_importe_adicional','reintegro_inc_gestion'));
-              foreach ($list as $valor) {
-                  //$sheet->row($j, array($valor->mat_titular, $valor->mat_dh, $valor->departamento, $valor->regional, $valor->renta, $valor->tipo_renta, $valor->carnet, $valor->nombres,$valor->fecha_nacimiento,$valor->clase_renta, $valor->total_ganado, $valor->total_descuentos,$valor->renta_basica, $valor->rentegro_r_basica, $valor->bono_del_estado,$valor->adicion_ivm,$valor->incremento_acumulado,$valor->renta_complementaria,$valor->renta_dignidad,$valor->reintegro_renta_dignidad,$valor->aguinaldo_renta_dignidad,$valor->inc_al_minimo_nacional, $valor->reintegro_aguinaldo,$valor->bono_ips_ds_27760,$valor->beneficios_adicionales,$valor->plus_afps,$valor->resolucion_15_95,$valor->importe_adicional,$valor->reintegro_importe_adicional,$valor->bono_adicional_ip2006,$valor->ajuste_adicional,$valor->incremento_gestion,$valor->reintegro_inc_gestion,$valor->incr_inv_prop_ip_gestion,$valor->caja_nacional_salud,$valor->caja_salud_banca_privada,$valor->conf_nac_jubil_rent_bolivia,$valor->conf_nac_maestros_jubilados,$valor->desc_a_favor_cnjrb,$valor->moneda_fraccionaria,$valor->pago_indebido_ivm,$valor->pago_adelantado_pra_ivm,$valor->desc_cobro_indebido_r026_99_ivm,$valor->retencion_judicial, $valor->descuento_musepol, $valor->descuento_covipol, $valor->prestamo_musepol));
-                $sheet->row($j, array($valor->mat_titular, $valor->carnet, $valor->num_com,$valor->total_ganado, $valor->renta_dignidad, $valor->reintegro_renta_dignidad, $valor->reintegro_importe_adicional, $valor->reintegro_inc_gestion));
-                  $j++;
-              }
-            });
-
-          })->export('xlsx');    */      
+          }          
+              
           Session::flash('message', "Importación Exitosa"." F:".$found." NF:".$nofound);
           return redirect('economic_complement');
         }
