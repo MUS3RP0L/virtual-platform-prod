@@ -68,32 +68,7 @@
         </div>
 
         <div class="tab-pane" id="control-sidebar-reports-tab">
-            <h4 class="control-sidebar-heading"><b>Reportes de Usuario</b></h4>
-            <ul class="control-sidebar-menu">
-                @can('economic_complement')
-                    <li>
-                      <a href="{!! url('print_activity/'."1") !!}">
-                        <div class="menu">
-                            <label class="control-sidebar-subheading">- Diario</label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                        <a href="{!! url('activity') !!}">
-                            <div class="menu">
-                                <label class="control-sidebar-subheading">- Por fecha</label>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{!! url('print_activity/'."2") !!}">
-                            <div class="menu">
-                                <label class="control-sidebar-subheading">- General</label>
-                            </div>
-                        </a>
-                    </li>
-                @endcan
-            </ul>
+            
             <h4 class="control-sidebar-heading"><b>Reportes del Beneficio</b></h4>
             <ul class="control-sidebar-menu">
                 @can('economic_complement')

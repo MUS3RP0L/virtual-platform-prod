@@ -31,43 +31,7 @@ class ActivityController extends Controller
             return view('activities.index');
     }
 
-    public function Data(Request $request)
-    {
-        $activities = Activity::select(['created_at','message', 'activity_type_id', 'user_id'])->where('user_id', '=', Auth::user()->id);
-        if ($request->has('from') && $request->has('to'))
-        {   $activities->where(function($activities) use ($request)
-            {   $from = Util::datePick($request->get('from'));
-                $to = Util::datePick($request->get('to'));
-                $activities->whereDate('created_at','>=', $from)->whereDate('created_at','<=', $to);
-            });
-        }
-
-        return Datatables::of($activities)
-                ->addColumn('created_at', function ($activities) { return $activities->created_at; })
-                ->editColumn('message', function ($activities) { return $activities->message; })
-                ->editColumn('user_id', function ($activities) { return Auth::user()->username; })
-                ->make(true);
-    }
-
-    public function print_activity($type) {
-        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-        $title = "REGISTRO DE ACTIVIDADES DEL USUARIO";
-        $date = Util::getDateEdit(date('Y-m-d'));
-        $current_date = Carbon::now();
-        $hour = Carbon::parse($current_date)->toTimeString();
-        if($type == "1") {
-            $activities = Activity::select(['created_at','message', 'activity_type_id', 'user_id'])->where('user_id', '=', Auth::user()->id)->whereDate('created_at','=', date('Y-m-d'))->orderBy('created_at')->get();
-        }
-        elseif($type == "2") {
-            $activities = Activity::select(['created_at','message', 'activity_type_id', 'user_id'])->where('user_id', '=', Auth::user()->id)->orderBy('created_at')->get();
-        }
-        $view = \View::make('activities.print.show', compact('header1','header2','title','date','hour','activities'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view)->setPaper('letter');
-        return $pdf->download('Reporte_Actividades.pdf');
-    }
-
+   
 
 
     /**

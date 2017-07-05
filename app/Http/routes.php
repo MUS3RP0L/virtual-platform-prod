@@ -82,11 +82,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('print_voucher/{voucher_id}', 'Voucher\VoucherController@PrintVoucher');
 	Route::get('print_compromise/{afid}', 'Contribution\DirectContributionController@PrintCompromise');
 
-	//Activity
-	Route::resource('activity', 'Activity\ActivityController');
-	Route::get('get_activity', array('as'=>'get_activity', 'uses'=>'Activity\ActivityController@Data'));
-	Route::get('print_activity/{type}', 'Activity\ActivityController@print_activity');
-
+	
 	// Complementary Factor
 	Route::resource('complementary_factor', 'EconomicComplement\ComplementaryFactorController');
 	Route::get('get_complementary_factor_old_age', array('as'=>'get_complementary_factor_old_age', 'uses'=>'EconomicComplement\ComplementaryFactorController@old_ageData'));
