@@ -83,6 +83,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('print_compromise/{afid}', 'Contribution\DirectContributionController@PrintCompromise');
 
 	
+
 	// Complementary Factor
 	Route::resource('complementary_factor', 'EconomicComplement\ComplementaryFactorController');
 	Route::get('get_complementary_factor_old_age', array('as'=>'get_complementary_factor_old_age', 'uses'=>'EconomicComplement\ComplementaryFactorController@old_ageData'));
