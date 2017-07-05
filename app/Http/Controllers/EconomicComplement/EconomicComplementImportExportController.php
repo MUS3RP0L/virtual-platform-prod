@@ -142,17 +142,19 @@ class EconomicComplementImportExportController extends Controller
         $found=0;
         $nofound=0;
         //return response()->json($results);
-        foreach ($results as $datos){
+        foreach ($results as $datos)
+        {   $ci = ltrim($datos->nro_identificacion, "0");
+            //dd($ci);
             $afi = DB::table('economic_complements')
-              ->select(DB::raw('economic_complements.*'))
-              ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
-              ->where('affiliates.nua', '=', rtrim(Util::zero($datos->cua_titular)))
-              ->where('affiliates.identity_card', '=', rtrim(Util::zero($datos->nro_identificacion)))
-              ->whereIn('affiliates.pension_entity_id', [1, 2, 3, 4])
-              ->whereYear('economic_complements.year', '=', $year)
-              ->where('economic_complements.semester', '=', rtrim($semester))
-              //->where('economic_complements.eco_com_state_id', '=', 2)
-              ->whereNull('economic_complements.deleted_at')->first();
+                  ->select(DB::raw('affiliates.identity_card as ci_afi,economic_complements.*, eco_com_types.id as type'))                  
+                  ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                            
+                  ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                  ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
+                  ->whereRaw("LTRIM(affiliates.identity_card,'0') ='".$ci."'")         
+                  ->where('affiliates.pension_entity_id','!=', 5)
+                  ->whereYear('economic_complements.year', '=', $year)
+                  ->where('economic_complements.semester', '=', $semester)->first();
+           
               if ($afi){
                   //return response()->json($afi);
                   $comp1 = 0;
@@ -168,14 +170,13 @@ class EconomicComplementImportExportController extends Controller
                       $comp3 = 1;
                   }
                   $comp = $comp1 + $comp2 + $comp3;
-                  $ecomplement = EconomicComplement::where('id','=', $afi->id)
-                                ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
-                                ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','eco_com_types.id')->select('economic_complements.*','eco_com_modalities.*','eco_com_types.*')->first();
+                  $ecomplement = EconomicComplement::where('id','=', $afi->id)->first();
+                                
                   $ecomplement->total = $datos->total_pension;
-                  dd($ecomplement);
+                 // dd($ecomplement);
                   //Vejez
-                 if ($ecomplement->eco_com_type_id == 1 || $ecomplement->eco_com_type_id == 3)
-                 {
+                  if ($afi->type == 1 || $afi->type == 3)
+                  {
                      if ($comp == 1 && $datos->total_pension >= 2000)
                      {
                         $ecomplement->eco_com_modality_id = 4;
@@ -188,32 +189,22 @@ class EconomicComplementImportExportController extends Controller
                      {
                         $ecomplement->eco_com_modality_id = 8;
                      }
-                 }
+                  }
                  //Viudedad
-                 if ($ecomplement->eco_com_type_id == 2) {
-                     if($comp == 1 && $datos->total_pension >= 2000) {
+                  if ($afi->type == 2) 
+                  {
+                     if($comp == 1 && $datos->total_pension >= 2000) 
+                     {
                          $ecomplement->eco_com_modality_id = 5;
-                     } elseif ($comp == 1 && $datos->total_pension < 2000) {
+                     } elseif ($comp == 1 && $datos->total_pension < 2000) 
+                     {
                           $ecomplement->eco_com_modality_id = 7;
-                     } elseif ($comp > 1 && $datos->total_pension < 2000 ) {
+                     } elseif ($comp > 1 && $datos->total_pension < 2000 ) 
+                     {
                          $ecomplement->eco_com_modality_id = 9;
                      }
-                 }
-                  $ecomplement->save();
-                  $affiliates = Affiliate::where('id', '=', $afi->affiliate_id)->first();
-                  if ($datos->afpea == "01") {
-                      $affiliates->pension_entity_id = 1;
                   }
-                  elseif($datos->afpea == "02") {
-                      $affiliates->pension_entity_id = 2;
-                  }
-                  elseif($datos->afpea == "13"){
-                      $affiliates->pension_entity_id = 3;
-                  }
-                  else{
-                       $affiliates->pension_entity_id = 4;
-                  }
-                  $affiliates->save();
+                  $ecomplement->save();                  
                   $found ++;
               }
               else{
@@ -222,9 +213,10 @@ class EconomicComplementImportExportController extends Controller
                 $list[]= $datos;
               }
           }
+          //dd($list);
           //return response()->json($list);
           //export record no found
-          Excel::create('APS_NOTFOUND', function($excel) {
+          /*Excel::create('APS_NOTFOUND', function($excel) {
               global $list, $j,$k;
               $j = 2;
               $excel->sheet('Lista_aps', function($sheet) {
@@ -238,7 +230,7 @@ class EconomicComplementImportExportController extends Controller
               }
             });
 
-          })->export('xlsx');
+          })->export('xlsx');*/
           Session::flash('message', "Importación Exitosa"." F:".$found." NF:".$nofound);
           return redirect('economic_complement');
     }
