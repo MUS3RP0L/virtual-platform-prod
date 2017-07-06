@@ -1009,6 +1009,7 @@
                     {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement], 'class' => 'form-horizontal']) !!}
                         <input type="hidden" name="step" value="rent"/>
                         <div class="row">
+                            <h4 style="text-align: center">{!!$economic_complement->affiliate->pension_entity->name!!}</h4>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     {!! Form::label('sub_total_rent', 'Renta Total Boleta', ['class' => 'col-md-5 control-label']) !!}
@@ -1031,6 +1032,29 @@
                                         <span class="help-block">Escriba la renta dignidad</span>
                                     </div>
                             </div>
+                            @if($economic_complement->affiliate->pension_entity->name != 'SENASIR')
+                            <div class="form-group">
+                                {!! Form::label('component', 'Componente', ['class' => 'col-md-5 control-label']) !!}
+                                <div class="col-md-6" >
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="aps_total_fsa"> Fraccion de Saldo Acumulado
+                                        </label>
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="aps_total_cc"> Fraccion de cotizaciones
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="aps_total_fs"> Fraccion Solidaria
+                                        </label>
+                                     </div>
+                                </div>
+                            </div>
+                                @endif
                             </div>
 
                         </div>
