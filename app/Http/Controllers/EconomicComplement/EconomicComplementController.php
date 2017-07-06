@@ -1060,7 +1060,7 @@ class EconomicComplementController extends Controller
                 ->withInput();
             }
             else{
-                $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+                    $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
 
                     $total_rent = floatval($request->sub_total_rent)-floatval($request->reimbursement)-floatval($request->dignity_pension);
                     //for aps
@@ -1074,7 +1074,7 @@ class EconomicComplementController extends Controller
                             $comp++;
                         }
                         //vejez
-                        if ($economic_complement->economic_complement_modality->economic_complement_type->id == 1 || $economic_complement->economic_complement_modality->economic_complement_type->id == 3)
+                        if ($economic_complement->economic_complement_modality->economic_complement_type->id == 1)
                         {
                             if ($comp == 1 && $total_rent >= 2000)
                             {
@@ -1087,24 +1087,51 @@ class EconomicComplementController extends Controller
                             elseif ($comp > 1 && $total_rent < 2000)
                             {
                                $economic_complement->eco_com_modality_id = 8;
-                            }else{
-                               $economic_complement->eco_com_modality_id = $economic_complement->economic_complement_modality->economic_complement_type->id;
+                            }else
+                            {
+                               $economic_complement->eco_com_modality_id = 1;
                             }
                         }
                         //Viudedad
-                        if ($economic_complement->economic_complement_modality->economic_complement_type->id == 2) {
-                            if($comp == 1 && $total_rent >= 2000) {
+                        if ($economic_complement->economic_complement_modality->economic_complement_type->id == 2)
+                        {
+                            if($comp == 1 && $total_rent >= 2000)
+                            {
                                 $economic_complement->eco_com_modality_id = 5;
-                            } elseif ($comp == 1 && $total_rent < 2000) {
+                            }
+                            elseif ($comp == 1 && $total_rent < 2000)
+                            {
                                  $economic_complement->eco_com_modality_id = 7;
-                            } elseif ($comp > 1 && $total_rent < 2000 ) {
+                            }
+                            elseif ($comp > 1 && $total_rent < 2000 )
+                            {
                                 $economic_complement->eco_com_modality_id = 9;
-                            }else{
+                            }else
+                            {
                                 $economic_complement->eco_com_modality_id = 2;
                             }
                         }
+                        //orfandad
+                        if ($economic_complement->economic_complement_modality->economic_complement_type->id == 3)
+                        {
+                            if ($comp == 1 && $total_rent >= 2000)
+                            {
+                               $economic_complement->eco_com_modality_id = 10;
+                            }
+                            elseif ($comp == 1 && $total_rent < 2000)
+                            {
+                               $economic_complement->eco_com_modality_id = 11;
+                            }
+                            elseif ($comp > 1 && $total_rent < 2000)
+                            {
+                               $economic_complement->eco_com_modality_id = 12;
+                            }else{
+                               $economic_complement->eco_com_modality_id = 3;
+                            }
+                        }
                     }else{
-                        if($economic_complement->economic_complement_modality->economic_complement_type->id == 1 && $total_rent < 2000)  //Vejez Senasir
+                        //Senasir
+                        if($economic_complement->economic_complement_modality->economic_complement_type->id == 1 && $total_rent < 2000)  //Vejez
                         {
                           $economic_complement->eco_com_modality_id = 8;
                         } 
@@ -1114,17 +1141,17 @@ class EconomicComplementController extends Controller
                         } 
                         elseif($economic_complement->economic_complement_modality->economic_complement_type->id == 3 && $total_rent < 2000) //Orfandad 
                         {  
-                            $economic_complement->eco_com_modality_id = 8;
+                            $economic_complement->eco_com_modality_id = 12;
                         }else {
                             $economic_complement->eco_com_modality_id = $economic_complement->economic_complement_modality->economic_complement_type->id;
                         }
                     }
-                    $economic_complement->total_rent=$total_rent;
+                    $economic_complement->total_rent = $total_rent;
                     $economic_complement->save();
 
                     //para el promedio
                     if (!array_search($economic_complement->eco_com_modality_id, array(1,2,3))) {
-                        $economic_complement_rent=EconomicComplementRent::where('degree_id','=',$economic_complement->affiliate->degree->id)
+                        $economic_complement_rent = EconomicComplementRent::where('degree_id','=',$economic_complement->affiliate->degree->id)
                             ->where('eco_com_type_id','=',$economic_complement->economic_complement_modality->economic_complement_type->id)
                             ->whereYear('year','=',Carbon::parse($economic_complement->year)->year)
                             ->where('semester','=',$economic_complement->semester)
