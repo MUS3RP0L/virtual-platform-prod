@@ -1061,9 +1061,69 @@ class EconomicComplementController extends Controller
             }
             else{
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+
                     $total_rent = floatval($request->sub_total_rent)-floatval($request->reimbursement)-floatval($request->dignity_pension);
+                    //for aps
+                    if($economic_complement->affiliate->pension_entity->type=='APS'){
+                        $comp=0;
+                        if ($request->aps_total_fsa) {
+                            $comp++;
+                        }if ($request->aps_total_cc) {
+                            $comp++;
+                        }if ($request->aps_total_fs) {
+                            $comp++;
+                        }
+                        //vejez
+                        if ($economic_complement->economic_complement_modality->economic_complement_type->id == 1 || $economic_complement->economic_complement_modality->economic_complement_type->id == 3)
+                        {
+                            if ($comp == 1 && $total_rent >= 2000)
+                            {
+                               $economic_complement->eco_com_modality_id = 4;
+                            }
+                            elseif ($comp == 1 && $total_rent < 2000)
+                            {
+                               $economic_complement->eco_com_modality_id = 6;
+                            }
+                            elseif ($comp > 1 && $total_rent < 2000)
+                            {
+                               $economic_complement->eco_com_modality_id = 8;
+                            }else{
+                               $economic_complement->eco_com_modality_id = $economic_complement->economic_complement_modality->economic_complement_type->id;
+                            }
+                        }
+                        //Viudedad
+                        if ($economic_complement->economic_complement_modality->economic_complement_type->id == 2) {
+                            if($comp == 1 && $total_rent >= 2000) {
+                                $economic_complement->eco_com_modality_id = 5;
+                            } elseif ($comp == 1 && $total_rent < 2000) {
+                                 $economic_complement->eco_com_modality_id = 7;
+                            } elseif ($comp > 1 && $total_rent < 2000 ) {
+                                $economic_complement->eco_com_modality_id = 9;
+                            }else{
+                                $economic_complement->eco_com_modality_id = 2;
+                            }
+                        }
+                    }else{
+                        if($economic_complement->economic_complement_modality->economic_complement_type->id == 1 && $total_rent < 2000)  //Vejez Senasir
+                        {
+                          $economic_complement->eco_com_modality_id = 8;
+                        } 
+                        elseif ($economic_complement->economic_complement_modality->economic_complement_type->id == 2 && $total_rent < 2000) //Viudedad 
+                        {  
+                          $economic_complement->eco_com_modality_id = 9;
+                        } 
+                        elseif($economic_complement->economic_complement_modality->economic_complement_type->id == 3 && $total_rent < 2000) //Orfandad 
+                        {  
+                            $economic_complement->eco_com_modality_id = 8;
+                        }else {
+                            $economic_complement->eco_com_modality_id = $economic_complement->economic_complement_modality->economic_complement_type->id;
+                        }
+                    }
                     $economic_complement->total_rent=$total_rent;
-                    if (!array_search($economic_complement->eco_com_modality_id, array(1,2,3)) && $total_rent < 2000) {
+                    $economic_complement->save();
+
+                    //para el promedio
+                    if (!array_search($economic_complement->eco_com_modality_id, array(1,2,3))) {
                         $economic_complement_rent=EconomicComplementRent::where('degree_id','=',$economic_complement->affiliate->degree->id)
                             ->where('eco_com_type_id','=',$economic_complement->economic_complement_modality->economic_complement_type->id)
                             ->whereYear('year','=',Carbon::parse($economic_complement->year)->year)
@@ -1072,9 +1132,15 @@ class EconomicComplementController extends Controller
                         $total_rent=$economic_complement_rent->average;
                     }
                     $base_wage = BaseWage::degreeIs($economic_complement->affiliate->degree_id)->whereYear('month_year','=',Carbon::parse($economic_complement->year)->year)->first();
-                    $salary_reference = $base_wage->amount;
-                    $economic_complement->salary_reference=$salary_reference;
-                    $seniority = $economic_complement->category->percentage * $base_wage->amount;
+                    if ($economic_complement->economic_complement_modality->economic_complement_type->id==2) {
+                        $base_wage_amount=$base_wage->amount*(80/100);
+                        $salary_reference = $base_wage_amount;
+                        $seniority = $economic_complement->category->percentage * $base_wage_amount;
+                    }else{
+                        $salary_reference = $base_wage->amount;
+                        $seniority = $economic_complement->category->percentage * $base_wage->amount;
+                    }
+
                     //dd($seniority);
                     $economic_complement->seniority=$seniority;
                     $salary_quotable = $salary_reference + $seniority;
@@ -1106,7 +1172,7 @@ class EconomicComplementController extends Controller
                 $total = $total_amount_semester * floatval($complementary_factor)/100;
                 $economic_complement->total=$total;
                 $economic_complement->base_wage_id = $base_wage->id;
-                $economic_complement->salary_reference=$base_wage->amount;
+                $economic_complement->salary_reference=$salary_reference;
                 $economic_complement->state = 'Edited';
                 $economic_complement->save();
                 //dd($economic_complement);
