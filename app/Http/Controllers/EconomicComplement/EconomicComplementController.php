@@ -1149,14 +1149,18 @@ class EconomicComplementController extends Controller
                     $economic_complement->total_rent = $total_rent;
                     $economic_complement->save();
 
+                    $economic_complement->total_rent_calc = $total_rent;
+
                     //para el promedio
-                    if (!array_search($economic_complement->eco_com_modality_id, array(1,2,3))) {
+                    if ($economic_complement->eco_com_modality_id>3) {
                         $economic_complement_rent = EconomicComplementRent::where('degree_id','=',$economic_complement->affiliate->degree->id)
                             ->where('eco_com_type_id','=',$economic_complement->economic_complement_modality->economic_complement_type->id)
                             ->whereYear('year','=',Carbon::parse($economic_complement->year)->year)
                             ->where('semester','=',$economic_complement->semester)
                             ->first();
                         $total_rent=$economic_complement_rent->average;
+                        $economic_complement->total_rent_calc = $economic_complement_rent->average;
+
                     }
                     $base_wage = BaseWage::degreeIs($economic_complement->affiliate->degree_id)->whereYear('month_year','=',Carbon::parse($economic_complement->year)->year)->first();
                     if ($economic_complement->economic_complement_modality->economic_complement_type->id==2) {
