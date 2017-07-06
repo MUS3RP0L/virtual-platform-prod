@@ -1161,12 +1161,12 @@ class EconomicComplementController extends Controller
                                             ->whereYear('year', '=', Carbon::parse($economic_complement->year)->year)
                                             ->where('semester', '=', $economic_complement->semester)->first();
                 $economic_complement->complementary_factor_id = $complementary_factor->id;
-                if ($economic_complement->economic_complement_modality->eco_com_type_id == 1) {
-                    //vejez
-                    $complementary_factor=$complementary_factor->old_age;
-                }else{
+                if ($economic_complement->economic_complement_modality->eco_com_type_id == 2 ) {
                     //viudedad
                     $complementary_factor=$complementary_factor->widowhood;
+                }else{
+                    //vejez
+                    $complementary_factor=$complementary_factor->old_age;
                 }
                 $economic_complement->complementary_factor=$complementary_factor;
                 $total = $total_amount_semester * floatval($complementary_factor)/100;
