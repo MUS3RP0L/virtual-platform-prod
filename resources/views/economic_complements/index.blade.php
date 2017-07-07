@@ -121,7 +121,12 @@
                             </div>
                         </form>
                     </div>
-
+                    <div class="row">
+                        
+                        <div class="col-md-2">
+                        <input type="text" name="buscador" id="buscador" class="form-control" placeholder="Buscador"> 
+                        </div>
+                    </div>    
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table table-bordered table-hover" id="economic_complements-table">
@@ -510,6 +515,7 @@
                     d.eco_com_state_id = $('input[name=eco_com_state_id]').val();
                     d.eco_com_modality_id = $('select[name=eco_com_modality_id]').val();
                     d.post = $('input[name=post]').val();
+                    d.buscador= $('input[name=buscador]').val();
                 }
             },
             columns: [
