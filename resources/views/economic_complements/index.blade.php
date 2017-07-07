@@ -121,9 +121,17 @@
                             </div>
                         </form>
                     </div>
-
                     <div class="row">
+                        <div class="col-md-4">
+                          <input type="input" id="buscador" name="buscador" class="form-control" placeholder="Buscador">  
+                        </div>
+                          
+                    </div>
+
+                 <!--    <div class="row">
                         <div class="col-md-12">
+
+                           
                             <table class="table table-bordered table-hover" id="economic_complements-table">
                                 <thead>
                                     <tr class="success">
@@ -138,7 +146,28 @@
                                 </thead>
                             </table>
                         </div>
+                    </div> -->
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                           
+                            <table class="table table-bordered table-hover" id="sample-table">
+                                <thead>
+                                    <tr class="success">
+                                        <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Número de Trámite">Número</div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Numero de Carnet">Número de Carnet</div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Nombre de Afiliado">Nombre de Beneficiario</div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Fecha de Emision">Fecha Emisión</div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Estado">Estado</div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Modalidad">Modalidad</div></th>
+                                        <th class="text-center">Acción</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -495,38 +524,53 @@
             autoclose: true
         });
 
-        var oTable = $('#economic_complements-table').DataTable({
-            "dom": '<"top">t<"bottom"p>',
-            processing: true,
-            serverSide: true,
-            pageLength: 8,
-            autoWidth: false,
-            ajax: {
-                url: '{!! route('get_economic_complement') !!}',
-                data: function (d) {
-                    d.code = $('input[name=code]').val();
-                    d.affiliate_identitycard = $('input[name=affiliate_identitycard]').val();
-                    d.creation_date = $('input[name=creation_date]').val();
-                    d.eco_com_state_id = $('input[name=eco_com_state_id]').val();
-                    d.eco_com_modality_id = $('select[name=eco_com_modality_id]').val();
-                    d.post = $('input[name=post]').val();
-                }
-            },
-            columns: [
-                { data: 'code', sClass: "text-center" },
-                { data: 'affiliate_identitycard', bSortable: false },
-                { data: 'affiliate_name', bSortable: false },
-                { data: 'created_at', bSortable: false },
-                { data: 'eco_com_state', bSortable: false },
-                { data: 'eco_com_modality', bSortable: false },
-                { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: "text-center" }
-            ]
-        });
+        // var oTable = $('#economic_complements-table').DataTable({
+        //    // "dom": '<"top">t<"bottom"p>',
 
-        $('#search-form').on('submit', function(e) {
-            oTable.draw();
-            e.preventDefault();
-        });
+        //     processing: true,
+        //     serverSide: true,
+        //     pageLength: 8,
+        //     autoWidth: false,
+        //     ajax: '{!! route('get_economic_complement') !!}',
+        //     //  {
+        //     //     url: '{!! route('get_economic_complement') !!}',
+        //     //     data: function (d) {
+        //     //         d.code = $('input[name=code]').val();
+        //     //         d.affiliate_identitycard = $('input[name=affiliate_identitycard]').val();
+        //     //         d.creation_date = $('input[name=creation_date]').val();
+        //     //         d.eco_com_state_id = $('input[name=eco_com_state_id]').val();
+        //     //         d.eco_com_modality_id = $('select[name=eco_com_modality_id]').val();
+        //     //         d.post = $('input[name=post]').val();
+        //     //         d.buscador =$('input[name=buscador]').val();
+        //     //     }
+        //     // },
+        //     columns: [
+        //         { data: 'code', sClass: "text-center" },
+        //         { data: 'affiliate_identitycard', bSortable: false },
+        //         { data: 'affiliate_name', bSortable: false },
+        //         { data: 'created_at', bSortable: false },
+        //         { data: 'eco_com_state', bSortable: false },
+        //         { data: 'eco_com_modality', bSortable: false },
+        //         { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: "text-center" }
+        //     ],
+        //     initComplete: function () {
+        //     this.api().columns().every(function () {
+        //         var column = this;
+        //         var input = document.createElement("input");
+        //         $(input).appendTo($(column.footer()).empty())
+        //         .on('change', function () {
+        //             var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+        //             column.search(val ? val : '', true, false).draw();
+        //         });
+        //     });
+        // }
+        // });
+
+        // $('#search-form').on('submit', function(e) {
+        //     oTable.draw();
+        //     e.preventDefault();
+        // });
 
 
         var oTable1 = $('#averages-table').DataTable({
@@ -543,6 +587,23 @@
                 { data: 'rmin', bSortable: false },
                 { data: 'rmax', bSortable: false },
                 { data: 'average', bSortable: false }
+            ]
+        });
+
+
+
+        $('#sample-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: 'http://muserpol-produccion.dev/economic_complement_sample',
+            columns: [
+                { data: 'code', sClass: "text-center" },
+                { data: 'affiliate_id', bSortable: false },
+                { data: 'eco_com_modality_id', bSortable: false },
+                { data: 'eco_com_state_id', bSortable: false },
+                { data: 'total', bSortable: false },
+                { data: 'created_at', bSortable: false }
+                
             ]
         });
 

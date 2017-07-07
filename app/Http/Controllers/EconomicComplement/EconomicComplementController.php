@@ -12,6 +12,7 @@ use Session;
 use Datatables;
 use Carbon\Carbon;
 use Muserpol\Helper\Util;
+use DB;
 
 use Muserpol\EconomicComplementProcedure;
 use Muserpol\EconomicComplement;
@@ -63,7 +64,41 @@ class EconomicComplementController extends Controller
             return response()->json($modalities);
         }
     }
+    public function sample()
+    {
+         // $economic_complements = EconomicComplement::select(['id', 'affiliate_id',
+         //    'eco_com_modality_id', 'eco_com_state_id', 'code', 'created_at','reception_date', 'total',
+         //    'wf_current_state_id'])->orderBy('created_at','desc');
 
+         // $economic_complements = DB::table('economic_complements')
+         //                         ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+         //                         ->select('economic_complements.id','affiliates.id as affiliate_id', 'affiliates.first_name as nombre','affiliates.second_name as paterno','affiliates.last_name as materno','economic_complements.eco_com_modality_id','economic_complements.eco_com_state_id','economic_complements.code','economic_complements.reception_date','economic_complements.total','economic_complements.wf_current_state_id','economic_complements.created_at')
+         //                         ->orderBy('created_at','desc');
+
+
+           $economic_complements = DB::table('economic_complements')
+                                 ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+                                 ->select('economic_complements.id','affiliates.id as affiliate_id', 'economic_complements.eco_com_modality_id','economic_complements.eco_com_state_id','economic_complements.code','economic_complements.reception_date','economic_complements.total','economic_complements.wf_current_state_id','economic_complements.created_at')
+                                 ->orderBy('created_at','desc');                        
+
+         return Datatables::of($economic_complements)->make(true);
+
+        //  return Datatables::of($economic_complements)
+        // ->addColumn('affiliate_identitycard', function ($economic_complement) {return $economic_complement->economic_complement_applicant->city_identity_card_id ? $economic_complement->economic_complement_applicant->identity_card.' '.$economic_complement->economic_complement_applicant->city_identity_card->first_shortened: $economic_complement->economic_complement_applicant->identity_card; })
+        // ->addColumn('affiliate_name', function ($economic_complement) { return $economic_complement->economic_complement_applicant->getTittleName(); })
+        // ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
+        // ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : $economic_complement->wf_state->name; })
+        // ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
+        // ->addColumn('action', function ($economic_complement) { return
+        //     '<div class="btn-group" style="margin:-3px 0;">
+        //     <a href="economic_complement/'.$economic_complement->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
+        //     <a href="" class="btn btn-primary btn-raised btn-sm dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</a>
+        //     <ul class="dropdown-menu">
+        //         <li><a href="voucher/delete/ '.$economic_complement->id.' " style="padding:3px 10px;"><i class="glyphicon glyphicon-ban-circle"></i> Anular</a></li>
+        //     </ul>
+        //     </div>';})
+        // ->make(true);
+    }
     public function Data(Request $request)
     {
         $economic_complements = EconomicComplement::select(['id', 'affiliate_id',
