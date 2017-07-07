@@ -570,8 +570,7 @@
                     <div class="col-md-10">
                         <h3 class="box-title"><span class="fa fa-money"></span> Cálculo de Total</h3>
                     </div>
-                    @cannot('eco_com_review')
-                        @cannot('eco_com_reception')
+                        @can('eco_com_qualification')
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals">&nbsp;&nbsp;
@@ -579,8 +578,7 @@
                                 </a>
                             </div>
                         </div>
-                        @endcannot
-                    @endcannot
+                    @endcan
                 </div>
                 <div class="box-body">
                     <div class="row">
