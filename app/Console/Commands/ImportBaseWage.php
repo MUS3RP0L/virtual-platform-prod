@@ -70,16 +70,16 @@ class ImportBaseWage extends Command
                             $base_wage =  BaseWage::where('degree_id', '=', $degree->id)
                                             ->whereDate('month_year', '=', $month_year)->first();
                             if(!$base_wage) {
-
-                                $base_wages .= $degree->hierarchy->code . " " . $degree->code . " - " . Util::decimal(Util::zero($result['sue'])) ."\r\n";
-
                                 $base_wage = new BaseWage;
+                            }
+                                $base_wages .= $degree->hierarchy->code . " " . $degree->code . " - " . Util::decimal(Util::zero($result['sue'])) ."\r\n";            
                                 $base_wage->user_id = 1;
                                 $base_wage->degree_id = $degree->id;
                                 $base_wage->month_year = $month_year;
-                                $base_wage->amount = Util::decimal($result['sue']);
+                               //$base_wage->amount = Util::decimal($result['sue']);
+                                $base_wage->amount = $result['sue'];
                                 $base_wage->save();
-                            }
+                            
                         }      
                     }
                 }
