@@ -51,11 +51,9 @@ class EconomicComplementImportExportController extends Controller
           foreach ($results as $datos) {
             
             $ext = ($datos->num_com ? "-".$datos->num_com : '');
-            $ext = str_replace(' ','', $ext);
-            //dd($ext) ;
-            //$ext1 = ($datos->num_com_tit ? "-".$datos->num_com_tit : '');                         
+            $ext = str_replace(' ','', $ext);                                  
             if($datos->renta == "DERECHOHABIENTE"){
-              $comp = DB::table('eco_com_applicants')
+              $comp = DB::table('eco_com_applicants') // VIUDEDAD
                   ->select(DB::raw('eco_com_applicants.identity_card as ci_app,economic_complements.*, eco_com_types.id as type'))
                   ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                   ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                            
@@ -69,7 +67,7 @@ class EconomicComplementImportExportController extends Controller
             }
             elseif($datos->renta == "TITULAR")
             {
-                $comp = DB::table('eco_com_applicants')
+                $comp = DB::table('eco_com_applicants') // VEJEZ
                   ->select(DB::raw('eco_com_applicants.identity_card as ci_app,economic_complements.*, eco_com_types.id as type'))
                   ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                   ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                            
@@ -77,6 +75,20 @@ class EconomicComplementImportExportController extends Controller
                   ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
                   ->whereRaw("LTRIM(eco_com_applicants.identity_card,'0') ='".rtrim($datos->carnet.''.$ext)."'")                
                   ->where('eco_com_types.id','=', 1)
+                  ->where('affiliates.pension_entity_id','=', 5)
+                  ->whereYear('economic_complements.year', '=', $year)
+                  ->where('economic_complements.semester', '=', $semester)->first();
+            }
+            else
+            {
+                $comp = DB::table('eco_com_applicants') // ORFANDAD
+                  ->select(DB::raw('eco_com_applicants.identity_card as ci_app,economic_complements.*, eco_com_types.id as type'))
+                  ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                  ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                            
+                  ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                  ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
+                  ->whereRaw("LTRIM(eco_com_applicants.identity_card,'0') ='".rtrim($datos->carnet.''.$ext)."'")                
+                  ->where('eco_com_types.id','=', 3)
                   ->where('affiliates.pension_entity_id','=', 5)
                   ->whereYear('economic_complements.year', '=', $year)
                   ->where('economic_complements.semester', '=', $semester)->first();
