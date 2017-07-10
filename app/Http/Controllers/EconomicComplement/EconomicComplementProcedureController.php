@@ -41,9 +41,16 @@ class EconomicComplementProcedureController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        $year=Carbon::now()->year;
-        return view('economic_complements.procedure.create',['year'=>$year]);
+    {   
+
+        $economic_complement_procedure=EconomicComplementProcedure::all()->last();
+        $normal_start_date=Carbon::parse($economic_complement_procedure->normal_start_date)->format('d/m/Y');
+        $normal_end_date=Carbon::parse($economic_complement_procedure->normal_end_date)->format('d/m/Y');
+        $lagging_start_date = Carbon::parse($economic_complement_procedure->lagging_start_date)->format('d/m/Y');
+        $lagging_end_date = Carbon::parse($economic_complement_procedure->lagging_end_date)->format('d/m/Y');
+        $additional_start_date = Carbon::parse($economic_complement_procedure->additional_start_date)->format('d/m/Y');
+        $additional_end_date = Carbon::parse($economic_complement_procedure->additional_end_date)->format('d/m/Y');
+        return view('economic_complements.procedure.create',compact('normal_start_date','normal_end_date','lagging_start_date','lagging_end_date','additional_start_date','additional_end_date'));
     }
 
     /**
