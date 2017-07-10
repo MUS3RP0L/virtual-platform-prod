@@ -287,7 +287,7 @@ class EconomicComplement extends Model
             $economic_complement->save();
         }else{
             return redirect('economic_complement/'.$economic_complement->id)
-            ->withErrors('Verrifique si existen sueldos, promedios y factor de complementacion.')
+            ->withErrors('Verifique si existen sueldos, promedios y factor de complementacion.')
             ->withInput();
         }
     }
