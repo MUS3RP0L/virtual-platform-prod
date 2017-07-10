@@ -1060,19 +1060,22 @@ class EconomicComplementController extends Controller
                 ->withInput();
             }
             else{
-                    $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+                $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+                    $total_rent = floatval(str_replace(',','',$request->sub_total_rent))-floatval(str_replace(',','',$request->reimbursement))-floatval(str_replace(',','',$request->dignity_pension));
 
-                    $total_rent = floatval($request->sub_total_rent)-floatval($request->reimbursement)-floatval($request->dignity_pension);
                     //for aps
                     if($economic_complement->affiliate->pension_entity->type=='APS'){
                         $comp=0;
-                        if ($request->aps_total_fsa) {
+                        if (floatval(str_replace(',','',$request->aps_total_fsa)) > 0) {
                             $comp++;
-                        }if ($request->aps_total_cc) {
+                        }if (floatval(str_replace(',','',$request->aps_total_cc)) > 0) {
                             $comp++;
-                        }if ($request->aps_total_fs) {
+                        }if (floatval(str_replace(',','',$request->aps_total_fs)) > 0) {
                             $comp++;
                         }
+                        $economic_complement->aps_total_fsa=floatval(str_replace(',','',$request->aps_total_fsa));
+                        $economic_complement->aps_total_cc=floatval(str_replace(',','',$request->aps_total_cc));
+                        $economic_complement->aps_total_fs=floatval(str_replace(',','',$request->aps_total_fs));
                         //vejez
                         if ($economic_complement->economic_complement_modality->economic_complement_type->id == 1)
                         {
@@ -1183,9 +1186,9 @@ class EconomicComplementController extends Controller
                     $economic_complement->total_amount_semester=$total_amount_semester;
                     //$complementary_factor = $eco_com_type->id == 1 ? $economic_complement->complementary_factor->old_age : $economic_complement->complementary_factor->widowhood;
                 //     $total = $total_amount_semester * $complementary_factor/100;
-                $economic_complement->sub_total_rent=$request->sub_total_rent;
-                $economic_complement->reimbursement=$request->reimbursement;
-                $economic_complement->dignity_pension=$request->dignity_pension;
+                $economic_complement->sub_total_rent=floatval(str_replace(',','',$request->sub_total_rent));
+                $economic_complement->reimbursement=floatval(str_replace(',','',$request->reimbursement));
+                $economic_complement->dignity_pension=floatval(str_replace(',','',$request->dignity_pension));
                 //$economic_complement->total_rent=floatval($request->sub_total_rent)-floatval($request->reimbursement)-floatval($request->dignity_pension);
                 //$affiliate=Affiliate::find(52444);
                 $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
