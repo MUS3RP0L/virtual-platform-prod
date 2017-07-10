@@ -98,7 +98,7 @@ class EconomicComplementImportExportController extends Controller
                 } 
                 elseif($comp->type == 3 && $total_rent < 2000) //Orfandad 
                 {  
-                    $ecomplement->eco_com_modality_id = 8;
+                    $ecomplement->eco_com_modality_id = 12;
                 }
                 $ecomplement->sub_total_rent = $datos->total_ganado;                
                 $ecomplement->total_rent =  $total_rent;
