@@ -1,8 +1,7 @@
 @extends('app')
 
 @section('contentheader_title')
-
-	<div class="row">
+<div class="row">
 		<div class="col-md-6">
 			{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
 		</div>
@@ -70,7 +69,8 @@
                         <div class="col-md-8">
                             <h3 class="box-title"><span class="glyphicon glyphicon-info-sign"></span> Información del Trámite</h3>
                         </div>
-                        @can('showEdit', $economic_complement)
+                        @can('economic_complement')
+                        {{--@can('showEdit', $economic_complement)--}}
                              <div class="col-md-4 text-right">
                                 <span data-toggle="modal" data-target="#policeModal">
                                     <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
@@ -164,6 +164,18 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Ente Gestor</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $affiliate->pension_entity->name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                                {{--  <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
@@ -192,7 +204,8 @@
                         <div class="col-md-10">
                             <h3 class="box-title"><span class="fa fa-user-plus"></span> Información de Beneficiario</h3>
                         </div>
-                         @can('showEdit', $economic_complement)
+                        @can('economic_complement')
+                        {{--@can('showEdit', $economic_complement)--}}
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-applicant">&nbsp;&nbsp;
@@ -515,7 +528,8 @@
                         <div class="col-md-10">
                             <h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span> Requisitos Presentados</h3>
                         </div>
-                         @can('showEdit', $economic_complement)
+                        @can('economic_complement')
+                        {{--@can('showEdit', $economic_complement)--}}
                             <div class="col-md-2 text-right">
                                 <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                     <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-requirements">&nbsp;&nbsp;
@@ -1009,52 +1023,51 @@
                         <div class="row">
                             <h4 style="text-align: center">{!!$economic_complement->affiliate->pension_entity->name!!}</h4>
                             <div class="col-md-12">
+                                @if($economic_complement->affiliate->pension_entity->name != 'SENASIR')
+                                    <div class="form-group">
+                                        {!! Form::label('aps_total_fsa', 'Fraccion de Saldo Acumulado', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-3">
+                                        {!! Form::text('aps_total_fsa', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                            <span class="help-block">Escriba la Fraccion de Saldo Acumulado</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        {!! Form::label('aps_total_cc', 'Fraccion de Cotizaciones', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-3">
+                                        {!! Form::text('aps_total_cc', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                            <span class="help-block">Escriba la Fraccion de Cotizaciones</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        {!! Form::label('aps_total_fs', 'Fraccion Solidaria', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-3">
+                                        {!! Form::text('aps_total_fs', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                            <span class="help-block">Escriba la Fraccion solidaria</span>
+                                        </div>
+                                    </div>
+                                @endif
                                 <div class="form-group">
                                     {!! Form::label('sub_total_rent', 'Renta Total Boleta', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-3">
-                                    {!! Form::text('sub_total_rent', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                                    {!! Form::text('sub_total_rent', null, ['class' => 'form-control', 'required' => 'required',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
                                         <span class="help-block">Escriba la Renta total boleta</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     {!! Form::label('reimbursement', 'Reintegro', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-3">
-                                    {!! Form::text('reimbursement', null, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                    {!! Form::text('reimbursement', null, ['class'=> 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
                                         <span class="help-block">Escriba el reintegro</span>
                                     </div>
                                 </div>
-                            <div class="form-group">
-                                        {!! Form::label('dignity_pension', 'Renta Dignidad', ['class' => 'col-md-5 control-label']) !!}
+                                <div class="form-group">
+                                    {!! Form::label('dignity_pension', 'Renta Dignidad', ['class' => 'col-md-5 control-label',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
                                     <div class="col-md-3">
-                                        {!! Form::text('dignity_pension', null, ['class'=> 'form-control']) !!}
+                                        {!! Form::text('dignity_pension', null, ['class'=> 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
                                         <span class="help-block">Escriba la renta dignidad</span>
                                     </div>
-                            </div>
-                            @if($economic_complement->affiliate->pension_entity->name != 'SENASIR')
-                            <div class="form-group">
-                                {!! Form::label('component', 'Componente', ['class' => 'col-md-5 control-label']) !!}
-                                <div class="col-md-6" >
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="aps_total_fsa"> Fraccion de Saldo Acumulado
-                                        </label>
-                                    </div>
-
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="aps_total_cc"> Fraccion de cotizaciones
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="aps_total_fs"> Fraccion Solidaria
-                                        </label>
-                                     </div>
                                 </div>
                             </div>
-                                @endif
-                            </div>
-
                         </div>
 
                         <div class="row text-center">
@@ -1250,6 +1263,7 @@
                         <div class="modal-body">
                             {!! Form::model($affiliate, ['method' => 'PATCH', 'route' => ['affiliate.update', $affiliate], 'class' => 'form-horizontal']) !!}
                             <input type="hidden" name="type" value="institutional_eco_com"/>
+                            <input type="hidden" name="economic_complement_id" value="{{ $economic_complement->id }}"/>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -1512,6 +1526,28 @@
             ]
         });
         
+    });
+
+    //for calculation
+    $(document).ready(function() {
+        $("#aps_total_fsa").inputmask();
+        $("#aps_total_fs").inputmask();
+        $("#aps_total_cc").inputmask();
+        $("#sub_total_rent").inputmask();
+        $("#reimbursement").inputmask();
+        $("#dignity_pension").inputmask();
+        /*function parseCurrency(mount) {
+            return (isNaN(mount) || mount !='')  ? parseFloat(mount.toString().replace(/,/g,'')):0;
+        }
+        $('.aps').keyup(function (event) {
+            var aps_total_fsa=parseCurrency($("#aps_total_fsa").val());
+            var aps_total_fs=parseCurrency($("#aps_total_fs").val());
+            var aps_total_cc=parseCurrency($("#aps_total_cc").val());
+            console.log(aps_total_fsa+" "+aps_total_fs+" "+aps_total_cc);
+            var total=aps_total_fsa+aps_total_fs+aps_total_cc;
+            $('#sub_total_rent').val(total);
+            console.log(total);
+        });*/
     });
 </script>
 @endpush

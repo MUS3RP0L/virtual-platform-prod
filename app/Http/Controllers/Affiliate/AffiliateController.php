@@ -505,7 +505,8 @@ class AffiliateController extends Controller
 
                 break;
                 case 'institutional_eco_com':
-                    $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->orderBy('created_at','desc')->first();
+                    // $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->orderBy('created_at','desc')->first();
+                    $economic_complement = EconomicComplement::find($request->economic_complement_id);
                     $economic_complement->city_id = $request->regional;
                     $economic_complement->category_id = $request->category;
                     $economic_complement->save();
@@ -521,6 +522,7 @@ class AffiliateController extends Controller
                     $message = "Información del Policia actualizada correctamene.";
                     Session::flash('message', $message);
 
+                    return redirect('economic_complement/'.$economic_complement->id);
 
             }
 
