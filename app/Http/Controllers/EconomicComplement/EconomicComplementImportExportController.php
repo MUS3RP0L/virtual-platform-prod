@@ -84,28 +84,32 @@ class EconomicComplementImportExportController extends Controller
             if ($comp){
                
                 $ecomplement = EconomicComplement::where('id','=', $comp->id)->first();
-                $reimbursements = $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
-                $discount = $datos->renta_dignidad + $datos->reintegro_renta_dignidad + $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
-                $total_rent = $datos->total_ganado - $discount;
-                
-                if($comp->type == 1 && $total_rent < 2000)  //Vejez Senasir
+                if (is_null($ecomplement->total_rent))
                 {
-                  $ecomplement->eco_com_modality_id = 8;
-                } 
-                elseif ($comp->type == 2 && $total_rent < 2000) //Viudedad 
-                {  
-                  $ecomplement->eco_com_modality_id = 9;
-                } 
-                elseif($comp->type == 3 && $total_rent < 2000) //Orfandad 
-                {  
-                    $ecomplement->eco_com_modality_id = 12;
+                  $reimbursements = $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
+                  $discount = $datos->renta_dignidad + $datos->reintegro_renta_dignidad + $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
+                  $total_rent = $datos->total_ganado - $discount;
+                  
+                  if($comp->type == 1 && $total_rent < 2000)  //Vejez Senasir
+                  {
+                    $ecomplement->eco_com_modality_id = 8;
+                  } 
+                  elseif ($comp->type == 2 && $total_rent < 2000) //Viudedad 
+                  {  
+                    $ecomplement->eco_com_modality_id = 9;
+                  } 
+                  elseif($comp->type == 3 && $total_rent < 2000) //Orfandad 
+                  {  
+                      $ecomplement->eco_com_modality_id = 12;
+                  }
+                  $ecomplement->sub_total_rent = $datos->total_ganado;                
+                  $ecomplement->total_rent =  $total_rent;
+                  $ecomplement->dignity_pension = $datos->renta_dignidad;
+                  $ecomplement->reimbursement = $reimbursements;
+                  $ecomplement->save();                
+                  $found ++;
                 }
-                $ecomplement->sub_total_rent = $datos->total_ganado;                
-                $ecomplement->total_rent =  $total_rent;
-                $ecomplement->dignity_pension = $datos->renta_dignidad;
-                $ecomplement->reimbursement = $reimbursements;
-                $ecomplement->save();                
-                $found ++;
+                  
             }
             else{
               $nofound ++;
