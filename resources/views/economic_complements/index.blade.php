@@ -40,6 +40,7 @@
                     <h3 class="box-title"><span class="glyphicon glyphicon-search"></span> Búsqueda</h3>
                 </div>
                 <div class="box-body">
+               
                     <div class="row">
                         <form method="POST" id="search-form" role="form" class="form-horizontal">
                             <div class="col-md-11">
@@ -76,6 +77,7 @@
         									</div>
     									</div>
                                     </div>
+
                                 </div>
                                 <div class="row"><br>
                                     <div class="col-md-4">
@@ -105,6 +107,21 @@
         									</div>
         								</div>
                                     </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            {!! Form::label('eco_com_procedure_id', 'Semestre', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                               <select class="combobox form-control" name="eco_com_procedure_id">
+                                                   @foreach($procedures as $procedure)
+                                                   <option value="{{$procedure->id}}"> {{ substr($procedure->year, 0, -6).' '.$procedure->semester. ' Semestre' }}</option>
+                                                   @endforeach()
+                                               </select>
+                                                <span class="help-block">Seleccione Semestre</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <br>
                             </div>
@@ -121,12 +138,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="row">
-                        
-                        <div class="col-md-2">
-                        <input type="text" name="buscador" id="buscador" class="form-control" placeholder="Buscador"> 
-                        </div>
-                    </div>    
+                  
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table table-bordered table-hover" id="economic_complements-table">
@@ -475,8 +487,10 @@
                         type: "GET",
                         dataType: "json",
                         success: function(data) {
+                            console.log(data);
                             $('select[name="eco_com_modality_id"]').empty();
                             $.each(data, function(key, value) {
+                                console.log(value.id);
                                 $('select[name="eco_com_modality_id"]').append('<option value="'+ value.id +'">'+ value.name +'</option>');
                             });
                         }
@@ -515,7 +529,9 @@
                     d.eco_com_state_id = $('input[name=eco_com_state_id]').val();
                     d.eco_com_modality_id = $('select[name=eco_com_modality_id]').val();
                     d.post = $('input[name=post]').val();
-                    d.buscador= $('input[name=buscador]').val();
+                    // console.log($('input[name=eco_com_procedure_id]').val());
+                    d.eco_com_procedure_id = $('input[name=eco_com_procedure_id]').val();
+                    //d.buscador= $('input[name=buscador]').val();
                 }
             },
             columns: [

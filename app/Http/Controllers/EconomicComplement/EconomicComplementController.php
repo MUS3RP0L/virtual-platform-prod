@@ -49,10 +49,15 @@ class EconomicComplementController extends Controller
 
     public function index()
     {
+        $procedures = EconomicComplementProcedure::all();
         $data = [
             'year' => Carbon::now()->year,
-            'semester' => Util::getSemester(Carbon::now())
+            'semester' => Util::getSemester(Carbon::now()),
+            'procedures' =>$procedures
         ];
+
+        
+
 
         return view('economic_complements.index', array_merge($data, self::getViewModel()));
     }
@@ -71,168 +76,151 @@ class EconomicComplementController extends Controller
         $economic_complements = EconomicComplement::select(['id', 'affiliate_id',
             'eco_com_modality_id', 'eco_com_state_id', 'code', 'created_at','reception_date', 'total',
             'wf_current_state_id'])->orderBy('created_at','desc');
-        // $economic_complements = DB::table('economic_complements')
-        //                         ->orderBy('created_at','desc');
-        // $afiliados = DB::table('');
-
-
-        if($request->has('buscador'))
-        {
-            $n=0;
-            while ($n<3) {
-
-
-                # code...
-                 Log::info('Valor '.$n);
-                switch ($n) {
-                    
-                    case 0:
-
-                        # code...
-                        $economic_complements->where(function($economic_complements) use ($request, $n)
-                        {
-                            $code = trim($request->get('buscador'));
-                            $result=$economic_complements->where('code', 'like', "%{$code}%")->get();
-
-                            if($result->count()>0)
-                            {
-                                $economic_complements->where('code', 'like', "%{$code}%");
-                                Log::info('se econtro informacion'.$n);    
-                                $n=100;
-                                $z =true;
-
-                                Log::info('cambiando valor de n='.$n);  
-                            }
-
-                        });
-                        $result = $economic_complements->get();
-
-                        if($result->count()>0)
-                        {
-                            Log::info('con informacion');  
-                        }
-                        else
-                        {
-                            Log::info('sin informacion');   
-                        }
-                        
-
-                        break;
-                    case 1:
-                        
-                         Log::info('Valor '.$n);
-                        # code...
-
-                        $economic_complements->where(function($economic_complements) use ($request)
-                        {
-                            $affiliate_identitycard = trim($request->get('buscador'));
-                            $affiliate = Affiliate::identitycardIs($affiliate_identitycard)->first();
-                            if ($affiliate) {
-                                $result=$economic_complements->where('affiliate_id', '=', "{$affiliate->id}")->get();
-
-                                    if($result->count()>0)
-                                    {
-                                        $economic_complements->where('affiliate_id', '=', "{$affiliate->id}");
-                                        $n=100;
-                                    }
-                            }else{
-                                $applicants_identitycard=trim($request->get('buscador'));
-                                $applicants=EconomicComplementApplicant::identitycardIs($applicants_identitycard)->first();
-                                if($applicants){
-                                   $result=$economic_complements->where('id', '=' , "{$applicants->economic_complement_id}")->get();
-
-                                   if($result->count()>0)
-                                    {
-                                        $economic_complements->where('id', '=' , "{$applicants->economic_complement_id}");
-                                        $n=100;
-                                    }
-                               }
-                               else{
-                                   $result=$economic_complements->where('affiliate_id', 0)->get();
-
-                                   if($result->count()>0)
-                                    {
-                                        $economic_complements->where('affiliate_id', 0);
-                                        $n=100;
-                                    }
-
-
-                               }
-                           }
-                        });
-
-
-                        break;
-                    // case 2:
-
-                        
-
-                    //     break;
-                    
-                    default:
-                        # code...
-                        break;
-                }
-
-
-                $n++;
-            }
+       
+     
+        try {
+              $procedure_id = $request->get('eco_com_procedure_id');
+            Log::info("obteniendo eco_com_procedure_id=".$procedure_id);
+           // Log::info("valor del reques");
+            
+        } catch (Exception $e) {
+            $procedure_id =null;
         }
+        // $procedure_id =null;
+        // if($request->has('eco_com_procedure_id'))
+        // {   
+            
+        //     $procedure_id = $request->has('eco_com_procedure_id');
+        //     Log::info("obteniendo eco_com_procedure_id=".$procedure_id);
+        // }
 
-
+        Log::info("comensando buscqueda ".$procedure_id);
         if ($request->has('code'))
         {
-            $economic_complements->where(function($economic_complements) use ($request)
-            {
-                $code = trim($request->get('code'));
-                $economic_complements->where('code', 'like', "%{$code}%");
-            });
+            if($procedure_id){
+                Log::info("buscando por ".$procedure_id);
+                    $economic_complements->where(function($economic_complements) use ($request,$procedure_id)
+                    {
+                        $code = trim($request->get('code'));
+                        $economic_complements->where('code', 'like', "%{$code}%")
+                                             ->where('eco_com_procedure_id','=',$procedure_id);
+                    });
+
+            }else{
+
+                    $economic_complements->where(function($economic_complements) use ($request)
+                    {
+                        $code = trim($request->get('code'));
+                        $economic_complements->where('code', 'like', "%{$code}%");
+                    });
+            }
+          
         }
         if ($request->has('creation_date'))
         {
+
+
             $economic_complements->where(function($economic_complements) use ($request)
             {
                 $creation_date = Util::datePick($request->get('creation_date'));
-                $economic_complements->where('created_at', 'like', "%{$creation_date}%");
+                Log::info($creation_date);
+                $economic_complements->where('reception_date', '=', $creation_date.'%');
             });
         }
         if ($request->has('affiliate_identitycard'))
         {
-            $economic_complements->where(function($economic_complements) use ($request)
+
+            if($procedure_id)
             {
-                $affiliate_identitycard = trim($request->get('affiliate_identitycard'));
-                $affiliate = Affiliate::identitycardIs($affiliate_identitycard)->first();
-                if ($affiliate) {
-                    $economic_complements->where('affiliate_id', '=', "{$affiliate->id}");
-                }else{
-                    $applicants_identitycard=trim($request->get('affiliate_identitycard'));
-                    $applicants=EconomicComplementApplicant::identitycardIs($applicants_identitycard)->first();
-                    if($applicants){
-                       $economic_complements->where('id', '=' , "{$applicants->economic_complement_id}");
+                Log::info("buscando por el carnet");
+                $economic_complements->where(function($economic_complements) use ($request,$procedure_id)
+                {
+                    $affiliate_identitycard = trim($request->get('affiliate_identitycard'));
+                    $affiliate = Affiliate::identitycardIs($affiliate_identitycard)->first();
+
+                    Log::info($affiliate);
+                    if ($affiliate) {
+                        $economic_complements->where('affiliate_id', '=', "{$affiliate->id}")->where('eco_com_procedure_id','=',$procedure_id);
+
+                        Log::info($economic_complements->count());
+                    }else{
+                        $applicants_identitycard=trim($request->get('affiliate_identitycard'));
+                        $applicants=EconomicComplementApplicant::identitycardIs($applicants_identitycard)->first();
+                        if($applicants){
+                           $economic_complements->where('id', '=' , "{$applicants->economic_complement_id}")->where('eco_com_procedure_id','=',$procedure_id);
+                       }
+                       else{
+                           $economic_complements->where('affiliate_id', 0)->where('eco_com_procedure_id','=',$procedure_id);
+                       }
                    }
-                   else{
-                       $economic_complements->where('affiliate_id', 0);
+               });
+            }else
+            {
+                Log::info("buscando por el carnet sin procedure_id");
+                $economic_complements->where(function($economic_complements) use ($request,$procedure_id)
+                {
+                    $affiliate_identitycard = trim($request->get('affiliate_identitycard'));
+                    $affiliate = Affiliate::identitycardIs($affiliate_identitycard)->first();
+                    if ($affiliate) {
+                        $economic_complements->where('affiliate_id', '=', "{$affiliate->id}");
+                    }else{
+                        $applicants_identitycard=trim($request->get('affiliate_identitycard'));
+                        $applicants=EconomicComplementApplicant::identitycardIs($applicants_identitycard)->first();
+                        if($applicants){
+                           $economic_complements->where('id', '=' , "{$applicants->economic_complement_id}");
+                       }
+                       else{
+                           $economic_complements->where('affiliate_id', 0);
+                       }
                    }
-               }
-           });
+               });
+            }
+
+           
         }
         if ($request->has('eco_com_state_id'))
         {
-            $economic_complements->where(function($economic_complements) use ($request)
+            if($procedure_id){
+
+                $economic_complements->where(function($economic_complements) use ($request,$procedure_id)
+                {
+                    $eco_com_state_id = trim($request->get('eco_com_state_id'));
+                    $economic_complements->where('eco_com_state_id', '=', "{$eco_com_state_id}")->where('eco_com_procedure_id','=',$procedure_id);
+                });
+
+            }else
             {
-                $eco_com_state_id = trim($request->get('eco_com_state_id'));
-                $economic_complements->where('eco_com_state_id', 'like', "%{$eco_com_state_id}%");
-            });
+                $economic_complements->where(function($economic_complements) use ($request)
+                {
+                    $eco_com_state_id = trim($request->get('eco_com_state_id'));
+                    $economic_complements->where('eco_com_state_id', '=', "{$eco_com_state_id}");
+                });
+
+            }
+           
         }
         if ($request->has('eco_com_modality_id'))
         {
-            $economic_complements->where(function($economic_complements) use ($request)
+            if($procedure_id)
             {
-                $eco_com_modality_id = trim($request->get('eco_com_modality_id'));
-                if ($eco_com_modality_id >0) {
-                    $economic_complements->where('eco_com_modality_id', 'like', "{$eco_com_modality_id}");
-                }
-            });
+                $economic_complements->where(function($economic_complements) use ($request,$procedure_id)
+                {
+                    $eco_com_modality_id = trim($request->get('eco_com_modality_id'));
+                    if ($eco_com_modality_id >0) {
+                        $economic_complements->where('eco_com_modality_id', '=', "{$eco_com_modality_id}")->where('eco_com_procedure_id','=',$procedure_id);
+                    }
+                });
+            }else
+            {
+                $economic_complements->where(function($economic_complements) use ($request)
+                {
+                    $eco_com_modality_id = trim($request->get('eco_com_modality_id'));
+                    if ($eco_com_modality_id >0) {
+                        $economic_complements->where('eco_com_modality_id', '=', "{$eco_com_modality_id}");
+                    }
+                });
+            }
+            
         }
         return Datatables::of($economic_complements)
         ->addColumn('affiliate_identitycard', function ($economic_complement) {return $economic_complement->economic_complement_applicant->city_identity_card_id ? $economic_complement->economic_complement_applicant->identity_card.' '.$economic_complement->economic_complement_applicant->city_identity_card->first_shortened: $economic_complement->economic_complement_applicant->identity_card; })
