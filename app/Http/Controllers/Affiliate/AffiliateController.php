@@ -519,6 +519,10 @@ class AffiliateController extends Controller
                     $affiliate->category_id = $request->category;
                     $affiliate->pension_entity_id=$request->affiliate_entity_pension;
                     $affiliate->save();
+                    if ($economic_complement->total_rent > 0 ) {   
+                        EconomicComplement::calculate($economic_complement,$economic_complement->sub_total_rent, $economic_complement->reimbursement, $economic_complement->dignity_pension, $economic_complement->aps_total_fsa, $economic_complement->aps_total_cc, $economic_complement->aps_total_fs);
+
+                    }
                     $message = "Información del Policia actualizada correctamene.";
                     Session::flash('message', $message);
 

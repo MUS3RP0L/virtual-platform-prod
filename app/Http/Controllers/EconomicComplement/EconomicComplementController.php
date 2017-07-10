@@ -1060,8 +1060,11 @@ class EconomicComplementController extends Controller
                 ->withInput();
             }
             else{
+                //send from request data
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
-                    $total_rent = floatval(str_replace(',','',$request->sub_total_rent))-floatval(str_replace(',','',$request->reimbursement))-floatval(str_replace(',','',$request->dignity_pension));
+                EconomicComplement::calculate($economic_complement,$request->sub_total_rent, $request->reimbursement, $request->dignity_pension, $request->aps_total_fsa, $request->aps_total_cc, $request->aps_total_fs);
+                    
+                    /*$total_rent = floatval(str_replace(',','',$request->sub_total_rent))-floatval(str_replace(',','',$request->reimbursement))-floatval(str_replace(',','',$request->dignity_pension));
 
                     //for aps
                     if($economic_complement->affiliate->pension_entity->type=='APS'){
@@ -1175,7 +1178,6 @@ class EconomicComplementController extends Controller
                         $seniority = $economic_complement->category->percentage * $base_wage->amount;
                     }
 
-                    //dd($seniority);
                     $economic_complement->seniority=$seniority;
                     $salary_quotable = $salary_reference + $seniority;
                     $economic_complement->salary_quotable=$salary_quotable;
@@ -1208,7 +1210,7 @@ class EconomicComplementController extends Controller
                 $economic_complement->base_wage_id = $base_wage->id;
                 $economic_complement->salary_reference=$salary_reference;
                 $economic_complement->state = 'Edited';
-                $economic_complement->save();
+                $economic_complement->save();*/
                 //dd($economic_complement);
                 return redirect('economic_complement/'.$economic_complement->id);
             }
