@@ -192,7 +192,7 @@ class EconomicComplementImportExportController extends Controller
                   $ecomplement->aps_total_fs = $datos->total_fs;
 
                   //Vejez
-                  if ($afi->type == 1 || $afi->type == 3)
+                  if ($afi->type == 1 )
                   {
                      if ($comp == 1 && $datos->total_pension >= 2000)
                      {
@@ -208,7 +208,7 @@ class EconomicComplementImportExportController extends Controller
                      }
                   }
                  //Viudedad
-                  if ($afi->type == 2) 
+                  elseif ($afi->type == 2) 
                   {
                      if($comp == 1 && $datos->total_pension >= 2000) 
                      {
@@ -221,6 +221,22 @@ class EconomicComplementImportExportController extends Controller
                          $ecomplement->eco_com_modality_id = 9;
                      }
                   }
+                  else
+                  { //ORFANDAD
+                    if ($comp == 1 && $datos->total_pension >= 2000)
+                     {
+                        $ecomplement->eco_com_modality_id = 10;
+                     }
+                     elseif ($comp == 1 && $datos->total_pension < 2000)
+                     {
+                        $ecomplement->eco_com_modality_id = 11;
+                     }
+                     elseif ($comp > 1 && $datos->total_pension < 2000)
+                     {
+                        $ecomplement->eco_com_modality_id = 12;
+                     }
+                  }
+
                   $ecomplement->save();                  
                   $found ++;
               }
