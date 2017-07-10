@@ -1062,8 +1062,10 @@ class EconomicComplementController extends Controller
             else{
                 //send from request data
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+
                 EconomicComplement::calculate($economic_complement,$request->sub_total_rent, $request->reimbursement, $request->dignity_pension, $request->aps_total_fsa, $request->aps_total_cc, $request->aps_total_fs);
-                    
+                $economic_complement->state = 'Edited';    
+                $economic_complement->save();
                     /*$total_rent = floatval(str_replace(',','',$request->sub_total_rent))-floatval(str_replace(',','',$request->reimbursement))-floatval(str_replace(',','',$request->dignity_pension));
 
                     //for aps
