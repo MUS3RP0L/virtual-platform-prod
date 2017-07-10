@@ -23,7 +23,7 @@
 								    <div class='col-md-6'>
 								    	<div class="col-md-6">
 								            <div class='input-group date' id='normal_start_date'>
-								            	{!! Form::text('normal_start_date', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+								            	{!! Form::text('normal_start_date', $normal_start_date ?? null_, ['class'=> 'form-control', 'required' => 'required']) !!}
 								                <span class="input-group-addon">
 								                    <span class="glyphicon glyphicon-calendar"></span>
 								                </span>
@@ -31,7 +31,7 @@
 								    	</div>
 								    	<div class="col-md-6">
 								            <div class='input-group date' id='normal_end_date'>
-								                {!! Form::text('normal_end_date', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+								                {!! Form::text('normal_end_date', $normal_end_date ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
 								                <span class="input-group-addon">
 								                    <span class="glyphicon glyphicon-calendar"></span>
 								                </span>
@@ -44,7 +44,7 @@
 								    <div class='col-md-6'>
 								    	<div class="col-md-6">
 								            <div class='input-group date' id='lagging_start_date'>
-								            	{!! Form::text('lagging_start_date', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+								            	{!! Form::text('lagging_start_date', $lagging_start_date ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
 								                <span class="input-group-addon">
 								                    <span class="glyphicon glyphicon-calendar"></span>
 								                </span>
@@ -52,7 +52,7 @@
 								    	</div>
 								    	<div class="col-md-6">
 								            <div class='input-group date' id='lagging_end_date'>
-								                {!! Form::text('lagging_end_date', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+								                {!! Form::text('lagging_end_date', $lagging_end_date ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
 								                <span class="input-group-addon">
 								                    <span class="glyphicon glyphicon-calendar"></span>
 								                </span>
@@ -65,7 +65,7 @@
 								    <div class='col-md-6'>
 								    	<div class="col-md-6">
 								            <div class='input-group date' id='additional_start_date'>
-								            	{!! Form::text('additional_start_date', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+								            	{!! Form::text('additional_start_date', $additional_start_date ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
 								                <span class="input-group-addon">
 								                    <span class="glyphicon glyphicon-calendar"></span>
 								                </span>
@@ -73,7 +73,7 @@
 								    	</div>
 								    	<div class="col-md-6">
 								            <div class='input-group date' id='additional_end_date'>
-								                {!! Form::text('additional_end_date', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+								                {!! Form::text('additional_end_date', $additional_end_date ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
 								                <span class="input-group-addon">
 								                    <span class="glyphicon glyphicon-calendar"></span>
 								                </span>
