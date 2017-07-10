@@ -76,8 +76,8 @@ class ImportBaseWage extends Command
                                 $base_wage->user_id = 1;
                                 $base_wage->degree_id = $degree->id;
                                 $base_wage->month_year = $month_year;
-                               //$base_wage->amount = Util::decimal($result['sue']);
-                                $base_wage->amount = $result['sue'];
+                                $base_wage->amount = Util::decimal($result['sue']);
+                                //$base_wage->amount = $result['sue'];
                                 $base_wage->save();
                             
                         }      
