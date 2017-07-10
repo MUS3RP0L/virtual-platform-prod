@@ -104,10 +104,10 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Semestre</strong>
+                                                <strong>Gestión</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $economic_complement->semester !!}
+                                                 {!! $economic_complement->getYear() !!} 
                                             </div>
                                         </div>
                                     </td>
@@ -116,10 +116,10 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Gestión</strong>
+                                                <strong>Semestre</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {{-- {!! $economic_complement->getYear() !!} --}}
+                                                {!! $economic_complement->semester !!}
                                             </div>
                                         </div>
                                     </td>
@@ -156,6 +156,18 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
+                                                <strong>Ente Gestor</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $affiliate->pension_entity->name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
                                                 <strong>Estado</strong>
                                             </div>
                                             <div class="col-md-6">
@@ -168,10 +180,10 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Ente Gestor</strong>
+                                                <strong>Fecha de Recepción</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $affiliate->pension_entity->name !!}
+                                                {!! $economic_complement->getReceptionDate() !!}
                                             </div>
                                         </div>
                                     </td>

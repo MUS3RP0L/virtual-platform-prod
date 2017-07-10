@@ -148,6 +148,13 @@ class EconomicComplement extends Model
             return Util::getYear($this->year);
         }
     }
+    public function getReceptionDate()
+    {
+        if($this->reception_date){
+            
+            return Util::getDateShort($this->year);
+        }
+    }
     /**
      * @param  EconomicComplement
      * @param  [type]
