@@ -904,10 +904,16 @@ class EconomicComplementController extends Controller
                         $eco_com_submitted_document = new EconomicComplementSubmittedDocument;
                         $eco_com_submitted_document->economic_complement_id = $economic_complement->id;
                         $eco_com_submitted_document->eco_com_requirement_id = $item->id;
+                        $eco_com_submitted_document->status = $item->status;
+                        $eco_com_submitted_document->reception_date = date('Y-m-d');
+                        $eco_com_submitted_document->save();
                     }
-                    $eco_com_submitted_document->status = $item->status;
-                    $eco_com_submitted_document->reception_date = date('Y-m-d');
-                    $eco_com_submitted_document->save();
+                    elseif($eco_com_submitted_document->status <> $item->status){
+                        $eco_com_submitted_document->status = $item->status;
+                        $eco_com_submitted_document->reception_date = date('Y-m-d');
+                        $eco_com_submitted_document->save();
+                    }
+                   
                 }
 
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
