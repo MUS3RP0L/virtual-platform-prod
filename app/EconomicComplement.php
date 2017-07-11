@@ -19,7 +19,8 @@ class EconomicComplement extends Model
 	protected $fillable = [
         'user_id',
         'affiliate_id',
-    	'eco_com_modality_id',
+        'eco_com_modality_id',
+    	'eco_com_procedure_id',
     	'wf_current_state_id',
         'city_id',
         'category_id',

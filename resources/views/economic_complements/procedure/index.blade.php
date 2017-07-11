@@ -6,7 +6,7 @@
         </div>
     	<div class="col-md-4 text-right">
             <a href="{!! url('economic_complement_procedure/create') !!}" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="top" data-original-title="Nuevo">&nbsp;
-                <i class="glyphicon glyphicon-pencil"></i>&nbsp;
+                <i class="fa fa-plus"></i>&nbsp;
             </a>
         </div>
     </div>
@@ -49,83 +49,81 @@
             	{!! Form::open(['method' => 'POST', 'url' => ['economic_complement_procedure'], 'class' => 'form-horizontal']) !!}
             		<input type="hidden" id="economic_complement_procedure_id" name="economic_complement_procedure_id">
             	    		    
-            								<div class="form-group">
-            									{!! Form::label('year', 'Año', ['class' => 'col-md-4 control-label']) !!}
-            									<div class="col-md-6">
-            									{!! Form::text('year', null , ['class'=> 'form-control', 'required' => 'required']) !!}
-            									</div>
-            								</div>
-            								<div class="form-group">
-            									{!! Form::label('semester', 'Semestre',['class' => 'col-md-4 control-label']) !!}
-            									<div class="col-md-6">
-												{!! Form::select('semester', ['Primer' => 'Primer', 'Segundo' => 'Segundo'], null, ['class' => 'form-control combobox']) !!}
-            									</div>
-            								</div>
-            								<div class="form-group">
-            									{!! Form::label('normal_range_date', 'Normal', ['class' => 'col-md-4 control-label']) !!}
-            								    <div class='col-md-6'>
-            								    	<div class="col-md-6">
-            								            <div class='input-group date' id='normal_start_date_edit'>
-            								            	{!! Form::text('normal_start_date', null , ['class'=> 'form-control', 'required' => 'required']) !!}
-            								                <span class="input-group-addon">
-            								                    <span class="glyphicon glyphicon-calendar"></span>
-            								                </span>
-            								            </div>
-            								    	</div>
-            								    	<div class="col-md-6">
-            								            <div class='input-group date' id='normal_end_date_edit'>
-            								                {!! Form::text('normal_end_date', null, ['class'=> 'form-control', 'required' => 'required']) !!}
-            								                <span class="input-group-addon">
-            								                    <span class="glyphicon glyphicon-calendar"></span>
-            								                </span>
-            								    	</div>
-            								        </div>
-            								    </div>
-            								</div>
-            								<div class="form-group">
-            									{!! Form::label('lagging_range_date', 'Rezagados', ['class' => 'col-md-4 control-label']) !!}
-            								    <div class='col-md-6'>
-            								    	<div class="col-md-6">
-            								            <div class='input-group date' id='lagging_start_date_edit'>
-            								            	{!! Form::text('lagging_start_date', null, ['class'=> 'form-control', 'required' => 'required']) !!}
-            								                <span class="input-group-addon">
-            								                    <span class="glyphicon glyphicon-calendar"></span>
-            								                </span>
-            								            </div>
-            								    	</div>
-            								    	<div class="col-md-6">
-            								            <div class='input-group date' id='lagging_end_date_edit'>
-            								                {!! Form::text('lagging_end_date', null, ['class'=> 'form-control', 'required' => 'required']) !!}
-            								                <span class="input-group-addon">
-            								                    <span class="glyphicon glyphicon-calendar"></span>
-            								                </span>
-            								    	</div>
-            								        </div>
-            								    </div>
-            								</div>
-            								<div class="form-group">
-            									{!! Form::label('additional_range_date', 'Adicionales', ['class' => 'col-md-4 control-label']) !!}
-            								    <div class='col-md-6'>
-            								    	<div class="col-md-6">
-            								            <div class='input-group date' id='additional_start_date_edit'>
-            								            	{!! Form::text('additional_start_date', null, ['class'=> 'form-control', 'required' => 'required']) !!}
-            								                <span class="input-group-addon">
-            								                    <span class="glyphicon glyphicon-calendar"></span>
-            								                </span>
-            								            </div>
-            								    	</div>
-            								    	<div class="col-md-6">
-            								            <div class='input-group date' id='additional_end_date_edit'>
-            								                {!! Form::text('additional_end_date', null, ['class'=> 'form-control', 'required' => 'required']) !!}
-            								                <span class="input-group-addon">
-            								                    <span class="glyphicon glyphicon-calendar"></span>
-            								                </span>
-            								    	</div>
-            								        </div>
-            								    </div>
-            								</div>
-            				
-            				
+					<div class="form-group">
+						{!! Form::label('year', 'Año', ['class' => 'col-md-4 control-label']) !!}
+						<div class="col-md-6">
+						{!! Form::number('year', null , ['class'=> 'form-control', 'required' => 'required']) !!}
+						</div>
+					</div>
+					<div class="form-group">
+						{!! Form::label('semester', 'Semestre',['class' => 'col-md-4 control-label']) !!}
+						<div class="col-md-6">
+						{!! Form::select('semester', ['Primer' => 'Primer', 'Segundo' => 'Segundo'], null, ['class' => 'form-control combobox', 'required']) !!}
+						</div>
+					</div>
+					<div class="form-group">
+						{!! Form::label('normal_range_date', 'Normal', ['class' => 'col-md-4 control-label']) !!}
+					    <div class='col-md-6'>
+					    	<div class="col-md-6">
+					            <div class='input-group date' id='normal_start_date_edit'>
+					            	{!! Form::text('normal_start_date', null , ['class'=> 'form-control', 'required' => 'required']) !!}
+					                <span class="input-group-addon">
+					                    <span class="glyphicon glyphicon-calendar"></span>
+					                </span>
+					            </div>
+					    	</div>
+					    	<div class="col-md-6">
+					            <div class='input-group date' id='normal_end_date_edit'>
+					                {!! Form::text('normal_end_date', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+					                <span class="input-group-addon">
+					                    <span class="glyphicon glyphicon-calendar"></span>
+					                </span>
+					    	</div>
+					        </div>
+					    </div>
+					</div>
+					<div class="form-group">
+						{!! Form::label('lagging_range_date', 'Rezagados', ['class' => 'col-md-4 control-label']) !!}
+					    <div class='col-md-6'>
+					    	<div class="col-md-6">
+					            <div class='input-group date' id='lagging_start_date_edit'>
+					            	{!! Form::text('lagging_start_date', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+					                <span class="input-group-addon">
+					                    <span class="glyphicon glyphicon-calendar"></span>
+					                </span>
+					            </div>
+					    	</div>
+					    	<div class="col-md-6">
+					            <div class='input-group date' id='lagging_end_date_edit'>
+					                {!! Form::text('lagging_end_date', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+					                <span class="input-group-addon">
+					                    <span class="glyphicon glyphicon-calendar"></span>
+					                </span>
+					    	</div>
+					        </div>
+					    </div>
+					</div>
+					<div class="form-group">
+						{!! Form::label('additional_range_date', 'Adicionales', ['class' => 'col-md-4 control-label']) !!}
+					    <div class='col-md-6'>
+					    	<div class="col-md-6">
+					            <div class='input-group date' id='additional_start_date_edit'>
+					            	{!! Form::text('additional_start_date', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+					                <span class="input-group-addon">
+					                    <span class="glyphicon glyphicon-calendar"></span>
+					                </span>
+					            </div>
+					    	</div>
+					    	<div class="col-md-6">
+					            <div class='input-group date' id='additional_end_date_edit'>
+					                {!! Form::text('additional_end_date', null, ['class'=> 'form-control', 'required' => 'required']) !!}
+					                <span class="input-group-addon">
+					                    <span class="glyphicon glyphicon-calendar"></span>
+					                </span>
+					    	</div>
+					        </div>
+					    </div>
+					</div>
             		<div class="row text-center">
                         <div class="form-group">
             				<div class="col-md-12">
@@ -135,8 +133,30 @@
                         </div>
                 	</div>
             	{!! Form::close() !!}
-            	
-
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalDeleteProcedure" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="box-header with-border">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Elimando Rango de Fechas</h4>
+            </div>
+            <div class="box-body" data-bind="event: {mouseover: save, mouseout: save}">
+            	{!! Form::open(['method' => 'POST', 'route' => ['eco_com_pro_delete'], 'class' => 'form-horizontal']) !!}
+            		<input type="hidden" id="delete_economic_complement_procedure_id" name="economic_complement_procedure_id">
+            		<h2 style="text-align: center">Esta seguro de eliminar</h2>    		    
+            		<div class="row text-center">
+                        <div class="form-group">
+            				<div class="col-md-12">
+            					<a href="{!! url('economic_complement_procedure') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+            					&nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+            				</div>
+                        </div>
+                	</div>
+            	{!! Form::close() !!}
             </div>
         </div>
     </div>
@@ -205,11 +225,17 @@ $(function () {
             	$('#semester').val(data.semester);
             	$('#year').val(data.year);
             	$('#economic_complement_procedure_id').val(data.id);
-                console.log(data)
+            	$('#semester').combobox();
             });
             event.preventDefault();
         });
-
+		//for edit procedure
+		$(document).on('click', '.deleteProcedure', function(event) {
+            $.get('/economic_complement_procedure/'+$(this).data('procedure_id'), function(data) {
+            	$('#delete_economic_complement_procedure_id').val(data.id);
+            });
+            event.preventDefault();
+        });
 		var oTable = $('#procedure').DataTable({
 				"dom": '<"top">t<"bottom"p>',
 				processing: true,
