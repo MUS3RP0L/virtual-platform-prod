@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\ImportComplement::class,
         \Muserpol\Console\Commands\ImportRequirement::class,
         \Muserpol\Console\Commands\AutomaticCalculation::class,
+        \Muserpol\Console\Commands\ImportJuridica::class,
     ];
 
     protected function schedule(Schedule $schedule)
