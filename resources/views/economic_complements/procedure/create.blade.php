@@ -18,12 +18,24 @@
 					<div class="box-body">
 						<div class="row">
 							<div class="col-md-12">
+							<div class="form-group">
+										{!! Form::label('semester', 'Semester', ['class' => 'col-md-4 control-label']) !!}
+										<div class="col-md-4">
+											{!! Form::select('semester', ['Primer' => 'Primer', 'Segundo' => 'Segundo'], $semester ?? null,['class' => 'form-control combobox']) !!}
+										</div>
+								</div>
+								<div class="form-group">
+										{!! Form::label('year', 'Año', ['class' => 'col-md-4 control-label']) !!}
+										<div class="col-md-3">
+											{!! Form::text('year', $year ?? null, ['class' => ' form-control']) !!}
+										</div>
+								</div>
 								<div class="form-group">
 									{!! Form::label('normal_range_date', 'Normal', ['class' => 'col-md-4 control-label']) !!}
 								    <div class='col-md-6'>
 								    	<div class="col-md-6">
 								            <div class='input-group date' id='normal_start_date'>
-								            	{!! Form::text('normal_start_date', $normal_start_date ?? null_, ['class'=> 'form-control', 'required' => 'required']) !!}
+								            	{!! Form::text('normal_start_date', $normal_start_date ?? null , ['class'=> 'form-control', 'required' => 'required']) !!}
 								                <span class="input-group-addon">
 								                    <span class="glyphicon glyphicon-calendar"></span>
 								                </span>
@@ -81,6 +93,7 @@
 								        </div>
 								    </div>
 								</div>
+								
 							</div>
 						</div>
 					</div>
