@@ -174,6 +174,7 @@
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Nua"> Nua </div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Regional"> Regional </div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Semestre"> Semestre </div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Ente Gestor"> Ente Gestor </div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Fecha de Emision">Fecha Emisión</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Estado">Estado</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Modalidad">Modalidad</div></th>
@@ -615,6 +616,7 @@
                 { data: 'nua', bSortable:false},
                 { data: 'city',bSortable:false},
                 { data: 'procedure', bSortable:false},
+                { data: 'pension', bSortable:false},
                 { data: 'created_at', bSortable: false },
                 { data: 'eco_com_state', bSortable: false },
                 { data: 'eco_com_modality', bSortable: false },

@@ -238,7 +238,7 @@ class EconomicComplementController extends Controller
                 }
 
 
-                Log::info($economic_complements->get());
+                //Log::info($economic_complements->get());
 
               
             }
@@ -251,6 +251,7 @@ class EconomicComplementController extends Controller
         ->addColumn('city',function($conomic_complement){ return $conomic_complement->city->name; })
         ->addColumn('procedure',function($economic_complement){ $procedure = EconomicComplementProcedure::find($economic_complement->eco_com_procedure_id);
                                                                     return    substr($procedure->year, 0, -6).' '.$procedure->semester; })
+        ->addColumn('pension',function($economic_complement){ return $economic_complement->affiliate->pension_entity->name; })
         ->addColumn('affiliate_name', function ($economic_complement) { return $economic_complement->economic_complement_applicant->getTittleName(); })
         ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
         ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : $economic_complement->wf_state->name; })
