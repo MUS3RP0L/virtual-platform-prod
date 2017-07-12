@@ -183,6 +183,15 @@ class Affiliate extends Model
             return "FEMENINO";
         }
     }
+    public function getSpouseGender()
+    {
+        if ($this->gender == 'F') {
+            return "MASCULINO";
+        }
+        else if ($this->gender == 'M') {
+            return "FEMENINO";
+        }
+    }
 
     public function getPhone()
     {

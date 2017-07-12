@@ -456,6 +456,9 @@ class AffiliateController extends Controller
                     }
                     $affiliate->save();
                     $message = "Información Afiliado actualizado con éxito";
+                    if ($request->typeEco == "economic_complement") {
+                        return redirect('economic_complement/'.$request->economic_complement_id);
+                    }
                 break;
 
                 case 'personal_new':

@@ -732,6 +732,7 @@ class EconomicComplementController extends Controller
                 $eco_com_applicant->first_name = $request->first_name;
                 $eco_com_applicant->second_name = $request->second_name;
                 $eco_com_applicant->surname_husband = $request->surname_husband;
+                $eco_com_applicant->gender = $request->gender;
                 $eco_com_applicant->birth_date = Util::datePick($request->birth_date);
                 $eco_com_applicant->civil_status = $request->civil_status;
                 $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
@@ -742,7 +743,6 @@ class EconomicComplementController extends Controller
                 switch ($economic_complement->economic_complement_modality->economic_complement_type->id) {
 
                     case '1':
-
                     $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
                     $affiliate->identity_card = $request->identity_card;
                     if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
@@ -751,11 +751,12 @@ class EconomicComplementController extends Controller
                     $affiliate->first_name = $request->first_name;
                     $affiliate->second_name = $request->second_name;
                     $affiliate->surname_husband = $request->surname_husband;
-                    $affiliate->birth_date = Util::datePick($request->birth_date);
+                    $affiliate->nua = $request->nua;
+                    $affiliate->gender = $request->gender;
                     $affiliate->civil_status = $request->civil_status;
+                    $affiliate->birth_date = Util::datePick($request->birth_date);
                     $affiliate->phone_number = trim(implode(",", $request->phone_number));
                     $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
-                    $affiliate->nua = $request->nua;
                     $affiliate->save();
 
                     break;
