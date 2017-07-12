@@ -876,6 +876,58 @@
                 </div>
             </div>
             @include('observations.show')
+            <div class="box box-danger box-solid">
+                <div class="box-header with-border">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span> Documentos Presentados</h3>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                <a href="" class="btn btn-sm bg-red-active" data-toggle="modal" data-target="#myModal-requirements">&nbsp;&nbsp;
+                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @if($status_documents)
+                                <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre de Requisito</th>
+                                            <th>Fecha</th>
+                                            <th class="text-center">Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($eco_com_submitted_documents as $item)
+                                            <tr>
+                                                <td>{!! $item->economic_complement_requirement->shortened !!}</td>
+                                                <td>{!! Util::getDateShort($item->reception_date) !!}</td>
+                                                <td>
+                                                    <div class="text-center">
+                                                        @if($item->status)
+                                                        <span class="fa fa-check-square-o fa-lg"></span>
+                                                        @else
+                                                        <span class="fa fa-square-o fa-lg"></span>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                No hay registros
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
         <div class="col-md-6">
@@ -897,6 +949,39 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
+                            @if($economic_complement->affiliate->pension_entity->type == 'APS')
+                                <table class="table table-bordered table-responsive table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Detalle</th>
+                                            <th>Total Fracion</th>
+                                        </tr>
+                                    </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 70%">Fracion de saldo acumulada</td>
+                                        <td style="text-align: right">{{ $economic_complement->aps_total_fsa}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 70%">Fracion complementaria</td>
+                                        <td style="text-align: right">{{ $economic_complement->aps_total_cc}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 70%">Fracion solidaria</td>
+                                        <td style="text-align: right">{{ $economic_complement->aps_total_fs}} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 70%">Total</td>
+                                        <td  style="text-align: right" > {{ $economic_complement->getTotalFractions() }} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                            @endif
                             {{-- @if($economic_complement->base_wage_id) --}}
                                 <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
                                     <thead>
@@ -1570,6 +1655,12 @@
                                             <span class="help-block">Escriba la Fraccion solidaria</span>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                    {!! Form::label('total_frac', 'Total Fracciones', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-3">
+                                    {!! Form::text('total_frac', null, ['class' => 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'", 'readonly']) !!}
+                                    </div>
+                                </div>
                                 @endif
                                 <div class="form-group">
                                     {!! Form::label('sub_total_rent', 'Renta Total Boleta', ['class' => 'col-md-5 control-label']) !!}
@@ -1948,7 +2039,7 @@
 
 
 	});
-
+    var affiliate = {!!$affiliate!!};
 	function SelectRequeriments(requirements) {
 
 		var self = this;
@@ -1974,7 +2065,8 @@
 			self.lastSavedJson(JSON.stringify(dataToSave));
 		};
 		self.lastSavedJson = ko.observable("");
-
+        self.DateDeathAffiliateValue = ko.observable(affiliate.date_death ? true : false);
+            
 	};
 
 	@if ($status_documents)
@@ -2061,18 +2153,26 @@
         $("#sub_total_rent").inputmask();
         $("#reimbursement").inputmask();
         $("#dignity_pension").inputmask();
-        /*function parseCurrency(mount) {
+        $('#total_frac').inputmask();
+        //falta verificar si existe el id antes de obtener el val
+        var aps_total_fsa=parseCurrency($("#aps_total_fsa").val());
+        var aps_total_fs=parseCurrency($("#aps_total_fs").val());
+        var aps_total_cc=parseCurrency($("#aps_total_cc").val());
+        var total=aps_total_fsa+aps_total_fs+aps_total_cc;
+        $('#total_frac').val(total);
+        function parseCurrency(mount) {
             return (isNaN(mount) || mount !='')  ? parseFloat(mount.toString().replace(/,/g,'')):0;
         }
+
         $('.aps').keyup(function (event) {
             var aps_total_fsa=parseCurrency($("#aps_total_fsa").val());
             var aps_total_fs=parseCurrency($("#aps_total_fs").val());
             var aps_total_cc=parseCurrency($("#aps_total_cc").val());
-            console.log(aps_total_fsa+" "+aps_total_fs+" "+aps_total_cc);
+            // console.log(aps_total_fsa+" "+aps_total_fs+" "+aps_total_cc);
             var total=aps_total_fsa+aps_total_fs+aps_total_cc;
-            $('#sub_total_rent').val(total);
-            console.log(total);
-        });*/
+            $('#total_frac').val(total);
+            // $('#sub_total_rent').val(total);
+        });
     });
 </script>
 @endpush
