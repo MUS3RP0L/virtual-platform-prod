@@ -51,11 +51,9 @@ class EconomicComplementImportExportController extends Controller
           foreach ($results as $datos) {
             
             $ext = ($datos->num_com ? "-".$datos->num_com : '');
-            $ext = str_replace(' ','', $ext);
-            //dd($ext) ;
-            //$ext1 = ($datos->num_com_tit ? "-".$datos->num_com_tit : '');                         
+            $ext = str_replace(' ','', $ext);                                  
             if($datos->renta == "DERECHOHABIENTE"){
-              $comp = DB::table('eco_com_applicants')
+              $comp = DB::table('eco_com_applicants') // VIUDEDAD
                   ->select(DB::raw('eco_com_applicants.identity_card as ci_app,economic_complements.*, eco_com_types.id as type'))
                   ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                   ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                            
@@ -69,7 +67,7 @@ class EconomicComplementImportExportController extends Controller
             }
             elseif($datos->renta == "TITULAR")
             {
-                $comp = DB::table('eco_com_applicants')
+                $comp = DB::table('eco_com_applicants') // VEJEZ
                   ->select(DB::raw('eco_com_applicants.identity_card as ci_app,economic_complements.*, eco_com_types.id as type'))
                   ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                   ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                            
@@ -80,32 +78,50 @@ class EconomicComplementImportExportController extends Controller
                   ->where('affiliates.pension_entity_id','=', 5)
                   ->whereYear('economic_complements.year', '=', $year)
                   ->where('economic_complements.semester', '=', $semester)->first();
+            }
+            else
+            {
+                $comp = DB::table('eco_com_applicants') // ORFANDAD
+                  ->select(DB::raw('eco_com_applicants.identity_card as ci_app,economic_complements.*, eco_com_types.id as type'))
+                  ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                  ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                            
+                  ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                  ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
+                  ->whereRaw("LTRIM(eco_com_applicants.identity_card,'0') ='".rtrim($datos->carnet.''.$ext)."'")                
+                  ->where('eco_com_types.id','=', 3)
+                  ->where('affiliates.pension_entity_id','=', 5)
+                  ->whereYear('economic_complements.year', '=', $year)
+                  ->where('economic_complements.semester', '=', $semester)->first();
             }           
             if ($comp){
                
                 $ecomplement = EconomicComplement::where('id','=', $comp->id)->first();
-                $reimbursements = $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
-                $discount = $datos->renta_dignidad + $datos->reintegro_renta_dignidad + $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
-                $total_rent = $datos->total_ganado - $discount;
-                
-                if($comp->type == 1 && $total_rent < 2000)  //Vejez Senasir
+                if (is_null($ecomplement->total_rent))
                 {
-                  $ecomplement->eco_com_modality_id = 8;
-                } 
-                elseif ($comp->type == 2 && $total_rent < 2000) //Viudedad 
-                {  
-                  $ecomplement->eco_com_modality_id = 9;
-                } 
-                elseif($comp->type == 3 && $total_rent < 2000) //Orfandad 
-                {  
+                  $reimbursements = $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
+                  $discount = $datos->renta_dignidad + $datos->reintegro_renta_dignidad + $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
+                  $total_rent = $datos->total_ganado - $discount;
+                  
+                  if($comp->type == 1 && $total_rent < 2000)  //Vejez Senasir
+                  {
                     $ecomplement->eco_com_modality_id = 8;
+                  } 
+                  elseif ($comp->type == 2 && $total_rent < 2000) //Viudedad 
+                  {  
+                    $ecomplement->eco_com_modality_id = 9;
+                  } 
+                  elseif($comp->type == 3 && $total_rent < 2000) //Orfandad 
+                  {  
+                      $ecomplement->eco_com_modality_id = 12;
+                  }
+                  $ecomplement->sub_total_rent = $datos->total_ganado;                
+                  $ecomplement->total_rent =  $total_rent;
+                  $ecomplement->dignity_pension = $datos->renta_dignidad;
+                  $ecomplement->reimbursement = $reimbursements;
+                  $ecomplement->save();                
+                  $found ++;
                 }
-                $ecomplement->sub_total_rent = $datos->total_ganado;                
-                $ecomplement->total_rent =  $total_rent;
-                $ecomplement->dignity_pension = $datos->renta_dignidad;
-                $ecomplement->reimbursement = $reimbursements;
-                $ecomplement->save();                
-                $found ++;
+                  
             }
             else{
               $nofound ++;
@@ -140,14 +156,13 @@ class EconomicComplementImportExportController extends Controller
 
         $afi;
         $found=0;
-        $nofound=0;
-        //return response()->json($results);
+        $nofound=0;      
         foreach ($results as $datos)
         {   $ci = ltrim($datos->nro_identificacion, "0");
-            //dd($ci);
+            
             $afi = DB::table('economic_complements')
-                  ->select(DB::raw('affiliates.identity_card as ci_afi,economic_complements.*, eco_com_types.id as type'))                  
-                  ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                            
+                  ->select(DB::raw('affiliates.identity_card as ci_afi,economic_complements.*, eco_com_types.id as type'))     
+                  ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                 
                   ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
                   ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
                   ->whereRaw("LTRIM(affiliates.identity_card,'0') ='".$ci."'")         
@@ -155,8 +170,8 @@ class EconomicComplementImportExportController extends Controller
                   ->whereYear('economic_complements.year', '=', $year)
                   ->where('economic_complements.semester', '=', $semester)->first();
            
-              if ($afi){
-                  //return response()->json($afi);
+              if ($afi)
+              {                  
                   $comp1 = 0;
                   $comp2 = 0;
                   $comp3 = 0;
@@ -170,12 +185,14 @@ class EconomicComplementImportExportController extends Controller
                       $comp3 = 1;
                   }
                   $comp = $comp1 + $comp2 + $comp3;
-                  $ecomplement = EconomicComplement::where('id','=', $afi->id)->first();
-                                
-                  $ecomplement->total = $datos->total_pension;
-                 // dd($ecomplement);
+                  $ecomplement = EconomicComplement::where('id','=', $afi->id)->first();                                
+                  $ecomplement->total_rent = $datos->total_pension;
+                  $ecomplement->aps_total_cc = $datos->total_cc;
+                  $ecomplement->aps_total_fsa = $datos->total_fsa;
+                  $ecomplement->aps_total_fs = $datos->total_fs;
+
                   //Vejez
-                  if ($afi->type == 1 || $afi->type == 3)
+                  if ($afi->type == 1 )
                   {
                      if ($comp == 1 && $datos->total_pension >= 2000)
                      {
@@ -191,7 +208,7 @@ class EconomicComplementImportExportController extends Controller
                      }
                   }
                  //Viudedad
-                  if ($afi->type == 2) 
+                  elseif ($afi->type == 2) 
                   {
                      if($comp == 1 && $datos->total_pension >= 2000) 
                      {
@@ -204,33 +221,33 @@ class EconomicComplementImportExportController extends Controller
                          $ecomplement->eco_com_modality_id = 9;
                      }
                   }
+                  else
+                  { //ORFANDAD
+                    if ($comp == 1 && $datos->total_pension >= 2000)
+                     {
+                        $ecomplement->eco_com_modality_id = 10;
+                     }
+                     elseif ($comp == 1 && $datos->total_pension < 2000)
+                     {
+                        $ecomplement->eco_com_modality_id = 11;
+                     }
+                     elseif ($comp > 1 && $datos->total_pension < 2000)
+                     {
+                        $ecomplement->eco_com_modality_id = 12;
+                     }
+                  }
+
                   $ecomplement->save();                  
                   $found ++;
               }
-              else{
+              else
+              {
                 $nofound ++;
                 $i ++;
                 $list[]= $datos;
               }
           }
-          //dd($list);
-          //return response()->json($list);
-          //export record no found
-          /*Excel::create('APS_NOTFOUND', function($excel) {
-              global $list, $j,$k;
-              $j = 2;
-              $excel->sheet('Lista_aps', function($sheet) {
-              global $list, $j,$k;
-              $k=1;
-              $sheet->row(1, array('NRO_CORRELATIVO','AFP/EA','PERIODO','CUA_TITULAR','PN_TITULAR','SN_TITULAR','PA_TITULAR','SA_TITULAR','AC_TITULAR','FNAC_TITULAR','NRO_IDENTIFICACION','TIPO_PENSION','FECHA_SOLICITUD','TOTAL_CC','COMISION_CC','EGS_CC','DESCUENTO_CC','CAUSA_DESCUENTO_CC','NETO_CC','TOTAL_FSA','COMISION_FSA','EGS_FSA	DESCUENTO_FSA','CAUSA_DESCUENTO_FSA','NETO_FSA	TOTAL_FS','COMISION_FS','EGS_FS','DESCUENTO_FS','CAUSA_DESCUENTO_FS',	'NETO_FS','TOTAL_PENSION','TIPO_PAGO','PORCENTAJE_PNS','PTC_DERECHOHABIENTE','PN_DERECHOHABIENTE','SN_DERECHOHABIENTE','PA_DERECHOHABIENTE','SA_DERECHOHABIENTE','AC_DERECHOHABIENTE','FNAC_DERECHOHABIENTE','SEXO_DERECHOHABIENTE'));
-              foreach ($list as $valor) {
-                  $sheet->row($j, array($k, $valor->afpea, $valor->periodo, $valor->cua_titular, $valor->pn_titular, $valor->sn_titular, $valor->pa_titular, $valor->sa_titular,$valor->ac_titular,$valor->fnac_titular, Util::zero($valor->nro_identificacion), $valor->tipo_pension,$valor->fecha_solicitud, $valor->total_cc, $valor->comision_cc,$valor->egs_cc,$valor->descuento_cc,$valor->causa_descuento_cc,$valor->neto_cc,$valor->total_fsa,$valor->comision_fsa,$valor->egs_fsa, $valor->descuento_fsa,$valor->causa_descuento_fsa,$valor->neto_fsa,$valor->plus_afps,$valor->total_fs,$valor->comision_fs,$valor->egs_fs,$valor->descuento_fs,$valor->causa_descuento_fs,$valor->neto_fs,$valor->total_pension,$valor->tipo_pago,$valor->porcentaje_pns,$valor->ptc_derechohabiente,$valor->pn_derechohabiente,$valor->sn_derechohabiente,$valor->pa_derechohabiente,$valor->sa_derechohabiente,$valor->ac_derechohabiente,$valor->fnac_derechohabiente,$valor->sexo_derechohabiente));
-                  $j++;
-                  $k++;
-              }
-            });
-
-          })->export('xlsx');*/
+          
           Session::flash('message', "Importación Exitosa"." F:".$found." NF:".$nofound);
           return redirect('economic_complement');
     }

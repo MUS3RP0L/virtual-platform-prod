@@ -140,6 +140,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 	//procedures
 	Route::resource('economic_complement_procedure', 'EconomicComplement\EconomicComplementProcedureController');
+	Route::POST('eco_com_pro_delete',['as'=>'eco_com_pro_delete','uses'=>'EconomicComplement\EconomicComplementProcedureController@deleteProcedure']);
 	Route::get('eco_com_pro_data',array('as'=>'eco_com_pro_data','uses'=> 'EconomicComplement\EconomicComplementProcedureController@Data'));
 });
 

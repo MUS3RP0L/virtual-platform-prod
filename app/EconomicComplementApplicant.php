@@ -152,6 +152,15 @@ class EconomicComplementApplicant extends Model
             }
         }
     }
+    public function getGender()
+    {
+        if ($this->gender == 'M') {
+            return "MASCULINO";
+        }
+        else if ($this->gender == 'F') {
+            return "FEMENINO";
+        }
+    }
 
 }
 

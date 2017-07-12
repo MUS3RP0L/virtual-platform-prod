@@ -858,6 +858,7 @@ class EconomicComplementController extends Controller
                 $eco_com_applicant->first_name = $request->first_name;
                 $eco_com_applicant->second_name = $request->second_name;
                 $eco_com_applicant->surname_husband = $request->surname_husband;
+                $eco_com_applicant->gender = $request->gender;
                 $eco_com_applicant->birth_date = Util::datePick($request->birth_date);
                 $eco_com_applicant->civil_status = $request->civil_status;
                 $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
@@ -868,7 +869,6 @@ class EconomicComplementController extends Controller
                 switch ($economic_complement->economic_complement_modality->economic_complement_type->id) {
 
                     case '1':
-
                     $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
                     $affiliate->identity_card = $request->identity_card;
                     if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
@@ -877,11 +877,12 @@ class EconomicComplementController extends Controller
                     $affiliate->first_name = $request->first_name;
                     $affiliate->second_name = $request->second_name;
                     $affiliate->surname_husband = $request->surname_husband;
-                    $affiliate->birth_date = Util::datePick($request->birth_date);
+                    $affiliate->nua = $request->nua;
+                    $affiliate->gender = $request->gender;
                     $affiliate->civil_status = $request->civil_status;
+                    $affiliate->birth_date = Util::datePick($request->birth_date);
                     $affiliate->phone_number = trim(implode(",", $request->phone_number));
                     $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
-                    $affiliate->nua = $request->nua;
                     $affiliate->save();
 
                     break;
@@ -1030,10 +1031,16 @@ class EconomicComplementController extends Controller
                         $eco_com_submitted_document = new EconomicComplementSubmittedDocument;
                         $eco_com_submitted_document->economic_complement_id = $economic_complement->id;
                         $eco_com_submitted_document->eco_com_requirement_id = $item->id;
+                        $eco_com_submitted_document->status = $item->status;
+                        $eco_com_submitted_document->reception_date = date('Y-m-d');
+                        $eco_com_submitted_document->save();
                     }
-                    $eco_com_submitted_document->status = $item->status;
-                    $eco_com_submitted_document->reception_date = date('Y-m-d');
-                    $eco_com_submitted_document->save();
+                    elseif($eco_com_submitted_document->status <> $item->status){
+                        $eco_com_submitted_document->status = $item->status;
+                        $eco_com_submitted_document->reception_date = date('Y-m-d');
+                        $eco_com_submitted_document->save();
+                    }
+                   
                 }
 
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
@@ -1047,38 +1054,46 @@ class EconomicComplementController extends Controller
             break;
             case 'requirements':
 
-            $rules = [
+                    $rules = [
 
-            ];
+                    ];
 
-            $messages = [
+                    $messages = [
 
-            ];
+                    ];
 
-            $validator = Validator::make($request->all(), $rules, $messages);
-            if ($validator->fails()){
-                return redirect('affiliate/' . $economic_complement->id)
-                ->withErrors($validator)
-                ->withInput();
-            }
-            else{
-                foreach (json_decode($request->data) as $item)
-                {
-                    $eco_com_submitted_document = EconomicComplementSubmittedDocument::where('economic_complement_id', '=', $economic_complement->id)
-                    ->where('eco_com_requirement_id', '=', $item->id)->first();
-
-                    if (!$eco_com_submitted_document) {
-                        $eco_com_submitted_document = new EconomicComplementSubmittedDocument;
-                        $eco_com_submitted_document->economic_complement_id = $economic_complement->id;
-                        $eco_com_submitted_document->eco_com_requirement_id = $item->id;
+                    $validator = Validator::make($request->all(), $rules, $messages);
+                    if ($validator->fails()){
+                        return redirect('affiliate/' . $economic_complement->id)
+                        ->withErrors($validator)
+                        ->withInput();
                     }
-                    $eco_com_submitted_document->comment = "Documentos del segundo Semestre del 2016";
-                    $eco_com_submitted_document->status = $item->status;
-                    $eco_com_submitted_document->reception_date = date('Y-m-d');
-                    $eco_com_submitted_document->save();
-                }
-                return redirect('affiliate/'.$economic_complement->affiliate_id);
-            }
+                    else
+                    {
+                        foreach (json_decode($request->data) as $item)
+                        {
+                            $eco_com_submitted_document = EconomicComplementSubmittedDocument::where('economic_complement_id', '=', $economic_complement->id)
+                            ->where('eco_com_requirement_id', '=', $item->id)->first();
+
+                           if (!$eco_com_submitted_document) {
+                                $eco_com_submitted_document = new EconomicComplementSubmittedDocument;
+                                $eco_com_submitted_document->economic_complement_id = $economic_complement->id;
+                                $eco_com_submitted_document->eco_com_requirement_id = $item->id;
+                                $eco_com_submitted_document->status = $item->status;
+                                $eco_com_submitted_document->reception_date = date('Y-m-d');
+                                $eco_com_submitted_document->save();
+                            }
+                            elseif($eco_com_submitted_document->status <> $item->status )
+                            {
+                                $eco_com_submitted_document->comment = "Documentos del segundo Semestre del 2016";
+                                $eco_com_submitted_document->status = $item->status;
+                                $eco_com_submitted_document->reception_date = date('Y-m-d');
+                                $eco_com_submitted_document->save();
+                            }
+
+                        }
+                        return redirect('affiliate/'.$economic_complement->affiliate_id);
+                    }
             break;
 
             case 'block':
@@ -1186,22 +1201,126 @@ class EconomicComplementController extends Controller
                 ->withInput();
             }
             else{
+                //send from request data
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
-                    $total_rent = floatval($request->sub_total_rent)-floatval($request->reimbursement)-floatval($request->dignity_pension);
-                    $economic_complement->total_rent=$total_rent;
-                    if (!array_search($economic_complement->eco_com_modality_id, array(1,2,3)) && $total_rent < 2000) {
-                        $economic_complement_rent=EconomicComplementRent::where('degree_id','=',$economic_complement->affiliate->degree->id)
+
+                EconomicComplement::calculate($economic_complement,$request->sub_total_rent, $request->reimbursement, $request->dignity_pension, $request->aps_total_fsa, $request->aps_total_cc, $request->aps_total_fs);
+                $economic_complement->state = 'Edited';    
+                $economic_complement->save();
+                    /*$total_rent = floatval(str_replace(',','',$request->sub_total_rent))-floatval(str_replace(',','',$request->reimbursement))-floatval(str_replace(',','',$request->dignity_pension));
+
+                    //for aps
+                    if($economic_complement->affiliate->pension_entity->type=='APS'){
+                        $comp=0;
+                        if (floatval(str_replace(',','',$request->aps_total_fsa)) > 0) {
+                            $comp++;
+                        }if (floatval(str_replace(',','',$request->aps_total_cc)) > 0) {
+                            $comp++;
+                        }if (floatval(str_replace(',','',$request->aps_total_fs)) > 0) {
+                            $comp++;
+                        }
+                        $economic_complement->aps_total_fsa=floatval(str_replace(',','',$request->aps_total_fsa));
+                        $economic_complement->aps_total_cc=floatval(str_replace(',','',$request->aps_total_cc));
+                        $economic_complement->aps_total_fs=floatval(str_replace(',','',$request->aps_total_fs));
+                        //vejez
+                        if ($economic_complement->economic_complement_modality->economic_complement_type->id == 1)
+                        {
+                            if ($comp == 1 && $total_rent >= 2000)
+                            {
+                               $economic_complement->eco_com_modality_id = 4;
+                            }
+                            elseif ($comp == 1 && $total_rent < 2000)
+                            {
+                               $economic_complement->eco_com_modality_id = 6;
+                            }
+                            elseif ($comp > 1 && $total_rent < 2000)
+                            {
+                               $economic_complement->eco_com_modality_id = 8;
+                            }else
+                            {
+                               $economic_complement->eco_com_modality_id = 1;
+                            }
+                        }
+                        //Viudedad
+                        if ($economic_complement->economic_complement_modality->economic_complement_type->id == 2)
+                        {
+                            if($comp == 1 && $total_rent >= 2000)
+                            {
+                                $economic_complement->eco_com_modality_id = 5;
+                            }
+                            elseif ($comp == 1 && $total_rent < 2000)
+                            {
+                                 $economic_complement->eco_com_modality_id = 7;
+                            }
+                            elseif ($comp > 1 && $total_rent < 2000 )
+                            {
+                                $economic_complement->eco_com_modality_id = 9;
+                            }else
+                            {
+                                $economic_complement->eco_com_modality_id = 2;
+                            }
+                        }
+                        //orfandad
+                        if ($economic_complement->economic_complement_modality->economic_complement_type->id == 3)
+                        {
+                            if ($comp == 1 && $total_rent >= 2000)
+                            {
+                               $economic_complement->eco_com_modality_id = 10;
+                            }
+                            elseif ($comp == 1 && $total_rent < 2000)
+                            {
+                               $economic_complement->eco_com_modality_id = 11;
+                            }
+                            elseif ($comp > 1 && $total_rent < 2000)
+                            {
+                               $economic_complement->eco_com_modality_id = 12;
+                            }else{
+                               $economic_complement->eco_com_modality_id = 3;
+                            }
+                        }
+                    }else{
+                        //Senasir
+                        if($economic_complement->economic_complement_modality->economic_complement_type->id == 1 && $total_rent < 2000)  //Vejez
+                        {
+                          $economic_complement->eco_com_modality_id = 8;
+                        } 
+                        elseif ($economic_complement->economic_complement_modality->economic_complement_type->id == 2 && $total_rent < 2000) //Viudedad 
+                        {  
+                          $economic_complement->eco_com_modality_id = 9;
+                        } 
+                        elseif($economic_complement->economic_complement_modality->economic_complement_type->id == 3 && $total_rent < 2000) //Orfandad 
+                        {  
+                            $economic_complement->eco_com_modality_id = 12;
+                        }else {
+                            $economic_complement->eco_com_modality_id = $economic_complement->economic_complement_modality->economic_complement_type->id;
+                        }
+                    }
+                    $economic_complement->total_rent = $total_rent;
+                    $economic_complement->save();
+
+                    $economic_complement->total_rent_calc = $total_rent;
+
+                    //para el promedio
+                    if ($economic_complement->eco_com_modality_id>3) {
+                        $economic_complement_rent = EconomicComplementRent::where('degree_id','=',$economic_complement->affiliate->degree->id)
                             ->where('eco_com_type_id','=',$economic_complement->economic_complement_modality->economic_complement_type->id)
                             ->whereYear('year','=',Carbon::parse($economic_complement->year)->year)
                             ->where('semester','=',$economic_complement->semester)
                             ->first();
                         $total_rent=$economic_complement_rent->average;
+                        $economic_complement->total_rent_calc = $economic_complement_rent->average;
+
                     }
                     $base_wage = BaseWage::degreeIs($economic_complement->affiliate->degree_id)->whereYear('month_year','=',Carbon::parse($economic_complement->year)->year)->first();
-                    $salary_reference = $base_wage->amount;
-                    $economic_complement->salary_reference=$salary_reference;
-                    $seniority = $economic_complement->category->percentage * $base_wage->amount;
-                    //dd($seniority);
+                    if ($economic_complement->economic_complement_modality->economic_complement_type->id==2) {
+                        $base_wage_amount=$base_wage->amount*(80/100);
+                        $salary_reference = $base_wage_amount;
+                        $seniority = $economic_complement->category->percentage * $base_wage_amount;
+                    }else{
+                        $salary_reference = $base_wage->amount;
+                        $seniority = $economic_complement->category->percentage * $base_wage->amount;
+                    }
+
                     $economic_complement->seniority=$seniority;
                     $salary_quotable = $salary_reference + $seniority;
                     $economic_complement->salary_quotable=$salary_quotable;
@@ -1212,29 +1331,29 @@ class EconomicComplementController extends Controller
                     $economic_complement->total_amount_semester=$total_amount_semester;
                     //$complementary_factor = $eco_com_type->id == 1 ? $economic_complement->complementary_factor->old_age : $economic_complement->complementary_factor->widowhood;
                 //     $total = $total_amount_semester * $complementary_factor/100;
-                $economic_complement->sub_total_rent=$request->sub_total_rent;
-                $economic_complement->reimbursement=$request->reimbursement;
-                $economic_complement->dignity_pension=$request->dignity_pension;
+                $economic_complement->sub_total_rent=floatval(str_replace(',','',$request->sub_total_rent));
+                $economic_complement->reimbursement=floatval(str_replace(',','',$request->reimbursement));
+                $economic_complement->dignity_pension=floatval(str_replace(',','',$request->dignity_pension));
                 //$economic_complement->total_rent=floatval($request->sub_total_rent)-floatval($request->reimbursement)-floatval($request->dignity_pension);
                 //$affiliate=Affiliate::find(52444);
                 $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)
                                             ->whereYear('year', '=', Carbon::parse($economic_complement->year)->year)
                                             ->where('semester', '=', $economic_complement->semester)->first();
                 $economic_complement->complementary_factor_id = $complementary_factor->id;
-                if ($economic_complement->economic_complement_modality->eco_com_type_id == 1) {
-                    //vejez
-                    $complementary_factor=$complementary_factor->old_age;
-                }else{
+                if ($economic_complement->economic_complement_modality->eco_com_type_id == 2 ) {
                     //viudedad
                     $complementary_factor=$complementary_factor->widowhood;
+                }else{
+                    //vejez
+                    $complementary_factor=$complementary_factor->old_age;
                 }
                 $economic_complement->complementary_factor=$complementary_factor;
                 $total = $total_amount_semester * floatval($complementary_factor)/100;
                 $economic_complement->total=$total;
                 $economic_complement->base_wage_id = $base_wage->id;
-                $economic_complement->salary_reference=$base_wage->amount;
+                $economic_complement->salary_reference=$salary_reference;
                 $economic_complement->state = 'Edited';
-                $economic_complement->save();
+                $economic_complement->save();*/
                 //dd($economic_complement);
                 return redirect('economic_complement/'.$economic_complement->id);
             }
