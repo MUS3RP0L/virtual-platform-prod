@@ -133,7 +133,7 @@
                                             <div class="col-md-7">
                                                <select class="combobox form-control" name="eco_com_procedure_id">
                                                    @foreach($procedures as $procedure)
-                                                   <option value="{{$procedure->id}}"> {{ substr($procedure->year, 0, -6).' '.$procedure->semester. ' Semestre' }}</option>
+                                                   <option value="{{$procedure->id}}"> {{ substr($procedure->year, 0, -6).' '.$procedure->semester }}</option>
                                                    @endforeach()
                                                </select>
                                                 <span class="help-block">Seleccione Semestre</span>
@@ -171,6 +171,9 @@
                                         <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Número de Trámite">Número</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Numero de Carnet">Número de Carnet</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Nombre de Afiliado">Nombre de Beneficiario</div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Nua"> Nua </div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Regional"> Regional </div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Semestre"> Semestre </div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Fecha de Emision">Fecha Emisión</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Estado">Estado</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Modalidad">Modalidad</div></th>
@@ -609,6 +612,9 @@
                 { data: 'code', sClass: "text-center" },
                 { data: 'affiliate_identitycard', bSortable: false },
                 { data: 'affiliate_name', bSortable: false },
+                { data: 'nua', bSortable:false},
+                { data: 'city',bSortable:false},
+                { data: 'procedure', bSortable:false},
                 { data: 'created_at', bSortable: false },
                 { data: 'eco_com_state', bSortable: false },
                 { data: 'eco_com_modality', bSortable: false },

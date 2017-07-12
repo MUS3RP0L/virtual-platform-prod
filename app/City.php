@@ -49,4 +49,8 @@ class City extends Model
     {
         return $query->where('id', $id);
     }
+    public function getName()
+    {
+        return $this->name;
+    }
 }

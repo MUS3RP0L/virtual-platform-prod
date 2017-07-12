@@ -52,7 +52,8 @@ class EconomicComplement extends Model
         'total',
         'payment_date',
         'payment_number',
-        'comment'
+        'comment',
+        'eco_com_procedure_id'
 	];
 
 	protected $guarded = ['id'];
