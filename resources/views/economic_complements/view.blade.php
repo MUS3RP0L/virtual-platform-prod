@@ -5,8 +5,8 @@
 		<div class="col-md-6">
 			{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
 		</div>
-        @can('eco_com_reception')
     		<div class="col-md-4">
+            @can('eco_com_reception')
                 @can('observate')
                     <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
                         <a href="" class="btn btn-success btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
@@ -32,9 +32,14 @@
                         </a>
                     </div>
                 @endif
+            @endcan
+                <div class="btn-group">
+                    <span data-toggle="modal" data-target="#recordEcoModal">
+                        <a href="#" class="btn btn-raised btn-lg bg-blue"  data-toggle="tooltip"  data-placement="right" data-original-title="Historial"><i class="fa fa-lg fa-clock-o"></i></a>
+                    </span>
+                </div>
     		</div>
-        @endcan
-		@can('eco_com_review')
+        @can('eco_com_review')
 			@if($economic_complement->eco_com_state_id < 2)
 				<div class="col-md-2 text-right">
 			        <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Confirmar" style="margin:0px;">
@@ -45,13 +50,7 @@
 				</div>
 			@endif
 		@endcan
-        <div class="col-md-2">
-            <div class="btn-group">
-                <span data-toggle="modal" data-target="#recordEcoModal">
-                    <a href="#" class="btn btn-raised btn-lg bg-blue"  data-toggle="tooltip"  data-placement="right" data-original-title="Historial"><i class="fa fa-lg fa-clock-o"></i></a>
-                </span>
-            </div>
-        </div>
+        
 	</div>
 
 @endsection
