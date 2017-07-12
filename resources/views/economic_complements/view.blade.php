@@ -560,6 +560,7 @@
                                     <thead>
                                         <tr>
                                             <th>Nombre de Requisito</th>
+                                            <th>Fecha</th>
                                             <th class="text-center">Estado</th>
                                         </tr>
                                     </thead>
@@ -567,6 +568,7 @@
                                         @foreach ($eco_com_submitted_documents as $item)
                                             <tr>
                                                 <td>{!! $item->economic_complement_requirement->shortened !!}</td>
+                                                <td>{!! Util::getDateShort($item->reception_date) !!}</td>
                                                 <td>
                                                     <div class="text-center">
                                                         @if($item->status)
