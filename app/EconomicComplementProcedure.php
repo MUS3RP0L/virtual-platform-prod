@@ -23,17 +23,17 @@ class EconomicComplementProcedure extends Model
 
     public function economic_complements()
     {
-      $this->hasMany(EconomicComplement::class);
+      return $this->hasMany(EconomicComplement::class,'eco_com_procedure_id');
     }
 
     public function economic_complements_rents()
     {
-      $this->hasMany(EconomicComplementRent::class);
+      return $this->hasMany(EconomicComplementRent::class);
     }
 
     public function complementary_factors()
     {
-      $this->hasMany(ComplementaryFactor::class);
+      return $this->hasMany(ComplementaryFactor::class);
     }
     
 }

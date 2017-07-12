@@ -36,7 +36,7 @@ class EconomicComplementProcedureController extends Controller
                    <a href="" data-procedure_id="'.$procedure->id.'" class="btn btn-primary btn-raised btn-sm editProcedure" data-toggle="modal" data-target="#modalEditProcedure">&nbsp;&nbsp;<i class="fa fa-pencil"></i>&nbsp;&nbsp;</a>
                    <a href="" class="btn btn-primary btn-raised btn-sm dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</a>
                    <ul class="dropdown-menu">
-                       <li><a href="economic_complement_procedure/ '.$procedure->id.'/edit " style="padding:3px 10px;"><i class="fa fa-minus"></i> Eliminar</a></li>
+                       <li><a href="" data-procedure_id="'.$procedure->id.'"  data-toggle="modal" data-target="#modalDeleteProcedure" style="padding:3px 10px;" class="deleteProcedure"><i class="fa fa-minus"></i> Eliminar</a></li>
                    </ul>
                    </div>';})
                ->make(true);
@@ -70,22 +70,21 @@ class EconomicComplementProcedureController extends Controller
      */
     public function save($request, $eco_com_pro_id)
     {
-        if ($eco_com_pro_id) {
-            $message = "Rango de fechas Actualizado";
-            $eco_com_pro = EconomicComplementProcedure::find($eco_com_pro_id);
+
+        $exists = EconomicComplementProcedure::where('year','=',Util::datePickYear($request->year))->where('semester','=',$request->semester)->first();
+        if ($exists) {
+          return redirect('economic_complement_procedure')
+          ->withErrors("Error en los datos")
+          ->withInput();
         }else{
-            $message = "Rango de Fechas Creado con éxito";
-            $eco_com_pro = new EconomicComplementProcedure();
-        }
-            //$eco_com_pro = EconomicComplementProcedure::where('year','=',Util::datePickYear(Carbon::now()->year))->where('semester','=',Util::getCurrentSemester())->first();
-            // if ($eco_com_pro) {
-            //     $message = "Rango de fechas Actualizado";
-            // }else {
-            //     $message = "Rango de Fechas Creado con éxito";
-            // }
-            // 
+            if ($eco_com_pro_id) {
+                $message = "Rango de fechas Actualizado";
+                $eco_com_pro = EconomicComplementProcedure::find($eco_com_pro_id);
+            }else{
+                $message = "Rango de Fechas Creado con éxito";
+                $eco_com_pro = new EconomicComplementProcedure();
+            }
             $eco_com_pro->year = Util::datePickYear($request->year);
-            // $eco_com_pro->year = Util::datePickYear(Carbon::now()->year);
             $eco_com_pro->user_id = Auth::user()->id;
             $eco_com_pro->semester = $request->semester;
             $eco_com_pro->normal_start_date = Util::datePick($request->normal_start_date);
@@ -95,9 +94,9 @@ class EconomicComplementProcedureController extends Controller
             $eco_com_pro->additional_start_date = Util::datePick($request->additional_start_date);
             $eco_com_pro->additional_end_date = Util::datePick($request->additional_end_date);
             $eco_com_pro->save();
-            
             Session::flash('message', $message);
-        return redirect('economic_complement_procedure');
+            return redirect('economic_complement_procedure');
+        }
     }
     public function store(Request $request)
     {
@@ -157,6 +156,19 @@ class EconomicComplementProcedureController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+    }
+    public function deleteProcedure(Request $request)
+    {   
+        $exists_eco_coms=EconomicComplementProcedure::find($request->economic_complement_procedure_id);
+        if (!$exists_eco_coms->economic_complements->first()) {
+            $exists_eco_coms->delete();
+        }else{
+            return redirect('economic_complement_procedure')
+              ->withErrors("No puede Eliminar el Procedimiento porque existen datos.")
+              ->withInput();
+        }
+        Session::flash('message', 'Procedimiento Eliminado con exito');
+        return redirect('economic_complement_procedure');
     }
 }
