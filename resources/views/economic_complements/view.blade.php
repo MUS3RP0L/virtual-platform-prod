@@ -448,24 +448,29 @@
                     </div>
                 </div>
             @endif
-            <div class="box box-success box-solid">
+            <div class="box box-success box-solid collapsed-box">
                 <div class="box-header with-border">
                     <div class="row">
-                        <div class="col-md-10">
+                        <div class="col-md-8">
                             <h3 class="box-title"><span class="fa fa-user-plus"></span> Información de Beneficiario
                             @if($eco_com_applicant->economic_complement->eco_com_modality_id == 2)
                             - derechohabiente
                             @endif
                             </h3>
+                            <div class="box-tools pull-right">
+                            </div>
                         </div>
                         @can('economic_complement')
                         {{--@can('showEdit', $economic_complement)--}}
-                        <div class="col-md-2 text-right">
-                            <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                        <div class="col-md-4 text-right">
+                            <span data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-applicant">&nbsp;&nbsp;
                                     <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
                                 </a>
-                            </div>
+                            </span>
+                            <a href="" class="btn btn-sm bg-olive" data-widget="collapse">&nbsp;&nbsp;
+                                <span class="fa fa-lg fa-plus" aria-hidden="true"></span>&nbsp;&nbsp;
+                            </a>
                         </div>
                         @endcan
                     </div>
