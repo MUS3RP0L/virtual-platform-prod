@@ -899,8 +899,8 @@ class EconomicComplementController extends Controller
                 $eco_com_applicant->gender = $request->gender;
                 $eco_com_applicant->birth_date = Util::datePick($request->birth_date);
                 $eco_com_applicant->civil_status = $request->civil_status;
-                $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
-                $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number));
+                $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number_applicant));
+                $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number_applicant));
                 $eco_com_applicant->nua = ($request->nua == null) ? 0 : $request->nua;
                 $eco_com_applicant->save();
 

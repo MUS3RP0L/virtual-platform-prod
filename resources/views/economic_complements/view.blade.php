@@ -1405,7 +1405,7 @@
                                     </div>
                                 </div>
                             --}}
-                                <div class="form-group" id="phonesNumbers" style="padding-bottom:5px;">
+                                <div class="form-group" id="phonesNumbersApplicant" style="padding-bottom:5px;">
                                             {!! Form::label('phone_number', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
                                             @foreach(explode(',',$eco_com_applicant->phone_number) as $key=>$phone)
                                             @if($key>=1)
@@ -1416,7 +1416,7 @@
                                             @else
                                             <div class="col-md-6">
                                             @endif
-                                                <input type="text" id="phone_number" class="form-control" name="phone_number[]" value="{!! $phone !!}" data-inputmask="'mask': '(9) 999-999'" data-mask>
+                                                <input type="text" id="phone_number_applicant" class="form-control" name="phone_number_applicant[]" value="{!! $phone !!}" data-inputmask="'mask': '(9) 999-999'" data-mask>
                                             </div>
                                             @if($key>=1)
                                             <div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div>
@@ -1430,10 +1430,10 @@
                                         </div>
                                         <div class="">
                                             <div class="col-md-offset-6">
-                                            <button class="btn btn-success" id="addPhoneNumber" type="button" ><span class="fa fa-plus"></span></button>
+                                            <button class="btn btn-success" id="addPhoneNumberApplicant" type="button" ><span class="fa fa-plus"></span></button>
                                             </div>
                                         </div>
-                                        <div class="form-group" id="cellPhonesNumbers" style="padding-bottom:5px;">
+                                        <div class="form-group" id="cellPhonesNumbersApplicant" style="padding-bottom:5px;">
                                                 {!! Form::label('cell_phone_number', 'Teléfono Celular', ['class' => 'col-md-5 control-label']) !!}
                                                 @foreach(explode(',',$eco_com_applicant->cell_phone_number) as $key=>$phone)
                                                 @if($key>=1)
@@ -1444,7 +1444,7 @@
                                                 @else
                                                 <div class="col-md-6">
                                                 @endif
-                                                <input type="text" id="cell_phone_number" class="form-control" name="cell_phone_number[]" value="{!! $phone !!}" data-inputmask="'mask': '(999)-99999'" data-mask>
+                                                <input type="text" id="cell_phone_number_applicant" class="form-control" name="cell_phone_number_applicant[]" value="{!! $phone !!}" data-inputmask="'mask': '(999)-99999'" data-mask>
                                                  </div>
                                             @if($key>=1)
                                             <div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div>
@@ -1458,7 +1458,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-md-offset-6">
-                                            <button class="btn btn-success" id="addCellPhoneNumber"><span class="fa fa-plus"></span></button>
+                                            <button class="btn btn-success" id="addCellPhoneNumberApplicant"><span class="fa fa-plus"></span></button>
                                             </div>
                                         </div>
                                     </div>
@@ -2216,6 +2216,33 @@
             $(this).inputmask();
         });
         $("input[name='cell_phone_number_lg[]']").last().focus();
+    });
+
+    //for phone numbers Applicant
+    $('#addPhoneNumberApplicant').on('click', function(event) {
+        $('#phonesNumbersApplicant').append('<div class="col-md-offset-5"><div class="col-md-7"><input type="text" class="form-control" name="phone_number_applicant[]" data-inputmask="\'mask\': \'(9) 999-999\'" data-mask></div><div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div></div>')
+        event.preventDefault();
+        $("input[name='phone_number_applicant[]']").each(function() {
+            $(this).inputmask();
+        });
+        $("input[name='phone_number_applicant[]']").last().focus();
+    });
+    $(document).on('click', '.deletePhone', function(event) {
+        $(this).parent().parent().remove();
+        event.preventDefault();
+    });
+    //for cell phone numbers Applicant
+    $('#addCellPhoneNumberApplicant').on('click', function(event) {
+        $('#cellPhonesNumbersApplicant').append('<div class="col-md-offset-5"><div class="col-md-8"><input type="text" class="form-control" name="cell_phone_number_applicant[]" data-inputmask="\'mask\': \'(999)-99999\'" data-mask></div><div class="col-md-1"><button class="btn btn-warning deleteCellPhone" type="button" ><i class="fa fa-minus"></i></button></div></div>')
+        event.preventDefault();
+        $("input[name='cell_phone_number_applicant[]']").each(function() {
+            $(this).inputmask();
+        });
+        $("input[name='cell_phone_number_applicant[]']").last().focus();
+    });
+    $(document).on('click', '.deleteCellPhone', function(event) {
+        $(this).parent().parent().remove();
+        event.preventDefault();
     });
     //for record of econmic complement
     $(document).ready(function() {
