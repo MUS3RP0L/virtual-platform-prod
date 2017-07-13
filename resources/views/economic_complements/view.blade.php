@@ -41,15 +41,16 @@
     		</div>
         @can('eco_com_review')
 			@if($economic_complement->eco_com_state_id < 2)
-				<div class="col-md-2 text-right">
-			        <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Confirmar" style="margin:0px;">
-		                <a href="" data-target="#myModal-confirm" class="btn btn-raised btn-warning dropdown-toggle enabled" data-toggle="modal">
-		                    &nbsp;<span class="glyphicon glyphicon-ok"></span>&nbsp;
-		                </a>
-		            </div>
-				</div>
-			@endif
-		@endcan
+                <div class="col-md-2">
+                    <span data-toggle="tooltip" data-placement="top" data-original-title="Revertir" style="margin:0px;">
+                        <a href="" data-target="#myModal-revert" class="btn btn-raised btn-danger dropdown-toggle enabled" data-toggle="modal">&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;</a>
+                    </span>
+                    <span  data-toggle="tooltip" data-placement="top" data-original-title="Confirmar" style="margin:0px;">
+                        <a href="" data-target="#myModal-confirm" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal">&nbsp;<span class="glyphicon glyphicon-ok"></span>&nbsp;</a>
+                    </span>
+                </div>
+            @endif
+        @endcan
         
 	</div>
 
@@ -1847,11 +1848,8 @@
         <div class="modal-dialog">
             <div class="alert alert-dismissible alert-info">
                 <div class="modal-body text-center">
-
-
                     {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
                         <input type="hidden" name="step" value="pass"/>
-
                         <p><br>
                         <div><h4>¿ Está seguro que revisó correctamente?</h4></div>
                             </p>
@@ -1862,6 +1860,30 @@
                                     <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;</button>
                                     &nbsp;&nbsp;&nbsp;
                                     <button type="submit" class="btn btn-raised btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
+                                </div>
+                            </div>
+                        </div>
+                    {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal-revert" class="modal fade">
+        <div class="modal-dialog">
+            <div class="alert alert-dismissible alert-danger">
+                <div class="modal-body text-center">
+                    {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
+                        <input type="hidden" name="step" value="revert"/>
+                        <p><br>
+                        <div><h4>¿ Está seguro que revertir el tramite?</h4></div>
+                            </p>
+                        </div>
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;</button>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <button type="submit" class="btn btn-raised btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="aceptar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
                                 </div>
                             </div>
                         </div>
