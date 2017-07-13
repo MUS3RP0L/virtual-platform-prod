@@ -1224,9 +1224,33 @@ class EconomicComplementController extends Controller
                 $economic_complement->state = 'Edited';
                 $economic_complement->save();
 
-                return redirect('economic_complement/'.$economic_complement->id);
+                // return redirect('inbox');
+                return redirect('economic_complement');
+                // return redirect('economic_complement/'.$economic_complement->id);
 
             }
+
+            break;
+            case 'revert':
+                $rules = [
+                ];
+                $messages = [
+                ];
+
+                $validator = Validator::make($request->all(), $rules, $messages);
+                if ($validator->fails()){
+                    return redirect('economic_complement/' . $economic_complement->id)
+                    ->withErrors($validator)
+                    ->withInput();
+                }
+                else{
+                    $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+                    $economic_complement->user_id = Auth::user()->id;
+                    $economic_complement->review_date = date('Y-m-d');
+                    $economic_complement->state = 'Received';
+                    $economic_complement->save();
+                    return redirect('economic_complement');
+                }
 
             break;
 
