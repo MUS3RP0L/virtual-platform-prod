@@ -392,7 +392,7 @@
                                                     <strong>Lugar Nacimiento:</strong>
                                                 </div>
                                                 <div class="col-md-6">
-                                                     {!! $affiliate->city_birth->name !!}
+                                                     {!! $affiliate->city_birth->name ?? '' !!}
                                                 </div>
                                             </div>
                                         </td>
@@ -1372,7 +1372,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if($economic_complement->modality_id == 1)I
+                                @if($economic_complement->eco_com_modality_id == 1)
                                     <div class="form-group">
                                         {!! Form::label('city_birth_id', 'Lugar de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-7">
