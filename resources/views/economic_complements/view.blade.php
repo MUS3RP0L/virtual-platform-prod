@@ -240,7 +240,7 @@
                                                     <strong>Carnet Identidad:</strong>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card->first_shortened !!}
+                                                    {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card->first_shortened ?? '' !!}
                                                 </div>
                                             </div>
                                         </td>
@@ -621,7 +621,7 @@
                                                 <strong>Lugar de Nac</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $eco_com_applicant->economic_complement->affiliate->city_birth->name !!}
+                                                {!! $eco_com_applicant->economic_complement->affiliate->city_birth->name ?? '' !!}
                                             </div>
                                         </div>
                                     </td>
@@ -2228,13 +2228,29 @@
         $("#reimbursement").inputmask();
         $("#dignity_pension").inputmask();
         $('#total_frac').inputmask();
-        //falta verificar si existe el id antes de obtener el val
-        /*var aps_total_fsa=parseCurrency($("#aps_total_fsa").val());
-        var aps_total_fs=parseCurrency($("#aps_total_fs").val());
-        var aps_total_cc=parseCurrency($("#aps_total_cc").val());
-        var total=aps_total_fsa+aps_total_fs+aps_total_cc;
-        $('#total_frac').val(total);
-        */function parseCurrency(mount) {
+        $('#myModal-totals').on('show.bs.modal',function () {
+            var total=0;
+            var aps_total_fs =  document.getElementById('aps_total_fs');
+            if (typeof(aps_total_fs) != 'undefined' && aps_total_fs != null)
+            { 
+                aps_total_fs=parseCurrency($("#aps_total_fs").val());
+                total+=aps_total_fs;
+            }
+            var aps_total_fsa =  document.getElementById('aps_total_fsa');
+            if (typeof(aps_total_fsa) != 'undefined' && aps_total_fsa != null)
+            { 
+                aps_total_fsa=parseCurrency($("#aps_total_fsa").val());
+                total+=aps_total_fsa;
+            }
+            var aps_total_cc =  document.getElementById('aps_total_cc');
+            if (typeof(aps_total_cc) != 'undefined' && aps_total_cc != null)
+            { 
+                aps_total_cc=parseCurrency($("#aps_total_cc").val());
+                total+=aps_total_cc;
+            } 
+            $('#total_frac').val(total);
+        });
+        function parseCurrency(mount) {
             return (isNaN(mount) || mount !='')  ? parseFloat(mount.toString().replace(/,/g,'')):0;
         }
 
