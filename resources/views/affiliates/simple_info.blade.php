@@ -11,7 +11,7 @@
             <div class="col-md-6">
                 <table class="table table-responsive" style="width:100%;">
                     <tr>
-                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                        <td style="border-top:0px;">
                             <div class="row">
                                 <div class="col-md-6">
                                     <strong>Grado</strong>
@@ -23,7 +23,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                        <td style="border-top:0px;">
                             <div class="row">
                                 <div class="col-md-6">
                                     <strong>Fecha de Ingreso</strong>
@@ -39,7 +39,7 @@
             <div class="col-md-6">
                 <table class="table" style="width:100%;">
                     <tr>
-                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                        <td style="border-top:0px;">
                             <div class="row">
                                 <div class="col-md-6">
                                     <strong>Carnet Identidad</strong>
@@ -51,7 +51,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                        <td style="border-top:0px;">
                             <div class="row">
                                 <div class="col-md-6">
                                     <strong>Matrícula</strong>
@@ -63,7 +63,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                        <td style="border-top:0px;">
                             <div class="row">
                                 <div class="col-md-6">
                                     <strong>Categoría</strong>

@@ -19,7 +19,8 @@ class EconomicComplement extends Model
 	protected $fillable = [
         'user_id',
         'affiliate_id',
-    	'eco_com_modality_id',
+        'eco_com_modality_id',
+    	'eco_com_procedure_id',
     	'wf_current_state_id',
         'city_id',
         'category_id',
@@ -53,7 +54,8 @@ class EconomicComplement extends Model
         'total',
         'payment_date',
         'payment_number',
-        'comment'
+        'comment',
+        'eco_com_procedure_id'
 	];
 
 	protected $guarded = ['id'];
@@ -154,6 +156,10 @@ class EconomicComplement extends Model
             
             return Util::getDateShort($this->year);
         }
+    }
+    public function getTotalFractions()
+    {
+        return floatval($this->aps_total_fsa)+floatval($this->aps_total_cc)+floatval($this->aps_total_fs);
     }
     /**
      * @param  EconomicComplement

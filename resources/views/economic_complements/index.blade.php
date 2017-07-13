@@ -40,6 +40,7 @@
                     <h3 class="box-title"><span class="glyphicon glyphicon-search"></span> Búsqueda</h3>
                 </div>
                 <div class="box-body">
+               
                     <div class="row">
                         <form method="POST" id="search-form" role="form" class="form-horizontal">
                             <div class="col-md-11">
@@ -67,7 +68,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             {!! Form::label('eco_com_type', 'Tipo', ['class' => 'col-md-5 control-label']) !!}
         									<div class="col-md-7">
@@ -76,6 +77,16 @@
         									</div>
     									</div>
                                     </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                        
+                                              <label class="col-md-4 control-label"> <input type="checkbox" id="sw_modalidad" name="sw_modalidad"> Modalidad </label>
+                                       
+                                              
+                                        </div>
+                                        
+                                    </div>
+
                                 </div>
                                 <div class="row"><br>
                                     <div class="col-md-4">
@@ -89,22 +100,52 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             {!! Form::label('eco_com_state_id', 'Estado', ['class' => 'col-md-5 control-label']) !!}
+
                                             <div class="col-md-7">
                                                 {!! Form::select('eco_com_state_id', $eco_com_states_list, '', ['class' => 'combobox form-control']) !!}
                                                 <span class="help-block">Seleccione Estado</span>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="col-md-4">
                                         <div class="form-group">
-        									{!! Form::label('eco_com_modality_id', 'Modalidad', ['class' => 'col-md-5 control-label']) !!}
-        									<div class="col-md-7">
-        										{!! Form::select('eco_com_modality_id', ['clear' => ''], null, ['class' => 'form-control combobox']) !!}
+                                         <div id="append_modality">
+                                             <!-- {!! Form::label('Leco_com_modality_id', 'Modalidad', ['class' => 'col-md-5 control-label']) !!}
+                                        
+                                            <div class="col-md-7">
+                                                 <select class="form-control" name="eco_com_modality_id" id="eco_com_modality_id" >
+                                                 </select>
 
-        										<span class="help-block">Selecione la Modalidad</span>
-        									</div>
+
+                                                <span class="help-block">Selecione la Modalidad</span>
+                                            </div> -->
+
+                                         </div>
+        									
+
         								</div>
                                     </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            {!! Form::label('eco_com_procedure_id', 'Semestre', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                               <select class="combobox form-control" name="eco_com_procedure_id">
+                                                   @foreach($procedures as $procedure)
+                                                   <option value="{{$procedure->id}}"> {{ substr($procedure->year, 0, -6).' '.$procedure->semester }}</option>
+                                                   @endforeach()
+                                               </select>
+                                                <span class="help-block">Seleccione Semestre</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                 
+
+
                                 </div>
                                 <br>
                             </div>
@@ -121,7 +162,7 @@
                             </div>
                         </form>
                     </div>
-
+                  
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table table-bordered table-hover" id="economic_complements-table">
@@ -130,6 +171,10 @@
                                         <th class="text-center"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Número de Trámite">Número</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Numero de Carnet">Número de Carnet</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Nombre de Afiliado">Nombre de Beneficiario</div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Nua"> Nua </div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Regional"> Regional </div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Semestre"> Semestre </div></th>
+                                        <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Ente Gestor"> Ente Gestor </div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Fecha de Emision">Fecha Emisión</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Estado">Estado</div></th>
                                         <th class="text-left"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Modalidad">Modalidad</div></th>
@@ -462,16 +507,64 @@
     <script>
 
         $(document).ready(function(){
+
+                
+
+               // var optionModel = function(id,name){
+               //      var self = this;
+               //      self.id = id;
+               //      self.name = name;
+               //  }
+
+               //  var selectViewModel = function(){
+               //      var self = this;
+               //      self.options =ko.observableArray( [
+               //          new optionModel(1,"First"),
+               //          new optionModel(2,"Second")
+               //      ]);
+               //      self.addSelect = function(){
+               //          self.options.push(new optionModel(15,"joojojjo"));
+               //      }
+               //      self.selectedOptionId = ko.observable(self.options[0].id);
+               //      self.selectedOption = ko.computed(function(){
+               //          return ko.utils.arrayFirst(self.options, function(item){
+               //              return item.id === self.selectedOptionId();
+               //          });
+               //      });
+               //  }
+
+               //  var select = new selectViewModel();
+
+               //  ko.applyBindings(select);
+
+               
+               // selectViewModel.addSelect();
+             //$('#eco_com_modality_id').append('<option value="1">  esto deberia adicionarse1</option>');
+
+           
             $('select[name="eco_com_type"]').on('change', function() {
                 var moduleID = $(this).val();
+
+
+              //  $('#eco_com_modality_id').append('<option value="1">  esto deberia adicionarse2</option>');
+                
                 if(moduleID) {
                     $.ajax({
                         url: '{!! url('get_economic_complement_type') !!}/'+moduleID,
                         type: "GET",
                         dataType: "json",
                         success: function(data) {
-                            $('select[name="eco_com_modality_id"]').empty();
+                            console.log(data);
+                          //  $('select[name="eco_com_modality_id"]').empty();
+                            $('#eco_com_modality_id').empty();
                             $.each(data, function(key, value) {
+                                console.log(value.id);
+
+                                 //select.addSelect();
+                                //viewModel.addSelect();
+                           //     alert("Adicionando "+value.id)
+                               //  $('#eco_com_modality_id').append('<option value="1">  esto deberia adicionarse</option>');
+
                                 $('select[name="eco_com_modality_id"]').append('<option value="'+ value.id +'">'+ value.name +'</option>');
                             });
                         }
@@ -510,12 +603,20 @@
                     d.eco_com_state_id = $('input[name=eco_com_state_id]').val();
                     d.eco_com_modality_id = $('select[name=eco_com_modality_id]').val();
                     d.post = $('input[name=post]').val();
+                    // console.log($('input[name=eco_com_procedure_id]').val());
+                    d.eco_com_procedure_id = $('input[name=eco_com_procedure_id]').val();
+                    d.eco_com_type = $('input[name=eco_com_type]').val();
+                    //d.buscador= $('input[name=buscador]').val();
                 }
             },
             columns: [
                 { data: 'code', sClass: "text-center" },
                 { data: 'affiliate_identitycard', bSortable: false },
                 { data: 'affiliate_name', bSortable: false },
+                { data: 'nua', bSortable:false},
+                { data: 'city',bSortable:false},
+                { data: 'procedure', bSortable:false},
+                { data: 'pension', bSortable:false},
                 { data: 'created_at', bSortable: false },
                 { data: 'eco_com_state', bSortable: false },
                 { data: 'eco_com_modality', bSortable: false },
@@ -545,6 +646,21 @@
                 { data: 'average', bSortable: false }
             ]
         });
+
+         $("#sw_modalidad").change(function() {
+                console.log('checked_event');
+                    if(this.checked) {
+                        //Do stuff
+                        // alert('checked');
+                        $("#append_modality").append('<label class="col-md-5 control-label"> Modalidad </label><div class="col-md-7"><select class="form-control" name="eco_com_modality_id" id="eco_com_modality_id" ></select><span class="help-block">Selecione la Modalidad</span>');
+                       
+
+                    }else{
+                        // alert('no checked');
+                        // $("#append_modality").children().remove();
+                         $('#append_modality').empty();
+                    }
+                });
 
     </script>
 @endpush
