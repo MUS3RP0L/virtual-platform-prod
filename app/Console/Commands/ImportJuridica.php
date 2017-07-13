@@ -28,7 +28,7 @@ class ImportJuridica extends Command implements SelfHandling
 
 
     public function handle()
-    {   global $Progress;
+    {   global $Progress,$year,$semester,$f,$nf;
         $password = $this->ask('Enter the password');
         if ($password == ACCESS) 
         {
@@ -51,13 +51,13 @@ class ImportJuridica extends Command implements SelfHandling
                         {
                             $rows->each(function($result) 
                             {
-                                    global $Progress;
+                                    global $Progress,$year,$semester,$f,$nf;
                                     ini_set('memory_limit', '-1');
                                     ini_set('max_execution_time', '-1');
                                     ini_set('max_input_time', '-1');
                                     set_time_limit('-1');
                                     $Progress->advance();
-
+                                    //dd($result->ci);
                                     $ecom = DB::table('economic_complements')
                                           ->select(DB::raw('affiliates.id as afi_id,affiliates.identity_card as ci_afi,economic_complements.*, eco_com_types.id as type'))     
                                           ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                 
@@ -77,9 +77,20 @@ class ImportJuridica extends Command implements SelfHandling
                                             $obs->observation_type_id = 3;
                                             $obs->date = Carbon::now();
                                             $obs->message = $result->observacion;
-                                            $obs->save();                                             
-                                        }
+                                            $obs->save();
 
+                                        }
+                                        else
+                                        {
+                                            $obs->message = $obs->message." - ".$result->observacion;
+                                            $obs->save();
+                                        }
+                                        $f++;
+
+                                    }
+                                    else
+                                    {
+                                        $nf++;
                                     }
 
                             });
@@ -89,7 +100,7 @@ class ImportJuridica extends Command implements SelfHandling
                         $time_end = microtime(true);
                         $execution_time = ($time_end - $time_start)/60;
                         $Progress->finish();
-                        $this->info("\n\nReport Calculate average:\n
+                        $this->info("\n\nReport F:$f NF:$nf\n
                         Execution time $execution_time [minutes].\n");
                     }
                 }
