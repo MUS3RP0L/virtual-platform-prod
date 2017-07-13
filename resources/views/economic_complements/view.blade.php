@@ -447,7 +447,7 @@
                     </div>
                 </div>
             @endif
-            <div class="box box-success box-solid collapsed-box">
+            <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-8">
@@ -467,9 +467,6 @@
                                     <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
                                 </a>
                             </span>
-                            <a href="" class="btn btn-sm bg-olive" data-widget="collapse">&nbsp;&nbsp;
-                                <span class="fa fa-lg fa-plus" aria-hidden="true"></span>&nbsp;&nbsp;
-                            </a>
                         </div>
                         @endcan
                     </div>
@@ -883,7 +880,7 @@
                         </div>
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                <a href="" class="btn btn-sm bg-red-active" data-toggle="modal" data-target="#myModal-requirements">&nbsp;&nbsp;
+                                <a href="" class="btn btn-sm bg-red-active" data-toggle="modal" data-target="#myModal-requirements-ar">&nbsp;&nbsp;
                                     <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
                                 </a>
                             </div>
@@ -893,7 +890,7 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
-                            @if($status_documents)
+                            @if($status_documents_ar)
                                 <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
                                     <thead>
                                         <tr>
@@ -903,7 +900,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($eco_com_submitted_documents as $item)
+                                        @foreach ($eco_com_submitted_documents_ar as $item)
                                             <tr>
                                                 <td>{!! $item->economic_complement_requirement->shortened !!}</td>
                                                 <td>{!! Util::getDateShort($item->reception_date) !!}</td>
@@ -1752,7 +1749,60 @@
             </div>
         </div>
     </div>
+    @if($status_documents_ar)
+    <div id="myModal-requirements-ar" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Editar Documentos Pendientes</h4>
+                </div>
+                <div class="box-body" data-bind="event: {mouseover: save_ar, mouseout: save_ar}">
+                    {!! Form::model($last_ecocom, ['method' => 'PATCH', 'route' => ['economic_complement.update', $last_ecocom->id], 'class' => 'form-horizontal']) !!}
+                        <input type="hidden" name="step" value="requirements"/>
+                        <input type="hidden" name="ecocom" value="{{$economic_complement->id}}"/>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-bordered table-hover" style="font-size: 16px">
+                                    <thead>
+                                        <tr class="success">
+                                            <th class="text-center">Requisitos</th>
+                                            <th class="text-center">Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: requirements_ar">
+                                        <tr>
+                                            <td data-bind='text: name'></td>
+                                            <td>
+                                                <div class="row text-center">
+                                                    <div class="checkbox">
+                                                        <label><input type="checkbox" data-bind='checked: status, valueUpdate: "afterkeydown"'/></label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {!! Form::hidden('data', null, ['data-bind'=> 'value: lastSavedJson_ar']) !!}
+                        <br>
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <a href="{!! url('economic_complement/' . $economic_complement->id) !!}" data-target="#" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
+                                </div>
+                            </div>
+                        </div>
+                    {!! Form::close() !!}
 
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
     <div id="myModal-block" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -2039,7 +2089,7 @@
 
 	});
     var affiliate = {!!$affiliate!!};
-	function SelectRequeriments(requirements) {
+	function SelectRequeriments(requirements,requirements_ar) {
 
 		var self = this;
 
@@ -2065,13 +2115,38 @@
 		};
 		self.lastSavedJson = ko.observable("");
         self.DateDeathAffiliateValue = ko.observable(affiliate.date_death ? true : false);
-            
+        
+
+        self.requirements_ar = ko.observableArray(ko.utils.arrayMap(requirements_ar, function(document) {
+        return { id: document.eco_com_requirement_id, name: document.economic_complement_requirement.shortened, status: document.status };
+        }));
+
+        self.save_ar = function() {
+            var dataToSave_ar = $.map(self.requirements_ar(), function(requirement_ar) {
+                return  {
+                    id: requirement_ar.id,
+                    name: requirement_ar.name,
+                    status: requirement_ar.status
+                }
+            });
+            self.lastSavedJson_ar(JSON.stringify(dataToSave_ar));
+        };
+        self.lastSavedJson_ar = ko.observable("");
+    
 	};
 
-	@if ($status_documents)
-		window.model = new SelectRequeriments({!! $eco_com_submitted_documents !!});
+    @if($status_documents)
+        @if($status_documents_ar)
+            window.model = new SelectRequeriments({!! $eco_com_submitted_documents !!}, {!! $eco_com_submitted_documents_ar !!});
+        @else
+    		window.model = new SelectRequeriments({!! $eco_com_submitted_documents !!}, null);
+        @endif
 	@else
-		window.model = new SelectRequeriments({!! $eco_com_requirements !!});
+        @if($status_documents_ar)
+            window.model = new SelectRequeriments({!! $eco_com_requirements !!}, {!! $eco_com_submitted_documents_ar !!});
+        @else
+            window.model = new SelectRequeriments({!! $eco_com_requirements !!}, null);
+        @endif
 	@endif
 
 	ko.applyBindings(model);
@@ -2154,12 +2229,12 @@
         $("#dignity_pension").inputmask();
         $('#total_frac').inputmask();
         //falta verificar si existe el id antes de obtener el val
-        var aps_total_fsa=parseCurrency($("#aps_total_fsa").val());
+        /*var aps_total_fsa=parseCurrency($("#aps_total_fsa").val());
         var aps_total_fs=parseCurrency($("#aps_total_fs").val());
         var aps_total_cc=parseCurrency($("#aps_total_cc").val());
         var total=aps_total_fsa+aps_total_fs+aps_total_cc;
         $('#total_frac').val(total);
-        function parseCurrency(mount) {
+        */function parseCurrency(mount) {
             return (isNaN(mount) || mount !='')  ? parseFloat(mount.toString().replace(/,/g,'')):0;
         }
 

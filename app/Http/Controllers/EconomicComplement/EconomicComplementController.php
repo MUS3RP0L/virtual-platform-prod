@@ -640,6 +640,41 @@ class EconomicComplementController extends Controller
 
         $economic_complement_legal_guardian=$economic_complement->economic_complement_legal_guardian;
         $affi_observations = AffiliateObservation::where('affiliate_id',$affiliate->id)->first();
+        if (EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first()) {
+               $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first();   
+
+               if (EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->first()) {
+                   if ($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Vejez') {
+                       $eco_com_submitted_documents_ar = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
+                       {
+                           $query->where('eco_com_requirement_id','=',2)
+                                 ->orWhere('eco_com_requirement_id','=',3)
+                                 ->orWhere('eco_com_requirement_id','=',4)
+                                 ->orWhere('eco_com_requirement_id','=',5);
+                       })->orderBy('id','asc')->get();
+                   }else{
+                       $eco_com_submitted_documents_ar = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
+                       {
+                           $query->where('eco_com_requirement_id','=',7)
+                                 ->orWhere('eco_com_requirement_id','=',8)
+                                 ->orWhere('eco_com_requirement_id','=',9)
+                                 ->orWhere('eco_com_requirement_id','=',10)
+                                 ->orWhere('eco_com_requirement_id','=',11)
+                                 ->orWhere('eco_com_requirement_id','=',12)
+                                 ->orWhere('eco_com_requirement_id','=',13);
+                       })->orderBy('id','asc')->get();
+                   }
+
+                   $status_documents_ar = TRUE;
+               }else{
+                   $eco_com_submitted_documents_ar = null;
+                   $status_documents_ar = FALSE;
+               }
+           }else{
+               $eco_com_submitted_documents_ar = null;
+               $status_documents_ar = false;
+               $last_ecocom = null;
+           }
         $data = [
 
         'affiliate' => $affiliate,
@@ -657,9 +692,12 @@ class EconomicComplementController extends Controller
         'degrees' => $degrees,
         'type_eco_com' => $affiliate->type_ecocom,
         'affi_observations' => $affi_observations,
-        'entity_pensions' => $entity_pensions
-
+        'entity_pensions' => $entity_pensions,
+        'eco_com_submitted_documents_ar' => $eco_com_submitted_documents_ar,
+        'status_documents_ar' => $status_documents_ar,
+        'last_ecocom' => $last_ecocom
         ];
+        // dd($eco_com_submitted_documents_ar);
 
         // if ($economic_complement->base_wage_id) {
         //     $total_rent = $economic_complement->total_rent;
@@ -1090,7 +1128,10 @@ class EconomicComplementController extends Controller
                                 $eco_com_submitted_document->reception_date = date('Y-m-d');
                                 $eco_com_submitted_document->save();
                             }
-
+                        }
+                        if ($request->ecocom) {
+                            
+                        return redirect('economic_complement/'.$request->ecocom);
                         }
                         return redirect('affiliate/'.$economic_complement->affiliate_id);
                     }
@@ -1195,7 +1236,7 @@ class EconomicComplementController extends Controller
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()){
-                dd("error");
+                //dd("error");
                 return redirect('economic_complement/' . $economic_complement->id)
                 ->withErrors($validator)
                 ->withInput();
