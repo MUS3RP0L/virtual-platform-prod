@@ -158,8 +158,9 @@ class EconomicComplementImportExportController extends Controller
         $found=0;
         $nofound=0;      
         foreach ($results as $datos)
-        {   $ci = ltrim($datos->nro_identificacion, "0");
-            
+        {   
+         
+            $ci = ltrim($datos->nro_identificacion, "0");
             $afi = DB::table('economic_complements')
                   ->select(DB::raw('affiliates.identity_card as ci_afi,economic_complements.*, eco_com_types.id as type'))     
                   ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                 
@@ -169,83 +170,88 @@ class EconomicComplementImportExportController extends Controller
                   ->where('affiliates.pension_entity_id','!=', 5)
                   ->whereYear('economic_complements.year', '=', $year)
                   ->where('economic_complements.semester', '=', $semester)->first();
-           
+
+            
               if ($afi)
-              {                  
-                  $comp1 = 0;
-                  $comp2 = 0;
-                  $comp3 = 0;
-                  if ($datos->total_cc > 0) {
-                      $comp1 = 1;
-                  }
-                  if ($datos->total_fsa > 0) {
-                      $comp2 = 1;
-                  }
-                  if($datos->total_fs > 0) {
-                      $comp3 = 1;
-                  }
-                  $comp = $comp1 + $comp2 + $comp3;
-                  $ecomplement = EconomicComplement::where('id','=', $afi->id)->first();                                
-                  $ecomplement->total_rent = $datos->total_pension;
-                  $ecomplement->aps_total_cc = $datos->total_cc;
-                  $ecomplement->aps_total_fsa = $datos->total_fsa;
-                  $ecomplement->aps_total_fs = $datos->total_fs;
+              { $ecomplement = EconomicComplement::where('id','=', $afi->id)->first(); 
+                if (is_null($ecomplement->total_rent))
+                {                              
+                    $comp1 = 0;
+                    $comp2 = 0;
+                    $comp3 = 0;
+                    if ($datos->total_cc > 0) {
+                        $comp1 = 1;
+                    }
+                    if ($datos->total_fsa > 0) {
+                        $comp2 = 1;
+                    }
+                    if($datos->total_fs > 0) {
+                        $comp3 = 1;
+                    }
+                    $comp = $comp1 + $comp2 + $comp3;
+                                                  
+                    
 
-                  //Vejez
-                  if ($afi->type == 1 )
-                  {
-                     if ($comp == 1 && $datos->total_pension >= 2000)
-                     {
-                        $ecomplement->eco_com_modality_id = 4;
-                     }
-                     elseif ($comp == 1 && $datos->total_pension < 2000)
-                     {
-                        $ecomplement->eco_com_modality_id = 6;
-                     }
-                     elseif ($comp > 1 && $datos->total_pension < 2000)
-                     {
-                        $ecomplement->eco_com_modality_id = 8;
-                     }
-                  }
-                 //Viudedad
-                  elseif ($afi->type == 2) 
-                  {
-                     if($comp == 1 && $datos->total_pension >= 2000) 
-                     {
-                         $ecomplement->eco_com_modality_id = 5;
-                     } elseif ($comp == 1 && $datos->total_pension < 2000) 
-                     {
-                          $ecomplement->eco_com_modality_id = 7;
-                     } elseif ($comp > 1 && $datos->total_pension < 2000 ) 
-                     {
-                         $ecomplement->eco_com_modality_id = 9;
-                     }
-                  }
-                  else
-                  { //ORFANDAD
-                    if ($comp == 1 && $datos->total_pension >= 2000)
-                     {
-                        $ecomplement->eco_com_modality_id = 10;
-                     }
-                     elseif ($comp == 1 && $datos->total_pension < 2000)
-                     {
-                        $ecomplement->eco_com_modality_id = 11;
-                     }
-                     elseif ($comp > 1 && $datos->total_pension < 2000)
-                     {
-                        $ecomplement->eco_com_modality_id = 12;
-                     }
-                  }
-
-                  $ecomplement->save();                  
-                  $found ++;
+                    //Vejez
+                    if ($afi->type == 1 )
+                    {
+                       if ($comp == 1 && $datos->total_pension >= 2000)
+                       {
+                          $ecomplement->eco_com_modality_id = 4;
+                       }
+                       elseif ($comp == 1 && $datos->total_pension < 2000)
+                       {
+                          $ecomplement->eco_com_modality_id = 6;
+                       }
+                       elseif ($comp > 1 && $datos->total_pension < 2000)
+                       {
+                          $ecomplement->eco_com_modality_id = 8;
+                       }
+                    }
+                   //Viudedad
+                    elseif ($afi->type == 2) 
+                    {
+                       if($comp == 1 && $datos->total_pension >= 2000) 
+                       {
+                           $ecomplement->eco_com_modality_id = 5;
+                       } elseif ($comp == 1 && $datos->total_pension < 2000) 
+                       {
+                            $ecomplement->eco_com_modality_id = 7;
+                       } elseif ($comp > 1 && $datos->total_pension < 2000 ) 
+                       {
+                           $ecomplement->eco_com_modality_id = 9;
+                       }
+                    }
+                    else
+                    { //ORFANDAD
+                      if ($comp == 1 && $datos->total_pension >= 2000)
+                       {
+                          $ecomplement->eco_com_modality_id = 10;
+                       }
+                       elseif ($comp == 1 && $datos->total_pension < 2000)
+                       {
+                          $ecomplement->eco_com_modality_id = 11;
+                       }
+                       elseif ($comp > 1 && $datos->total_pension < 2000)
+                       {
+                          $ecomplement->eco_com_modality_id = 12;
+                       }
+                    }
+                    $ecomplement->total_rent = $datos->total_pension;
+                    $ecomplement->aps_total_cc = $datos->total_cc;
+                    $ecomplement->aps_total_fsa = $datos->total_fsa;
+                    $ecomplement->aps_total_fs = $datos->total_fs;
+                    $ecomplement->save();                  
+                    $found ++;
+                }
               }
               else
               {
                 $nofound ++;
                 $i ++;
-                $list[]= $datos;
+                $list[] = $datos;
               }
+            
           }
           
           Session::flash('message', "Importación Exitosa"." F:".$found." NF:".$nofound);
