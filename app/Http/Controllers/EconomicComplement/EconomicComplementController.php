@@ -236,11 +236,7 @@ class EconomicComplementController extends Controller
                                             ->where('eco_com_modalities.eco_com_type_id','=',$request->get('eco_com_type'))
                                             ->select(['economic_complements.id','economic_complements.affiliate_id','economic_complements.eco_com_modality_id','economic_complements.eco_com_state_id','economic_complements.code','economic_complements.created_at','economic_complements.reception_date','economic_complements.total','economic_complements.wf_current_state_id'.'economic_complements.city_id','economic_complements.eco_com_procedure_id']);
                 }
-
-
-                //Log::info($economic_complements->get());
-
-              
+                //Log::info($economic_complements->get());           
             }
         }
 
@@ -567,7 +563,15 @@ class EconomicComplementController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($economic_complement)
-    {
+    {       
+
+        try {
+            $state = EconomicComplementState::find($economic_complement->eco_com_state_id);
+            
+        } catch (Exception $e) {
+            $state =null;
+        }
+    
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
         $eco_com_type = $economic_complement->economic_complement_modality;
@@ -695,7 +699,8 @@ class EconomicComplementController extends Controller
         'entity_pensions' => $entity_pensions,
         'eco_com_submitted_documents_ar' => $eco_com_submitted_documents_ar,
         'status_documents_ar' => $status_documents_ar,
-        'last_ecocom' => $last_ecocom
+        'last_ecocom' => $last_ecocom,
+        'state' => $state
         ];
         // dd($eco_com_submitted_documents_ar);
 

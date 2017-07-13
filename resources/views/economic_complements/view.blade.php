@@ -136,6 +136,20 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Estado</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <?php  if(isset($state)){ ?>
+                                                {!! $state->name !!}
+                                                <?php }?>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                         <div class="col-md-6">
@@ -168,18 +182,6 @@
                                     <td style="border-top:0px;;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Estado</strong>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $economic_complement->wf_state->name !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top:0px;;">
-                                        <div class="row">
-                                            <div class="col-md-6">
                                                 <strong>Fecha de Recepción</strong>
                                             </div>
                                             <div class="col-md-6">
@@ -187,19 +189,21 @@
                                             </div>
                                         </div>
                                     </td>
+                                    
                                 </tr>
-                               {{--  <tr>
+                                <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Por</strong>
+                                                <strong>Ubicación</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                 {!! $economic_complement->economic_complement_state->name !!}
+                                                {!! $economic_complement->wf_state->name !!}
                                             </div>
                                         </div>
                                     </td>
-                                </tr> --}}
+                                </tr>
+                                
                             </table>
                         </div>
                     </div>
