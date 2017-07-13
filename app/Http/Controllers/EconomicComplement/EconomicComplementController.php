@@ -567,7 +567,15 @@ class EconomicComplementController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($economic_complement)
-    {
+    {       
+
+        try {
+            $state = EconomicComplementState::find($economic_complement->eco_com_state_id);
+            
+        } catch (Exception $e) {
+            $state =null;
+        }
+    
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
         $eco_com_type = $economic_complement->economic_complement_modality;
@@ -695,7 +703,8 @@ class EconomicComplementController extends Controller
         'entity_pensions' => $entity_pensions,
         'eco_com_submitted_documents_ar' => $eco_com_submitted_documents_ar,
         'status_documents_ar' => $status_documents_ar,
-        'last_ecocom' => $last_ecocom
+        'last_ecocom' => $last_ecocom,
+        'state' => $state
         ];
         // dd($eco_com_submitted_documents_ar);
 

@@ -68,23 +68,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            {!! Form::label('eco_com_type', 'Tipo', ['class' => 'col-md-5 control-label']) !!}
-        									<div class="col-md-7">
-        										{!! Form::select('eco_com_type', $eco_com_types_list, null, ['class' => 'form-control combobox']) !!}
-        										<span class="help-block">Selecione el tipo de Proceso</span>
-        									</div>
-    									</div>
-                                    </div>
-                                    <div class="col-md-1">
-                                        <div class="form-group">
-                                        
-                                              <label class="col-md-4 control-label"> <input type="checkbox" id="sw_modalidad" name="sw_modalidad"> Modalidad </label>
-                                       
-                                              
+                                            {!! Form::label('eco_com_procedure_id', 'Semestre', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                               <select class="combobox form-control" name="eco_com_procedure_id">
+                                                   @foreach($procedures as $procedure)
+                                                   <option value="{{$procedure->id}}"> {{ substr($procedure->year, 0, -6).' '.$procedure->semester }}</option>
+                                                   @endforeach()
+                                               </select>
+                                                <span class="help-block">Seleccione Semestre</span>
+                                            </div>
                                         </div>
-                                        
                                     </div>
 
                                 </div>
@@ -108,6 +103,28 @@
                                         </div>
                                     </div>
 
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            {!! Form::label('eco_com_type', 'Tipo', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                                {!! Form::select('eco_com_type', $eco_com_types_list, null, ['class' => 'form-control combobox']) !!}
+                                                <span class="help-block">Selecione el tipo de Proceso</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                        
+                                              <label class="col-md-4 control-label"> <input type="checkbox" id="sw_modalidad" name="sw_modalidad"> Modalidad </label>
+                                       
+                                              
+                                        </div>
+                                        
+                                    </div>
+                                    
                                     <div class="col-md-4">
                                         <div class="form-group">
                                          <div id="append_modality">
@@ -122,32 +139,11 @@
                                             </div> -->
 
                                          </div>
-        									
+                                            
 
-        								</div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            {!! Form::label('eco_com_procedure_id', 'Semestre', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                               <select class="combobox form-control" name="eco_com_procedure_id">
-                                                   @foreach($procedures as $procedure)
-                                                   <option value="{{$procedure->id}}"> {{ substr($procedure->year, 0, -6).' '.$procedure->semester }}</option>
-                                                   @endforeach()
-                                               </select>
-                                                <span class="help-block">Seleccione Semestre</span>
-                                            </div>
                                         </div>
                                     </div>
-
-
-
-                                 
-
-
-                                </div>
-                                <br>
+                                </div> <br>
                             </div>
                             <div class="col-md-12">
                                 <div class="row text-center">
