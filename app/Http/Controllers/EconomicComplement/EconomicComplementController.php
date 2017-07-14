@@ -904,8 +904,13 @@ class EconomicComplementController extends Controller
                 $eco_com_applicant->gender = $request->gender;
                 $eco_com_applicant->birth_date = Util::datePick($request->birth_date);
                 $eco_com_applicant->civil_status = $request->civil_status;
-                $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number_applicant));
-                $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number_applicant));
+                if ($request->applicant == 'update') {
+                    $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number_applicant));
+                    $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number_applicant));
+                }else{
+                    $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
+                    $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number));
+                }
                 $eco_com_applicant->nua = ($request->nua == null) ? 0 : $request->nua;
                 $eco_com_applicant->save();
 
@@ -925,8 +930,13 @@ class EconomicComplementController extends Controller
                     $affiliate->gender = $request->gender;
                     $affiliate->civil_status = $request->civil_status;
                     $affiliate->birth_date = Util::datePick($request->birth_date);
-                    $affiliate->phone_number = trim(implode(",", $request->phone_number));
-                    $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
+                    if ($request->applicant == 'update') {
+                        $affiliate->phone_number = trim(implode(",", $request->phone_number_applicant));
+                        $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number_applicant));
+                    }else{
+                        $affiliate->phone_number = trim(implode(",", $request->phone_number));
+                        $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
+                    }
                     $affiliate->save();
 
                     break;
