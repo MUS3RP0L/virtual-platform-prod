@@ -118,6 +118,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if($economic_complement->eco_com_modality_id == 1)
+                                <div class="form-group">
+                                            {!! Form::label('city_birth_id', 'Lugar de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::select('city_birth_id', $cities_list, $affiliate->city_birth_id, ['class' => 'combobox form-control']) !!}
+                                        <span class="help-block">Seleccione Departamento</span>
+                                    </div>
+                                </div>
+                                @endif
                                 <div class="form-group">
                                         {!! Form::label('nua', 'CUA/NUA', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
