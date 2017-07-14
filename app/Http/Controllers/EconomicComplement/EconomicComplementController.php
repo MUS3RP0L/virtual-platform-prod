@@ -49,7 +49,7 @@ class EconomicComplementController extends Controller
 
     public function index()
     {
-        $procedures = EconomicComplementProcedure::all();
+        $procedures = EconomicComplementProcedure::orderBy('id','desc')->get();
         $data = [
             'year' => Carbon::now()->year,
             'semester' => Util::getSemester(Carbon::now()),
