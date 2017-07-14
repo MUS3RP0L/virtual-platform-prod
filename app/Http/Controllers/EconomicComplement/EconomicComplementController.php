@@ -1557,8 +1557,12 @@ class EconomicComplementController extends Controller
 
     public function get_record(Request $request)
     {
-        $records = WorkflowRecord::select(['date', 'message'])->where('eco_com_id', $request->id);
+        $records = WorkflowRecord::select(['date', 'message'])->where('eco_com_id', $request->id)->orderBy('created_at', 'desc');
         
-        return Datatables::of($records)->make(true);
+        return Datatables::of($records)
+            ->editColumn('date',function ($record){
+                return Util::getDateShort($record->date);
+            })
+            ->make(true);
     }
 }

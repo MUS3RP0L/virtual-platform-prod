@@ -8,6 +8,7 @@ use Muserpol\User;
 use Muserpol\Policies\EconomicComplementPolicy;
 use Muserpol\EconomicComplement;
 use Carbon\Carbon;
+use Muserpol\WorkflowRecord;
 use Muserpol\Helper\Util;
 
 class AuthServiceProvider extends ServiceProvider
@@ -28,6 +29,15 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(GateContract $gate)
     {
+        
+        EconomicComplement::updated(function($economic_complement)
+        {
+            WorkflowRecord::updatedEconomicComplement($economic_complement);
+        });
+        EconomicComplement::creating(function($economic_complement)
+        {
+            WorkflowRecord::creatingEconomicComplement($economic_complement);
+        });
 
         parent::registerPolicies($gate);
             

@@ -2256,7 +2256,6 @@
         
         $('#recordEcoTable').DataTable({
             "dom": '<"top">t<"bottom"p>',
-            "order": [[ 0, "desc" ]],
             processing: true,
             serverSide: true,
             pageLength: 12,

@@ -46,6 +46,17 @@ class WorkflowRecord extends Model
     {
         if (Auth::user()) {
             $old_economic_complement=EconomicComplement::find($economic_complement->id);
+            if ( $old_economic_complement->state <> $economic_complement->state && $economic_complement->state<>'Received') {
+                $wf_record=new WorkflowRecord;
+                $wf_record->user_id=Auth::user()->id ?? 1;
+                $wf_record->date=Carbon::now();
+                $wf_record->eco_com_id=$economic_complement->id;
+                $wf_record->wf_state_id=$economic_complement->wf_current_state_id;
+                $wf_record->record_type_id=1;
+                $wf_record->message="El usuario ".Util::getFullNameuser()." (reviso aprobo califico) el tramite ".$economic_complement->code." en fecha ".Carbon::now().".";
+                $wf_record->save();
+            }
+
             if ($old_economic_complement->wf_current_state_id <> $economic_complement->wf_current_state_id) {
                 $wf_record=new WorkflowRecord;
                 $wf_record->user_id=Auth::user()->id ?? 1;
