@@ -922,7 +922,7 @@ class EconomicComplementController extends Controller
                     if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
                     $affiliate->last_name = $request->last_name;
                     $affiliate->mothers_last_name = $request->mothers_last_name;
-                    $affiliate->city_birth_id = $request->city_birth_id;
+                    $affiliate->city_birth_id = $request->city_birth_id == '' ? null: $request->city_birth_id;
                     $affiliate->first_name = $request->first_name;
                     $affiliate->second_name = $request->second_name;
                     $affiliate->surname_husband = $request->surname_husband;
