@@ -1293,7 +1293,8 @@
                     {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
                         <input type="hidden" name="step" value="second"/>
                         <input type="hidden" name="type" value="update"/>
-						<input type="hidden" name="type1" value="update"/>
+                        <input type="hidden" name="type1" value="update"/>
+						<input type="hidden" name="applicant" value="update"/>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -2223,6 +2224,8 @@
     });
 
     //for phone numbers Applicant
+    $("#phone_number_applicant").inputmask();
+    $("#cell_phone_number_applicant").inputmask();
     $('#addPhoneNumberApplicant').on('click', function(event) {
         $('#phonesNumbersApplicant').append('<div class="col-md-offset-5"><div class="col-md-7"><input type="text" class="form-control" name="phone_number_applicant[]" data-inputmask="\'mask\': \'(9) 999-999\'" data-mask></div><div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div></div>')
         event.preventDefault();
