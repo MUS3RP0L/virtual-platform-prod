@@ -129,14 +129,14 @@ class EconomicComplementController extends Controller
                 $economic_complements->where(function($economic_complements) use ($request,$procedure_id)
                 {
                     $affiliate_identitycard = trim($request->get('affiliate_identitycard'));
-                    $affiliate = Affiliate::identitycardIs($affiliate_identitycard)->first();
+                    // $affiliate = Affiliate::identitycardIs($affiliate_identitycard)->first();
 
-                    Log::info($affiliate);
-                    if ($affiliate) {
-                        $economic_complements->where('affiliate_id', '=', "{$affiliate->id}")->where('eco_com_procedure_id','=',$procedure_id);
+                    // Log::info($affiliate);
+                    // if ($affiliate) {
+                    //     $economic_complements->where('affiliate_id', '=', "{$affiliate->id}")->where('eco_com_procedure_id','=',$procedure_id);
 
-                        Log::info($economic_complements->count());
-                    }else{
+                    //     Log::info($economic_complements->count());
+                    // }else{
                         $applicants_identitycard=trim($request->get('affiliate_identitycard'));
                         $applicants=EconomicComplementApplicant::identitycardIs($applicants_identitycard)->first();
                         if($applicants){
@@ -145,7 +145,7 @@ class EconomicComplementController extends Controller
                        else{
                            $economic_complements->where('affiliate_id', 0)->where('eco_com_procedure_id','=',$procedure_id);
                        }
-                   }
+                   // }
                 });
             }else
             {
@@ -153,10 +153,10 @@ class EconomicComplementController extends Controller
                 $economic_complements->where(function($economic_complements) use ($request,$procedure_id)
                 {
                     $affiliate_identitycard = trim($request->get('affiliate_identitycard'));
-                    $affiliate = Affiliate::identitycardIs($affiliate_identitycard)->first();
-                    if ($affiliate) {
-                        $economic_complements->where('affiliate_id', '=', "{$affiliate->id}");
-                    }else{
+                    // $affiliate = Affiliate::identitycardIs($affiliate_identitycard)->first();
+                    // if ($affiliate) {
+                    //     $economic_complements->where('affiliate_id', '=', "{$affiliate->id}");
+                    // }else{
                         $applicants_identitycard=trim($request->get('affiliate_identitycard'));
                         $applicants=EconomicComplementApplicant::identitycardIs($applicants_identitycard)->first();
                         if($applicants){
@@ -165,7 +165,7 @@ class EconomicComplementController extends Controller
                        else{
                            $economic_complements->where('affiliate_id', 0);
                        }
-                   }
+                   // }
                 });
             }
 

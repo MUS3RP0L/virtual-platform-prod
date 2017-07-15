@@ -57,6 +57,22 @@ class AffiliateRecord extends Model
 			$aff_record->message = "Afiliado cambio de unidad a " . $unit->shortened;
 			$aff_record->save();
 		}
+
+		// if ($last_affiliate->category_id <> $affiliate->category_id) {
+		// 	$aff_record = new AffiliateRecord;
+		// 	if (Auth::user()) {$user_id = Auth::user()->id;}else{$user_id = 1;}
+		// 	$aff_record->user_id = $user_id;
+		// 	$aff_record->affiliate_id = $affiliate->id;
+		// 	$aff_record->date = $affiliate->change_date;
+		// 	$aff_record->unit_id = $affiliate->unit_id;
+		// 	//$aff_record->category_id = $affiliate->category_id;
+		// 	$aff_record->type_id = NOTE_TYPE_UPDATE_AFFILIATE_UNIT;
+  //       	$unit = Unit::where('id', $affiliate->unit_id)->first();
+		// 	$aff_record->message = json_encode($affiliate);
+		// 	$aff_record->save();
+		// }
+
+
 	}
 
 	public static function CreatedAffiliate($affiliate)
