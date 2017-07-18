@@ -1,210 +1,69 @@
 @extends('app')
-
 @section('contentheader_title')
 <div class="row">
-		<div class="col-md-6">
-			{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
-		</div>
-    	<div class="col-md-4">
-            @can('eco_com_reception')
-                @can('observate')
-                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
-                        <a href="" class="btn btn-success btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
-                    </div>
-                @endcan
-    	        <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Declaración Jurada" style="margin:0px;">
-    	            <a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
-    	                &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-    	            </a>
-    	        </div>
+	<div class="col-md-6">
+		{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
+	</div>
+	<div class="col-md-4">
+       @can('eco_com_reception')
+            @can('observate')
+                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
+                    <a href="" class="btn btn-success btn-sm btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
+                </div>
+            @endcan
+            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Declaración Jurada" style="margin:0px;">
+                <a href="" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
+                    &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                </a>
+            </div>
 
-                @if($type_eco_com=="Inclusión")
-                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción Inclusiones" style="margin:0px;">
-                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReportInclusion');" >
-                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                        </a>
+            @if($type_eco_com=="Inclusión")
+                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción Inclusiones" style="margin:0px;">
+                    <a href="" class="btn btn-sm btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReportInclusion');" >
+                        &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                    </a>
+                </div>
+            @endif
+            @if($type_eco_com=="Habitual")
+                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción Habituales" style="margin:0px;">
+                    <a href="" class="btn btn-sm btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReportHabitual');" >
+                        &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                    </a>
+                </div>
+            @endif
+        @endcan
+        <div class="btn-group">
+            <span data-toggle="modal" data-target="#recordEcoModal">
+                <a href="#" class="btn btn-sm btn-raised btn-lg bg-blue"  data-toggle="tooltip"  data-placement="right" data-original-title="Historial"><i class="fa fa-lg fa-clock-o"></i></a>
+            </span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="pull-right">
+            @can('eco_com_review')
+                @if($economic_complement->eco_com_state_id < 2)
+                    <div class="btn-group">
+                        <span data-toggle="tooltip" data-placement="top" data-original-title="Revertir" style="margin:0px;">
+                            <a href="" data-target="#myModal-revert" class="btn btn-sm btn-raised btn-danger dropdown-toggle enabled" data-toggle="modal">&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;</a>
+                        </span>
                     </div>
-                @endif
-                @if($type_eco_com=="Habitual")
-                    <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción Habituales" style="margin:0px;">
-                        <a href="" class="btn btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReportHabitual');" >
-                            &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                        </a>
+                    <div class="btn-group">
+                        <span data-toggle="tooltip" data-placement="top" data-original-title="Confirmar" style="margin:0px;">
+                            <a href="" data-target="#myModal-confirm" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal">&nbsp;<span class="glyphicon glyphicon-ok"></span>&nbsp;</a>
+                        </span>
                     </div>
                 @endif
             @endcan
-                <div class="btn-group">
-                    <span data-toggle="modal" data-target="#recordEcoModal">
-                        <a href="#" class="btn btn-raised btn-lg bg-blue"  data-toggle="tooltip"  data-placement="right" data-original-title="Historial"><i class="fa fa-lg fa-clock-o"></i></a>
-                    </span>
-                </div>
-    	</div>
-        @can('eco_com_review')
-			@if($economic_complement->eco_com_state_id < 2)
-                    <span data-toggle="tooltip" data-placement="top" data-original-title="Revertir" style="margin:0px;">
-                        <a href="" data-target="#myModal-revert" class="btn btn-raised btn-danger dropdown-toggle enabled" data-toggle="modal">&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;</a>
-                    </span>
-                    <span  data-toggle="tooltip" data-placement="top" data-original-title="Confirmar" style="margin:0px;">
-                        <a href="" data-target="#myModal-confirm" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal">&nbsp;<span class="glyphicon glyphicon-ok"></span>&nbsp;</a>
-                    </span>
-
-            @endif
-        @endcan
+        </div>
+    </div>
 </div>
 @endsection
 @section('main-content')
     <div class="row">
         <div class="col-md-6">
             @include('affiliates.simple_info')
-        </div>
-        <!-- Información del Trámite -->
-        <div class="col-md-6">
-            <div class="box box-success box-solid">
-                <div class="box-header with-border">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h3 class="box-title"><span class="glyphicon glyphicon-info-sign"></span> Información del Trámite</h3>
-                        </div>
-                        @can('economic_complement')
-                        {{--@can('showEdit', $economic_complement)--}}
-                        <div class="col-md-4 text-right">
-                            <span data-toggle="modal" data-target="#policeModal">
-                                <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
-                            </span>
-                            <span>
-                                <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i aria-hidden="true" class="fa fa-pencil-square"></i></a>
-                            </span>
-                        </div>
-                        @endcan
-                       {{--  <div class="col-md-2 text-right">
-                            <div data-toggle="tooltip" data-placement="top" data-original-title="Editar">
-                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-edit">&nbsp;&nbsp;
-                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-2 text-right">
-                            <div data-toggle="tooltip" data-placement="top" data-original-title="Editar">
-                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-block">&nbsp;&nbsp;
-                                    <span class="fa fa-lg fa-exclamation-triangle" aria-hidden="true"></span>&nbsp;&nbsp;
-                                </a>
-                            </div>
-                        </div> --}}
-                    </div>
-                </div>
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <table class="table table-responsive" style="width:100%;">
-                                <tr>
-                                    <td style="border-top:0px;;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Gestión</strong>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $economic_complement->getYear() !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                 <tr>
-                                     <td style="border-top:0px;;">
-                                         <div class="row">
-                                             <div class="col-md-6">
-                                                 <strong>Semestre</strong>
-                                             </div>
-                                             <div class="col-md-6">
-                                                 {!! $economic_complement->semester !!}
-                                             </div>
-                                         </div>
-                                     </td>
-                                 </tr>
-                                 <tr>
-                                    <td style="border-top:0px;;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Tipo</strong>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $eco_com_type !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top:0px;;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Estado</strong>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <?php if (isset($state)) {?>
-                                                {!! $state->name !!}
-                                                <?php }?>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <table class="table table-responsive" style="width:100%;">
-                                <tr>
-                                    <td style="border-top:0px;;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Ciudad</strong>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $economic_complement->city->name !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top:0px;;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Ente Gestor</strong>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $affiliate->pension_entity->name !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top:0px;;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Fecha de Recepción</strong>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $economic_complement->getReceptionDate() !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top:0px;;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Ubicación</strong>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $economic_complement->wf_state->name !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
+
+            <!-- applicant -->
             @if($eco_com_applicant->economic_complement->eco_com_modality_id == 2)
                 <div class="box box-success box-solid">
                     <div class="box-header with-border">
@@ -677,6 +536,9 @@
                     </div>
                 </div>
             </div>
+            <!-- /applicant -->
+
+            <!-- legal guardian -->
             @if($economic_complement->has_legal_guardian)
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
@@ -812,6 +674,9 @@
                 </div>
             </div>
             @endif
+            <!-- /legal guardian -->
+
+            <!-- Requisitos Presentados -->
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="row">
@@ -867,61 +732,161 @@
                     </div>
                 </div>
             </div>
+            <!-- /Requisitos Presentados-->
+
+            <!-- observations-->
             @include('observations.show')
-            <div class="box box-danger box-solid">
+            <!-- /observations-->
+        </div>
+        <div class="col-md-6">
+            <!-- información del Trámite -->
+            <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="row">
-                        <div class="col-md-10">
-                            <h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span> Documentos Presentados</h3>
+                        <div class="col-md-8">
+                            <h3 class="box-title"><span class="glyphicon glyphicon-info-sign"></span> Información del Trámite</h3>
                         </div>
-                        <div class="col-md-2 text-right">
-                            <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                <a href="" class="btn btn-sm bg-red-active" data-toggle="modal" data-target="#myModal-requirements-ar">&nbsp;&nbsp;
+                        @can('economic_complement')
+                        {{--@can('showEdit', $economic_complement)--}}
+                        <div class="col-md-4 text-right">
+                            <span data-toggle="modal" data-target="#policeModal">
+                                <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
+                            </span>
+                            <span>
+                                <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i aria-hidden="true" class="fa fa-pencil-square"></i></a>
+                            </span>
+                        </div>
+                        @endcan
+                       {{--  <div class="col-md-2 text-right">
+                            <div data-toggle="tooltip" data-placement="top" data-original-title="Editar">
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-edit">&nbsp;&nbsp;
                                     <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
                                 </a>
                             </div>
                         </div>
+                        <div class="col-md-2 text-right">
+                            <div data-toggle="tooltip" data-placement="top" data-original-title="Editar">
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-block">&nbsp;&nbsp;
+                                    <span class="fa fa-lg fa-exclamation-triangle" aria-hidden="true"></span>&nbsp;&nbsp;
+                                </a>
+                            </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-md-12">
-                            @if($status_documents_ar)
-                                <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
-                                    <thead>
-                                        <tr>
-                                            <th>Nombre de Requisito</th>
-                                            <th>Fecha</th>
-                                            <th class="text-center">Estado</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($eco_com_submitted_documents_ar as $item)
-                                            <tr>
-                                                <td>{!! $item->economic_complement_requirement->shortened !!}</td>
-                                                <td>{!! Util::getDateShort($item->reception_date) !!}</td>
-                                                <td>
-                                                    <div class="text-center">
-                                                        @if($item->status)
-                                                        <span class="fa fa-check-square-o fa-lg"></span>
-                                                        @else
-                                                        <span class="fa fa-square-o fa-lg"></span>
-                                                        @endif
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            @else
-                                No hay registros
-                            @endif
+                        <div class="col-md-6">
+                            <table class="table table-responsive" style="width:100%;">
+                                <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Gestión</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $economic_complement->getYear() !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                 <tr>
+                                     <td style="border-top:0px;;">
+                                         <div class="row">
+                                             <div class="col-md-6">
+                                                 <strong>Semestre</strong>
+                                             </div>
+                                             <div class="col-md-6">
+                                                 {!! $economic_complement->semester !!}
+                                             </div>
+                                         </div>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Tipo</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $eco_com_type !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Estado</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <?php if (isset($state)) {?>
+                                                {!! $state->name !!}
+                                                <?php }?>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-responsive" style="width:100%;">
+                                <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Ciudad</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $economic_complement->city->name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Ente Gestor</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $affiliate->pension_entity->name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Fecha de Recepción</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $economic_complement->getReceptionDate() !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Ubicación</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $economic_complement->wf_state->name !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
+            <!-- /información del Trámite -->
+
+            <!-- calculo total -->
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="col-md-10">
@@ -1047,9 +1012,65 @@
                     </div>
                 </div>
             </div>
+            <!-- /calculo total -->
+
+            <!-- documentos presentados -->
+            <div class="box box-danger box-solid">
+                <div class="box-header with-border">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span> Documentos Presentados</h3>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                <a href="" class="btn btn-sm bg-red-active" data-toggle="modal" data-target="#myModal-requirements-ar">&nbsp;&nbsp;
+                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @if($status_documents_ar)
+                                <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre de Requisito</th>
+                                            <th>Fecha</th>
+                                            <th class="text-center">Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($eco_com_submitted_documents_ar as $item)
+                                            <tr>
+                                                <td>{!! $item->economic_complement_requirement->shortened !!}</td>
+                                                <td>{!! Util::getDateShort($item->reception_date) !!}</td>
+                                                <td>
+                                                    <div class="text-center">
+                                                        @if($item->status)
+                                                        <span class="fa fa-check-square-o fa-lg"></span>
+                                                        @else
+                                                        <span class="fa fa-square-o fa-lg"></span>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                No hay registros
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /documentos presentados -->
         </div>
     </div>
-
+<!-- modals -->
     <div class="modal fade" tabindex="-1" >
 
         @if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
