@@ -2,7 +2,7 @@
     <div class="box-header with-border">
         <div class="row">
             <div class="col-md-12">
-                <h3 class="box-title"><span class="glyphicon glyphicon-user"></span> <span data-toggle="tooltip" data-placement="top" data-original-title="Ir al Afiliado"><a href="{{ url('affiliate', $affiliate->id) }} ">{!! $affiliate->getTittleName() !!} </a>
+                <h3 class="box-title"><span class="glyphicon glyphicon-user"></span> <span data-toggle="tooltip" data-placement="top" data-original-title="Ir al Afiliado"><a href="{{ url('affiliate', $affiliate->id) }}">{!! $affiliate->getTittleName() !!} </a>
                 </span></h3>
             </div>
         </div>
