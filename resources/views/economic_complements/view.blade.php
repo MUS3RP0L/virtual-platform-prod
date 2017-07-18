@@ -2062,12 +2062,65 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="statusDocumentsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Estado de los Documentos Presentados</h4>
+        </div>
+        <div class="modal-body">
+            @if($status_documents_ar)
+            <h3>Todos los documentos presentados</h3>
+                <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+                    <thead>
+                        <tr>
+                            <th>Nombre de Requisito</th>
+                            <th>Fecha</th>
+                            <th class="text-center">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($eco_com_submitted_documents_ar as $item)
+                            <tr>
+                                <td>{!! $item->economic_complement_requirement->shortened !!}</td>
+                                <td>{!! Util::getDateShort($item->reception_date) !!}</td>
+                                <td>
+                                    <div class="text-center">
+                                        @if($item->status)
+                                        <span class="fa fa-check-square-o fa-lg"></span>
+                                        @else
+                                        <span class="fa fa-square-o fa-lg"></span>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                No hay registros
+            @endif
+        </div>
+        <div class="modal-footer" style="text-align: center">
+            <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-check"></i> Listo</button>
+        </div>
+    </div>
+</div>
+</div>
 @include('observations.create')
 
 @endsection
 
 @push('scripts')
 <script>
+//for modal of status submitted documents
+$(document).ready(function() {
+   @if($status_eco_com_submitted_documents_ar)
+        $('#statusDocumentsModal').modal('show');
+   @endif 
+});
 
 	function printTrigger(elementId) {
         var getMyFrame = document.getElementById(elementId);
@@ -2256,7 +2309,6 @@
         
         $('#recordEcoTable').DataTable({
             "dom": '<"top">t<"bottom"p>',
-            "order": [[ 0, "desc" ]],
             processing: true,
             serverSide: true,
             pageLength: 12,

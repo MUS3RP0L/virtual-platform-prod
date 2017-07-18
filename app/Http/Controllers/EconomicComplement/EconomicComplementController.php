@@ -679,6 +679,15 @@ class EconomicComplementController extends Controller
                $status_documents_ar = false;
                $last_ecocom = null;
            }
+        //for documents submitted
+        $status_eco_com_submitted_documents_ar=true;
+        foreach ($eco_com_submitted_documents_ar as $eco_com_submitted_document) {
+            if (!$eco_com_submitted_document->status) {
+                $status_eco_com_submitted_documents_ar=false;
+                break;
+            }
+        }
+
         $data = [
 
         'affiliate' => $affiliate,
@@ -700,7 +709,8 @@ class EconomicComplementController extends Controller
         'eco_com_submitted_documents_ar' => $eco_com_submitted_documents_ar,
         'status_documents_ar' => $status_documents_ar,
         'last_ecocom' => $last_ecocom,
-        'state' => $state
+        'state' => $state,
+        'status_eco_com_submitted_documents_ar'=>$status_eco_com_submitted_documents_ar
         ];
         // dd($eco_com_submitted_documents_ar);
 
@@ -1557,8 +1567,12 @@ class EconomicComplementController extends Controller
 
     public function get_record(Request $request)
     {
-        $records = WorkflowRecord::select(['date', 'message'])->where('eco_com_id', $request->id);
+        $records = WorkflowRecord::select(['date', 'message'])->where('eco_com_id', $request->id)->orderBy('created_at', 'desc');
         
-        return Datatables::of($records)->make(true);
+        return Datatables::of($records)
+            ->editColumn('date',function ($record){
+                return Util::getDateShort($record->date);
+            })
+            ->make(true);
     }
 }
