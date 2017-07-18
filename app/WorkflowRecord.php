@@ -38,7 +38,7 @@ class WorkflowRecord extends Model
             $wf_record->eco_com_id=$economic_complement->id;
             $wf_record->wf_state_id=$economic_complement->wf_current_state_id;
             $wf_record->record_type_id=1;
-            $wf_record->message="El usuario ".Util::getFullNameuser()." creo el tramite ".$economic_complement->code." en fecha ".Carbon::now().".";
+            $wf_record->message="El usuario ".Util::getFullNameuser()." creó el trámite ".$economic_complement->code." en fecha ".Carbon::now().".";
             $wf_record->save();
         }
     }
@@ -53,7 +53,7 @@ class WorkflowRecord extends Model
                 $wf_record->eco_com_id=$economic_complement->id;
                 $wf_record->wf_state_id=$economic_complement->wf_current_state_id;
                 $wf_record->record_type_id=1;
-                $wf_record->message="El usuario ".Util::getFullNameuser()." (reviso aprobo califico) el tramite ".$economic_complement->code." en fecha ".Carbon::now().".";
+                $wf_record->message="El usuario ".Util::getFullNameuser()." ".Util::wfStateName($economic_complement->wf_current_state_id)." el trámite ".$economic_complement->code." en fecha ".Carbon::now().".";
                 $wf_record->save();
             }
 
