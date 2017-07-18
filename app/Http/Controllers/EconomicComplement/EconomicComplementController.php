@@ -693,11 +693,16 @@ class EconomicComplementController extends Controller
            }
         //for documents submitted
         $status_eco_com_submitted_documents_ar=true;
-        foreach ($eco_com_submitted_documents_ar as $eco_com_submitted_document) {
-            if (!$eco_com_submitted_document->status) {
-                $status_eco_com_submitted_documents_ar=false;
-                break;
+        if ($eco_com_submitted_documents_ar) {
+            $status_eco_com_submitted_documents_ar=true;
+            foreach ($eco_com_submitted_documents_ar as $eco_com_submitted_document) {
+                if (!$eco_com_submitted_document->status) {
+                    $status_eco_com_submitted_documents_ar=false;
+                    break;
+                }
             }
+        }else{
+            $status_eco_com_submitted_documents_ar=false;
         }
 
         $data = [

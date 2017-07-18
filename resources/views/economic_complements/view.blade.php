@@ -5,7 +5,7 @@
 		<div class="col-md-6">
 			{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
 		</div>
-    		<div class="col-md-4">
+    	<div class="col-md-4">
             @can('eco_com_reception')
                 @can('observate')
                     <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
@@ -38,19 +38,18 @@
                         <a href="#" class="btn btn-raised btn-lg bg-blue"  data-toggle="tooltip"  data-placement="right" data-original-title="Historial"><i class="fa fa-lg fa-clock-o"></i></a>
                     </span>
                 </div>
-    		</div>
+    	</div>
         @can('eco_com_review')
 			@if($economic_complement->eco_com_state_id < 2)
-                <div class="col-md-2">
                     <span data-toggle="tooltip" data-placement="top" data-original-title="Revertir" style="margin:0px;">
                         <a href="" data-target="#myModal-revert" class="btn btn-raised btn-danger dropdown-toggle enabled" data-toggle="modal">&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;</a>
                     </span>
                     <span  data-toggle="tooltip" data-placement="top" data-original-title="Confirmar" style="margin:0px;">
                         <a href="" data-target="#myModal-confirm" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal">&nbsp;<span class="glyphicon glyphicon-ok"></span>&nbsp;</a>
                     </span>
-                </div>
+
             @endif
-        @endcan   
+        @endcan
 </div>
 @endsection
 @section('main-content')
@@ -104,7 +103,7 @@
                                                 <strong>Gestión</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $economic_complement->getYear() !!} 
+                                                {!! $economic_complement->getYear() !!}
                                             </div>
                                         </div>
                                     </td>
@@ -140,7 +139,7 @@
                                                 <strong>Estado</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                <?php  if(isset($state)){ ?>
+                                                <?php if (isset($state)) {?>
                                                 {!! $state->name !!}
                                                 <?php }?>
                                             </div>
@@ -636,7 +635,7 @@
                                         </div>
                                     </td>
                                 </tr> --}}
-                                
+
                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
@@ -2099,7 +2098,7 @@
 $(document).ready(function() {
    @if($status_eco_com_submitted_documents_ar)
         $('#statusDocumentsModal').modal('show');
-   @endif 
+   @endif
 });
 
 	function printTrigger(elementId) {
@@ -2175,12 +2174,9 @@ $(document).ready(function() {
 		};
 		self.lastSavedJson = ko.observable("");
         self.DateDeathAffiliateValue = ko.observable(affiliate.date_death ? true : false);
-        
-
         self.requirements_ar = ko.observableArray(ko.utils.arrayMap(requirements_ar, function(document) {
         return { id: document.eco_com_requirement_id, name: document.economic_complement_requirement.shortened, status: document.status };
         }));
-
         self.save_ar = function() {
             var dataToSave_ar = $.map(self.requirements_ar(), function(requirement_ar) {
                 return  {
@@ -2192,9 +2188,7 @@ $(document).ready(function() {
             self.lastSavedJson_ar(JSON.stringify(dataToSave_ar));
         };
         self.lastSavedJson_ar = ko.observable("");
-    
 	};
-
     @if($status_documents)
         @if($status_documents_ar)
             window.model = new SelectRequeriments({!! $eco_com_submitted_documents !!}, {!! $eco_com_submitted_documents_ar !!});
@@ -2286,7 +2280,7 @@ $(document).ready(function() {
     });
     //for record of econmic complement
     $(document).ready(function() {
-        
+
         $('#recordEcoTable').DataTable({
             "dom": '<"top">t<"bottom"p>',
             processing: true,
@@ -2304,7 +2298,7 @@ $(document).ready(function() {
                 { data: 'message', bSortable: false }
             ]
         });
-        
+
     });
 
     //for calculation
@@ -2320,22 +2314,22 @@ $(document).ready(function() {
             var total=0;
             var aps_total_fs =  document.getElementById('aps_total_fs');
             if (typeof(aps_total_fs) != 'undefined' && aps_total_fs != null)
-            { 
+            {
                 aps_total_fs=parseCurrency($("#aps_total_fs").val());
                 total+=aps_total_fs;
             }
             var aps_total_fsa =  document.getElementById('aps_total_fsa');
             if (typeof(aps_total_fsa) != 'undefined' && aps_total_fsa != null)
-            { 
+            {
                 aps_total_fsa=parseCurrency($("#aps_total_fsa").val());
                 total+=aps_total_fsa;
             }
             var aps_total_cc =  document.getElementById('aps_total_cc');
             if (typeof(aps_total_cc) != 'undefined' && aps_total_cc != null)
-            { 
+            {
                 aps_total_cc=parseCurrency($("#aps_total_cc").val());
                 total+=aps_total_cc;
-            } 
+            }
             $('#total_frac').val(total);
         });
         function parseCurrency(mount) {
