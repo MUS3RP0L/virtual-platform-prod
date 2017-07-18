@@ -151,22 +151,10 @@ class Util
 		}
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
 	public static function ucw($string)
 	{
 		if ($string) {
-			return ucwords(strtolower($string));
+			return ucwords(mb_strtolower($string,'UTF-8'));
 		}
 	}
 
