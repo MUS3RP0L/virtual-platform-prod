@@ -277,10 +277,10 @@ class EconomicComplementController extends Controller
 
     public function Data_by_affiliate(Request $request)
     {
-        $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'reception_date', 'total'])->orderBy('id','desc');
+        $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'wf_current_state_id', 'code', 'reception_date', 'total'])->orderBy('id','desc');
         return Datatables::of($economic_complements)
         ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
-        ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : '$economic_complement->wf_state->name'; })
+        ->editColumn('wf_state', function ($economic_complement) { return $economic_complement->wf_state->name; })
         ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
         ->addColumn('action', function ($economic_complement) { return
             '<div class="btn-group" style="margin:-3px 0;">
