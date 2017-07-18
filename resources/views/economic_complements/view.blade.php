@@ -50,18 +50,15 @@
                     </span>
                 </div>
             @endif
-        @endcan
-        
-	</div>
-
+        @endcan   
+</div>
 @endsection
-
 @section('main-content')
-
     <div class="row">
         <div class="col-md-6">
             @include('affiliates.simple_info')
         </div>
+        <!-- Información del Trámite -->
         <div class="col-md-6">
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
@@ -71,15 +68,15 @@
                         </div>
                         @can('economic_complement')
                         {{--@can('showEdit', $economic_complement)--}}
-                             <div class="col-md-4 text-right">
-                                <span data-toggle="modal" data-target="#policeModal">
-                                    <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
-                                </span>
-                                <span>
-                                    <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i aria-hidden="true" class="fa fa-pencil-square"></i></a>
-                                </span>
-                            </div>
-                     @endcan
+                        <div class="col-md-4 text-right">
+                            <span data-toggle="modal" data-target="#policeModal">
+                                <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
+                            </span>
+                            <span>
+                                <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i aria-hidden="true" class="fa fa-pencil-square"></i></a>
+                            </span>
+                        </div>
+                        @endcan
                        {{--  <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="top" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-edit">&nbsp;&nbsp;
@@ -107,24 +104,24 @@
                                                 <strong>Gestión</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                 {!! $economic_complement->getYear() !!} 
+                                                {!! $economic_complement->getYear() !!} 
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="border-top:0px;;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Semestre</strong>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $economic_complement->semester !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
+                                 <tr>
+                                     <td style="border-top:0px;;">
+                                         <div class="row">
+                                             <div class="col-md-6">
+                                                 <strong>Semestre</strong>
+                                             </div>
+                                             <div class="col-md-6">
+                                                 {!! $economic_complement->semester !!}
+                                             </div>
+                                         </div>
+                                     </td>
+                                 </tr>
+                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -189,7 +186,6 @@
                                             </div>
                                         </div>
                                     </td>
-                                    
                                 </tr>
                                 <tr>
                                     <td style="border-top:0px;;">
@@ -203,16 +199,12 @@
                                         </div>
                                     </td>
                                 </tr>
-                                
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row">        
         <div class="col-md-6">
             @if($eco_com_applicant->economic_complement->eco_com_modality_id == 2)
                 <div class="box box-success box-solid">
@@ -929,7 +921,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="col-md-6">
             <div class="box box-success box-solid">
@@ -1071,7 +1062,6 @@
         <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/inclusion') !!}" id="iFramePdfReportInclusion" ></iframe>
         <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/habitual') !!}" id="iFramePdfReportHabitual" ></iframe>
     </div>
-
     <div id="myModal-personal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -1845,10 +1835,6 @@
             </div>
         </div>
     </div>
-
-
-
-
     <div id="myModal-confirm" class="modal fade">
         <div class="modal-dialog">
             <div class="alert alert-dismissible alert-info">
@@ -1872,7 +1858,6 @@
             </div>
         </div>
     </div>
-
     <div id="myModal-revert" class="modal fade">
         <div class="modal-dialog">
             <div class="alert alert-dismissible alert-danger">
@@ -1896,7 +1881,6 @@
             </div>
         </div>
     </div>
-
     <div id="myModal-edit" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -1944,8 +1928,7 @@
             </div>
         </div>
     </div>
-
-        <div id="policeModal" class="modal fade" tabindex="-1" role="dialog">
+    <div id="policeModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="box-header with-border">
@@ -2039,9 +2022,7 @@
                         </div>
                     </div>
                 </div>
-
     </div>
-
     <div id="recordEcoModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -2062,27 +2043,26 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="statusDocumentsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Estado de los Documentos Presentados</h4>
-        </div>
-        <div class="modal-body">
-            @if($status_documents_ar)
-            <h3>Todos los documentos presentados</h3>
-                <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
-                    <thead>
-                        <tr>
-                            <th>Nombre de Requisito</th>
-                            <th>Fecha</th>
-                            <th class="text-center">Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($eco_com_submitted_documents_ar as $item)
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Estado de los Documentos Presentados</h4>
+                </div>
+                <div class="modal-body">
+                    @if($status_documents_ar)
+                    <h3>Todos los documentos presentados</h3>
+                    <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+                        <thead>
+                            <tr>
+                                <th>Nombre de Requisito</th>
+                                <th>Fecha</th>
+                                <th class="text-center">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($eco_com_submitted_documents_ar as $item)
                             <tr>
                                 <td>{!! $item->economic_complement_requirement->shortened !!}</td>
                                 <td>{!! Util::getDateShort($item->reception_date) !!}</td>
@@ -2096,19 +2076,19 @@
                                     </div>
                                 </td>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @else
-                No hay registros
-            @endif
-        </div>
-        <div class="modal-footer" style="text-align: center">
-            <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-check"></i> Listo</button>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    @else
+                    No hay registros
+                    @endif
+                </div>
+                <div class="modal-footer" style="text-align: center">
+                    <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-check"></i> Listo</button>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-</div>
 @include('observations.create')
 
 @endsection

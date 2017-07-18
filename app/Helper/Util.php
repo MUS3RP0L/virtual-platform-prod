@@ -589,4 +589,21 @@ class Util
     {
     	return Auth::user()->first_name." ".Auth::user()->last_name; 
     }
+    public static function wfStateName($wf_state_id)
+    {
+    	switch ($wf_state_id) {
+    			case 1:
+    				return 'Recepcionó';
+    				break;
+    			case 2:
+    				return 'Revisó';
+    				break;
+    			case 3:
+    				return 'Calificó';
+    				break;
+    			default:
+    				return 'Edito';
+    				break;
+    		}	
+    }
 }
