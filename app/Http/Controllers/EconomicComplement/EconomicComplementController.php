@@ -1069,8 +1069,9 @@ class EconomicComplementController extends Controller
                                  $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
                                  $eco_com_legal_guardian->first_name = $request->first_name_lg;
                                  $eco_com_legal_guardian->second_name = $request->second_name_lg;
-                                 $eco_com_legal_guardian->phone_number = $request->phone_number_lg;
-                                 $eco_com_legal_guardian->cell_phone_number = $request->cell_phone_number_lg;
+                                 $eco_com_legal_guardian->surname_husband = $request->surname_husband_lg;
+                                 $eco_com_legal_guardian->phone_number =trim(implode(",", $request->phone_number_lg));
+                                 $eco_com_legal_guardian->cell_phone_number =trim(implode(",", $request->cell_phone_number_lg));
                                  $eco_com_legal_guardian->save();
                              }
                          }
@@ -1474,6 +1475,7 @@ class EconomicComplementController extends Controller
               $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
               $eco_com_legal_guardian->first_name = $request->first_name_lg;
               $eco_com_legal_guardian->second_name = $request->second_name_lg;
+              $eco_com_legal_guardian->surname_husband = $request->surname_husband_lg;
               $eco_com_legal_guardian->phone_number =trim(implode(",", $request->phone_number_lg));
               $eco_com_legal_guardian->cell_phone_number =trim(implode(",", $request->cell_phone_number_lg));
               $eco_com_legal_guardian->save();
