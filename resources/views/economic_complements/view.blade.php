@@ -566,7 +566,7 @@
                                                 <strong>Carnet Identidad</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $economic_complement_legal_guardian->identity_card !!} {!! $economic_complement_legal_guardian->city_identity_card->first_shortened !!}
+                                                {!! $economic_complement_legal_guardian->identity_card !!} {!! $economic_complement_legal_guardian->city_identity_card->first_shortened ?? '' !!}
                                             </div>
                                         </div>
                                     </td>
