@@ -57,7 +57,7 @@ class ImportRegional extends Command implements SelfHandling
 		                                //creating eco com
 	                            		$ecom = new EconomicComplement();
 	                            		$ecom->user_id = 1;
-		                                $ecom->affiliate_id = $afi->id;                 
+		                                $ecom->affiliate_id = $afi->id;
 		                                $ecom->eco_com_modality_id = 1;
 		                                $ecom->eco_com_procedure_id = 2;
 		                                $ecom->workflow_id = 1;
@@ -105,10 +105,10 @@ class ImportRegional extends Command implements SelfHandling
 		                                        switch ($item->id) 
 		                                        {
                                                     case "1":
-                                                       	$submit->status =  ($result->h_ci == "SI")  
+                                                       	$submit->status =  ($result->h_ci == "SI");  
                                                         break;
                                                     case "2":
-                                                       	$submit->status =  ($result->h_boleta == "SI")  
+                                                       	$submit->status =  ($result->h_boleta == "SI");  
 														break;
                                                     default:
                                                         $submit->status = false;
@@ -121,7 +121,7 @@ class ImportRegional extends Command implements SelfHandling
 	                            	}
                             	}else{
 	                            	//para inclusiones vejez
-                            		$afi = Affiliate::where('identity_card','=',strtoupper(($result->ci))->first();
+                            		$afi = Affiliate::where('identity_card','=',strtoupper($result->ci))->first();
 	                            	if (!$afi) {
 	                            		$afi = new Affiliate();
 	                            		$afi->user_id = 1;
@@ -203,22 +203,23 @@ class ImportRegional extends Command implements SelfHandling
 	                                        $submit->economic_complement_id = $ecom->id;
 	                                        $submit->eco_com_requirement_id = $item->id;
 	                                        $submit->reception_date =  Carbon::createFromDate(2017, 7, 7);
+
 	                                        switch ($item->id) 
 	                                        {
 	                                        	case "1":
-	                                        		$submit->status = ($result->iv_boleta == 'SI')
+	                                        		$submit->status = ($result->iv_boleta == 'SI');
 	                                        		break;
 	                                        	case "2":
-	                                        		$submit->status = ($result->iv_ci == 'SI')
+	                                        		$submit->status = ($result->iv_ci == 'SI');
 	                                        		break;
 	                                        	case "3":
-	                                        		$submit->status = ($result->iv_memo == 'SI')
+	                                        		$submit->status = ($result->iv_memo == 'SI');
 	                                        		break;
 	                                        	case "4":
-	                                        		$submit->status = ($result->iv_anioserv == 'SI')
+	                                        		$submit->status = ($result->iv_anioserv == 'SI');
 	                                        		break;
 	                                        	case "5":
-	                                        		$submit->status = ($result->iv_senasir_afp == 'SI')
+	                                        		$submit->status = ($result->iv_senasir_afp == 'SI');
 	                                        		break;
                                                 default:
                                                     $submit->status = false;
@@ -288,13 +289,13 @@ class ImportRegional extends Command implements SelfHandling
 	                                        switch ($item->id) 
 	                                        {
                                                 case "6":
-                                                   	$submit->status =  ($result->h_ci == "SI")  
+                                                   	$submit->status =  ($result->h_ci == "SI");  
                                                     break;
                                                 case "7":
-                                                   	$submit->status =  ($result->h_boleta == "SI")  
+                                                   	$submit->status =  ($result->h_boleta == "SI");  
 													break;
 												case "8":
-                                                   	$submit->status =  ($result->h_sereci == "SI")  
+                                                   	$submit->status =  ($result->h_sereci == "SI");  
 													break;
                                                 default:
                                                     $submit->status = false;
@@ -399,35 +400,35 @@ class ImportRegional extends Command implements SelfHandling
 		                                $req = EconomicComplementRequirement::where('eco_com_type_id','=', 2 )->get();
 		                                foreach ($req as $item) 
 		                                {   
-	                                        $submit = new EconomicComplementSubmittedDocument;
+	                                        $submit = new EconomicComplementSubmittedDocument();
 	                                        $submit->economic_complement_id = $ecom->id;
 	                                        $submit->eco_com_requirement_id = $item->id;
 	                                        $submit->reception_date =  Carbon::createFromDate(2017, 7, 7);
 	                                        switch ($item->id) 
 	                                        {
 	                                        	case "6":
-	                                        		$submit->status = ($result->iviu_boleta == 'SI')
+	                                        		$submit->status = ($result->iviu_boleta == 'SI');
 	                                        		break;
 	                                        	case "7":
-	                                        		$submit->status = ($result->iviu_ci_causa == 'SI')
+	                                        		$submit->status = ($result->iviu_ci_causa == 'SI');
 	                                        		break;
 	                                        	case "8":
-	                                        		$submit->status = ($result->ivui_ci_dere == 'SI')
+	                                        		$submit->status = ($result->ivui_ci_dere == 'SI');
 	                                        		break;
 	                                        	case "9":
-	                                        		$submit->status = ($result->ivui_defuncion_causa == 'SI')
+	                                        		$submit->status = ($result->ivui_defuncion_causa == 'SI');
 	                                        		break;
 	                                        	case "10":
-	                                        		$submit->status = ($result->ivui_senasir_afp == 'SI')
+	                                        		$submit->status = ($result->ivui_senasir_afp == 'SI');
 	                                        		break;
 	                                        	case "11":
-	                                        		$submit->status = ($result->iviu_memo == 'SI')
+	                                        		$submit->status = ($result->iviu_memo == 'SI');
 	                                        		break;
 	                                        	case "12":
-	                                        		$submit->status = ($result->iviu_anioserv == 'SI')
+	                                        		$submit->status = ($result->iviu_anioserv == 'SI');
 	                                        		break;
 	                                        	case "13":
-	                                        		$submit->status = ($result->iviu_sereci == 'SI')
+	                                        		$submit->status = ($result->iviu_sereci == 'SI');
 	                                        		break;
 	                                        	default:
                                                     $submit->status = false;
