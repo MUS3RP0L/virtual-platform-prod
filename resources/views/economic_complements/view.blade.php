@@ -544,7 +544,7 @@
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-10">
-                            <h3 class="box-title"><span class="fa fa-user"></span> Informacion del Apoderado</h3>
+                            <h3 class="box-title"><span class="fa fa-shield"></span> Informacion del Apoderado</h3>
                         </div>
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
@@ -566,7 +566,7 @@
                                                 <strong>Carnet Identidad</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $economic_complement_legal_guardian->identity_card !!}
+                                                {!! $economic_complement_legal_guardian->identity_card !!} {!! $economic_complement_legal_guardian->city_identity_card->first_shortened !!}
                                             </div>
                                         </div>
                                     </td>
@@ -609,6 +609,10 @@
                                         </td>
                                     </tr>
                                 @endif
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table" style="width:100%;">
                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
@@ -633,10 +637,6 @@
                                         </div>
                                     </td>
                                 </tr>
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <table class="table" style="width:100%;">
                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
@@ -649,7 +649,6 @@
                                                     <br/>
                                                 @endforeach
                                             </div>
-
                                         </div>
                                     </td>
                                 </tr>
@@ -1533,15 +1532,16 @@
                                         <span class="help-block">Escriba el Apellido Materno</span>
                                     </div>
                                 </div>
-                                @if ($economic_complement_legal_guardian->gender == 'F')
-                                    <div class="form-group">
-                                            {!! Form::label('surname_husband_lg', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-6">
-                                            {!! Form::text('surname_husband_lg', $economic_complement_legal_guardian->surname_husband, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                                            <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
-                                        </div>
+                                <div class="form-group">
+                                        {!! Form::label('surname_husband_lg', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('surname_husband_lg', $economic_complement_legal_guardian->surname_husband, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
                                     </div>
-                                @endif
+                                </div>
+                                
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                         {!! Form::label('first_name_lg', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
@@ -1556,8 +1556,6 @@
                                         <span class="help-block">Escriba el Segundo Nombre</span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
                                 <div class="form-group" id="phonesNumbersGuardian" style="padding-bottom:5px;">
                                             {!! Form::label('phone_number_lg', 'Teléfono fijo', ['class' => 'col-md-5 control-label']) !!}
                                             @foreach(explode(',',$economic_complement_legal_guardian->phone_number) as $key=>$phone)
