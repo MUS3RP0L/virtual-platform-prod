@@ -308,7 +308,7 @@ class ImportRegional extends Command implements SelfHandling
 	                            	}
                             	}else{
 	                            	//para inclusiones viudas
-                            		$afi = Affiliate::where('identity_card','=',strtoupper(($result->ci_ch))->first();
+                            		$afi = Affiliate::where('identity_card','=',strtoupper($result->ci_ch))->first();
 	                            	if (!$afi) {
 	                            		$afi = new Affiliate();
 	                            		$afi->user_id = 1;
