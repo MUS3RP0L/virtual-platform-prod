@@ -230,8 +230,8 @@
             $('[data-toggle="tooltip"]').tooltip();
             $("#birth_date_affi_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("#birth_date_appli_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
-            $("#phone_number_lg").inputmask();
-            $("#cell_phone_number_lg").inputmask();
+            $("#phone_number_guardian").inputmask();
+            $("#cell_phone_number_guardian").inputmask();
             $("input[name='phone_number[]']").inputmask();
             $("input[name='cell_phone_number[]']").inputmask();
         });
@@ -257,6 +257,24 @@
                     $(this).inputmask();
                 });
                 $("input[name='cell_phone_number[]']").last().focus();
+            });
+
+            //for phone numbers legal guardians
+            $('#addPhoneNumberGuardian').on('click', function(event) {
+                $('#phonesNumbersGuardian').append('<div class="col-md-offset-5"><div class="col-md-7"><input type="text" class="form-control" name="phone_number_lg[]" data-inputmask="\'mask\': \'(9) 999-999\'" data-mask></div><div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div></div>')
+                event.preventDefault();
+                $("input[name='phone_number_lg[]']").each(function() {
+                    $(this).inputmask();
+                });
+                $("input[name='phone_number_lg[]']").last().focus();
+            });
+            $('#addCellPhoneNumberGuardian').on('click', function(event) {
+                $('#cellPhonesNumbersGuardian').append('<div class="col-md-offset-5"><div class="col-md-8"><input type="text" class="form-control" name="cell_phone_number_lg[]" data-inputmask="\'mask\': \'(999)-99999\'" data-mask></div><div class="col-md-1"><button class="btn btn-warning deleteCellPhone" type="button" ><i class="fa fa-minus"></i></button></div></div>')
+                event.preventDefault();
+                $("input[name='cell_phone_number_lg[]']").each(function() {
+                    $(this).inputmask();
+                });
+                $("input[name='cell_phone_number_lg[]']").last().focus();
             });
             $(document).on('click', '.deleteCellPhone', function(event) {
                 $(this).parent().parent().remove();
