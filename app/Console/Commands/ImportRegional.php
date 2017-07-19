@@ -149,6 +149,8 @@ class ImportRegional extends Command implements SelfHandling
 	                            		$afi->phone_number = $result->fijo;
 	                            		$afi->cell_phone_number = $result->celular;
 	                            		$afi->save();
+	                            		$vein[] = $result;
+	                            	}
 	                            		//obteniendo el ultimo code
 	                            		if ($last_ecom = EconomicComplement::all()->last()) {
 		                                    $number_code = Util::separateCode($last_ecom->code);
@@ -224,15 +226,14 @@ class ImportRegional extends Command implements SelfHandling
 	                                        }
 	                                        $submit->save();
 		                                }
-	                            	}else{
-	                            		$vein[] = $result;
-	                            	}
+	                            	
                             	}
                             }else if($result->tiporenta == 'VIUDEDAD'){
                             	if ($result->tipotramite == 'HABITUAL' ) {
 	                            	//para habituales viudedad
 	                            	$afi = Affiliate::where('identity_card','=',strtoupper($result->ci_ch))->first();
-	                            	if ($afi) {
+	                            	if ($afi) 
+	                            	{
 	                            		if ($last_ecom = EconomicComplement::all()->last()) {
 		                                    $number_code = Util::separateCode($last_ecom->code);
 		                                    $code = $number_code + 1;
@@ -332,6 +333,8 @@ class ImportRegional extends Command implements SelfHandling
 	                            		$afi->phone_number = $result->fijo;
 	                            		$afi->cell_phone_number = $result->celular;
 	                            		$afi->save();
+	                            		$viin[] = $result;
+	                            	}
 	                            		//obteniendo el ultimo code
 	                            		if ($last_ecom = EconomicComplement::all()->last()) {
 		                                    $number_code = Util::separateCode($last_ecom->code);
@@ -432,9 +435,7 @@ class ImportRegional extends Command implements SelfHandling
 	                                        }
 	                                        $submit->save();
 		                                }
-	                            	}else{
-	                            		$viin[] = $result;
-	                            	}
+	                            	
                             	}
                             }
                     });
@@ -445,10 +446,10 @@ class ImportRegional extends Command implements SelfHandling
                 $Progress->finish();
 
                 $this->info("\n\nReport Update:\n
-                $vej Vejez.\n
-                $viu Viudadedad.\n
-                $orf orfandad.\n 
-                $total Total.\n               
+                ".sizeof($viha)." Vuideda HAB.\n
+                ".sizeof($viin)." Vuideda INC.\n
+                ".sizeof($veha)." Vuideda HAB.\n
+                ".sizeof($vein)." Vuideda INC.\n
                 Execution time $execution_time [minutes].\n");
             }
 
