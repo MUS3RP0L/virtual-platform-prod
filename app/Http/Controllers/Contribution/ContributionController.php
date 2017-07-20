@@ -76,7 +76,7 @@ class ContributionController extends Controller
 
     public function ShowData(Request $request)
     {
-        $contributions = Contribution::select(['id', 'month_year', 'degree_id', 'unit_id', 'item', 'base_wage','seniority_bonus', 'study_bonus', 'position_bonus', 'border_bonus', 'east_bonus', 'public_security_bonus', 'gain', 'quotable', 'retirement_fund', 'mortuary_quota', 'total'])
+        $contributions = Contribution::select(['id','breakdown_id', 'month_year', 'degree_id', 'unit_id', 'item', 'base_wage','seniority_bonus', 'study_bonus', 'position_bonus', 'border_bonus', 'east_bonus', 'public_security_bonus', 'gain', 'quotable', 'retirement_fund', 'mortuary_quota', 'total'])
                                         ->where('affiliate_id', $request->affiliate_id);
 
         return Datatables::of($contributions)
@@ -95,6 +95,7 @@ class ContributionController extends Controller
                 ->editColumn('retirement_fund', function ($contribution) { return Util::formatMoney($contribution->retirement_fund); })
                 ->editColumn('mortuary_quota', function ($contribution) { return Util::formatMoney($contribution->mortuary_quota); })
                 ->editColumn('total', function ($contribution) { return Util::formatMoney($contribution->total); })
+                ->editColumn('breakdown_id',function ($contribution) { return $contribution->breakdown_id; })
                 ->make(true);
     }
 

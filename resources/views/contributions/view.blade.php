@@ -129,6 +129,7 @@
 		                            	<th class="text-right"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Aporte Fondo de Retiro">F.R.</div></th>
 		                            	<th class="text-right"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Aporte Cuota o Auxilio Mortuorio">C.A.M.</div></th>
 		                            	<th class="text-right"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Total Aporte Muserpol">Aporte</div></th>
+		                            	<th class="text-right"><div data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Desglose">Desg.</div></th>
 		                            </tr>
 		                        </thead>
 		                    </table>
@@ -185,7 +186,8 @@
 	            { data: 'quotable', "sClass": "text-right", bSortable: false },
 	            { data: 'retirement_fund', "sClass": "text-right", bSortable: false },
 	            { data: 'mortuary_quota', "sClass": "text-right", bSortable: false },
-	            { data: 'total', "sClass": "text-right", bSortable: false }
+	            { data: 'total', "sClass": "text-right", bSortable: false },
+	            { data: 'breakdown_id', "sClass": "text-right", bSortable: false }
 	        ]
 	    });
 	});
