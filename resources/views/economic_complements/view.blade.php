@@ -468,7 +468,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @if($eco_com_applicant->economic_complement->eco_com_modality_id == 1 || $eco_com_applicant->economic_complement->eco_com_modality_id == 4 || $eco_com_applicant->economic_complement->eco_com_modality_id == 6)
+                                @if($eco_com_applicant->economic_complement->eco_com_modality_id == 1 || $eco_com_applicant->economic_complement->eco_com_modality_id == 4 || $eco_com_applicant->economic_complement->eco_com_modality_id == 6|| $eco_com_applicant->economic_complement->eco_com_modality_id == 8)
                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
@@ -1387,7 +1387,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if($economic_complement->eco_com_modality_id == 1)
+                                @if($eco_com_applicant->economic_complement->eco_com_modality_id == 1 || $eco_com_applicant->economic_complement->eco_com_modality_id == 4 || $eco_com_applicant->economic_complement->eco_com_modality_id == 6|| $eco_com_applicant->economic_complement->eco_com_modality_id == 8)
                                     <div class="form-group">
                                         {!! Form::label('city_birth_id', 'Lugar de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-7">
