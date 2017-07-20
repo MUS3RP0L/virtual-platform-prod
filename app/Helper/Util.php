@@ -612,7 +612,7 @@ class Util
     }
     public static function getCategoryId($cat)
     {
-    	$cat = DB::table('categories')->where('name','like',$cat)->first();
+    	$cat = DB::table('categories')->where('percentage','=', $cat)->first();
     	return $cat->id;
     }
     public static function getEntityPensionId($ent)
