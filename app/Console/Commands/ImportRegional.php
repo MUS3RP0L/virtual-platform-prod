@@ -60,6 +60,11 @@ class ImportRegional extends Command implements SelfHandling
 			                                    $number_code = Util::separateCode($last_ecom->code);
 			                                    $code = $number_code + 1;
 			                                }*/
+			                                if(!$afi->pension_entity_id)
+			                                {
+			                                	$afi->pension_entity_id = Util::getEntityPensionId($result->ente_gestor);
+			                                	$afi->save();
+			                                }
 			                                if ($last_ecom = EconomicComplement::whereYear('year', '=', 2017)
                                                     ->where('semester', '=', 'Primer')
                                                     ->whereNull('deleted_at')->orderBy('id', 'desc')->first())
@@ -123,15 +128,18 @@ class ImportRegional extends Command implements SelfHandling
 	                                                       	$submit->status =  ($result->h_boleta == "SI");  
 															break;
 	                                                    default:
-	                                                        $submit->status = false;
+	                                                       
 	                                                        break;
 			                                        }
 			                                       $submit->save();             
+			                                	
 			                                }
 		                            	}else{
 		                            		$veha[] = $result;
 		                            	}
-	                            	}else{
+	                            	}
+	                            	else
+	                            	{
 		                            	//para inclusiones vejez
 	                            		$afi = Affiliate::where('identity_card','=',strtoupper($result->ci))->first();
 		                            	if (!$afi) {
@@ -164,6 +172,11 @@ class ImportRegional extends Command implements SelfHandling
 		                            		$afi->save();
 		                            		$vein[] = $result;
 		                            	}
+		                            	elseif(!$afi->pension_entity_id)
+			                            {
+			                                	$afi->pension_entity_id = Util::getEntityPensionId($result->ente_gestor);
+			                                	$afi->save();
+			                            }
 		                            		//obteniendo el ultimo code
 		                            		/*if ($last_ecom = EconomicComplement::all()->last()) {
 			                                    $number_code = Util::separateCode($last_ecom->code);
@@ -263,7 +276,8 @@ class ImportRegional extends Command implements SelfHandling
                             	
                             	if(!$ecom1)
                             	{	
-	                            	if ($result->tipotramite == 'HABITUAL' ) {
+	                            	if ($result->tipotramite == 'HABITUAL' ) 
+	                            	{
 		                            	//para habituales viudedad
 		                            	$afi = Affiliate::where('identity_card','=',strtoupper($result->ci_ch))->first();
 		                            	if ($afi) 
@@ -273,6 +287,11 @@ class ImportRegional extends Command implements SelfHandling
 			                                    $code = $number_code + 1;
 			                                    dd($code);
 			                                }*/
+			                                if(!$afi->pension_entity_id)
+			                                {
+			                                	$afi->pension_entity_id = Util::getEntityPensionId($result->ente_gestor);
+			                                	$afi->save();
+			                                }
 			                                if ($last_ecom = EconomicComplement::whereYear('year', '=', 2017)
                                                     ->where('semester', '=', 'Primer')
                                                     ->whereNull('deleted_at')->orderBy('id', 'desc')->first())
@@ -283,7 +302,7 @@ class ImportRegional extends Command implements SelfHandling
 		                            		$ecom = new EconomicComplement();
 		                            		$ecom->user_id = 1;
 			                                $ecom->affiliate_id = $afi->id;                 
-			                                $ecom->eco_com_modality_id = 1;
+			                                $ecom->eco_com_modality_id = 2;
 			                                $ecom->eco_com_procedure_id = 2;
 			                                $ecom->workflow_id = 1;
 			                                $ecom->wf_current_state_id = 1;
@@ -337,8 +356,7 @@ class ImportRegional extends Command implements SelfHandling
 													case "8":
 	                                                   	$submit->status =  ($result->h_sereci == "SI");  
 														break;
-	                                                default:
-	                                                    $submit->status = false;
+	                                                default:	                                                   
 	                                                    break;
 		                                        }
 		                                        $submit->save();
@@ -346,10 +364,13 @@ class ImportRegional extends Command implements SelfHandling
 		                            	}else{
 		                            		$viha[] = $result;
 		                            	}
-	                            	}else{
+	                            	}
+	                            	else
+	                            	{
 		                            	//para inclusiones viudas		                            	
 	                            		$afi = Affiliate::where('identity_card','=',strtoupper($result->ci_ch))->first();
-		                            	if (!$afi) {		                            		
+		                            	if (!$afi) 
+		                            	{		                            		
 		                            		$afi = new Affiliate();
 		                            		$afi->user_id = 1;		                            		
 		                            		$afi->city_identity_card_id = Util::getRegionalCityExtId($result->ext_ch);
@@ -380,6 +401,11 @@ class ImportRegional extends Command implements SelfHandling
 		                            		$afi->save();
 		                            		$viin[] = $result;
 		                            	}
+		                            	elseif(!$afi->pension_entity_id)
+			                            {
+			                                	$afi->pension_entity_id = Util::getEntityPensionId($result->ente_gestor);
+			                                	$afi->save();
+			                            }
 		                            		//obteniendo el ultimo code
 		                            		/*if ($last_ecom = EconomicComplement::all()->last()) {
 			                                    $number_code = Util::separateCode($last_ecom->code);
@@ -395,7 +421,7 @@ class ImportRegional extends Command implements SelfHandling
 		                            		$ecom = new EconomicComplement();
 		                            		$ecom->user_id = 1;
 			                                $ecom->affiliate_id = $afi->id;                 
-			                                $ecom->eco_com_modality_id = 1;
+			                                $ecom->eco_com_modality_id = 2;
 			                                $ecom->eco_com_procedure_id = 2;
 			                                $ecom->workflow_id = 1;
 			                                $ecom->wf_current_state_id = 1;
@@ -502,10 +528,10 @@ class ImportRegional extends Command implements SelfHandling
                 $Progress->finish();
 
                 $this->info("\n\nReport Update:\n
-                ".sizeof($viha)." Vuideda HAB.\n
-                ".sizeof($viin)." Vuideda INC.\n
-                ".sizeof($veha)." Vuideda HAB.\n
-                ".sizeof($vein)." Vuideda INC.\n
+                ".sizeof($viha)." Vuidedad HABITUAL.\n
+                ".sizeof($viin)." Vuidedad INCLUSION.\n
+                ".sizeof($veha)." Vejez HABITUAL.\n
+                ".sizeof($vein)." Vejez INCLUSION.\n
                 ".sizeof($exvej)." Vejez Existentes.\n
                 ".sizeof($exviu)." Viudedad Existentes.\n
                 Execution time $execution_time [minutes].\n");

@@ -837,7 +837,7 @@
                                                 <strong>Ciudad</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $economic_complement->city->name !!}
+                                                {!! $economic_complement->city->name ?? '' !!}
                                             </div>
                                         </div>
                                     </td>
@@ -849,7 +849,7 @@
                                                 <strong>Ente Gestor</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $affiliate->pension_entity->name !!}
+                                                {!! $affiliate->pension_entity->name ?? '' !!}
                                             </div>
                                         </div>
                                     </td>
