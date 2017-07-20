@@ -154,7 +154,7 @@ class EconomicComplement extends Model
     {
         if($this->reception_date){
             
-            return Util::getDateShort($this->year);
+            return Util::getDateShort($this->reception_date);
         }
     }
     public function getTotalFractions()

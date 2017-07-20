@@ -115,6 +115,8 @@ class ImportRegional extends Command implements SelfHandling
 			                                $req = EconomicComplementRequirement::where('eco_com_type_id','=', 1 )->get();
 			                                foreach ($req as $item) 
 			                                {   
+			                                	if ($item->id < 3) {
+			                                		# code...
 			                                        $submit = new EconomicComplementSubmittedDocument;
 			                                        $submit->economic_complement_id = $ecom->id;
 			                                        $submit->eco_com_requirement_id = $item->id;
@@ -133,6 +135,7 @@ class ImportRegional extends Command implements SelfHandling
 			                                        }
 			                                       $submit->save();             
 			                                	
+			                                	}
 			                                }
 		                            	}else{
 		                            		$veha[] = $result;
@@ -341,6 +344,8 @@ class ImportRegional extends Command implements SelfHandling
 			                                $req = EconomicComplementRequirement::where('eco_com_type_id','=', 2 )->get();
 			                                foreach ($req as $item) 
 			                                {   
+			                                	if ($item->id == 6 ||$item->id == 8 ||$item->id == 13 ) {
+			                                		# code...
 		                                        $submit = new EconomicComplementSubmittedDocument;
 		                                        $submit->economic_complement_id = $ecom->id;
 		                                        $submit->eco_com_requirement_id = $item->id;
@@ -350,16 +355,17 @@ class ImportRegional extends Command implements SelfHandling
 	                                                case "6":
 	                                                   	$submit->status =  ($result->h_ci == "SI");  
 	                                                    break;
-	                                                case "7":
+	                                                case "8":
 	                                                   	$submit->status =  ($result->h_boleta == "SI");  
 														break;
-													case "8":
+													case "13":
 	                                                   	$submit->status =  ($result->h_sereci == "SI");  
 														break;
 	                                                default:	                                                   
 	                                                    break;
 		                                        }
 		                                        $submit->save();
+			                                	}
 			                                }
 		                            	}else{
 		                            		$viha[] = $result;
@@ -482,6 +488,7 @@ class ImportRegional extends Command implements SelfHandling
 		                                        $submit->reception_date =  Carbon::createFromDate(2017, 7, 7);
 		                                        switch ($item->id) 
 		                                        {
+		                                        	
 		                                        	case "6":
 		                                        		$submit->status = ($result->iviu_boleta == 'SI');
 		                                        		break;
@@ -489,7 +496,7 @@ class ImportRegional extends Command implements SelfHandling
 		                                        		$submit->status = ($result->iviu_ci_causa == 'SI');
 		                                        		break;
 		                                        	case "8":
-		                                        		$submit->status = ($result->ivui_ci_dere == 'SI');
+		                                        		$submit->status = ($result->iviu_ci_dere == 'SI');
 		                                        		break;
 		                                        	case "9":
 		                                        		$submit->status = ($result->ivui_defuncion_causa == 'SI');
