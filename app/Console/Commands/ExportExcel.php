@@ -42,7 +42,7 @@ class ExportExcel extends Command
     public function handle()
     {
         //
-        //global $results, $FileName;
+        global $rows;
 
         $this->info("Ejecutando Exportacion");
             
@@ -50,43 +50,70 @@ class ExportExcel extends Command
            Excel::load('public/file_to_import/PARA LLENADO DE DATOS.xlsx', function($reader) {
 
                    // global $results, $FileName;
-
+           global $rows;
                  //$results = $reader->all();
             
                         
                     // Log::info($reader->toArray());
 
                     // $results = collect($reader->select(array('ci', 'ci_a'))->get());
-
+                    $rows = array();
                     $results = $reader->select(array('ci', 'ci_a'))->get();
                     
                     // $grupo = $results->get()->groupBy('ci_a');
+                    
                     $sheet = $results[0];
                     foreach ($sheet as $r) {
 
                         # code...
-                        Log::info(" mostrando objeto: ".$r);
+                         $afiliado = Affiliate::where('identity_card','=',$r->ci_a)->first();
+                         Log::info($afiliado);
+                         if($afiliado)
+                         {
+                             $contribuciones = Contribution::where('affiliate_id','=' ,$afiliado->id)->orderBy('month_year','DESC')->select('month_year','retirement_fund','mortuary_quota','total')->take(60)->get();
+
+                             foreach ($contribuciones as $contribucion) {
+                                 # code...
+                                $row = array($afiliado->identity_card,$afiliado->first_name,$afiliado->second_name,$afiliado->last_name,$afiliado->mothers_last_name, $contribucion->month_year , $contribucion->quotable,$contribucion->total);
+                                //og::info($contribucion->"");
+                                array_push($rows, $row);
+                             }
+                         }
+                        
+    
                     }
 
-                    // Log::info($results);
+        
 
-                    // foreach($reader as $sheet)
-                    // {
-                    //     // get sheet title
-                    //     $sheetTitle = $sheet->getTitle();
-
-                    //     Log::info($sheetTitle);
-                    // }
-
-
-                    // foreach ($results as $r) {
-                    //     # code...
-                    //     Log::info("impriendo objeto ".$r);
-                    // }
-
-                    // Log::info($results);
 
                 });
+             Log::info(" el tamañno ". sizeof($rows) );
+
+             Excel::create('informe',function($excel)
+             {
+                        
+                 global $rows;
+                            $excel->sheet('Contribuciones',function($sheet) {
+
+                                 global $rows;
+
+                                  $sheet->fromArray($rows);
+                            // $sheet->fromArray(
+                            //                     array(
+                            //                            $rows
+                            //                           )
+                            //                   );
+
+                              // $sheet->row(1,array('Contribuciones: '.$contribuciones->count(),'Total Bs: '.$total) );
+
+                              // $sheet->cells('A1:B1', function($cells) {
+                              // $cells->setBackground('#4CCCD4');
+                                                          // manipulate the range of cells
+
+                              });
+                      
+                    })->store('xls', storage_path('excel/exports'));
+
 
         // $ci = $this->ask('Ingrese el ci del afiliadio');
 
@@ -181,6 +208,6 @@ class ExportExcel extends Command
 
             
 
-        $this->info('Suma total de contribuciones ');
+        $this->info('total exportadors '.sizeof($rows));
     }
 }
