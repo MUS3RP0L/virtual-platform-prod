@@ -64,13 +64,13 @@
             @include('affiliates.simple_info')
 
             <!-- applicant -->
-            @if($eco_com_applicant->economic_complement->eco_com_modality_id == 2)
+            @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id == 2)
                 <div class="box box-success box-solid">
                     <div class="box-header with-border">
                         <div class="row">
                             <div class="col-md-10">
                                 <h3 class="box-title"><i class="fa fa-{{$affiliate->gender=='M'?'male':'female'  }}"></i> Información Personal
-                                @if($eco_com_applicant->economic_complement->eco_com_modality_id == 2)
+                                @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id == 2)
                                     - Causahabiente
                                 @endif
                                 </h3>
@@ -307,8 +307,8 @@
                     <div class="row">
                         <div class="col-md-8">
                             <h3 class="box-title"><span class="fa fa-user-plus"></span> Información de Beneficiario
-                            @if($eco_com_applicant->economic_complement->eco_com_modality_id == 2)
-                            - derechohabiente
+                            @if($eco_com_applicant->economic_complement->eco_com_modality_id == 2 || $eco_com_applicant->economic_complement->eco_com_modality_id == 5|| $eco_com_applicant->economic_complement->eco_com_modality_id == 7|| $eco_com_applicant->economic_complement->eco_com_modality_id == 9)
+                            - Derechohabiente
                             @endif
                             </h3>
                             <div class="box-tools pull-right">
@@ -468,7 +468,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @if($eco_com_applicant->economic_complement->eco_com_modality_id == 1 || $eco_com_applicant->economic_complement->eco_com_modality_id == 4 || $eco_com_applicant->economic_complement->eco_com_modality_id == 6|| $eco_com_applicant->economic_complement->eco_com_modality_id == 8)
+                                @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id == 1)
                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
@@ -936,6 +936,23 @@
                                 </tbody>
                             </table>
                             <hr>
+                            @if($economic_complement->aps_disability)
+                                <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
+                                    <thead>
+                                        <tr style="background: #f45642">
+                                            <th>Concepto</th>
+                                            <th style="text-align: right">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="danger">
+                                           <td style="width: 70%">Concurrencia - Renta Invalidez</td>
+                                            <td style="text-align: right">{!! $economic_complement->aps_disability !!}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            @endif
+                            
                             @endif
                             {{-- @if($economic_complement->base_wage_id) --}}
                                 <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
@@ -1387,7 +1404,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if($eco_com_applicant->economic_complement->eco_com_modality_id == 1 || $eco_com_applicant->economic_complement->eco_com_modality_id == 4 || $eco_com_applicant->economic_complement->eco_com_modality_id == 6|| $eco_com_applicant->economic_complement->eco_com_modality_id == 8)
+                                @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id == 1)
                                     <div class="form-group">
                                         {!! Form::label('city_birth_id', 'Lugar de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-7">
