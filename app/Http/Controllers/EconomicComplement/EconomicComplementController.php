@@ -380,11 +380,38 @@ class EconomicComplementController extends Controller
         $affiliate->type_ecocom = 'Inclusión';
     }
 
+        if (Util::getCurrentSemester() == 'Primer') {
+            $last_semester_first = 'Segundo';
+            $last_semester_second = 'Primer';
+            $last_year_first = Carbon::now()->year - 1; 
+            $last_year_second = $last_year_first;
+        }else{
+            $last_semester_first = 'Primer';
+            $last_semester_second = 'Segundo';
+            $last_year_first = Carbon::now()->year ;
+            $last_year_second = $last_year_first -1;
+        }
+        $eco_com_reception_type = 'Inclusion';
+        $last_procedure_first = EconomicComplementProcedure::whereYear('year', '=', $last_year_first)->where('semester','like',$last_semester_first)->first();
+        if (sizeof($last_procedure_first)>0) {
+            if ($last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
+                $eco_com_reception_type = 'Habitual';
+            }
+        }
+        $last_procedure_second = EconomicComplementProcedure::whereYear('year', '=', $last_year_second)->where('semester','like',$last_semester_second)->first();
+        if (sizeof($last_procedure_second)>0) {
+            if ($last_procedure_second->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
+                $eco_com_reception_type = 'Habitual';
+            }
+        }
+        $reception_types =  array('Inclusion' => 'Inclusion', 'Habitual' => 'Habitual');
         $data = [
             'affiliate' => $affiliate,
             'eco_com_type' => $eco_com_type,
             'eco_com_modality' => $eco_com_modality,
-            'economic_complement' => $economic_complement
+            'economic_complement' => $economic_complement,
+            'reception_types' => $reception_types,
+            'eco_com_reception_type' => $eco_com_reception_type
         ];
 
         $data = array_merge($data, $getViewModel);
@@ -559,6 +586,7 @@ class EconomicComplementController extends Controller
                 }
                 $economic_complement->code = $code ."/". $sem . "/" . Carbon::now()->year;
 
+                $economic_complement->reception_type = $request->reception_type;
                 // $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
                 // $economic_complement->base_wage_id = $base_wage->id;
                 // $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)->whereYear('year', '=', Carbon::now()->year)->where('semester', '=', Util::getSemester(Carbon::now()))->first();
