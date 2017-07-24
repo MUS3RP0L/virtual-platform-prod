@@ -490,43 +490,32 @@ class EconomicComplementController extends Controller
             $status_documents = FALSE;
         }
 
-        $last_year = Carbon::now()->subYear()->year;
-        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
-        if (EconomicComplement::affiliateIs($affiliate->id)
-            ->whereYear('year', '=', $last_year)
-            ->where('semester', '=', $last_semester)->first()) {
-            $affiliate->type_ecocom = 'Habitual';
+        if ($economic_complement->reception_type == 'Habitual') {
             if ($economic_complement->economic_complement_modality->economic_complement_type->name== 'Viudedad') {
                 $eco_com_requirements = EconomicComplementRequirement::where(function ($query)
                 {
                     $query->where('id','=',6)
-                          ->orWhere('id','=',8)
-                          ->orWhere('id','=',13);
+                    ->orWhere('id','=',8)
+                    ->orWhere('id','=',13);
                 })->orderBy('id','asc')->get();
+
             }else{
-            $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->orderBy('id', 'asc')->take(2)->get();
+                $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->orderBy('id', 'asc')->take(2)->get();
             }
-
-    }else{
-        $affiliate->type_ecocom = 'Inclusión';
-        $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
-    }
-
-
-    $data = [
-
-    'affiliate' => $affiliate,
-    'economic_complement' => $economic_complement,
-    'eco_com_type' => $eco_com_type->name,
-    'eco_com_modality' => $eco_com_modality->name,
-    'eco_com_requirements' => $eco_com_requirements,
-    'eco_com_submitted_documents' => $eco_com_submitted_documents,
-    'status_documents' => $status_documents
-    ];
-
-    $data = array_merge($data, self::getViewModel());
-
-    return view('economic_complements.reception_third_step', $data);
+        }else{
+            $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
+        }
+        $data = [
+            'affiliate' => $affiliate,
+            'economic_complement' => $economic_complement,
+            'eco_com_type' => $eco_com_type->name,
+            'eco_com_modality' => $eco_com_modality->name,
+            'eco_com_requirements' => $eco_com_requirements,
+            'eco_com_submitted_documents' => $eco_com_submitted_documents,
+            'status_documents' => $status_documents
+        ];
+        $data = array_merge($data, self::getViewModel());
+        return view('economic_complements.reception_third_step', $data);
     }
 
         /**
@@ -788,7 +777,7 @@ class EconomicComplementController extends Controller
         'eco_com_state_type_lists' => $eco_com_state_type_lists,
         'categories' => $categories,
         'degrees' => $degrees,
-        'type_eco_com' => $affiliate->type_ecocom,
+        //'type_eco_com' => $affiliate->type_ecocom,
         'affi_observations' => $affi_observations,
         'entity_pensions' => $entity_pensions,
         'eco_com_submitted_documents_ar' => $eco_com_submitted_documents_ar,
