@@ -680,16 +680,14 @@ class EconomicComplementController extends Controller
                    if ($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Vejez') {
                        $eco_com_submitted_documents_ar = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
                        {
-                           $query->where('eco_com_requirement_id','=',2)
-                                 ->orWhere('eco_com_requirement_id','=',3)
+                           $query->where('eco_com_requirement_id','=',3)
                                  ->orWhere('eco_com_requirement_id','=',4)
                                  ->orWhere('eco_com_requirement_id','=',5);
                        })->orderBy('id','asc')->get();
 
                        $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
                        {
-                           $query->where('id','=',2)
-                                 ->orWhere('id','=',3)
+                           $query\->where('id','=',3)
                                  ->orWhere('id','=',4)
                                  ->orWhere('id','=',5);
                        })->orderBy('id','asc')->get();
@@ -697,9 +695,7 @@ class EconomicComplementController extends Controller
                    }else{
                        $eco_com_submitted_documents_ar = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
                        {
-                           $query->where('eco_com_requirement_id','=',7)
-                                 ->orWhere('eco_com_requirement_id','=',8)
-                                 ->orWhere('eco_com_requirement_id','=',9)
+                           $query->where('eco_com_requirement_id','=',9)
                                  ->orWhere('eco_com_requirement_id','=',10)
                                  ->orWhere('eco_com_requirement_id','=',11)
                                  ->orWhere('eco_com_requirement_id','=',12);
@@ -707,9 +703,7 @@ class EconomicComplementController extends Controller
 
                        $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
                        {
-                           $query->where('id','=',7)
-                                 ->orWhere('id','=',8)
-                                 ->orWhere('id','=',9)
+                           $query->where('id','=',9)
                                  ->orWhere('id','=',10)
                                  ->orWhere('id','=',11)
                                  ->orWhere('id','=',12);
