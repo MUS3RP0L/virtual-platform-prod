@@ -696,6 +696,15 @@ class EconomicComplementController extends Controller
                                  ->orWhere('eco_com_requirement_id','=',4)
                                  ->orWhere('eco_com_requirement_id','=',5);
                        })->orderBy('id','asc')->get();
+
+                       $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                       {
+                           $query->where('id','=',2)
+                                 ->orWhere('id','=',3)
+                                 ->orWhere('id','=',4)
+                                 ->orWhere('id','=',5);
+                       })->orderBy('id','asc')->get();
+
                    }else{
                        $eco_com_submitted_documents_ar = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
                        {
@@ -704,8 +713,17 @@ class EconomicComplementController extends Controller
                                  ->orWhere('eco_com_requirement_id','=',9)
                                  ->orWhere('eco_com_requirement_id','=',10)
                                  ->orWhere('eco_com_requirement_id','=',11)
-                                 ->orWhere('eco_com_requirement_id','=',12)
-                                 ->orWhere('eco_com_requirement_id','=',13);
+                                 ->orWhere('eco_com_requirement_id','=',12);
+                       })->orderBy('id','asc')->get();
+
+                       $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                       {
+                           $query->where('id','=',7)
+                                 ->orWhere('id','=',8)
+                                 ->orWhere('id','=',9)
+                                 ->orWhere('id','=',10)
+                                 ->orWhere('id','=',11)
+                                 ->orWhere('id','=',12);
                        })->orderBy('id','asc')->get();
                    }
 
@@ -718,7 +736,7 @@ class EconomicComplementController extends Controller
                $eco_com_submitted_documents_ar = null;
                $status_documents_ar = false;
                $last_ecocom = null;
-           }
+        }
         //for documents submitted
         $status_eco_com_submitted_documents_ar=true;
         if ($eco_com_submitted_documents_ar) {
@@ -752,6 +770,7 @@ class EconomicComplementController extends Controller
         'affi_observations' => $affi_observations,
         'entity_pensions' => $entity_pensions,
         'eco_com_submitted_documents_ar' => $eco_com_submitted_documents_ar,
+        'eco_com_requirements_ar' => $eco_com_requirements_ar,
         'status_documents_ar' => $status_documents_ar,
         'last_ecocom' => $last_ecocom,
         'state' => $state,

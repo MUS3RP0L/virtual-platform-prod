@@ -1792,7 +1792,7 @@
             </div>
         </div>
     </div>
-    @if($status_documents_ar)
+    @if($economic_complement->reception_type == 'Habitual')
     <div id="myModal-requirements-ar" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -2241,13 +2241,13 @@ $(document).ready(function() {
         @if($status_documents_ar)
             window.model = new SelectRequeriments({!! $eco_com_submitted_documents !!}, {!! $eco_com_submitted_documents_ar !!});
         @else
-    		window.model = new SelectRequeriments({!! $eco_com_submitted_documents !!}, null);
+    		window.model = new SelectRequeriments({!! $eco_com_submitted_documents !!}, {!! $eco_com_requirements_ar !!});
         @endif
 	@else
         @if($status_documents_ar)
             window.model = new SelectRequeriments({!! $eco_com_requirements !!}, {!! $eco_com_submitted_documents_ar !!});
         @else
-            window.model = new SelectRequeriments({!! $eco_com_requirements !!}, null);
+            window.model = new SelectRequeriments({!! $eco_com_requirements !!}, {!! $eco_com_requirements_ar !!});
         @endif
 	@endif
 
