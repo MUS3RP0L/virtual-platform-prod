@@ -47,11 +47,34 @@ class ExportExcel extends Command
        
 
         $this->info("Ejecutando Exportacion");
+         
+             $afiliado = Affiliate::where('id','=',9886)->first();
+           $this->info($afiliado);
+            $contribuciones = Contribution::where('affiliate_id','=',$afiliado->id)->where('contributions.month_year','>=','28-08-1999')->get();
+             $contribuciones = Contribution::where('affiliate_id','=',$afiliado->id)->get();
+
+            foreach ($contribuciones as $c) {
+                # code...
+                $this->info("F:".$c->month_year);
+            }
+
+            $this->info($contribuciones->count());
+
+            $años_contribuciones = (int)($contribuciones->count() /12); 
             
+            // while()
+
+            $decimal = $contribuciones->count() /12;
+            $this->info("decimal".$decimal);
+            $mes = round(($decimal-$años_contribuciones)*12);
+
+            $this->info("años ".$años_contribuciones);
+            $this->info(" mes ".$mes);
+             exit();
 
            Excel::load('public/file_to_import/PARA LLENADO DE DATOS.xlsx', function($reader) {
 
-                
+               
            global $rows,$afiliadoConflicto;
 
                      $afiliadoConflicto = array();
@@ -156,6 +179,7 @@ class ExportExcel extends Command
                     */
 
             //*individual*/ 
+
                     $rows = array();
                     $titulos= array('ci','Exp','fecha_alta','fecha_baja','fecha disponibilidad','cotizaciones ','años','meses');                    array_push($rows, $titulos);
                     $results = $reader->select(array('ci', 'ci_a'))->get();
@@ -223,7 +247,7 @@ class ExportExcel extends Command
 
                                     
 
-                                $contribuciones_tiempo = Contribution::where('affiliate_id','=',$afiliado->id)->where('contributions.month_year','>=','28-08-1999')->get();
+                                $contribuciones_tiempo = Contribution::where('affiliate_id','=',$afiliado->id)->get();
                                 Log::info($contribuciones_tiempo->count());
 
                                 $años_contribuciones = (int)($contribuciones_tiempo->count()/12);

@@ -15,6 +15,7 @@ use Illuminate\Support\Collection;
 
 use Muserpol\Affiliate;
 use Muserpol\Contribution;
+use Log;
 
 class ContributionController extends Controller
 {
@@ -52,6 +53,7 @@ class ContributionController extends Controller
             'total_mortuary_quota' => $total_mortuary_quota,
             'total' => $total
 
+
         ];
 
         return $data;
@@ -78,6 +80,7 @@ class ContributionController extends Controller
     {
         $contributions = Contribution::select(['id','breakdown_id', 'month_year', 'degree_id', 'unit_id', 'item', 'base_wage','seniority_bonus', 'study_bonus', 'position_bonus', 'border_bonus', 'east_bonus', 'public_security_bonus', 'gain', 'quotable', 'retirement_fund', 'mortuary_quota', 'total'])
                                         ->where('affiliate_id', $request->affiliate_id);
+        Log::info(" cantidad de Aportes:".$contributions->count());
 
         return Datatables::of($contributions)
                 ->editColumn('month_year', function ($contribution) { return Carbon::parse($contribution->month_year)->month . "-" . Carbon::parse($contribution->month_year)->year ; })
