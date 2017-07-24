@@ -5,9 +5,16 @@
             {!! Breadcrumbs::render('show_inbox') !!}
         </div>
     		<div class="col-md-6 text-right">
-    			<div class="btn-group"  data-toggle="tooltip" data-original-title="Actualizar" style="margin: 0;">
+    			
+          <div class="btn-group"  data-toggle="tooltip" data-original-title="Exportar Informe Usuario" style="margin: 0;">
+                    <a href="{!! url('export_excel_user') !!}" class="btn btn-success btn-raised bg-blue" ><i class="glyphicon glyphicon-save glyphicon-lg"></i></a>
+          </div>
+          <div class="btn-group"  data-toggle="tooltip" data-original-title="Exportar Informe Todos" style="margin: 0;">
+                    <a href="{!! url('export_excel') !!}" class="btn btn-success btn-raised bg-green" ><i class="glyphicon glyphicon-save glyphicon-lg"></i></a>
+          </div>
+          <div class="btn-group"  data-toggle="tooltip" data-original-title="Actualizar" style="margin: 0;">
                     <a href="{!! url('inbox') !!}" class="btn btn-success btn-raised bg-orange" ><i class="fa fa-refresh fa-lg"></i></a>
-    			</div>
+          </div>
     		</div>
     </div>
 @endsection
