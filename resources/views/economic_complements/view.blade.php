@@ -826,6 +826,18 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Tipo de Recepción</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $economic_complement->reception_type ?? '' !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                         <div class="col-md-6">
