@@ -17,7 +17,7 @@ use Muserpol\Module;
 use Muserpol\Role;
 use Muserpol\City;
 
-
+Use Log;
 use DB;
 
 
@@ -183,7 +183,7 @@ class UserController extends Controller
                 'last_name' => 'required|min:3',
                 'first_name' => 'required|min:3',
                 'phone' => 'required|min:8',
-                'username' => 'required|unique:users,username,'.$user->id,
+                //'username' => 'required|unique:users,username,'.$user->id,
 
             ];
         }
@@ -248,7 +248,7 @@ class UserController extends Controller
             $user->first_name = trim($request->first_name);
             $user->last_name = trim($request->last_name);
             $user->phone = trim($request->phone);
-            $user->username = trim($request->username);
+          //  $user->username = trim($request->username);
             $user->city_id=$request->city;
             if($request->password){$user->password = bcrypt(trim($request->password));}
                 $user->save();
