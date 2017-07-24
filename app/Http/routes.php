@@ -118,11 +118,15 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('export_bank', array('as'=>'export_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_bank'));
 
 	Route::get('get_causes_by_state', array('as'=>'get_causes_by_state', 'uses'=>'EconomicComplement\EconomicComplementController@getCausesByState'));
+	//david
+	Route::get('export_excel','EconomicComplement\EconomicComplementImportExportController@export_excel');
+	Route::get('export_excel_user','EconomicComplement\EconomicComplementImportExportController@export_excel_user');
+
 
 	// Economic Complement Record
 	Route::get('get_economic_complement_record/{ecomomic_complement_id}', array('as'=>'get_economic_complement_record', 'uses'=>'EconomicComplement\EconomicComplementController@get_record'));
 
-	//Routes for Observations
+	//Routecfor Observations
 	Route::resource('observation','Observation\AffiliateObservationController');
 	Route::get('get_observations',['as'=>'get_observations','uses'=>'Observation\AffiliateObservationController@showOfAffiliate']);
 	Route::get('observation/deleteOb/{id}',['as'=>'deleteOb','uses'=>'Observation\AffiliateObservationController@deleteOb']);

@@ -21,10 +21,13 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\ImportRequirement::class,
         \Muserpol\Console\Commands\AutomaticCalculation::class,
         \Muserpol\Console\Commands\ImportJuridica::class,
+        \Muserpol\Console\Commands\UpdateAffiliateRecords::class,
+        \Muserpol\Console\Commands\ExportExcel::class,
         \Muserpol\Console\Commands\ImportRegional::class,
         \Muserpol\Console\Commands\UpdateCategory::class,
         \Muserpol\Console\Commands\ImportDisability::class,
-        \Muserpol\Console\Commands\UpdateReceptionType::class,
+        \Muserpol\Console\Commands\UpdateReceptionType::class
+
     ];
 
     protected function schedule(Schedule $schedule)
