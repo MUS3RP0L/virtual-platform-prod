@@ -17,14 +17,14 @@
                 </a>
             </div>
 
-            @if($type_eco_com=="Inclusión")
+            @if($economic_complement->reception_type == "Inclusion")
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción Inclusiones" style="margin:0px;">
                     <a href="" class="btn btn-sm btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReportInclusion');" >
                         &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
                     </a>
                 </div>
             @endif
-            @if($type_eco_com=="Habitual")
+            @if($economic_complement->reception_type == "Habitual")
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción Habituales" style="margin:0px;">
                     <a href="" class="btn btn-sm btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReportHabitual');" >
                         &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
