@@ -729,6 +729,7 @@ class EconomicComplementController extends Controller
 
                    $status_documents_ar = TRUE;
                }else{
+                    if ($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Vejez') {
                        $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
                        {
                            $query->where('id','=',2)
