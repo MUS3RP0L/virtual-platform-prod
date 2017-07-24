@@ -29,7 +29,7 @@
                                     <strong>Gestión</strong>
                                 </div>
                                 <div class="col-md-6">
-                                    {{-- {!! $economic_complement->year !!} --}}
+                                    {!! $economic_complement->getYear() ?? '-' !!}
                                 </div>
                             </div>
                         </td>
@@ -70,6 +70,18 @@
                                 </div>
                                 <div class="col-md-6">
                                     -
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong>Tipo de Recepción</strong>
+                                </div>
+                                <div class="col-md-6">
+                                    {{ $economic_complement->reception_type ?? '-'  }}
                                 </div>
                             </div>
                         </td>

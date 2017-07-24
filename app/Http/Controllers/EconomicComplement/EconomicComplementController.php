@@ -277,10 +277,10 @@ class EconomicComplementController extends Controller
 
     public function Data_by_affiliate(Request $request)
     {
-        $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'eco_com_state_id', 'code', 'reception_date', 'total'])->orderBy('id','desc');
+        $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'wf_current_state_id', 'code', 'reception_date', 'total'])->orderBy('id','desc');
         return Datatables::of($economic_complements)
         ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
-        ->editColumn('eco_com_state', function ($economic_complement) { return $economic_complement->economic_complement_state ? $economic_complement->economic_complement_state->economic_complement_state_type->name . " " . $economic_complement->economic_complement_state->name : '$economic_complement->wf_state->name'; })
+        ->editColumn('wf_state', function ($economic_complement) { return $economic_complement->wf_state->name; })
         ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
         ->addColumn('action', function ($economic_complement) { return
             '<div class="btn-group" style="margin:-3px 0;">
@@ -380,11 +380,38 @@ class EconomicComplementController extends Controller
         $affiliate->type_ecocom = 'Inclusión';
     }
 
+        if (Util::getCurrentSemester() == 'Primer') {
+            $last_semester_first = 'Segundo';
+            $last_semester_second = 'Primer';
+            $last_year_first = Carbon::now()->year - 1; 
+            $last_year_second = $last_year_first;
+        }else{
+            $last_semester_first = 'Primer';
+            $last_semester_second = 'Segundo';
+            $last_year_first = Carbon::now()->year ;
+            $last_year_second = $last_year_first -1;
+        }
+        $eco_com_reception_type = 'Inclusion';
+        $last_procedure_first = EconomicComplementProcedure::whereYear('year', '=', $last_year_first)->where('semester','like',$last_semester_first)->first();
+        if (sizeof($last_procedure_first)>0) {
+            if ($last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
+                $eco_com_reception_type = 'Habitual';
+            }
+        }
+        $last_procedure_second = EconomicComplementProcedure::whereYear('year', '=', $last_year_second)->where('semester','like',$last_semester_second)->first();
+        if (sizeof($last_procedure_second)>0) {
+            if ($last_procedure_second->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
+                $eco_com_reception_type = 'Habitual';
+            }
+        }
+        $reception_types =  array(''=>'','Inclusion' => 'Inclusion', 'Habitual' => 'Habitual');
         $data = [
             'affiliate' => $affiliate,
             'eco_com_type' => $eco_com_type,
             'eco_com_modality' => $eco_com_modality,
-            'economic_complement' => $economic_complement
+            'economic_complement' => $economic_complement,
+            'reception_types' => $reception_types,
+            'eco_com_reception_type' => $eco_com_reception_type
         ];
 
         $data = array_merge($data, $getViewModel);
@@ -559,6 +586,7 @@ class EconomicComplementController extends Controller
                 }
                 $economic_complement->code = $code ."/". $sem . "/" . Carbon::now()->year;
 
+                $economic_complement->reception_type = $request->reception_type;
                 // $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
                 // $economic_complement->base_wage_id = $base_wage->id;
                 // $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)->whereYear('year', '=', Carbon::now()->year)->where('semester', '=', Util::getSemester(Carbon::now()))->first();
@@ -668,6 +696,15 @@ class EconomicComplementController extends Controller
                                  ->orWhere('eco_com_requirement_id','=',4)
                                  ->orWhere('eco_com_requirement_id','=',5);
                        })->orderBy('id','asc')->get();
+
+                       $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                       {
+                           $query->where('id','=',2)
+                                 ->orWhere('id','=',3)
+                                 ->orWhere('id','=',4)
+                                 ->orWhere('id','=',5);
+                       })->orderBy('id','asc')->get();
+
                    }else{
                        $eco_com_submitted_documents_ar = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
                        {
@@ -676,21 +713,52 @@ class EconomicComplementController extends Controller
                                  ->orWhere('eco_com_requirement_id','=',9)
                                  ->orWhere('eco_com_requirement_id','=',10)
                                  ->orWhere('eco_com_requirement_id','=',11)
-                                 ->orWhere('eco_com_requirement_id','=',12)
-                                 ->orWhere('eco_com_requirement_id','=',13);
+                                 ->orWhere('eco_com_requirement_id','=',12);
+                       })->orderBy('id','asc')->get();
+
+                       $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                       {
+                           $query->where('id','=',7)
+                                 ->orWhere('id','=',8)
+                                 ->orWhere('id','=',9)
+                                 ->orWhere('id','=',10)
+                                 ->orWhere('id','=',11)
+                                 ->orWhere('id','=',12);
                        })->orderBy('id','asc')->get();
                    }
 
                    $status_documents_ar = TRUE;
                }else{
+                    if ($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Vejez') {
+                       $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                       {
+                           $query->where('id','=',2)
+                                 ->orWhere('id','=',3)
+                                 ->orWhere('id','=',4)
+                                 ->orWhere('id','=',5);
+                       })->orderBy('id','asc')->get();
+
+                   }else{
+                       $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                       {
+                           $query->where('id','=',7)
+                                 ->orWhere('id','=',8)
+                                 ->orWhere('id','=',9)
+                                 ->orWhere('id','=',10)
+                                 ->orWhere('id','=',11)
+                                 ->orWhere('id','=',12);
+                       })->orderBy('id','asc')->get();
+                   }
+
                    $eco_com_submitted_documents_ar = null;
                    $status_documents_ar = FALSE;
                }
            }else{
                $eco_com_submitted_documents_ar = null;
+               $eco_com_requirements_ar = null;
                $status_documents_ar = false;
                $last_ecocom = null;
-           }
+        }
         //for documents submitted
         $status_eco_com_submitted_documents_ar=true;
         if ($eco_com_submitted_documents_ar) {
@@ -724,6 +792,7 @@ class EconomicComplementController extends Controller
         'affi_observations' => $affi_observations,
         'entity_pensions' => $entity_pensions,
         'eco_com_submitted_documents_ar' => $eco_com_submitted_documents_ar,
+        'eco_com_requirements_ar' => $eco_com_requirements_ar,
         'status_documents_ar' => $status_documents_ar,
         'last_ecocom' => $last_ecocom,
         'state' => $state,
@@ -881,6 +950,7 @@ class EconomicComplementController extends Controller
                     $economic_complement->has_legal_guardian = false;
                 }
                 $economic_complement->state="Edited";
+                $economic_complement->reception_type = $request->reception_type;
                 $economic_complement->save();
                 if ($request->legal_guardian) {
                     $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
@@ -1069,8 +1139,9 @@ class EconomicComplementController extends Controller
                                  $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
                                  $eco_com_legal_guardian->first_name = $request->first_name_lg;
                                  $eco_com_legal_guardian->second_name = $request->second_name_lg;
-                                 $eco_com_legal_guardian->phone_number = $request->phone_number_lg;
-                                 $eco_com_legal_guardian->cell_phone_number = $request->cell_phone_number_lg;
+                                 $eco_com_legal_guardian->surname_husband = $request->surname_husband_lg;
+                                 $eco_com_legal_guardian->phone_number =trim(implode(",", $request->phone_number_lg));
+                                 $eco_com_legal_guardian->cell_phone_number =trim(implode(",", $request->cell_phone_number_lg));
                                  $eco_com_legal_guardian->save();
                              }
                          }
@@ -1474,6 +1545,7 @@ class EconomicComplementController extends Controller
               $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
               $eco_com_legal_guardian->first_name = $request->first_name_lg;
               $eco_com_legal_guardian->second_name = $request->second_name_lg;
+              $eco_com_legal_guardian->surname_husband = $request->surname_husband_lg;
               $eco_com_legal_guardian->phone_number =trim(implode(",", $request->phone_number_lg));
               $eco_com_legal_guardian->cell_phone_number =trim(implode(",", $request->cell_phone_number_lg));
               $eco_com_legal_guardian->save();

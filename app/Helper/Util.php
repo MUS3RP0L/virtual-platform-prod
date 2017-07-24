@@ -4,6 +4,7 @@ namespace Muserpol\Helper;
 use Carbon\Carbon;
 use Muserpol\EconomicComplement;
 use Auth;
+use DB;
 class Util
 {
 	public static function getType1($affiliate)
@@ -151,22 +152,10 @@ class Util
 		}
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
 	public static function ucw($string)
 	{
 		if ($string) {
-			return ucwords(strtolower($string));
+			return ucwords(mb_strtolower($string,'UTF-8'));
 		}
 	}
 
@@ -605,5 +594,53 @@ class Util
     				return 'Edito';
     				break;
     		}	
+    }
+    public static function getRegionalCityId($city)
+    {
+    	$city = DB::table('cities')->where('name','like',$city)->first();
+    	return $city->id;
+    }
+    public static function getRegionalCityExtId($city)
+    {
+    	$city = DB::table('cities')->where('first_shortened','like',$city)->first();
+    	return $city->id;
+    }
+    public static function getDegreeId($degree)
+    {
+    	$degree = DB::table('degrees')->where('shortened','like',$degree)->first();
+    	return $degree->id;
+    }
+    public static function getCategoryId($cat)
+    {
+    	$cat = DB::table('categories')->where('percentage','=', $cat)->first();
+    	return $cat->id;
+    }
+    public static function getEntityPensionId($ent)
+    {
+    	$ent = DB::table('pension_entities')->where('name','like',$ent)->first();
+    	return $ent->id;
+    }
+    public static function getCivilStatus($est)
+    {
+    	switch ($est) {
+    		case 'SOLTERO(A)':
+    			return 'S';
+    		break;
+    		case 'DIVORCIADO(A)':
+    			return 'D';
+    		break;
+    		case 'CASADO(A)':
+    			return 'C';
+    		break;
+    		case 'VIUDO(A)':
+    			return 'V';
+    		break;
+    		case 'SOLTERO(A)':
+    			return 'S';
+    		break;
+    		default:
+    			return '';
+    			break;
+    	}
     }
 }
