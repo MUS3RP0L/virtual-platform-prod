@@ -734,7 +734,7 @@ class EconomicComplementController extends Controller
                }
            }else{
                $eco_com_submitted_documents_ar = null;
-               $$eco_com_requirements_ar = null;
+               $eco_com_requirements_ar = null;
                $status_documents_ar = false;
                $last_ecocom = null;
         }
