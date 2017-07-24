@@ -729,8 +729,27 @@ class EconomicComplementController extends Controller
 
                    $status_documents_ar = TRUE;
                }else{
+                       $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                       {
+                           $query->where('id','=',2)
+                                 ->orWhere('id','=',3)
+                                 ->orWhere('id','=',4)
+                                 ->orWhere('id','=',5);
+                       })->orderBy('id','asc')->get();
+
+                   }else{
+                       $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                       {
+                           $query->where('id','=',7)
+                                 ->orWhere('id','=',8)
+                                 ->orWhere('id','=',9)
+                                 ->orWhere('id','=',10)
+                                 ->orWhere('id','=',11)
+                                 ->orWhere('id','=',12);
+                       })->orderBy('id','asc')->get();
+                   }
+
                    $eco_com_submitted_documents_ar = null;
-                   $eco_com_requirements_ar = null;
                    $status_documents_ar = FALSE;
                }
            }else{
