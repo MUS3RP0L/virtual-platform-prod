@@ -687,7 +687,7 @@ class EconomicComplementController extends Controller
 
                        $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
                        {
-                           $query\->where('id','=',3)
+                           $query->where('id','=',3)
                                  ->orWhere('id','=',4)
                                  ->orWhere('id','=',5);
                        })->orderBy('id','asc')->get();
