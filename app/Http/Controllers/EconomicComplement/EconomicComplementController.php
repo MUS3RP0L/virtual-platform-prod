@@ -404,7 +404,7 @@ class EconomicComplementController extends Controller
                 $eco_com_reception_type = 'Habitual';
             }
         }
-        $reception_types =  array('Inclusion' => 'Inclusion', 'Habitual' => 'Habitual');
+        $reception_types =  array(''=>'','Inclusion' => 'Inclusion', 'Habitual' => 'Habitual');
         $data = [
             'affiliate' => $affiliate,
             'eco_com_type' => $eco_com_type,
@@ -909,6 +909,7 @@ class EconomicComplementController extends Controller
                     $economic_complement->has_legal_guardian = false;
                 }
                 $economic_complement->state="Edited";
+                $economic_complement->reception_type = $request->reception_type;
                 $economic_complement->save();
                 if ($request->legal_guardian) {
                     $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();

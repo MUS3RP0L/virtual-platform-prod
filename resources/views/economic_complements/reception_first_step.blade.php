@@ -73,7 +73,7 @@
                                 <div class="form-group">
                                     {!! Form::label('reception_type', 'Tipo de Recepción', ['class' => 'col-md-4 control-label']) !!}
                                     <div class="col-md-8">
-                                        {!! Form::select('reception_type',  $reception_types, $eco_com_reception_type, ['class' => 'combobox form-control', 'required' ]) !!}
+                                        {!! Form::select('reception_type',  $reception_types, $economic_complement->reception_type ?? $eco_com_reception_type , ['class' => 'combobox form-control', 'required' ]) !!}
                                         <span class="help-block">Seleccione el tipo de recepción</span>
                                     </div>
                                 </div>
