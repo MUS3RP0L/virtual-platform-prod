@@ -812,20 +812,18 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
+                                {{-- <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <strong>Estado</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                <?php if (isset($state)) {?>
-                                                {!! $state->name !!}
-                                                <?php }?>
+                                                {!! $state->name ?? '' !!}
                                             </div>
                                         </div>
                                     </td>
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
