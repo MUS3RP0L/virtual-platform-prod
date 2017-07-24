@@ -449,13 +449,13 @@ class EconomicComplementImportExportController extends Controller
             //->where('economic_complements.user_id',Auth::user()->id)
 
 
-            ->select('economic_complements.review_date as Fecha_Revision','cities.first_shortened as Exp_complemento','eco_com_applicants.identity_card as CI','eco_com_applicants.first_name as Primer_nombre','eco_com_applicants.second_name as Segundo_nombre', 'eco_com_applicants.last_name as Paterno','eco_com_applicants.mothers_last_name as Materno','eco_com_applicants.surname_husband as ap_esp','eco_com_applicants.birth_date as Fecha_nac','eco_com_applicants.nua','eco_com_applicants.phone_number as Telefono','eco_com_applicants.cell_phone_number as celular','eco_com_modalities.shortened as tipo_renta','eco_com_procedures.year as año_gestion','eco_com_procedures.semester as semestre','categories.name as categoria','degrees.shortened as Grado','base_wages.amount as Sueldo_base','economic_complements.code as Nro_proceso','pension_entities.name as Ente_gestor')
+            ->select('eco_com_applicants.identity_card as CI','cities.first_shortened as Exp_complemento','eco_com_applicants.first_name as Primer_nombre','eco_com_applicants.second_name as Segundo_nombre', 'eco_com_applicants.last_name as Paterno','eco_com_applicants.mothers_last_name as Materno','eco_com_applicants.surname_husband as ap_esp','eco_com_applicants.birth_date as Fecha_nac','eco_com_applicants.nua','eco_com_applicants.phone_number as Telefono','eco_com_applicants.cell_phone_number as celular','eco_com_modalities.shortened as tipo_renta','eco_com_procedures.year as año_gestion','eco_com_procedures.semester as semestre','categories.name as categoria','degrees.shortened as Grado','base_wages.amount as Sueldo_base','economic_complements.code as Nro_proceso','pension_entities.name as Ente_gestor')
            // ->select('economic_complements.id as id_base' ,'economic_complements.code as codigo')
             ->get();
 
        //  return $economic_complements;
         //$fila = new CustomCollection(array('identificador' => ,$economic_complements-> ));
-         Excel::create('informe',function($excel) use ($economic_complements)
+         Excel::create('Reporte General '.date("Y-m-d H:i:s"),function($excel) use ($economic_complements)
          {
                     
             
@@ -515,17 +515,17 @@ class EconomicComplementImportExportController extends Controller
             ->where('economic_complements.user_id',Auth::user()->id)
 
 
-            ->select('economic_complements.review_date as Fecha_Revision','cities.first_shortened as Exp_complemento','eco_com_applicants.identity_card as CI','eco_com_applicants.first_name as Primer_nombre','eco_com_applicants.second_name as Segundo_nombre', 'eco_com_applicants.last_name as Paterno','eco_com_applicants.mothers_last_name as Materno','eco_com_applicants.surname_husband as ap_esp','eco_com_applicants.birth_date as Fecha_nac','eco_com_applicants.nua','eco_com_applicants.phone_number as Telefono','eco_com_applicants.cell_phone_number as celular','eco_com_modalities.shortened as tipo_renta','eco_com_procedures.year as año_gestion','eco_com_procedures.semester as semestre','categories.name as categoria','degrees.shortened as Grado','base_wages.amount as Sueldo_base','economic_complements.code as Nro_proceso','pension_entities.name as Ente_gestor')
+            ->select('eco_com_applicants.identity_card as CI','cities.first_shortened as Exp','eco_com_applicants.first_name as Primer_nombre','eco_com_applicants.second_name as Segundo_nombre', 'eco_com_applicants.last_name as Paterno','eco_com_applicants.mothers_last_name as Materno','eco_com_applicants.surname_husband as ap_esp','eco_com_applicants.birth_date as Fecha_nac','eco_com_applicants.nua','eco_com_applicants.phone_number as Telefono','eco_com_applicants.cell_phone_number as celular','eco_com_modalities.shortened as tipo_renta','eco_com_procedures.year as año_gestion','eco_com_procedures.semester as semestre','categories.name as categoria','degrees.shortened as Grado','base_wages.amount as Sueldo_base','economic_complements.code as Nro_proceso','pension_entities.name as Ente_gestor')
            // ->select('economic_complements.id as id_base' ,'economic_complements.code as codigo')
             ->get();
 
        //  return $economic_complements;
         //$fila = new CustomCollection(array('identificador' => ,$economic_complements-> ));
-         Excel::create('informe',function($excel) use ($economic_complements)
+         Excel::create('Reporte '.date("Y-m-d H:i:s").' - '.Auth::user()->first_name.' '.Auth::user()->last_name,function($excel) use ($economic_complements)
          {
                     
             
-                        $excel->sheet('Reporte General',function($sheet) use ($economic_complements) {
+                        $excel->sheet('Reporte usuario',function($sheet) use ($economic_complements) {
 
                         $sheet->fromArray($economic_complements);
                         // $sheet->fromArray(
