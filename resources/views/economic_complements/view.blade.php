@@ -2222,9 +2222,17 @@ $(document).ready(function() {
 		};
 		self.lastSavedJson = ko.observable("");
         self.DateDeathAffiliateValue = ko.observable(affiliate.date_death ? true : false);
-        self.requirements_ar = ko.observableArray(ko.utils.arrayMap(requirements_ar, function(document) {
-        return { id: document.eco_com_requirement_id, name: document.economic_complement_requirement.shortened, status: document.status };
-        }));
+        
+        @if ($status_documents_ar)
+            self.requirements_ar = ko.observableArray(ko.utils.arrayMap(requirements_ar, function(document) {
+            return { id: document.eco_com_requirement_id, name: document.economic_complement_requirement.shortened, status: document.status };
+            }));
+        @else
+            self.requirements_ar = ko.observableArray(ko.utils.arrayMap(requirements_ar, function(document) {
+            return { id: document.id, name: document.shortened, status: false };
+            }));
+        @endif
+
         self.save_ar = function() {
             var dataToSave_ar = $.map(self.requirements_ar(), function(requirement_ar) {
                 return  {
