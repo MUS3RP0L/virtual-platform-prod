@@ -32,7 +32,9 @@ class InboxController extends Controller
         $economic_complements=EconomicComplement::where('eco_com_state_id',null)->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
             ->where('wf_states.role_id',($user_ids->id))
             ->where('economic_complements.state','Received')
+            // ->where('economic_complements.eco_com_procedure_id','2')
             ->select('economic_complements.id','economic_complements.code')
+
             ->get();
         return Datatables::of($economic_complements)
                 ->addColumn('action', function ($economic_complement) { return  '
@@ -47,9 +49,12 @@ class InboxController extends Controller
         $economic_complements=EconomicComplement::where('eco_com_state_id',null)->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
             ->where('wf_states.role_id',($user_role_id->id))
             ->where('economic_complements.state','Edited')
+            ->where('economic_complements.eco_com_procedure_id','2')
             ->where('economic_complements.user_id',Auth::user()->id)
-            ->select('economic_complements.id','economic_complements.code')
+            //->select('economic_complements.id','economic_complements.code')
+            // ->take(4)
             ->get();
+        // return  $economic_complements;
         return Datatables::of($economic_complements)
                 ->addColumn('action', function ($economic_complement) {
                     return '<div class="checkbox">
