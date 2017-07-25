@@ -282,7 +282,7 @@ class DashboardController extends Controller
            // Log::info("revisados : ".$revisados->count());
              $semestre = DB::table('eco_com_procedures')->orderBy('id','DESC')->first();
 
-           $norevisados = EconomicComplement::where('eco_com_procedure_id','=',$semestre->id)->get();
+           $norevisados = EconomicComplement::where('eco_com_procedure_id','=','2')->get();
            // Log::info("no revisados".$norevisados->count());
            $valid_array=array();
             array_push($valid_array, array('Revisados','No Revisados'));
