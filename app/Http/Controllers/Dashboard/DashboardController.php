@@ -17,7 +17,7 @@ use Muserpol\AffiliateState;
 use Muserpol\AffiliateStateType;
 use Muserpol\Contribution;
 use Muserpol\EconomicComplement;
-
+use Log;
 
 class DashboardController extends Controller
 {
@@ -265,6 +265,29 @@ class DashboardController extends Controller
 		}
 		$sum_last_semesters_data_reverse=array_reverse($sum_last_semesters_data, true);
 		
+	   	 $revisados=EconomicComplement::where('eco_com_state_id',null)
+            
+           
+
+            ->where('economic_complements.workflow_id','=','1')
+            ->where('economic_complements.wf_current_state_id','2')
+            ->where('economic_complements.state','Edited')
+            // ->where('economic_complements.user_id',Auth::user()->id)
+
+
+           // ->select('economic_complements.id as id_base' ,'economic_complements.code as codigo')
+            ->get();
+
+           // Log::info("revisados : ".$revisados->count());
+           $norevisados = EconomicComplement::all();
+           // Log::info("no revisados".$norevisados->count());
+           $valid_array=array();
+            array_push($valid_array, array('Revisados','No Revisados'));
+            $n= $norevisados->count()-$revisados->count();
+            array_push($valid_array, array($revisados->count(),$n));	
+
+           // Log::info($valid_array);
+
 		$data = [
 			/*'activities' => $activities,
 			'totalAfiServ' => $totalAfiServ,
@@ -275,6 +298,7 @@ class DashboardController extends Controller
 			'totalContributionByYear' => $totalContributionByYear,
 			'list_affiliateByDisctrict' => array(array_keys($list_affiliateByDisctrict),array_values($list_affiliateByDisctrict)),
 			'total_voluntayContributionByMonth' => $total_voluntayContributionByMonth,*/
+			'valid_array' => $valid_array,
 			'current_year' => $current_year,
 			'economic_complement_bar'=>$economic_complement_bar,
 			'economic_complement_pie_types'=>$economic_complement_pie_types,
@@ -286,6 +310,8 @@ class DashboardController extends Controller
 			'last_year'=>$last_year	
 
 		];
+
+		// return $data;
 		//dd(array(array_keys($economic_complement_modalities_types),array_values($economic_complement_modalities_types)));
 
 		

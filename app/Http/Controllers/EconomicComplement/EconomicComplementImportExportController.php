@@ -488,6 +488,14 @@ class EconomicComplementImportExportController extends Controller
     }
      public function export_excel_user()
     {
+
+          Excel::load('public/file_to_import/template_XD.xlsx', function($reader) {
+
+              $sheet = $reader->getActiveSheet();
+              $sheet->setCellValue('A2', '100');
+          })->download('xlsx');
+        exit();
+
         // $complementos = EconomicComplement::where('workflow_id','=','1')
         //                               // ->where('wf_current_state_id','=','2')
         //                               ->where('state','=','Edited')

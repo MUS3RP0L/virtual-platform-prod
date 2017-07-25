@@ -33,6 +33,11 @@
 		@include('dashboard.economic_complement_of_the_management')
 	</div>
 </div>
+<div class="row">
+	<div class="col-md-4">
+		@include('dashboard.valid')
+	</div>	
+</div>
 @endcan
 @can('manage')
 {{--
