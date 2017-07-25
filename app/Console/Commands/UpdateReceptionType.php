@@ -54,20 +54,6 @@ class UpdateReceptionType extends Command implements SelfHandling
                     }
                     $reception_type = 'Inclusion';
                     $affiliate_id = $eco->affiliate_id;
-                    $last_procedure_first = EconomicComplementProcedure::whereYear('year', '=', $last_year_first)->where('semester','like',$last_semester_first)->first();
-                    if (sizeof($last_procedure_first)>0) {
-                        if ($old_eco = $last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
-                            $reception_type = 'Habitual';
-                            if ($old_eco->economic_complement_modality->economic_complement_type->id == 1 && $eco->economic_complement_modality->economic_complement_type->id == 2) {
-                                $reception_type = 'Inclusion';
-                                $count_modalities++;
-                            }else{
-                                $count_semesters++;
-                            }
-                        }
-                    }else{
-                        $count_inc++;
-                    }
                     $last_procedure_second = EconomicComplementProcedure::whereYear('year', '=', $last_year_second)->where('semester','like',$last_semester_second)->first();
                     if (sizeof($last_procedure_second)>0) {
                         if ($old_eco = $last_procedure_second->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
@@ -82,6 +68,21 @@ class UpdateReceptionType extends Command implements SelfHandling
                     }else{
                         $count_inc++;
                     }
+                    $last_procedure_first = EconomicComplementProcedure::whereYear('year', '=', $last_year_first)->where('semester','like',$last_semester_first)->first();
+                    if (sizeof($last_procedure_first)>0) {
+                        if ($old_eco = $last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
+                            $reception_type = 'Habitual';
+                            if ($old_eco->economic_complement_modality->economic_complement_type->id == 1 && $eco->economic_complement_modality->economic_complement_type->id == 2) {
+                                $reception_type = 'Inclusion';
+                                $count_modalities++;
+                            }else{
+                                $count_semesters++;
+                            }
+                        }
+                    }else{
+                        $count_inc++;
+                    }
+                    
                     $eco->reception_type = $reception_type;
                     // /temp 
                     

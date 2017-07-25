@@ -51,7 +51,8 @@ class ImportRegional extends Command implements SelfHandling
                             {	$ecom1 = EconomicComplement::leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')->where('identity_card','=', strtoupper($result->ci))->whereYear('year','=',2017)->where('semester','=', 'Primer')->select('affiliates.identity_card')->first();	
                             	if(!$ecom1)
                             	{	
-	                            	if ($result->tipotramite == 'HABITUAL' ) {
+	                            	if ($result->tipotramite == 'HABITUAL' ) 
+	                            	{
 		                            	//para habituales vejez
 		                            	$afi = Affiliate::where('identity_card','=',strtoupper($result->ci))->first();
 		                            	if ($afi) 
@@ -137,7 +138,10 @@ class ImportRegional extends Command implements SelfHandling
 			                                	
 			                                	}
 			                                }
-		                            	}else{
+			                                
+		                            	}
+		                            	else
+		                            	{
 		                            		$veha[] = $result;
 		                            	}
 	                            	}
