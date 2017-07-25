@@ -46,13 +46,18 @@ class ImportDisability extends Command implements SelfHandling
                             $Progress->advance();
 
                             $ci = ltrim($result->nro_identificacion, "0");
-                            $afi=Affiliate::whereRaw("LTRIM(identity_card,'0') ='".$ci."'")->first();
+                            $nua = ltrim((string)$result->nrosip_titular, "0");
+                            $afi=Affiliate::whereRaw("split_part(LTRIM(affiliates.identity_card,'0'), '-',1) = '".$ci."'")->whereRaw("LTRIM(affiliates.nua::text,'0') ='".$nua."'")->first();
                             if ($afi) {
                             	if ($ecom = $afi->economic_complements()->whereYear('year','=',2017)->where('semester','like','Primer')->first()) {
-                            		$ecom->total_rent = $ecom->total_rent + $result->total_bs;
-                            		$ecom->aps_disability = $result->total_bs;
-                            		$ecom->save();
-                            		$afisuc[]=$result->nro_identificacion;
+                                    if(is_null($ecom->aps_disability) && $ecom->total_rent > 0 )
+                                    {
+                                        $ecom->total_rent = $ecom->total_rent + $result->total_bs;
+                                        $ecom->aps_disability = $result->total_bs;
+                                        $ecom->save();
+                                        $afisuc[]=$result->nro_identificacion;
+                                    }
+                            		
                             	}else{
                             		$afiecono[]=$result->nro_identificacion;
                             	}
