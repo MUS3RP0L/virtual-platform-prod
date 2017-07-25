@@ -264,7 +264,7 @@ class DashboardController extends Controller
 			$sum_last_semesters_data[$item->date]=$item->quantity;
 		}
 		$sum_last_semesters_data_reverse=array_reverse($sum_last_semesters_data, true);
-		
+			
 	   	 $revisados=EconomicComplement::where('eco_com_state_id',null)
             
            
@@ -272,6 +272,7 @@ class DashboardController extends Controller
             ->where('economic_complements.workflow_id','=','1')
             ->where('economic_complements.wf_current_state_id','2')
             ->where('economic_complements.state','Edited')
+            ->where('economic_complements.eco_com_procedure_id','2')
             // ->where('economic_complements.user_id',Auth::user()->id)
 
 
@@ -279,7 +280,9 @@ class DashboardController extends Controller
             ->get();
 
            // Log::info("revisados : ".$revisados->count());
-           $norevisados = EconomicComplement::all();
+             $semestre = DB::table('eco_com_procedures')->orderBy('id','DESC')->first();
+
+           $norevisados = EconomicComplement::where('eco_com_procedure_id','=',$semestre->id)->get();
            // Log::info("no revisados".$norevisados->count());
            $valid_array=array();
             array_push($valid_array, array('Revisados','No Revisados'));
