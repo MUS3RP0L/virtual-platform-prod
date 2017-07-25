@@ -430,6 +430,7 @@ class EconomicComplementImportExportController extends Controller
       {
         $user_role_id=Auth::user()->roles()->first();
         Log::info("user_role_id = ".$user_role_id->id);
+        $semestre = DB::table('eco_com_procedures')->orderBy('id','DESC')->first();
 
          $economic_complements=EconomicComplement::where('eco_com_state_id',null)
             ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
@@ -446,6 +447,8 @@ class EconomicComplementImportExportController extends Controller
             ->where('economic_complements.workflow_id','=','1')
             ->where('economic_complements.wf_current_state_id','2')
             ->where('economic_complements.state','Edited')
+            ->where('economic_complements.eco_com_procedure_id',$semestre->id)
+            ->where('economic_complements.eco_com_procedure_id','2')
             //->where('economic_complements.user_id',Auth::user()->id)
 
 
@@ -488,6 +491,8 @@ class EconomicComplementImportExportController extends Controller
     }
      public function export_excel_user()
     {
+
+
         // $complementos = EconomicComplement::where('workflow_id','=','1')
         //                               // ->where('wf_current_state_id','=','2')
         //                               ->where('state','=','Edited')
@@ -495,8 +500,9 @@ class EconomicComplementImportExportController extends Controller
       if(Auth::check())
       {
         $user_role_id=Auth::user()->roles()->first();
-        Log::info("user_role_id = ".$user_role_id->id);
-
+        //Log::info("user_role_id = ".$user_role_id->id);
+        $semestre = DB::table('eco_com_procedures')->orderBy('id','DESC')->first();
+      //  Log::info($semestre->id);
          $economic_complements=EconomicComplement::where('eco_com_state_id',null)
             ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
             ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
@@ -512,6 +518,7 @@ class EconomicComplementImportExportController extends Controller
             ->where('economic_complements.workflow_id','=','1')
             ->where('economic_complements.wf_current_state_id','2')
             ->where('economic_complements.state','Edited')
+            ->where('economic_complements.eco_com_procedure_id',$semestre->id)
             ->where('economic_complements.user_id',Auth::user()->id)
 
 
