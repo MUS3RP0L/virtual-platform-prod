@@ -176,92 +176,153 @@ class UserController extends Controller
 
     public function save($request, $user = false)
     {
-        if ($user) {
+        $admin = DB::table('role_user')->where('role_id','1')->where('user_id',Auth::user()->id)->first();
 
-            $rules = [
-
-                'last_name' => 'required|min:3',
-                'first_name' => 'required|min:3',
-                'phone' => 'required|min:8',
-                //'username' => 'required|unique:users,username,'.$user->id,
-
-            ];
-        }
-        else {
-
-            $rules = [
-
-                'last_name' => 'required|min:3',
-                'first_name' => 'required|min:3',
-                'phone' => 'required|min:8',
-                'username' => 'required|unique:users,username',
-                'password' => 'required|min:6|confirmed',
-                'role' => 'required'
-
-            ];
-        }
-
-        $messages = [
-
-            'first_name.required' => 'El campo nombre requerido',
-            'first_name.min' => 'El mínimo de caracteres permitidos en nombre es 3',
-
-            'last_name.required' => 'El campo apellidos es requerido',
-            'last_name.min' => 'El mínimo de caracteres permitidos en apellido es 3',
-
-            'phone.required' => 'El campo teléfono es requerido',
-            'phone.min' => 'El mínimo de caracteres permitidos en teléfono de usuario es 7',
-
-
-            'username.required' => 'El campo nombre de usuario requerido',
-            'username.min' => 'El mínimo de caracteres permitidos en nombre de usuario es 5',
-            'username.unique' => 'El nombre de usuario ya existe',
-
-            'password.required' => 'El campo contraseña es requerido',
-            'password.min' => 'El mínimo de caracteres permitidos en contraseña es 6',
-            'password.confirmed' => 'Las contraseñas no coinciden',
-
-            'role.required' => 'El campo tipo de usuario es requerido'
-
-        ];
-
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        if ($validator->fails()) {
-
-            return redirect($user ? 'user/'.$user->id.'/edit' : 'user/create')
-            ->withErrors($validator)
-            ->withInput();
-        }
-        else{
+        if($admin){
 
             if ($user) {
 
+            $rules = [
+
+                'last_name' => 'required|min:3',
+                'first_name' => 'required|min:3',
+                'phone' => 'required|min:8',
+                'username' => 'required|unique:users,username,'.$user->id,
+
+                     ];
+            }
+            else {
+
+                $rules = [
+
+                    'last_name' => 'required|min:3',
+                    'first_name' => 'required|min:3',
+                    'phone' => 'required|min:8',
+                    'username' => 'required|unique:users,username',
+                    'password' => 'required|min:6|confirmed',
+                    'role' => 'required'
+
+                ];
+            }
+
+            $messages = [
+
+                'first_name.required' => 'El campo nombre requerido',
+                'first_name.min' => 'El mínimo de caracteres permitidos en nombre es 3',
+
+                'last_name.required' => 'El campo apellidos es requerido',
+                'last_name.min' => 'El mínimo de caracteres permitidos en apellido es 3',
+
+                'phone.required' => 'El campo teléfono es requerido',
+                'phone.min' => 'El mínimo de caracteres permitidos en teléfono de usuario es 7',
+
+
+                'username.required' => 'El campo nombre de usuario requerido',
+                'username.min' => 'El mínimo de caracteres permitidos en nombre de usuario es 5',
+                'username.unique' => 'El nombre de usuario ya existe',
+
+                'password.required' => 'El campo contraseña es requerido',
+                'password.min' => 'El mínimo de caracteres permitidos en contraseña es 6',
+                'password.confirmed' => 'Las contraseñas no coinciden',
+
+                'role.required' => 'El campo tipo de usuario es requerido'
+
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+
+                return redirect($user ? 'user/'.$user->id.'/edit' : 'user/create')
+                ->withErrors($validator)
+                ->withInput();
+            }
+            else{
+
+                if ($user) {
+
+                    $message = "Usuario Actualizado con éxito";
+
+                }else {
+
+                    $user = new User();
+                    $message = "Usuario Creado con éxito";
+                }
+
+                $user->first_name = trim($request->first_name);
+                $user->last_name = trim($request->last_name);
+                $user->phone = trim($request->phone);
+                $user->username = trim($request->username);
+                $user->city_id=$request->city;
+                if($request->password){$user->password = bcrypt(trim($request->password));}
+                    $user->save();
+
+                if($request->role){
+
+                    $user->roles()->sync($request->role);
+                }
+        
+                Session::flash('message', $message);
+            }
+
+            return redirect('user');
+        }else
+        {
+
+            Log::info("no es usuario admin");
+            if($user)
+            {
+
+           
+                $rules = [
+
+                            'last_name' => 'required|min:3',
+                            'first_name' => 'required|min:3',
+                            'phone' => 'required|min:8',
+                            
+
+                        ];
+
+                $messages = [
+
+                        'first_name.required' => 'El campo nombre requerido',
+                        'first_name.min' => 'El mínimo de caracteres permitidos en nombre es 3',
+
+                        'last_name.required' => 'El campo apellidos es requerido',
+                        'last_name.min' => 'El mínimo de caracteres permitidos en apellido es 3',
+
+                        'phone.required' => 'El campo teléfono es requerido',
+                        'phone.min' => 'El mínimo de caracteres permitidos en teléfono de usuario es 7',
+
+
+                        'username.required' => 'El campo nombre de usuario requerido',
+                        'username.min' => 'El mínimo de caracteres permitidos en nombre de usuario es 5',
+                        'username.unique' => 'El nombre de usuario ya existe',
+
+                        'password.required' => 'El campo contraseña es requerido',
+                        'password.min' => 'El mínimo de caracteres permitidos en contraseña es 6',
+                        'password.confirmed' => 'Las contraseñas no coinciden',
+
+                        'role.required' => 'El campo tipo de usuario es requerido'
+
+                    ];   
+                $validator = Validator::make($request->all(), $rules, $messages);
+
+                $user->first_name = trim($request->first_name);
+                $user->last_name = trim($request->last_name);
+                $user->phone = trim($request->phone);
+              //  $user->username = trim($request->username);
+                $user->city_id=$request->city;
+
+                if($request->password){$user->password = bcrypt(trim($request->password));}
+                    $user->save();
+
                 $message = "Usuario Actualizado con éxito";
-
-            }else {
-
-                $user = new User();
-                $message = "Usuario Creado con éxito";
+                Session::flash('message', $message);
             }
-
-            $user->first_name = trim($request->first_name);
-            $user->last_name = trim($request->last_name);
-            $user->phone = trim($request->phone);
-          //  $user->username = trim($request->username);
-            $user->city_id=$request->city;
-            if($request->password){$user->password = bcrypt(trim($request->password));}
-                $user->save();
-
-            if($request->role){
-
-                $user->roles()->sync($request->role);
-            }
-    
-            Session::flash('message', $message);
+            return  back()->withInput();
         }
-
-        return redirect('user');
+        
     }
 
     public function Block($user)

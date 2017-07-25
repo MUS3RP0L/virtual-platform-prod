@@ -449,7 +449,7 @@ class EconomicComplementImportExportController extends Controller
             ->where('economic_complements.workflow_id','=','1')
             ->where('economic_complements.wf_current_state_id','2')
             ->where('economic_complements.state','Edited')
-            ->where('economic_complements.eco_com_procedure_id',$semestre->id)
+          //  ->where('economic_complements.eco_com_procedure_id',$semestre->id)
             ->where('economic_complements.eco_com_procedure_id','2')
             //->where('economic_complements.user_id',Auth::user()->id)
 
@@ -520,7 +520,7 @@ class EconomicComplementImportExportController extends Controller
             ->where('economic_complements.workflow_id','=','1')
             ->where('economic_complements.wf_current_state_id','2')
             ->where('economic_complements.state','Edited')
-            ->where('economic_complements.eco_com_procedure_id',$semestre->id)
+            ->where('economic_complements.eco_com_procedure_id','2')
             ->where('economic_complements.user_id',Auth::user()->id)
 
 
