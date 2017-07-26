@@ -603,7 +603,7 @@ class EconomicComplementReportController extends Controller
                                   if ($excluded_by_salary) {                             
                                       $view = \View::make('economic_complements.print.report_excluded_by_salary', compact('header1','header2','title','date','hour','excluded_by_salary','anio'))->render();
                                       $pdf = \App::make('dompdf.wrapper');
-                                      $pdf->loadHTML($view)->setPaper('legal','landscape');
+                                      $pdf->loadHTML($view)->setPaper('letter','landscape');
                                       return $pdf->stream();
 
                                   } 

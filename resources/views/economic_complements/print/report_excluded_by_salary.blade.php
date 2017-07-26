@@ -15,8 +15,8 @@
                <th class="grand"><h4>FECHA</h4></th>
                <th class="grand"><h4>GESTOR</h4></th>
                <th class="grand"><h4>TIPO</h4></th>
-                <th class="grand"><h4>TOTAL PENSION</h4></th>
-               <th class="grand"><h4>SAL.REF. + CATEG.</h4></th>
+                <th class="grand"><h4>PENSION</h4></th>
+               <th class="grand"><h4>SAL+CAT</h4></th>
                
            </tr>
            <?php $i=1;?>
