@@ -157,6 +157,13 @@ class EconomicComplement extends Model
             return Util::getDateShort($this->reception_date);
         }
     }
+    public function getReviewDate()
+    {
+        if($this->review_date){
+            
+            return Util::getDateShort($this->review_date);
+        }
+    }
     public function getTotalFractions()
     {
         return floatval($this->aps_total_fsa)+floatval($this->aps_total_cc)+floatval($this->aps_total_fs);
