@@ -206,8 +206,7 @@ class AutomaticCalculation extends Command implements SelfHandling
 							    	$total = $total_amount_semester * floatval($complementary_factor)/100;
 							    	$economic_complement->total=$total;
 							    	$economic_complement->base_wage_id = $base_wage->id;
-							    	$economic_complement->salary_reference=$salary_reference;
-							    	$economic_complement->state = 'Edited';
+							    	$economic_complement->salary_reference=$salary_reference;							    	
 							    	$economic_complement->save();
 					    		}
 					    	}
