@@ -56,7 +56,7 @@
                 {!! Form::token() !!}
                 {!! Form::label('observation_type_id_edit', 'Tipo', ['']) !!}
                 <div class="form-group">
-                    {!! Form::select('observation_type_id', $observations_types, '', ['class' => 'col-md-2 form-control','required' => 'required', 'id'=>'observation_type_id_edit']) !!}                    
+                    {!! Form::select('observation_type_id', $observations_types, '', ['class' => 'col-md-2 form-control','required' => 'required', 'id'=>'observation_type_id_edit']) !!}
                 </div>
                 {!! Form::label('message', 'Mensaje:', []) !!}
                 <textarea name="message" id="message_edit" cols="50" rows="10" required="required" class="form-control"></textarea>

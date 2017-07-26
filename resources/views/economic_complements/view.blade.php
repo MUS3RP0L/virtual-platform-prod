@@ -962,7 +962,7 @@
                                     </tbody>
                                 </table>
                             @endif
-                            
+
                             @endif
                             {{-- @if($economic_complement->base_wage_id) --}}
                                 <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
@@ -1566,7 +1566,7 @@
                                         <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -2220,7 +2220,7 @@ $(document).ready(function() {
 		};
 		self.lastSavedJson = ko.observable("");
         self.DateDeathAffiliateValue = ko.observable(affiliate.date_death ? true : false);
-        
+
         @if ($status_documents_ar)
             self.requirements_ar = ko.observableArray(ko.utils.arrayMap(requirements_ar, function(document) {
             return { id: document.eco_com_requirement_id, name: document.economic_complement_requirement.shortened, status: document.status };
