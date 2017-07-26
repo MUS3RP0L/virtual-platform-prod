@@ -64,6 +64,8 @@ class AffiliateObservationController extends Controller
         $observation->observation_type_id=$request->observation_type_id;
         $observation->message=$request->message;
         $observation->save();
+        Session::flash('affiliate_id',$observation->affiliate_id);
+        Session::flash('observation_type_id',$observation->observation_type_id);
         Session::flash('message', $message);
       }
       return redirect('affiliate/'.$request->affiliate_id);
@@ -76,20 +78,20 @@ class AffiliateObservationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   
+    {
 
       $observation=AffiliateObservation::find($id);
       return $observation;
     }
     public function deleteOb($id)
     {
-      $observation=AffiliateObservation::find($id);        
+      $observation=AffiliateObservation::find($id);
       $observation->delete();
       return back();
     }
 
     public function showOfAffiliate(Request $request)
-    {   
+    {
       if (isset($request->economic_complement_id)) {
         $economic_complement = EconomicComplement::where('id',$request->economic_complement_id)->first();
         $observations=AffiliateObservation::where('affiliate_id',$request->affiliate_id)->select(['id','affiliate_id','date','message','observation_type_id'])->get();
