@@ -58,9 +58,12 @@ class UpdateReceptionType extends Command implements SelfHandling
                     if (sizeof($last_procedure_second)>0) {
                         if ($old_eco = $last_procedure_second->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
                             $reception_type = 'Habitual';
-                            if ($old_eco->economic_complement_modality->economic_complement_type->id == 1 && $eco->economic_complement_modality->economic_complement_type->id == 2) {
+                            if ($old_eco->economic_complement_modality->economic_complement_type->id == 1 && ($eco->economic_complement_modality->economic_complement_type->id == 2||$eco->economic_complement_modality->economic_complement_type->id == 3)) {
                                 $reception_type = 'Inclusion';
                                 $count_modalities++;
+                            }elseif ($old_eco->economic_complement_modality->economic_complement_type->id == 2 &&  $eco->economic_complement_modality->economic_complement_type->id  == 3) {
+                                    $reception_type = 'Inclusion';
+                                    $count_modalities++;
                             }else{
                                 $count_semesters++;
                             }
@@ -72,9 +75,12 @@ class UpdateReceptionType extends Command implements SelfHandling
                     if (sizeof($last_procedure_first)>0) {
                         if ($old_eco = $last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
                             $reception_type = 'Habitual';
-                            if ($old_eco->economic_complement_modality->economic_complement_type->id == 1 && $eco->economic_complement_modality->economic_complement_type->id == 2) {
+                            if ($old_eco->economic_complement_modality->economic_complement_type->id == 1 && ($eco->economic_complement_modality->economic_complement_type->id == 2 || $eco->economic_complement_modality->economic_complement_type->id == 3)) {
                                 $reception_type = 'Inclusion';
                                 $count_modalities++;
+                            }elseif ($old_eco->economic_complement_modality->economic_complement_type->id == 2 &&  $eco->economic_complement_modality->economic_complement_type->id  == 3) {
+                                    $reception_type = 'Inclusion';
+                                    $count_modalities++;
                             }else{
                                 $count_semesters++;
                             }
