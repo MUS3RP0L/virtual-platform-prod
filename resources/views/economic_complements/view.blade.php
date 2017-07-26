@@ -2182,7 +2182,7 @@
                 <div class="modal-body">
                 @if( $economic_complement->review_date )
                     <h3>Tramite Revisado por: {{ $economic_complement->getUser() }}</h3>
-                    <strong>El {{ $economic_complement->getReceptionDate() }}</strong>
+                    <strong>El {{ $economic_complement->getReviewDate() }}</strong>
                     
                 @else
                     <h3>Tramite no revisado.</h3>
