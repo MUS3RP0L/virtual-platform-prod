@@ -65,7 +65,7 @@
                                     <strong>Tipo</strong>
                                 </div>
                                 <div class="col-md-6">
-                                    {!! $eco_com_type . "-" . $eco_com_modality !!}
+                                    {!! $eco_com_type . " - " . $eco_com_modality !!}
                                 </div>
                             </div>
                         </td>

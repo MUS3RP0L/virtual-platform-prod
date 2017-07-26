@@ -277,11 +277,31 @@ class EconomicComplementController extends Controller
 
     public function Data_by_affiliate(Request $request)
     {
-        $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'wf_current_state_id', 'code', 'reception_date', 'total'])->orderBy('id','desc');
+        $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'wf_current_state_id','eco_com_state_id', 'code', 'reception_date', 'total'])->orderBy('id','desc');
         return Datatables::of($economic_complements)
         ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
         ->editColumn('wf_state', function ($economic_complement) { return $economic_complement->wf_state->name; })
-        ->editColumn('eco_com_modality', function ($economic_complement) { return $economic_complement->economic_complement_modality->economic_complement_type->name . " " . $economic_complement->economic_complement_modality->name; })
+        ->editColumn('state', function ($economic_complement) { 
+            try {
+                    // Log::info("id complemento: ". $economic_complement->id);
+                    $state = DB::table('eco_com_states')->where('id','=',$economic_complement->eco_com_state_id)->first();
+                    // Log::info(json_encode($state));
+                    if($state)
+                    {
+                        return $state->name;
+                    }
+                    else
+                    {
+                        // Log::info("vacio XD");
+                        return "";
+                    }
+                    // return  $state->name;            
+            } catch (Exception $e) {
+                 Log::info(json_encode("Error: en Datatables check  function Data_by_affiliate  in EconomicComplementController "));
+                return '';
+            }
+             })
+        ->addColumn('total',function($economic_complement){ return $economic_complement->total; })
         ->addColumn('action', function ($economic_complement) { return
             '<div class="btn-group" style="margin:-3px 0;">
                 <a href="/economic_complement/'.$economic_complement->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
@@ -366,7 +386,7 @@ class EconomicComplementController extends Controller
             $economic_complement->semester =  Util::getSemester(Carbon::now());
             $economic_complement->year = Carbon::now()->year;
         }else{
-            $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->id;
+            $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->name;
             $eco_com_modality = $economic_complement->economic_complement_modality->name;
         }
 
@@ -404,7 +424,7 @@ class EconomicComplementController extends Controller
                 $eco_com_reception_type = 'Habitual';
             }
         }
-        $reception_types =  array(''=>'','Inclusion' => 'Inclusion', 'Habitual' => 'Habitual');
+        $reception_types =  array('Inclusion' => 'Inclusion', 'Habitual' => 'Habitual');
         $data = [
             'affiliate' => $affiliate,
             'eco_com_type' => $eco_com_type,
@@ -1649,11 +1669,45 @@ class EconomicComplementController extends Controller
     }
     public function getReceptionType(Request $request)
     {
-
-        return response()->json($request->modality_id);
+        $reception_type = $this->receptionType($request->affiliate_id, $request->modality_id);
+        return response()->json(['modality_name'=>$reception_type]);
     }
-    public function FunctionName($value='')
+    public function receptionType($affiliate_id, $new_modality_id)
     {
-        # code...
+        if (Util::getCurrentSemester() == 'Primer') {
+            $last_semester_first = 'Segundo';
+            $last_semester_second = 'Primer';
+            $last_year_first = Carbon::now()->year - 1; 
+            $last_year_second = $last_year_first;
+        }else{
+            $last_semester_first = 'Primer';
+            $last_semester_second = 'Segundo';
+            $last_year_first = Carbon::now()->year ;
+            $last_year_second = $last_year_first -1;
+        }
+        $reception_type = 'Inclusion';
+        $last_procedure_second = EconomicComplementProcedure::whereYear('year', '=', $last_year_second)->where('semester','like',$last_semester_second)->first();
+        if (sizeof($last_procedure_second)>0) {
+            if ($old_eco = $last_procedure_second->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
+                $reception_type = 'Habitual';
+                if ($old_eco->economic_complement_modality->economic_complement_type->id == 1 && ($new_modality_id == 2 || $new_modality_id == 3)) {
+                    $reception_type = 'Inclusion';
+                }elseif ($old_eco->economic_complement_modality->economic_complement_type->id == 2 &&  $new_modality_id == 3) {
+                        $reception_type = 'Inclusion';
+                }
+            }
+        }
+        $last_procedure_first = EconomicComplementProcedure::whereYear('year', '=', $last_year_first)->where('semester','like',$last_semester_first)->first();
+        if (sizeof($last_procedure_first)>0) {
+            if ($old_eco = $last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
+                $reception_type = 'Habitual';
+                if ($old_eco->economic_complement_modality->economic_complement_type->id == 1 && ($new_modality_id == 2 || $new_modality_id == 3)) {
+                    $reception_type = 'Inclusion';
+                }elseif ($old_eco->economic_complement_modality->economic_complement_type->id == 2 &&  $new_modality_id == 3) {
+                        $reception_type = 'Inclusion';
+                }
+            }
+        }
+        return $reception_type;
     }
 }
