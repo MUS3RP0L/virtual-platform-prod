@@ -177,7 +177,7 @@ class EconomicComplementImportExportController extends Controller
             
               if ($afi)
               { $ecomplement = EconomicComplement::where('id','=', $afi->id)->first(); 
-                if (is_null($ecomplement->total_rent))
+                if (is_null($ecomplement->total_rent) || $ecomplement->total_rent == 0 )
                 {                              
                     $comp1 = 0;
                     $comp2 = 0;
