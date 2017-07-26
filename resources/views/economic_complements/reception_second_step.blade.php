@@ -45,7 +45,13 @@
 
                 <div class="box box-warning box-solid">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Editar Beneficiario</h3>
+                        <h3 class="box-title">Editar
+                            @if($economic_complement->economic_complement_modality->economic_complement_type->id == 2)
+                                Derechohabiente
+                            @else
+                                Beneficiario
+                            @endif
+                        </h3>
                     </div>
                     <div class="box-body">
                         <br>
