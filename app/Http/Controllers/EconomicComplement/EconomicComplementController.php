@@ -1672,7 +1672,8 @@ class EconomicComplementController extends Controller
                 $reception_type = 'Habitual';
                 if ($old_eco->economic_complement_modality->economic_complement_type->id == 1 && ($new_modality_id == 2 || $new_modality_id == 3)) {
                     $reception_type = 'Inclusion';
-                    $count_modalities++;
+                }elseif ($old_eco->economic_complement_modality->economic_complement_type->id == 2 &&  $new_modality_id == 3) {
+                        $reception_type = 'Inclusion';
                 }
             }
         }
@@ -1682,6 +1683,8 @@ class EconomicComplementController extends Controller
                 $reception_type = 'Habitual';
                 if ($old_eco->economic_complement_modality->economic_complement_type->id == 1 && ($new_modality_id == 2 || $new_modality_id == 3)) {
                     $reception_type = 'Inclusion';
+                }elseif ($old_eco->economic_complement_modality->economic_complement_type->id == 2 &&  $new_modality_id == 3) {
+                        $reception_type = 'Inclusion';
                 }
             }
         }
