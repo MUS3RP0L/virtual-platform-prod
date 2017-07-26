@@ -70,7 +70,7 @@ class EconomicComplementReportController extends Controller
            $year_list[Util::getYear($item->year)] = Util::getYear($item->year);
        }
 
-       $report_type = ['' => '', '1' => 'Reporte de recepción por usuario', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Reporte de doble percepción', '5' => 'Resumen de habituales', '6' => 'Resumen de inclusiones', '7' => 'Reporte por Intervalo de fechas','8' => 'Reporte Subsanados','9' => 'Reporte en Excel'];
+       $report_type = ['' => '', '1' => 'Reporte de recepción por usuario', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Reporte de doble percepción', '5' => 'Resumen de habituales', '6' => 'Resumen de inclusiones', '7' => 'Reporte por Intervalo de fechas','8' => 'Reporte Subsanados','9' => 'Reporte en Excel','10' => 'Reporte de excluidos por salario'];
        foreach ($report_type as $key => $item) {
            $report_type_list[$key] = $item;
        }
@@ -567,6 +567,53 @@ class EconomicComplementReportController extends Controller
                                   Session::flash('message', $message);
                                   return redirect('report_complement');
                                 }
+                              break;
+                        
+                        case '10': //REPORTE EXCLUIDOS POR SALARIO
+                                  $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+                                  $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+                                  $title = "REPORTE EXLUIDOS POR SALARIO";
+                                  $date = Util::getDateEdit(date('Y-m-d'));                                 
+                                  $user = Auth::user();
+                                  $anio = $request->year;
+                                  $current_date = Carbon::now();
+                                  $hour = Carbon::parse($current_date)->toTimeString();
+                                  $regional = ($request->city == 'Todo') ? '%%' : $request->city;
+                                  $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
+                                  $excluded_by_salary = DB::table('eco_com_applicants')
+                                                   ->select(DB::raw("economic_complements.id, economic_complements.code,economic_complements.affiliate_id,economic_complements.total_rent,economic_complements.salary_quotable,economic_complements.reception_type,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.first_shortened as exp, concat_ws(' ', NULLIF(eco_com_applicants.last_name,null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null), NULLIF(eco_com_applicants.first_name, null), NULLIF(eco_com_applicants.second_name, null)) full_name, degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity"))
+                                                   ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')                                               
+                                                   ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                                                   ->leftJoin('cities', 'economic_complements.city_id', '=', 'cities.id')
+                                                   ->leftJoin('cities as cities0','affiliates.city_identity_card_id','=','cities0.id')
+                                                   ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')                                                   
+                                                   ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+                                                   ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
+                                                   ->leftJoin('eco_com_states', 'economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
+                                                   ->leftJoin('eco_com_state_types', 'eco_com_states.eco_com_state_type_id', '=', 'eco_com_state_types.id')
+                                                   ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                                   ->leftJoin('units','affiliates.unit_id','=','units.id')
+                                                   ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
+                                                   ->whereRaw("economic_complements.city_id::text LIKE  '".$regional."'")
+                                                   ->whereYear('economic_complements.year', '=', $request->year)
+                                                   ->where('economic_complements.semester', 'LIKE', $semester)
+                                                   ->whereRaw("economic_complements.total_rent::numeric >= economic_complements.salary_quotable::numeric")                                       
+                                                   ->orderBy('economic_complements.id','ASC')
+                                                   ->get();                                           
+                                  if ($excluded_by_salary) {                             
+                                      $view = \View::make('economic_complements.print.report_excluded_by_salary', compact('header1','header2','title','date','hour','excluded_by_salary','anio'))->render();
+                                      $pdf = \App::make('dompdf.wrapper');
+                                      $pdf->loadHTML($view)->setPaper('legal','landscape');
+                                      return $pdf->stream();
+
+                                  } 
+                                  else 
+                                  {
+                                       $message = "No existen registros para visualizar";
+                                       Session::flash('message', $message);
+                                       return redirect('report_complement');
+                                  }
+
                               break;
 
                         default:
