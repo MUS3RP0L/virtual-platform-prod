@@ -126,6 +126,18 @@
         $(document).ready(function(){
             $('.combobox').combobox();
             $('[data-toggle="tooltip"]').tooltip();
+            $('input:radio').change(function () {
+            	var modality_id = $(this).val();
+            	$.ajax({
+            		url: '/get_reception_type',
+            		type: 'GET',
+            		data: {modality_id: modality_id}
+            	})
+            	.done(function(data) {
+            		console.log("success");
+            	})
+            })
+
         });
 
     </script>
