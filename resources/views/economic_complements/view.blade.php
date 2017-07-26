@@ -4,7 +4,7 @@
 	<div class="col-md-6">
 		{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-3">
        @can('eco_com_reception')
             @can('observate')
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
@@ -38,8 +38,13 @@
             </span>
         </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
         <div class="pull-right">
+        <div class="btn-group">
+            <span data-toggle="tooltip" data-placement="top" data-original-title="ver" style="margin:0px;">
+                <a href="" data-target="#myModal-review-user" class="btn btn-sm btn-raised btn-{{ $economic_complement->review_date ? 'info' : 'warning'}} dropdown-toggle enabled" data-toggle="modal"> <strong>{{ $economic_complement->review_date ? "Revisado":"No revisado"}}</strong></a>
+            </span>
+        </div>
             @can('eco_com_review')
                 @if($economic_complement->eco_com_state_id < 2)
                     <div class="btn-group">
@@ -2163,6 +2168,25 @@
                     @else
                     No hay registros
                     @endif
+                </div>
+                <div class="modal-footer" style="text-align: center">
+                    <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-check"></i> Listo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal-review-user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                
+                <div class="modal-body">
+                @if( $economic_complement->review_date )
+                    <h3>Tramite Revisado por: {{ $economic_complement->getUser() }}</h3>
+                    <strong>El {{ $economic_complement->getReceptionDate() }}</strong>
+                    
+                @else
+                    <h3>Tramite no revisado.</h3>
+                @endif
                 </div>
                 <div class="modal-footer" style="text-align: center">
                     <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-check"></i> Listo</button>

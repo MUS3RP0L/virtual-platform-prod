@@ -161,6 +161,10 @@ class EconomicComplement extends Model
     {
         return floatval($this->aps_total_fsa)+floatval($this->aps_total_cc)+floatval($this->aps_total_fs);
     }
+    public function getUser()
+    {
+        return $this->user->getFullName();
+    }
     /**
      * @param  EconomicComplement
      * @param  [type]
