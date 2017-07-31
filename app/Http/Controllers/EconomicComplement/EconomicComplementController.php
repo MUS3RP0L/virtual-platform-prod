@@ -1339,7 +1339,7 @@ class EconomicComplementController extends Controller
                 $economic_complement->review_date = date('Y-m-d');
                 $economic_complement->state = 'Edited';
                 $economic_complement->save();
-
+                Log::info($economic_complement);
                 // return redirect('inbox');
                 return redirect('economic_complement');
                 // return redirect('economic_complement/'.$economic_complement->id);
