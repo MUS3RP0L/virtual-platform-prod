@@ -82,7 +82,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('print_voucher/{voucher_id}', 'Voucher\VoucherController@PrintVoucher');
 	Route::get('print_compromise/{afid}', 'Contribution\DirectContributionController@PrintCompromise');
 
-	
+
 
 	// Complementary Factor
 	Route::resource('complementary_factor', 'EconomicComplement\ComplementaryFactorController');

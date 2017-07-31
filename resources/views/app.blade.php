@@ -56,7 +56,7 @@
 		</div>
 
     <div class="modal fade" tabindex="-1">
-             <iframe src="http://muserpoltestv.dev/print_observations/{{ Session::get('affiliate_id') }}/{{ Session::get('observation_type_id') }}" id="iFramePdfObservation" ></iframe>
+             <iframe src="/print_observations/{{ Session::get('affiliate_id') }}/{{ Session::get('observation_type_id') }}" id="iFramePdfObservation" ></iframe>
     </div>
 
         <div class="wrapper">
