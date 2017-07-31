@@ -58,6 +58,22 @@ return [
             'schema' => 'public',
             'sslmode' => 'prefer',
         ],
+        'mysql' => [
+            'read' => [
+                'host' => '192.168.2.5',
+            ],
+            'write' => [
+                'host' => '192.168.2.5'
+            ],
+            'driver'    => 'mysql',
+            'database'  => 'plataforma',
+            'username'  => 'alucart',
+            'password'  => '123456',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+        ],
+        
 
     ],
 
