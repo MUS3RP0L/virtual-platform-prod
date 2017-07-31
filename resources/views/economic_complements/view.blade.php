@@ -342,7 +342,7 @@
                                                 <strong>Carnet Identidad</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $eco_com_applicant->identity_card !!} {{$eco_com_applicant->city_identity_card->first_shortened}}
+                                                {!! $eco_com_applicant->identity_card !!} {{$eco_com_applicant->city_identity_card->first_shortened ?? ''}}
                                             </div>
                                         </div>
                                     </td>
