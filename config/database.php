@@ -58,18 +58,22 @@ return [
             'schema' => 'public',
             'sslmode' => 'prefer',
         ],
-        'mysql1' => [
-            'driver' => 'mysql',
-            'host' => env('DB_HOST_M', '127.0.0.1'),
-            'port' => env('DB_PORT_M', '3306'),
-            'database' => env('DB_DATABASE_M', 'db_test'),
-            'username' => env('DB_USERNAME_M', 'root'),
-            'password' => env('DB_PASSWORD_M', ''),
-            'charset' => 'utf8',
-            'prefix' => '',
-            'schema' => 'public',
-            'sslmode' => 'prefer',
+        'mysql' => [
+            'read' => [
+                'host' => '192.168.2.5',
+            ],
+            'write' => [
+                'host' => '192.168.2.5'
+            ],
+            'driver'    => 'mysql',
+            'database'  => 'plataforma',
+            'username'  => 'alucart',
+            'password'  => '123456',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
         ],
+        
 
     ],
 

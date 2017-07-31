@@ -42,11 +42,14 @@ class ImportacionesBases extends Command
         //
         $this->info("Execute XD ........ >");
         // $policias = DB::table('policias')->get();
-       $policias = DB::connection('mysql1')->table('policias')->get();
+       $roles = DB::connection('mysql')->table('roles')->get();
+
+      // $policias = DB::connection('mysql')->table('policias')->get();
+
 
         // Log::info($policias);
 
-        $this->info($policias);
+        $this->info(json_encode($roles));
 
         $this->info("<Finally Commnad>");
 
