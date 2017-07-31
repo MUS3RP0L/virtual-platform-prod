@@ -31,7 +31,10 @@ class User extends Model implements AuthenticatableContract,
     ];
 
     protected $hidden = ['password'];
-
+    public function economic_complements()
+    {
+        return $this->hasMany(EconomicComplement::class);
+    }
     public function roles()
     {
     	return $this->belongsToMany(Role::class);

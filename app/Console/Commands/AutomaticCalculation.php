@@ -56,6 +56,103 @@ class AutomaticCalculation extends Command implements SelfHandling
 					    		$Progress->advance();
 					    		if ($economic_complement->total_rent > 0) 
 					    		{
+					    			if($economic_complement->affiliate->pension_entity->type=='APS')  // Modality APS
+					    			{
+						                $comp=0;
+						                if ($economic_complement->aps_total_fsa > 0) 
+						                {
+						                    $comp++;
+						                }
+						                if ($economic_complement->aps_total_cc > 0) 
+						                {
+						                    $comp++;
+						                }
+						                if ($economic_complement->aps_total_fs > 0) 
+						                {
+						                    $comp++;
+						                }						               
+						                //vejez
+						                if ($economic_complement->economic_complement_modality->economic_complement_type->id == 1)
+						                {
+						                    if ($comp == 1 && $economic_complement->total_rent >= 2000)
+						                    {
+						                        $economic_complement->eco_com_modality_id = 4;
+						                    }
+						                    elseif ($comp == 1 && $economic_complement->total_rent < 2000)
+						                    {
+						                        $economic_complement->eco_com_modality_id = 6;
+						                    }
+						                    elseif ($comp > 1 && $economic_complement->total_rent < 2000)
+						                    {
+						                        $economic_complement->eco_com_modality_id = 8;
+						                    }
+						                    else
+						                    {
+						                        $economic_complement->eco_com_modality_id = 1;
+						                    }
+						                }
+						                //Viudedad
+						                if ($economic_complement->economic_complement_modality->economic_complement_type->id == 2)
+						                {
+						                    if($comp == 1 && $economic_complement->total_rent >= 2000)
+						                    {
+						                        $economic_complement->eco_com_modality_id = 5;
+						                    }
+						                    elseif ($comp == 1 && $economic_complement->total_rent < 2000)
+						                    {
+						                        $economic_complement->eco_com_modality_id = 7;
+						                    }
+						                    elseif ($comp > 1 && $economic_complement->total_rent < 2000 )
+						                    {
+						                        $economic_complement->eco_com_modality_id = 9;
+						                    }else{
+						                        $economic_complement->eco_com_modality_id = 2;
+						                    }
+						                }
+						                //orfandad
+						                if ($economic_complement->economic_complement_modality->economic_complement_type->id == 3)
+						                {
+						                    if ($comp == 1 && $economic_complement->total_rent >= 2000)
+						                    {
+						                        $economic_complement->eco_com_modality_id = 10;
+						                    }
+						                    elseif ($comp == 1 && $economic_complement->total_rent < 2000)
+						                    {
+						                        $economic_complement->eco_com_modality_id = 11;
+						                    }
+						                    elseif ($comp > 1 && $economic_complement->total_rent < 2000)
+						                    {
+						                        $economic_complement->eco_com_modality_id = 12;
+						                    }
+						                    else
+						                    {
+						                        $economic_complement->eco_com_modality_id = 3;
+						                    }
+						                }
+						            }
+						            else // Modality SENASIR
+						            {						            	
+						                if($economic_complement->economic_complement_modality->economic_complement_type->id == 1 && $economic_complement->total_rent < 2000)
+						                {
+						                    //vejez
+						                    $economic_complement->eco_com_modality_id = 8;
+						                }
+						                elseif ($economic_complement->economic_complement_modality->economic_complement_type->id == 2 && $economic_complement->total_rent < 2000)
+						                {
+						                    //Viudedad  
+						                    $economic_complement->eco_com_modality_id = 9;
+						                }
+						                elseif($economic_complement->economic_complement_modality->economic_complement_type->id == 3 && $economic_complement->total_rent < 2000)
+						                {   //Orfandad 
+						                    $economic_complement->eco_com_modality_id = 12;
+						                }
+						                else 
+						                {
+						                    $economic_complement->eco_com_modality_id = $economic_complement->economic_complement_modality->economic_complement_type->id;
+						                }
+						            }
+						            $economic_complement->save(); // Saving Modalities
+
 					    			$count_all++;
 						    	    $economic_complement->total_rent_calc = $economic_complement->total_rent;
 						    	    $total_rent = $economic_complement->total_rent;
@@ -109,8 +206,7 @@ class AutomaticCalculation extends Command implements SelfHandling
 							    	$total = $total_amount_semester * floatval($complementary_factor)/100;
 							    	$economic_complement->total=$total;
 							    	$economic_complement->base_wage_id = $base_wage->id;
-							    	$economic_complement->salary_reference=$salary_reference;
-							    	$economic_complement->state = 'Edited';
+							    	$economic_complement->salary_reference=$salary_reference;							    	
 							    	$economic_complement->save();
 					    		}
 					    	}

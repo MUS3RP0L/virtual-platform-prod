@@ -82,7 +82,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('print_voucher/{voucher_id}', 'Voucher\VoucherController@PrintVoucher');
 	Route::get('print_compromise/{afid}', 'Contribution\DirectContributionController@PrintCompromise');
 
-	
+
 
 	// Complementary Factor
 	Route::resource('complementary_factor', 'EconomicComplement\ComplementaryFactorController');
@@ -146,6 +146,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::resource('economic_complement_procedure', 'EconomicComplement\EconomicComplementProcedureController');
 	Route::POST('eco_com_pro_delete',['as'=>'eco_com_pro_delete','uses'=>'EconomicComplement\EconomicComplementProcedureController@deleteProcedure']);
 	Route::get('eco_com_pro_data',array('as'=>'eco_com_pro_data','uses'=> 'EconomicComplement\EconomicComplementProcedureController@Data'));
+	// for reception type
+	Route::get('get_reception_type',['as'=>'get_reception_type','uses'=>'EconomicComplement\EconomicComplementController@getReceptionType']);
 });
 
 define('ACCESS', env('ACCESS_PASS'));

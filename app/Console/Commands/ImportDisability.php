@@ -46,17 +46,27 @@ class ImportDisability extends Command implements SelfHandling
                             $Progress->advance();
 
                             $ci = ltrim($result->nro_identificacion, "0");
-                            $afi=Affiliate::whereRaw("LTRIM(identity_card,'0') ='".$ci."'")->first();
-                            if ($afi) {
-                            	if ($ecom = $afi->economic_complements()->whereYear('year','=',2017)->where('semester','like','Primer')->first()) {
-                            		$ecom->total_rent = $ecom->total_rent + $result->total_bs;
-                            		$ecom->aps_disability = $result->total_bs;
-                            		$ecom->save();
-                            		$afisuc[]=$result->nro_identificacion;
-                            	}else{
-                            		$afiecono[]=$result->nro_identificacion;
-                            	}
-                            }else{
+                            $nua = ltrim((string)$result->nrosip_titular, "0");
+                            $afi = EconomicComplement::leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+                                    ->whereRaw("split_part(LTRIM(affiliates.identity_card,'0'), '-',1) = '".$ci."'")
+                                    ->whereRaw("LTRIM(affiliates.nua::text,'0') ='".$nua."'")
+                                    ->whereYear('economic_complements.year','=', 2017)
+                                    ->where('economic_complements.semester','=','Primer')
+                                    ->select('economic_complements.id','economic_complements.aps_disability','economic_complements.total_rent','affiliates.identity_card')->first();                            
+                            if ($afi) 
+                            {   $ecom = EconomicComplement::where('id','=', $afi->id)->first();                       	
+                                if(is_null($ecom->aps_disability) && $ecom->total_rent > 0)
+                                {
+                                    $ecom->total_rent = $ecom->total_rent + $result->total_bs;
+                                    $ecom->aps_disability = $result->total_bs;
+                                    $ecom->save();
+                                    $afisuc[]=$result->nro_identificacion;
+                                    
+                            		
+                            	}                             
+                            }
+                            else
+                            {
                             	$afino[]=$result->nro_identificacion;
                             }
                     });
@@ -68,8 +78,7 @@ class ImportDisability extends Command implements SelfHandling
 
                 $this->info("\n\nReport Update:\n
                 Total encontrados ".sizeof($afisuc)." \n
-                Afiliados no econtrados ".sizeof($afino).". \n
-                Afiliados econtrados sin tramites ".sizeof($afiecono).". \n
+                Afiliados no econtrados ".sizeof($afino).". \n                
                 Execution time $execution_time [minutes].\n");
                 Log::info('Successful');
                 Log::info($afisuc);

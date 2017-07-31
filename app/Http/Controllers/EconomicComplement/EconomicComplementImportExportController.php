@@ -161,14 +161,15 @@ class EconomicComplementImportExportController extends Controller
         $nofound=0;      
         foreach ($results as $datos)
         {   
-         
+            $nua = ltrim((string)$datos->nrosip_titular, "0");
             $ci = ltrim($datos->nro_identificacion, "0");
             $afi = DB::table('economic_complements')
                   ->select(DB::raw('affiliates.identity_card as ci_afi,economic_complements.*, eco_com_types.id as type'))     
                   ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                 
                   ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
                   ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
-                  ->whereRaw("LTRIM(affiliates.identity_card,'0') ='".$ci."'")         
+                  ->whereRaw("split_part(LTRIM(affiliates.identity_card,'0'), '-',1) = '".$ci."'")
+                  ->whereRaw("LTRIM(affiliates.nua::text,'0') ='".$nua."'")         
                   ->where('affiliates.pension_entity_id','!=', 5)
                   ->whereYear('economic_complements.year', '=', $year)
                   ->where('economic_complements.semester', '=', $semester)->first();
@@ -176,7 +177,7 @@ class EconomicComplementImportExportController extends Controller
             
               if ($afi)
               { $ecomplement = EconomicComplement::where('id','=', $afi->id)->first(); 
-                if (is_null($ecomplement->total_rent))
+                if (is_null($ecomplement->total_rent) || $ecomplement->total_rent == 0 )
                 {                              
                     $comp1 = 0;
                     $comp2 = 0;
@@ -245,6 +246,7 @@ class EconomicComplementImportExportController extends Controller
                     $ecomplement->aps_total_fs = $datos->total_fs;
                     $ecomplement->save();                  
                     $found ++;
+                    Log::info($ci);
                 }
               }
               else

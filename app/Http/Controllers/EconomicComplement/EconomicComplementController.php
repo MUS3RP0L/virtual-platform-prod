@@ -386,7 +386,7 @@ class EconomicComplementController extends Controller
             $economic_complement->semester =  Util::getSemester(Carbon::now());
             $economic_complement->year = Carbon::now()->year;
         }else{
-            $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->id;
+            $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->name;
             $eco_com_modality = $economic_complement->economic_complement_modality->name;
         }
 
@@ -412,19 +412,19 @@ class EconomicComplementController extends Controller
             $last_year_second = $last_year_first -1;
         }
         $eco_com_reception_type = 'Inclusion';
-        $last_procedure_first = EconomicComplementProcedure::whereYear('year', '=', $last_year_first)->where('semester','like',$last_semester_first)->first();
-        if (sizeof($last_procedure_first)>0) {
-            if ($last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
-                $eco_com_reception_type = 'Habitual';
-            }
-        }
         $last_procedure_second = EconomicComplementProcedure::whereYear('year', '=', $last_year_second)->where('semester','like',$last_semester_second)->first();
         if (sizeof($last_procedure_second)>0) {
             if ($last_procedure_second->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
                 $eco_com_reception_type = 'Habitual';
             }
         }
-        $reception_types =  array(''=>'','Inclusion' => 'Inclusion', 'Habitual' => 'Habitual');
+        $last_procedure_first = EconomicComplementProcedure::whereYear('year', '=', $last_year_first)->where('semester','like',$last_semester_first)->first();
+        if (sizeof($last_procedure_first)>0) {
+            if ($last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
+                $eco_com_reception_type = 'Habitual';
+            }
+        }
+        $reception_types =  array('Inclusion' => 'Inclusion', 'Habitual' => 'Habitual');
         $data = [
             'affiliate' => $affiliate,
             'eco_com_type' => $eco_com_type,
@@ -510,43 +510,32 @@ class EconomicComplementController extends Controller
             $status_documents = FALSE;
         }
 
-        $last_year = Carbon::now()->subYear()->year;
-        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
-        if (EconomicComplement::affiliateIs($affiliate->id)
-            ->whereYear('year', '=', $last_year)
-            ->where('semester', '=', $last_semester)->first()) {
-            $affiliate->type_ecocom = 'Habitual';
+        if ($economic_complement->reception_type == 'Habitual') {
             if ($economic_complement->economic_complement_modality->economic_complement_type->name== 'Viudedad') {
                 $eco_com_requirements = EconomicComplementRequirement::where(function ($query)
                 {
                     $query->where('id','=',6)
-                          ->orWhere('id','=',8)
-                          ->orWhere('id','=',13);
+                    ->orWhere('id','=',8)
+                    ->orWhere('id','=',13);
                 })->orderBy('id','asc')->get();
+
             }else{
-            $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->orderBy('id', 'asc')->take(2)->get();
+                $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->orderBy('id', 'asc')->take(2)->get();
             }
-
-    }else{
-        $affiliate->type_ecocom = 'Inclusión';
-        $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
-    }
-
-
-    $data = [
-
-    'affiliate' => $affiliate,
-    'economic_complement' => $economic_complement,
-    'eco_com_type' => $eco_com_type->name,
-    'eco_com_modality' => $eco_com_modality->name,
-    'eco_com_requirements' => $eco_com_requirements,
-    'eco_com_submitted_documents' => $eco_com_submitted_documents,
-    'status_documents' => $status_documents
-    ];
-
-    $data = array_merge($data, self::getViewModel());
-
-    return view('economic_complements.reception_third_step', $data);
+        }else{
+            $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
+        }
+        $data = [
+            'affiliate' => $affiliate,
+            'economic_complement' => $economic_complement,
+            'eco_com_type' => $eco_com_type->name,
+            'eco_com_modality' => $eco_com_modality->name,
+            'eco_com_requirements' => $eco_com_requirements,
+            'eco_com_submitted_documents' => $eco_com_submitted_documents,
+            'status_documents' => $status_documents
+        ];
+        $data = array_merge($data, self::getViewModel());
+        return view('economic_complements.reception_third_step', $data);
     }
 
         /**
@@ -711,16 +700,14 @@ class EconomicComplementController extends Controller
                    if ($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Vejez') {
                        $eco_com_submitted_documents_ar = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
                        {
-                           $query->where('eco_com_requirement_id','=',2)
-                                 ->orWhere('eco_com_requirement_id','=',3)
+                           $query->where('eco_com_requirement_id','=',3)
                                  ->orWhere('eco_com_requirement_id','=',4)
                                  ->orWhere('eco_com_requirement_id','=',5);
                        })->orderBy('id','asc')->get();
 
                        $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
                        {
-                           $query->where('id','=',2)
-                                 ->orWhere('id','=',3)
+                           $query->where('id','=',3)
                                  ->orWhere('id','=',4)
                                  ->orWhere('id','=',5);
                        })->orderBy('id','asc')->get();
@@ -728,9 +715,7 @@ class EconomicComplementController extends Controller
                    }else{
                        $eco_com_submitted_documents_ar = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
                        {
-                           $query->where('eco_com_requirement_id','=',7)
-                                 ->orWhere('eco_com_requirement_id','=',8)
-                                 ->orWhere('eco_com_requirement_id','=',9)
+                           $query->where('eco_com_requirement_id','=',9)
                                  ->orWhere('eco_com_requirement_id','=',10)
                                  ->orWhere('eco_com_requirement_id','=',11)
                                  ->orWhere('eco_com_requirement_id','=',12);
@@ -738,9 +723,7 @@ class EconomicComplementController extends Controller
 
                        $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
                        {
-                           $query->where('id','=',7)
-                                 ->orWhere('id','=',8)
-                                 ->orWhere('id','=',9)
+                           $query->where('id','=',9)
                                  ->orWhere('id','=',10)
                                  ->orWhere('id','=',11)
                                  ->orWhere('id','=',12);
@@ -808,7 +791,7 @@ class EconomicComplementController extends Controller
         'eco_com_state_type_lists' => $eco_com_state_type_lists,
         'categories' => $categories,
         'degrees' => $degrees,
-        'type_eco_com' => $affiliate->type_ecocom,
+        //'type_eco_com' => $affiliate->type_ecocom,
         'affi_observations' => $affi_observations,
         'entity_pensions' => $entity_pensions,
         'eco_com_submitted_documents_ar' => $eco_com_submitted_documents_ar,
@@ -1404,7 +1387,7 @@ class EconomicComplementController extends Controller
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
 
                 EconomicComplement::calculate($economic_complement,$request->sub_total_rent, $request->reimbursement, $request->dignity_pension, $request->aps_total_fsa, $request->aps_total_cc, $request->aps_total_fs);
-                $economic_complement->state = 'Edited';    
+                //$economic_complement->state = 'Edited';    
                 $economic_complement->save();
                     /*$total_rent = floatval(str_replace(',','',$request->sub_total_rent))-floatval(str_replace(',','',$request->reimbursement))-floatval(str_replace(',','',$request->dignity_pension));
 
@@ -1683,5 +1666,48 @@ class EconomicComplementController extends Controller
                 return Util::getDateShort($record->date);
             })
             ->make(true);
+    }
+    public function getReceptionType(Request $request)
+    {
+        $reception_type = $this->receptionType($request->affiliate_id, $request->modality_id);
+        return response()->json(['modality_name'=>$reception_type]);
+    }
+    public function receptionType($affiliate_id, $new_modality_id)
+    {
+        if (Util::getCurrentSemester() == 'Primer') {
+            $last_semester_first = 'Segundo';
+            $last_semester_second = 'Primer';
+            $last_year_first = Carbon::now()->year - 1; 
+            $last_year_second = $last_year_first;
+        }else{
+            $last_semester_first = 'Primer';
+            $last_semester_second = 'Segundo';
+            $last_year_first = Carbon::now()->year ;
+            $last_year_second = $last_year_first -1;
+        }
+        $reception_type = 'Inclusion';
+        $last_procedure_second = EconomicComplementProcedure::whereYear('year', '=', $last_year_second)->where('semester','like',$last_semester_second)->first();
+        if (sizeof($last_procedure_second)>0) {
+            if ($old_eco = $last_procedure_second->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
+                $reception_type = 'Habitual';
+                if ($old_eco->economic_complement_modality->economic_complement_type->id == 1 && ($new_modality_id == 2 || $new_modality_id == 3)) {
+                    $reception_type = 'Inclusion';
+                }elseif ($old_eco->economic_complement_modality->economic_complement_type->id == 2 &&  $new_modality_id == 3) {
+                        $reception_type = 'Inclusion';
+                }
+            }
+        }
+        $last_procedure_first = EconomicComplementProcedure::whereYear('year', '=', $last_year_first)->where('semester','like',$last_semester_first)->first();
+        if (sizeof($last_procedure_first)>0) {
+            if ($old_eco = $last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
+                $reception_type = 'Habitual';
+                if ($old_eco->economic_complement_modality->economic_complement_type->id == 1 && ($new_modality_id == 2 || $new_modality_id == 3)) {
+                    $reception_type = 'Inclusion';
+                }elseif ($old_eco->economic_complement_modality->economic_complement_type->id == 2 &&  $new_modality_id == 3) {
+                        $reception_type = 'Inclusion';
+                }
+            }
+        }
+        return $reception_type;
     }
 }

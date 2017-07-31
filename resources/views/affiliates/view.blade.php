@@ -942,7 +942,7 @@
                 </div>
             </div>
 
-            <div class="box box-danger box-solid">
+            {{-- <div class="box box-danger box-solid">
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-10">
@@ -993,7 +993,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
     <div id="myModal-personal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
@@ -1612,7 +1612,7 @@
             autoclose: true
         });
 
-        var affiliate = {!! $affiliate !!};
+        /*var affiliate = {!! $affiliate !!};
         var spouse = {!! $spouse !!};
 
         function SelectRequeriments(requirements) {
@@ -1653,7 +1653,7 @@
             }
         };
 
-        ko.applyBindings(model);
+        ko.applyBindings(model);*/
 
         $(function() {
             $('#record-table').DataTable({

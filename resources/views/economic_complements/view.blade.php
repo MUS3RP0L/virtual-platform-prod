@@ -4,7 +4,7 @@
 	<div class="col-md-6">
 		{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-3">
        @can('eco_com_reception')
             @can('observate')
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
@@ -17,14 +17,14 @@
                 </a>
             </div>
 
-            @if($type_eco_com=="Inclusión")
+            @if($economic_complement->reception_type == "Inclusion")
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción Inclusiones" style="margin:0px;">
                     <a href="" class="btn btn-sm btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReportInclusion');" >
                         &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
                     </a>
                 </div>
             @endif
-            @if($type_eco_com=="Habitual")
+            @if($economic_complement->reception_type == "Habitual")
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción Habituales" style="margin:0px;">
                     <a href="" class="btn btn-sm btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReportHabitual');" >
                         &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
@@ -38,8 +38,13 @@
             </span>
         </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
         <div class="pull-right">
+        <div class="btn-group">
+            <span data-toggle="tooltip" data-placement="top" data-original-title="ver" style="margin:0px;">
+                <a href="" data-target="#myModal-review-user" class="btn btn-sm btn-raised btn-{{ $economic_complement->review_date ? 'info' : 'warning'}} dropdown-toggle enabled" data-toggle="modal"> <strong>{{ $economic_complement->review_date ? "Revisado":"No revisado"}}</strong></a>
+            </span>
+        </div>
             @can('eco_com_review')
                 @if($economic_complement->eco_com_state_id < 2)
                     <div class="btn-group">
@@ -61,7 +66,7 @@
 @section('main-content')
     <div class="row">
         <div class="col-md-6">
-            @include('affiliates.simple_info')
+          <!--  @include('affiliates.simple_info') -->
 
             <!-- applicant -->
             @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id == 2)
@@ -337,7 +342,7 @@
                                                 <strong>Carnet Identidad</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $eco_com_applicant->identity_card !!} {{$eco_com_applicant->city_identity_card->first_shortened}}
+                                                {!! $eco_com_applicant->identity_card !!} {{$eco_com_applicant->city_identity_card->first_shortened ?? ''}}
                                             </div>
                                         </div>
                                     </td>
@@ -776,6 +781,30 @@
                     <div class="row">
                         <div class="col-md-6">
                             <table class="table table-responsive" style="width:100%;">
+															<tr>
+																	<td style="border-top:0px;">
+																			<div class="row">
+																					<div class="col-md-6">
+																							<strong>Grado</strong>
+																					</div>
+																					<div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->degree->name !!}">
+																							{!! $affiliate->degree->shortened !!}
+																					</div>
+																			</div>
+																	</td>
+															</tr>
+															<tr>
+																	<td style="border-top:0px;">
+																			<div class="row">
+																					<div class="col-md-6">
+																							<strong>Categoría</strong>
+																					</div>
+																					<div class="col-md-6">
+																							{!! $affiliate->category->getPercentage() !!}
+																					</div>
+																			</div>
+																	</td>
+															</tr>
                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
@@ -812,20 +841,18 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
+                                {{-- <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <strong>Estado</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                <?php if (isset($state)) {?>
-                                                {!! $state->name !!}
-                                                <?php }?>
+                                                {!! $state->name ?? '' !!}
                                             </div>
                                         </div>
                                     </td>
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
@@ -842,6 +869,18 @@
                         </div>
                         <div class="col-md-6">
                             <table class="table table-responsive" style="width:100%;">
+															<tr>
+						                      <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+						                          <div class="row">
+						                              <div class="col-md-6">
+						                                  <strong>Matrícula</strong>
+						                              </div>
+						                              <div class="col-md-6">
+						                                  {!! $affiliate->registration !!}
+						                              </div>
+						                          </div>
+						                      </td>
+						                  </tr>
                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
@@ -964,7 +1003,7 @@
                                     </tbody>
                                 </table>
                             @endif
-                            
+
                             @endif
                             {{-- @if($economic_complement->base_wage_id) --}}
                                 <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
@@ -1568,7 +1607,7 @@
                                         <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -2136,6 +2175,25 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="myModal-review-user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                
+                <div class="modal-body">
+                @if( $economic_complement->review_date )
+                    <h3>Tramite Revisado por: {{ $economic_complement->getUser() }}</h3>
+                    <strong>El {{ $economic_complement->getReviewDate() }}</strong>
+                    
+                @else
+                    <h3>Tramite no revisado.</h3>
+                @endif
+                </div>
+                <div class="modal-footer" style="text-align: center">
+                    <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-check"></i> Listo</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @include('observations.create')
 
 @endsection
@@ -2222,7 +2280,7 @@ $(document).ready(function() {
 		};
 		self.lastSavedJson = ko.observable("");
         self.DateDeathAffiliateValue = ko.observable(affiliate.date_death ? true : false);
-        
+
         @if ($status_documents_ar)
             self.requirements_ar = ko.observableArray(ko.utils.arrayMap(requirements_ar, function(document) {
             return { id: document.eco_com_requirement_id, name: document.economic_complement_requirement.shortened, status: document.status };

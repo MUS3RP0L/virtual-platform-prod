@@ -10,6 +10,30 @@
         <div class="row">
             <div class="col-md-6">
                 <table class="table table-responsive" style="width:100%;">
+                  <tr>
+                      <td style="border-top:0px;">
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <strong>Grado</strong>
+                              </div>
+                              <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->degree->name !!}">
+                                  {!! $affiliate->degree->shortened !!}
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td style="border-top:0px;">
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <strong>Categoría</strong>
+                              </div>
+                              <div class="col-md-6">
+                                  {!! $affiliate->category->getPercentage() !!}
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
                     <tr>
                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                             <div class="row">
@@ -41,7 +65,7 @@
                                     <strong>Tipo</strong>
                                 </div>
                                 <div class="col-md-6">
-                                    {!! $eco_com_type . "-" . $eco_com_modality !!}
+                                    {!! $eco_com_type . " - " . $eco_com_modality !!}
                                 </div>
                             </div>
                         </td>
@@ -50,6 +74,18 @@
             </div>
             <div class="col-md-6">
                 <table class="table table-responsive" style="width:100%;">
+                  <tr>
+                      <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <strong>Matrícula</strong>
+                              </div>
+                              <div class="col-md-6">
+                                  {!! $affiliate->registration !!}
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
                     <tr>
                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                             <div class="row">

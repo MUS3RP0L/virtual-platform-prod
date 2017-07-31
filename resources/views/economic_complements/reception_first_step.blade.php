@@ -42,7 +42,7 @@
         <div class="col-md-12">
             <div class="box box-warning box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Selecciones el Tipo de Proceso</h3>
+                    <h3 class="box-title">Seleccione el Tipo de Proceso</h3>
                 </div>
                 <div class="box-body">
                     {!! Form::model($economic_complement, ['method' => 'POST', 'route' => ['economic_complement.store'], 'class' => 'form-horizontal']) !!}
@@ -73,7 +73,7 @@
                                 <div class="form-group">
                                     {!! Form::label('reception_type', 'Tipo de Recepción', ['class' => 'col-md-4 control-label']) !!}
                                     <div class="col-md-8">
-                                        {!! Form::select('reception_type',  $reception_types, $economic_complement->reception_type ?? $eco_com_reception_type , ['class' => 'combobox form-control', 'required' ]) !!}
+                                        {!! Form::select('reception_type',  $reception_types, $economic_complement->reception_type ?? $eco_com_reception_type , ['class' => 'form-control', 'required', 'id'=>'reception_type' ]) !!}
                                         <span class="help-block">Seleccione el tipo de recepción</span>
                                     </div>
                                 </div>
@@ -126,6 +126,21 @@
         $(document).ready(function(){
             $('.combobox').combobox();
             $('[data-toggle="tooltip"]').tooltip();
+            $('input:radio').change(function () {
+            	var modality_id = $(this).val();
+            	$.ajax({
+            		url: '/get_reception_type',
+            		type: 'GET',
+            		data: {
+            			modality_id: modality_id,
+            			affiliate_id: {{ $affiliate->id }}
+            		}
+            	})
+            	.done(function(data) {
+            		$('#reception_type').val(data.modality_name);
+            	})
+            })
+
         });
 
     </script>
