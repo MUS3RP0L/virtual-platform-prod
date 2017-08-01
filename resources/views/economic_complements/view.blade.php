@@ -4,7 +4,7 @@
 	<div class="col-md-6">
 		{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-6">
        @can('eco_com_reception')
             @can('observate')
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
@@ -33,18 +33,19 @@
             @endif
         @endcan
         <div class="btn-group">
-            <span data-toggle="modal" data-target="#recordEcoModal">
-                <a href="#" class="btn btn-sm btn-raised btn-lg bg-blue"  data-toggle="tooltip"  data-placement="right" data-original-title="Historial"><i class="fa fa-lg fa-clock-o"></i></a>
-            </span>
+            <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm btn-raised btn-lg bg-orange"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar Tramite"><i aria-hidden="true" class="fa fa-refresh"></i></a>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="pull-right">
         <div class="btn-group">
-            <span data-toggle="tooltip" data-placement="top" data-original-title="ver" style="margin:0px;">
-                <a href="" data-target="#myModal-review-user" class="btn btn-sm btn-raised btn-{{ $economic_complement->review_date ? 'info' : 'warning'}} dropdown-toggle enabled" data-toggle="modal"> <strong>{{ $economic_complement->review_date ? "Revisado":"No revisado"}}</strong></a>
+            <span data-toggle="modal" data-target="#recordEcoModal">
+                <a href="#" class="btn btn-sm btn-raised btn-lg bg-blue"  data-toggle="tooltip"  data-placement="top" data-original-title="Historial"><i class="fa fa-lg fa-clock-o"></i></a>
             </span>
         </div>
+        <div class="pull-right">
+            <div class="btn-group">
+                <span data-toggle="tooltip" data-placement="top" data-original-title="ver" style="margin:0px;">
+                    <a href="" data-target="#myModal-review-user" class="btn btn-sm btn-raised btn-{{ $economic_complement->stateOfReview() ? 'info' : 'warning'}} dropdown-toggle enabled" data-toggle="modal"> <strong>{{ $economic_complement->stateOfReview() ? "Revisado":"No revisado"}}</strong></a>
+                </span>
+            </div>
             @can('eco_com_review')
                 @if($economic_complement->eco_com_state_id < 2)
                     <div class="btn-group">
@@ -74,11 +75,13 @@
                     <div class="box-header with-border">
                         <div class="row">
                             <div class="col-md-10">
-                                <h3 class="box-title"><i class="fa fa-{{$affiliate->gender=='M'?'male':'female'  }}"></i> Información Personal
-                                @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id == 2)
-                                    - Causahabiente
-                                @endif
-                                </h3>
+                                <a href="/affiliate/{{ $economic_complement->affiliate_id  }}" data-toggle="tooltip" data-placement="top" title="Volver al afiliado">
+                                    <h3 class="box-title"><i class="fa fa-{{$affiliate->gender=='M'?'male':'female'  }}"></i> Información Personal
+                                    @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id == 2)
+                                        - Causahabiente
+                                    @endif
+                                    </h3>
+                                </a>
                             </div>
                             <div class="col-md-2 text-right">
                                 <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
@@ -311,11 +314,13 @@
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-8">
+                            <a href="/affiliate/{{ $economic_complement->affiliate_id  }}" data-toggle="tooltip" data-placement="top" title="Volver al afiliado">
                             <h3 class="box-title"><span class="fa fa-user-plus"></span> Información de Beneficiario
-                            @if($eco_com_applicant->economic_complement->eco_com_modality_id == 2 || $eco_com_applicant->economic_complement->eco_com_modality_id == 5|| $eco_com_applicant->economic_complement->eco_com_modality_id == 7|| $eco_com_applicant->economic_complement->eco_com_modality_id == 9)
+                            @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id == 2)
                             - Derechohabiente
                             @endif
                             </h3>
+                            </a>
                             <div class="box-tools pull-right">
                             </div>
                         </div>
@@ -785,9 +790,6 @@
                             <span data-toggle="modal" data-target="#policeModal">
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
                             </span>
-                            <span>
-                                <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i aria-hidden="true" class="fa fa-pencil-square"></i></a>
-                            </span>
                         </div>
                         @endcan
                        {{--  <div class="col-md-2 text-right">
@@ -810,30 +812,30 @@
                     <div class="row">
                         <div class="col-md-6">
                             <table class="table table-responsive" style="width:100%;">
-															<tr>
-																	<td style="border-top:0px;">
-																			<div class="row">
-																					<div class="col-md-6">
-																							<strong>Grado</strong>
-																					</div>
-																					<div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->degree->name !!}">
-																							{!! $affiliate->degree->shortened !!}
-																					</div>
-																			</div>
-																	</td>
-															</tr>
-															<tr>
-																	<td style="border-top:0px;">
-																			<div class="row">
-																					<div class="col-md-6">
-																							<strong>Categoría</strong>
-																					</div>
-																					<div class="col-md-6">
-																							{!! $affiliate->category->getPercentage() !!}
-																					</div>
-																			</div>
-																	</td>
-															</tr>
+								<tr>
+									<td style="border-top:0px;">
+										<div class="row">
+											<div class="col-md-6">
+												<strong>Grado</strong>
+											</div>
+											<div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->degree->name !!}">
+												{!! $affiliate->degree->shortened !!}
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td style="border-top:0px;">
+										<div class="row">
+											<div class="col-md-6">
+												<strong>Categoría</strong>
+											</div>
+											<div class="col-md-6">
+												{!! $affiliate->category->getPercentage() !!}
+											</div>
+										</div>
+									</td>
+								</tr>
                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
@@ -898,18 +900,18 @@
                         </div>
                         <div class="col-md-6">
                             <table class="table table-responsive" style="width:100%;">
-															<tr>
-						                      <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
-						                          <div class="row">
-						                              <div class="col-md-6">
-						                                  <strong>Matrícula</strong>
-						                              </div>
-						                              <div class="col-md-6">
-						                                  {!! $affiliate->registration !!}
-						                              </div>
-						                          </div>
-						                      </td>
-						                  </tr>
+                                <tr>
+						          <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+						              <div class="row">
+						                  <div class="col-md-6">
+						                      <strong>Matrícula</strong>
+						                  </div>
+						                  <div class="col-md-6">
+						                      {!! $affiliate->registration !!}
+						                  </div>
+						              </div>
+						          </td>
+						        </tr>
                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
@@ -1343,14 +1345,14 @@
                                         <div class="form-group">
                                             <div class="togglebutton">
                                               <label>
-                                                <input type="checkbox" data-bind="checked: DateDeathAffiliateValue" name="DateDeathAffiliateCheck"> Fallecido
+                                                <input type="checkbox" data-bind="checked: DateDeathAffiliateValue" name="DateDeathAffiliateCheck" > Fallecido
                                               </label>
                                           </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div data-bind='fadeVisible: DateDeathAffiliateValue, valueUpdate: "afterkeydown"'>
+                                <div data-bind='visible: DateDeathAffiliateValue '>
 
                                     <div class="form-group">
                                             {!! Form::label('date_death', 'Fecha Deceso', ['class' => 'col-md-5 control-label']) !!}
@@ -2109,9 +2111,16 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                                {!! Form::label('service_years', 'Años de servicio', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-3">
+                                                {!! Form::text('service_years','', ['class'=> 'form-control']) !!}
+                                                <span class="help-block">Escriba los años de servicio</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                                 {!! Form::label('category', 'Categoria', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
-                                                {!! Form::select('category',$categories, $economic_complement->category_id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                {!! Form::select('category',$categories, $economic_complement->category_id , ['class'=> 'form-control', 'required','id'=>'category']) !!}
                                                 <span class="help-block">Seleccione una Categoria para el policía</span>
                                             </div>
                                         </div>
@@ -2243,7 +2252,7 @@
             <div class="modal-content">
 
                 <div class="modal-body">
-                @if( $economic_complement->review_date )
+                @if( $economic_complement->stateOfReview())
                     <h3>Tramite Revisado por: {{ $economic_complement->getUser() }}</h3>
                     <strong>El {{ $economic_complement->getReviewDate() }}</strong>
 
@@ -2280,7 +2289,11 @@ $(document).ready(function() {
 		$('.combobox').combobox();
 	    $('[data-toggle="tooltip"]').tooltip();
 		$("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+<<<<<<< HEAD
 		$("#date_death_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+=======
+        $("#date_death_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});   
+>>>>>>> upstream/master
 		$("#phone_number").inputmask();
         $("#cell_phone_number").inputmask();
         $("#phone_number_guardian").inputmask();
@@ -2343,7 +2356,13 @@ $(document).ready(function() {
 			self.lastSavedJson(JSON.stringify(dataToSave));
 		};
 		self.lastSavedJson = ko.observable("");
-        self.DateDeathAffiliateValue = ko.observable(affiliate.date_death ? true : false);
+
+        @if($eco_com_type=='VIUDEDAD')
+             self.DateDeathAffiliateValue = ko.observable(true);
+        @else
+             self.DateDeathAffiliateValue = ko.observable(affiliate.date_death ? true : false);
+        @endif
+       
 
         @if ($status_documents_ar)
             self.requirements_ar = ko.observableArray(ko.utils.arrayMap(requirements_ar, function(document) {
@@ -2523,6 +2542,24 @@ $(document).ready(function() {
             $('#total_frac').val(total);
             // $('#sub_total_rent').val(total);
         });
+
+        //for category
+        //
+        $("#service_years").inputmask('numeric',{min:0, max:100});
+        $('#service_years').on('keyup',function(event) {
+            var year = $(this).val();
+            $.ajax({
+                url: '{{ route('get_category') }}',
+                type: 'GET',
+                data: {
+                    service_years: year},
+            })
+            .done(function(data) {
+                if(data!= "error"){
+                    $('#category').val(data.id);
+                }
+            });
+        });        
     });
 </script>
 @endpush

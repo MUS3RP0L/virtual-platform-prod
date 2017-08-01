@@ -159,9 +159,7 @@ class AffiliateController extends Controller
         $categories = Category::all();
         $categories_list = ['' => ''];
         foreach ($categories as $item) {
-            if ($item->id > 8) {
-                break;
-            }else{
+            if ($item->id != 9 && $item->id !=10) {
                 $categories_list[$item->id]=$item->name;
             }
         }
@@ -704,6 +702,17 @@ class AffiliateController extends Controller
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view)->setPaper('legal');
         return $pdf->stream();
+    }
+    public function getCategory(Request $request)
+    {
+        $year = $request->service_years;
+        $category = Category::where('from','<=',$year)
+                   ->where('to','>=',$year)
+                   ->first();
+        if ($category) {
+            return $category; 
+        }
+        return "error";
     }
 
 }

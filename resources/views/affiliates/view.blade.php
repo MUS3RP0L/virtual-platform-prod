@@ -1174,14 +1174,14 @@
                                         <div class="form-group">
                                             <div class="togglebutton">
                                               <label>
-                                                <input type="checkbox" data-bind="checked: DateDeathAffiliateValue" name="DateDeathAffiliateCheck"> Fallecido
+                                                <input type="checkbox" data-bind="checked: selected" name="DateDeathAffiliateCheck"> Fallecido
                                               </label>
                                           </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div data-bind='fadeVisible: DateDeathAffiliateValue, valueUpdate: "afterkeydown"'>
+                                <div data-bind='visible: selected'>
 
                                     <div class="form-group">
                                             {!! Form::label('date_death', 'Fecha Deceso', ['class' => 'col-md-5 control-label']) !!}
@@ -1371,14 +1371,14 @@
                                         <div class="form-group">
                                             <div class="togglebutton">
                                               <label>
-                                                <input type="checkbox" data-bind="checked: DateDeathSpouseValue" name="DateDeathSpouseCheck"> Fallecido
+                                                <input type="checkbox" data-bind="checked: selected" name="DateDeathSpouseCheck"> Fallecido
                                               </label>
                                           </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div data-bind='fadeVisible: DateDeathSpouseValue, valueUpdate: "afterkeydown"'>
+                                <div data-bind='visible: selected'>
 
                                     <div class="form-group">
                                             {!! Form::label('date_death', 'Fecha Deceso', ['class' => 'col-md-5 control-label']) !!}
@@ -1444,160 +1444,112 @@
     <!-- Edition of a police officer-->
     <div id="policeModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="box-header with-border">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">Editar Información de Policía</h4>
-                        </div>
-                        <div class="modal-body">
-                            {!! Form::model($affiliate, ['method' => 'PATCH', 'route' => ['affiliate.update', $affiliate], 'class' => 'form-horizontal']) !!}
-                            <input type="hidden" name="type" value="institutional"/>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                                {!! Form::label('state', 'Estado', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                                {!! Form::select('state',$affiliate_states_list, $affiliate->affiliate_state->id , ['class'=> 'combobox form-control', 'required']) !!}
-                                                <span class="help-block">Seleccione un estado del policía</span>
-                                            </div>
-                                        </div>
-                                        {{-- <div class="form-group">
-                                                {!! Form::label('affiliate_type', 'Tipo', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                                {!! Form::select('affiliate_type',$affiliate_types, $affiliate->affiliate_type->id , ['class'=> 'combobox form-control', 'required']) !!}
-                                                <span class="help-block">Seleccione un tipo del policía</span>
-                                            </div>
-                                        </div> --}}
-                                        <div class="form-group">
-                                                {!! Form::label('date_entry', 'Fecha de Ingreso', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                                <div class="input-group">
-                                                    <input type="text" id="date_entry" class="form-control" name="date_entry" value="{!! $affiliate->date_entry !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
-                                                    <div class="input-group-addon">
-                                                        <span class="glyphicon glyphicon-calendar"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                                {!! Form::label('item', 'Num de Item', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                            {!! Form::text('item', $affiliate->item, ['class'=> 'form-control',  'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                                           <span class="help-block">Escriba el Numero de item</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                                {!! Form::label('category', 'Categoria', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                                {!! Form::select('category',$categories_list, $affiliate->category_id , ['class'=> 'combobox form-control', 'required']) !!}
-                                                <span class="help-block">Seleccione una Categoria para el policía</span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                                {!! Form::label('degree', 'Grado', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                                {!! Form::select('degree',$degrees_list, $affiliate->degree->id , ['class'=> 'combobox form-control', 'required']) !!}
-                                                <span class="help-block">Seleccione un grado del policía</span>
-                                            </div>
-                                        </div>
-
-                                                {{--<div class="form-group">
-                                                        {!! Form::label('unit', 'Unidad', ['class' => 'col-md-5 control-label']) !!}
-                                                    <div class="col-md-7">
-                                                        {!! Form::select('unit',$units, $affiliate->unit_id , ['class'=> 'combobox form-control', 'required']) !!}
-                                                        <span class="help-block">Seleccione una unidad del policía</span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                        {!! Form::label('registration', 'Num de Matrícula', ['class' => 'col-md-5 control-label']) !!}
-                                                    <div class="col-md-7">
-                                                    {!! Form::text('registration', $affiliate->registration, ['class'=> 'form-control',  'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                                                   <span class="help-block">Escriba el Numero de Matrícula</span>
-                                                    </div>
-                                                </div> --}}
-
-                                         <div class="form-group">
-                                                {!! Form::label('affiliate_entity_pension', 'Ente Gestor', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                                {!! Form::select('affiliate_entity_pension',$pension_entities_list, $affiliate->pension_entity->id ?? null , ['class'=> 'combobox form-control', 'required']) !!}
-                                                <span class="help-block">Seleccione un ente gestor</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row text-center">
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <a href="{!! url('affiliate/' . $affiliate->id) !!}" data-target="#" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            {!! Form::close() !!}
-
-                        </div>
-                    </div>
-                </div>
-    </div>
-    <!-- /Edition of a police officer-->
-    @if($status_documents)
-    <div id="myModal-requirements" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Editar Documentos</h4>
+                    <h4 class="modal-title">Editar Información de Policía</h4>
                 </div>
-                <div class="box-body" data-bind="event: {mouseover: save, mouseout: save}">
-                    {!! Form::model($last_ecocom, ['method' => 'PATCH', 'route' => ['economic_complement.update', $last_ecocom->id], 'class' => 'form-horizontal']) !!}
-                        <input type="hidden" name="step" value="requirements"/>
+                <div class="modal-body">
+                    {!! Form::model($affiliate, ['method' => 'PATCH', 'route' => ['affiliate.update', $affiliate], 'class' => 'form-horizontal']) !!}
+                    <input type="hidden" name="type" value="institutional"/>
                         <div class="row">
-                            <div class="col-md-12">
-                                <table class="table table-bordered table-hover" style="font-size: 16px">
-                                    <thead>
-                                        <tr class="success">
-                                            <th class="text-center">Requisitos</th>
-                                            <th class="text-center">Estado</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody data-bind="foreach: requirements">
-                                        <tr>
-                                            <td data-bind='text: name'></td>
-                                            <td>
-                                                <div class="row text-center">
-                                                    <div class="checkbox">
-                                                        <label><input type="checkbox" data-bind='checked: status, valueUpdate: "afterkeydown"'/></label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        {!! Form::label('state', 'Estado', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::select('state',$affiliate_states_list, $affiliate->affiliate_state->id , ['class'=> 'combobox form-control', 'required']) !!}
+                                        <span class="help-block">Seleccione un estado del policía</span>
+                                    </div>
+                                </div>
+                                {{-- <div class="form-group">
+                                        {!! Form::label('affiliate_type', 'Tipo', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::select('affiliate_type',$affiliate_types, $affiliate->affiliate_type->id , ['class'=> 'combobox form-control', 'required']) !!}
+                                        <span class="help-block">Seleccione un tipo del policía</span>
+                                    </div>
+                                </div> --}}
+                                <div class="form-group">
+                                        {!! Form::label('date_entry', 'Fecha de Ingreso', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <input type="text" id="date_entry" class="form-control" name="date_entry" value="{!! $affiliate->date_entry !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('item', 'Num de Item', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                    {!! Form::text('item', $affiliate->item, ['class'=> 'form-control',  'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                   <span class="help-block">Escriba el Numero de item</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        {!! Form::label('service_years', 'Años de servicio', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-3">
+                                        {!! Form::text('service_years','', ['class'=> 'form-control']) !!}
+                                        <span class="help-block">Escriba los años de servicio</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('category', 'Categoria', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::select('category',$categories_list, $affiliate->category_id , ['class'=> 'form-control', 'required']) !!}
+                                        <span class="help-block">Seleccione una Categoria para el policía</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('degree', 'Grado', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::select('degree',$degrees_list, $affiliate->degree->id , ['class'=> 'combobox form-control', 'required']) !!}
+                                        <span class="help-block">Seleccione un grado del policía</span>
+                                    </div>
+                                </div>
+
+                                        {{--<div class="form-group">
+                                                {!! Form::label('unit', 'Unidad', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                                {!! Form::select('unit',$units, $affiliate->unit_id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                <span class="help-block">Seleccione una unidad del policía</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                                {!! Form::label('registration', 'Num de Matrícula', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                            {!! Form::text('registration', $affiliate->registration, ['class'=> 'form-control',  'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                           <span class="help-block">Escriba el Numero de Matrícula</span>
+                                            </div>
+                                        </div> --}}
+
+                                 <div class="form-group">
+                                        {!! Form::label('affiliate_entity_pension', 'Ente Gestor', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::select('affiliate_entity_pension',$pension_entities_list, $affiliate->pension_entity->id ?? null , ['class'=> 'combobox form-control', 'required']) !!}
+                                        <span class="help-block">Seleccione un ente gestor</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        {!! Form::hidden('data', null, ['data-bind'=> 'value: lastSavedJson']) !!}
-                        <br>
                         <div class="row text-center">
                             <div class="form-group">
                                 <div class="col-md-12">
                                     <a href="{!! url('affiliate/' . $affiliate->id) !!}" data-target="#" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;</button>
                                 </div>
                             </div>
                         </div>
+
                     {!! Form::close() !!}
 
                 </div>
             </div>
         </div>
     </div>
-    @endif
-
 @endsection
 
 @push('scripts')
@@ -1633,49 +1585,14 @@
             autoclose: true
         });
 
-        /*var affiliate = {!! $affiliate !!};
-        var spouse = {!! $spouse !!};
+        // for switch fallecimiento
+        var selectedlModel = function() {        
+        var self = this;
+        self.selected = ko.observable(false);
+        
+    }
 
-        function SelectRequeriments(requirements) {
-
-            var self = this;
-
-            self.requirements = ko.observableArray(ko.utils.arrayMap(requirements, function(document) {
-            return { id: document.eco_com_requirement_id, name: document.economic_complement_requirement.shortened, status: document.status };
-            }));
-
-            self.save = function() {
-                var dataToSave = $.map(self.requirements(), function(requirement) {
-                    return  {
-                        id: requirement.id,
-                        name: requirement.name,
-                        status: requirement.status
-                    }
-                });
-                self.lastSavedJson(JSON.stringify(dataToSave));
-            };
-            self.lastSavedJson = ko.observable("");
-
-            self.DateDeathAffiliateValue = ko.observable(affiliate.date_death ? true : false);
-            self.DateDeathSpouseValue = ko.observable(spouse.date_death ? true : false);
-
-        };
-
-        window.model = new SelectRequeriments({!! $eco_com_submitted_documents !!});
-
-        ko.bindingHandlers.fadeVisible = {
-            init: function(element, valueAccessor) {
-                var value = valueAccessor();
-                $(element).toggle(ko.unwrap(value));
-            },
-            update: function(element, valueAccessor) {
-                var value = valueAccessor();
-                ko.unwrap(value) ? $(element).fadeIn() : $(element).fadeOut();
-            }
-        };
-
-        ko.applyBindings(model);*/
-
+    ko.applyBindings(selectedlModel());
         $(function() {
             $('#record-table').DataTable({
                 "dom": '<"top">t<"bottom"p>',
@@ -1781,5 +1698,24 @@
                 $(this).parent().parent().remove();
                 event.preventDefault();
             });
+        $(document).ready(function() {
+            //for category
+            //
+            $("#service_years").inputmask('numeric',{min:0, max:100});
+            $('#service_years').on('keyup',function(event) {
+                var year = $(this).val();
+                $.ajax({
+                    url: '{{ route('get_category') }}',
+                    type: 'GET',
+                    data: {
+                        service_years: year},
+                })
+                .done(function(data) {
+                    if(data!= "error"){
+                        $('#category').val(data.id);
+                    }
+                });
+            }); 
+        });
     </script>
 @endpush
