@@ -1530,7 +1530,7 @@
                 </div>
     </div>
     <!-- /Edition of a police officer-->
-    @if($status_documents)
+    {{-- @if($status_documents)
     <div id="myModal-requirements" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -1582,7 +1582,7 @@
             </div>
         </div>
     </div>
-    @endif
+    @endif --}}
 
 @endsection
 
