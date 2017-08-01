@@ -42,7 +42,7 @@
         <div class="pull-right">
         <div class="btn-group">
             <span data-toggle="tooltip" data-placement="top" data-original-title="ver" style="margin:0px;">
-                <a href="" data-target="#myModal-review-user" class="btn btn-sm btn-raised btn-{{ $economic_complement->review_date ? 'info' : 'warning'}} dropdown-toggle enabled" data-toggle="modal"> <strong>{{ $economic_complement->review_date ? "Revisado":"No revisado"}}</strong></a>
+                <a href="" data-target="#myModal-review-user" class="btn btn-sm btn-raised btn-{{ $economic_complement->stateOfReview() ? 'info' : 'warning'}} dropdown-toggle enabled" data-toggle="modal"> <strong>{{ $economic_complement->stateOfReview() ? "Revisado":"No revisado"}}</strong></a>
             </span>
         </div>
             @can('eco_com_review')
@@ -2191,7 +2191,7 @@
             <div class="modal-content">
                 
                 <div class="modal-body">
-                @if( $economic_complement->review_date )
+                @if( $economic_complement->stateOfReview())
                     <h3>Tramite Revisado por: {{ $economic_complement->getUser() }}</h3>
                     <strong>El {{ $economic_complement->getReviewDate() }}</strong>
                     
