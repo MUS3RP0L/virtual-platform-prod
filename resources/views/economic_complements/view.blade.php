@@ -421,6 +421,21 @@
                                         </div>
                                     </td>
                                 </tr>
+																@if($affiliate->date_death)
+																<tr>
+																	<td style="border-top:0px;;">
+																		<div class="row">
+																				<div class="col-md-6">
+																						<strong>Fecha de Deceso:</strong>
+																				</div>
+																				<div class="col-md-6">
+																						{!! $affiliate->getShortDateDeath() !!}
+																				</div>
+																		</div>
+																	</td>
+																</tr>
+																@endif
+
                             </table>
                         </div>
                         <div class="col-md-6">
@@ -522,7 +537,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border-top:0px;;">
+                                    <td style="border-top:0px;">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <strong>Celular:</strong>
@@ -536,6 +551,20 @@
                                         </div>
                                     </td>
                                 </tr>
+																@if($affiliate->reason_death)
+																		<tr>
+																				<td style="border-top:0px;">
+																						<div class="row">
+																								<div class="col-md-6">
+																										<strong>Motivo de Deceso</strong>
+																								</div>
+																								<div class="col-md-6">
+																										{!! $affiliate->reason_death !!}
+																								</div>
+																						</div>
+																				</td>
+																		</tr>
+																@endif
                             </table>
                         </div>
                     </div>
@@ -1543,6 +1572,40 @@
                                             <button class="btn btn-success" id="addCellPhoneNumberApplicant"><span class="fa fa-plus"></span></button>
                                             </div>
                                         </div>
+
+																				<div class="row">
+				                                    <div class="col-md-offset-5 col-md-4">
+				                                        <div class="form-group">
+				                                            <div class="togglebutton">
+				                                              <label>
+				                                                <input type="checkbox" data-bind="checked: DateDeathSpouseValue" name="DateDeathSpouseCheck"> Fallecido
+				                                              </label>
+				                                          </div>
+				                                        </div>
+				                                    </div>
+				                                </div>
+
+																				<div data-bind='fadeVisible: DateDeathSpouseValue, valueUpdate: "afterkeydown"'>
+
+																						<div class="form-group">
+																										{!! Form::label('date_death', 'Fecha Deceso', ['class' => 'col-md-5 control-label']) !!}
+																								<div class="col-md-7">
+																										<div class="input-group">
+																												<input type="text" id="date_death_spouse_mask" class="form-control" name="date_death" value="" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+																												<div class="input-group-addon">
+																														<span class="glyphicon glyphicon-calendar"></span>
+																												</div>
+																										</div>
+																								</div>
+																						</div>
+																						<div class="form-group">
+																										{!! Form::label('reason_death', 'Causa Deceso', ['class' => 'col-md-5 control-label']) !!}
+																								<div class="col-md-6">
+																										{!! Form::textarea('reason_death', $eco_com_applicant->reason_death, ['class'=> 'form-control', 'rows' => '2']) !!}
+																										<span class="help-block">Escriba el Motivo de fallecimiento</span>
+																								</div>
+																						</div>
+																				</div>
                                     </div>
                             </div>
                         </div>
@@ -2178,12 +2241,12 @@
     <div class="modal fade" id="myModal-review-user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                
+
                 <div class="modal-body">
                 @if( $economic_complement->review_date )
                     <h3>Tramite Revisado por: {{ $economic_complement->getUser() }}</h3>
                     <strong>El {{ $economic_complement->getReviewDate() }}</strong>
-                    
+
                 @else
                     <h3>Tramite no revisado.</h3>
                 @endif
@@ -2217,6 +2280,7 @@ $(document).ready(function() {
 		$('.combobox').combobox();
 	    $('[data-toggle="tooltip"]').tooltip();
 		$("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+		$("#date_death_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
 		$("#phone_number").inputmask();
         $("#cell_phone_number").inputmask();
         $("#phone_number_guardian").inputmask();

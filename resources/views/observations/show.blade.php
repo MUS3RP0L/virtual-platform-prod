@@ -43,6 +43,10 @@
         </div>
     </div>
 </div>
+<div class="modal fade" tabindex="-1">
+         <iframe src="/print_observations/{{ Session::get('affiliate_id') }}/{{ Session::get('observation_type_id') }}" id="iFramePdfObservation" ></iframe>
+</div>
+
 <!-- Edit Observation Modal -->
 <div class="modal fade" id="observationEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
