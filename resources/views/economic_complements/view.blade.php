@@ -1316,14 +1316,14 @@
                                         <div class="form-group">
                                             <div class="togglebutton">
                                               <label>
-                                                <input type="checkbox" data-bind="checked: DateDeathAffiliateValue" name="DateDeathAffiliateCheck"> Fallecido
+                                                <input type="checkbox" data-bind="checked: DateDeathAffiliateValue" name="DateDeathAffiliateCheck" > Fallecido
                                               </label>
                                           </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div data-bind='fadeVisible: DateDeathAffiliateValue, valueUpdate: "afterkeydown"'>
+                                <div data-bind='visible: DateDeathAffiliateValue '>
 
                                     <div class="form-group">
                                             {!! Form::label('date_death', 'Fecha Deceso', ['class' => 'col-md-5 control-label']) !!}
@@ -2226,6 +2226,7 @@ $(document).ready(function() {
 		$('.combobox').combobox();
 	    $('[data-toggle="tooltip"]').tooltip();
 		$("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+        $("#date_death_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});   
 		$("#phone_number").inputmask();
         $("#cell_phone_number").inputmask();
         $("#phone_number_guardian").inputmask();
@@ -2288,7 +2289,13 @@ $(document).ready(function() {
 			self.lastSavedJson(JSON.stringify(dataToSave));
 		};
 		self.lastSavedJson = ko.observable("");
-        self.DateDeathAffiliateValue = ko.observable(affiliate.date_death ? true : false);
+
+        @if($eco_com_type=='VIUDEDAD')
+             self.DateDeathAffiliateValue = ko.observable(true);
+        @else
+             self.DateDeathAffiliateValue = ko.observable(affiliate.date_death ? true : false);
+        @endif
+       
 
         @if ($status_documents_ar)
             self.requirements_ar = ko.observableArray(ko.utils.arrayMap(requirements_ar, function(document) {

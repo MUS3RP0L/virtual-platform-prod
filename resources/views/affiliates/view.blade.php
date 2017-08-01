@@ -1159,14 +1159,14 @@
                                         <div class="form-group">
                                             <div class="togglebutton">
                                               <label>
-                                                <input type="checkbox" data-bind="checked: DateDeathAffiliateValue" name="DateDeathAffiliateCheck"> Fallecido
+                                                <input type="checkbox" data-bind="checked: selected" name="DateDeathAffiliateCheck"> Fallecido
                                               </label>
                                           </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div data-bind='fadeVisible: DateDeathAffiliateValue, valueUpdate: "afterkeydown"'>
+                                <div data-bind='visible: selected'>
 
                                     <div class="form-group">
                                             {!! Form::label('date_death', 'Fecha Deceso', ['class' => 'col-md-5 control-label']) !!}
@@ -1350,14 +1350,14 @@
                                         <div class="form-group">
                                             <div class="togglebutton">
                                               <label>
-                                                <input type="checkbox" data-bind="checked: DateDeathSpouseValue" name="DateDeathSpouseCheck"> Fallecido
+                                                <input type="checkbox" data-bind="checked: selected" name="DateDeathSpouseCheck"> Fallecido
                                               </label>
                                           </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div data-bind='fadeVisible: DateDeathSpouseValue, valueUpdate: "afterkeydown"'>
+                                <div data-bind='visible: selected'>
 
                                     <div class="form-group">
                                             {!! Form::label('date_death', 'Fecha Deceso', ['class' => 'col-md-5 control-label']) !!}
@@ -1661,6 +1661,15 @@
         };
 
         ko.applyBindings(model);*/
+
+        var selectedlModel = function() {        
+        var self = this;
+        self.selected = ko.observable(false);
+        
+    }
+
+    ko.applyBindings(selectedlModel());
+
 
         $(function() {
             $('#record-table').DataTable({
