@@ -344,7 +344,7 @@ class Util
 	public static function getSemester($date)
 	{
 		if ($date) {
-			if (date("n", strtotime($date))-1 < 7) {
+			if (date("n", strtotime($date))-1 < 8) {
 				return "Primer";
 			}else{
 				return "Segundo";
