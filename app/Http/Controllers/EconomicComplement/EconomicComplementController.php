@@ -671,9 +671,7 @@ class EconomicComplementController extends Controller
         $ca=Category::all();
         $categories=[];
         foreach ($ca as $key=>$d) {
-            if ($key==8) {
-                break;
-            }else{
+            if ($d->id != 9 && $d->id != 10) {
                 $categories[$d->id]=$d->name;
             }
         }

@@ -1468,9 +1468,16 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                                {!! Form::label('service_years', 'Años de servicio', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-3">
+                                                {!! Form::text('service_years','', ['class'=> 'form-control']) !!}
+                                                <span class="help-block">Escriba los años de servicio</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                                 {!! Form::label('category', 'Categoria', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
-                                                {!! Form::select('category',$categories_list, $affiliate->category_id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                {!! Form::select('category',$categories_list, $affiliate->category_id , ['class'=> 'form-control', 'required']) !!}
                                                 <span class="help-block">Seleccione una Categoria para el policía</span>
                                             </div>
                                         </div>
@@ -1760,5 +1767,24 @@
                 $(this).parent().parent().remove();
                 event.preventDefault();
             });
+        $(document).ready(function() {
+            //for category
+            //
+            $("#service_years").inputmask('numeric',{min:0, max:100});
+            $('#service_years').on('keyup',function(event) {
+                var year = $(this).val();
+                $.ajax({
+                    url: '{{ route('get_category') }}',
+                    type: 'GET',
+                    data: {
+                        service_years: year},
+                })
+                .done(function(data) {
+                    if(data!= "error"){
+                        $('#category').val(data.id);
+                    }
+                });
+            }); 
+        });
     </script>
 @endpush

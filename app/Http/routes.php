@@ -59,6 +59,9 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::resource('affiliate_address', 'Affiliate\AffiliateAddressController');
 	// Record Affiliate
 	Route::get('get_record/{affiliate_id}', array('as'=>'get_record', 'uses'=>'Affiliate\AffiliateRecordController@Data'));
+	// Affiliate category
+	Route::get('get_category', array('as'=>'get_category', 'uses'=>'Affiliate\AffiliateController@getCategory'));
+
 	// Spouses
 	Route::resource('spouse', 'Affiliate\SpouseController');
 
