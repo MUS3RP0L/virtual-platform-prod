@@ -4,7 +4,7 @@
 	<div class="col-md-6">
 		{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-6">
        @can('eco_com_reception')
             @can('observate')
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
@@ -33,18 +33,19 @@
             @endif
         @endcan
         <div class="btn-group">
-            <span data-toggle="modal" data-target="#recordEcoModal">
-                <a href="#" class="btn btn-sm btn-raised btn-lg bg-blue"  data-toggle="tooltip"  data-placement="right" data-original-title="Historial"><i class="fa fa-lg fa-clock-o"></i></a>
-            </span>
+            <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm btn-raised btn-lg bg-orange"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar Tramite"><i aria-hidden="true" class="fa fa-refresh"></i></a>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="pull-right">
         <div class="btn-group">
-            <span data-toggle="tooltip" data-placement="top" data-original-title="ver" style="margin:0px;">
-                <a href="" data-target="#myModal-review-user" class="btn btn-sm btn-raised btn-{{ $economic_complement->stateOfReview() ? 'info' : 'warning'}} dropdown-toggle enabled" data-toggle="modal"> <strong>{{ $economic_complement->stateOfReview() ? "Revisado":"No revisado"}}</strong></a>
+            <span data-toggle="modal" data-target="#recordEcoModal">
+                <a href="#" class="btn btn-sm btn-raised btn-lg bg-blue"  data-toggle="tooltip"  data-placement="top" data-original-title="Historial"><i class="fa fa-lg fa-clock-o"></i></a>
             </span>
         </div>
+        <div class="pull-right">
+            <div class="btn-group">
+                <span data-toggle="tooltip" data-placement="top" data-original-title="ver" style="margin:0px;">
+                    <a href="" data-target="#myModal-review-user" class="btn btn-sm btn-raised btn-{{ $economic_complement->stateOfReview() ? 'info' : 'warning'}} dropdown-toggle enabled" data-toggle="modal"> <strong>{{ $economic_complement->stateOfReview() ? "Revisado":"No revisado"}}</strong></a>
+                </span>
+            </div>
             @can('eco_com_review')
                 @if($economic_complement->eco_com_state_id < 2)
                     <div class="btn-group">
@@ -759,9 +760,6 @@
                         <div class="col-md-4 text-right">
                             <span data-toggle="modal" data-target="#policeModal">
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
-                            </span>
-                            <span>
-                                <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i aria-hidden="true" class="fa fa-pencil-square"></i></a>
                             </span>
                         </div>
                         @endcan
