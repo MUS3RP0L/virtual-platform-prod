@@ -923,7 +923,6 @@ class EconomicComplementController extends Controller
                     break;
 
                     case '2':
-
                     $spouse = Spouse::affiliateidIs($request->affiliate_id)->first();
                     if ($spouse) {
                         $eco_com_applicant->identity_card = $spouse->identity_card;
@@ -988,6 +987,7 @@ class EconomicComplementController extends Controller
                 ->withInput();
             }
             else{
+                //return "second";
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
 
                 $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
@@ -998,7 +998,10 @@ class EconomicComplementController extends Controller
                 $eco_com_applicant->mothers_last_name = $request->mothers_last_name;
                 $eco_com_applicant->first_name = $request->first_name;
                 $eco_com_applicant->second_name = $request->second_name;
-                $eco_com_applicant->surname_husband = $request->surname_husband;
+                if ($request->surname_husband) {
+                                            $eco_com_applicant->surname_husband = $request->surname_husband;     
+                                }
+                
                 $eco_com_applicant->gender = $request->gender;
                 $eco_com_applicant->birth_date = Util::datePick($request->birth_date);
                 $eco_com_applicant->civil_status = $request->civil_status;
@@ -1057,7 +1060,7 @@ class EconomicComplementController extends Controller
                             $spouse->first_name = trim($request->first_name);
                             $spouse->second_name = trim($request->second_name);
                             $spouse->civil_status = trim($request->civil_status);
-                            $spouse->surname_husband = trim($request->surname_husband);
+                            $spouse->surname_husband = trim($request->surname_husband);      
                             $spouse->birth_date = Util::datePick($request->birth_date);
                             $spouse->date_death = Util::datePick($request->date_death);
                             $spouse->reason_death = trim($request->reason_death);
@@ -1065,6 +1068,7 @@ class EconomicComplementController extends Controller
                             $spouse->registration=Util::CalcRegistration(Util::datePick($request->birth_date),trim($request->last_name),trim($request->mothers_last_name), trim($request->first_name),Util::getGender($affiliate->gender));
                             $spouse->save();
                             $affiliate->save();
+
                         }
                         else{
                             $affiliate->identity_card = $request->identity_card_affi;

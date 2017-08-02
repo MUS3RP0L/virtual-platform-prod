@@ -426,20 +426,20 @@
                                         </div>
                                     </td>
                                 </tr>
-																@if($eco_com_applicant->date_death)
-																<tr>
-																	<td style="border-top:0px;;">
-																		<div class="row">
-																				<div class="col-md-6">
-																						<strong>Fecha de Deceso:</strong>
-																				</div>
-																				<div class="col-md-6">
-																						{!! $affiliate->getShortDateDeath() !!}
-																				</div>
-																		</div>
-																	</td>
-																</tr>
-																@endif
+									@if($eco_com_applicant->date_death)
+									<tr>
+										<td style="border-top:0px;;">
+											<div class="row">
+													<div class="col-md-6">
+															<strong>Fecha de Deceso:</strong>
+													</div>
+													<div class="col-md-6">
+															{!! $eco_com_applicant->getShortDateDeath() !!}
+													</div>
+											</div>
+										</td>
+									</tr>
+									@endif
 
                             </table>
                         </div>
@@ -556,20 +556,20 @@
                                         </div>
                                     </td>
                                 </tr>
-																@if($eco_com_applicant->reason_death)
-																		<tr>
-																				<td style="border-top:0px;">
-																						<div class="row">
-																								<div class="col-md-6">
-																										<strong>Motivo de Deceso</strong>
-																								</div>
-																								<div class="col-md-6">
-																										{!! $affiliate->reason_death !!}
-																								</div>
-																						</div>
-																				</td>
-																		</tr>
-																@endif
+									@if($eco_com_applicant->reason_death)
+											<tr>
+													<td style="border-top:0px;">
+															<div class="row">
+																	<div class="col-md-6">
+																			<strong>Motivo de Deceso</strong>
+																	</div>
+																	<div class="col-md-6">
+																			{!! $eco_com_applicant->reason_death !!}
+																	</div>
+															</div>
+													</td>
+											</tr>
+									@endif
                             </table>
                         </div>
                     </div>
@@ -1430,7 +1430,7 @@
                                         <span class="help-block">Escriba el Apellido Materno</span>
                                     </div>
                                 </div>
-                                @if ($eco_com_applicant->gender == 'F')
+                                 @if ($eco_com_applicant->gender == 'F') 
                                     <div class="form-group">
                                             {!! Form::label('surname_husband', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-6">
@@ -1438,7 +1438,7 @@
                                             <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
                                         </div>
                                     </div>
-                                @endif
+                                @endif 
                                 <div class="form-group">
                                         {!! Form::label('first_name', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
