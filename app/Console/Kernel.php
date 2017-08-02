@@ -29,7 +29,8 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\UpdateReceptionType::class,
         \Muserpol\Console\Commands\ImportacionesBases::class,
         \Muserpol\Console\Commands\Exportar_de_MDB::class,
-        \Muserpol\Console\Commands\ImportAvailabilityDate::class
+        \Muserpol\Console\Commands\ImportAvailabilityDate::class,
+        \Muserpol\Console\Commands\UpdateState::class,
 
     ];
 
