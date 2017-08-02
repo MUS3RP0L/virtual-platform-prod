@@ -265,7 +265,7 @@ class DashboardController extends Controller
 		}
 		$sum_last_semesters_data_reverse=array_reverse($sum_last_semesters_data, true);
 			
-	   	 $revisados=EconomicComplement::where('eco_com_state_id',null)
+	   	 $revisados=EconomicComplement::where('eco_com_state_id',16)
             
            
 

@@ -434,7 +434,7 @@ class EconomicComplementImportExportController extends Controller
         Log::info("user_role_id = ".$user_role_id->id);
         $semestre = DB::table('eco_com_procedures')->orderBy('id','DESC')->first();
 
-         $economic_complements=EconomicComplement::where('eco_com_state_id',null)
+         $economic_complements=EconomicComplement::where('eco_com_state_id',16)
             ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
             ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
             ->leftJoin('eco_com_procedures','economic_complements.eco_com_procedure_id','=','eco_com_procedures.id')
@@ -507,7 +507,7 @@ class EconomicComplementImportExportController extends Controller
         //Log::info("user_role_id = ".$user_role_id->id);
         $semestre = DB::table('eco_com_procedures')->orderBy('id','DESC')->first();
       //  Log::info($semestre->id);
-         $economic_complements=EconomicComplement::where('eco_com_state_id',null)
+         $economic_complements=EconomicComplement::where('eco_com_state_id',16)
             ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
             ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
             ->leftJoin('eco_com_procedures','economic_complements.eco_com_procedure_id','=','eco_com_procedures.id')
