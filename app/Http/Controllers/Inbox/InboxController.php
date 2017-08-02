@@ -51,7 +51,7 @@ class InboxController extends Controller
             ->where('economic_complements.state','Edited')
             ->where('economic_complements.eco_com_procedure_id','2')
             ->where('economic_complements.user_id',Auth::user()->id)
-            //->select('economic_complements.id','economic_complements.code')
+            ->select('economic_complements.id','economic_complements.code')
             // ->take(4)
             ->get();
         // return  $economic_complements;
