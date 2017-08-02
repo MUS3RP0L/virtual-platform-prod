@@ -426,7 +426,7 @@
                                         </div>
                                     </td>
                                 </tr>
-																@if($affiliate->date_death)
+																@if($eco_com_applicant->date_death)
 																<tr>
 																	<td style="border-top:0px;;">
 																		<div class="row">
@@ -556,7 +556,7 @@
                                         </div>
                                     </td>
                                 </tr>
-																@if($affiliate->reason_death)
+																@if($eco_com_applicant->reason_death)
 																		<tr>
 																				<td style="border-top:0px;">
 																						<div class="row">
@@ -1397,6 +1397,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="box-title">Editar Beneficiario</h4>
                 </div>
+
                 <div class="modal-body">
                     {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
                         <input type="hidden" name="step" value="second"/>
@@ -1459,6 +1460,37 @@
                                         <span class="help-block">Escriba el CUA/NUA</span>
                                     </div>
                                 </div>
+								<!-- aqui colocar nuevos -->
+								<div class="form-group">
+										<div class="col-md-6">
+												<div class="togglebutton">
+													<label>
+														<input type="checkbox"  data-bind='checked: selected'> Fallecido
+													</label>
+												</div>
+										</div>
+								</div>
+								<div data-bind='visible: selected'>
+											<div class="form-group">
+																		{!! Form::label('date_death', 'Fecha Deceso', ['class' => 'col-md-5 control-label']) !!}
+													<div class="col-md-6">
+															<div class="input-group">
+																	<input type="text" id="date_death_spouse_mask" class="form-control" name="date_death" value={{$eco_com_applicant->date_death}} data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+																	<div class="input-group-addon">
+																			<span class="glyphicon glyphicon-calendar"></span>
+																	</div>
+															</div>
+													</div>
+											</div>
+											<div class="form-group">
+															{!! Form::label('reason_death', 'Causa Deceso', ['class' => 'col-md-5 control-label']) !!}
+													<div class="col-md-6">
+															{!! Form::textarea('reason_death', $eco_com_applicant->reason_death, ['class'=> 'form-control', 'rows' => '2']) !!}
+															<span class="help-block">Escriba el Motivo de fallecimiento</span>
+													</div>
+											</div>
+								</div>
+
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -1574,42 +1606,9 @@
                                             <button class="btn btn-success" id="addCellPhoneNumberApplicant"><span class="fa fa-plus"></span></button>
                                             </div>
                                         </div>
-
-																				<div class="row">
-				                                    <div class="col-md-offset-5 col-md-4">
-				                                        <div class="form-group">
-				                                            <div class="togglebutton">
-				                                              <label>
-				                                                <input type="checkbox" data-bind="checked: DateDeathSpouseValue" name="DateDeathSpouseCheck"> Fallecido
-				                                              </label>
-				                                          </div>
-				                                        </div>
-				                                    </div>
-				                                </div>
-
-																				<div data-bind='fadeVisible: DateDeathSpouseValue, valueUpdate: "afterkeydown"'>
-
-																						<div class="form-group">
-																										{!! Form::label('date_death', 'Fecha Deceso', ['class' => 'col-md-5 control-label']) !!}
-																								<div class="col-md-7">
-																										<div class="input-group">
-																												<input type="text" id="date_death_spouse_mask" class="form-control" name="date_death" value="" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
-																												<div class="input-group-addon">
-																														<span class="glyphicon glyphicon-calendar"></span>
-																												</div>
-																										</div>
-																								</div>
-																						</div>
-																						<div class="form-group">
-																										{!! Form::label('reason_death', 'Causa Deceso', ['class' => 'col-md-5 control-label']) !!}
-																								<div class="col-md-6">
-																										{!! Form::textarea('reason_death', $eco_com_applicant->reason_death, ['class'=> 'form-control', 'rows' => '2']) !!}
-																										<span class="help-block">Escriba el Motivo de fallecimiento</span>
-																								</div>
-																						</div>
-																				</div>
                                     </div>
-                            </div>
+                            	</div>
+
                         </div>
 
                         <div class="row text-center">
@@ -2289,11 +2288,9 @@ $(document).ready(function() {
 		$('.combobox').combobox();
 	    $('[data-toggle="tooltip"]').tooltip();
 		$("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
-<<<<<<< HEAD
 		$("#date_death_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
-=======
-        $("#date_death_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});   
->>>>>>> upstream/master
+    $("#date_death_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+
 		$("#phone_number").inputmask();
         $("#cell_phone_number").inputmask();
         $("#phone_number_guardian").inputmask();
@@ -2334,7 +2331,8 @@ $(document).ready(function() {
 	function SelectRequeriments(requirements,requirements_ar) {
 
 		var self = this;
-
+		
+		console.log("hola ");
 		@if ($status_documents)
 			self.requirements = ko.observableArray(ko.utils.arrayMap(requirements, function(document) {
 			return { id: document.eco_com_requirement_id, name: document.economic_complement_requirement.shortened, status: document.status };
@@ -2385,6 +2383,8 @@ $(document).ready(function() {
             self.lastSavedJson_ar(JSON.stringify(dataToSave_ar));
         };
         self.lastSavedJson_ar = ko.observable("");
+
+
 	};
     @if($status_documents)
         @if($status_documents_ar)
@@ -2400,8 +2400,22 @@ $(document).ready(function() {
         @endif
 	@endif
 
-	ko.applyBindings(model);
+	
 
+    var selectedlModel = function() {        
+        console.log("aplicando listener");
+        var self = this;
+        @if($eco_com_applicant->date_death)
+            self.selected = ko.observable(true);
+        @else
+            self.selected = ko.observable(false);
+        @endif
+        
+        
+    }
+
+    // ko.applyBindings();
+    ko.applyBindings(model,selectedlModel());
 	//for phone numbers
 	$('#addPhoneNumber').on('click', function(event) {
 		$('#phonesNumbers').append('<div class="col-md-offset-5"><div class="col-md-7"><input type="text" class="form-control" name="phone_number[]" data-inputmask="\'mask\': \'(9) 999-999\'" data-mask></div><div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div></div>')
@@ -2559,7 +2573,7 @@ $(document).ready(function() {
                     $('#category').val(data.id);
                 }
             });
-        });        
+        });
     });
 </script>
 @endpush

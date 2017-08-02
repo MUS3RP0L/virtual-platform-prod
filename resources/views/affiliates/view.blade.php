@@ -1365,41 +1365,6 @@
                                         <span class="help-block">Seleccione el Estado Civil</span>
                                     </div>
                                 </div>
-
-                                <div class="row">
-                                    <div class="col-md-offset-5 col-md-4">
-                                        <div class="form-group">
-                                            <div class="togglebutton">
-                                              <label>
-                                                <input type="checkbox" data-bind="checked: selected" name="DateDeathSpouseCheck"> Fallecido
-                                              </label>
-                                          </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div data-bind='visible: selected'>
-
-                                    <div class="form-group">
-                                            {!! Form::label('date_death', 'Fecha Deceso', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-7">
-                                            <div class="input-group">
-                                                <input type="text" id="date_death_spouse_mask" class="form-control" name="date_death" value="{!! $spouse->getEditDateDeath() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
-                                                <div class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                            {!! Form::label('reason_death', 'Causa Deceso', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-6">
-                                            {!! Form::textarea('reason_death', $spouse->reason_death, ['class'=> 'form-control', 'rows' => '2']) !!}
-                                            <span class="help-block">Escriba el Motivo de fallecimiento</span>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
 

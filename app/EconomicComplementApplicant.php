@@ -65,6 +65,11 @@ class EconomicComplementApplicant extends Model
         return $this->last_name . ' ' . $this->mothers_last_name . ' ' . $this->surname_husband . ' ' . $this->first_name . ' ' . $this->second_name;
     }
 
+    public function getShortDateDeath()
+    {
+        return Util::getDateShort($this->date_death);
+    }
+
     public function getPhone()
     {
         if($this->phone_number && $this->cell_phone_number) {
