@@ -1365,7 +1365,7 @@ class EconomicComplementController extends Controller
                 else{
                     $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
                     $economic_complement->user_id = Auth::user()->id;
-                    $economic_complement->review_date = date('Y-m-d');
+                    $economic_complement->review_date = null;
                     $economic_complement->state = 'Received';
                     $economic_complement->save();
                     return redirect('economic_complement');
