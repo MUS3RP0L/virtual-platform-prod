@@ -29,8 +29,8 @@ class Spouse extends Model
         'birth_date',
         'city_birth_id',
         'date_death',
-        'reason_death',
-        'reason_death',
+        'reason_death'
+        
 
     ];
 
