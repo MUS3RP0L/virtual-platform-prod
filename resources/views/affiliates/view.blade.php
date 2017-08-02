@@ -10,7 +10,7 @@
     }
     .nav-tabs-custom > .nav-tabs > li.active {
         border:none;
-    }    
+    }
 </style>
     <div class="row">
         <div class="col-md-6">
@@ -139,7 +139,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                
+
                                 @if ($affiliate->surname_husband)
                                 <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
@@ -257,7 +257,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                
+
                                 <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
@@ -567,6 +567,21 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <strong>Lugar Nacimiento:</strong>
+                                                </div>
+                                                <div class="col-md-6">
+                                                  @if($spouse->city_birth)
+                                                     {!! $spouse->city_birth->name !!}
+                                                  @endif
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
                                     @if($spouse->date_death)
                                         <tr>
                                             <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
@@ -1336,7 +1351,13 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="form-group">
+                                        {!! Form::label('city_birth', 'Lugar Nacimiento', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-7">
+                                            {!! Form::select('city_birth_id', $cities_list, $spouse->city_birth_id, ['class' => 'combobox form-control']) !!}
+                                            <span class="help-block">Seleccione Departamento</span>
+                                        </div>
+                                </div>
                                 <div class="form-group">
                                             {!! Form::label('civil_status', 'Estado Civil', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
@@ -1344,41 +1365,6 @@
                                         <span class="help-block">Seleccione el Estado Civil</span>
                                     </div>
                                 </div>
-
-                                <div class="row">
-                                    <div class="col-md-offset-5 col-md-4">
-                                        <div class="form-group">
-                                            <div class="togglebutton">
-                                              <label>
-                                                <input type="checkbox" data-bind="checked: selected" name="DateDeathSpouseCheck"> Fallecido
-                                              </label>
-                                          </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div data-bind='visible: selected'>
-
-                                    <div class="form-group">
-                                            {!! Form::label('date_death', 'Fecha Deceso', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-7">
-                                            <div class="input-group">
-                                                <input type="text" id="date_death_spouse_mask" class="form-control" name="date_death" value="{!! $spouse->getEditDateDeath() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
-                                                <div class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                            {!! Form::label('reason_death', 'Causa Deceso', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-6">
-                                            {!! Form::textarea('reason_death', $spouse->reason_death, ['class'=> 'form-control', 'rows' => '2']) !!}
-                                            <span class="help-block">Escriba el Motivo de fallecimiento</span>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
 

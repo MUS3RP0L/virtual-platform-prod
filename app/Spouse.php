@@ -27,9 +27,10 @@ class Spouse extends Model
         'surname_husband',
         'civil_status',
         'birth_date',
+        'city_birth_id',
         'date_death',
-        'reason_death',
-        'reason_death',
+        'reason_death'
+        
 
     ];
 
@@ -94,6 +95,11 @@ class Spouse extends Model
     public function getFullName()
     {
         return $this->last_name . ' ' . $this->mothers_last_name. ' ' . $this->first_name. ' ' .$this->second_name;
+    }
+
+    public function city_birth()
+    {
+        return $this->hasOne('Muserpol\City', 'id','city_birth_id');
     }
 
     public function getCivilStatus()

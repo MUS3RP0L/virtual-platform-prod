@@ -151,6 +151,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('eco_com_pro_data',array('as'=>'eco_com_pro_data','uses'=> 'EconomicComplement\EconomicComplementProcedureController@Data'));
 	// for reception type
 	Route::get('get_reception_type',['as'=>'get_reception_type','uses'=>'EconomicComplement\EconomicComplementController@getReceptionType']);
+	// for Importation files excel
+	Route::get('import','ImportAportController@importAP');
 });
 
 define('ACCESS', env('ACCESS_PASS'));

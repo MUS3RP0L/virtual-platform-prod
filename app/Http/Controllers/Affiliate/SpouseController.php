@@ -81,6 +81,7 @@ class SpouseController extends Controller
             $spouse->first_name = trim($request->first_name);
             $spouse->second_name = trim($request->second_name);
             $spouse->birth_date = Util::datePick($request->birth_date);
+            if ($request->city_birth_id) { $spouse->city_birth_id = $request->city_birth_id; } else { $spouse->city_birth_id = null; }
             $spouse->civil_status = trim($request->civil_status);
             $spouse->registration=Util::CalcRegistration(Util::datePick($request->birth_date),trim($request->last_name),trim($request->mothers_last_name), trim($request->first_name),Util::getGender(Affiliate::find($id)->first()->gender));
             if ($request->DateDeathSpouseCheck == "on") {
