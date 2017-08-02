@@ -1034,6 +1034,8 @@ class EconomicComplementController extends Controller
                     $affiliate->gender = $request->gender;
                     $affiliate->civil_status = $request->civil_status;
                     $affiliate->birth_date = Util::datePick($request->birth_date);
+                    $affiliate->date_death = Util::datePick($request->date_death);
+                    $affiliate->reason_death = trim($request->reason_death);
                     if ($request->applicant == 'update') {
                         $affiliate->phone_number = trim(implode(",", $request->phone_number_applicant));
                         $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number_applicant));
