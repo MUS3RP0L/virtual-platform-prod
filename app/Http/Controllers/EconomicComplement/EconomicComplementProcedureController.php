@@ -28,7 +28,7 @@ class EconomicComplementProcedureController extends Controller
     }
     public function Data(Request $request)
     {
-        $procedures = EconomicComplementProcedure::select(['id', 'year', 'semester', 'normal_start_date', 'normal_end_date', 'lagging_start_date', 'lagging_end_date',  'additional_start_date', 'additional_end_date']);
+        $procedures = EconomicComplementProcedure::select(['id', 'year', 'semester', 'normal_start_date', 'normal_end_date', 'lagging_start_date', 'lagging_end_date',  'additional_start_date', 'additional_end_date', 'indicator']);
         return Datatables::of($procedures)
                ->editColumn('year', function ($procedure) { return Util::getYear($procedure->year); })
                ->addColumn('action', function ($procedure) { return
@@ -58,6 +58,7 @@ class EconomicComplementProcedureController extends Controller
         $additional_start_date = Carbon::parse($economic_complement_procedure->additional_start_date)->format('d/m/Y');
         $additional_end_date = Carbon::parse($economic_complement_procedure->additional_end_date)->format('d/m/Y');
         $year = Carbon::now()->year;
+        $indicator = $economic_complement_procedure->indicator;
         $semester = Util::getCurrentSemester();
         return view('economic_complements.procedure.create',compact('normal_start_date','normal_end_date','lagging_start_date','lagging_end_date','additional_start_date','additional_end_date','year','semester'));
     }
@@ -70,13 +71,13 @@ class EconomicComplementProcedureController extends Controller
      */
     public function save($request, $eco_com_pro_id)
     {
-
-        $exists = EconomicComplementProcedure::where('year','=',Util::datePickYear($request->year))->where('semester','=',$request->semester)->first();
-        if ($exists) {
-          return redirect('economic_complement_procedure')
-          ->withErrors("Error en los datos")
-          ->withInput();
-        }else{
+       //dd($eco_com_pro_id);
+        // $exists = EconomicComplementProcedure::where('year','=',Util::datePickYear($request->year))->where('semester','=',$request->semester)->first();
+        // if ($exists) {
+        //   return redirect('economic_complement_procedure')
+        //   ->withErrors("Error en los datos")
+        //   ->withInput();
+        // }else{
             if ($eco_com_pro_id) {
                 $message = "Rango de fechas Actualizado";
                 $eco_com_pro = EconomicComplementProcedure::find($eco_com_pro_id);
@@ -93,10 +94,11 @@ class EconomicComplementProcedureController extends Controller
             $eco_com_pro->lagging_end_date = Util::datePick($request->lagging_end_date);
             $eco_com_pro->additional_start_date = Util::datePick($request->additional_start_date);
             $eco_com_pro->additional_end_date = Util::datePick($request->additional_end_date);
+            $eco_com_pro->indicator = floatval(str_replace(',','',$request->indicator));
             $eco_com_pro->save();
             Session::flash('message', $message);
             return redirect('economic_complement_procedure');
-        }
+        // }
     }
     public function store(Request $request)
     {

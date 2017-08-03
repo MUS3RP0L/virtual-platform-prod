@@ -124,6 +124,7 @@ Route::group(['middleware' => 'auth'], function() {
 	//david
 	Route::get('export_excel','EconomicComplement\EconomicComplementImportExportController@export_excel');
 	Route::get('export_excel_user','EconomicComplement\EconomicComplementImportExportController@export_excel_user');
+	Route::get('export_excel_general','EconomicComplement\EconomicComplementImportExportController@export_excel_general');
 
 
 	// Economic Complement Record

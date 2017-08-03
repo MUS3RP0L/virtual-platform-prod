@@ -462,7 +462,7 @@ class EconomicComplementImportExportController extends Controller
             //->where('economic_complements.user_id',Auth::user()->id)
 
 
-             ->select('economic_complements.review_date as Fecha','eco_com_applicants.identity_card as CI','cities.first_shortened as Exp','eco_com_applicants.first_name as Primer_nombre','eco_com_applicants.second_name as Segundo_nombre', 'eco_com_applicants.last_name as Paterno','eco_com_applicants.mothers_last_name as Materno','eco_com_applicants.surname_husband as ap_esp','eco_com_applicants.birth_date as Fecha_nac','eco_com_applicants.nua','eco_com_applicants.phone_number as Telefono','eco_com_applicants.cell_phone_number as celular','eco_com_modalities.shortened as tipo_renta','eco_com_procedures.year as año_gestion','eco_com_procedures.semester as semestre','categories.name as categoria','degrees.shortened as Grado','economic_complements.total_rent as Renta_total','base_wages.amount as Sueldo_base','economic_complements.seniority as antiguedad','economic_complements.salary_quotable as Salario_cotizable','economic_complements.difference as direfencia','economic_complements.total_amount_semester as monto_total_semestre','economic_complements.complementary_factor as factor_de_complementacion','economic_complements.total','economic_complements.code as Nro_proceso','pension_entities.name as Ente_gestor','affiliate_observations.date as Fecha_obs','affiliate_observations.message as Observacion')
+            ->select('economic_complements.review_date as Fecha','eco_com_applicants.identity_card as CI','cities.first_shortened as Exp_complemento','eco_com_applicants.first_name as Primer_nombre','eco_com_applicants.second_name as Segundo_nombre', 'eco_com_applicants.last_name as Paterno','eco_com_applicants.mothers_last_name as Materno','eco_com_applicants.surname_husband as ap_esp','eco_com_applicants.birth_date as Fecha_nac','eco_com_applicants.nua','eco_com_applicants.phone_number as Telefono','eco_com_applicants.cell_phone_number as celular','eco_com_modalities.shortened as tipo_renta','eco_com_procedures.year as año_gestion','eco_com_procedures.semester as semestre','categories.name as categoria','degrees.shortened as Grado','base_wages.amount as Sueldo_base','economic_complements.code as Nro_proceso','pension_entities.name as Ente_gestor','affiliate_observations.date as Fecha_obs','affiliate_observations.message as Observacion')
            // ->select('economic_complements.id as id_base' ,'economic_complements.code as codigo')
             ->orderBy('economic_complements.review_date','ASC')
             ->get();
@@ -534,7 +534,7 @@ class EconomicComplementImportExportController extends Controller
             ->where('economic_complements.user_id',Auth::user()->id)
 
 
-            ->select('economic_complements.review_date as Fecha','eco_com_applicants.identity_card as CI','cities.first_shortened as Exp','eco_com_applicants.first_name as Primer_nombre','eco_com_applicants.second_name as Segundo_nombre', 'eco_com_applicants.last_name as Paterno','eco_com_applicants.mothers_last_name as Materno','eco_com_applicants.surname_husband as ap_esp','eco_com_applicants.birth_date as Fecha_nac','eco_com_applicants.nua','eco_com_applicants.phone_number as Telefono','eco_com_applicants.cell_phone_number as celular','eco_com_modalities.shortened as tipo_renta','eco_com_procedures.year as año_gestion','eco_com_procedures.semester as semestre','categories.name as categoria','degrees.shortened as Grado','economic_complements.total_rent as Renta_total','base_wages.amount as Sueldo_base','economic_complements.seniority as antiguedad','economic_complements.salary_quotable as Salario_cotizable','economic_complements.difference as direfencia','economic_complements.total_amount_semester as monto_total_semestre','economic_complements.complementary_factor as factor_de_complementacion','economic_complements.total','economic_complements.code as Nro_proceso','pension_entities.name as Ente_gestor','affiliate_observations.date as Fecha_obs','affiliate_observations.message as Observacion')
+            ->select('economic_complements.review_date as Fecha','eco_com_applicants.identity_card as CI','cities.first_shortened as Exp','eco_com_applicants.first_name as Primer_nombre','eco_com_applicants.second_name as Segundo_nombre', 'eco_com_applicants.last_name as Paterno','eco_com_applicants.mothers_last_name as Materno','eco_com_applicants.surname_husband as ap_esp','eco_com_applicants.birth_date as Fecha_nac','eco_com_applicants.nua','eco_com_applicants.phone_number as Telefono','eco_com_applicants.cell_phone_number as celular','eco_com_modalities.shortened as tipo_renta','eco_com_procedures.year as año_gestion','eco_com_procedures.semester as semestre','categories.name as categoria','degrees.shortened as Grado','base_wages.amount as Sueldo_base','economic_complements.code as Nro_proceso','pension_entities.name as Ente_gestor','affiliate_observations.date as Fecha_obs','affiliate_observations.message as Observacion')
              ->orderBy('economic_complements.review_date','ASC')
            // ->select('economic_complements.id as id_base' ,'economic_complements.code as codigo')
             ->get();
@@ -546,6 +546,77 @@ class EconomicComplementImportExportController extends Controller
                     
             
                         $excel->sheet('Reporte usuario',function($sheet) use ($economic_complements) {
+
+                        $sheet->fromArray($economic_complements);
+                        // $sheet->fromArray(
+                        //                     array(
+                        //                            $rows
+                        //                           )
+                        //                   );
+
+                          // $sheet->row(1,array('Contribuciones: '.$contribuciones->count(),'Total Bs: '.$total) );
+
+                          // $sheet->cells('A1:B1', function($cells) {
+                          // $cells->setBackground('#4CCCD4');
+                                                      // manipulate the range of cells
+
+                          });
+                  
+                })->download('xls');
+
+        //return $economic_complements;
+       // return "contribuciones totales ".$economic_complements->count();
+      }
+      else
+      {
+        return "funcion no disponible revise su sesion de usuario";
+      }
+    }
+    public function export_excel_general()
+    {
+      // $complementos = EconomicComplement::where('workflow_id','=','1')
+        //                               // ->where('wf_current_state_id','=','2')
+        //                               ->where('state','=','Edited')
+        //                               ->get();   
+      if(Auth::check())
+      {
+        $user_role_id=Auth::user()->roles()->first();
+        Log::info("user_role_id = ".$user_role_id->id);
+        $semestre = DB::table('eco_com_procedures')->orderBy('id','DESC')->first();
+
+         $economic_complements=EconomicComplement::where('eco_com_state_id',16)
+            ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
+            ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+            ->leftJoin('eco_com_procedures','economic_complements.eco_com_procedure_id','=','eco_com_procedures.id')
+            ->leftJoin('cities','economic_complements.city_id','=','cities.id')
+            ->leftJoin('categories','economic_complements.category_id','=','categories.id')
+            ->leftJoin('base_wages','economic_complements.base_wage_id','=','base_wages.id')
+            ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+
+            ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
+            ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+            ->leftJoin('affiliate_observations','affiliates.id','=','affiliate_observations.affiliate_id')
+
+            ->where('economic_complements.workflow_id','=','1')
+            ->where('economic_complements.wf_current_state_id','2')
+            ->where('economic_complements.state','Edited')
+          //  ->where('economic_complements.eco_com_procedure_id',$semestre->id)
+            ->where('economic_complements.eco_com_procedure_id','2')
+            //->where('economic_complements.user_id',Auth::user()->id)
+
+
+             ->select('economic_complements.review_date as Fecha','eco_com_applicants.identity_card as CI','cities.first_shortened as Exp','eco_com_applicants.first_name as Primer_nombre','eco_com_applicants.second_name as Segundo_nombre', 'eco_com_applicants.last_name as Paterno','eco_com_applicants.mothers_last_name as Materno','eco_com_applicants.surname_husband as ap_esp','eco_com_applicants.birth_date as Fecha_nac','eco_com_applicants.nua','eco_com_applicants.phone_number as Telefono','eco_com_applicants.cell_phone_number as celular','eco_com_modalities.shortened as tipo_renta','eco_com_procedures.year as año_gestion','eco_com_procedures.semester as semestre','categories.name as categoria','degrees.shortened as Grado','economic_complements.total_rent as Renta_total','base_wages.amount as Sueldo_base','economic_complements.seniority as antiguedad','economic_complements.salary_quotable as Salario_cotizable','economic_complements.difference as direfencia','economic_complements.total_amount_semester as monto_total_semestre','economic_complements.complementary_factor as factor_de_complementacion','economic_complements.total','economic_complements.code as Nro_proceso','pension_entities.name as Ente_gestor','affiliate_observations.date as Fecha_obs','affiliate_observations.message as Observacion')
+           // ->select('economic_complements.id as id_base' ,'economic_complements.code as codigo')
+            ->orderBy('economic_complements.review_date','ASC')
+            ->get();
+
+       //  return $economic_complements;
+        //$fila = new CustomCollection(array('identificador' => ,$economic_complements-> ));
+         Excel::create('Reporte General '.date("Y-m-d H:i:s"),function($excel) use ($economic_complements)
+         {
+                    
+            
+                        $excel->sheet('Reporte General Complemento',function($sheet) use ($economic_complements) {
 
                         $sheet->fromArray($economic_complements);
                         // $sheet->fromArray(
