@@ -211,6 +211,7 @@ class EconomicComplement extends Model
                 $economic_complement->aps_total_fsa=floatval(str_replace(',','',$aps_total_fsa));
                 $economic_complement->aps_total_cc=floatval(str_replace(',','',$aps_total_cc));
                 $economic_complement->aps_total_fs=floatval(str_replace(',','',$aps_total_fs));
+                $mount = EconomicComplementProcedure::whereYear('year', '=', Carbon::now()->year)->where('semester','like',Util::getCurrentSemester())->first()->indicator;
                 //vejez
                 if ($economic_complement->economic_complement_modality->economic_complement_type->id == 1){
                     if ($comp == 1 && $total_rent >= $mount){
