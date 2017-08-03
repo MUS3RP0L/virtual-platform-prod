@@ -17,6 +17,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 use Muserpol\Affiliate;
 use Muserpol\EconomicComplement;
+use Muserpol\EconomicComplementProcedure;
 
 use App\CustomCollection;
 
@@ -50,6 +51,7 @@ class EconomicComplementImportExportController extends Controller
           $afi;
           $found=0;
           $nofound=0;
+          $procedure = EconomicComplementProcedure::whereYear('year','=',$year)->where('semester','=',$semester)->first();
           foreach ($results as $datos) {
             
             $ext = ($datos->num_com ? "-".$datos->num_com : '');
@@ -94,8 +96,10 @@ class EconomicComplementImportExportController extends Controller
                   ->where('affiliates.pension_entity_id','=', 5)
                   ->whereYear('economic_complements.year', '=', $year)
                   ->where('economic_complements.semester', '=', $semester)->first();
-            }           
-            if ($comp){
+            } 
+            $procedure = EconomicComplementProcedure::whereYear('year','=',$year)->where('semester','=',$semester)->first();          
+            if ($comp && $procedure->indicator > 0)
+            {
                
                 $ecomplement = EconomicComplement::where('id','=', $comp->id)->first();
                 if (is_null($ecomplement->total_rent))
@@ -104,15 +108,15 @@ class EconomicComplementImportExportController extends Controller
                   $discount = $datos->renta_dignidad + $datos->reintegro_renta_dignidad + $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
                   $total_rent = $datos->total_ganado - $discount;
                   
-                  if($comp->type == 1 && $total_rent < 2000)  //Vejez Senasir
+                  if($comp->type == 1 && $total_rent < $procedure->indicator)  //Vejez Senasir
                   {
                     $ecomplement->eco_com_modality_id = 8;
                   } 
-                  elseif ($comp->type == 2 && $total_rent < 2000) //Viudedad 
+                  elseif ($comp->type == 2 && $total_rent < $procedure->indicator) //Viudedad 
                   {  
                     $ecomplement->eco_com_modality_id = 9;
                   } 
-                  elseif($comp->type == 3 && $total_rent < 2000) //Orfandad 
+                  elseif($comp->type == 3 && $total_rent < $procedure->indicator) //Orfandad 
                   {  
                       $ecomplement->eco_com_modality_id = 12;
                   }
@@ -159,7 +163,8 @@ class EconomicComplementImportExportController extends Controller
 
         $afi;
         $found=0;
-        $nofound=0;      
+        $nofound=0; 
+        $procedure = EconomicComplementProcedure::whereYear('year','=',$year)->where('semester','=',$semester)->first();    
         foreach ($results as $datos)
         {   
             $nua = ltrim((string)$datos->nrosip_titular, "0");
@@ -178,7 +183,7 @@ class EconomicComplementImportExportController extends Controller
             
               if ($afi)
               { $ecomplement = EconomicComplement::where('id','=', $afi->id)->first(); 
-                if (is_null($ecomplement->total_rent) || $ecomplement->total_rent == 0 )
+                if ((is_null($ecomplement->total_rent) || $ecomplement->total_rent == 0) && $procedure->indicator > 0 )
                 {                              
                     $comp1 = 0;
                     $comp2 = 0;
@@ -199,15 +204,15 @@ class EconomicComplementImportExportController extends Controller
                     //Vejez
                     if ($afi->type == 1 )
                     {
-                       if ($comp == 1 && $datos->total_pension >= 2000)
+                       if ($comp == 1 && $datos->total_pension >= $procedure->indicator)
                        {
                           $ecomplement->eco_com_modality_id = 4;
                        }
-                       elseif ($comp == 1 && $datos->total_pension < 2000)
+                       elseif ($comp == 1 && $datos->total_pension < $procedure->indicator)
                        {
                           $ecomplement->eco_com_modality_id = 6;
                        }
-                       elseif ($comp > 1 && $datos->total_pension < 2000)
+                       elseif ($comp > 1 && $datos->total_pension < $procedure->indicator)
                        {
                           $ecomplement->eco_com_modality_id = 8;
                        }
@@ -215,28 +220,28 @@ class EconomicComplementImportExportController extends Controller
                    //Viudedad
                     elseif ($afi->type == 2) 
                     {
-                       if($comp == 1 && $datos->total_pension >= 2000) 
+                       if($comp == 1 && $datos->total_pension >= $procedure->indicator) 
                        {
                            $ecomplement->eco_com_modality_id = 5;
-                       } elseif ($comp == 1 && $datos->total_pension < 2000) 
+                       } elseif ($comp == 1 && $datos->total_pension < $procedure->indicator) 
                        {
                             $ecomplement->eco_com_modality_id = 7;
-                       } elseif ($comp > 1 && $datos->total_pension < 2000 ) 
+                       } elseif ($comp > 1 && $datos->total_pension < $procedure->indicator ) 
                        {
                            $ecomplement->eco_com_modality_id = 9;
                        }
                     }
                     else
                     { //ORFANDAD
-                      if ($comp == 1 && $datos->total_pension >= 2000)
+                      if ($comp == 1 && $datos->total_pension >= $procedure->indicator)
                        {
                           $ecomplement->eco_com_modality_id = 10;
                        }
-                       elseif ($comp == 1 && $datos->total_pension < 2000)
+                       elseif ($comp == 1 && $datos->total_pension < $procedure->indicator)
                        {
                           $ecomplement->eco_com_modality_id = 11;
                        }
-                       elseif ($comp > 1 && $datos->total_pension < 2000)
+                       elseif ($comp > 1 && $datos->total_pension < $procedure->indicator)
                        {
                           $ecomplement->eco_com_modality_id = 12;
                        }
