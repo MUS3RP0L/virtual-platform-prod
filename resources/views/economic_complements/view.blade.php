@@ -204,7 +204,7 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <strong>Sexo:</strong>
+                                                    <strong>Género:</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                     {!! $affiliate->getGender() !!}
@@ -449,7 +449,7 @@
                                     <td style="border-top:0px;;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Sexo</strong>
+                                                <strong>Género</strong>
                                             </div>
                                             <div class="col-md-6">
                                                  {!! $eco_com_applicant->getGender() !!}
@@ -1251,10 +1251,10 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                            {!! Form::label('gender', 'Sexo', ['class' => 'col-md-5 control-label']) !!}
+                                            {!! Form::label('gender', 'Género', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
                                         {!! Form::select('gender', ['M'=>'Masculino','F'=>'Femenino'] ,$affiliate->gender, ['class' => 'combobox form-control','required']) !!}
-                                        <span class="help-block">Seleccione Sexo</span>
+                                        <span class="help-block">Seleccione Género</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -1494,10 +1494,10 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                        {!! Form::label('gender', 'Sexo', ['class' => 'col-md-5 control-label']) !!}
+                                        {!! Form::label('gender', 'Género', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
                                         {!! Form::select('gender', ['M'=>'Masculino','F'=>'Femenino'] ,$eco_com_applicant->gender, ['class' => 'combobox form-control','required']) !!}
-                                        <span class="help-block">Seleccione Sexo</span>
+                                        <span class="help-block">Seleccione Género</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
