@@ -120,6 +120,7 @@ class EconomicComplementImportExportController extends Controller
                   $ecomplement->total_rent =  $total_rent;
                   $ecomplement->dignity_pension = $datos->renta_dignidad;
                   $ecomplement->reimbursement = $reimbursements;
+                  $ecomplement->rent_type ='Automatico';
                   $ecomplement->save();                
                   $found ++;
                 }
@@ -244,6 +245,7 @@ class EconomicComplementImportExportController extends Controller
                     $ecomplement->aps_total_cc = $datos->total_cc;
                     $ecomplement->aps_total_fsa = $datos->total_fsa;
                     $ecomplement->aps_total_fs = $datos->total_fs;
+                    $ecomplement->rent_type ='Automatico';
                     $ecomplement->save();                  
                     $found ++;
                     Log::info($ci);
