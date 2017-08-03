@@ -93,6 +93,12 @@
 								        </div>
 								    </div>
 								</div>
+								<div class="form-group">
+									{!! Form::label('indicator', 'Indicador', ['class' => 'col-md-4 control-label']) !!}
+									<div class="col-md-6">
+									{!! Form::text('indicator', null , ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'",'required' => 'required']) !!}
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -115,6 +121,7 @@
 <script src="/js/bootstrap-datetimepicker.js"></script>
 <script>
 $(function () {
+	$('#indicator').inputmask();
         $('#normal_start_date').datetimepicker({
         	format:"D/M/YYYY"
         });
