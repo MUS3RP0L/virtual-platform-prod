@@ -15,7 +15,7 @@ use Muserpol\Contribution;
 class ImportAportController extends Controller
 {
   public function importAP(){
-    Excel::load('D:\Aportes\APORTES ACTIVOS - FILE MAKER.xlsx',function($reader){
+    Excel::load('D:\Aportes\APORTES PASIVOS - FILE MAKER.xlsx',function($reader){
       $results =  $reader->select(array('ci','matricula','anio','mes','cod_afi','fecha','recibo','monto'))->get();
       //echo json_encode($results);
       //exit();
