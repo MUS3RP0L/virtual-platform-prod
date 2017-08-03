@@ -1776,53 +1776,63 @@
                             <h4 style="text-align: center">{!!$economic_complement->affiliate->pension_entity->name!!}</h4>
                             <div class="col-md-12">
                                 @if($economic_complement->affiliate->pension_entity->name != 'SENASIR')
+                                <div class="col-md-6">     
                                     <div class="form-group">
                                         {!! Form::label('aps_total_fsa', 'Fraccion de Saldo Acumulado', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-3">
+                                        <div class="col-md-6">
                                         {!! Form::text('aps_total_fsa', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
                                             <span class="help-block">Escriba la Fraccion de Saldo Acumulado</span>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         {!! Form::label('aps_total_cc', 'Fraccion de Cotizaciones', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-3">
+                                        <div class="col-md-6">
                                         {!! Form::text('aps_total_cc', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
                                             <span class="help-block">Escriba la Fraccion de Cotizaciones</span>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         {!! Form::label('aps_total_fs', 'Fraccion Solidaria', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-3">
+                                        <div class="col-md-6">
                                         {!! Form::text('aps_total_fs', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
                                             <span class="help-block">Escriba la Fraccion solidaria</span>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                    {!! Form::label('total_frac', 'Total Fracciones', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-3">
-                                    {!! Form::text('total_frac', null, ['class' => 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'", 'readonly']) !!}
+                                        {!! Form::label('total_frac', 'Total Fracciones', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-6">
+                                        {!! Form::text('total_frac', null, ['class' => 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'", 'readonly']) !!}
+                                        </div>
                                     </div>
                                 </div>
                                 @endif
-                                <div class="form-group">
-                                    {!! Form::label('sub_total_rent', 'Renta Total Boleta', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-3">
-                                    {!! Form::text('sub_total_rent', null, ['class' => 'form-control', 'required' => 'required',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
-                                        <span class="help-block">Escriba la Renta total boleta</span>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {!! Form::label('sub_total_rent', 'Renta Total Boleta', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-6">
+                                        {!! Form::text('sub_total_rent', null, ['class' => 'form-control rent', 'required' => 'required',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                            <span class="help-block">Escriba la Renta total boleta</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    {!! Form::label('reimbursement', 'Reintegro', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-3">
-                                    {!! Form::text('reimbursement', null, ['class'=> 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
-                                        <span class="help-block">Escriba el reintegro</span>
+                                    <div class="form-group">
+                                        {!! Form::label('reimbursement', 'Reintegro', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-6">
+                                        {!! Form::text('reimbursement', null, ['class'=> 'form-control rent',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                            <span class="help-block">Escriba el reintegro</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    {!! Form::label('dignity_pension', 'Renta Dignidad', ['class' => 'col-md-5 control-label',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
-                                    <div class="col-md-3">
-                                        {!! Form::text('dignity_pension', null, ['class'=> 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
-                                        <span class="help-block">Escriba la renta dignidad</span>
+                                    <div class="form-group">
+                                        {!! Form::label('dignity_pension', 'Renta Dignidad', ['class' => 'col-md-5 control-label',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                        <div class="col-md-6">
+                                            {!! Form::text('dignity_pension', null, ['class'=> 'form-control rent',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                            <span class="help-block">Escriba la renta dignidad</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        {!! Form::label('total_rent', 'Total Renta', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-6">
+                                        {!! Form::text('total_rent', null, ['class' => 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'", 'readonly']) !!}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -2555,6 +2565,13 @@ $(document).ready(function() {
             var total=aps_total_fsa+aps_total_fs+aps_total_cc;
             $('#total_frac').val(total);
             // $('#sub_total_rent').val(total);
+        });
+        $('.rent').keyup(function (event) {
+            var sub_total_rent=parseCurrency($("#sub_total_rent").val());
+            var reimbursement=parseCurrency($("#reimbursement").val());
+            var dignity_pension=parseCurrency($("#dignity_pension").val());
+            var total=sub_total_rent - reimbursement - dignity_pension;
+            $('#total_rent').val(total.toFixed(2));
         });
 
         //for category
