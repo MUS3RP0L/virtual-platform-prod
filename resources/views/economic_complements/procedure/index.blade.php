@@ -53,13 +53,13 @@
 					<div class="form-group">
 						{!! Form::label('year', 'Año', ['class' => 'col-md-4 control-label']) !!}
 						<div class="col-md-6">
-						{!! Form::number('year', null , ['class'=> 'form-control', 'required' => 'required']) !!}
+						{!! Form::number('year', null , ['class'=> 'form-control', 'readonly']) !!}
 						</div>
 					</div>
 					<div class="form-group">
 						{!! Form::label('semester', 'Semestre',['class' => 'col-md-4 control-label']) !!}
 						<div class="col-md-6">
-						{!! Form::select('semester', ['Primer' => 'Primer', 'Segundo' => 'Segundo'], null, ['class' => 'form-control', 'required']) !!}
+						{!! Form::text('semester', null, ['class' => 'form-control', 'readonly']) !!}
 						</div>
 					</div>
 					<div class="form-group">
