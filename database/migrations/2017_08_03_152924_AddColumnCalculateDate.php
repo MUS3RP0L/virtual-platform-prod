@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddColumnTypeCalculate extends Migration
+class AddColumnCalculateDate extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,10 @@ class AddColumnTypeCalculate extends Migration
      */
     public function up()
     {
-        Schema::table('economic_complements', function(Blueprint $table)
+         Schema::table('economic_complements', function(Blueprint $table)
         {
-            $table->enum('calculation_type', ['NoCalculado', 'Automatico', 'Manual'])->required()->default('NoCalculado');
-                        
+            
+            $table->date('calculation_date')->nullable();            
 
 
         });
