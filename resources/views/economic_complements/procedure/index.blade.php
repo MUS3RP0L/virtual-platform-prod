@@ -30,6 +30,7 @@
 					<th>Fin Rezagados</th>
 					<th>Inicio Adicionales</th>
 					<th>Fin Adicionales</th>
+					<th>Indicador</th>
 					<th>Opciones</th>
 				</tr>
 				</thead>
@@ -58,7 +59,7 @@
 					<div class="form-group">
 						{!! Form::label('semester', 'Semestre',['class' => 'col-md-4 control-label']) !!}
 						<div class="col-md-6">
-						{!! Form::select('semester', ['Primer' => 'Primer', 'Segundo' => 'Segundo'], null, ['class' => 'form-control combobox', 'required']) !!}
+						{!! Form::select('semester', ['Primer' => 'Primer', 'Segundo' => 'Segundo'], null, ['class' => 'form-control', 'required']) !!}
 						</div>
 					</div>
 					<div class="form-group">
@@ -124,6 +125,12 @@
 					        </div>
 					    </div>
 					</div>
+					<div class="form-group">
+						{!! Form::label('indicator', 'Indicador', ['class' => 'col-md-4 control-label']) !!}
+						<div class="col-md-6">
+						{!! Form::text('indicator', null , ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'",'required' => 'required']) !!}
+						</div>
+					</div>
             		<div class="row text-center">
                         <div class="form-group">
             				<div class="col-md-12">
@@ -169,6 +176,7 @@
 <script src="/js/bootstrap-datetimepicker.js"></script>
 <script>
 $(function () {
+		$('#indicator').inputmask();
         $('#normal_start_date_edit').datetimepicker({
             format:"D/M/YYYY"
         });
@@ -224,8 +232,9 @@ $(function () {
             	$('#lagging_end_date_edit').find('input').val(data.lagging_end_date);
             	$('#semester').val(data.semester);
             	$('#year').val(data.year);
+            	$('#indicator').val(data.indicator);
             	$('#economic_complement_procedure_id').val(data.id);
-            	$('#semester').combobox();
+            	//$('#semester').combobox();
             });
             event.preventDefault();
         });
@@ -252,6 +261,7 @@ $(function () {
 					{data: 'lagging_end_date', name: 'lagging_end_date',bSortable: false },
 					{data: 'additional_start_date', name: 'additional_start_date',bSortable: false },
 					{data: 'additional_end_date', name: 'additional_end_date',bSortable: false },
+					{data: 'indicator', name: 'indicator',bSortable: false },
 					{data: 'action',bSortable: false },
 				],
 				search: {
