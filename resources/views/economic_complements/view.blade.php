@@ -47,7 +47,7 @@
                 </span>
             </div>
             @can('eco_com_review')
-                @if($economic_complement->eco_com_state_id < 2)
+                
                     <div class="btn-group">
                         <span data-toggle="tooltip" data-placement="top" data-original-title="Revertir" style="margin:0px;">
                             <a href="" data-target="#myModal-revert" class="btn btn-sm btn-raised btn-danger dropdown-toggle enabled" data-toggle="modal">&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;</a>
@@ -58,7 +58,7 @@
                             <a href="" data-target="#myModal-confirm" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal">&nbsp;<span class="glyphicon glyphicon-ok"></span>&nbsp;</a>
                         </span>
                     </div>
-                @endif
+
             @endcan
         </div>
     </div>
