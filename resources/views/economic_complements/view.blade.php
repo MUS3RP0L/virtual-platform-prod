@@ -1762,98 +1762,120 @@
         </div>
     </div>
     @endif
-    <div id="myModal-totals" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="box-header with-border">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Editar Totales</h4>
-                </div>
-                <div class="modal-body">
-                    {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement], 'class' => 'form-horizontal']) !!}
-                        <input type="hidden" name="step" value="rent"/>
+    @if($economic_complement->rent_type == 'Automatico')
+        <div id="myModal-totals" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="box-header with-border">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Cálculo del Trámite</h4>
+                    </div>
+                    <div class="modal-body">
                         <div class="row">
-                            <h4 style="text-align: center">{!!$economic_complement->affiliate->pension_entity->name!!}</h4>
-                            <div class="col-md-12">
-                                @if($economic_complement->affiliate->pension_entity->name != 'SENASIR')
-                                <div class="col-md-6">     
-                                    <div class="form-group">
-                                        {!! Form::label('aps_total_fsa', 'Fraccion de Saldo Acumulado', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-6">
-                                        {!! Form::text('aps_total_fsa', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
-                                            <span class="help-block">Escriba la Fraccion de Saldo Acumulado</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        {!! Form::label('aps_total_cc', 'Fraccion de Cotizaciones', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-6">
-                                        {!! Form::text('aps_total_cc', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
-                                            <span class="help-block">Escriba la Fraccion de Cotizaciones</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        {!! Form::label('aps_total_fs', 'Fraccion Solidaria', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-6">
-                                        {!! Form::text('aps_total_fs', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
-                                            <span class="help-block">Escriba la Fraccion solidaria</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        {!! Form::label('total_frac', 'Total Fracciones', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-6">
-                                        {!! Form::text('total_frac', null, ['class' => 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'", 'readonly']) !!}
-                                        </div>
-                                    </div>
-                                </div>
-                                @endif
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {!! Form::label('sub_total_rent', 'Renta Total Boleta', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-6">
-                                        {!! Form::text('sub_total_rent', null, ['class' => 'form-control rent', 'required' => 'required',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
-                                            <span class="help-block">Escriba la Renta total boleta</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        {!! Form::label('reimbursement', 'Reintegro', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-6">
-                                        {!! Form::text('reimbursement', null, ['class'=> 'form-control rent',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
-                                            <span class="help-block">Escriba el reintegro</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        {!! Form::label('dignity_pension', 'Renta Dignidad', ['class' => 'col-md-5 control-label',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
-                                        <div class="col-md-6">
-                                            {!! Form::text('dignity_pension', null, ['class'=> 'form-control rent',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
-                                            <span class="help-block">Escriba la renta dignidad</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        {!! Form::label('total_rent', 'Total Renta', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-6">
-                                        {!! Form::text('total_rent', null, ['class' => 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'", 'readonly']) !!}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <h4 style="text-align: center">El trámite fue calculado automáticamente</h4>
                         </div>
-
-                        <div class="row text-center">
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <a href="{!! url('economic_complement/'.$economic_complement->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
-                                    &nbsp;&nbsp;
-                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    {!! Form::close() !!}
-
+                    </div>
+                    <div class="modal-footer" style="text-align: center">
+                    <button type="button" class="btn btn-raised btn-success" data-dismiss="modal"><i class="fa fa-check"></i> Listo</button>
+                </div>
                 </div>
             </div>
         </div>
-    </div>
+    @else
+        <div id="myModal-totals" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="box-header with-border">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Editar Totales</h4>
+                    </div>
+                    <div class="modal-body">
+                        {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement], 'class' => 'form-horizontal']) !!}
+                            <input type="hidden" name="step" value="rent"/>
+                            <div class="row">
+                                <h4 style="text-align: center">{!!$economic_complement->affiliate->pension_entity->name!!}</h4>
+                                <div class="col-md-12">
+                                    @if($economic_complement->affiliate->pension_entity->name != 'SENASIR')
+                                    <div class="col-md-6">     
+                                        <div class="form-group">
+                                            {!! Form::label('aps_total_fsa', 'Fraccion de Saldo Acumulado', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-6">
+                                            {!! Form::text('aps_total_fsa', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                                <span class="help-block">Escriba la Fraccion de Saldo Acumulado</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            {!! Form::label('aps_total_cc', 'Fraccion de Cotizaciones', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-6">
+                                            {!! Form::text('aps_total_cc', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                                <span class="help-block">Escriba la Fraccion de Cotizaciones</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            {!! Form::label('aps_total_fs', 'Fraccion Solidaria', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-6">
+                                            {!! Form::text('aps_total_fs', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                                <span class="help-block">Escriba la Fraccion solidaria</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            {!! Form::label('total_frac', 'Total Fracciones', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-6">
+                                            {!! Form::text('total_frac', null, ['class' => 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'", 'readonly']) !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {!! Form::label('sub_total_rent', 'Renta Total Boleta', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-6">
+                                            {!! Form::text('sub_total_rent', null, ['class' => 'form-control rent', 'required' => 'required',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                                <span class="help-block">Escriba la Renta total boleta</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            {!! Form::label('reimbursement', 'Reintegro', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-6">
+                                            {!! Form::text('reimbursement', null, ['class'=> 'form-control rent',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                                <span class="help-block">Escriba el reintegro</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            {!! Form::label('dignity_pension', 'Renta Dignidad', ['class' => 'col-md-5 control-label',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                            <div class="col-md-6">
+                                                {!! Form::text('dignity_pension', null, ['class'=> 'form-control rent',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                                <span class="help-block">Escriba la renta dignidad</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            {!! Form::label('total_rent', 'Total Renta', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-6">
+                                            {!! Form::text('total_rent', null, ['class' => 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'", 'readonly']) !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row text-center">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <a href="{!! url('economic_complement/'.$economic_complement->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                        &nbsp;&nbsp;
+                                        <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {!! Form::close() !!}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <div id="myModal-requirements" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -2121,9 +2143,16 @@
                                         </div>
                                         <div class="form-group">
                                                 {!! Form::label('service_years', 'Años de servicio', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-3">
+                                            <div class="col-md-5">
                                                 {!! Form::text('service_years','', ['class'=> 'form-control']) !!}
                                                 <span class="help-block">Escriba los años de servicio</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                                {!! Form::label('service_months', 'Meses de servicio', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-5">
+                                                {!! Form::text('service_months','', ['class'=> 'form-control']) !!}
+                                                <span class="help-block">Escriba los meses de servicio</span>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -2576,14 +2605,35 @@ $(document).ready(function() {
 
         //for category
         //
+        var year = 0;
+        var month = 0;
         $("#service_years").inputmask('numeric',{min:0, max:100});
         $('#service_years').on('keyup',function(event) {
-            var year = $(this).val();
+            year = $(this).val();
             $.ajax({
                 url: '{{ route('get_category') }}',
                 type: 'GET',
                 data: {
-                    service_years: year},
+                    service_years: year,
+                    service_months: month
+                },
+            })
+            .done(function(data) {
+                if(data!= "error"){
+                    $('#category').val(data.id);
+                }
+            });
+        });
+        $("#service_months").inputmask('numeric',{min:0, max:12});
+        $('#service_months').on('keyup',function(event) {
+            month = $(this).val();
+            $.ajax({
+                url: '{{ route('get_category') }}',
+                type: 'GET',
+                data: {
+                    service_years: year,
+                    service_months: month
+                },
             })
             .done(function(data) {
                 if(data!= "error"){
