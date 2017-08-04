@@ -1931,6 +1931,7 @@
                                 </table>
                             </div>
                         </div>
+                        <input type="hidden" name="id_complemento" value={{$economic_complement->id}} >
                         {!! Form::hidden('data', null, ['data-bind'=> 'value: lastSavedJson_ar']) !!}
                         <br>
                         <div class="row text-center">
