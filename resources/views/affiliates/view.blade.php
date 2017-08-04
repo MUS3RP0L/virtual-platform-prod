@@ -1455,9 +1455,16 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                         {!! Form::label('service_years', 'Años de servicio', ['class' => 'col-md-5 control-label']) !!}
-                                    <div class="col-md-3">
+                                    <div class="col-md-5">
                                         {!! Form::text('service_years','', ['class'=> 'form-control']) !!}
                                         <span class="help-block">Escriba los años de servicio</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('service_months', 'Meses de servicio', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-5">
+                                        {!! Form::text('service_months','', ['class'=> 'form-control']) !!}
+                                        <span class="help-block">Escriba los meses de servicio</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -1666,21 +1673,42 @@
         $(document).ready(function() {
             //for category
             //
+            var year = 0;
+            var month = 0;
             $("#service_years").inputmask('numeric',{min:0, max:100});
             $('#service_years').on('keyup',function(event) {
-                var year = $(this).val();
+                year = $(this).val();
                 $.ajax({
                     url: '{{ route('get_category') }}',
                     type: 'GET',
                     data: {
-                        service_years: year},
+                        service_years: year,
+                        service_months: month
+                    },
                 })
                 .done(function(data) {
                     if(data!= "error"){
                         $('#category').val(data.id);
                     }
                 });
-            }); 
+            });
+            $("#service_months").inputmask('numeric',{min:0, max:12});
+            $('#service_months').on('keyup',function(event) {
+                month = $(this).val();
+                $.ajax({
+                    url: '{{ route('get_category') }}',
+                    type: 'GET',
+                    data: {
+                        service_years: year,
+                        service_months: month
+                    },
+                })
+                .done(function(data) {
+                    if(data!= "error"){
+                        $('#category').val(data.id);
+                    }
+                });
+            });
         });
     </script>
 @endpush

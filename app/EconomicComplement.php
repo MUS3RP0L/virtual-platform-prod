@@ -196,7 +196,7 @@ class EconomicComplement extends Model
             // $total_rent = floatval(str_replace(',','',$sub_total_rent))-floatval(str_replace(',','',$reimbursement))-floatval(str_replace(',','',$dignity_pension));
             $total_rent = $n_total_rent;
             //APS
-            
+            $mount = EconomicComplementProcedure::whereYear('year', '=', Carbon::now()->year)->where('semester','like',Util::getCurrentSemester())->first()->indicator;
             if($economic_complement->affiliate->pension_entity->type=='APS'){
                 $comp=0;
                 if (floatval(str_replace(',','',$aps_total_fsa)) > 0) {
@@ -211,7 +211,7 @@ class EconomicComplement extends Model
                 $economic_complement->aps_total_fsa=floatval(str_replace(',','',$aps_total_fsa));
                 $economic_complement->aps_total_cc=floatval(str_replace(',','',$aps_total_cc));
                 $economic_complement->aps_total_fs=floatval(str_replace(',','',$aps_total_fs));
-                $mount = EconomicComplementProcedure::whereYear('year', '=', Carbon::now()->year)->where('semester','like',Util::getCurrentSemester())->first()->indicator;
+                
                 //vejez
                 if ($economic_complement->economic_complement_modality->economic_complement_type->id == 1){
                     if ($comp == 1 && $total_rent >= $mount){
@@ -249,7 +249,7 @@ class EconomicComplement extends Model
                     }
                 }
             }else{
-            //Senasir
+                //Senasir
                 if($economic_complement->economic_complement_modality->economic_complement_type->id == 1 && $total_rent < $mount){
                     //vejez
                     $economic_complement->eco_com_modality_id = 8;
