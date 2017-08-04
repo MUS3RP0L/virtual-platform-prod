@@ -998,10 +998,7 @@ class EconomicComplementController extends Controller
                 $eco_com_applicant->mothers_last_name = $request->mothers_last_name;
                 $eco_com_applicant->first_name = $request->first_name;
                 $eco_com_applicant->second_name = $request->second_name;
-                if ($request->surname_husband) {
-                                            $eco_com_applicant->surname_husband = $request->surname_husband;     
-                                }
-                
+                $eco_com_applicant->surname_husband = $request->surname_husband;     
                 $eco_com_applicant->gender = $request->gender;
                 $eco_com_applicant->birth_date = Util::datePick($request->birth_date);
                 $eco_com_applicant->civil_status = $request->civil_status;
