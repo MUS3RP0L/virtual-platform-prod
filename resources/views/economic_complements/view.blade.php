@@ -1430,15 +1430,15 @@
                                         <span class="help-block">Escriba el Apellido Materno</span>
                                     </div>
                                 </div>
-                                 @if ($eco_com_applicant->gender == 'F') 
-                                    <div class="form-group">
-                                            {!! Form::label('surname_husband', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-6">
-                                            {!! Form::text('surname_husband', $eco_com_applicant->surname_husband, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                                            <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
-                                        </div>
+                                 
+                                <div class="form-group">
+                                        {!! Form::label('surname_husband', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('surname_husband', $eco_com_applicant->surname_husband, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
                                     </div>
-                                @endif 
+                                </div>
+                                 
                                 <div class="form-group">
                                         {!! Form::label('first_name', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
