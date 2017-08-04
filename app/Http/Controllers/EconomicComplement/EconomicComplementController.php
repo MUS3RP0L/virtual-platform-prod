@@ -49,7 +49,15 @@ class EconomicComplementController extends Controller
 
     public function index()
     {
-        $procedures = EconomicComplementProcedure::orderBy('id','desc')->get();
+        $procedures_e = EconomicComplementProcedure::orderBy('id','desc')->get();
+        
+        $procedures =   ['' => ''];
+
+        foreach ($procedures_e as $procedure) {
+            # code...
+            array_push($procedures, [''.$procedure->id => ''.substr($procedure->year, 0, -6).' '.$procedure->semester]);
+        }
+
         $data = [
             'year' => Carbon::now()->year,
             'semester' => Util::getSemester(Carbon::now()),
@@ -849,12 +857,13 @@ class EconomicComplementController extends Controller
 
     public function update(Request $request, $economic_complement)
     {   
+        // Log::info("id".$economic_complements->id);
         return $this->save($request, $economic_complement);
     }
 
     public function save($request, $economic_complement = false)
     {
-   
+        Log::info($request->step);
         switch ($request->step) {
 
             case 'first':
@@ -1274,8 +1283,8 @@ class EconomicComplementController extends Controller
                                 $eco_com_submitted_document->status = $item->status;
                                 $eco_com_submitted_document->reception_date = date('Y-m-d');
                                 $eco_com_submitted_document->save();
-                                
-                                $wf_record=new WorkflowRecord;
+                                Log::info("modifico ".$eco_com_submitted_document);   
+                                // $wf_record=new WorkflowRecord;
                                 $wf_record->user_id=Auth::user()->id;
                                 $wf_record->date=Carbon::now();
                                 $wf_record->eco_com_id=$request->id_complemento;
