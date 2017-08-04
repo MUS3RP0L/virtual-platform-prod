@@ -1000,10 +1000,7 @@ class EconomicComplementController extends Controller
                 $eco_com_applicant->mothers_last_name = $request->mothers_last_name;
                 $eco_com_applicant->first_name = $request->first_name;
                 $eco_com_applicant->second_name = $request->second_name;
-                if ($request->surname_husband) {
-                                            $eco_com_applicant->surname_husband = $request->surname_husband;     
-                                }
-                
+                $eco_com_applicant->surname_husband = $request->surname_husband;     
                 $eco_com_applicant->gender = $request->gender;
                 $eco_com_applicant->birth_date = Util::datePick($request->birth_date);
                 $eco_com_applicant->civil_status = $request->civil_status;
@@ -1432,8 +1429,10 @@ class EconomicComplementController extends Controller
                 //send from request data
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
 
-                EconomicComplement::calculate($economic_complement,$request->sub_total_rent, $request->reimbursement, $request->dignity_pension, $request->aps_total_fsa, $request->aps_total_cc, $request->aps_total_fs);
+                EconomicComplement::calculate($economic_complement,$request->total_rent, $request->sub_total_rent, $request->reimbursement, $request->dignity_pension, $request->aps_total_fsa, $request->aps_total_cc, $request->aps_total_fs);
                 //$economic_complement->state = 'Edited';
+                $economic_complement->rent_type = 'Manual';
+                $economic_complement->calculation_date = Carbon::now();
                 $economic_complement->save();
                     /*$total_rent = floatval(str_replace(',','',$request->sub_total_rent))-floatval(str_replace(',','',$request->reimbursement))-floatval(str_replace(',','',$request->dignity_pension));
 

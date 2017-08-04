@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Muserpol\Helper\Util;
 use Carbon\Carbon;
 
+use Log;
 use Muserpol\Affiliate;
 use Muserpol\Spouse;
 use Muserpol\EconomicComplement;
@@ -22,7 +23,7 @@ class UpdateRequirementsDate extends Command implements SelfHandling
     
     public function handle()
     {
-        global $Progress, $vej, $viu, $orf, $newafi, $total;
+        global $Progress, $vej, $viu, $orf, $newafi, $total,$cve,$cvi,$cof, $lve, $lvi,$lof;
         $password = $this->ask('Enter the password');
         if ($password == ACCESS) {
 
@@ -37,7 +38,7 @@ class UpdateRequirementsDate extends Command implements SelfHandling
                 {
                     $rows->each(function($result)
                     {
-                        global $Progress, $vej, $viu, $orf, $newafi, $oldafi, $total;
+                        global $Progress, $vej, $viu, $orf, $newafi, $oldafi, $total, $cve,$cvi,$cof,$lve, $lvi,$lof;
                         ini_set('memory_limit', '-1');
                         ini_set('max_execution_time', '-1');
                         ini_set('max_input_time', '-1');
@@ -57,21 +58,29 @@ class UpdateRequirementsDate extends Command implements SelfHandling
                                             case "2":
                                                 if ($result->v_ci2 == "SI" && $value->status) {
                                                     $value->reception_date = Carbon::parse("2016-07-07");
+                                                    $cve++;
+                                                    $lve[]=$app->identity_card;
                                                 }
                                                 break;
                                             case "3":
                                                 if ($result->v_agra_servicio3 == "SI" && $value->status) {
                                                     $value->reception_date = Carbon::parse("2016-07-07");
+                                                    $cve++;
+                                                    $lve[]=$app->identity_card;
                                                 }
                                                 break;
                                             case "4":
                                                 if ($result->v_anos_servicio4 == "SI" && $value->status) {
                                                     $value->reception_date = Carbon::parse("2016-07-07");
+                                                    $cve++;
+                                                    $lve[]=$app->identity_card;
                                                 }
                                                 break;
                                             default:
                                                 if ($result->v_resolucion_senasir5 == "SI" && $value->status) {
                                                     $value->reception_date = Carbon::parse("2016-07-07");
+                                                    $cve++;
+                                                    $lve[]=$app->identity_card;
                                                 }
                                         }
                                         $value->save();
@@ -94,36 +103,50 @@ class UpdateRequirementsDate extends Command implements SelfHandling
                                             case "7":
                                                 if ($result->viu_ci_causa7 == "SI" && $value->status) {
                                                     $value->reception_date = Carbon::parse("2016-07-07");
+                                                    $cvi++;
+                                                    $lvi[]=$app->identity_card;
                                                 }
                                                 break;
                                             case "8":
                                                 if ($result->viu_ci_derecho8 == "SI" && $value->status) {
                                                     $value->reception_date = Carbon::parse("2016-07-07");
+                                                    $cvi++;
+                                                    $lvi[]=$app->identity_card;
                                                 }
                                                 break;
                                             case "9":
                                                 if ($result->viu_defuncion9 == "SI" && $value->status) {
                                                     $value->reception_date = Carbon::parse("2016-07-07");
+                                                    $cvi++;
+                                                    $lvi[]=$app->identity_card;
                                                 }
                                                 break;
                                             case "10":
                                                 if ($result->viu_senasir10 == "SI" && $value->status) {
                                                     $value->reception_date = Carbon::parse("2016-07-07");
+                                                    $cvi++;
+                                                    $lvi[]=$app->identity_card;
                                                 }
                                                 break;
                                             case "11":
                                                 if ($result->viu_agra_servicio11 == "SI" && $value->status) {
                                                     $value->reception_date = Carbon::parse("2016-07-07");
+                                                    $cvi++;
+                                                    $lvi[]=$app->identity_card;
                                                 }
                                                 break;
                                             case "12":
                                                 if ($result->viu_anos_servicio12 == "SI" && $value->status) {
                                                     $value->reception_date = Carbon::parse("2016-07-07");
+                                                    $cvi++;
+                                                    $lvi[]=$app->identity_card;
                                                 }
                                                 break;
                                             default:
                                                 if ($result->viu_matri13 == "SI" && $value->status) {
                                                     $value->reception_date = Carbon::parse("2016-07-07");
+                                                    $cvi++;
+                                                    $lvi[]=$app->identity_card;
                                                 }
                                         }
                                         $value->save();
@@ -144,21 +167,29 @@ class UpdateRequirementsDate extends Command implements SelfHandling
                                             case "15":
                                                 if ($result->viu_ci_causa7 == "SI" && $value->status) {
                                                     $value->reception_date = Carbon::parse("2016-07-07");
+                                                    $cof++;
+                                                    $lof=$app->identity_card;
                                                 }
                                                 break;
                                             case "16":
                                                 if ($result->viu_ci_derecho8 == "SI" && $value->status) {
                                                     $value->reception_date = Carbon::parse("2016-07-07");
+                                                    $cof++;
+                                                    $lof=$app->identity_card;
                                                 }
                                                 break;
                                             case "17":
                                                 if ($result->viu_defuncion9 == "SI" && $value->status) {
                                                     $value->reception_date = Carbon::parse("2016-07-07");
+                                                    $cof++;
+                                                    $lof=$app->identity_card;
                                                 }
                                                 break;
                                             case "18":
                                                 if ($result->viu_senasir10 == "SI" && $value->status) {
                                                     $value->reception_date = Carbon::parse("2016-07-07");
+                                                    $cof++;
+                                                    $lof=$app->identity_card;
                                                 }
                                                 break;
                                             case "19":
@@ -166,11 +197,15 @@ class UpdateRequirementsDate extends Command implements SelfHandling
                                             case "20":
                                                 if ($result->viu_agra_servicio11 == "SI" && $value->status) {
                                                     $value->reception_date = Carbon::parse("2016-07-07");
+                                                    $cof++;
+                                                    $lof=$app->identity_card;
                                                 }
                                                 break;
                                             default:
                                                 if ($result->viu_anos_servicio12 == "SI" && $value->status) {
                                                     $value->reception_date = Carbon::parse("2016-07-07");
+                                                    $cof++;
+                                                    $lof=$app->identity_card;
                                                 }
                                         }
                                         $value->save();   
@@ -186,11 +221,19 @@ class UpdateRequirementsDate extends Command implements SelfHandling
                 $time_end = microtime(true);
                 $execution_time = ($time_end - $time_start) / 60;
                 $Progress->finish();
-                
+                Log::info("vejez");
+                Log::info($lve);
+                Log::info("viudedad");
+                Log::info($lvi);
+                Log::info("orfandad");
+                Log::info($lof);
                 $this->info("\n\ Update:\n
                     $vej Vejez.\n
+                    total vejez actualizados: $cve.\n
                     $viu Viudadedad.\n
+                    total Viudedad actualizados: $cvi.\n
                     $orf orfandad.\n 
+                    total Orfandad actualizados: $cof.\n
                     $total Total.\n               
                     Execution time $execution_time [minutes].\n");
             }  

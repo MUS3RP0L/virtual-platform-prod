@@ -13,6 +13,7 @@ use Muserpol\BaseWage;
 use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementApplicant;
 use Muserpol\EconomicComplementRent;
+use Muserpol\EconomicComplementProcedure;
 
 use Maatwebsite\Excel\Facades\Excel;
 use Muserpol\Helper\Util;
@@ -44,11 +45,12 @@ class AutomaticCalculation extends Command implements SelfHandling
 
 
 		    			$economic_complements=EconomicComplement::whereYear('year','=',$year)->where('semester','=',$semester)->get();
-			    		$economic_complement_rent_temp = EconomicComplementRent::whereYear('year','=',$year)->where('semester','=',$semester)->get();	    								
+			    		$economic_complement_rent_temp = EconomicComplementRent::whereYear('year','=',$year)->where('semester','=',$semester)->get();	
+			    		$procedure = EconomicComplementProcedure::whereYear('year','=',$year)->where('semester','=',$semester)->first();
 		    						
 			    		$base_wage_temp = BaseWage::whereYear('month_year','=',$year)->get();
 			    		$count_all=0;
-			    		if (sizeof($economic_complement_rent_temp)>0 && sizeof($base_wage_temp)>0 && sizeof($economic_complements)>0) 
+			    		if (sizeof($economic_complement_rent_temp)>0 && sizeof($base_wage_temp)>0 && sizeof($economic_complements)>0 && $procedure->indicator>0) 
 			    		{
 			    			
 					    	foreach ($economic_complements as $economic_complement)
@@ -74,15 +76,15 @@ class AutomaticCalculation extends Command implements SelfHandling
 						                //vejez
 						                if ($economic_complement->economic_complement_modality->economic_complement_type->id == 1)
 						                {
-						                    if ($comp == 1 && $economic_complement->total_rent >= 2000)
+						                    if ($comp == 1 && $economic_complement->total_rent >= $procedure->indicator)
 						                    {
 						                        $economic_complement->eco_com_modality_id = 4;
 						                    }
-						                    elseif ($comp == 1 && $economic_complement->total_rent < 2000)
+						                    elseif ($comp == 1 && $economic_complement->total_rent < $procedure->indicator)
 						                    {
 						                        $economic_complement->eco_com_modality_id = 6;
 						                    }
-						                    elseif ($comp > 1 && $economic_complement->total_rent < 2000)
+						                    elseif ($comp > 1 && $economic_complement->total_rent < $procedure->indicator)
 						                    {
 						                        $economic_complement->eco_com_modality_id = 8;
 						                    }
@@ -94,15 +96,15 @@ class AutomaticCalculation extends Command implements SelfHandling
 						                //Viudedad
 						                if ($economic_complement->economic_complement_modality->economic_complement_type->id == 2)
 						                {
-						                    if($comp == 1 && $economic_complement->total_rent >= 2000)
+						                    if($comp == 1 && $economic_complement->total_rent >= $procedure->indicator)
 						                    {
 						                        $economic_complement->eco_com_modality_id = 5;
 						                    }
-						                    elseif ($comp == 1 && $economic_complement->total_rent < 2000)
+						                    elseif ($comp == 1 && $economic_complement->total_rent < $procedure->indicator)
 						                    {
 						                        $economic_complement->eco_com_modality_id = 7;
 						                    }
-						                    elseif ($comp > 1 && $economic_complement->total_rent < 2000 )
+						                    elseif ($comp > 1 && $economic_complement->total_rent < $procedure->indicator )
 						                    {
 						                        $economic_complement->eco_com_modality_id = 9;
 						                    }else{
@@ -112,15 +114,15 @@ class AutomaticCalculation extends Command implements SelfHandling
 						                //orfandad
 						                if ($economic_complement->economic_complement_modality->economic_complement_type->id == 3)
 						                {
-						                    if ($comp == 1 && $economic_complement->total_rent >= 2000)
+						                    if ($comp == 1 && $economic_complement->total_rent >= $procedure->indicator)
 						                    {
 						                        $economic_complement->eco_com_modality_id = 10;
 						                    }
-						                    elseif ($comp == 1 && $economic_complement->total_rent < 2000)
+						                    elseif ($comp == 1 && $economic_complement->total_rent < $procedure->indicator)
 						                    {
 						                        $economic_complement->eco_com_modality_id = 11;
 						                    }
-						                    elseif ($comp > 1 && $economic_complement->total_rent < 2000)
+						                    elseif ($comp > 1 && $economic_complement->total_rent < $procedure->indicator)
 						                    {
 						                        $economic_complement->eco_com_modality_id = 12;
 						                    }
@@ -132,17 +134,17 @@ class AutomaticCalculation extends Command implements SelfHandling
 						            }
 						            else // Modality SENASIR
 						            {						            	
-						                if($economic_complement->economic_complement_modality->economic_complement_type->id == 1 && $economic_complement->total_rent < 2000)
+						                if($economic_complement->economic_complement_modality->economic_complement_type->id == 1 && $economic_complement->total_rent < $procedure->indicator)
 						                {
 						                    //vejez
 						                    $economic_complement->eco_com_modality_id = 8;
 						                }
-						                elseif ($economic_complement->economic_complement_modality->economic_complement_type->id == 2 && $economic_complement->total_rent < 2000)
+						                elseif ($economic_complement->economic_complement_modality->economic_complement_type->id == 2 && $economic_complement->total_rent < $procedure->indicator)
 						                {
 						                    //Viudedad  
 						                    $economic_complement->eco_com_modality_id = 9;
 						                }
-						                elseif($economic_complement->economic_complement_modality->economic_complement_type->id == 3 && $economic_complement->total_rent < 2000)
+						                elseif($economic_complement->economic_complement_modality->economic_complement_type->id == 3 && $economic_complement->total_rent < $procedure->indicator)
 						                {   //Orfandad 
 						                    $economic_complement->eco_com_modality_id = 12;
 						                }
@@ -206,7 +208,8 @@ class AutomaticCalculation extends Command implements SelfHandling
 							    	$total = $total_amount_semester * floatval($complementary_factor)/100;
 							    	$economic_complement->total=$total;
 							    	$economic_complement->base_wage_id = $base_wage->id;
-							    	$economic_complement->salary_reference=$salary_reference;							    	
+							    	$economic_complement->salary_reference=$salary_reference;
+							    	$economic_complement->calculation_date = Carbon::now();
 							    	$economic_complement->save();
 					    		}
 					    	}

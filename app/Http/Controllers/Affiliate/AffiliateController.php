@@ -521,7 +521,7 @@ class AffiliateController extends Controller
                     $affiliate->pension_entity_id=$request->affiliate_entity_pension;
                     $affiliate->save();
                     if ($economic_complement->total_rent > 0 ) {   
-                        EconomicComplement::calculate($economic_complement,$economic_complement->sub_total_rent, $economic_complement->reimbursement, $economic_complement->dignity_pension, $economic_complement->aps_total_fsa, $economic_complement->aps_total_cc, $economic_complement->aps_total_fs);
+                        EconomicComplement::calculate($economic_complement,$economic_complement->total_rent, $economic_complement->sub_total_rent, $economic_complement->reimbursement, $economic_complement->dignity_pension, $economic_complement->aps_total_fsa, $economic_complement->aps_total_cc, $economic_complement->aps_total_fs);
 
                     }
                     $message = "Información del Policia actualizada correctamene.";
@@ -705,9 +705,13 @@ class AffiliateController extends Controller
     }
     public function getCategory(Request $request)
     {
-        $year = $request->service_years;
-        $category = Category::where('from','<=',$year)
-                   ->where('to','>=',$year)
+        $service_year = $request->service_years;
+        $service_month = $request->service_months;
+        if ($service_month > 0) {
+            $service_year++;
+        }
+        $category = Category::where('from','<=',$service_year)
+                   ->where('to','>=',$service_year)
                    ->first();
         if ($category) {
             return $category; 
