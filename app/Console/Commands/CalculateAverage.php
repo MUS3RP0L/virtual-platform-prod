@@ -42,7 +42,7 @@ class CalculateAverage extends Command implements SelfHandling
                     $Progress->advance();
 
                     $average_list = DB::table('eco_com_applicants')
-                                    ->select(DB::raw("degrees.id as degree_id,degrees.shortened as degree,eco_com_types.id as type_id, eco_com_types.name as type,min(economic_complements.total_rent) as rmin, max(economic_complements.total_rent) as rmax,round((max(economic_complements.total_rent)+ min(economic_complements.total_rent))/2,2) as average"))
+                                    ->select(DB::raw("affiliates.degree_id as degree_id,economic_complements.eco_com_modality_id,min(economic_complements.total_rent) as rmin, max(economic_complements.total_rent) as rmax,round((max(economic_complements.total_rent)+ min(economic_complements.total_rent))/2,2) as average"))
                                     ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                                     ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
                                     ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
@@ -51,14 +51,16 @@ class CalculateAverage extends Command implements SelfHandling
                                     ->whereYear('economic_complements.year', '=', $year)
                                     ->where('economic_complements.semester', '=', $semester)
                                     ->where('economic_complements.total_rent','>', 0)
-                                    ->groupBy('degrees.id','eco_com_types.id')
-                                    ->orderBy('degrees.id','ASC')->get();
+                                    ->whereIN('economic_complements.eco_com_modality_id',[1,2,3])
+                                    ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+                                    ->groupBy('affiliates.degree_id','economic_complements.eco_com_modality_id')
+                                    ->orderBy('affiliates.degree_id','ASC')->get();
                     
                     if($average_list)
                     {
                         foreach($average_list as $item) {
                                     $rent = EconomicComplementRent::where('degree_id','=', $item->degree_id)
-                                                                ->where('eco_com_type_id','=', $item->type_id)
+                                                                ->where('eco_com_type_id','=', $item->eco_com_modality_id)
                                                                 ->whereYear('year','=', $year)
                                                    ->where('semester', '=', $semester)->first();
                                                    $date = Carbon::now();
@@ -67,7 +69,7 @@ class CalculateAverage extends Command implements SelfHandling
                                         $rent = new EconomicComplementRent;
                                         $rent->user_id = 1;
                                         $rent->degree_id = $item->degree_id;
-                                        $rent->eco_com_type_id = $item->type_id;
+                                        $rent->eco_com_type_id = $item->eco_com_modality_id;
                                         $newdate = Carbon::createFromDate($year, 1, 1)->toDateString();
                                         $rent->year = $newdate;
                                         $rent->semester = $semester;
@@ -79,7 +81,7 @@ class CalculateAverage extends Command implements SelfHandling
                                     else{
                                         $rent->user_id = 1;
                                         $rent->degree_id = $item->degree_id;
-                                        $rent->eco_com_type_id = $item->type_id;
+                                        $rent->eco_com_type_id = $item->eco_com_modality_id;
                                         $newdate = Carbon::createFromDate($year, 1, 1)->toDateString();
                                         $rent->year = $newdate;
                                         $rent->semester = $semester;

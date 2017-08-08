@@ -49,7 +49,15 @@ class EconomicComplementController extends Controller
 
     public function index()
     {
-        $procedures = EconomicComplementProcedure::orderBy('id','desc')->get();
+        $procedures_e = EconomicComplementProcedure::orderBy('id','desc')->get();
+        
+        $procedures =   ['' => ''];
+
+        foreach ($procedures_e as $procedure) {
+            # code...
+            array_push($procedures, [''.$procedure->id => ''.substr($procedure->year, 0, -6).' '.$procedure->semester]);
+        }
+
         $data = [
             'year' => Carbon::now()->year,
             'semester' => Util::getSemester(Carbon::now()),
@@ -612,7 +620,8 @@ class EconomicComplementController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($economic_complement)
-    {
+    {   
+        //Log::info("show_id_complement= ".$economic_complement->id);
 
         try {
             $state = EconomicComplementState::find($economic_complement->eco_com_state_id);
@@ -847,12 +856,14 @@ class EconomicComplementController extends Controller
      */
 
     public function update(Request $request, $economic_complement)
-    {
+    {   
+        // Log::info("id".$economic_complements->id);
         return $this->save($request, $economic_complement);
     }
 
     public function save($request, $economic_complement = false)
     {
+        Log::info($request->step);
         switch ($request->step) {
 
             case 'first':
@@ -903,7 +914,7 @@ class EconomicComplementController extends Controller
                     $eco_com_applicant = new EconomicComplementApplicant;
                     $eco_com_applicant->economic_complement_id = $economic_complement->id;
                 }
-
+               
                 switch ($request->eco_com_type) {
                     case '1':
                     $eco_com_applicant->identity_card = $affiliate->identity_card;
@@ -1202,11 +1213,32 @@ class EconomicComplementController extends Controller
                         $eco_com_submitted_document->status = $item->status;
                         $eco_com_submitted_document->reception_date = date('Y-m-d');
                         $eco_com_submitted_document->save();
+
+                        $wf_record=new WorkflowRecord;
+                        $wf_record->user_id=Auth::user()->id;
+                        $wf_record->date=Carbon::now();
+                        $wf_record->eco_com_id=$request->id_complemento;
+                        $wf_record->wf_state_id=$economic_complement->wf_current_state_id;
+                        $wf_record->record_type_id=1;
+                        $wf_record->message="El usuario ".Util::getFullNameuser()." Creo ".$eco_com_submitted_document->economic_complement_requirement->name." fecha ".Carbon::now().".";
+                        $wf_record->save();
                     }
                     elseif($eco_com_submitted_document->status <> $item->status){
                         $eco_com_submitted_document->status = $item->status;
                         $eco_com_submitted_document->reception_date = date('Y-m-d');
                         $eco_com_submitted_document->save();
+                        Log::info("idusuario".Auth::user()->id);
+                        
+
+                        $wf_record=new WorkflowRecord;
+                        $wf_record->user_id=Auth::user()->id;
+                        $wf_record->date=Carbon::now();
+                        $wf_record->eco_com_id=$request->id_complemento;
+                        $wf_record->wf_state_id=$economic_complement->wf_current_state_id;
+                        $wf_record->record_type_id=1;
+                        $wf_record->message="El usuario ".Util::getFullNameuser()." modifico ".$eco_com_submitted_document->economic_complement_requirement->name." fecha ".Carbon::now().".";
+                        $wf_record->save();
+                        Log::info($wf_record);
                     }
 
                 }
@@ -1240,9 +1272,10 @@ class EconomicComplementController extends Controller
                     {
                         foreach (json_decode($request->data) as $item)
                         {
+
                             $eco_com_submitted_document = EconomicComplementSubmittedDocument::where('economic_complement_id', '=', $economic_complement->id)
                             ->where('eco_com_requirement_id', '=', $item->id)->first();
-
+                            // Log::info($eco_com_submitted_document);
                            if (!$eco_com_submitted_document) {
                                 $eco_com_submitted_document = new EconomicComplementSubmittedDocument;
                                 $eco_com_submitted_document->economic_complement_id = $economic_complement->id;
@@ -1250,6 +1283,27 @@ class EconomicComplementController extends Controller
                                 $eco_com_submitted_document->status = $item->status;
                                 $eco_com_submitted_document->reception_date = date('Y-m-d');
                                 $eco_com_submitted_document->save();
+                              
+
+                                // $wf_record=new WorkflowRecord;
+                                // $wf_record->user_id=Auth::user()->id;
+                                // $wf_record->date=Carbon::now();
+                                // $wf_record->eco_com_id=$economic_complement->id;
+                                // $wf_record->wf_state_id=$economic_complement->wf_current_state_id;
+                                // $wf_record->record_type_id=1;
+                                // $wf_record->message="El usuario ".Util::getFullNameuser()." creó el trámite en fecha ".Carbon::now().".";
+                                // $wf_record->save();
+
+                                $wf_record=new WorkflowRecord;
+                                $wf_record->user_id=Auth::user()->id;
+                                $wf_record->date=Carbon::now();
+                                $wf_record->eco_com_id=$request->id_complemento;
+                                $wf_record->wf_state_id=$economic_complement->wf_current_state_id;
+                                $wf_record->record_type_id=1;
+                                $wf_record->message="El usuario ".Util::getFullNameuser()." Creo ".$eco_com_submitted_document->economic_complement_requirement->name." fecha ".Carbon::now().".";
+                                $wf_record->save();
+
+
                             }
                             elseif($eco_com_submitted_document->status <> $item->status )
                             {
@@ -1257,6 +1311,20 @@ class EconomicComplementController extends Controller
                                 $eco_com_submitted_document->status = $item->status;
                                 $eco_com_submitted_document->reception_date = date('Y-m-d');
                                 $eco_com_submitted_document->save();
+                                Log::info("modifico ".$eco_com_submitted_document);   
+                                
+                                $wf_record=new WorkflowRecord;
+                                $wf_record->user_id=Auth::user()->id;
+                                $wf_record->date=Carbon::now();
+                                $wf_record->eco_com_id=$request->id_complemento;
+                                $wf_record->wf_state_id=$economic_complement->wf_current_state_id;
+                                $wf_record->record_type_id=1;
+                                $wf_record->message="El usuario ".Util::getFullNameuser()." modifico ".$eco_com_submitted_document->economic_complement_requirement->name." fecha ".Carbon::now().".";
+                                $wf_record->save();
+
+                     
+
+
                             }
                         }
                         if ($request->ecocom) {
@@ -1674,6 +1742,7 @@ class EconomicComplementController extends Controller
 
     public function get_record(Request $request)
     {
+       
         $records = WorkflowRecord::select(['date', 'message'])->where('eco_com_id', $request->id)->orderBy('created_at', 'desc');
 
         return Datatables::of($records)
@@ -1696,7 +1765,7 @@ class EconomicComplementController extends Controller
             $last_year_second = $last_year_first;
         }else{
             $last_semester_first = 'Primer';
-            $last_semester_second = 'Segundo';
+            $last_semester_second = 'Segundo';  
             $last_year_first = Carbon::now()->year ;
             $last_year_second = $last_year_first -1;
         }

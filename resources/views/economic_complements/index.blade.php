@@ -72,11 +72,8 @@
                                         <div class="form-group">
                                             {!! Form::label('eco_com_procedure_id', 'Semestre', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
-                                               <select class="combobox form-control" name="eco_com_procedure_id">
-                                                   @foreach($procedures as $procedure)
-                                                   <option value="{{$procedure->id}}"> {{ substr($procedure->year, 0, -6).' '.$procedure->semester }}</option>
-                                                   @endforeach()
-                                               </select>
+                                                {!! Form::select('eco_com_procedure_id', $procedures, '', ['class' => 'combobox form-control']) !!}
+                                               
                                                 <span class="help-block">Seleccione Semestre</span>
                                             </div>
                                         </div>

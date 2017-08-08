@@ -1437,15 +1437,15 @@
                                         <span class="help-block">Escriba el Apellido Materno</span>
                                     </div>
                                 </div>
-                                 @if ($eco_com_applicant->gender == 'F') 
-                                    <div class="form-group">
-                                            {!! Form::label('surname_husband', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-6">
-                                            {!! Form::text('surname_husband', $eco_com_applicant->surname_husband, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                                            <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
-                                        </div>
+                                 
+                                <div class="form-group">
+                                        {!! Form::label('surname_husband', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        {!! Form::text('surname_husband', $eco_com_applicant->surname_husband, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
                                     </div>
-                                @endif 
+                                </div>
+                                 
                                 <div class="form-group">
                                         {!! Form::label('first_name', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
@@ -1899,6 +1899,7 @@
                 <div class="box-body" data-bind="event: {mouseover: save, mouseout: save}">
                     {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
                         <input type="hidden" name="step" value="third"/>
+                      
                         <div class="row">
                             <div class="col-md-12">
                                 <table class="table table-bordered table-hover" style="font-size: 16px">
@@ -1924,7 +1925,9 @@
                             </div>
                         </div>
                         {!! Form::hidden('data', null, ['data-bind'=> 'value: lastSavedJson']) !!}
+                        <input type="hidden" name="id_complemento" value={{$economic_complement->id}} >
                         <br>
+                         
                         <div class="row text-center">
                             <div class="form-group">
                                 <div class="col-md-12">
@@ -1976,6 +1979,7 @@
                                 </table>
                             </div>
                         </div>
+                        <input type="hidden" name="id_complemento" value={{$economic_complement->id}} >
                         {!! Form::hidden('data', null, ['data-bind'=> 'value: lastSavedJson_ar']) !!}
                         <br>
                         <div class="row text-center">
