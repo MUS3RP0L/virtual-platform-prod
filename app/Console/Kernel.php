@@ -32,6 +32,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\ImportAvailabilityDate::class,
         \Muserpol\Console\Commands\UpdateState::class,
         \Muserpol\Console\Commands\UpdateRequirementsDate::class,
+        \Muserpol\Console\Commands\importObservations::class,
 
     ];
 
