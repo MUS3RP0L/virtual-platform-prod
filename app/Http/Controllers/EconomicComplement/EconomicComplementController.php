@@ -1206,11 +1206,32 @@ class EconomicComplementController extends Controller
                         $eco_com_submitted_document->status = $item->status;
                         $eco_com_submitted_document->reception_date = date('Y-m-d');
                         $eco_com_submitted_document->save();
+
+                        $wf_record=new WorkflowRecord;
+                        $wf_record->user_id=Auth::user()->id;
+                        $wf_record->date=Carbon::now();
+                        $wf_record->eco_com_id=$request->id_complemento;
+                        $wf_record->wf_state_id=$economic_complement->wf_current_state_id;
+                        $wf_record->record_type_id=1;
+                        $wf_record->message="El usuario ".Util::getFullNameuser()." Creo ".$eco_com_submitted_document->economic_complement_requirement->name." fecha ".Carbon::now().".";
+                        $wf_record->save();
                     }
                     elseif($eco_com_submitted_document->status <> $item->status){
                         $eco_com_submitted_document->status = $item->status;
                         $eco_com_submitted_document->reception_date = date('Y-m-d');
                         $eco_com_submitted_document->save();
+                        Log::info("idusuario".Auth::user()->id);
+                        
+
+                        $wf_record=new WorkflowRecord;
+                        $wf_record->user_id=Auth::user()->id;
+                        $wf_record->date=Carbon::now();
+                        $wf_record->eco_com_id=$request->id_complemento;
+                        $wf_record->wf_state_id=$economic_complement->wf_current_state_id;
+                        $wf_record->record_type_id=1;
+                        $wf_record->message="El usuario ".Util::getFullNameuser()." modifico ".$eco_com_submitted_document->economic_complement_requirement->name." fecha ".Carbon::now().".";
+                        $wf_record->save();
+                        Log::info($wf_record);
                     }
 
                 }
@@ -1284,7 +1305,8 @@ class EconomicComplementController extends Controller
                                 $eco_com_submitted_document->reception_date = date('Y-m-d');
                                 $eco_com_submitted_document->save();
                                 Log::info("modifico ".$eco_com_submitted_document);   
-                                // $wf_record=new WorkflowRecord;
+                                
+                                $wf_record=new WorkflowRecord;
                                 $wf_record->user_id=Auth::user()->id;
                                 $wf_record->date=Carbon::now();
                                 $wf_record->eco_com_id=$request->id_complemento;
