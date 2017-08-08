@@ -1372,6 +1372,13 @@
                                             <span class="help-block">Escriba el Motivo de fallecimiento</span>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        {!! Form::label('death_certificate_number', 'Nro de certificado de defunción', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-6">
+                                            {!! Form::textarea('death_certificate_number', $affiliate->death_certificate_number, ['class'=> 'form-control', 'rows' => '2']) !!}
+                                            <span class="help-block">Escriba Número de certificado de defunción</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1471,26 +1478,32 @@
 										</div>
 								</div>
 								<div data-bind='visible: selected'>
-											<div class="form-group">
-																		{!! Form::label('date_death', 'Fecha Deceso', ['class' => 'col-md-5 control-label']) !!}
-													<div class="col-md-6">
-															<div class="input-group">
-																	<input type="text" id="date_death_spouse_mask" class="form-control" name="date_death" value={{$eco_com_applicant->date_death}} data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
-																	<div class="input-group-addon">
-																			<span class="glyphicon glyphicon-calendar"></span>
-																	</div>
-															</div>
-													</div>
+									<div class="form-group">
+										{!! Form::label('date_death', 'Fecha Deceso', ['class' => 'col-md-5 control-label']) !!}
+										<div class="col-md-6">
+                                            <div class="input-group">
+												<input type="text" id="date_death_spouse_mask" class="form-control" name="date_death" value={{$eco_com_applicant->date_death}} data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+												<div class="input-group-addon">
+												    <span class="glyphicon glyphicon-calendar"></span>
+												</div>
 											</div>
-											<div class="form-group">
-															{!! Form::label('reason_death', 'Causa Deceso', ['class' => 'col-md-5 control-label']) !!}
-													<div class="col-md-6">
-															{!! Form::textarea('reason_death', $eco_com_applicant->reason_death, ['class'=> 'form-control', 'rows' => '2']) !!}
-															<span class="help-block">Escriba el Motivo de fallecimiento</span>
-													</div>
-											</div>
+										</div>
+									</div>
+									<div class="form-group">
+									   {!! Form::label('reason_death', 'Causa Deceso', ['class' => 'col-md-5 control-label']) !!}
+										<div class="col-md-6">
+                                            {!! Form::textarea('reason_death', $eco_com_applicant->reason_death, ['class'=> 'form-control', 'rows' => '2']) !!}
+                                                <span class="help-block">Escriba el Motivo de fallecimiento</span>
+                                        </div>
+									</div>
+                                    <div class="form-group">
+                                        {!! Form::label('death_certificate_number', 'Nro de certificado de defunción', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-6">
+                                            {!! Form::textarea('death_certificate_number', $eco_com_applicant->death_certificate_number, ['class'=> 'form-control', 'rows' => '2']) !!}
+                                            <span class="help-block">Escriba Número de certificado de defunción</span>
+                                        </div>
+                                    </div>
 								</div>
-
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -2144,14 +2157,14 @@
                                         <div class="form-group">
                                                 {!! Form::label('service_years', 'Años de servicio', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-5">
-                                                {!! Form::text('service_years','', ['class'=> 'form-control']) !!}
+                                                {!! Form::text('service_years',$affiliate->service_years, ['class'=> 'form-control']) !!}
                                                 <span class="help-block">Escriba los años de servicio</span>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                                 {!! Form::label('service_months', 'Meses de servicio', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-5">
-                                                {!! Form::text('service_months','', ['class'=> 'form-control']) !!}
+                                                {!! Form::text('service_months',$affiliate->service_months, ['class'=> 'form-control']) !!}
                                                 <span class="help-block">Escriba los meses de servicio</span>
                                             </div>
                                         </div>
@@ -2605,8 +2618,8 @@ $(document).ready(function() {
 
         //for category
         //
-        var year = 0;
-        var month = 0;
+        var year = {{ $affiliate->service_years ??  0}};
+        var month = {{ $affiliate->service_months ??  0}};
         $("#service_years").inputmask('numeric',{min:0, max:100});
         $('#service_years').on('keyup',function(event) {
             year = $(this).val();
