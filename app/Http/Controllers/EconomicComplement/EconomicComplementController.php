@@ -700,7 +700,7 @@ class EconomicComplementController extends Controller
 
         $economic_complement_legal_guardian=$economic_complement->economic_complement_legal_guardian;
         $affi_observations = AffiliateObservation::where('affiliate_id',$affiliate->id)->first();
-        if (EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first()) {
+        if (EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->first()) {
                $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->get()->last();
 
                if (EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->first()) {
@@ -711,7 +711,6 @@ class EconomicComplementController extends Controller
                                  ->orWhere('eco_com_requirement_id','=',4)
                                  ->orWhere('eco_com_requirement_id','=',5);
                        })->orderBy('id','asc')->get();
-
                        $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
                        {
                            $query->where('id','=',3)
