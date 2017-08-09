@@ -380,7 +380,7 @@ class EconomicComplementImportExportController extends Controller
       $year = $request->year;
       $semester = $request->semester;
       $afi = DB::table('eco_com_applicants')
-          ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,economic_complements.semester,cities0.second_shortened as regional,,eco_com_applicants.identity_card,cities.second_shortened as ext,concat_ws(' ', NULLIF(eco_com_applicants.first_name,null), NULLIF(eco_com_applicants.second_name, null), NULLIF(eco_com_applicants.last_name, null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null)) full_name,economic_complements.total as importe,eco_com_modalities.shortened as modality,degrees.shortened as degree'))
+          ->select(DB::raw("economic_complements.id,economic_complements.affiliate_id,economic_complements.semester,cities0.second_shortened as regional,eco_com_applicants.identity_card,cities1.first_shortened as ext,concat_ws(' ', NULLIF(eco_com_applicants.first_name,null), NULLIF(eco_com_applicants.second_name, null), NULLIF(eco_com_applicants.last_name, null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null)) as full_name,economic_complements.total as importe,eco_com_modalities.shortened as modality,degrees.shortened as degree"))
           ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
           ->leftJoin('cities as cities0', 'economic_complements.city_id', '=', 'cities0.id')
           ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
@@ -389,12 +389,12 @@ class EconomicComplementImportExportController extends Controller
           ->leftJoin('degrees', 'affiliates.degree_id', '=', 'degrees.id')
           ->whereYear('economic_complements.year', '=', $year)
           ->where('economic_complements.semester', '=', $semester)
-          ->where('economic_complements.workflow_id','=',1)
+          //->where('economic_complements.workflow_id','=',1)
           ->where('economic_complements.wf_current_state_id',2)
           ->where('economic_complements.state','Edited')
-          ->where('economic_complements.total_rent','>', 0)
+          ->where('economic_complements.total','>', 0)
           ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
-          ->whereNotNull('economic_complements.review')->get();     
+          ->whereNotNull('economic_complements.review_date')->get();     
       
 
       if($afi){
@@ -416,7 +416,7 @@ class EconomicComplementImportExportController extends Controller
                 $sheet->row(1, array('NRO', 'DEPARTAMENTO','IDENTIFICACION','NOMBRE_Y_APELLIDO','IMPORTE_A_PAGAR','MONEDA_DEL_IMPORTE','DESCRIPCION1','DESCRIPCION2','DESCRIPCION3'));
                 foreach ($afi as $datos) {
                     $economic =  EconomicComplement::idIs($datos->id)->first();
-                    $sheet->row($j, array($i,$economic->city->second_shortened,$datos->identity_card." ".$datos->ext,$datos->first_name." ".$datos->second_name." ".$datos->last_name." ".$datos->mothers_last_name." ".$datos->surname_husband, $datos->total,"1",$datos->name,$datos->degree,$semester1));
+                    $sheet->row($j, array($i,$economic->regional,$datos->identity_card." ".$datos->ext,$datos->full_name, $datos->importe,"1",$datos->modality,$datos->degree,$semester1));
                     $j++;
                     $i++;
                 }
