@@ -701,7 +701,7 @@ class EconomicComplementController extends Controller
         $economic_complement_legal_guardian=$economic_complement->economic_complement_legal_guardian;
         $affi_observations = AffiliateObservation::where('affiliate_id',$affiliate->id)->first();
         if (EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first()) {
-               $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first();
+               $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->get()->last();
 
                if (EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->first()) {
                    if ($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Vejez') {
