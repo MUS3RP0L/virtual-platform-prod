@@ -69,7 +69,7 @@ class importObservations extends Command
                 $Progress = $this->output->createProgressBar();
                 $Progress->setFormat("%current%/%max% [%bar%] %percent:3s%%");
 
-                 Excel::load($path, function($reader) {
+                Excel::load($path, function($reader) {
 
                 global $Progress,$rows,$no_registrados;
 
@@ -84,7 +84,7 @@ class importObservations extends Command
                     if($afiliado)
                     {
                        Log::info($afiliado->identity_card." ".$afiliado->date_entry);    
-                       array_push($rows, array($afiliado->identity_card,$afiliado->date_entry));
+                       array_push($rows, array($afiliado->identity_card,"Observado por Contabilidad"));
 
                        $observacion = new AffiliateObservation;
                        $observacion->user_id = 1;//user alejandro XD
@@ -118,7 +118,35 @@ class importObservations extends Command
                     
                  }
 
-                 });
+                });
+
+
+                Excel::create('Informe_Observados_Contabilidad',function($excel)
+                {
+
+                global $rows;
+                        $excel->sheet('Contribuciones',function($sheet) {
+
+                             global $rows;
+
+                              $sheet->fromArray($rows);
+                        // $sheet->fromArray(
+                        //                     array(
+                        //                            $rows
+                        //                           )
+                        //                   );
+
+                          // $sheet->row(1,array('Contribuciones: '.$contribuciones->count(),'Total Bs: '.$total) );
+
+                          // $sheet->cells('A1:B1', function($cells) {
+                          // $cells->setBackground('#4CCCD4');
+                                                      // manipulate the range of cells
+
+                          });
+
+                })->store('xls', storage_path('excel/exports'));
+
+                     
 
                 $time_end = microtime(true);
                 $execution_time = ($time_end - $time_start) / 60;
@@ -163,7 +191,7 @@ class importObservations extends Command
                     if($afiliado)
                     {
                        Log::info($afiliado->identity_card." ".$afiliado->date_entry);    
-                       array_push($rows, array($afiliado->identity_card,$afiliado->date_entry));
+                       array_push($rows, array($afiliado->identity_card,"Observados por prestamos"));
 
                        $observacion = new AffiliateObservation;
                        $observacion->user_id = 1;//user alejandro XD
@@ -198,6 +226,31 @@ class importObservations extends Command
                  }
 
                  });
+
+                Excel::create('Informe_Observados_Prestamos',function($excel)
+                {
+
+                global $rows;
+                        $excel->sheet('Contribuciones',function($sheet) {
+
+                             global $rows;
+
+                              $sheet->fromArray($rows);
+                        // $sheet->fromArray(
+                        //                     array(
+                        //                            $rows
+                        //                           )
+                        //                   );
+
+                          // $sheet->row(1,array('Contribuciones: '.$contribuciones->count(),'Total Bs: '.$total) );
+
+                          // $sheet->cells('A1:B1', function($cells) {
+                          // $cells->setBackground('#4CCCD4');
+                                                      // manipulate the range of cells
+
+                          });
+
+                })->store('xls', storage_path('excel/exports'));
 
                 $time_end = microtime(true);
                 $execution_time = ($time_end - $time_start) / 60;
