@@ -1019,6 +1019,7 @@ class EconomicComplementController extends Controller
                     $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number_applicant));
                     $eco_com_applicant->date_death = Util::datePick($request->date_death);
                     $eco_com_applicant->reason_death = trim($request->reason_death);
+                    $eco_com_applicant->death_certificate_number = trim($request->death_certificate_number);
                 }else{
                     $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
                     $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number));
@@ -1044,6 +1045,7 @@ class EconomicComplementController extends Controller
                     $affiliate->birth_date = Util::datePick($request->birth_date);
                     $affiliate->date_death = Util::datePick($request->date_death);
                     $affiliate->reason_death = trim($request->reason_death);
+                    $affiliate->death_certificate_number = trim($request->death_certificate_number);
                     if ($request->applicant == 'update') {
                         $affiliate->phone_number = trim(implode(",", $request->phone_number_applicant));
                         $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number_applicant));
@@ -1074,6 +1076,7 @@ class EconomicComplementController extends Controller
                             $spouse->birth_date = Util::datePick($request->birth_date);
                             $spouse->date_death = Util::datePick($request->date_death);
                             $spouse->reason_death = trim($request->reason_death);
+                            $spouse->death_certificate_number = trim($request->death_certificate_number);
                             $affiliate->nua = ($request->nua == null) ? 0 : $request->nua;
                             $spouse->registration=Util::CalcRegistration(Util::datePick($request->birth_date),trim($request->last_name),trim($request->mothers_last_name), trim($request->first_name),Util::getGender($affiliate->gender));
                             $spouse->save();
@@ -1105,6 +1108,10 @@ class EconomicComplementController extends Controller
                             $spouse->second_name = trim($request->second_name);
                             $spouse->birth_date = Util::datePick($request->birth_date);
                             $spouse->registration=Util::CalcRegistration(Util::datePick($request->birth_date),trim($request->last_name),trim($request->mothers_last_name), trim($request->first_name),Util::getGender($affiliate->gender));
+                            $spouse->birth_date = Util::datePick($request->birth_date);
+                            $spouse->date_death = Util::datePick($request->date_death);
+                            $spouse->reason_death = trim($request->reason_death);
+                            $spouse->death_certificate_number = trim($request->death_certificate_number);
                             $spouse->save();
                         }
 

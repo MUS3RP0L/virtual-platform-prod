@@ -87,9 +87,11 @@ class SpouseController extends Controller
             if ($request->DateDeathSpouseCheck == "on") {
                 $spouse->date_death = Util::datePick($request->date_death);
                 $spouse->reason_death = trim($request->reason_death);
+                $spouse->death_certificate_number = trim($request->death_certificate_number);
             }else {
                 $spouse->date_death = null;
                 $spouse->reason_death = null;
+                $spouse->death_certificate_number = null;
             }
             $spouse->save();
 
