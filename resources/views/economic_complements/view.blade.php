@@ -1899,6 +1899,7 @@
                 <div class="box-body" data-bind="event: {mouseover: save, mouseout: save}">
                     {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement->id], 'class' => 'form-horizontal']) !!}
                         <input type="hidden" name="step" value="third"/>
+                        <input type="hidden" name="requirement_edit" value="true"/>
                       
                         <div class="row">
                             <div class="col-md-12">

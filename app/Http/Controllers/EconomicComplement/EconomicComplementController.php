@@ -593,7 +593,7 @@ class EconomicComplementController extends Controller
                 $economic_complement->wf_current_state_id = 1;
                 $economic_complement->city_id = trim($request->city);
                 $economic_complement->category_id = $affiliate->category_id;
-
+                $economic_complement->reception_date = date('Y-m-d');
                 $economic_complement->state = 'Edited';
 
                 $economic_complement->year = Util::datePickYear(Carbon::now()->year, Util::getSemester(Carbon::now()));
@@ -863,7 +863,6 @@ class EconomicComplementController extends Controller
 
     public function save($request, $economic_complement = false)
     {
-        Log::info($request->step);
         switch ($request->step) {
 
             case 'first':
@@ -1227,7 +1226,7 @@ class EconomicComplementController extends Controller
                         $eco_com_submitted_document->status = $item->status;
                         $eco_com_submitted_document->reception_date = date('Y-m-d');
                         $eco_com_submitted_document->save();
-                        Log::info("idusuario".Auth::user()->id);
+                        
                         
 
                         $wf_record=new WorkflowRecord;
@@ -1238,13 +1237,13 @@ class EconomicComplementController extends Controller
                         $wf_record->record_type_id=1;
                         $wf_record->message="El usuario ".Util::getFullNameuser()." modifico ".$eco_com_submitted_document->economic_complement_requirement->name." fecha ".Carbon::now().".";
                         $wf_record->save();
-                        Log::info($wf_record);
+                        
                     }
 
                 }
 
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
-                $economic_complement->reception_date = date('Y-m-d');
+                
                 $economic_complement->save();
 
                 return redirect('economic_complement/'.$economic_complement->id);
@@ -1275,7 +1274,7 @@ class EconomicComplementController extends Controller
 
                             $eco_com_submitted_document = EconomicComplementSubmittedDocument::where('economic_complement_id', '=', $economic_complement->id)
                             ->where('eco_com_requirement_id', '=', $item->id)->first();
-                            // Log::info($eco_com_submitted_document);
+                            
                            if (!$eco_com_submitted_document) {
                                 $eco_com_submitted_document = new EconomicComplementSubmittedDocument;
                                 $eco_com_submitted_document->economic_complement_id = $economic_complement->id;
@@ -1311,7 +1310,7 @@ class EconomicComplementController extends Controller
                                 $eco_com_submitted_document->status = $item->status;
                                 $eco_com_submitted_document->reception_date = date('Y-m-d');
                                 $eco_com_submitted_document->save();
-                                Log::info("modifico ".$eco_com_submitted_document);   
+                                 
                                 
                                 $wf_record=new WorkflowRecord;
                                 $wf_record->user_id=Auth::user()->id;
@@ -1420,7 +1419,7 @@ class EconomicComplementController extends Controller
                 $economic_complement->review_date = date('Y-m-d');
                 $economic_complement->state = 'Edited';
                 $economic_complement->save();
-                //Log::info($economic_complement);
+                
                 // return redirect('inbox');
                 return redirect('economic_complement');
                 // return redirect('economic_complement/'.$economic_complement->id);
