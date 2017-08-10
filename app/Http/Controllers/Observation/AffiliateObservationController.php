@@ -132,4 +132,13 @@ class AffiliateObservationController extends Controller
       $affiliateObservation->save();
       return redirect('affiliate/'.$request->affiliate_id);
     }
+
+    public function lista_observados()
+    {
+      return view('affiliates.observations');
+    }
+     public function saveFile(Request $request)
+    {
+        return $request->all();
+    }
   }

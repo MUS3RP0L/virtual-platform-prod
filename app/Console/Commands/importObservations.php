@@ -55,7 +55,7 @@ class importObservations extends Command
             case 'c':
                 # code...
                 $this->info("Ejecutando Observados por Contabilidad");
-                 $path = storage_path('excel\imports\LISTA DE DEUDORES DE CUENTAS POR COBRAR DE COMPLEMENTO ECONOMICO.xlsx');
+                 $path = storage_path('excel/imports/LISTA DE DEUDORES DE CUENTAS POR COBRAR DE COMPLEMENTO ECONOMICO.xlsx');
                 // $path = str_replace('\\', '/', $o_path);
                 $this->info("path: ".$path);
 
@@ -92,7 +92,7 @@ class importObservations extends Command
                        $observacion->observation_type_id = 1;
                        $observacion->date = date("Y-m-d");
                        $observacion->message="Falta de descargo por fondos en avance, fondo rotativo.";
-                       $observacion->save();
+                       // $observacion->save();
 
                        $tramites = EconomicComplement::where("affiliate_id","=",$afiliado->id)->where("eco_com_procedure_id","=","2")->get();
                        Log::info("tramites : ".sizeof($tramites));
@@ -158,7 +158,7 @@ class importObservations extends Command
                 # code...
                 $this->info("Ejecutando Observados por prestamo");   
 
-                $path = storage_path('excel\imports\mora.xlsx');
+                $path = storage_path('excel/imports/mora.xlsx');
                 // $path = str_replace('\\', '/', $o_path);
                 $this->info("path: ".$path);
 
@@ -199,7 +199,7 @@ class importObservations extends Command
                        $observacion->observation_type_id = 2;
                        $observacion->date = date("Y-m-d");
                        $observacion->message="Prestatario en situacion de mora.";
-                       $observacion->save();
+                       // $observacion->save();
 
                        $tramites = EconomicComplement::where("affiliate_id","=",$afiliado->id)->where("eco_com_procedure_id","=","2")->get();
                        Log::info("tramites : ".sizeof($tramites));
