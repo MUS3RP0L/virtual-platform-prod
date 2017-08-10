@@ -362,7 +362,7 @@ class EconomicComplementImportExportController extends Controller
                      ->leftJoin('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
                      ->where('affiliates.pension_entity_id','<>', 5)
                      ->whereYear('economic_complements.year', '=', $year)
-                     ->whereNull('economic_complements.total_rent')
+                     //->whereNull('economic_complements.total_rent')
                      ->where('economic_complements.semester', '=', $semester)->get();
                  foreach ($afi as $datos) {
                      $sheet->row($j, array($i, "I",Util::addcero($datos->identity_card,13),$datos->third_shortened,Util::addcero($datos->nua,9), $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,Util::DateUnion($datos->birth_date)));
