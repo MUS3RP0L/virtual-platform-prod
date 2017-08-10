@@ -389,7 +389,7 @@ class EconomicComplementImportExportController extends Controller
           ->leftJoin('degrees', 'affiliates.degree_id', '=', 'degrees.id')
           ->whereYear('economic_complements.year', '=', $year)
           ->where('economic_complements.semester', '=', $semester)
-          //->where('economic_complements.workflow_id','=',1)
+          ->where('economic_complements.workflow_id','=',1)
           ->where('economic_complements.wf_current_state_id',2)
           ->where('economic_complements.state','Edited')
           ->where('economic_complements.total','>', 0)
@@ -416,7 +416,7 @@ class EconomicComplementImportExportController extends Controller
                 $sheet->row(1, array('NRO', 'DEPARTAMENTO','IDENTIFICACION','NOMBRE_Y_APELLIDO','IMPORTE_A_PAGAR','MONEDA_DEL_IMPORTE','DESCRIPCION1','DESCRIPCION2','DESCRIPCION3'));
                 foreach ($afi as $datos) {
                     $economic =  EconomicComplement::idIs($datos->id)->first();
-                    $sheet->row($j, array($i,$economic->regional,$datos->identity_card." ".$datos->ext,$datos->full_name, $datos->importe,"1",$datos->modality,$datos->degree,$semester1));
+                    $sheet->row($j, array($i,$datos->regional,$datos->identity_card." ".$datos->ext,$datos->full_name, $datos->importe,"1",$datos->modality,$datos->degree,$semester1));
                     $j++;
                     $i++;
                 }
