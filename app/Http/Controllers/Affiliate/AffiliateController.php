@@ -502,8 +502,8 @@ class AffiliateController extends Controller
                     $affiliate->item = $request->item > 0 ? $request->item: 0 ;
                     $affiliate->category_id = $request->category;
                     $affiliate->pension_entity_id=$request->affiliate_entity_pension;
-                    $affiliate->service_years=$request->service_years;
-                    $affiliate->service_months=$request->service_months;
+                    $affiliate->service_years=$request->service_years <> "" ? $request->service_years:null;
+                    $affiliate->service_months=$request->service_months <> "" ? $request->service_months : null;
                     $affiliate->save();
                     $message = "Información del Policia actualizada correctamene.";
                     Session::flash('message', $message);
@@ -523,8 +523,8 @@ class AffiliateController extends Controller
                     $affiliate->item = $request->item > 0 ? $request->item: 0 ;
                     $affiliate->category_id = $request->category;
                     $affiliate->pension_entity_id=$request->affiliate_entity_pension;
-                    $affiliate->service_years=$request->service_years;
-                    $affiliate->service_months=$request->service_months;
+                    $affiliate->service_years=$request->service_years <> "" ? $request->service_years:null;
+                    $affiliate->service_months=$request->service_months <> "" ? $request->service_months : null;
                     $affiliate->death_certificate_number=$request->death_certificate_number;
                     $affiliate->save();
                     if ($economic_complement->total_rent > 0 ) {   
