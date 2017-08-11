@@ -135,10 +135,23 @@ class AffiliateObservationController extends Controller
 
     public function lista_observados()
     {
+
       return view('affiliates.observations');
     }
-     public function saveFile(Request $request)
-    {
-        return $request->all();
+    public function getDataObsertaions()
+    { 
+      // return "lista";
+        $afiliados = Affiliate::take(100)->get();
+        return Datatables::of($afiliados)
+        ->addColumn('degrees',function($afiliado){
+          return $afiliado->degree_id?$afiliado->degree->shortened:'';
+        })
+        ->addColumn('action', function ($afiliado) {
+                return '<div class="btn-group" style="margin:-3px 0;">
+                <a href="affiliate/'.$afiliado->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
+            </div>';
+
+            })->make(true);
     }
+
   }
