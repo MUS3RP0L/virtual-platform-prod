@@ -7,11 +7,15 @@
             {!! Breadcrumbs::render('affiliates') !!}
         </div>
         <div class="col-md-2 text-right">
-            <div data-toggle="tooltip" data-placement="top" data-original-title="Nuevo">
-                <a href="" class="btn btn bg-olive" data-toggle="modal" data-target="#myModal-personal">
+            <div >
+                <a data-toggle="tooltip" data-placement="top" data-original-title="Nuevo" href="" class="btn btn bg-olive" data-toggle="modal" data-target="#myModal-personal">
                     <span class="fa fa-lg fa-plus" aria-hidden="true"></span>
                 </a>
+                <a data-toggle="tooltip" data-placement="top" data-original-title="Observados" href="{{url('observations')}}" class="btn btn bg-olive" >
+                    <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                </a>
             </div>
+         
         </div>
     </div>
 

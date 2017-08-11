@@ -10,7 +10,23 @@
                 <a href="" class="btn btn-primary btn-raised" data-toggle="dropdown"><i class="glyphicon glyphicon-export"></i></a>
                 <a href="" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="" data-toggle="modal" data-target="#myModal-exportaps" style="padding:3px 5px;"><i class="fa fa-bank"></i>APS</a></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-exportaps" style="padding:3px 5px;"><i class="fa fa-bank"></i>APS</a>
+                        
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a class="test" tabindex="-1" href="#">New dropdown <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          <li><a tabindex="-1" href="#">2nd level dropdown</a></li>
+                          <li><a tabindex="-1" href="#">2nd level dropdown</a></li>
+                          <li class="dropdown-submenu">
+                            <a class="test" href="#">Another dropdown <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                              <li><a href="#">3rd level dropdown</a></li>
+                              <li><a href="#">3rd level dropdown</a></li>
+                            </ul>
+                          </li>
+                        </ul>
+                     </li>
                     <li role="separator" class="divider"></li>
                     <li><a href="" data-toggle="modal" data-target="#myModal-exportbanco" style="padding:3px 5px;"><i class="fa fa-money"></i>Banco</a></li>
                 </ul>

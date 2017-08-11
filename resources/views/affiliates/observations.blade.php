@@ -9,13 +9,7 @@
               <li class="active">Afiliados Observados</li>
             </ol>
         </div>
-        <div class="col-md-2 text-right">
-            <div data-toggle="tooltip" data-placement="top" data-original-title="Nuevo">
-                <a href="" class="btn btn bg-olive" data-toggle="modal" data-target="#myModal-personal">
-                    <span class="fa fa-lg fa-plus" aria-hidden="true"></span>
-                </a>
-            </div>
-        </div>
+        
     </div>
 
 @endsection
@@ -29,8 +23,7 @@
                     <h3 class="box-title"><span class="glyphicon glyphicon-search"></span> Búsqueda</h3>
                 </div>
                 <div class="box-body">
-                  
-                   
+                        
                         <table class="table table-bordered" id="observation-table">
                                 <thead>
                                     <tr>
@@ -38,7 +31,10 @@
                                         <th> Nro. Carnet </th>
                                         <th> Matricula </th>
                                         <th> Grado </th>
-                                                                             <th> Accion</th>
+                                        <th> Nombres</th>
+                                        <th> Apellidos</th>
+                                        <th> estado </th>
+                                        <th> Accion</th>
                                       
                                     </tr>
                                 </thead>
@@ -65,7 +61,10 @@ $(function() {
             
             { data: 'identity_card', name: 'identity_card' },
             { data: 'registration', name: 'registration' },
-            { data: 'degrees', name: 'degrees' },
+            { data: 'shortened', name: 'shortened' },
+            { data: 'names', name: 'names' },
+            { data: 'surnames', name: 'surnames' },
+            { data: 'name', name: 'name',orderable: false, searchable: false},
             { data: 'action', name: 'action' , orderable: false, searchable: false }
 
         ]
