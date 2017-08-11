@@ -1037,7 +1037,7 @@ class EconomicComplementController extends Controller
                     $affiliate->first_name = $request->first_name;
                     $affiliate->second_name = $request->second_name;
                     $affiliate->surname_husband = $request->surname_husband;
-                    $affiliate->nua = $request->nua;
+                    $affiliate->nua = $request->nua>0 ? $request->nua : 0;
                     $affiliate->gender = $request->gender;
                     $affiliate->civil_status = $request->civil_status;
                     $affiliate->birth_date = Util::datePick($request->birth_date);
