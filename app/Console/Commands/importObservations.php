@@ -92,7 +92,7 @@ class importObservations extends Command
                        $observacion->observation_type_id = 1;
                        $observacion->date = date("Y-m-d");
                        $observacion->message="Falta de descargo por fondos en avance, fondo rotativo.";
-                       // $observacion->save();
+                       $observacion->save();
 
                        $tramites = EconomicComplement::where("affiliate_id","=",$afiliado->id)->where("eco_com_procedure_id","=","2")->get();
                        Log::info("tramites : ".sizeof($tramites));
@@ -199,7 +199,7 @@ class importObservations extends Command
                        $observacion->observation_type_id = 2;
                        $observacion->date = date("Y-m-d");
                        $observacion->message="Prestatario en situacion de mora.";
-                       // $observacion->save();
+                       $observacion->save();
 
                        $tramites = EconomicComplement::where("affiliate_id","=",$afiliado->id)->where("eco_com_procedure_id","=","2")->get();
                        Log::info("tramites : ".sizeof($tramites));
