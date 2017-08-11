@@ -362,9 +362,10 @@ class EconomicComplementImportExportController extends Controller
                      ->leftJoin('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
                      ->where('affiliates.pension_entity_id','<>', 5)
                      ->whereYear('economic_complements.year', '=', $year)
+                     //->whereNull('economic_complements.total_rent')
                      ->where('economic_complements.semester', '=', $semester)->get();
                  foreach ($afi as $datos) {
-                     $sheet->row($j, array($i, "I",Util::addcero($datos->identity_card,13),$datos->first_shortened,Util::addcero($datos->nua,9), $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,Util::DateUnion($datos->birth_date)));
+                     $sheet->row($j, array($i, "I",Util::addcero($datos->identity_card,13),$datos->third_shortened,Util::addcero($datos->nua,9), $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,Util::DateUnion($datos->birth_date)));
                      $j++;
                      $i++;
                  }
@@ -374,24 +375,32 @@ class EconomicComplementImportExportController extends Controller
              return redirect('economic_complement');
     }
 
-    public function export_to_bank(Request $request){
+    public function export_to_bank(Request $request)
+    {
       global $year, $semester,$i,$afi,$semester1;
       $year = $request->year;
       $semester = $request->semester;
-      $afi = DB::table('economic_complements')
-          ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,economic_complements.semester,economic_complements.total,affiliates.identity_card,cities.shortened as ext,affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,eco_com_modalities.name,degrees.shortened as degree'))
+      $afi = DB::table('eco_com_applicants')
+          ->select(DB::raw("economic_complements.id,economic_complements.affiliate_id,economic_complements.semester,cities0.second_shortened as regional,eco_com_applicants.identity_card,cities1.first_shortened as ext,concat_ws(' ', NULLIF(eco_com_applicants.first_name,null), NULLIF(eco_com_applicants.second_name, null), NULLIF(eco_com_applicants.last_name, null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null)) as full_name,economic_complements.total as importe,eco_com_modalities.shortened as modality,degrees.shortened as degree"))
+          ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+          ->leftJoin('cities as cities0', 'economic_complements.city_id', '=', 'cities0.id')
           ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
-          ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
-          //->join('cities', 'affiliates.city_id', '=', 'cities.id')
-          ->leftJoin('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
+          ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')          
+          ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
           ->leftJoin('degrees', 'affiliates.degree_id', '=', 'degrees.id')
-          ->whereYear('economic_complements.review_date', '=', $year)
+          ->whereYear('economic_complements.year', '=', $year)
           ->where('economic_complements.semester', '=', $semester)
-          ->where('economic_complements.eco_com_state_id', '=', 2)->get();
-      //return response()->json($afi);
+          ->where('economic_complements.workflow_id','=',1)
+          ->where('economic_complements.wf_current_state_id',2)
+          ->where('economic_complements.state','Edited')
+          ->where('economic_complements.total','>', 0)
+          ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+          ->whereNotNull('economic_complements.review_date')->get();     
+      
 
       if($afi){
-            if($semester == "F"){
+            if($semester == "Primer")
+            {
               $semester1 = "MUSERPOL PAGO COMPLEMENTO ECONOMICO 1ER SEM ".$year;
               $abv ="Pago_Banco_Union_1ER_SEM_".$year;
             }
@@ -406,12 +415,24 @@ class EconomicComplementImportExportController extends Controller
                 global $year,$semester, $afi,$j, $i,$semester1;
                 $i=1;
                 $sheet->row(1, array('NRO', 'DEPARTAMENTO','IDENTIFICACION','NOMBRE_Y_APELLIDO','IMPORTE_A_PAGAR','MONEDA_DEL_IMPORTE','DESCRIPCION1','DESCRIPCION2','DESCRIPCION3'));
+
                 foreach ($afi as $datos) {
                     $economic =  EconomicComplement::idIs($datos->id)->first();
-                    $sheet->row($j, array($i,$economic->city->second_shortened,$datos->identity_card." ".$datos->ext,$datos->first_name." ".$datos->second_name." ".$datos->last_name." ".$datos->mothers_last_name." ".$datos->surname_husband, $datos->total,"1",$datos->name,$datos->degree,$semester1));
+                    $import = str_replace(",", ".", "".$datos->importe);
+                   // dd($import);
+                    $sheet->row($j, array($i,$datos->regional,$datos->identity_card." ".$datos->ext,$datos->full_name, $import." ","1",$datos->modality,$datos->degree,$semester1));
+                    
                     $j++;
                     $i++;
                 }
+                 $sheet->setColumnFormat(array(
+                  
+
+
+
+                   'B' => '0.00',
+                   'C' => '0.00%'
+                   ));
               });
           })->export('xlsx');
           return redirect('economic_complement');
