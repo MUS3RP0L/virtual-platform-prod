@@ -17,6 +17,7 @@ use Auth;
 use Datatables;
 use Session;
 use Validator;
+use Illuminate\Support\Facades\DB;
 
 class AffiliateObservationController extends Controller
 {
@@ -132,4 +133,46 @@ class AffiliateObservationController extends Controller
       $affiliateObservation->save();
       return redirect('affiliate/'.$request->affiliate_id);
     }
+
+    public function lista_observados()
+    {
+
+      return view('affiliates.observations');
+    }
+    public function getDataObsertaions()
+    { 
+      // return "lista";
+        // $afiliados = Affiliate::take(100)->get();
+        // $afiliados = DB::table('affiliates')
+        //                         ->leftJoin('affiliate_observations','affiliates.id','=','affiliate_observations.affiliate_id')
+                         
+        //                         ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+        //                         ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+        //                         ->orWhere('affiliate_observations.observation_type_id',1)
+        //                         ->orWhere('affiliate_observations.observation_type_id',2)
+        //                         ->orWhere('affiliate_observations.observation_type_id',3)
+        //                         ->orWhere('affiliate_observations.observation_type_id',4)
+        //                         ->orWhere('affiliate_observations.observation_type_id',5)
+        //                         ->orWhere('affiliate_observations.observation_type_id',6)
+        //                         ->orWhere('affiliate_observations.observation_type_id',7)
+        //                         ->orWhere('affiliate_observations.observation_type_id',8)
+        //                         ->orWhere('affiliate_observations.observation_type_id',9)
+        //                         ->orWhere('affiliate_observations.observation_type_id',10)
+        //                         ->distinct('affiliates.id')
+        //                         ->select(['affiliates.id','affiliates.identity_card','affiliates.registration','degrees.shortened','affiliates.first_name','affiliates.second_name','last_name','affiliates.mothers_last_name','affiliate_states.name']);
+                                // ->get();  
+        $afiliados = DB::table('observados');
+        // return $afiliados;
+        return Datatables::of($afiliados)
+        // ->addColumn('degrees',function($afiliado){
+        //   return $afiliado->degree_id?$afiliado->degree->shortened:'';
+        // })
+        ->addColumn('action', function ($afiliado) {
+                return '<div class="btn-group" style="margin:-3px 0;">
+                <a href="affiliate/'.$afiliado->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
+            </div>';
+
+            })->make(true);
+    }
+
   }
