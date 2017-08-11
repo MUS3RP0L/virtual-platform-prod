@@ -44,6 +44,11 @@ class EconomicComplementLegalGuardian extends Model
     {
         return $this->last_name . ' ' . $this->mothers_last_name . ' ' . $this->surname_husband . ' ' . $this->first_name . ' ' . $this->second_name;
     }
+    public function getFullName()
+    {
+
+        return (trim($this->first_name) ? trim($this->first_name) : '').(trim($this->second_name) ? ' '.trim($this->second_name) : '').(trim($this->last_name) ? ' '.trim($this->last_name) : '').(trim($this->mothers_last_name) ? ' '.trim($this->mothers_last_name) : '').(trim($this->surname_husband) ? ' '.trim($this->surname_husband) : '');
+    }
 
     public function getPhone()
     {

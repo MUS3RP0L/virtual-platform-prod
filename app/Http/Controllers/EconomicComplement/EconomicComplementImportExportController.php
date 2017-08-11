@@ -18,6 +18,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use Muserpol\Affiliate;
 use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementProcedure;
+use Muserpol\EconomicComplementLegalGuardian;
+
 
 use App\CustomCollection;
 
@@ -362,7 +364,7 @@ class EconomicComplementImportExportController extends Controller
                      ->leftJoin('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
                      ->where('affiliates.pension_entity_id','<>', 5)
                      ->whereYear('economic_complements.year', '=', $year)
-                     //->whereNull('economic_complements.total_rent')
+                     ->whereNull('economic_complements.total_rent')
                      ->where('economic_complements.semester', '=', $semester)->get();
                  foreach ($afi as $datos) {
                      $sheet->row($j, array($i, "I",Util::addcero($datos->identity_card,13),$datos->third_shortened,Util::addcero($datos->nua,9), $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,Util::DateUnion($datos->birth_date)));
@@ -412,27 +414,35 @@ class EconomicComplementImportExportController extends Controller
                 global $year,$semester,$afi,$j,$semester1;
                 $j = 2;
                 $excel->sheet("AFILIADOS_PARA_APS_".$year, function($sheet) {
+                  $sheet->setColumnFormat(array(
+                      'E' => '0.00'
+                  ));
                 global $year,$semester, $afi,$j, $i,$semester1;
                 $i=1;
-                $sheet->row(1, array('NRO', 'DEPARTAMENTO','IDENTIFICACION','NOMBRE_Y_APELLIDO','IMPORTE_A_PAGAR','MONEDA_DEL_IMPORTE','DESCRIPCION1','DESCRIPCION2','DESCRIPCION3'));
-
-                foreach ($afi as $datos) {
+                $sheet->row(1, array('ID', 'DEPARTAMENTO','IDENTIFICACION','NOMBRE_Y_APELLIDO','IMPORTE_A_PAGAR','MONEDA_DEL_IMPORTE','DESCRIPCION_1','DESCRIPCION_2','DESCRIPCION_3'));
+             
+                foreach ($afi as $datos) 
+                {
                     $economic =  EconomicComplement::idIs($datos->id)->first();
-                    $import = str_replace(",", ".", "".$datos->importe);
-                   // dd($import);
-                    $sheet->row($j, array($i,$datos->regional,$datos->identity_card." ".$datos->ext,$datos->full_name, $import." ","1",$datos->modality,$datos->degree,$semester1));
+
+                    $import = str_replace(",", ".", $datos->importe);                       
+                    if ($economic->has_legal_guardian)
+                    {
+                     
+                      $legal1 = EconomicComplementLegalGuardian::where('economic_complement_id','=', $economic->id)->first();
+                       $sheet->row($j, array($datos->affiliate_id,$datos->regional,$legal1->identity_card." ".$legal1->city_identity_card->first_shortened,$legal1->getFullName(), $import,"1",$datos->modality,$datos->degree,$semester1));                     
+                      
+                    }
+                    else
+                    {
+                      $sheet->row($j, array($datos->affiliate_id,$datos->regional,$datos->identity_card." ".$datos->ext,$datos->full_name, $import,"1",$datos->modality,$datos->degree,$semester1));
+
+                    }                   
                     
                     $j++;
-                    $i++;
-                }
-                 $sheet->setColumnFormat(array(
-                  
-
-
-
-                   'B' => '0.00',
-                   'C' => '0.00%'
-                   ));
+                   
+                }    
+                           
               });
           })->export('xlsx');
           return redirect('economic_complement');
