@@ -1011,7 +1011,7 @@ class EconomicComplementController extends Controller
                 $eco_com_applicant->gender = $request->gender;
                 $eco_com_applicant->birth_date = Util::datePick($request->birth_date);
                 $eco_com_applicant->civil_status = $request->civil_status;
-
+                $eco_com_applicant->city_birth_id = $request->city_birth_id <> "" ? $request->city_birth_id : null;
                 if ($request->applicant == 'update') {
                     $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number_applicant));
                     $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number_applicant));
@@ -1024,7 +1024,6 @@ class EconomicComplementController extends Controller
                 }
                 $eco_com_applicant->nua = ($request->nua == null) ? 0 : $request->nua;
                 $eco_com_applicant->save();
-
                 switch ($economic_complement->economic_complement_modality->economic_complement_type->id) {
 
                     case '1':
@@ -1077,9 +1076,9 @@ class EconomicComplementController extends Controller
                             $spouse->death_certificate_number = trim($request->death_certificate_number);
                             $affiliate->nua = ($request->nua == null) ? 0 : $request->nua;
                             $spouse->registration=Util::CalcRegistration(Util::datePick($request->birth_date),trim($request->last_name),trim($request->mothers_last_name), trim($request->first_name),Util::getGender($affiliate->gender));
+                            $spouse->city_birth_id = $request->city_birth_id == "" ? null : $request->city_birth_id;
                             $spouse->save();
                             $affiliate->save();
-
                         }
                         else{
                             $affiliate->identity_card = $request->identity_card_affi;
@@ -1110,6 +1109,8 @@ class EconomicComplementController extends Controller
                             $spouse->date_death = Util::datePick($request->date_death);
                             $spouse->reason_death = trim($request->reason_death);
                             $spouse->death_certificate_number = trim($request->death_certificate_number);
+                            $spouse->civil_status = $request->civil_status;
+                            $spouse->city_birth_id = $request->city_birth_id <> "" ? $request->city_birth_id : null;
                             $spouse->save();
                         }
 
