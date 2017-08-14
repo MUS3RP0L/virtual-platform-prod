@@ -23,7 +23,7 @@
                     <h3 class="box-title"><span class="glyphicon glyphicon-search"></span> Búsqueda</h3>
                 </div>
                 <div class="box-body">
-                        
+                
                         <table class="table table-bordered" id="observation-table">
                                 <thead>
                                     <tr>
@@ -33,8 +33,10 @@
                                         <th> Grado </th>
                                         <th> Nombres</th>
                                         <th> Apellidos</th>
-                                        <th> estado </th>
-                                        <th> Accion</th>
+                                     
+                                        <th> Estado </th>
+                                        <th> Observacion </th>
+                                        <th> Accion </th>
                                       
                                     </tr>
                                 </thead>
@@ -54,7 +56,7 @@
 <script>
 $(function() {
     $('#observation-table').DataTable({
-        processing: true,
+        processing: true,   
         serverSide: true,
         ajax: '{!! route('getdataobservations') !!}',
         columns: [
@@ -64,7 +66,8 @@ $(function() {
             { data: 'shortened', name: 'shortened' },
             { data: 'names', name: 'names' },
             { data: 'surnames', name: 'surnames' },
-            { data: 'name', name: 'name',orderable: false, searchable: false},
+            { data: 'state', name: 'state',orderable: false, searchable: false},
+            { data: 'observation', name: 'observation' },
             { data: 'action', name: 'action' , orderable: false, searchable: false }
 
         ]
