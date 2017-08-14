@@ -70,14 +70,14 @@
           <!--  @include('affiliates.simple_info') -->
 
             <!-- applicant -->
-            @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id == 2)
+            @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1)
                 <div class="box box-success box-solid">
                     <div class="box-header with-border">
                         <div class="row">
                             <div class="col-md-10">
                                 <a href="/affiliate/{{ $economic_complement->affiliate_id  }}" data-toggle="tooltip" data-placement="top" title="Volver al afiliado">
                                     <h3 class="box-title"><i class="fa fa-{{$affiliate->gender=='M'?'male':'female'  }}"></i> Información Personal
-                                    @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id == 2)
+                                    @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1)
                                         - Causahabiente
                                     @endif
                                     </h3>
@@ -316,7 +316,7 @@
                         <div class="col-md-8">
                             <a href="/affiliate/{{ $economic_complement->affiliate_id  }}" data-toggle="tooltip" data-placement="top" title="Volver al afiliado">
                             <h3 class="box-title"><span class="fa fa-user-plus"></span> Información de Beneficiario
-                            @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id == 2)
+                            @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1)
                             - Derechohabiente
                             @endif
                             </h3>

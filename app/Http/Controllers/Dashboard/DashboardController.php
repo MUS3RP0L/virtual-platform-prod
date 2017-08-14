@@ -17,6 +17,7 @@ use Muserpol\AffiliateState;
 use Muserpol\AffiliateStateType;
 use Muserpol\Contribution;
 use Muserpol\EconomicComplement;
+use Muserpol\EconomicComplementApplicant;
 use Log;
 
 class DashboardController extends Controller
@@ -345,6 +346,20 @@ class DashboardController extends Controller
 		}
 		return $data;
 	}
+	public function appendEconComURL($data, $prefix)
+	{
+		foreach ($data as $key => & $item) {
+			$item['url'] = url($prefix.'/'.$item['id']);
+		}
+		return $data;
+	}
+	public function appendEconComValue($data, $type, $element)
+	{
+		foreach ($data as $key => & $item) {
+			$item[$element] = $type;
+		}
+		return $data;
+	}
 
 	public function searchAffiliate(Request $request)
 	{
@@ -356,19 +371,19 @@ class DashboardController extends Controller
 			->orderBy('first_name','asc')
 			->take(3)
 			->get(array('id', 'identity_card', 'first_name', 'last_name'))->toArray();
-
-		$spouses = Spouse::where('identity_card','like', $query)
+		$eco_com_applicant = EconomicComplementApplicant::where('identity_card','like', $query)
+			->leftJoin('economic_complements','economic_complements.id','=','eco_com_applicants.economic_complement_id')
 			->orderBy('first_name','asc')
 			->take(3)
-			->get(array('id', 'affiliate_id', 'identity_card', 'first_name', 'last_name'))->toArray();
+			->get(array('eco_com_applicants.id','economic_complements.affiliate_id','eco_com_applicants.identity_card', 'eco_com_applicants.first_name', 'eco_com_applicants.last_name'))->toArray();
 
 		$affiliates = $this->appendURLaffiliate($affiliates, 'affiliate');
-		$spouses  = $this->appendURLspouse($spouses, 'affiliate');
-
 		$affiliates = $this->appendValue($affiliates, 'affiliate', 'class');
-		$spouses = $this->appendValue($spouses, 'spouse', 'class');
 
-		$data = array_merge($affiliates, $spouses);
+		$eco_com_applicant  = $this->appendURLspouse($eco_com_applicant, 'affiliate');
+		$eco_com_applicant = $this->appendValue($eco_com_applicant, 'affiliate', 'class');
+		
+		$data = array_merge($affiliates,$eco_com_applicant);
 
 		return response()->json(array(
 			'data'=>$data
