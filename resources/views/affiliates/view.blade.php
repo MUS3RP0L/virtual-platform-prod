@@ -90,13 +90,13 @@
                         <div class="col-md-10">
                             <h3 class="box-title"><i class="fa fa-{{$affiliate->gender=='M'?'male':'female'  }}"></i> Información Personal</h3>
                         </div>
-                        <div class="col-md-2 text-right">
+                        {{-- <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-personal">
                                     <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
                                 </a>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="box-body">
@@ -684,9 +684,9 @@
                             <h3 class="box-title"><span class="glyphicon glyphicon-briefcase"></span> Información Policial Actual</h3>
                         </div>
                         <div class="col-md-4 text-right">
-                            <span data-toggle="modal" data-target="#policeModal">
+                            {{-- <span data-toggle="modal" data-target="#policeModal">
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa-pencil"></i></a>
-                            </span>
+                            </span> --}}
                             <span data-toggle="modal" data-target="#myModal-record">
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Ver Historial"><i aria-hidden="true" class="fa fa-lg fa-clock-o"></i></a>
                             </span>

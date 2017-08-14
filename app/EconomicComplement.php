@@ -83,7 +83,10 @@ class EconomicComplement extends Model
     {
         return $this->belongsTo('Muserpol\Category');
     }
+    public function degree(){
 
+        return $this->belongsTo('Muserpol\Degree');
+    }
     public function base_wage()
     {
         return $this->belongsTo('Muserpol\BaseWage');
@@ -275,7 +278,7 @@ class EconomicComplement extends Model
                 $total_rent=$economic_complement_rent->average;
                 $economic_complement->total_rent_calc = $economic_complement_rent->average;
             }
-            $base_wage = BaseWage::degreeIs($economic_complement->affiliate->degree_id)->whereYear('month_year','=',Carbon::parse($economic_complement->year)->year)->first();
+            $base_wage = BaseWage::degreeIs($economic_complement->degree_id)->whereYear('month_year','=',Carbon::parse($economic_complement->year)->year)->first();
 
             //para el caso de las viudas 80%
             if ($economic_complement->economic_complement_modality->economic_complement_type->id == 2) {

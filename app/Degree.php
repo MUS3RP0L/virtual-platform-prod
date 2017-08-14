@@ -29,7 +29,10 @@ class Degree extends Model
     {
         return $this->hasMany('Muserpol\Affiliate');
     }
+    public function economic_complements(){
 
+        return $this->belongsTo('Muserpol\EconomicComplement');
+    }
     public function contributions()
     {
     	return $this->hasMany('Muserpol\Contribution');
