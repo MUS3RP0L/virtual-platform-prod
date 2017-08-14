@@ -161,7 +161,20 @@ class AffiliateObservationController extends Controller
         //                         ->distinct('affiliates.id')
         //                         ->select(['affiliates.id','affiliates.identity_card','affiliates.registration','degrees.shortened','affiliates.first_name','affiliates.second_name','last_name','affiliates.mothers_last_name','affiliate_states.name']);
                                 // ->get();  
-        $afiliados = DB::table('v_observados');
+
+        $afiliados = DB::table('v_observados')->get();
+        
+        $a = array();
+        foreach ($afiliados as $afiliado) {
+
+          # code...
+          $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)->where('eco_com_procedure_id','=','2')->first();
+          if($complementos){
+             array_push($a, $afiliado->id);
+          }
+         
+        }
+        $afiliados = DB::table('v_observados')->whereIn('id',$a);
         // return $afiliados;
         return Datatables::of($afiliados)
         // ->addColumn('degrees',function($afiliado){
