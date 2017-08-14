@@ -594,6 +594,7 @@ class EconomicComplementController extends Controller
                 $economic_complement->wf_current_state_id = 1;
                 $economic_complement->city_id = trim($request->city);
                 $economic_complement->category_id = $affiliate->category_id;
+                $economic_complement->degree_id = $affiliate->degree_id;
                 $economic_complement->reception_date = date('Y-m-d');
                 $economic_complement->state = 'Edited';
 
@@ -687,7 +688,7 @@ class EconomicComplementController extends Controller
         }
 
         $dg=Degree::all();
-        $degrees=[];
+        $degrees=[''=>''];
         foreach ($dg as $d) {
             $degrees[$d->id]=$d->name;
         }
