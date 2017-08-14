@@ -399,8 +399,7 @@ class EconomicComplementImportExportController extends Controller
           ->where('economic_complements.state','Edited')
           ->where('economic_complements.total','>', 0)
           ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')         
-          ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12))")
-         
+          ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12))")         
           ->whereNotNull('economic_complements.review_date')->get();     
       
 
