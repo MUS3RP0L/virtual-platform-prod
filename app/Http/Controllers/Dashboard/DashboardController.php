@@ -18,6 +18,7 @@ use Muserpol\AffiliateStateType;
 use Muserpol\Contribution;
 use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementApplicant;
+use Muserpol\EconomicComplementProcedure;
 use Log;
 
 class DashboardController extends Controller
@@ -51,9 +52,9 @@ class DashboardController extends Controller
 	public function showIndex()
 	{
 		//get last economonomic complement and last year
-		$last_economic_complement=EconomicComplement::all()->last();
+		$last_economic_complement=EconomicComplementProcedure::whereyear('year','=',Carbon::now()->year)->where('semester','like',Util::getCurrentSemester())->first()->economic_complements->last();
 		$last_year=Carbon::parse($last_economic_complement->year)->year;
-
+		
 		/*	$AfiServ = DB::table('affiliates')
 										->select(DB::raw('count(*) as totalafis'))
 										->where('affiliates.affiliate_state_id', '=', 1)
@@ -382,7 +383,7 @@ class DashboardController extends Controller
 
 		$eco_com_applicant  = $this->appendURLspouse($eco_com_applicant, 'affiliate');
 		$eco_com_applicant = $this->appendValue($eco_com_applicant, 'affiliate', 'class');
-		
+
 		$data = array_merge($affiliates,$eco_com_applicant);
 
 		return response()->json(array(
