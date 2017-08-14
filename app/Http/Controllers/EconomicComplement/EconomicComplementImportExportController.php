@@ -65,7 +65,7 @@ class EconomicComplementImportExportController extends Controller
                   ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                            
                   ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
                   ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
-                  ->whereRaw("LTRIM(eco_com_applicants.identity_card,'0') ='".rtrim($datos->carnet.''.$ext)."'")                
+                  ->whereRaw("LTRIM(eco_com_applicants.identity_card,'0') ='".rtrim($datos->carnet.''.$ext)."'")
                   ->where('eco_com_types.id','=', 2)
                   ->where('affiliates.pension_entity_id','=', 5)
                   ->whereYear('economic_complements.year', '=', $year)
@@ -170,14 +170,15 @@ class EconomicComplementImportExportController extends Controller
         foreach ($results as $datos)
         {   
             $nua = ltrim((string)$datos->nrosip_titular, "0");
-            $ci = ltrim($datos->nro_identificacion, "0");
+            $ci = explode("-",ltrim($datos->nro_identificacion, "0"));
+            $ci1 = $ci[0];            
             $afi = DB::table('economic_complements')
                   ->select(DB::raw('affiliates.identity_card as ci_afi,economic_complements.*, eco_com_types.id as type'))     
                   ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                 
                   ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
                   ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
-                  ->whereRaw("split_part(LTRIM(affiliates.identity_card,'0'), '-',1) = '".$ci."'")
-                  ->whereRaw("LTRIM(affiliates.nua::text,'0') ='".$nua."'")         
+                  ->whereRaw("split_part(LTRIM(affiliates.identity_card,'0'), '-',1) = '".$ci1."'")
+                  ->whereRaw("LTRIM(affiliates.nua::text,'0') ='".$nua."'")        
                   ->where('affiliates.pension_entity_id','!=', 5)
                   ->whereYear('economic_complements.year', '=', $year)
                   ->where('economic_complements.semester', '=', $semester)->first();
