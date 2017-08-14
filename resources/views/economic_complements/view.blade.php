@@ -844,7 +844,7 @@
 												<strong>Categoría</strong>
 											</div>
 											<div class="col-md-6">
-												{!! $affiliate->category->getPercentage() !!}
+												{!! $economic_complement->category->getPercentage() !!}
 											</div>
 										</div>
 									</td>
