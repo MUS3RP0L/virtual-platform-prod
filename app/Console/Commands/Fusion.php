@@ -15,6 +15,7 @@ use Muserpol\EconomicComplementRent;
 use Maatwebsite\Excel\Facades\Excel;
 use Muserpol\Helper\Util;
 use Carbon\Carbon;
+use Log;
 
 class Fusion extends Command implements SelfHandling
 {
@@ -34,23 +35,22 @@ class Fusion extends Command implements SelfHandling
             $this->info("Working...\n");
             $Progress = $this->output->createProgressBar();
             $Progress->setFormat("%current%/%max% [%bar%] %percent:3s%%");
-             ini_set('memory_limit', '-1');
-                            ini_set('max_execution_time', '-1');
-                            ini_set('max_input_time', '-1');
-                            set_time_limit('-1');
+            ini_set('memory_limit', '-1');
+            ini_set('max_execution_time', '-1');
+            ini_set('max_input_time', '-1');
+            set_time_limit('-1');
+
             $count=0;
             $afi1 = Affiliate::All();
-            $afi2 = Affiliate::All();
-
+            
             foreach ($afi1 as $a1) {
                 $Progress->advance();
-                        $ci1 = explode('-', $a1->identity_card);
-                foreach ($afi2 as $a2) {
-                    if($a1->id <> $a2->id){
-                        $ci2 = explode('-', $a2->identity_card);
-                        if($ci1[0]==$ci2[0]){
-                            $count++;
-                        }
+                $ci1 = explode('-', $a1->identity_card)[0];
+                if ($ci2=Affiliate::whereRaw("split_part(identity_card, '-', 1) = '".$ci1."'")->where('id','<>',$a1->id)->first()) {
+                    if ($ci2) {
+                        # code...
+                    $count++;   
+                    Log::info($ci1);
                     }
                 }
             }

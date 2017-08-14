@@ -391,14 +391,16 @@ class EconomicComplementImportExportController extends Controller
           ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')          
           ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
-          ->leftJoin('degrees', 'affiliates.degree_id', '=', 'degrees.id')
+          ->leftJoin('degrees', 'affiliates.degree_id', '=', 'degrees.id')         
           ->whereYear('economic_complements.year', '=', $year)
           ->where('economic_complements.semester', '=', $semester)
           ->where('economic_complements.workflow_id','=',1)
           ->where('economic_complements.wf_current_state_id',2)
           ->where('economic_complements.state','Edited')
           ->where('economic_complements.total','>', 0)
-          ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+          ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')         
+          ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12))")
+         
           ->whereNotNull('economic_complements.review_date')->get();     
       
 
