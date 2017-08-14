@@ -50,7 +50,10 @@ class EconomicComplementApplicant extends Model
     {
         return $this->belongsTo('Muserpol\City','city_identity_card_id');
     }
-
+    public function city_birth()
+    {
+        return $this->hasOne('Muserpol\City', 'id','city_birth_id');
+    }
     public function scopeEconomicComplementIs($query, $id)
     {
         return $query->where('economic_complement_id', $id);
