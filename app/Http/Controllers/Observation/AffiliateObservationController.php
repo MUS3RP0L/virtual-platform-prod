@@ -161,7 +161,7 @@ class AffiliateObservationController extends Controller
         //                         ->distinct('affiliates.id')
         //                         ->select(['affiliates.id','affiliates.identity_card','affiliates.registration','degrees.shortened','affiliates.first_name','affiliates.second_name','last_name','affiliates.mothers_last_name','affiliate_states.name']);
                                 // ->get();  
-        $afiliados = DB::table('observados');
+        $afiliados = DB::table('v_observados');
         // return $afiliados;
         return Datatables::of($afiliados)
         // ->addColumn('degrees',function($afiliado){
