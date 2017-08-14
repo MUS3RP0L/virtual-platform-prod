@@ -127,6 +127,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('export_excel_general','EconomicComplement\EconomicComplementImportExportController@export_excel_general');
 	Route::get('observations','Observation\AffiliateObservationController@lista_observados');
 	Route::get('getdataobservations',['as'=>'getdataobservations','uses'=>'Observation\AffiliateObservationController@getDataObsertaions']);
+	Route::get('export_excel_observations','EconomicComplement\EconomicComplementImportExportController@export_excel_observations');
 	// Economic Complement Record
 	Route::get('get_economic_complement_record/{ecomomic_complement_id}', array('as'=>'get_economic_complement_record', 'uses'=>'EconomicComplement\EconomicComplementController@get_record'));
 
