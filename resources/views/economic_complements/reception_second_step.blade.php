@@ -132,6 +132,14 @@
                                         <span class="help-block">Seleccione Departamento</span>
                                     </div>
                                 </div>
+                                @else
+                                    <div class="form-group">
+                                        {!! Form::label('city_birth_id', 'Lugar de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-7">
+                                            {!! Form::select('city_birth_id', $cities_list, $eco_com_applicant->city_birth_id, ['class' => 'combobox form-control']) !!}
+                                            <span class="help-block">Seleccione Departamento</span>
+                                        </div>
+                                    </div>
                                 @endif
                                 <div class="form-group">
                                         {!! Form::label('nua', 'CUA/NUA', ['class' => 'col-md-5 control-label']) !!}
