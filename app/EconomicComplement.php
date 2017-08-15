@@ -270,7 +270,7 @@ class EconomicComplement extends Model
             $economic_complement->total_rent_calc = $total_rent;
             //para el promedio
             if ($economic_complement->eco_com_modality_id > 3) {
-                $economic_complement_rent = EconomicComplementRent::where('degree_id','=',$economic_complement->affiliate->degree->id)
+                $economic_complement_rent = EconomicComplementRent::where('degree_id','=',$economic_complement->degree_id)
                                         ->where('eco_com_type_id','=',$economic_complement->economic_complement_modality->economic_complement_type->id)
                                         ->whereYear('year','=',Carbon::parse($economic_complement->year)->year)
                                         ->where('semester','=',$economic_complement->semester)
