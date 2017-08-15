@@ -162,7 +162,7 @@ class AutomaticCalculation extends Command implements SelfHandling
 						    	    //para el promedio
 						    	    if ($economic_complement->eco_com_modality_id > 3) 
 						    	    {
-						    	        $economic_complement_rent = EconomicComplementRent::where('degree_id','=',$economic_complement->affiliate->degree->id)
+						    	        $economic_complement_rent = EconomicComplementRent::where('degree_id','=',$economic_complement->degree_id)
 						    	            ->where('eco_com_type_id','=',$economic_complement->economic_complement_modality->economic_complement_type->id)
 						    	            ->whereYear('year','=',Carbon::parse($economic_complement->year)->year)
 						    	            ->where('semester','=',$economic_complement->semester)
@@ -171,7 +171,7 @@ class AutomaticCalculation extends Command implements SelfHandling
 						    	        $economic_complement->total_rent_calc = $economic_complement_rent->average;
 
 						    	    }
-						    	    $base_wage = BaseWage::degreeIs($economic_complement->affiliate->degree_id)->whereYear('month_year','=',Carbon::parse($economic_complement->year)->year)->first();
+						    	    $base_wage = BaseWage::degreeIs($economic_complement->degree_id)->whereYear('month_year','=',Carbon::parse($economic_complement->year)->year)->first();
 						    	    if ($economic_complement->economic_complement_modality->economic_complement_type->id==2) 
 						    	    {
 						    	        $base_wage_amount=$base_wage->amount*(80/100);
