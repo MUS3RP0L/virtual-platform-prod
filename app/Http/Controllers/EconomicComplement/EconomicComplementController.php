@@ -387,6 +387,7 @@ class EconomicComplementController extends Controller
         $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
         ->whereYear('year', '=', Carbon::now()->year)
         ->where('semester', '=', Util::getSemester(Carbon::now()))->first();
+        //dd($economic_complement);
         if (!$economic_complement) {
             $economic_complement = new EconomicComplement;
             $eco_com_type = false;
@@ -593,6 +594,7 @@ class EconomicComplementController extends Controller
                 $economic_complement->wf_current_state_id = 1;
                 $economic_complement->city_id = trim($request->city);
                 $economic_complement->category_id = $affiliate->category_id;
+                $economic_complement->degree_id = $affiliate->degree_id;
                 $economic_complement->reception_date = date('Y-m-d');
                 $economic_complement->state = 'Edited';
 
@@ -686,7 +688,7 @@ class EconomicComplementController extends Controller
         }
 
         $dg=Degree::all();
-        $degrees=[];
+        $degrees=[''=>''];
         foreach ($dg as $d) {
             $degrees[$d->id]=$d->name;
         }

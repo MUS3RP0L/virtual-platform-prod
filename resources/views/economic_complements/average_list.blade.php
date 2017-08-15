@@ -21,7 +21,7 @@
                                     <div class="form-group">
                                         {!! Form::label('year', 'Gestión', ['class' => 'col-md-4 control-label']) !!}
                                         <div class="col-md-6">
-                                            {!! Form::select('year', $year_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
+                                            {!! Form::select('year', $year_list, null, ['class' => 'combobox form-control', 'required' , 'data-bind'=>'value:selected2Value' ]) !!}
                                             <span class="help-block">Seleccione Gestión</span>
                                         </div>
                                     </div>
@@ -30,7 +30,7 @@
                                     <div class="form-group">
                                         {!! Form::label('semester', 'Semestre', ['class' => 'col-md-4 control-label']) !!}
                                         <div class="col-md-6">
-                                            {!! Form::select('semester',$semester1_list, null, ['class' => 'combobox form-control', 'required' ]) !!}
+                                            {!! Form::select('semester',$semester1_list, null, ['class' => 'combobox form-control', 'required' ,'data-bind'=>'value:selectedValue' ]) !!}
                                             <span class="help-block">Seleccione Semestre</span>
                                         </div>
                                     </div>
@@ -48,10 +48,15 @@
                                             </div>
 
                                             &nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Generar">&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;</button>
+<<<<<<< HEAD
                                             
                                             &nbsp;&nbsp;<div class="btn-group"  data-toggle="tooltip" data-original-title="Exportar Trámites para cálculo de promedios" style="margin: 0;">
                                                     <a href="{!! url('export_excel_general') !!}" class="btn btn-success btn-raised bg-red" > <i class="glyphicon glyphicon-import glyphicon-lg"></i> </a>
                                             </div>
+=======
+                                            <a data-bind="attr: { href: urlText }" class="btn btn-raised btn-success">Generar reporte</a>
+                                            
+>>>>>>> 16abfd67b56f235a5097828d1354c5b8a1f97741
                                         </div>
                                     </div>
                                 </div>
@@ -91,8 +96,20 @@
 
     }
 
+
     $(document).ready(function(){
        $('.combobox').combobox();
+
+        function SelectedUrl()
+        {
+            this.selectedValue = ko.observable();
+            this.selected2Value = ko.observable();
+            this.urlText = ko.computed(function(){
+                return '{!! route('get_average') !!}/'+this.selectedValue()+"/"+this.selected2Value();
+            },this);
+        }
+
+        ko.applyBindings(new SelectedUrl());
     });
 
     var oTable = $('#average_table').DataTable({

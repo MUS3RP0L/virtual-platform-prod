@@ -34,6 +34,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\UpdateRequirementsDate::class,
         \Muserpol\Console\Commands\importObservations::class,
         \Muserpol\Console\Commands\Fusion::class,
+        \Muserpol\Console\Commands\UpdateDegreeToEcoCom::class,
         
 
     ];

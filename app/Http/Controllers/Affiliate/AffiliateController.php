@@ -514,6 +514,7 @@ class AffiliateController extends Controller
                     $economic_complement = EconomicComplement::find($request->economic_complement_id);
                     $economic_complement->city_id = $request->regional;
                     $economic_complement->category_id = $request->category;
+                    $economic_complement->degree_id = $request->degree;
                     $economic_complement->save();
                     //$affiliate->affiliate_state_id = $request->state;
                     //  $affiliate->type = $request->affiliate_type;
