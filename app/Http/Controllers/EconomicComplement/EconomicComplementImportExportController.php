@@ -434,14 +434,14 @@ class EconomicComplementImportExportController extends Controller
                     {
                      
                       $legal1 = EconomicComplementLegalGuardian::where('economic_complement_id','=', $economic->id)->first();
-                      $sheet->row($j, array($datos->regional,$legal1->identity_card." ".$legal1->city_identity_card->first_shortened,$legal1->getFullName(), $import,"1",$datos->modality."-".$datos->degree,$datos->affiliate_id,$semester1));                     
+                      $sheet->row($j, array($datos->regional,$legal1->identity_card." ".$legal1->city_identity_card->first_shortened,$legal1->getFullName(), $import,"1",$datos->modality." - ".$datos->degree,$datos->affiliate_id,$semester1));                     
                       
                     }
                     else
                     {
                       
                       $apl =EconomicComplement::find($datos->id)->economic_complement_applicant;
-                      $sheet->row($j, array($datos->regional,$datos->identity_card." ".$datos->ext,$apl->getFullName(), $import,"1",$datos->modality."-".$datos->degree,$datos->affiliate_id,$semester1));  
+                      $sheet->row($j, array($datos->regional,$datos->identity_card." ".$datos->ext,$apl->getFullName(), $import,"1",$datos->modality." - ".$datos->degree,$datos->affiliate_id,$semester1));  
 
                     }                   
                     
