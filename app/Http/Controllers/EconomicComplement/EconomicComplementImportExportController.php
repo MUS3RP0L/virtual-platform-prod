@@ -412,7 +412,7 @@ class EconomicComplementImportExportController extends Controller
             }
             else{
               $semester1 = "MUSERPOL PAGO COMPLEMENTO ECONOMICO 2DO SEM ".$year;
-              $abv ="Pago_Banco_Union_2DO_SEM_".$year;
+              $abv ="Export_for_Banco_Union_2DO_SEM_".$year;
             }
             Excel::create($abv, function($excel) {
                 global $year,$semester,$afi,$j,$semester1;
