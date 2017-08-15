@@ -419,7 +419,7 @@ class EconomicComplementImportExportController extends Controller
                 $j = 2;
                 $excel->sheet("AFILIADOS_PARA_APS_".$year, function($sheet) {
                   $sheet->setColumnFormat(array(
-                      'E' => '0,000.00'
+                      'D' => '0,000.00'
                   ));
                 global $year,$semester, $afi,$j, $i,$semester1;
                 $i=1;
@@ -434,7 +434,7 @@ class EconomicComplementImportExportController extends Controller
                     {
                      
                       $legal1 = EconomicComplementLegalGuardian::where('economic_complement_id','=', $economic->id)->first();
-                       $sheet->row($j, array($datos->regional,$legal1->identity_card." ".$legal1->city_identity_card->first_shortened,$legal1->getFullName(), $import,"1",$datos->modality."-".$datos->degree,$datos->affiliate_id,$semester1));                     
+                      $sheet->row($j, array($datos->regional,$legal1->identity_card." ".$legal1->city_identity_card->first_shortened,$legal1->getFullName(), $import,"1",$datos->modality."-".$datos->degree,$datos->affiliate_id,$semester1));                     
                       
                     }
                     else
