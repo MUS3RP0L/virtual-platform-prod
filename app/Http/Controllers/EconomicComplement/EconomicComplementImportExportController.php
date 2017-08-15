@@ -418,9 +418,9 @@ class EconomicComplementImportExportController extends Controller
                 global $year,$semester,$afi,$j,$semester1;
                 $j = 2;
                 $excel->sheet("AFILIADOS_PARA_APS_".$year, function($sheet) {
-                  $sheet->setColumnFormat(array(
-                      'D' => '0,000.00'
-                  ));
+                  //$sheet->setColumnFormat(array(
+                   //   'D' => '0,000.00'
+                  //));
                 global $year,$semester, $afi,$j, $i,$semester1;
                 $i=1;
                 $sheet->row(1, array('DEPARTAMENTO','IDENTIFICACION','NOMBRE_Y_APELLIDO','IMPORTE_A_PAGAR','MONEDA_DEL_IMPORTE','DESCRIPCION_1','DESCRIPCION_2','DESCRIPCION_3'));
@@ -429,7 +429,7 @@ class EconomicComplementImportExportController extends Controller
                 {
                     $economic =  EconomicComplement::idIs($datos->id)->first();
 
-                    $import = $datos->importe;                       
+                    $import = number_format($datos->importe, 2, '.', ',');
                     if ($economic->has_legal_guardian)
                     {
                      
