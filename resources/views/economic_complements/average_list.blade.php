@@ -11,8 +11,7 @@
         <div class="box box-warning box-solid">
             <div class="box-header with-border">
                     <h3 class="box-title"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Generador de Promedios</h3>
-            </div>
-
+            </div>            
             <br />
             <div class="box-body">
                     <div class="row">
@@ -49,6 +48,10 @@
                                             </div>
 
                                             &nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Generar">&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;</button>
+                                            
+                                            &nbsp;&nbsp;<div class="btn-group"  data-toggle="tooltip" data-original-title="Exportar Trámites para cálculo de promedios" style="margin: 0;">
+                                                    <a href="{!! url('export_excel_general') !!}" class="btn btn-success btn-raised bg-red" > <i class="glyphicon glyphicon-import glyphicon-lg"></i> </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

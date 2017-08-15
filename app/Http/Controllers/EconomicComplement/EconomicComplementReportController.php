@@ -691,6 +691,42 @@ class EconomicComplementReportController extends Controller
         $pdf->loadHTML($view)->setPaper('letter');
         return $pdf->stream();
    }
+   public function export_average($year,$semester)
+   {
+      $average_list = DB::table('eco_com_applicants')
+                                    ->select(DB::raw("affiliates.degree_id as degree_id,economic_complements.eco_com_modality_id,min(economic_complements.total_rent) as rmin, max(economic_complements.total_rent) as rmax,round((max(economic_complements.total_rent)+ min(economic_complements.total_rent))/2,2) as average"))
+                                    ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                                    ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                                    ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
+                                    ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                                    ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                    ->whereYear('economic_complements.year', '=', $year)
+                                    ->where('economic_complements.semester', '=', $semester)
+                                    ->where('economic_complements.total_rent','>', 0)
+                                    ->whereIN('economic_complements.eco_com_modality_id',[1,2])
+                                    ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+                                    ->whereNull('economic_complements.aps_disability')
+                                    ->groupBy('affiliates.degree_id','economic_complements.eco_com_modality_id')
+                                    ->orderBy('affiliates.degree_id','ASC')->get();
+
+      Excel::create('Afi_modificados', function($excel) {
+        
+                 global $year,$semester, $j, $ecom_list;
+                 $j = 2;
+                 $excel->sheet("AFILIADOS_MODIFI".$year, function($sheet) {
+                 global $year,$semester, $j, $i,$ecom_list;
+                 $i=1;
+                 $sheet->row(1, array('NRO','TIPO_ID','NUM_ID', 'EXTENSION', 'CUA', 'PRIMER_APELLIDO_T', 'SEGUNDO_APELLIDO_T','PRIMER_NOMBRE_T','SEGUNDO_NOMBRE_T','APELLIDO_CASADA_T','FECHA_NACIMIENTO_T','ENTE_GESTOR'));
+                 foreach ($ecom_list as $datos) {
+                     $sheet->row($j, array($i,"I",$datos->identity_card,$datos->first_shortened,$datos->nua, $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,$datos->birth_date,$datos->type));
+                     $j++;
+                     $i++;
+                 }
+               });
+           })->export('xlsx');
+             Session::flash('message', "Importación Exitosa");
+             return redirect('averages');
+   }
 
    public function updated_list()
    {
