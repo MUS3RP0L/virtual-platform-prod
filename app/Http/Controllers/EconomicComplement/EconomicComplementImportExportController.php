@@ -18,6 +18,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Muserpol\Affiliate;
 use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementProcedure;
+use Muserpol\EconomicComplementApplicant;
 use Muserpol\EconomicComplementLegalGuardian;
 
 
@@ -391,7 +392,7 @@ class EconomicComplementImportExportController extends Controller
           ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')          
           ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
-          ->leftJoin('degrees', 'affiliates.degree_id', '=', 'degrees.id')         
+          ->leftJoin('degrees', 'economic_complements.degree_id', '=', 'degrees.id')         
           ->whereYear('economic_complements.year', '=', $year)
           ->where('economic_complements.semester', '=', $semester)
           ->where('economic_complements.workflow_id','=',1)
@@ -407,18 +408,18 @@ class EconomicComplementImportExportController extends Controller
             if($semester == "Primer")
             {
               $semester1 = "MUSERPOL PAGO COMPLEMENTO ECONOMICO 1ER SEM ".$year;
-              $abv ="Exportado_Banco_Union_1ER_SEM_".$year;
+              $abv ="Pago_Banco_Union_1ER_SEM_".$year;
             }
             else{
               $semester1 = "MUSERPOL PAGO COMPLEMENTO ECONOMICO 2DO SEM ".$year;
-              $abv ="Exportado_Banco_Union_2DO_SEM_".$year;
+              $abv ="Pago_Banco_Union_2DO_SEM_".$year;
             }
             Excel::create($abv, function($excel) {
                 global $year,$semester,$afi,$j,$semester1;
                 $j = 2;
                 $excel->sheet("AFILIADOS_PARA_APS_".$year, function($sheet) {
                   $sheet->setColumnFormat(array(
-                      'D' => '0,000.00'
+                      'E' => '0,000.00'
                   ));
                 global $year,$semester, $afi,$j, $i,$semester1;
                 $i=1;
@@ -432,14 +433,15 @@ class EconomicComplementImportExportController extends Controller
                     if ($economic->has_legal_guardian)
                     {
                      
-                      $legal1 = EconomicComplementLegalGuardian::where('economic_complement_id','=', $economic->id)
-                              ->select(DB::raw("economic_complements.id,economic_complements.affiliate_id,concat_ws(' ', NULLIF(first_name,null), NULLIF(second_name, null), NULLIF(last_name, null), NULLIF(mothers_last_name, null), NULLIF(surname_husband, null)) as full_name"))->first();
-                       $sheet->row($j, array($datos->regional,$legal1->identity_card." ".$legal1->city_identity_card->first_shortened,$legal1->full_name, $import,"1",$datos->modality."-".$datos->degree,$datos->affiliate_id,$semester1));                     
+                      $legal1 = EconomicComplementLegalGuardian::where('economic_complement_id','=', $economic->id)->first();
+                       $sheet->row($j, array($datos->regional,$legal1->identity_card." ".$legal1->city_identity_card->first_shortened,$legal1->getFullName(), $import,"1",$datos->modality."-".$datos->degree,$datos->affiliate_id,$semester1));                     
                       
                     }
                     else
                     {
-                      $sheet->row($j, array($datos->regional,$datos->identity_card." ".$datos->ext,$datos->full_name, $import,"1",$datos->modality."-".$datos->degree,$datos->affiliate_id,$semester1));  
+                      
+                      $apl =EconomicComplement::find($datos->id)->economic_complement_applicant;
+                      $sheet->row($j, array($datos->regional,$datos->identity_card." ".$datos->ext,$apl->getFullName(), $import,"1",$datos->modality."-".$datos->degree,$datos->affiliate_id,$semester1));  
 
                     }                   
                     
