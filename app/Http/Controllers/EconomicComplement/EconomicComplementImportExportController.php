@@ -407,38 +407,39 @@ class EconomicComplementImportExportController extends Controller
             if($semester == "Primer")
             {
               $semester1 = "MUSERPOL PAGO COMPLEMENTO ECONOMICO 1ER SEM ".$year;
-              $abv ="Pago_Banco_Union_1ER_SEM_".$year;
+              $abv ="Exportado_Banco_Union_1ER_SEM_".$year;
             }
             else{
               $semester1 = "MUSERPOL PAGO COMPLEMENTO ECONOMICO 2DO SEM ".$year;
-              $abv ="Pago_Banco_Union_2DO_SEM_".$year;
+              $abv ="Exportado_Banco_Union_2DO_SEM_".$year;
             }
             Excel::create($abv, function($excel) {
                 global $year,$semester,$afi,$j,$semester1;
                 $j = 2;
                 $excel->sheet("AFILIADOS_PARA_APS_".$year, function($sheet) {
                   $sheet->setColumnFormat(array(
-                      'E' => '0.00'
+                      'D' => '0,000.00'
                   ));
                 global $year,$semester, $afi,$j, $i,$semester1;
                 $i=1;
-                $sheet->row(1, array('ID', 'DEPARTAMENTO','IDENTIFICACION','NOMBRE_Y_APELLIDO','IMPORTE_A_PAGAR','MONEDA_DEL_IMPORTE','DESCRIPCION_1','DESCRIPCION_2','DESCRIPCION_3'));
+                $sheet->row(1, array('DEPARTAMENTO','IDENTIFICACION','NOMBRE_Y_APELLIDO','IMPORTE_A_PAGAR','MONEDA_DEL_IMPORTE','DESCRIPCION_1','DESCRIPCION_2','DESCRIPCION_3'));
              
                 foreach ($afi as $datos) 
                 {
                     $economic =  EconomicComplement::idIs($datos->id)->first();
 
-                    $import = str_replace(",", ".", $datos->importe);                       
+                    $import = $datos->importe;                       
                     if ($economic->has_legal_guardian)
                     {
                      
-                      $legal1 = EconomicComplementLegalGuardian::where('economic_complement_id','=', $economic->id)->first();
-                       $sheet->row($j, array($datos->affiliate_id,$datos->regional,$legal1->identity_card." ".$legal1->city_identity_card->first_shortened,$legal1->getFullName(), $import,"1",$datos->modality,$datos->degree,$semester1));                     
+                      $legal1 = EconomicComplementLegalGuardian::where('economic_complement_id','=', $economic->id)
+                              ->select(DB::raw("economic_complements.id,economic_complements.affiliate_id,concat_ws(' ', NULLIF(first_name,null), NULLIF(second_name, null), NULLIF(last_name, null), NULLIF(mothers_last_name, null), NULLIF(surname_husband, null)) as full_name"))->first();
+                       $sheet->row($j, array($datos->regional,$legal1->identity_card." ".$legal1->city_identity_card->first_shortened,$legal1->full_name, $import,"1",$datos->modality."-".$datos->degree,$datos->affiliate_id,$semester1));                     
                       
                     }
                     else
                     {
-                      $sheet->row($j, array($datos->affiliate_id,$datos->regional,$datos->identity_card." ".$datos->ext,$datos->full_name, $import,"1",$datos->modality,$datos->degree,$semester1));
+                      $sheet->row($j, array($datos->regional,$datos->identity_card." ".$datos->ext,$datos->full_name, $import,"1",$datos->modality."-".$datos->degree,$datos->affiliate_id,$semester1));  
 
                     }                   
                     
