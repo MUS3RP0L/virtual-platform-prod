@@ -104,7 +104,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('averages', array('as' => 'averages', 'uses' => 'EconomicComplement\EconomicComplementReportController@average'));
 	Route::get('get_average', array('as'=>'get_average','uses' =>'EconomicComplement\EconomicComplementReportController@Data'));
 	Route::get('print_average', array('as'=>'print_average','uses' =>'EconomicComplement\EconomicComplementReportController@print_average'));
-	Route::get('export_average/{year}/{semester}','EconomicComplement\EconomicComplementReportController@export_average');
+	Route::get('export_average/{year}/{semester}', array('as'=>'export_average','uses'=>'EconomicComplement\EconomicComplementReportController@export_average'));
 
 	Route::get('get_updated_list', array('as'=>'updated_list','uses' =>'EconomicComplement\EconomicComplementReportController@updated_list'));
 	Route::post('export_updated_list', array('as'=>'export_updated_list','uses' =>'EconomicComplement\EconomicComplementReportController@export_updated_list'));

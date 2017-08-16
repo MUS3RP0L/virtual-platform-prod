@@ -48,15 +48,12 @@
                                             </div>
 
                                             &nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Generar">&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;</button>
-<<<<<<< HEAD
                                             
-                                            &nbsp;&nbsp;<div class="btn-group"  data-toggle="tooltip" data-original-title="Exportar Trámites para cálculo de promedios" style="margin: 0;">
-                                                    <a href="{!! url('export_excel_general') !!}" class="btn btn-success btn-raised bg-red" > <i class="glyphicon glyphicon-import glyphicon-lg"></i> </a>
-                                            </div>
-=======
-                                            <a data-bind="attr: { href: urlText }" class="btn btn-raised btn-success">Generar reporte</a>
+                                            &nbsp;&nbsp;
+
+                                            <a data-bind="attr: { href: urlText }" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Generar"><i class="glyphicon glyphicon-import glyphicon-lg"></i></a>
                                             
->>>>>>> 16abfd67b56f235a5097828d1354c5b8a1f97741
+
                                         </div>
                                     </div>
                                 </div>
@@ -89,14 +86,7 @@
 
 @push('scripts')
 <script>
-    function printTrigger() {
-        var year1 = $("#year option:selected").val();
-        var semester1 = $("#semester option:selected").val();
-        var total = year1 + "/" + semester1;
-
-    }
-
-
+   
     $(document).ready(function(){
        $('.combobox').combobox();
 
@@ -105,7 +95,7 @@
             this.selectedValue = ko.observable();
             this.selected2Value = ko.observable();
             this.urlText = ko.computed(function(){
-                return '{!! route('get_average') !!}/'+this.selectedValue()+"/"+this.selected2Value();
+                return '{!! url('export_average') !!}/'+this.selected2Value()+"/"+this.selectedValue();
             },this);
         }
 
