@@ -719,6 +719,7 @@ class EconomicComplementImportExportController extends Controller
         $com_obser_invalidez_9 = array();
         $com_obser_salario_10 = array();
         $com_obser_pagodomicilio_12 = array();
+        $com_obser_repofond_13 =array();
 
 
         foreach ($afiliados as $afiliado) {
@@ -747,7 +748,7 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 3:
                    # code...
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_juridica_3, $complemento->id);
                         }
@@ -755,7 +756,7 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 4:
                    # code...
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_fueraplz90_4, $complemento->id);
                         }
@@ -763,7 +764,7 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 5:
                    # code...
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_fueraplz120_5, $complemento->id);
                         }
@@ -771,7 +772,7 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 6:
                    # code...
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_faltareq_6, $complemento->id);
                         }
@@ -779,7 +780,7 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 7:
                    # code...
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_habitualinclusion7, $complemento->id);
                         }
@@ -787,7 +788,7 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 8:
                    # code...
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_menor16anos_8, $complemento->id);
                         }
@@ -795,7 +796,7 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 9:
                    # code..
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_invalidez_9, $complemento->id);
                         }
@@ -803,7 +804,7 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 10:
                    # code...
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_salario_10, $complemento->id);
                         }
@@ -811,12 +812,19 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 12:
                    # code...
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_pagodomicilio_12, $complemento->id);
                         }
                    break;
                  
+                 case 13:
+                   # code...
+                        foreach ($complementos as $complemento) {
+                          # code...
+                          array_push($com_obser_repofond_13, $complemento->id);
+                        }
+                   break;
 
 
                  default:
@@ -1289,6 +1297,47 @@ class EconomicComplementImportExportController extends Controller
 
                         });
 
+                        $excel->sheet('Suspendidos por reposicion de fondo',function($sheet) {
+
+                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12;  
+
+                        
+                         $economic_complements=EconomicComplement::whereIn('economic_complements.id',$com_obser_repofond_13)
+                          ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
+                          ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                          ->leftJoin('cities as city_com','economic_complements.city_id','=','city_com.id')
+                          ->leftJoin('cities as city_ben','eco_com_applicants.city_identity_card_id','=','city_ben.id')
+                          ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+                          ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
+                          ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                          ->distinct('economic_complements.id')
+                          ->select('economic_complements.id as Id','economic_complements.code as Nro_tramite','eco_com_applicants.first_name as Primer_nombre','eco_com_applicants.second_name as Segundo_nombre', 'eco_com_applicants.last_name as Paterno','eco_com_applicants.mothers_last_name as Materno','eco_com_applicants.identity_card as CI','city_ben.first_shortened as Ext','city_com.name as Regional','degrees.shortened as Grado','eco_com_modalities.shortened as Tipo_renta','economic_complements.total as Complemento_Final','affiliates.id as affiliate_id')
+                          ->get();
+
+                        $rows = array(array('ID','Nro de Tramite','Nombres y Apellidos','C.I.','Ext','Regional','Grado','Tipo Renta','Complemento Económico Final','Observaciones'));
+                        foreach ($economic_complements as $c) {
+                          # code...
+                          $observaciones = DB::table('affiliate_observations')->where('affiliate_id',$c->affiliate_id)->get();
+                          $observacion = "";
+                          foreach ($observaciones as $obs) {
+                            # code...
+                            $observacion = $observacion." | ".$obs->message; 
+                          }
+
+                          array_push($rows,array($c->Id,$c->Nro_tramite,$c->Primer_nombre.' '.$c->Segundo_nombre.' '.$c->Paterno.' '.$c->Materno,$c->CI,$c->Ext,$c->Regional,$c->Grado,$c->Tipo_renta,$c->Complemento_Final,$observacion));
+                        }
+                     
+                        $sheet->fromArray($rows, null, 'A1', false, false);
+                        $sheet->cells('A1:J1', function($cells) { 
+
+                            // manipulate the range of cells
+                            $cells->setBackground('#058A37');
+                            $cells->setFontColor('#ffffff');  
+
+                        });
+
+                        });
+
                 })->download('xls');
 
         //return $economic_complements;
@@ -1328,7 +1377,7 @@ class EconomicComplementImportExportController extends Controller
 
           // ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,,cities1.first_shortened as ext, economic_complements.affiliate_id,economic_complements.semester,cities0.second_shortened as regional,concat_ws(' ', NULLIF(eco_com_applicants.first_name,null), NULLIF(eco_com_applicants.second_name, null), NULLIF(eco_com_applicants.last_name, null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null)) as full_name,economic_complements.total as importe,eco_com_modalities.shortened as modality,degrees.shortened as degree"))
 
-          ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado"))
+          ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id"))
           
           ->get();
           // dd($afis);
@@ -1338,8 +1387,12 @@ class EconomicComplementImportExportController extends Controller
           $i=1;
           foreach ($afis as $a) {
             # code...
-            if(strcmp ($a->modality,'VEJEZ')==0)
-            {
+            switch ($a->modality_id) {
+              case '1':
+              case '4':
+              case '6':
+              case '8':
+                # code...
                 $afiliado_ci ="";
                 $afiliado_ext = "";
                 $afiliado_first_name = "";
@@ -1347,8 +1400,10 @@ class EconomicComplementImportExportController extends Controller
                 $afiliado_last_nme = "";
                 $afiliado_mother_last_name = "";
                 $afiliado_surname_husband ="";
-            }else
-            {
+                break;
+              
+              default:
+                # code...
                 $afiliado_ci = $a->ci_afiliado;
                 $afiliado_ext = $a->ext_afiliado;
                 $afiliado_first_name = $a->pn_afiliado;
@@ -1356,8 +1411,9 @@ class EconomicComplementImportExportController extends Controller
                 $afiliado_last_nme = $a->ap_afiliado;
                 $afiliado_mother_last_name = $a->am_afiliado;
                 $afiliado_surname_husband =$a->ap_casado_afiliado;
+                break;
             }
-         
+
 
             array_push($rows, array($i,$a->code,$a->identity_card,$a->ext,$a->first_name,$a->second_name,$a->last_name,$a->mothers_last_name,$a->surname_husband,$afiliado_ci,$afiliado_ext,$afiliado_first_name,$afiliado_second_name,$afiliado_last_nme,$afiliado_mother_last_name,$afiliado_surname_husband,$a->birth_date,$a->civil_status,$a->regional,$a->degree,$a->modality,$a->gestor,$a->renta_boleta,$a->reintegro,$a->dignity_pension,$a->renta_neta,$a->neto,$a->category,$a->salary_reference,$a->antiguedad,$a->salary_quotable,$a->difference,$a->total_amount_semester,$a->complementary_factor,$a->total,$a->tipo_tramite));
             $i++;
@@ -1374,10 +1430,10 @@ class EconomicComplementImportExportController extends Controller
                           $sheet->fromArray($rows,null, 'A1', false, false);
                           $sheet->cells('A1:AJ1', function($cells) {
 
-                              // manipulate the range of cells
-                              $cells->setBackground('#058A37');
-                              $cells->setFontColor('#ffffff');  
-                              $cells->setFontWeight('bold');
+                          // manipulate the range of cells
+                          $cells->setBackground('#058A37');
+                          $cells->setFontColor('#ffffff');  
+                          $cells->setFontWeight('bold');
 
                           });
                       });
