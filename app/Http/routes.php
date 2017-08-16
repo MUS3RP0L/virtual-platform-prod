@@ -131,6 +131,8 @@ Route::group(['middleware' => 'auth'], function() {
 	// Economic Complement Record
 	Route::get('get_economic_complement_record/{ecomomic_complement_id}', array('as'=>'get_economic_complement_record', 'uses'=>'EconomicComplement\EconomicComplementController@get_record'));
 
+	Route::get('export_planilla_general','EconomicComplement\EconomicComplementImportExportController@planilla_general');
+
 	//Routecfor Observations
 	Route::resource('observation','Observation\AffiliateObservationController');
 	Route::get('get_observations',['as'=>'get_observations','uses'=>'Observation\AffiliateObservationController@showOfAffiliate']);
