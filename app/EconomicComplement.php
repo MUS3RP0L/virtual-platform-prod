@@ -189,7 +189,7 @@ class EconomicComplement extends Model
      * @param  [type]
      * @return [type]
      */
-    public static function calculate(EconomicComplement $economic_complement,$n_total_rent, $sub_total_rent, $reimbursement, $dignity_pension, $aps_total_fsa, $aps_total_cc, $aps_total_fs)
+    public static function calculate(EconomicComplement $economic_complement,$n_total_rent, $sub_total_rent, $reimbursement, $dignity_pension, $aps_total_fsa, $aps_total_cc, $aps_total_fs,$aps_disability)
     {
         $economic_complement_rent_temp = EconomicComplementRent::whereYear('year','=',Carbon::parse($economic_complement->year)->year)
                                             ->where('semester','=',$economic_complement->semester)
@@ -214,6 +214,7 @@ class EconomicComplement extends Model
                 $economic_complement->aps_total_fsa=floatval(str_replace(',','',$aps_total_fsa));
                 $economic_complement->aps_total_cc=floatval(str_replace(',','',$aps_total_cc));
                 $economic_complement->aps_total_fs=floatval(str_replace(',','',$aps_total_fs));
+                $economic_complement->aps_disability=floatval(str_replace(',','',$aps_disability));
                 
                 //vejez
                 if ($economic_complement->economic_complement_modality->economic_complement_type->id == 1){
@@ -269,9 +270,17 @@ class EconomicComplement extends Model
             $economic_complement->save();
             $economic_complement->total_rent_calc = $total_rent;
             //para el promedio
-            if ($economic_complement->eco_com_modality_id > 3) {
+            if ($economic_complement->eco_com_modality_id > 3 && ($economic_complement->eco_com_modality_id <10 )) {
                 $economic_complement_rent = EconomicComplementRent::where('degree_id','=',$economic_complement->degree_id)
                                         ->where('eco_com_type_id','=',$economic_complement->economic_complement_modality->economic_complement_type->id)
+                                        ->whereYear('year','=',Carbon::parse($economic_complement->year)->year)
+                                        ->where('semester','=',$economic_complement->semester)
+                                        ->first();
+                $total_rent=$economic_complement_rent->average;
+                $economic_complement->total_rent_calc = $economic_complement_rent->average;
+            }else if( $economic_complement->eco_com_modality_id >= 10 ){
+                $economic_complement_rent = EconomicComplementRent::where('degree_id','=',$economic_complement->degree_id)
+                                        ->where('eco_com_type_id','=',1)
                                         ->whereYear('year','=',Carbon::parse($economic_complement->year)->year)
                                         ->where('semester','=',$economic_complement->semester)
                                         ->first();
