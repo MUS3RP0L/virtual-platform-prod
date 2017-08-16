@@ -1399,7 +1399,7 @@
                         <div class="row text-center">
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <a href="{!! url('affiliate/' . $affiliate->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                    <a href="#" class="btn btn-raised btn-warning" data-dismiss="modal" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
                                     &nbsp;&nbsp;
                                     <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
                                 </div>
@@ -1889,6 +1889,22 @@
                                             {!! Form::text('total_rent', null, ['class' => 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'", 'readonly']) !!}
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <div class="togglebutton">
+                                                <label>
+                                                    <input type="checkbox" data-bind="checked: concurrenceCheck" name="concurrenceCheck"> Concurrencia
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div data-bind='visible: concurrenceCheck'>
+                                            <div class="form-group">
+                                                {!! Form::label('aps_disability', 'Concurrencia - Renta Invalidez', ['class' => 'col-md-5 control-label']) !!}
+                                                <div class="col-md-6">
+                                                {!! Form::text('aps_disability', null, ['class' => 'form-control aps_disability',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false,'placeholder': '0'"]) !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -2488,8 +2504,7 @@ $(document).ready(function() {
         @else
             self.selected = ko.observable(false);
         @endif
-        
-        
+        self.concurrenceCheck = ko.observable({{ $economic_complement->aps_disability ? true:false }});
     }
 
     // ko.applyBindings();
@@ -2598,6 +2613,7 @@ $(document).ready(function() {
         $("#sub_total_rent").inputmask();
         $("#reimbursement").inputmask();
         $("#dignity_pension").inputmask();
+        $("#aps_disability").inputmask();
         $('#total_frac').inputmask();
         $('#myModal-totals').on('show.bs.modal',function () {
             var total=0;
@@ -2634,11 +2650,25 @@ $(document).ready(function() {
             $('#total_frac').val(total);
             // $('#sub_total_rent').val(total);
         });
+        var total_rent = parseCurrency($('#total_rent').val());
         $('.rent').keyup(function (event) {
             var sub_total_rent=parseCurrency($("#sub_total_rent").val());
             var reimbursement=parseCurrency($("#reimbursement").val());
             var dignity_pension=parseCurrency($("#dignity_pension").val());
-            var total=sub_total_rent - reimbursement - dignity_pension;
+            var aps_disability=parseCurrency($("#aps_disability").val());
+            var total=sub_total_rent - reimbursement - dignity_pension + aps_disability;
+            $('#total_rent').val(total.toFixed(2));
+            total_rent = parseCurrency($('#total_rent').val());
+        });
+
+
+        $('.aps_disability').keyup(function (event) {
+            var aps_disability = parseCurrency($(this).val());
+            var sub_total_rent=parseCurrency($("#sub_total_rent").val());
+            var reimbursement=parseCurrency($("#reimbursement").val());
+            var dignity_pension=parseCurrency($("#dignity_pension").val());
+            var aps_disability=parseCurrency($("#aps_disability").val());
+            var total=sub_total_rent - reimbursement - dignity_pension + aps_disability;
             $('#total_rent').val(total.toFixed(2));
         });
 

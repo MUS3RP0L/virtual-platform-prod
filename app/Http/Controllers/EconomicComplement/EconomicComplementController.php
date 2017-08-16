@@ -703,72 +703,101 @@ class EconomicComplementController extends Controller
         $economic_complement_legal_guardian=$economic_complement->economic_complement_legal_guardian;
         $affi_observations = AffiliateObservation::where('affiliate_id',$affiliate->id)->first();
         if (EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->first()) {
-               $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->get()->last();
+            $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->get()->last();
+            if (EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->first()) {
+                if ($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Vejez') {
+                    $eco_com_submitted_documents_ar = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
+                    {
+                        $query->where('eco_com_requirement_id','=',3)
+                        ->orWhere('eco_com_requirement_id','=',4)
+                        ->orWhere('eco_com_requirement_id','=',5);
+                    })->orderBy('id','asc')->get();
+                    $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                    {
+                        $query->where('id','=',3)
+                        ->orWhere('id','=',4)
+                        ->orWhere('id','=',5);
+                    })->orderBy('id','asc')->get();
 
-               if (EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->first()) {
-                   if ($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Vejez') {
-                       $eco_com_submitted_documents_ar = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
-                       {
-                           $query->where('eco_com_requirement_id','=',3)
-                                 ->orWhere('eco_com_requirement_id','=',4)
-                                 ->orWhere('eco_com_requirement_id','=',5);
-                       })->orderBy('id','asc')->get();
-                       $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
-                       {
-                           $query->where('id','=',3)
-                                 ->orWhere('id','=',4)
-                                 ->orWhere('id','=',5);
-                       })->orderBy('id','asc')->get();
+                }else if($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Viudedad'){
+                    $eco_com_submitted_documents_ar = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
+                    {
+                        $query->where('eco_com_requirement_id','=',9)
+                        ->orWhere('eco_com_requirement_id','=',10)
+                        ->orWhere('eco_com_requirement_id','=',11)
+                        ->orWhere('eco_com_requirement_id','=',12);
+                    })->orderBy('id','asc')->get();
 
-                   }else{
-                       $eco_com_submitted_documents_ar = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
-                       {
-                           $query->where('eco_com_requirement_id','=',9)
-                                 ->orWhere('eco_com_requirement_id','=',10)
-                                 ->orWhere('eco_com_requirement_id','=',11)
-                                 ->orWhere('eco_com_requirement_id','=',12);
-                       })->orderBy('id','asc')->get();
+                    $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                    {
+                        $query->where('id','=',9)
+                        ->orWhere('id','=',10)
+                        ->orWhere('id','=',11)
+                        ->orWhere('id','=',12);
+                    })->orderBy('id','asc')->get();
+                }else{
+                    $eco_com_submitted_documents_ar = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
+                    {
+                        $query->where('eco_com_requirement_id','=',17)
+                        ->orWhere('eco_com_requirement_id','=',18)
+                        ->orWhere('eco_com_requirement_id','=',19)
+                        ->orWhere('eco_com_requirement_id','=',20)
+                        ->orWhere('eco_com_requirement_id','=',21);
+                    })->orderBy('id','asc')->get();
 
-                       $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
-                       {
-                           $query->where('id','=',9)
-                                 ->orWhere('id','=',10)
-                                 ->orWhere('id','=',11)
-                                 ->orWhere('id','=',12);
-                       })->orderBy('id','asc')->get();
-                   }
+                    $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                    {
+                        $query->where('id','=',17)
+                        ->orWhere('id','=',18)
+                        ->orWhere('id','=',19)
+                        ->orWhere('id','=',20)
+                        ->orWhere('id','=',21);
+                    })->orderBy('id','asc')->get();
+                }
 
-                   $status_documents_ar = TRUE;
-               }else{
-                    if ($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Vejez') {
-                       $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
-                       {
-                           $query->where('id','=',2)
-                                 ->orWhere('id','=',3)
-                                 ->orWhere('id','=',4)
-                                 ->orWhere('id','=',5);
-                       })->orderBy('id','asc')->get();
+                $status_documents_ar = TRUE;
+            }else{
+                if ($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Vejez') {
+                    $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                    {
+                        $query->where('id','=',2)
+                        ->orWhere('id','=',3)
+                        ->orWhere('id','=',4)
+                        ->orWhere('id','=',5);
+                    })->orderBy('id','asc')->get();
 
-                   }else{
-                       $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
-                       {
-                           $query->where('id','=',7)
-                                 ->orWhere('id','=',8)
-                                 ->orWhere('id','=',9)
-                                 ->orWhere('id','=',10)
-                                 ->orWhere('id','=',11)
-                                 ->orWhere('id','=',12);
-                       })->orderBy('id','asc')->get();
-                   }
+                }else if($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Viudedad'){
+                    $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                    {
+                        $query->where('id','=',7)
+                        ->orWhere('id','=',8)
+                        ->orWhere('id','=',9)
+                        ->orWhere('id','=',10)
+                        ->orWhere('id','=',11)
+                        ->orWhere('id','=',12);
+                    })->orderBy('id','asc')->get();
+                }else{
+                    $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                    {
+                        $query->where('id','=',14)
+                        ->orWhere('id','=',15)
+                        ->orWhere('id','=',16)
+                        ->orWhere('id','=',17)
+                        ->orWhere('id','=',18)
+                        ->orWhere('id','=',19)
+                        ->orWhere('id','=',20)
+                        ->orWhere('id','=',21);
+                    })->orderBy('id','asc')->get();
+                }
 
-                   $eco_com_submitted_documents_ar = null;
-                   $status_documents_ar = FALSE;
-               }
-           }else{
-               $eco_com_submitted_documents_ar = null;
-               $eco_com_requirements_ar = null;
-               $status_documents_ar = false;
-               $last_ecocom = null;
+                $eco_com_submitted_documents_ar = null;
+                $status_documents_ar = FALSE;
+            }
+        }else{
+            $eco_com_submitted_documents_ar = null;
+            $eco_com_requirements_ar = null;
+            $status_documents_ar = false;
+            $last_ecocom = null;
         }
         //for documents submitted
         $status_eco_com_submitted_documents_ar=true;
@@ -1468,7 +1497,7 @@ class EconomicComplementController extends Controller
                 //send from request data
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
 
-                EconomicComplement::calculate($economic_complement,$request->total_rent, $request->sub_total_rent, $request->reimbursement, $request->dignity_pension, $request->aps_total_fsa, $request->aps_total_cc, $request->aps_total_fs);
+                EconomicComplement::calculate($economic_complement,$request->total_rent, $request->sub_total_rent, $request->reimbursement, $request->dignity_pension, $request->aps_total_fsa, $request->aps_total_cc, $request->aps_total_fs, $request->aps_disability);
                 //$economic_complement->state = 'Edited';
                 $economic_complement->rent_type = 'Manual';
                 $economic_complement->calculation_date = Carbon::now();
