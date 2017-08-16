@@ -1333,7 +1333,7 @@ class EconomicComplementImportExportController extends Controller
           ->get();
           // dd($afis);
           // exit();
-          $rows= array(array('Nro','Nro Tramite','C.I.','Ext','Primer Nombre','Segundo Nombre','Apellido Paterno','Apellido Materno','Apellido de Casado','Ci Causahabiente','Ext','Primer Nombre Causahabiente','Segundo Nombre Causahabiente','Apellido Paterno Causahabiente',' Apellido Materno Causahabiente','Apellido Casado Causahabiente','Fecha de Nacimiento','Estado Civil','Regional','Grado','Tipo de Renta','Ente Gestor','Renta Boleta','Reintegro','Renta Dignidad','Neto','Categoria','Referente Salarial','Antiguedad','Cotizable','Diferencia','Total Semestre','Factor de Complementacion','Complemento Economico final','Tipo de tramite') );
+          $rows= array(array('Nro','Nro Tramite','C.I.','Ext','Primer Nombre','Segundo Nombre','Apellido Paterno','Apellido Materno','Apellido de Casado','Ci Causahabiente','Ext','Primer Nombre Causahabiente','Segundo Nombre Causahabiente','Apellido Paterno Causahabiente',' Apellido Materno Causahabiente','Apellido Casado Causahabiente','Fecha de Nacimiento','Estado Civil','Regional','Grado','Tipo de Renta','Ente Gestor','Renta Boleta','Reintegro','Renta Dignidad','Renta Total Neta','Neto','Categoria','Referente Salarial','Antiguedad','Cotizable','Diferencia','Total Semestre','Factor de Complementacion','Complemento Economico final','Tipo de tramite') );
 
           $i=1;
           foreach ($afis as $a) {
@@ -1359,7 +1359,7 @@ class EconomicComplementImportExportController extends Controller
             }
          
 
-            array_push($rows, array($i,$a->code,$a->identity_card,$a->ext,$a->first_name,$a->second_name,$a->last_name,$a->mothers_last_name,$a->surname_husband,$afiliado_ci,$afiliado_ext,$afiliado_first_name,$afiliado_second_name,$afiliado_last_nme,$afiliado_mother_last_name,$afiliado_surname_husband,$a->birth_date,$a->civil_status,$a->regional,$a->degree,$a->modality,$a->gestor,$a->renta_boleta,$a->reintegro,$a->dignity_pension,$a->neto,$a->category,$a->salary_reference,$a->antiguedad,$a->salary_quotable,$a->difference,$a->total_amount_semester,$a->complementary_factor,$a->total,$a->tipo_tramite));
+            array_push($rows, array($i,$a->code,$a->identity_card,$a->ext,$a->first_name,$a->second_name,$a->last_name,$a->mothers_last_name,$a->surname_husband,$afiliado_ci,$afiliado_ext,$afiliado_first_name,$afiliado_second_name,$afiliado_last_nme,$afiliado_mother_last_name,$afiliado_surname_husband,$a->birth_date,$a->civil_status,$a->regional,$a->degree,$a->modality,$a->gestor,$a->renta_boleta,$a->reintegro,$a->dignity_pension,$a->renta_neta,$a->neto,$a->category,$a->salary_reference,$a->antiguedad,$a->salary_quotable,$a->difference,$a->total_amount_semester,$a->complementary_factor,$a->total,$a->tipo_tramite));
             $i++;
           }
 
@@ -1372,18 +1372,14 @@ class EconomicComplementImportExportController extends Controller
                          global $rows;
 
                           $sheet->fromArray($rows,null, 'A1', false, false);
-                    // $sheet->fromArray(
-                    //                     array(
-                    //                            $rows
-                    //                           )
-                    //                   );
+                          $sheet->cells('A1:AJ1', function($cells) {
 
-                      // $sheet->row(1,array('Contribuciones: '.$contribuciones->count(),'Total Bs: '.$total) );
+                              // manipulate the range of cells
+                              $cells->setBackground('#058A37');
+                              $cells->setFontColor('#ffffff');  
+                              $cells->setFontWeight('bold');
 
-                      // $sheet->cells('A1:B1', function($cells) {
-                      // $cells->setBackground('#4CCCD4');
-                                                  // manipulate the range of cells
-
+                          });
                       });
 
             })->download('xls');
