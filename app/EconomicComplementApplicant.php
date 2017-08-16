@@ -123,6 +123,15 @@ class EconomicComplementApplicant extends Model
     {
         return Util::ucw($this->first_name) . ' ' . Util::ucw($this->second_name)  . ' ' . Util::ucw($this->last_name) . ' ' . Util::ucw($this->mothers_last_name) . ' ' . Util::ucw($this->surname_husband);
     }
+    public function getFullName()
+    {
+        $name = ($this->first_name)." ".($this->second_name)." ".($this->last_name)." ".($this->mothers_last_name)." ".($this->surname_husband);
+        $re = '/\s+/';
+        $subst = ' ';
+        $result = preg_replace($re, $subst, $name);
+        
+        return trim($result);
+    }
 
     public function getCivilStatus()
     {

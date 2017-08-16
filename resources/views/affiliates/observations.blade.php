@@ -9,7 +9,14 @@
               <li class="active">Afiliados Observados</li>
             </ol>
         </div>
+        <div class="col-md-12 text-right">
+                
         
+          <div class="btn-group"  data-toggle="tooltip" data-original-title="Exportar Informe de Observados" style="margin: 0;">
+                    <a href="{!! url('export_excel_observations') !!}" class="btn btn-success btn-raised bg-blue" ><i class="glyphicon glyphicon-save glyphicon-lg"></i></a>
+          </div>
+          
+        </div>          
     </div>
 
 @endsection

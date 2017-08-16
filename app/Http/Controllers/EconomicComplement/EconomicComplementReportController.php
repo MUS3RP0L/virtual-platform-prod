@@ -691,6 +691,74 @@ class EconomicComplementReportController extends Controller
         $pdf->loadHTML($view)->setPaper('letter');
         return $pdf->stream();
    }
+   public function export_average($year,$semester)
+   {
+      global $average_list;
+      if ($year=="undefined" || $semester=="undefined")
+      {
+          Session::flash('message', "Seleccione Año y Semestre");
+            return redirect('averages');
+      } 
+      else
+      {
+        
+          $average_list = DB::table('eco_com_applicants')
+                                        ->select(DB::raw("economic_complements.code,eco_com_applicants.identity_card as app_ci,cities1.first_shortened as app_ext,eco_com_applicants.first_name, eco_com_applicants.second_name, eco_com_applicants.last_name, eco_com_applicants.mothers_last_name, eco_com_applicants.surname_husband,
+                                          affiliates.identity_card as afi_ci,cities2.first_shortened as afi_ext,affiliates.first_name as afi_first_name, affiliates.second_name as afi_second_name, affiliates.last_name as afi_last_name, affiliates.mothers_last_name as afi_mothers_last_name, 
+                                          affiliates.surname_husband as afi_surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.second_shortened as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as entity,economic_complements.sub_total_rent,economic_complements.reimbursement,economic_complements.dignity_pension,economic_complements.total_rent,economic_complements.total_rent_calc,categories.name as category,economic_complements.salary_reference,economic_complements.seniority,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,economic_complements.reception_type"))
+                                        ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                                        ->leftJoin('cities as cities0', 'economic_complements.city_id', '=', 'cities0.id')
+                                        ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                                        ->leftJoin('categories','economic_complements.category_id','=','categories.id')
+                                        ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
+                                        ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
+                                        ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                                        ->leftJoin('cities as cities2', 'affiliates.city_identity_card_id', '=', 'cities2.id')
+                                        ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                        ->leftJoin('pension_entities','affiliates.pension_entity_id','=', 'pension_entities.id')
+                                        ->whereYear('economic_complements.year', '=', $year)
+                                        ->where('economic_complements.semester', '=', $semester)
+                                        ->where('economic_complements.total_rent','>', 0)
+                                        ->whereIN('economic_complements.eco_com_modality_id',[1,2])
+                                        ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+                                        ->whereNull('economic_complements.aps_disability')                                    
+                                        ->orderBy('affiliates.degree_id','ASC')->get();
+          //dd($average_list);
+          if(sizeof($average_list) > 0)
+          {
+              Excel::create('TRAMITES_PARA_PROMEDIO', function($excel) 
+              {
+              
+                       global $year,$semester,$i, $j, $average_list;
+                       $j = 2;
+                       $excel->sheet("TRAMITES_PROMEDIO".$year, function($sheet) {
+                       global $year,$semester, $j, $i,$average_list;
+                       $i=1;
+                       $sheet->row(1, array('NRO','NRO_TRAMITE','CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'APELLIDO_PATERNO','APELLIDO_MATERNO','APELLIDO_DE_CASADO','CI_CAUSAHABIENTE','EXT','PRIMER_NOMBRE_CAUSAHABIENTE','SEGUNDO_NOMBRE_CAUSAHABIENTE','APELLIDO_PATERNO_CAUSAHABIENTE','APELLIDO_MATERNO_CAUSAHABIENTE','APELLIDO_DE_CASADO_CAUSAHABIENTE','FECHA_NACIMIENTO','ESTADO_CIVIL','REGIONAL','GRADO','TIPO_DE_RENTA','ENTE_GESTOR','RENTA_BOLETA','REINTEGRO','RENTA_DIGNIDAD','RENTA_TOTAL_NETA','NETO','CATEGORIA','REFERENTE_SALARIAL', 'ANTIGUEDAD','COTIZABLE','DIFERENCIA','TOTAL_SEMESTRE','FACTOR_DE_COMPLEMENTACION','COMPLEMENTO_ECONOMICO_FINAL_2017','TIPO_TRAMITE'));
+                       
+                       foreach($average_list as $datos) 
+                       {
+                           $sheet->row($j, array($i,$datos->code,$datos->app_ci,$datos->app_ext,$datos->first_name, $datos->second_name, $datos->last_name,$datos->mothers_last_name, $datos->surname_husband, $datos->afi_ci,$datos->afi_ext,$datos->afi_first_name, $datos->afi_second_name, $datos->afi_last_name,$datos->afi_mothers_last_name, $datos->afi_surname_husband, $datos->birth_date, $datos->civil_status, $datos->regional, $datos->degree, $datos->modality,$datos->entity,$datos->sub_total_rent,$datos->reimbursement,$datos->dignity_pension,$datos->total_rent,$datos->total_rent_calc,$datos->category, $datos->salary_reference,$datos->seniority, $datos->salary_quotable,$datos->difference, $datos->total_amount_semester,$datos->complementary_factor,$datos->total,$datos->reception_type));
+                           $j++;
+                           $i++;
+                       }
+                       
+                     });
+              })->export('xlsx');          
+              return redirect('averages');
+          }
+          else
+          {
+            Session::flash('message', "No existe registros para exportar");
+              return redirect('averages');
+          }
+
+      }
+      
+      
+      
+             
+   }
 
    public function updated_list()
    {

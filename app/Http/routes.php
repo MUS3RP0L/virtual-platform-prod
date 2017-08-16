@@ -104,6 +104,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('averages', array('as' => 'averages', 'uses' => 'EconomicComplement\EconomicComplementReportController@average'));
 	Route::get('get_average', array('as'=>'get_average','uses' =>'EconomicComplement\EconomicComplementReportController@Data'));
 	Route::get('print_average', array('as'=>'print_average','uses' =>'EconomicComplement\EconomicComplementReportController@print_average'));
+	Route::get('export_average/{year}/{semester}', array('as'=>'export_average','uses'=>'EconomicComplement\EconomicComplementReportController@export_average'));
+
 	Route::get('get_updated_list', array('as'=>'updated_list','uses' =>'EconomicComplement\EconomicComplementReportController@updated_list'));
 	Route::post('export_updated_list', array('as'=>'export_updated_list','uses' =>'EconomicComplement\EconomicComplementReportController@export_updated_list'));
 
@@ -127,8 +129,11 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('export_excel_general','EconomicComplement\EconomicComplementImportExportController@export_excel_general');
 	Route::get('observations','Observation\AffiliateObservationController@lista_observados');
 	Route::get('getdataobservations',['as'=>'getdataobservations','uses'=>'Observation\AffiliateObservationController@getDataObsertaions']);
+	Route::get('export_excel_observations','EconomicComplement\EconomicComplementImportExportController@export_excel_observations');
 	// Economic Complement Record
 	Route::get('get_economic_complement_record/{ecomomic_complement_id}', array('as'=>'get_economic_complement_record', 'uses'=>'EconomicComplement\EconomicComplementController@get_record'));
+
+	Route::get('export_planilla_general','EconomicComplement\EconomicComplementImportExportController@planilla_general');
 
 	//Routecfor Observations
 	Route::resource('observation','Observation\AffiliateObservationController');
