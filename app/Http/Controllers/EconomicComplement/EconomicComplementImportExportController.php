@@ -1325,7 +1325,7 @@ class EconomicComplementImportExportController extends Controller
             $i++;
           }
 
-         Excel::create('Planilla General ',function($excel)
+         Excel::create('Planilla General '.date("Y-m-d H:i:s"),function($excel)
          {
 
          global $rows;
