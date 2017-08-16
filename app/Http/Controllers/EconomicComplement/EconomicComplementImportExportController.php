@@ -681,6 +681,7 @@ class EconomicComplementImportExportController extends Controller
         $com_obser_invalidez_9 = array();
         $com_obser_salario_10 = array();
         $com_obser_pagodomicilio_12 = array();
+        $com_obser_repofond_13 =array();
 
 
         foreach ($afiliados as $afiliado) {
@@ -709,7 +710,7 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 3:
                    # code...
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_juridica_3, $complemento->id);
                         }
@@ -717,7 +718,7 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 4:
                    # code...
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_fueraplz90_4, $complemento->id);
                         }
@@ -725,7 +726,7 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 5:
                    # code...
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_fueraplz120_5, $complemento->id);
                         }
@@ -733,7 +734,7 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 6:
                    # code...
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_faltareq_6, $complemento->id);
                         }
@@ -741,7 +742,7 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 7:
                    # code...
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_habitualinclusion7, $complemento->id);
                         }
@@ -749,7 +750,7 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 8:
                    # code...
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_menor16anos_8, $complemento->id);
                         }
@@ -757,7 +758,7 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 9:
                    # code..
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_invalidez_9, $complemento->id);
                         }
@@ -765,7 +766,7 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 10:
                    # code...
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_salario_10, $complemento->id);
                         }
@@ -773,12 +774,19 @@ class EconomicComplementImportExportController extends Controller
                  
                  case 12:
                    # code...
-                        foreach ($complementos as $key => $value) {
+                        foreach ($complementos as $complemento) {
                           # code...
                           array_push($com_obser_pagodomicilio_12, $complemento->id);
                         }
                    break;
                  
+                 case 13:
+                   # code...
+                        foreach ($complementos as $complemento) {
+                          # code...
+                          array_push($com_obser_repofond_13, $complemento->id);
+                        }
+                   break;
 
 
                  default:
@@ -1242,6 +1250,47 @@ class EconomicComplementImportExportController extends Controller
                      
                         $sheet->fromArray($rows, null, 'A1', false, false);
                         $sheet->cells('A1:J1', function($cells) {
+
+                            // manipulate the range of cells
+                            $cells->setBackground('#058A37');
+                            $cells->setFontColor('#ffffff');  
+
+                        });
+
+                        });
+
+                        $excel->sheet('Suspendidos por reposicion de fondo',function($sheet) {
+
+                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12;  
+
+                        
+                         $economic_complements=EconomicComplement::whereIn('economic_complements.id',$com_obser_repofond_13)
+                          ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
+                          ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                          ->leftJoin('cities as city_com','economic_complements.city_id','=','city_com.id')
+                          ->leftJoin('cities as city_ben','eco_com_applicants.city_identity_card_id','=','city_ben.id')
+                          ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+                          ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
+                          ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                          ->distinct('economic_complements.id')
+                          ->select('economic_complements.id as Id','economic_complements.code as Nro_tramite','eco_com_applicants.first_name as Primer_nombre','eco_com_applicants.second_name as Segundo_nombre', 'eco_com_applicants.last_name as Paterno','eco_com_applicants.mothers_last_name as Materno','eco_com_applicants.identity_card as CI','city_ben.first_shortened as Ext','city_com.name as Regional','degrees.shortened as Grado','eco_com_modalities.shortened as Tipo_renta','economic_complements.total as Complemento_Final','affiliates.id as affiliate_id')
+                          ->get();
+
+                        $rows = array(array('ID','Nro de Tramite','Nombres y Apellidos','C.I.','Ext','Regional','Grado','Tipo Renta','Complemento Económico Final','Observaciones'));
+                        foreach ($economic_complements as $c) {
+                          # code...
+                          $observaciones = DB::table('affiliate_observations')->where('affiliate_id',$c->affiliate_id)->get();
+                          $observacion = "";
+                          foreach ($observaciones as $obs) {
+                            # code...
+                            $observacion = $observacion." | ".$obs->message; 
+                          }
+
+                          array_push($rows,array($c->Id,$c->Nro_tramite,$c->Primer_nombre.' '.$c->Segundo_nombre.' '.$c->Paterno.' '.$c->Materno,$c->CI,$c->Ext,$c->Regional,$c->Grado,$c->Tipo_renta,$c->Complemento_Final,$observacion));
+                        }
+                     
+                        $sheet->fromArray($rows, null, 'A1', false, false);
+                        $sheet->cells('A1:J1', function($cells) { 
 
                             // manipulate the range of cells
                             $cells->setBackground('#058A37');
