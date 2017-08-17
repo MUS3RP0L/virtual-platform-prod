@@ -1030,8 +1030,9 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            @endif
+                            @if($economic_complement->aps_disability > 0)
                             <hr>
-                            @if($economic_complement->aps_disability)
                                 <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
                                     <thead>
                                         <tr style="background: #f45642">
@@ -1046,8 +1047,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            @endif
-
                             @endif
                             {{-- @if($economic_complement->base_wage_id) --}}
                                 <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
@@ -1891,7 +1890,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="togglebutton">
-                                                <label>
+                                                <label class="col-md-5 control-label">
                                                     <input type="checkbox" data-bind="checked: concurrenceCheck" name="concurrenceCheck"> Concurrencia
                                                 </label>
                                             </div>
@@ -2502,7 +2501,7 @@ $(document).ready(function() {
         @else
             self.selected = ko.observable(false);
         @endif
-        self.concurrenceCheck = ko.observable({{ $economic_complement->aps_disability ? true:false }});
+        self.concurrenceCheck = ko.observable({{ ($economic_complement->aps_disability > 0 ) ? true:false }});
     }
 
     // ko.applyBindings();
@@ -2651,7 +2650,7 @@ $(document).ready(function() {
         var total_rent =  document.getElementById('total_rent');
         if (typeof(total_rent) != 'undefined' && total_rent != null)
         {
-            total_rent=parseCurrency($("#aps_total_fs").val());
+            total_rent=parseCurrency($("#total_rent").val());
         }
         $('.rent').keyup(function (event) {
             var sub_total_rent=parseCurrency($("#sub_total_rent").val());

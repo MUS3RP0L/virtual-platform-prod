@@ -191,6 +191,7 @@ class EconomicComplement extends Model
      */
     public static function calculate(EconomicComplement $economic_complement,$n_total_rent, $sub_total_rent, $reimbursement, $dignity_pension, $aps_total_fsa, $aps_total_cc, $aps_total_fs,$aps_disability)
     {
+
         $economic_complement_rent_temp = EconomicComplementRent::whereYear('year','=',Carbon::parse($economic_complement->year)->year)
                                             ->where('semester','=',$economic_complement->semester)
                                             ->get();
@@ -214,8 +215,8 @@ class EconomicComplement extends Model
                 $economic_complement->aps_total_fsa=floatval(str_replace(',','',$aps_total_fsa));
                 $economic_complement->aps_total_cc=floatval(str_replace(',','',$aps_total_cc));
                 $economic_complement->aps_total_fs=floatval(str_replace(',','',$aps_total_fs));
-                $economic_complement->aps_disability=floatval(str_replace(',','',$aps_disability));
-                
+
+
                 //vejez
                 if ($economic_complement->economic_complement_modality->economic_complement_type->id == 1){
                     if ($comp == 1 && $total_rent >= $mount){
@@ -266,6 +267,7 @@ class EconomicComplement extends Model
                     $economic_complement->eco_com_modality_id = $economic_complement->economic_complement_modality->economic_complement_type->id;
                 }
             }
+            $economic_complement->aps_disability=floatval(str_replace(',','',$aps_disability));
             $economic_complement->total_rent = $total_rent;
             $economic_complement->save();
             $economic_complement->total_rent_calc = $total_rent;
