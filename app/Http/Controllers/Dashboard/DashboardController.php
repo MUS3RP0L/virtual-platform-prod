@@ -267,14 +267,11 @@ class DashboardController extends Controller
 		}
 		$sum_last_semesters_data_reverse=array_reverse($sum_last_semesters_data, true);
 			
-	   	 $revisados=EconomicComplement::where('eco_com_state_id',16)
-            
-           
-
-            ->where('economic_complements.workflow_id','=','1')
+	   	 $revisados=EconomicComplement::where('economic_complements.workflow_id','=','1')
             ->where('economic_complements.wf_current_state_id','2')
             ->where('economic_complements.state','Edited')
             ->where('economic_complements.eco_com_procedure_id','2')
+            ->whereNotNull('review_date')
             // ->where('economic_complements.user_id',Auth::user()->id)
 
 
