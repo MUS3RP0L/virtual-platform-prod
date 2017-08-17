@@ -650,7 +650,7 @@ class EconomicComplementImportExportController extends Controller
       {
 
  
-        global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12;
+        global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;
 
 
 
@@ -804,13 +804,9 @@ class EconomicComplementImportExportController extends Controller
         //$fila = new CustomCollection(array('identificador' => ,$economic_complements-> ));
          Excel::create('Reporte General '.date("Y-m-d H:i:s"),function($excel) 
          {
-                     global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12;
-            
-                        $excel->sheet('Observacion por contabilidad ',function($sheet) {
+                     global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;               $excel->sheet('Observacion por contabilidad ',function($sheet) {
 
-                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12;  
-
-                         
+                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;      
                          $economic_complements=EconomicComplement::whereIn('economic_complements.id',$com_obser_contabilidad_1)
                           ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
@@ -849,9 +845,7 @@ class EconomicComplementImportExportController extends Controller
 
                         $excel->sheet('Observacion por prestamos ',function($sheet) {
 
-                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12;  
-
-                        
+                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;     
                          $economic_complements=EconomicComplement::whereIn('economic_complements.id',$com_obser_prestamos_2)
                           ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
@@ -890,9 +884,7 @@ class EconomicComplementImportExportController extends Controller
 
                         $excel->sheet('Observacion por juridica ',function($sheet) {
 
-                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12;  
-
-                        
+                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;     
                          $economic_complements=EconomicComplement::whereIn('economic_complements.id',$com_obser_juridica_3)
                           ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
@@ -932,9 +924,7 @@ class EconomicComplementImportExportController extends Controller
 
                         $excel->sheet('Fuera de Plazo 90 días',function($sheet) {
 
-                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12;  
-
-                        
+                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;     
                          $economic_complements=EconomicComplement::whereIn('economic_complements.id',$com_obser_fueraplz90_4)
                           ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
@@ -973,9 +963,7 @@ class EconomicComplementImportExportController extends Controller
 
                         $excel->sheet('Fuera de Plazo 120 días',function($sheet) {
 
-                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12;  
-
-                        
+                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;     
                          $economic_complements=EconomicComplement::whereIn('economic_complements.id',$com_obser_fueraplz120_5)
                           ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
@@ -1014,9 +1002,7 @@ class EconomicComplementImportExportController extends Controller
 
                         $excel->sheet('Falta de Requisitos',function($sheet) {
 
-                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12;  
-
-                        
+                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;     
                          $economic_complements=EconomicComplement::whereIn('economic_complements.id',$com_obser_faltareq_6)
                           ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
@@ -1056,9 +1042,7 @@ class EconomicComplementImportExportController extends Controller
 
                         $excel->sheet('Requisitos Hab a Incl',function($sheet) {
 
-                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12;  
-
-                        
+                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;     
                          $economic_complements=EconomicComplement::whereIn('economic_complements.id',$com_obser_habitualinclusion7)
                           ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
@@ -1097,9 +1081,7 @@ class EconomicComplementImportExportController extends Controller
 
                         $excel->sheet('Menor a 16 años',function($sheet) {
 
-                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12;  
-
-                        
+                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;     
                          $economic_complements=EconomicComplement::whereIn('economic_complements.id',$com_obser_menor16anos_8)
                           ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
@@ -1138,9 +1120,7 @@ class EconomicComplementImportExportController extends Controller
 
                         $excel->sheet('Observación por Invalidez',function($sheet) {
 
-                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12;  
-
-                        
+                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;     
                          $economic_complements=EconomicComplement::whereIn('economic_complements.id',$com_obser_invalidez_9)
                           ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
@@ -1179,9 +1159,7 @@ class EconomicComplementImportExportController extends Controller
 
                         $excel->sheet('Observación por Salario',function($sheet) {
 
-                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12;  
-
-                        
+                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;     
                          $economic_complements=EconomicComplement::whereIn('economic_complements.id',$com_obser_salario_10)
                           ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
@@ -1220,9 +1198,7 @@ class EconomicComplementImportExportController extends Controller
 
                         $excel->sheet('Pago a domicilio',function($sheet) {
 
-                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12;  
-
-                        
+                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;     
                          $economic_complements=EconomicComplement::whereIn('economic_complements.id',$com_obser_pagodomicilio_12)
                           ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
@@ -1259,11 +1235,9 @@ class EconomicComplementImportExportController extends Controller
 
                         });
 
-                        $excel->sheet('Suspendidos por reposicion de fondo',function($sheet) {
+                        $excel->sheet('Reposicion de fondo',function($sheet) {
 
-                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12;  
-
-                        
+                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;     
                          $economic_complements=EconomicComplement::whereIn('economic_complements.id',$com_obser_repofond_13)
                           ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
                           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
