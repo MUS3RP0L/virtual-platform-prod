@@ -592,6 +592,7 @@ class EconomicComplementController extends Controller
                 $economic_complement->eco_com_procedure_id = $eco_com_pro->id;
                 $economic_complement->workflow_id = 1;
                 $economic_complement->wf_current_state_id = 1;
+                $economic_complement->eco_com_state_id = 16;
                 $economic_complement->city_id = trim($request->city);
                 $economic_complement->category_id = $affiliate->category_id;
                 $economic_complement->degree_id = $affiliate->degree_id;
