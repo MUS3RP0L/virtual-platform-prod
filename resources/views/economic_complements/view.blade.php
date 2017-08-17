@@ -2426,7 +2426,6 @@ $(document).ready(function() {
 
 		var self = this;
 		
-		console.log("hola ");
 		@if ($status_documents)
 			self.requirements = ko.observableArray(ko.utils.arrayMap(requirements, function(document) {
 			return { id: document.eco_com_requirement_id, name: document.economic_complement_requirement.shortened, status: document.status };
@@ -2497,7 +2496,6 @@ $(document).ready(function() {
 	
 
     var selectedlModel = function() {        
-        console.log("aplicando listener");
         var self = this;
         @if($eco_com_applicant->date_death)
             self.selected = ko.observable(true);
@@ -2650,7 +2648,11 @@ $(document).ready(function() {
             $('#total_frac').val(total);
             // $('#sub_total_rent').val(total);
         });
-        var total_rent = parseCurrency($('#total_rent').val());
+        var total_rent =  document.getElementById('total_rent');
+        if (typeof(total_rent) != 'undefined' && total_rent != null)
+        {
+            total_rent=parseCurrency($("#aps_total_fs").val());
+        }
         $('.rent').keyup(function (event) {
             var sub_total_rent=parseCurrency($("#sub_total_rent").val());
             var reimbursement=parseCurrency($("#reimbursement").val());
