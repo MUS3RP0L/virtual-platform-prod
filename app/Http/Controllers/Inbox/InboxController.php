@@ -32,9 +32,8 @@ class InboxController extends Controller
         $user_ids=Auth::user()->roles()->first();
         //id de tramites en proceso
         $state_id = 16;
-        $economic_complements=EconomicComplement::where('eco_com_state_id',$state_id)->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
+        $economic_complements=EconomicComplement::where('economic_complements.state','Received')->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
             ->where('wf_states.role_id',($user_ids->id))
-            ->where('economic_complements.state','Received')
             // ->where('economic_complements.eco_com_procedure_id','2')
             ->select('economic_complements.id','economic_complements.code')
 
@@ -51,9 +50,8 @@ class InboxController extends Controller
         $user_role_id=Auth::user()->roles()->first();
         //id de tramites en proceso
         $state_id = 16;
-        $economic_complements=EconomicComplement::where('eco_com_state_id',$state_id)->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
+        $economic_complements=EconomicComplement::where('economic_complements.state','Edited')->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
             ->where('wf_states.role_id',($user_role_id->id))
-            ->where('economic_complements.state','Edited')
             ->where('economic_complements.eco_com_procedure_id','2')
             ->where('economic_complements.user_id',Auth::user()->id)
             ->select('economic_complements.id','economic_complements.code')
