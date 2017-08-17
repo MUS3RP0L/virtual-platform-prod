@@ -109,8 +109,6 @@ class ImportAportController extends Controller
                $Cont->ipc =0;
                $Cont->total = $r->monto;
                $Cont->save();
-
-
               //echo "De la BD: ".$afiliado->identity_card." Del Excel:".$r->anio."<br>";
               //Se guarda dicho resultado a exportar en excel
               $row =array($r->ci,$r->matricula,$r->nombre,$r->paterno,$r->materno,$r->grado,$r->anio,$r->mes,$r->cod_afi,$r->fecha,$r->recibo,$r->monto,'----','Importado a la BD, el affiliado no tenia ningun registro de aporte');
@@ -372,8 +370,6 @@ class ImportAportController extends Controller
          //$afiliado = Affiliate::where('identity_card','=',$r->ci)->first();
 
         if($afiliado) {
-
-          
           
           $Duplicidad = DB::table('contributions')
                       ->where('contributions.affiliate_id','=',$afiliado->id)
