@@ -724,7 +724,11 @@ class EconomicComplementImportExportController extends Controller
 
         foreach ($afiliados as $afiliado) {
           # code...
-             $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)->where('eco_com_procedure_id','=','2')->get();
+             $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)
+                                                              ->where('eco_com_procedure_id','=','2')
+                                                              ->where('state','=','Edited')
+                                                              ->whereNotNull('review_date')
+                                                              ->get();
              if($complementos)
              {
                switch ($afiliado->observation_type_id) {

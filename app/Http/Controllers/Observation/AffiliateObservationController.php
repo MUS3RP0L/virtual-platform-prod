@@ -168,7 +168,11 @@ class AffiliateObservationController extends Controller
         foreach ($afiliados as $afiliado) {
 
           # code...
-          $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)->where('eco_com_procedure_id','=','2')->first();
+          $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)
+                                                           ->where('eco_com_procedure_id','=','2')
+                                                           ->where('state','=','Edited')
+                                                           ->whereNotNull('review_date')
+                                                           ->first();
           if($complementos){
              array_push($a, $afiliado->id);
           }
