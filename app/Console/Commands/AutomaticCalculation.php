@@ -160,7 +160,7 @@ class AutomaticCalculation extends Command implements SelfHandling
 						    	    $total_rent = $economic_complement->total_rent;
 
 						    	    //CALCULATE WITH AVERAGE FOR MODALITIES 
-						    	    if ($economic_complement->eco_com_modality_id > 3) 
+						    	    if ($economic_complement->eco_com_modality_id > 3 && ($economic_complement->eco_com_modality_id <10 )) 
 						    	    {
 						    	        $economic_complement_rent = EconomicComplementRent::where('degree_id','=',$economic_complement->degree_id)
 						    	            ->where('eco_com_type_id','=',$economic_complement->economic_complement_modality->economic_complement_type->id)
@@ -168,7 +168,7 @@ class AutomaticCalculation extends Command implements SelfHandling
 						    	            ->where('semester','=',$economic_complement->semester)
 						    	            ->first();
 
-						    	        // EXCEPTION WHEN TOTAL_RENT > AVERAGE IN MODALITIES 4,5 AND 10
+						    	        // EXCEPTION WHEN TOTAL_RENT > AVERAGE IN MODALITIES 4 AND 5
 						    	        if($economic_complement->total_rent > $economic_complement_rent->average and ($economic_complement->eco_com_modality_id == 4 || $economic_complement->eco_com_modality_id == 5 || $economic_complement->eco_com_modality_id == 10))
 						    	        {
 						    	        	$total_rent = $economic_complement->total_rent;
@@ -182,7 +182,19 @@ class AutomaticCalculation extends Command implements SelfHandling
 						    	        
 
 						    	    }
+						    	    else if( $economic_complement->eco_com_modality_id >= 10 )
+						    	    {
+								            $economic_complement_rent = EconomicComplementRent::where('degree_id','=',$economic_complement->degree_id)
+								                                        ->where('eco_com_type_id','=',1)
+								                                        ->whereYear('year','=',Carbon::parse($economic_complement->year)->year)
+								                                        ->where('semester','=',$economic_complement->semester)
+								                                        ->first();
+								            $total_rent=$economic_complement_rent->average;
+								            $economic_complement->total_rent_calc = $economic_complement_rent->average;
+								    }
 						    	    $base_wage = BaseWage::degreeIs($economic_complement->degree_id)->whereYear('month_year','=',Carbon::parse($economic_complement->year)->year)->first();
+
+						    	    //PARA EL CASO DE VIUDAS TOMAR EL 80% DEL SALARIO REFERENCIAL
 						    	    if ($economic_complement->economic_complement_modality->economic_complement_type->id==2) 
 						    	    {
 						    	        $base_wage_amount=$base_wage->amount*(80/100);
