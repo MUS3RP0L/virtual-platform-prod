@@ -18,8 +18,11 @@
                     <li><a href="{{url('export_planilla_general')}}"  style="padding:3px 5px;"><i class="fa  fa-file-excel-o"></i>Planilla General</a></li>  
                     <li role="separator" class="divider"></li>                  
                     <li><a href="" data-toggle="modal" data-target="#myModal-exporbydepartment" style="padding:3px 5px;"><i class="fa  fa-file-excel-o"></i>Planilla por Departamento</a></li>
-                     <li role="separator" class="divider"></li>
+                    <li role="separator" class="divider"></li>
                     <li><a href="{{url('export_payroll_legal_guardian')}}"  style="padding:3px 5px;"><i class="fa  fa-shield"></i>Planilla de Apoderados</a></li>
+                    
+                    <li role="separator" class="divider"></li>
+                    <li><a href="{{url('export_payroll_home')}}"  style="padding:3px 5px;"><i class="fa  fa-home"></i>Planilla de Pagos a Domicilio</a></li>
 
                 </ul>
             </div>
