@@ -121,6 +121,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('import_bank', array('as'=>'import_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@import_from_bank'));
 	Route::post('export_aps', array('as'=>'export_aps', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_aps'));
 	Route::post('export_bank', array('as'=>'export_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_bank'));
+	Route::post('export_by_dapartment', array('as'=>'export_by_dapartment', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_by_dapartment'));
 
 	Route::get('get_causes_by_state', array('as'=>'get_causes_by_state', 'uses'=>'EconomicComplement\EconomicComplementController@getCausesByState'));
 	//david
@@ -132,8 +133,9 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('export_excel_observations','EconomicComplement\EconomicComplementImportExportController@export_excel_observations');
 	// Economic Complement Record
 	Route::get('get_economic_complement_record/{ecomomic_complement_id}', array('as'=>'get_economic_complement_record', 'uses'=>'EconomicComplement\EconomicComplementController@get_record'));
-
+	//Payrolls
 	Route::get('export_planilla_general','EconomicComplement\EconomicComplementImportExportController@planilla_general');
+	Route::get('export_payroll_legal_guardian','EconomicComplement\EconomicComplementImportExportController@payrollLegalGuardian');
 
 	//Routecfor Observations
 	Route::resource('observation','Observation\AffiliateObservationController');
