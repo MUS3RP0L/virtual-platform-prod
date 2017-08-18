@@ -137,6 +137,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('export_planilla_general','EconomicComplement\EconomicComplementImportExportController@planilla_general');
 	Route::get('export_payroll_legal_guardian','EconomicComplement\EconomicComplementImportExportController@payrollLegalGuardian');
 	Route::get('export_payroll_home','EconomicComplement\EconomicComplementImportExportController@payrollHome');
+	Route::get('export_payroll_replenishment_funds','EconomicComplement\EconomicComplementImportExportController@payrollReplenishmentFunds');
 
 	//Routecfor Observations
 	Route::resource('observation','Observation\AffiliateObservationController');
