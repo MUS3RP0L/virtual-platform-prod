@@ -36,6 +36,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\Fusion::class,
         \Muserpol\Console\Commands\UpdateDegreeToEcoCom::class,
         \Muserpol\Console\Commands\SearchDegreeChange::class,
+        \Muserpol\Console\Commands\ObservationsAmount::class,
     ];
 
     protected function schedule(Schedule $schedule)

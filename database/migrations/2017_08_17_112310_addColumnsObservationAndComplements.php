@@ -20,7 +20,7 @@ class AddColumnsObservationAndComplements extends Migration
         });
 
         Schema::table('affiliate_observations', function (Blueprint $table) {
-             $table->boolean('isEnabled', 13, 2)->default(0);//estaHabilitado
+             $table->boolean('is_enabled')->default(0);//estaHabilitado
    
         });
     }
@@ -40,7 +40,7 @@ class AddColumnsObservationAndComplements extends Migration
         });
 
         Schema::table('affiliate_observations', function (Blueprint $table) {
-             $table->dropColumn('isEnabled');//estaHabilitado
+             $table->dropColumn('is_enabled');//estaHabilitado
    
         });
     }
