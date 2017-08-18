@@ -510,7 +510,7 @@
                       </div>
                       <div class="modal-body">
 
-                          {!! Form::open(['method' => 'POST', 'route' => ['export_by_dapartment'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+                          {!! Form::open(['method' => 'POST', 'route' => ['export_by_department'], 'class' => 'form-horizontal', 'files' => true ]) !!}
 
                               <br>                            
                               <div class="row">

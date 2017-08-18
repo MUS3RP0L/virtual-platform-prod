@@ -121,7 +121,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('import_bank', array('as'=>'import_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@import_from_bank'));
 	Route::post('export_aps', array('as'=>'export_aps', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_aps'));
 	Route::post('export_bank', array('as'=>'export_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_bank'));
-	Route::post('export_by_dapartment', array('as'=>'export_by_dapartment', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_by_dapartment'));
+	Route::post('export_by_department', array('as'=>'export_by_department', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_by_department'));
 
 	Route::get('get_causes_by_state', array('as'=>'get_causes_by_state', 'uses'=>'EconomicComplement\EconomicComplementController@getCausesByState'));
 	//david
