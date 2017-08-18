@@ -122,12 +122,12 @@ class EconomicComplementReportController extends Controller
 
                            if ($eco_complements) {
                                
-                               //return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','anio','user','eco_complements'))->setPaper('letter')->setOrientation('landscape')->stream('report_by_user.pdf');
+                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','anio','user','eco_complements'))->setPaper('letter')->setOrientation('landscape')->stream('report_by_user.pdf');
 
-                               $view = \View::make('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','anio','user','eco_complements'))->render();
+                               /*$view = \View::make('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','anio','user','eco_complements'))->render();
                                $pdf = \App::make('dompdf.wrapper');
                                $pdf->loadHTML($view)->setPaper('legal','landscape');
-                               return $pdf->stream();  
+                               return $pdf->stream(); */  
 
 
                            } else {
@@ -169,14 +169,14 @@ class EconomicComplementReportController extends Controller
                                            ->where('economic_complements.semester', 'LIKE', $semester)                                           
                                            ->orderBy('economic_complements.id','ASC')
                                            ->get();
-                                           dd($regional);                                           
+                                           //dd($regional);                                           
                            if ($beneficiary_eco_complements) {                              
-                             //return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user'))->setPaper('letter')->setOrientation('landscape')->stream('report_beneficiary.pdf');
+                             return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user'))->setPaper('letter')->setOrientation('landscape')->stream('report_beneficiary.pdf');
 
-                             $view = \View::make('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user'))->render();
+                             /*$view = \View::make('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user'))->render();
                                 $pdf = \App::make('dompdf.wrapper');
                                 $pdf->loadHTML($view)->setPaper('legal','landscape');
-                                return $pdf->stream();
+                                return $pdf->stream();*/
 
                            } else {
                                $message = "No existen registros para visualizar";
@@ -217,6 +217,7 @@ class EconomicComplementReportController extends Controller
                                            ->whereRaw("economic_complements.city_id::text LIKE '".$regional."'")
                                            ->whereYear('economic_complements.year', '=', $request->year)
                                            ->where('economic_complements.semester', 'LIKE', rtrim($semester))
+                                           ->where('economic_complements.has_legal_guardian','=',true)
                                            ->orderBy('economic_complements.id','ASC')
                                            ->get();
                            if ($representative_eco_complements) {
@@ -471,7 +472,7 @@ class EconomicComplementReportController extends Controller
                            }
                            break;
                         case '8':                          
-                                
+                                if($request->year <'2017'){
                                 global $list,$list_date,$final;
                                 $regional = ($request->city == 'Todo') ? '%%' : $request->city;
                                 $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
@@ -496,6 +497,7 @@ class EconomicComplementReportController extends Controller
                                                ->orderBy('economic_complements.id','ASC')
                                                ->get();
                                 $deu =0;
+                                //dd($list);
                                 foreach ($list as $comple) 
                                 {   if($comple->tipo_comple == 1 || $comple->tipo_comple == 2)
                                     {
@@ -533,7 +535,9 @@ class EconomicComplementReportController extends Controller
                                               }                                                  
                                               $num++;
                                           }
-                                         
+
+                                          
+                                                                                
                                           $data_req = array_merge($list_date, $list_req);
                                           $ecom = (array)$comple;
                                           $list_c = array_merge($ecom,$data_req); 
@@ -553,7 +557,12 @@ class EconomicComplementReportController extends Controller
 
                                   });
 
-                              })->export('xls');                            
+                              })->export('xls');  
+                              }else{
+                                       $message = "No existen registros para visualizar de ". $request->semester."-".$request->year;
+                               Session::flash('message', $message);
+                               return redirect('report_complement');
+                              }                          
                                 
                               break;                                   
 

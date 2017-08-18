@@ -17,9 +17,7 @@
         "simplesoftwareio/simple-qrcode": "~1",
          "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
-        "barryvdh/laravel-snappy": "0.2.x",
-        "h4cc/wkhtmltopdf-amd64": "0.12.x",
-        "h4cc/wkhtmltoimage-amd64": "0.12.x"
+        "barryvdh/laravel-snappy": "0.2.x"
 
     },
     "require-dev": {
