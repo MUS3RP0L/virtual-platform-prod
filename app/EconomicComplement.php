@@ -278,16 +278,33 @@ class EconomicComplement extends Model
                                         ->whereYear('year','=',Carbon::parse($economic_complement->year)->year)
                                         ->where('semester','=',$economic_complement->semester)
                                         ->first();
-                $total_rent=$economic_complement_rent->average;
-                $economic_complement->total_rent_calc = $economic_complement_rent->average;
+                // EXCEPTION WHEN TOTAL_RENT > AVERAGE IN MODALITIES 4 AND 5
+                if($economic_complement->total_rent > $economic_complement_rent->average and ($economic_complement->eco_com_modality_id == 4 || $economic_complement->eco_com_modality_id == 5 || $economic_complement->eco_com_modality_id == 10))
+                {
+                    $total_rent = $economic_complement->total_rent;
+                    $economic_complement->total_rent_calc = $economic_complement->total_rent;
+                }
+                else
+                {
+                    $total_rent=$economic_complement_rent->average;
+                    $economic_complement->total_rent_calc = $economic_complement_rent->average;
+                }
             }else if( $economic_complement->eco_com_modality_id >= 10 ){
                 $economic_complement_rent = EconomicComplementRent::where('degree_id','=',$economic_complement->degree_id)
                                         ->where('eco_com_type_id','=',1)
                                         ->whereYear('year','=',Carbon::parse($economic_complement->year)->year)
                                         ->where('semester','=',$economic_complement->semester)
                                         ->first();
-                $total_rent=$economic_complement_rent->average;
-                $economic_complement->total_rent_calc = $economic_complement_rent->average;
+                if($economic_complement->total_rent > $economic_complement_rent->average and $economic_complement->eco_com_modality_id == 10)
+                {
+                    $total_rent = $economic_complement->total_rent;
+                    $economic_complement->total_rent_calc = $economic_complement->total_rent;
+                }
+                else
+                {
+                    $total_rent=$economic_complement_rent->average;
+                    $economic_complement->total_rent_calc = $economic_complement_rent->average;
+                }
             }
             $base_wage = BaseWage::degreeIs($economic_complement->degree_id)->whereYear('month_year','=',Carbon::parse($economic_complement->year)->year)->first();
 
