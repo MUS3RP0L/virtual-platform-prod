@@ -1425,7 +1425,7 @@ class EconomicComplementImportExportController extends Controller
 
     //########## EXPORT PLANILLA BY DEPARTMENT
     public function export_by_department(Request $year, $semester)
-    {   global $list;
+    {   global $ben,$suc,$cbb,$lpz,$oru,$pdo,$pts,$scz,$tja;
         if(is_null($year) || is_null($semester))
         {
             
@@ -1516,17 +1516,58 @@ class EconomicComplementImportExportController extends Controller
                     break;                 
                 }
               }
-              Excel::create('PLANILLA POR DEPARTMANETO', function($excel) 
-              {
-                global $year,$semester,$i, $j, $list;                     
-                $excel->sheet("BENI".$year, function($sheet) 
+            
+            global $ben,$suc,$cbb,$lpz,$oru,$pdo,$pts,$scz,$tja;
+            Excel::create('PLANILLA_POR_DEPARTAMENTO', function($excel)
+            {
+                global $ben,$suc,$cbb,$lpz,$oru,$pdo,$pts,$scz,$tja;                        
+                $excel->sheet('BENI', function($sheet) use($ben) 
                 {
-                    global $year,$semester, $j, $i,$list;
-                    $i=1;                         
+                    $sheet->fromArray($ben);                   
                 });
 
+                $excel->sheet('CHUQUISACA', function($sheet) use($suc) 
+                {
+                        $sheet->fromArray($suc);
+                });
+
+                $excel->sheet('COCHABAMBA', function($sheet) use($cbb) 
+                {
+                        $sheet->fromArray($cbb);
+                });
+
+                $excel->sheet('LA PAZ', function($sheet) use($lpz) 
+                {
+                        $sheet->fromArray($lpz);
+                });
+
+                $excel->sheet('ORURO', function($sheet) use($oru) 
+                {
+                        $sheet->fromArray($oru);
+                });
+
+                $excel->sheet('PANDO', function($sheet) use($pdo) 
+                {
+                        $sheet->fromArray($pdo);
+                });
+
+                $excel->sheet('POTOSI', function($sheet) use($pts) 
+                {
+                        $sheet->fromArray($pts);
+                });
+
+                $excel->sheet('SANTA CRUZ', function($sheet) use($scz) 
+                {
+                        $sheet->fromArray($scz);
+                });
+
+                $excel->sheet('TARIJA', function($sheet) use($tja) 
+                {
+                        $sheet->fromArray($tja);
+                });                
+
             })->export('xlsx');
-        }
+            
     }
 
     public function payrollLegalGuardian()
@@ -1570,7 +1611,7 @@ class EconomicComplementImportExportController extends Controller
             });
         })->download('xls');
     }
-    
+
     public function create()
     {
         //
