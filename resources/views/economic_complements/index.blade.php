@@ -14,9 +14,12 @@
                     <li role="separator" class="divider"></li>
                     <li><a href="" data-toggle="modal" data-target="#myModal-exportbanco" style="padding:3px 5px;"><i class="fa fa-money"></i>Banco</a></li>
                     <li role="separator" class="divider"></li>
+
                     <li><a href="{{url('export_planilla_general')}}"  style="padding:3px 5px;"><i class="fa  fa-file-excel-o"></i>Planilla General</a></li>  
                     <li role="separator" class="divider"></li>                  
                     <li><a href="" data-toggle="modal" data-target="#myModal-exporbydepartment" style="padding:3px 5px;"><i class="fa  fa-file-excel-o"></i>Planilla por Departamento</a></li>
+                    <li><a href="{{url('export_payroll_legal_guardian')}}"  style="padding:3px 5px;"><i class="fa  fa-shield"></i>Planilla de Apoderados</a></li>
+
                 </ul>
             </div>
             <div class="btn-group" style="margin:-3px 0;" data-toggle="tooltip" data-placement="top" data-original-title="Importar">
