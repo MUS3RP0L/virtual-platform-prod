@@ -1694,6 +1694,88 @@ class EconomicComplementImportExportController extends Controller
             });
         })->download('xls');
     }
+    public function payrollLoan()
+    {   
+        global $rows,$i;
+        $aff=DB::table('affiliates')
+                ->leftJoin('affiliate_observations','affiliates.id','=','affiliate_observations.affiliate_id')
+                ->leftJoin('observation_types', 'affiliate_observations.observation_type_id', '=', 'observation_types.id')
+                ->where('observation_types.id','=',  2  )
+                ->get();
+        $rows[]=array('Nro','C.I.','Nombre Completo','Regional','Grado','Tipo Renta','Complemento Economico');
+        $i=1;
+        $total=0;
+        foreach ($aff as $a) {
+            if ($e = Affiliate::find($a->affiliate_id)->economic_complements()->where('eco_com_procedure_id','=',2)->where('state','like','Edited')->whereNotNull('review_date')->first()) {
+                $app = $e->economic_complement_applicant;
+                $data = new stdClass;
+                $data->index = $i++;
+                $data->ci_app = $app->identity_card.' '.$app->city_identity_card->first_shortened;
+                $data->name_app = $app->getFullName();
+                $data->city = $e->city->name;
+                $data->degree = $e->degree->shortened;
+                $data->eco_com_type = strtoupper($e->economic_complement_modality->economic_complement_type->name);
+                $data->total = $e->total;
+                $total += $e->total;
+                $rows[] = (array)($data);
+            }
+        }
+        Excel::create('Planilla de observados por situación de mora por prestamos',function($excel)
+        {
+            global $rows,$i;
+            $excel->sheet('Situación de mora por prestamos',function($sheet){
+                global $rows,$i;
+                ++$i;
+                $sheet->fromArray($rows,null, 'A1', false, false);
+                $sheet->cells('A1:G1', function($cells) {
+                    $cells->setBackground('#058A37');
+                    $cells->setFontColor('#ffffff');
+                    $cells->setFontWeight('bold');
+                });
+            });
+        })->download('xls');
+    }
+    public function payrollaccounting()
+    {   
+        global $rows,$i;
+        $aff=DB::table('affiliates')
+                ->leftJoin('affiliate_observations','affiliates.id','=','affiliate_observations.affiliate_id')
+                ->leftJoin('observation_types', 'affiliate_observations.observation_type_id', '=', 'observation_types.id')
+                ->where('observation_types.id', '=', 1)
+                ->get();
+        $rows[]=array('Nro','C.I.','Nombre Completo','Regional','Grado','Tipo Renta','Complemento Economico');
+        $i=1;
+        $total=0;
+        foreach ($aff as $a) {
+            if ($e = Affiliate::find($a->affiliate_id)->economic_complements()->where('eco_com_procedure_id','=',2)->where('state','like','Edited')->whereNotNull('review_date')->first()) {
+                $app = $e->economic_complement_applicant;
+                $data = new stdClass;
+                $data->index = $i++;
+                $data->ci_app = $app->identity_card.' '.$app->city_identity_card->first_shortened;
+                $data->name_app = $app->getFullName();
+                $data->city = $e->city->name;
+                $data->degree = $e->degree->shortened;
+                $data->eco_com_type = strtoupper($e->economic_complement_modality->economic_complement_type->name);
+                $data->total = $e->total;
+                $total += $e->total;
+                $rows[] = (array)($data);
+            }
+        }
+        Excel::create('Planilla de observados por cuentas por cobrar',function($excel)
+        {
+            global $rows,$i;
+            $excel->sheet('Cuentas por Cobrar',function($sheet){
+                global $rows,$i;
+                ++$i;
+                $sheet->fromArray($rows,null, 'A1', false, false);
+                $sheet->cells('A1:G1', function($cells) {
+                    $cells->setBackground('#058A37');
+                    $cells->setFontColor('#ffffff');
+                    $cells->setFontWeight('bold');
+                });
+            });
+        })->download('xls');
+    }
     public function create()
     {
         //

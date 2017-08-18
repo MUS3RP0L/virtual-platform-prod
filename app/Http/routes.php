@@ -138,6 +138,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('export_payroll_legal_guardian','EconomicComplement\EconomicComplementImportExportController@payrollLegalGuardian');
 	Route::get('export_payroll_home','EconomicComplement\EconomicComplementImportExportController@payrollHome');
 	Route::get('export_payroll_replenishment_funds','EconomicComplement\EconomicComplementImportExportController@payrollReplenishmentFunds');
+	Route::get('export_payroll_loan','EconomicComplement\EconomicComplementImportExportController@payrollLoan');
+	Route::get('export_payroll_accounting','EconomicComplement\EconomicComplementImportExportController@payrollaccounting');
 
 	//Routecfor Observations
 	Route::resource('observation','Observation\AffiliateObservationController');
