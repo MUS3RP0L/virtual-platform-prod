@@ -1597,10 +1597,10 @@ class EconomicComplementImportExportController extends Controller
             // $rows[] = get_object_vars($data);
             $rows[] = (array)($data);
         }
-        Excel::create('Planilla de casos de poderados y poderdantes',function($excel)
+        Excel::create('Planilla de casos de Apoderados y poderdantes',function($excel)
         {
             global $rows;
-            $excel->sheet('Categoria',function($sheet){
+            $excel->sheet('Apoderados y poderdantes',function($sheet){
                 global $rows;
                 $sheet->fromArray($rows,null, 'A1', false, false);
                 $sheet->cells('A1:I1', function($cells) {
@@ -1641,7 +1641,48 @@ class EconomicComplementImportExportController extends Controller
         Excel::create('Planilla de pago a domicilio',function($excel)
         {
             global $rows,$i;
-            $excel->sheet('Categoria',function($sheet){
+            $excel->sheet('Pago a Domicilio',function($sheet){
+                global $rows,$i;
+                ++$i;
+                $sheet->fromArray($rows,null, 'A1', false, false);
+                $sheet->cells('A1:G1', function($cells) {
+                    $cells->setBackground('#058A37');
+                    $cells->setFontColor('#ffffff');
+                    $cells->setFontWeight('bold');
+                });
+            });
+        })->download('xls');
+    }
+    public function payrollReplenishmentFunds()
+    {   
+        global $rows,$i;
+        $aff=DB::table('affiliates')
+                ->leftJoin('affiliate_observations','affiliates.id','=','affiliate_observations.affiliate_id')
+                ->leftJoin('observation_types', 'affiliate_observations.observation_type_id', '=', 'observation_types.id')
+                ->where('observation_types.id','=',  13)
+                ->get();
+        $rows[]=array('Nro','C.I.','Nombre Completo','Regional','Grado','Tipo Renta','Complemento Economico');
+        $i=1;
+        $total=0;
+        foreach ($aff as $a) {
+            if ($e = Affiliate::find($a->affiliate_id)->economic_complements()->where('eco_com_procedure_id','=',2)->where('state','like','Edited')->whereNotNull('review_date')->first()) {
+                $app = $e->economic_complement_applicant;
+                $data = new stdClass;
+                $data->index = $i++;
+                $data->ci_app = $app->identity_card.' '.$app->city_identity_card->first_shortened;
+                $data->name_app = $app->getFullName();
+                $data->city = $e->city->name;
+                $data->degree = $e->degree->shortened;
+                $data->eco_com_type = strtoupper($e->economic_complement_modality->economic_complement_type->name);
+                $data->total = $e->total;
+                $total += $e->total;
+                $rows[] = (array)($data);
+            }
+        }
+        Excel::create('Planilla de reposición de fondos',function($excel)
+        {
+            global $rows,$i;
+            $excel->sheet('Reposición De Fondos',function($sheet){
                 global $rows,$i;
                 ++$i;
                 $sheet->fromArray($rows,null, 'A1', false, false);

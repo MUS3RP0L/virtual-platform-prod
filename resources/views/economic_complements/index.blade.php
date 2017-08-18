@@ -23,6 +23,8 @@
                     
                     <li role="separator" class="divider"></li>
                     <li><a href="{{url('export_payroll_home')}}"  style="padding:3px 5px;"><i class="fa  fa-home"></i>Planilla de Pagos a Domicilio</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="{{url('export_payroll_replenishment_funds')}}"  style="padding:3px 5px;"><i class="fa  fa-navicon"></i>Reposición De Fondos</a></li>
 
                 </ul>
             </div>
