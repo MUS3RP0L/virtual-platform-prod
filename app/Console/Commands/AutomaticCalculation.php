@@ -159,7 +159,7 @@ class AutomaticCalculation extends Command implements SelfHandling
 						    	    $economic_complement->total_rent_calc = $economic_complement->total_rent;
 						    	    $total_rent = $economic_complement->total_rent;
 
-						    	    //para el promedio
+						    	    //CALCULATE WITH AVERAGE FOR MODALITIES 
 						    	    if ($economic_complement->eco_com_modality_id > 3) 
 						    	    {
 						    	        $economic_complement_rent = EconomicComplementRent::where('degree_id','=',$economic_complement->degree_id)
@@ -167,8 +167,19 @@ class AutomaticCalculation extends Command implements SelfHandling
 						    	            ->whereYear('year','=',Carbon::parse($economic_complement->year)->year)
 						    	            ->where('semester','=',$economic_complement->semester)
 						    	            ->first();
-						    	        $total_rent=$economic_complement_rent->average;
-						    	        $economic_complement->total_rent_calc = $economic_complement_rent->average;
+
+						    	        // EXCEPTION WHEN TOTAL_RENT > AVERAGE IN MODALITIES 4,5 AND 10
+						    	        if($economic_complement->total_rent > $economic_complement_rent->average and ($economic_complement->eco_com_modality_id == 4 || $economic_complement->eco_com_modality_id == 5 || $economic_complement->eco_com_modality_id == 10))
+						    	        {
+						    	        	$total_rent = $economic_complement->total_rent;
+						    	        	$economic_complement->total_rent_calc = $economic_complement->total_rent;
+						    	        }
+						    	        else
+						    	        {
+						    	        	$total_rent=$economic_complement_rent->average;
+						    	        	$economic_complement->total_rent_calc = $economic_complement_rent->average;
+						    	        }
+						    	        
 
 						    	    }
 						    	    $base_wage = BaseWage::degreeIs($economic_complement->degree_id)->whereYear('month_year','=',Carbon::parse($economic_complement->year)->year)->first();

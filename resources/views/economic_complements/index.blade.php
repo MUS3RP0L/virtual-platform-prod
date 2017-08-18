@@ -23,6 +23,7 @@
 
                 </ul>
             </div>
+            @can('admin')
             <div class="btn-group" style="margin:-3px 0;" data-toggle="tooltip" data-placement="top" data-original-title="Importar">
                 <a href="" class="btn btn-primary btn-raised" data-toggle="dropdown"><i class="glyphicon glyphicon-import fa-flip-horizontal"></i></a>
                 <a href="" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
@@ -34,6 +35,7 @@
                     <li><a href="" data-toggle="modal" data-target="#myModal-importbanco" style="padding:3px 5px;"><i class="fa fa-money"></i>Banco</a></li>
                 </ul>
             </div>
+            @endcan
         </div>
     </div>
 
