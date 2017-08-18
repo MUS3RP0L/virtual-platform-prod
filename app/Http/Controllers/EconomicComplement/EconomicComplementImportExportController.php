@@ -1424,9 +1424,9 @@ class EconomicComplementImportExportController extends Controller
 
 
     //########## EXPORT PLANILLA BY DEPARTMENT
-    public function export_by_department(Request $year, $semester)
-    {   global $ben,$suc,$cbb,$lpz,$oru,$pdo,$pts,$scz,$tja;
-        if(is_null($year) || is_null($semester))
+    public function export_by_department(Request $request)
+    {   global $list,$ben,$suc,$cbb,$lpz,$oru,$pdo,$pts,$scz,$tja;
+        if(is_null($request->year) || is_null($request->semester))
         {
             
             Session::flash('message', "Seleccione Año y Semestre");
@@ -1448,8 +1448,8 @@ class EconomicComplementImportExportController extends Controller
                                           ->leftJoin('cities as cities2', 'affiliates.city_identity_card_id', '=', 'cities2.id')
                                           ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
                                           ->leftJoin('pension_entities','affiliates.pension_entity_id','=', 'pension_entities.id')
-                                          ->whereYear('economic_complements.year', '=', $year)
-                                          ->where('economic_complements.semester', '=', $semester)
+                                          ->whereYear('economic_complements.year', '=', $request->year)
+                                          ->where('economic_complements.semester', '=', $request->semester)
                                           ->where('economic_complements.workflow_id','=',1)
                                           ->where('economic_complements.wf_current_state_id',2)
                                           ->where('economic_complements.state','Edited')
@@ -1459,7 +1459,7 @@ class EconomicComplementImportExportController extends Controller
                                           ->whereNotNull('economic_complements.review_date')                                    
                                           ->orderBy('cities0.second_shortened','ASC')->get();
 
-              $encb= array('NRO','NRO_TRAMITE','CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'APELLIDO_PATERNO','APELLIDO_MATERNO','APELLIDO_DE_CASADO','CI_CAUSAHABIENTE','EXT','PRIMER_NOMBRE_CAUSAHABIENTE','SEGUNDO_NOMBRE_CAUSAHABIENTE','APELLIDO_PATERNO_CAUSAHABIENTE','APELLIDO_MATERNO_CAUSAHABIENTE','APELLIDO_DE_CASADO_CAUSAHABIENTE','FECHA_NACIMIENTO','ESTADO_CIVIL','REGIONAL','GRADO','TIPO_DE_RENTA','ENTE_GESTOR','RENTA_BOLETA','REINTEGRO','RENTA_DIGNIDAD','RENTA_TOTAL_NETA','NETO','CATEGORIA','REFERENTE_SALARIAL', 'ANTIGUEDAD','COTIZABLE','DIFERENCIA','TOTAL_SEMESTRE','FACTOR_DE_COMPLEMENTACION','COMPLEMENTO_ECONOMICO_FINAL_2017','TIPO_TRAMITE');
+              $encb= array('NRO_TRAMITE','CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'APELLIDO_PATERNO','APELLIDO_MATERNO','APELLIDO_DE_CASADO','CI_CAUSAHABIENTE','EXT','PRIMER_NOMBRE_CAUSAHABIENTE','SEGUNDO_NOMBRE_CAUSAHABIENTE','APELLIDO_PATERNO_CAUSAHABIENTE','APELLIDO_MATERNO_CAUSAHABIENTE','APELLIDO_DE_CASADO_CAUSAHABIENTE','FECHA_NACIMIENTO','ESTADO_CIVIL','REGIONAL','GRADO','TIPO_DE_RENTA','ENTE_GESTOR','RENTA_BOLETA','REINTEGRO','RENTA_DIGNIDAD','RENTA_TOTAL_NETA','NETO','CATEGORIA','REFERENTE_SALARIAL', 'ANTIGUEDAD','COTIZABLE','DIFERENCIA','TOTAL_SEMESTRE','FACTOR_DE_COMPLEMENTACION','COMPLEMENTO_ECONOMICO_FINAL_2017','TIPO_TRAMITE');
                $ben[] = $encb;
                $suc[] = $encb;
                $cbb[] = $encb;
@@ -1472,7 +1472,7 @@ class EconomicComplementImportExportController extends Controller
               foreach ($list as $datos) 
               {
                     $economic =  EconomicComplement::idIs($datos->id)->first();                    
-                    $import = $datos->importe;
+                    //$import = $datos->importe;
                     if ($economic->has_legal_guardian)
                     {                     
                       $legal1 = EconomicComplementLegalGuardian::where('economic_complement_id','=', $economic->id)->first();
@@ -1482,11 +1482,12 @@ class EconomicComplementImportExportController extends Controller
                     else
                     {                      
                       $apl =EconomicComplement::find($datos->id)->economic_complement_applicant;
-                      $obj = array(array($datos->code,$datos->app_ci,$datos->app_ext,$datos->first_name, $datos->second_name, $datos->last_name,$datos->mothers_last_name, $datos->surname_husband, $datos->afi_ci,$datos->afi_ext,$datos->afi_first_name, $datos->afi_second_name, $datos->afi_last_name,$datos->afi_mothers_last_name, $datos->afi_surname_husband, $datos->birth_date, $datos->civil_status, $datos->regional, $datos->degree, $datos->modality,$datos->entity,$datos->sub_total_rent,$datos->reimbursement,$datos->dignity_pension,$datos->total_rent,$datos->total_rent_calc,$datos->category, $datos->salary_reference,$datos->seniority, $datos->salary_quotable,$datos->difference, $datos->total_amount_semester,$datos->complementary_factor,$datos->total,$datos->reception_type);  
+                      $obj = array($datos->code,$datos->app_ci,$datos->app_ext,$datos->first_name, $datos->second_name, $datos->last_name,$datos->mothers_last_name, $datos->surname_husband, $datos->afi_ci,$datos->afi_ext,$datos->afi_first_name, $datos->afi_second_name, $datos->afi_last_name,$datos->afi_mothers_last_name, $datos->afi_surname_husband, $datos->birth_date, $datos->civil_status, $datos->regional, $datos->degree, $datos->modality,$datos->entity,$datos->sub_total_rent,$datos->reimbursement,$datos->dignity_pension,$datos->total_rent,$datos->total_rent_calc,$datos->category, $datos->salary_reference,$datos->seniority, $datos->salary_quotable,$datos->difference, $datos->total_amount_semester,$datos->complementary_factor,$datos->total,$datos->reception_type);  
 
                     }
               
-                switch ($datos->regional) {
+                switch ($datos->regional) 
+                {
                   case "BEN" :
                     $ben[]=$obj;
                     break;
@@ -1515,7 +1516,7 @@ class EconomicComplementImportExportController extends Controller
                     $tja[]=$obj;
                     break;                 
                 }
-              }
+            }
             
             global $ben,$suc,$cbb,$lpz,$oru,$pdo,$pts,$scz,$tja;
             Excel::create('PLANILLA_POR_DEPARTAMENTO', function($excel)
@@ -1567,7 +1568,7 @@ class EconomicComplementImportExportController extends Controller
                 });                
 
             })->export('xlsx');
-            
+        }
     }
 
     public function payrollLegalGuardian()
