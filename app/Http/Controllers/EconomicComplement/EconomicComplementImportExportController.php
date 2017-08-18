@@ -20,7 +20,7 @@ use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementProcedure;
 use Muserpol\EconomicComplementApplicant;
 use Muserpol\EconomicComplementLegalGuardian;
-
+use stdClass;
 
 use App\CustomCollection;
 
@@ -1422,6 +1422,47 @@ class EconomicComplementImportExportController extends Controller
 
     }
 
+    public function payrollLegalGuardian()
+    {
+        global $rows,$i;
+        $eco=EconomicComplement::where('eco_com_procedure_id','=',2)
+            ->whereNotNull('review_date')
+            ->where('state','like','Edited')
+            ->where('has_legal_guardian','=',true)
+            ->get();
+        $rows[]=array('Nro','C.I.','Nombre Completo Poderdante','C.I.','Nombre Completo Apoderado','Regional','Grado','Tipo Renta','Complemento Economico');
+        $i=1;
+        foreach ($eco as $e) {
+            $app = $e->economic_complement_applicant;
+            $apo = $e->economic_complement_legal_guardian;
+            $data = new stdClass;
+            $data->index = $i++;
+            $data->ci_app = $app->identity_card.' '.$app->city_identity_card->first_shortened;
+            $data->name_app = $app->getFullName();
+            $data->ci_apo = $apo->identity_card.' '.$apo->city_identity_card->first_shortened;
+            $data->name = $apo->getFullName();
+            $data->city = $e->city->name;
+            $data->degree = $e->degree->shortened;
+            $data->eco_com_type = strtoupper($e->economic_complement_modality->economic_complement_type->name);
+            $data->total = $e->total;
+            // $rows[] = get_object_vars($data);
+            $rows[] = (array)($data);
+        }
+        Excel::create('Planilla de casos de poderados y poderdantes',function($excel)
+        {
+            global $rows;
+            $excel->sheet('Categoria',function($sheet){
+                global $rows;
+                $sheet->fromArray($rows,null, 'A1', false, false);
+                $sheet->cells('A1:I1', function($cells) {
+                    $cells->setBackground('#058A37');
+                    $cells->setFontColor('#ffffff');
+                    $cells->setFontWeight('bold');
+                });
+                $sheet->setAllBorders('thin');
+            });
+        })->download('xls');
+    }
     public function create()
     {
         //
