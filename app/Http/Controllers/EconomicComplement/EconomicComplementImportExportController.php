@@ -1524,47 +1524,47 @@ class EconomicComplementImportExportController extends Controller
                 global $ben,$suc,$cbb,$lpz,$oru,$pdo,$pts,$scz,$tja;                        
                 $excel->sheet('BENI', function($sheet) use($ben) 
                 {
-                    $sheet->fromArray($ben);                   
+                    $sheet->fromArray($ben,null, 'A1', false, false);                   
                 });
 
                 $excel->sheet('CHUQUISACA', function($sheet) use($suc) 
                 {
-                        $sheet->fromArray($suc);
+                        $sheet->fromArray($suc,null, 'A1', false, false);
                 });
 
                 $excel->sheet('COCHABAMBA', function($sheet) use($cbb) 
                 {
-                        $sheet->fromArray($cbb);
+                        $sheet->fromArray($cbb,null, 'A1', false, false);
                 });
 
                 $excel->sheet('LA PAZ', function($sheet) use($lpz) 
                 {
-                        $sheet->fromArray($lpz);
+                        $sheet->fromArray($lpz,null, 'A1', false, false);
                 });
 
                 $excel->sheet('ORURO', function($sheet) use($oru) 
                 {
-                        $sheet->fromArray($oru);
+                        $sheet->fromArray($oru,null, 'A1', false, false);
                 });
 
                 $excel->sheet('PANDO', function($sheet) use($pdo) 
                 {
-                        $sheet->fromArray($pdo);
+                        $sheet->fromArray($pdo,null, 'A1', false, false);
                 });
 
                 $excel->sheet('POTOSI', function($sheet) use($pts) 
                 {
-                        $sheet->fromArray($pts);
+                        $sheet->fromArray($pts,null, 'A1', false, false);
                 });
 
                 $excel->sheet('SANTA CRUZ', function($sheet) use($scz) 
                 {
-                        $sheet->fromArray($scz);
+                        $sheet->fromArray($scz,null, 'A1', false, false);
                 });
 
                 $excel->sheet('TARIJA', function($sheet) use($tja) 
                 {
-                        $sheet->fromArray($tja);
+                        $sheet->fromArray($tja,null, 'A1', false, false);
                 });                
 
             })->export('xlsx');
