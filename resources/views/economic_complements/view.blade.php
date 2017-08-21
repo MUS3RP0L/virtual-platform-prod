@@ -1104,9 +1104,36 @@
 
                                     </tbody>
                                 </table>
+                                @if( $economic_complement->amount_loan > 0 || $economic_complement->amount_accounting > 0 || $economic_complement->amount_replacement > 0  )
                                 <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
                                     <tbody>
                                         <tr>
+                                            <td style="width: 70%">Total</td>
+                                            <td  style="text-align: right" id="tempTotal"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr>
+                                <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 70%">Cuentas por cobrar </td>
+                                            <td  style="text-align: right">{!! $economic_complement->amount_accounting !!}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 70%">Mora por prestamos</td>
+                                            <td  style="text-align: right">{!! $economic_complement->amount_loan !!}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 70%">Reposición de fondos</td>
+                                            <td  style="text-align: right">{!! $economic_complement->amount_replacement !!}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                @endif
+                                <table class="table table-bordered table-hover " style="width:100%;font-size: 14px">
+                                    <tbody>
+                                        <tr class="success">
                                             <td style="width: 70%">Total</td>
                                             <td  style="text-align: right">{!! $total !!}</td>
                                         </tr>
@@ -2672,6 +2699,16 @@ $(document).ready(function() {
             var total=sub_total_rent - reimbursement - dignity_pension + aps_disability;
             $('#total_rent').val(total.toFixed(2));
         });
+
+        //temp calc
+        @if($economic_complement->amount_loan > 0 || $economic_complement->amount_accounting > 0 || $economic_complement->amount_replacement > 0)
+        var amount_loan = {{ $economic_complement->amount_loan ??  0}} ;
+        var amount_accounting = {{ $economic_complement->amount_accounting ??  0}};
+        var amount_replacement = {{ $economic_complement->amount_replacement ??  0}};
+        var total = {{ $economic_complement->total ?? 0 }};
+        var temp_total = total + amount_loan + amount_accounting + amount_replacement;
+        $('#tempTotal').text(temp_total.toFixed(2));
+        @endif
 
         //for category
         //

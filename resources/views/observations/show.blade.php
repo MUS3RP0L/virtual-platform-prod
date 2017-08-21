@@ -26,6 +26,7 @@
                                 <th>Fecha</th>
                                 <th>Tipo</th>
                                 <th>Mensaje</th>
+                                <th>Habilitado</th>
                                 <th>Opciones</th>
                             </tr>
                         </thead>
@@ -97,6 +98,7 @@
                 { data: 'date', bSortable: false },
                 { data: 'type',name:"type" },
                 { data: 'message', bSortable: false },
+                { data: 'is_enabled', bSortable: false },
                 { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
             ]
         });

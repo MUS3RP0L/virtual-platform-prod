@@ -95,7 +95,7 @@ class AffiliateObservationController extends Controller
     {
       if (isset($request->economic_complement_id)) {
         $economic_complement = EconomicComplement::where('id',$request->economic_complement_id)->first();
-        $observations=AffiliateObservation::where('affiliate_id',$request->affiliate_id)->select(['id','affiliate_id','date','message','observation_type_id'])->get();
+        $observations=AffiliateObservation::where('affiliate_id',$request->affiliate_id)->select(['id','affiliate_id','date','message','is_enabled','observation_type_id'])->get();
         $observations_list = collect(new AffiliateObservation);
         foreach ($observations as $obs) {
           if(Util::getYear($economic_complement->year)==Util::getYear($obs->date) && Util::getSemester($economic_complement->year) == Util::getSemester($obs->date)){
@@ -103,12 +103,19 @@ class AffiliateObservationController extends Controller
           }
         }
       } else {
-        $observations_list=AffiliateObservation::where('affiliate_id',$request->affiliate_id)->select(['id','affiliate_id','date','message','observation_type_id'])->get();
+        $observations_list=AffiliateObservation::where('affiliate_id',$request->affiliate_id)->select(['id','affiliate_id','date','message','is_enabled','observation_type_id'])->get();
       }
 
       return Datatables::of($observations_list)
         ->addColumn('type',function ($observation){
           return $observation->observationType->name;
+        })
+        ->editColumn('is_enabled',function ($observation)
+        {
+          if ($observation->is_enabled) {
+            return '<i class="fa fa-check-square-o fa-2x"></>';
+          }
+          return '<i class="fa fa-square-o fa-2x"></>';
         })
         ->addColumn('action', function ($observation) {
           return
