@@ -58,9 +58,10 @@ class SearchDegreeChange extends Command implements SelfHandling
                                         $data = new stdClass;
                                         $data->ci = $afi->identity_card;
                                         $data->ext = $afi->city_identity_card->first_shortened ?? '';
-                                        $data->name = $afi->getFullName();
+                                        $data->name = $afi->getFullNameChange();
                                         $data->old_degree = $result->grado;
                                         $data->new_degree = $eco_new->degree->shortened ?? '';
+                                        $data->type = $eco_new->economic_complement_modality->economic_complement_type->name;
                                         $degree[] = $data;
                                     }else{
                                         $d_n_ch_count++;
@@ -70,7 +71,7 @@ class SearchDegreeChange extends Command implements SelfHandling
                                         $data = new stdClass;
                                         $data->ci = $afi->identity_card;
                                         $data->ext = $afi->city_identity_card->first_shortened ?? '';
-                                        $data->name = $afi->getFullName();
+                                        $data->name = $afi->getFullNameChange();
                                         $data->old_category = $result->categoria;
                                         $data->new_category = $eco_new->category->name??'';
                                         $category[] = $data;
@@ -93,10 +94,10 @@ class SearchDegreeChange extends Command implements SelfHandling
                     $excel->sheet('Grado',function($sheet){
                     global $degree, $i;
                     $i=1;
-                        $sheet->row($i, array('CI', 'EXT','NOMBRE','GRADO ANTIGUO','NUEVO GRADO'));
+                        $sheet->row($i, array('CI', 'EXT','NOMBRE','GRADO ANTIGUO','NUEVO GRADO','TIPO'));
                         $i++;
                         foreach ($degree as $value) {
-                            $sheet->row($i,   array($value->ci, $value->ext,$value->name,$value->old_degree,$value->new_degree));
+                            $sheet->row($i,   array($value->ci, $value->ext,$value->name,$value->old_degree,$value->new_degree,$value->type));
                             $i++;
                         }
                     });

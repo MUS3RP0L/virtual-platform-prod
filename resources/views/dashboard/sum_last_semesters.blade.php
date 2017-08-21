@@ -26,7 +26,9 @@
 			mode: 'single',
 			callbacks: {
 				label: function(tooltipItems, data) { 
-					return tooltipItems.yLabel + ' Bs';
+					var n = tooltipItems.yLabel;
+					n = n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
+					return n + ' Bs';
 				}
 			}
 		},
@@ -40,7 +42,7 @@
 		}
 	};
 
-	
+
 	var ctx = document.getElementById("bar-sum-last-semesters").getContext('2d');
 	var myBarChart = new Chart(ctx, {
 		type: 'bar',
