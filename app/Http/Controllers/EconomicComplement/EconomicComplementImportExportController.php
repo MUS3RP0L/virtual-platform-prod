@@ -1350,7 +1350,7 @@ class EconomicComplementImportExportController extends Controller
           ->where('economic_complements.state','Edited')
           ->where('economic_complements.total','>', 0)
           ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')        
-          ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12) and is_enabled = false)")        
+          ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12,13) and is_enabled = false)")        
           ->whereNotNull('economic_complements.review_date')
 
           // ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,,cities1.first_shortened as ext, economic_complements.affiliate_id,economic_complements.semester,cities0.second_shortened as regional,concat_ws(' ', NULLIF(eco_com_applicants.first_name,null), NULLIF(eco_com_applicants.second_name, null), NULLIF(eco_com_applicants.last_name, null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null)) as full_name,economic_complements.total as importe,eco_com_modalities.shortened as modality,degrees.shortened as degree"))
