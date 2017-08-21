@@ -121,6 +121,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('import_bank', array('as'=>'import_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@import_from_bank'));
 	Route::post('export_aps', array('as'=>'export_aps', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_aps'));
 	Route::post('export_bank', array('as'=>'export_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_bank'));
+	Route::post('export_by_department_bank', array('as'=>'export_by_department_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_by_department_bank'));
 	Route::post('export_by_department', array('as'=>'export_by_department', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_by_department'));
 
 	Route::get('get_causes_by_state', array('as'=>'get_causes_by_state', 'uses'=>'EconomicComplement\EconomicComplementController@getCausesByState'));
@@ -135,11 +136,17 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('get_economic_complement_record/{ecomomic_complement_id}', array('as'=>'get_economic_complement_record', 'uses'=>'EconomicComplement\EconomicComplementController@get_record'));
 	//Payrolls
 	Route::get('export_planilla_general','EconomicComplement\EconomicComplementImportExportController@planilla_general');
+	Route::get('export_planilla_general_bank','EconomicComplement\EconomicComplementImportExportController@planilla_general_bank');
 	Route::get('export_payroll_legal_guardian','EconomicComplement\EconomicComplementImportExportController@payrollLegalGuardian');
 	Route::get('export_payroll_home','EconomicComplement\EconomicComplementImportExportController@payrollHome');
 	Route::get('export_payroll_replenishment_funds','EconomicComplement\EconomicComplementImportExportController@payrollReplenishmentFunds');
 	Route::get('export_payroll_loan','EconomicComplement\EconomicComplementImportExportController@payrollLoan');
 	Route::get('export_payroll_accounting','EconomicComplement\EconomicComplementImportExportController@payrollaccounting');
+
+		//for bank
+	Route::get('export_payroll_legal_guardian_bank','EconomicComplement\EconomicComplementImportExportController@payrollLegalGuardianBank');	
+	Route::get('export_payroll_observation_bank','EconomicComplement\EconomicComplementImportExportController@export_payroll_observation_bank');
+	
 
 	//Routecfor Observations
 	Route::resource('observation','Observation\AffiliateObservationController');
