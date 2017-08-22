@@ -223,6 +223,12 @@ class ObservationsAmount extends Command
                                 {
                                    $tramite->amount_loan = $tramite->total;
                                    $tramite->save();
+
+                                    $observacion = AffiliateObservation::where('affiliate_id',$tramite->affiliate_id)->where('observation_type_id',2)->first();
+                                   $observacion->is_enabled =true;
+                                   $observacion->save();
+                                   Log::info("observacion con enabled ".$tramite->affiliate_id);
+                                   Log::info($observacion);
                                 }   
                                
                          
@@ -332,6 +338,12 @@ class ObservationsAmount extends Command
                                 {
                                    $tramite->amount_replacement = $tramite->total;
                                    $tramite->save();
+
+                                   $observacion = AffiliateObservation::where('affiliate_id',$tramite->affiliate_id)->where('observation_type_id',13)->first();
+                                   $observacion->is_enabled =true;
+                                   $observacion->save();
+                                   Log::info("observacion con enabled ".$tramite->affiliate_id);
+                                   Log::info($observacion);
                                 }   
                                
                          
