@@ -2,10 +2,10 @@
 
 @section('contentheader_title')
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-6">
             {!! Breadcrumbs::render('economic_complements') !!}
         </div>
-        <div class="col-md-4 text-right">
+        <div class="col-md-6 text-right">
             <div class="btn-group" style="margin:-3px 0;" data-toggle="tooltip" data-placement="top" data-original-title="Exportar APS">
                 <a href="" class="btn btn-primary btn-raised" data-target="#myModal-exportaps" data-toggle="modal"><i class="fa fa-building"></i> APS</a>
             </div>
