@@ -197,7 +197,7 @@ class ObservationsAmount extends Command
                     if($applicant)
                     {
                         Log::info("tiene id_comple=".$applicant->economic_complement_id);
-                        $tramite = EconomicComplement::find($applicant->economic_complement_id);
+                        $tramite = EconomicComplement::where('id','=',$applicant->economic_complement_id)->first();
                          if($tramite)
                          {
 
@@ -300,7 +300,7 @@ class ObservationsAmount extends Command
                     if($applicant)
                     {
                         Log::info("tiene id_comple=".$applicant->economic_complement_id);
-                        $tramite = EconomicComplement::find($applicant->economic_complement_id);
+                        $tramite = EconomicComplement::where('id','=',$applicant->economic_complement_id)->first();
                          if($tramite)
                          {
 
