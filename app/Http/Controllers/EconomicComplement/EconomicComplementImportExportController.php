@@ -1911,9 +1911,9 @@ class EconomicComplementImportExportController extends Controller
         $aff=DB::table('affiliates')
                 ->leftJoin('affiliate_observations','affiliates.id','=','affiliate_observations.affiliate_id')
                 ->leftJoin('observation_types', 'affiliate_observations.observation_type_id', '=', 'observation_types.id')
-                ->where('observation_types.id','=',  2  )
+                ->where('observation_types.id','=',2)
                 ->get();
-        $rows[]=array('Nro','C.I.','Nombre Completo','Regional','Grado','Tipo Renta','Complemento Economico');
+        $rows[]=array('Nro','C.I.','Nombre Completo','Regional','Grado','Tipo Renta','Complemento Economico','Amortizacion','Complemento Economico sin Amortizacion');
         $i=1;
         $total=0;
         foreach ($aff as $a) {
@@ -1927,6 +1927,8 @@ class EconomicComplementImportExportController extends Controller
                 $data->degree = $e->degree->shortened;
                 $data->eco_com_type = strtoupper($e->economic_complement_modality->economic_complement_type->name);
                 $data->total = $e->total;
+                $data->loan = $e->amount_loan;
+                $data->total_temp = str_replace ( ',' , '' , ($e->total + $e->amount_loan));
                 $total += $e->total;
                 $rows[] = (array)($data);
             }
@@ -1938,7 +1940,7 @@ class EconomicComplementImportExportController extends Controller
                 global $rows,$i;
                 ++$i;
                 $sheet->fromArray($rows,null, 'A1', false, false);
-                $sheet->cells('A1:G1', function($cells) {
+                $sheet->cells('A1:I1', function($cells) {
                     $cells->setBackground('#058A37');
                     $cells->setFontColor('#ffffff');
                     $cells->setFontWeight('bold');
