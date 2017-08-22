@@ -469,10 +469,6 @@ class EconomicComplementImportExportController extends Controller
     /* David */
     public function export_excel()
     {
-        // $complementos = EconomicComplement::where('workflow_id','=','1')
-        //                               // ->where('wf_current_state_id','=','2')
-        //                               ->where('state','=','Edited')
-        //                               ->get();   
       if(Auth::check())
       {
         $user_role_id=Auth::user()->roles()->first();
@@ -487,51 +483,29 @@ class EconomicComplementImportExportController extends Controller
             ->leftJoin('categories','economic_complements.category_id','=','categories.id')
             ->leftJoin('base_wages','economic_complements.base_wage_id','=','base_wages.id')
             ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
-
             ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
             ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
             ->leftJoin('affiliate_observations','affiliates.id','=','affiliate_observations.affiliate_id')
-
             ->where('economic_complements.workflow_id','=','1')
             ->where('economic_complements.wf_current_state_id','2')
             ->where('economic_complements.state','Edited')
-          //  ->where('economic_complements.eco_com_procedure_id',$semestre->id)
             ->where('economic_complements.eco_com_procedure_id','2')
-            //->where('economic_complements.user_id',Auth::user()->id)
-
-
             ->select('economic_complements.review_date as Fecha','eco_com_applicants.identity_card as CI','cities.first_shortened as Exp_complemento','eco_com_applicants.first_name as Primer_nombre','eco_com_applicants.second_name as Segundo_nombre', 'eco_com_applicants.last_name as Paterno','eco_com_applicants.mothers_last_name as Materno','eco_com_applicants.surname_husband as ap_esp','eco_com_applicants.birth_date as Fecha_nac','eco_com_applicants.nua','eco_com_applicants.phone_number as Telefono','eco_com_applicants.cell_phone_number as celular','eco_com_modalities.shortened as tipo_renta','eco_com_procedures.year as año_gestion','eco_com_procedures.semester as semestre','categories.name as categoria','degrees.shortened as Grado','base_wages.amount as Sueldo_base','economic_complements.code as Nro_proceso','pension_entities.name as Ente_gestor','affiliate_observations.date as Fecha_obs','affiliate_observations.message as Observacion')
-           // ->select('economic_complements.id as id_base' ,'economic_complements.code as codigo')
             ->orderBy('economic_complements.review_date','ASC')
             ->get();
 
-       //  return $economic_complements;
-        //$fila = new CustomCollection(array('identificador' => ,$economic_complements-> ));
-         Excel::create('Reporte General '.date("Y-m-d H:i:s"),function($excel) use ($economic_complements)
-         {
-                    
-            
-                        $excel->sheet('Reporte General',function($sheet) use ($economic_complements) {
+            Excel::create('Reporte General '.date("Y-m-d H:i:s"),function($excel) use ($economic_complements)
+            {
 
-                        $sheet->fromArray($economic_complements);
-                        // $sheet->fromArray(
-                        //                     array(
-                        //                            $rows
-                        //                           )
-                        //                   );
 
-                          // $sheet->row(1,array('Contribuciones: '.$contribuciones->count(),'Total Bs: '.$total) );
+              $excel->sheet('Reporte General',function($sheet) use ($economic_complements) {
 
-                          // $sheet->cells('A1:B1', function($cells) {
-                          // $cells->setBackground('#4CCCD4');
-                                                      // manipulate the range of cells
+                $sheet->fromArray($economic_complements);
 
-                          });
-                  
-                })->download('xls');
+              });
 
-        //return $economic_complements;
-       // return "contribuciones totales ".$economic_complements->count();
+            })->download('xls');
+
       }
       else
       {
@@ -1329,6 +1303,10 @@ class EconomicComplementImportExportController extends Controller
 
     public function planilla_general_bank()
     { 
+      ini_set('memory_limit', '-1');
+      ini_set('max_execution_time', '-1');
+      ini_set('max_input_time', '-1');
+      set_time_limit('-1');
       global $rows;
         $afis = DB::table('eco_com_applicants')
           
@@ -1341,8 +1319,6 @@ class EconomicComplementImportExportController extends Controller
           ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
           ->leftJoin('categories','categories.id','=','economic_complements.category_id')
           ->leftJoin('cities as cities2','affiliates.city_identity_card_id','=','cities2.id')
-          // ->leftJoin('base_wages','base_wages.id','=','economic_complements.base_wage_id')
-
           ->whereYear('economic_complements.year', '=', '2017')
           ->where('economic_complements.semester', '=', 'Primer')
           ->where('economic_complements.workflow_id','=',1)
@@ -1352,25 +1328,17 @@ class EconomicComplementImportExportController extends Controller
           ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')        
           ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12,13) and is_enabled = false)")        
           ->whereNotNull('economic_complements.review_date')
-
-          // ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,,cities1.first_shortened as ext, economic_complements.affiliate_id,economic_complements.semester,cities0.second_shortened as regional,concat_ws(' ', NULLIF(eco_com_applicants.first_name,null), NULLIF(eco_com_applicants.second_name, null), NULLIF(eco_com_applicants.last_name, null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null)) as full_name,economic_complements.total as importe,eco_com_modalities.shortened as modality,degrees.shortened as degree"))
-
-          ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id"))
+          ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
           
           ->get();
-          // dd($afis);
-          // exit();
-          $rows= array(array('Nro','Nro Tramite','C.I.','Ext','Primer Nombre','Segundo Nombre','Apellido Paterno','Apellido Materno','Apellido de Casado','Ci Causahabiente','Ext','Primer Nombre Causahabiente','Segundo Nombre Causahabiente','Apellido Paterno Causahabiente',' Apellido Materno Causahabiente','Apellido Casado Causahabiente','Fecha de Nacimiento','Estado Civil','Regional','Grado','Tipo de Renta','Ente Gestor','Renta Boleta','Reintegro','Renta Dignidad','Renta Total Neta','Neto','Categoria','Referente Salarial','Antiguedad','Cotizable','Diferencia','Total Semestre','Factor de Complementacion','Complemento Economico final','Tipo de tramite') );
-
+          $rows= array(array('Nro','Nro Tramite','C.I.','Ext','Primer Nombre','Segundo Nombre','Apellido Paterno','Apellido Materno','Apellido de Casado','Ci Causahabiente','Ext','Primer Nombre Causahabiente','Segundo Nombre Causahabiente','Apellido Paterno Causahabiente',' Apellido Materno Causahabiente','Apellido Casado Causahabiente','Fecha de Nacimiento','Estado Civil','Regional','Grado','Tipo de Renta','Ente Gestor','Renta Boleta','Reintegro','Renta Dignidad','Renta Total Neta','Neto','Categoria','Referente Salarial','Antiguedad','Cotizable','Diferencia','Total Semestre','Factor de Complementacion','Complemento Economico final','Amortizacion','Complemento sin Amortizacion','Tipo de tramite') );
           $i=1;
           foreach ($afis as $a) {
-            # code...
             switch ($a->modality_id) {
               case '1':
               case '4':
               case '6':
               case '8':
-                # code...
                 $afiliado_ci ="";
                 $afiliado_ext = "";
                 $afiliado_first_name = "";
@@ -1379,9 +1347,7 @@ class EconomicComplementImportExportController extends Controller
                 $afiliado_mother_last_name = "";
                 $afiliado_surname_husband ="";
                 break;
-              
               default:
-                # code...
                 $afiliado_ci = $a->ci_afiliado;
                 $afiliado_ext = $a->ext_afiliado;
                 $afiliado_first_name = $a->pn_afiliado;
@@ -1391,9 +1357,12 @@ class EconomicComplementImportExportController extends Controller
                 $afiliado_surname_husband =$a->ap_casado_afiliado;
                 break;
             }
-
-
-            array_push($rows, array($i,$a->code,$a->identity_card,$a->ext,$a->first_name,$a->second_name,$a->last_name,$a->mothers_last_name,$a->surname_husband,$afiliado_ci,$afiliado_ext,$afiliado_first_name,$afiliado_second_name,$afiliado_last_nme,$afiliado_mother_last_name,$afiliado_surname_husband,$a->birth_date,$a->civil_status,$a->regional,$a->degree,$a->modality,$a->gestor,$a->renta_boleta,$a->reintegro,$a->dignity_pension,$a->renta_neta,$a->neto,$a->category,$a->salary_reference,$a->antiguedad,$a->salary_quotable,$a->difference,$a->total_amount_semester,$a->complementary_factor,$a->total,$a->tipo_tramite));
+             $amortization=str_replace(',','', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0));
+             if ($amortization == 0) {
+              $amortization = null;
+            }
+            $total_temp=str_replace ( ',' , '' , ($amortization + $a->total));
+            array_push($rows, array($i,$a->code,$a->identity_card,$a->ext,$a->first_name,$a->second_name,$a->last_name,$a->mothers_last_name,$a->surname_husband,$afiliado_ci,$afiliado_ext,$afiliado_first_name,$afiliado_second_name,$afiliado_last_nme,$afiliado_mother_last_name,$afiliado_surname_husband,$a->birth_date,$a->civil_status,$a->regional,$a->degree,$a->modality,$a->gestor,$a->renta_boleta,$a->reintegro,$a->dignity_pension,$a->renta_neta,$a->neto,$a->category,$a->salary_reference,$a->antiguedad,$a->salary_quotable,$a->difference,$a->total_amount_semester,$a->complementary_factor,$a->total,$amortization, $total_temp, $a->tipo_tramite));
             $i++;
           }
 
@@ -1406,7 +1375,7 @@ class EconomicComplementImportExportController extends Controller
                          global $rows;
 
                           $sheet->fromArray($rows,null, 'A1', false, false);
-                          $sheet->cells('A1:AJ1', function($cells) {
+                          $sheet->cells('A1:AL1', function($cells) {
 
                           // manipulate the range of cells
                           $cells->setBackground('#058A37');
@@ -1423,8 +1392,11 @@ class EconomicComplementImportExportController extends Controller
     }public function planilla_general()
     { 
       global $rows;
+      ini_set('memory_limit', '-1');
+      ini_set('max_execution_time', '-1');
+      ini_set('max_input_time', '-1');
+      set_time_limit('-1');
         $afis = DB::table('eco_com_applicants')
-          
           ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
           ->leftJoin('cities as cities0', 'economic_complements.city_id', '=', 'cities0.id')
           ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
@@ -1440,19 +1412,17 @@ class EconomicComplementImportExportController extends Controller
           ->where('economic_complements.wf_current_state_id',2)
           ->where('economic_complements.state','Edited')        
           ->whereNotNull('economic_complements.review_date')
-          ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id"))
+          ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
           ->get();
-          $rows= array(array('Nro','Nro Tramite','C.I.','Ext','Primer Nombre','Segundo Nombre','Apellido Paterno','Apellido Materno','Apellido de Casado','Ci Causahabiente','Ext','Primer Nombre Causahabiente','Segundo Nombre Causahabiente','Apellido Paterno Causahabiente',' Apellido Materno Causahabiente','Apellido Casado Causahabiente','Fecha de Nacimiento','Estado Civil','Regional','Grado','Tipo de Renta','Ente Gestor','Renta Boleta','Reintegro','Renta Dignidad','Renta Total Neta','Neto','Categoria','Referente Salarial','Antiguedad','Cotizable','Diferencia','Total Semestre','Factor de Complementacion','Complemento Economico final','Tipo de tramite') );
+          $rows= array(array('Nro','Nro Tramite','C.I.','Ext','Primer Nombre','Segundo Nombre','Apellido Paterno','Apellido Materno','Apellido de Casado','Ci Causahabiente','Ext','Primer Nombre Causahabiente','Segundo Nombre Causahabiente','Apellido Paterno Causahabiente',' Apellido Materno Causahabiente','Apellido Casado Causahabiente','Fecha de Nacimiento','Estado Civil','Regional','Grado','Tipo de Renta','Ente Gestor','Renta Boleta','Reintegro','Renta Dignidad','Renta Total Neta','Neto','Categoria','Referente Salarial','Antiguedad','Cotizable','Diferencia','Total Semestre','Factor de Complementacion','Complemento Economico final','Amortizacion','Complemento sin Amortizacion','Tipo de tramite'));
 
           $i=1;
           foreach ($afis as $a) {
-            # code...
             switch ($a->modality_id) {
               case '1':
               case '4':
               case '6':
               case '8':
-                # code...
                 $afiliado_ci ="";
                 $afiliado_ext = "";
                 $afiliado_first_name = "";
@@ -1461,9 +1431,7 @@ class EconomicComplementImportExportController extends Controller
                 $afiliado_mother_last_name = "";
                 $afiliado_surname_husband ="";
                 break;
-              
               default:
-                # code...
                 $afiliado_ci = $a->ci_afiliado;
                 $afiliado_ext = $a->ext_afiliado;
                 $afiliado_first_name = $a->pn_afiliado;
@@ -1473,35 +1441,27 @@ class EconomicComplementImportExportController extends Controller
                 $afiliado_surname_husband =$a->ap_casado_afiliado;
                 break;
             }
-
-
-            array_push($rows, array($i,$a->code,$a->identity_card,$a->ext,$a->first_name,$a->second_name,$a->last_name,$a->mothers_last_name,$a->surname_husband,$afiliado_ci,$afiliado_ext,$afiliado_first_name,$afiliado_second_name,$afiliado_last_nme,$afiliado_mother_last_name,$afiliado_surname_husband,$a->birth_date,$a->civil_status,$a->regional,$a->degree,$a->modality,$a->gestor,$a->renta_boleta,$a->reintegro,$a->dignity_pension,$a->renta_neta,$a->neto,$a->category,$a->salary_reference,$a->antiguedad,$a->salary_quotable,$a->difference,$a->total_amount_semester,$a->complementary_factor,$a->total,$a->tipo_tramite));
+            $amortization=str_replace(',', '', ($a->amount_loan ?? 0 + $a->amount_replacement ?? 0 + $a->amount_accounting ?? 0));
+            if ($amortization == 0) {
+              $amortization = null;
+            }
+            $total_temp=str_replace(',','',($amortization + $a->total));
+            array_push($rows, array($i,$a->code,$a->identity_card,$a->ext,$a->first_name,$a->second_name,$a->last_name,$a->mothers_last_name,$a->surname_husband,$afiliado_ci,$afiliado_ext,$afiliado_first_name,$afiliado_second_name,$afiliado_last_nme,$afiliado_mother_last_name,$afiliado_surname_husband,$a->birth_date,$a->civil_status,$a->regional,$a->degree,$a->modality,$a->gestor,$a->renta_boleta,$a->reintegro,$a->dignity_pension,$a->renta_neta,$a->neto,$a->category,$a->salary_reference,$a->antiguedad,$a->salary_quotable,$a->difference,$a->total_amount_semester,$a->complementary_factor,$a->total,$amortization,$total_temp,$a->tipo_tramite));
             $i++;
           }
-
-         Excel::create('Planilla General Revizados '.date("Y-m-d H:i:s"),function($excel)
-         {
-
-         global $rows;
-                    $excel->sheet('Planilla General Revizados',function($sheet) {
-
-                         global $rows;
-
-                          $sheet->fromArray($rows,null, 'A1', false, false);
-                          $sheet->cells('A1:AJ1', function($cells) {
-
-                          // manipulate the range of cells
-                          $cells->setBackground('#058A37');
-                          $cells->setFontColor('#ffffff');  
-                          $cells->setFontWeight('bold');
-
-                          });
-                      });
-
-            })->download('xls');
-
-          // dd($rows);
-
+          Excel::create('Planilla General Revizados '.date("Y-m-d H:i:s"),function($excel)
+          {
+            global $rows;
+            $excel->sheet('Planilla General Revizados',function($sheet) {
+              global $rows;
+              $sheet->fromArray($rows,null, 'A1', false, false);
+              $sheet->cells('A1:AL1', function($cells) {
+                $cells->setBackground('#058A37');
+                $cells->setFontColor('#ffffff');  
+                $cells->setFontWeight('bold');
+              });
+            });
+          })->download('xls');
     }
 
 
@@ -1889,7 +1849,7 @@ class EconomicComplementImportExportController extends Controller
                 ->leftJoin('observation_types', 'affiliate_observations.observation_type_id', '=', 'observation_types.id')
                 ->where('observation_types.id','=',  13)
                 ->get();
-        $rows[]=array('Nro','C.I.','Nombre Completo','Regional','Grado','Tipo Renta','Complemento Economico');
+        $rows[]=array('Nro','C.I.','Nombre Completo','Regional','Grado','Tipo Renta','Complemento Economico','Reposición','Complemento Economico sin Reposicion');
         $i=1;
         $total=0;
         foreach ($aff as $a) {
@@ -1903,6 +1863,9 @@ class EconomicComplementImportExportController extends Controller
                 $data->degree = $e->degree->shortened;
                 $data->eco_com_type = strtoupper($e->economic_complement_modality->economic_complement_type->name);
                 $data->total = $e->total;
+                $replacement = $e->amount_replacement;
+                $data->replacement = $replacement;
+                $data->total_temp = str_replace ( ',' , '' , ($e->total + $replacement));
                 $total += $e->total;
                 $rows[] = (array)($data);
             }
@@ -1914,7 +1877,7 @@ class EconomicComplementImportExportController extends Controller
                 global $rows,$i;
                 ++$i;
                 $sheet->fromArray($rows,null, 'A1', false, false);
-                $sheet->cells('A1:G1', function($cells) {
+                $sheet->cells('A1:I1', function($cells) {
                     $cells->setBackground('#058A37');
                     $cells->setFontColor('#ffffff');
                     $cells->setFontWeight('bold');
