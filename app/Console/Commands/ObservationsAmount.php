@@ -197,7 +197,7 @@ class ObservationsAmount extends Command
                     if($applicant)
                     {
                         Log::info("tiene id_comple=".$applicant->economic_complement_id);
-                        $tramite = EconomicComplement::find($applicant->economic_complement_id);
+                        $tramite = EconomicComplement::where('id','=',$applicant->economic_complement_id)->first();
                          if($tramite)
                          {
 
@@ -205,31 +205,19 @@ class ObservationsAmount extends Command
                                 {
                                    $tramite->amount_loan= $fila->monto; 
                                    $tramite->save();
-                                   // Log::info("")
-                                   $observacion = AffiliateObservation::where('affiliate_id',$tramite->affiliate_id)->where('observation_type_id',2)->first();
-                                   $observacion->is_enabled =true;
-                                   $observacion->save();
-                                   Log::info("observacion con enabled ".$tramite->affiliate_id);
-                                   Log::info($observacion);
-                                  // $observacion->isEnabled=true;
-                                   // $observacion->user_id = 1;//user alejandro XD
-                                   // $observacion->affiliate_id= $tramite->affiliate_id;
-                                   // $observacion->observation_type_id = 13;
-                                   // $observacion->date = date("Y-m-d");
-                                   // $observacion->message="Observado por Reposicion de fondos primer semestre 2017.";
-
 
                                 }else
                                 {
                                    $tramite->amount_loan = $tramite->total;
                                    $tramite->save();
-
-                                    $observacion = AffiliateObservation::where('affiliate_id',$tramite->affiliate_id)->where('observation_type_id',2)->first();
-                                   $observacion->is_enabled =true;
-                                   $observacion->save();
-                                   Log::info("observacion con enabled ".$tramite->affiliate_id);
-                                   Log::info($observacion);
+        
                                 }   
+
+                               $observacion = AffiliateObservation::where('affiliate_id',$tramite->affiliate_id)->where('observation_type_id',2)->first();
+                               $observacion->is_enabled =true;
+                               $observacion->save();
+                               Log::info("observacion con enabled ".$tramite->affiliate_id);
+                               Log::info($observacion);
                                
                          
                         }    
@@ -312,7 +300,7 @@ class ObservationsAmount extends Command
                     if($applicant)
                     {
                         Log::info("tiene id_comple=".$applicant->economic_complement_id);
-                        $tramite = EconomicComplement::find($applicant->economic_complement_id);
+                        $tramite = EconomicComplement::where('id','=',$applicant->economic_complement_id)->first();
                          if($tramite)
                          {
 
@@ -320,33 +308,20 @@ class ObservationsAmount extends Command
                                 {
                                    $tramite->amount_replacement= $fila->monto; 
                                    $tramite->save();
-                                   // Log::info("")
-                                   $observacion = AffiliateObservation::where('affiliate_id',$tramite->affiliate_id)->where('observation_type_id',13)->first();
-                                   $observacion->is_enabled =true;
-                                   $observacion->save();
-                                   Log::info("observacion con enabled ".$tramite->affiliate_id);
-                                   Log::info($observacion);
-                                  // $observacion->isEnabled=true;
-                                   // $observacion->user_id = 1;//user alejandro XD
-                                   // $observacion->affiliate_id= $tramite->affiliate_id;
-                                   // $observacion->observation_type_id = 13;
-                                   // $observacion->date = date("Y-m-d");
-                                   // $observacion->message="Observado por Reposicion de fondos primer semestre 2017.";
-
 
                                 }else
                                 {
                                    $tramite->amount_replacement = $tramite->total;
                                    $tramite->save();
 
-                                   $observacion = AffiliateObservation::where('affiliate_id',$tramite->affiliate_id)->where('observation_type_id',13)->first();
-                                   $observacion->is_enabled =true;
-                                   $observacion->save();
-                                   Log::info("observacion con enabled ".$tramite->affiliate_id);
-                                   Log::info($observacion);
                                 }   
                                
-                         
+                               $observacion = AffiliateObservation::where('affiliate_id',$tramite->affiliate_id)->where('observation_type_id',13)->first();
+                               $observacion->is_enabled =true;
+                               $observacion->save();
+                               Log::info("observacion con enabled ".$tramite->affiliate_id);
+                               Log::info($observacion);
+                     
                         }    
                         else{
                             Log::info("no tiene el hdp");
