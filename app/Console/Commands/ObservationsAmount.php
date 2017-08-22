@@ -201,17 +201,17 @@ class ObservationsAmount extends Command
                          if($tramite)
                          {
 
-                                if($fila->monto < $tramite->total)
-                                {
-                                   $tramite->amount_loan= $fila->monto; 
-                                   $tramite->save();
+                                // if($fila->monto < $tramite->total)
+                                // {
+                                //    $tramite->amount_loan= $fila->monto; 
+                                //    $tramite->save();
 
-                                }else
-                                {
+                                // }else
+                                // {
                                    $tramite->amount_loan = $tramite->total;
                                    $tramite->save();
         
-                                }   
+                                // }   
 
                                $observacion = AffiliateObservation::where('affiliate_id',$tramite->affiliate_id)->where('observation_type_id',2)->first();
                                $observacion->is_enabled =true;
@@ -304,17 +304,17 @@ class ObservationsAmount extends Command
                          if($tramite)
                          {
 
-                                if($fila->monto < $tramite->total)
-                                {
-                                   $tramite->amount_replacement= $fila->monto; 
-                                   $tramite->save();
+                                // if($fila->monto < $tramite->total)
+                                // {
+                                //    $tramite->amount_replacement= $fila->monto; 
+                                //    $tramite->save();
 
-                                }else
-                                {
+                                // }else
+                                // {
                                    $tramite->amount_replacement = $tramite->total;
                                    $tramite->save();
 
-                                }   
+                                // }   
                                
                                $observacion = AffiliateObservation::where('affiliate_id',$tramite->affiliate_id)->where('observation_type_id',13)->first();
                                $observacion->is_enabled =true;

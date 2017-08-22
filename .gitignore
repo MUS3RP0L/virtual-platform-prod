@@ -2,4 +2,4 @@
 .env
 /.idea
 /.phpintel
-/.storage/excel/exports
+/storage/excel/exports
