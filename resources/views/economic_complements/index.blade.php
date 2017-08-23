@@ -21,7 +21,7 @@
                     <li role="separator" class="divider"></li>
                     <li><a href="{{url('export_payroll_legal_guardian_bank')}}"  style="padding:3px 5px;"><i class="fa  fa-shield"></i>Planilla de Apoderados</a></li>
                     <li role="separator" class="divider"></li>                
-                    <li><a href="{{url('export_payroll_observation_bank')}}"  style="padding:3px 5px;"><i class="fa  fa-eye"></i>Observados(Reposición,Prestamos,Cont.)</a></li>
+                    {{-- <li><a href="{{url('export_payroll_observation_bank')}}"  style="padding:3px 5px;"><i class="fa  fa-eye"></i>Observados(Reposición,Prestamos,Cont.)</a></li> --}}
                    
 
                 </ul>
