@@ -431,7 +431,7 @@ class EconomicComplementImportExportController extends Controller
                 {
                     $economic =  EconomicComplement::idIs($datos->id)->first();
 
-                    $import = number_format($datos->importe, 2, '.', ',');
+                    $import = number_format($datos->importe, 2, ',', '.');
                     //$import=$datos->importe;
                     if ($economic->has_legal_guardian)
                     {
