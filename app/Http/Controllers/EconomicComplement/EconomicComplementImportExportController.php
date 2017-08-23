@@ -386,8 +386,9 @@ class EconomicComplementImportExportController extends Controller
       $year = $request->year;
       $semester = $request->semester;
       $afi = DB::table('eco_com_applicants')
-          ->select(DB::raw("economic_complements.id,economic_complements.affiliate_id,economic_complements.semester,cities0.second_shortened as regional,eco_com_applicants.identity_card,cities1.first_shortened as ext,concat_ws(' ', NULLIF(eco_com_applicants.first_name,null), NULLIF(eco_com_applicants.second_name, null), NULLIF(eco_com_applicants.last_name, null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null)) as full_name,economic_complements.total as importe,eco_com_modalities.shortened as modality,degrees.shortened as degree"))
+          ->select(DB::raw("economic_complements.id,economic_complements.affiliate_id,economic_complements.semester,cities0.second_shortened as regional,eco_com_applicants.identity_card,cities1.first_shortened as ext,concat_ws(' ', NULLIF(eco_com_applicants.first_name,null), NULLIF(eco_com_applicants.second_name, null), NULLIF(eco_com_applicants.last_name, null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null)) as full_name,economic_complements.total as importe,eco_com_modalities.shortened as modality,degrees.shortened as degree,categories.name as category"))
           ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+          ->leftJoin('categories','economic_complements.category_id','=','categories.id')
           ->leftJoin('cities as cities0', 'economic_complements.city_id', '=', 'cities0.id')
           ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
           ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')          
@@ -437,14 +438,14 @@ class EconomicComplementImportExportController extends Controller
                     {
                      
                       $legal1 = EconomicComplementLegalGuardian::where('economic_complement_id','=', $economic->id)->first();
-                      $sheet->row($j, array($datos->regional,$legal1->identity_card." ".$legal1->city_identity_card->first_shortened,$legal1->getFullName(), $import,"1",$datos->modality." - ".$datos->degree,$datos->affiliate_id,$semester1));                     
+                      $sheet->row($j, array($datos->regional,$legal1->identity_card." ".$legal1->city_identity_card->first_shortened,$legal1->getFullName(), $import,"1",$datos->modality." - ".$datos->degree." - ".$datos->category,$datos->affiliate_id,$semester1));                     
                       
                     }
                     else
                     {
                       
                       $apl =EconomicComplement::find($datos->id)->economic_complement_applicant;
-                      $sheet->row($j, array($datos->regional,$datos->identity_card." ".$datos->ext,$apl->getFullName(), $import,"1",$datos->modality." - ".$datos->degree,$datos->affiliate_id,$semester1));  
+                      $sheet->row($j, array($datos->regional,$datos->identity_card." ".$datos->ext,$apl->getFullName(), $import,"1",$datos->modality." - ".$datos->degree." - ".$datos->category,$datos->affiliate_id,$semester1));  
 
                     }                   
                     
