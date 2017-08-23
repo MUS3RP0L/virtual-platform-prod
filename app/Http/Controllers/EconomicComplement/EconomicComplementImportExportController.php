@@ -417,7 +417,7 @@ class EconomicComplementImportExportController extends Controller
             Excel::create($abv, function($excel) {
                 global $year,$semester,$afi,$j,$semester1;
                 $j = 2;
-                $excel->sheet("COMPLEMENTO_PARA_BANCO_1ER".$year, function($sheet) {
+                $excel->sheet($abv.$year, function($sheet) {
                   //$sheet->setColumnFormat(array(
                    //   'D' => '0,000.00'
                   //));
