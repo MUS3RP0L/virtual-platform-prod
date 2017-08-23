@@ -382,7 +382,7 @@ class EconomicComplementImportExportController extends Controller
 
     public function export_to_bank(Request $request)
     {
-      global $year, $semester,$i,$afi,$semester1;
+      global $year, $semester,$i,$afi,$semester1,$abv;
       $year = $request->year;
       $semester = $request->semester;
       $afi = DB::table('eco_com_applicants')
