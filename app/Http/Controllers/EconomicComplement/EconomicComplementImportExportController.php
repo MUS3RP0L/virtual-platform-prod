@@ -382,7 +382,7 @@ class EconomicComplementImportExportController extends Controller
 
     public function export_to_bank(Request $request)
     {
-      global $year, $semester,$i,$afi,$semester1,$abv;
+      global $year, $semester,$i,$afi,$semester1,$abv, $she;
       $year = $request->year;
       $semester = $request->semester;
       $afi = DB::table('eco_com_applicants')
@@ -409,15 +409,17 @@ class EconomicComplementImportExportController extends Controller
             {
               $semester1 = "MUSERPOL PAGO COMPLEMENTO ECONOMICO 1ER SEM ".$year;
               $abv ="Pago_Banco_Union_1ER_SEM_".$year;
+              $she = "BANCO_1ER_SEM".$year;
             }
             else{
               $semester1 = "MUSERPOL PAGO COMPLEMENTO ECONOMICO 2DO SEM ".$year;
               $abv ="Export_for_Banco_Union_2DO_SEM_".$year;
+              $she = "BANCO_2DO_SEM".$year;
             }
             Excel::create($abv, function($excel) {
-                global $year,$semester,$afi,$j,$semester1,$abv;
+                global $year,$semester,$afi,$j,$semester1,$abv, $she;
                 $j = 2;
-                $excel->sheet($abv.$year, function($sheet) {
+                $excel->sheet($she.$year, function($sheet) {
                   //$sheet->setColumnFormat(array(
                    //   'D' => '0,000.00'
                   //));
