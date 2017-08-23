@@ -2040,10 +2040,11 @@ class EconomicComplementImportExportController extends Controller
    
 
 
-  public function export_payroll_observation_bank($year, $semester)
-  {
-
-  }
+ public function export_observation_bank(Request $request)
+{
+        return $request->year;
+        
+}
 
 
 
