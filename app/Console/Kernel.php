@@ -37,6 +37,9 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\UpdateDegreeToEcoCom::class,
         \Muserpol\Console\Commands\SearchDegreeChange::class,
         \Muserpol\Console\Commands\ObservationsAmount::class,
+        \Muserpol\Console\Commands\ObservationDegreeAndCategory::class,
+        \Muserpol\Console\Commands\ObservationExcelCategoryDegree::class,
+        
     ];
 
     protected function schedule(Schedule $schedule)
