@@ -62,6 +62,8 @@ class SearchDegreeChange extends Command implements SelfHandling
                                         $data->old_degree = $result->grado;
                                         $data->new_degree = $eco_new->degree->shortened ?? '';
                                         $data->type = $eco_new->economic_complement_modality->economic_complement_type->name;
+                                        $data->city = $eco_new->city->name;
+                                        $data->code = $eco_new->code;
                                         $data->id = $eco_new->id;
                                         $degree[] = $data;
                                         if ($result->complemento_final > $eco_new->total) {
@@ -74,6 +76,8 @@ class SearchDegreeChange extends Command implements SelfHandling
                                             $data_may->type = $eco_new->economic_complement_modality->economic_complement_type->name;
                                             $data_may->eco_old = $result->complemento_final;
                                             $data_may->eco_new = $eco_new->total;
+                                            $data_may->city = $eco_new->city->name;
+                                            $data_may->code = $eco_new->code;
                                             $data_may->id = $eco_new->id;
                                             $degree_may[] = $data_may;
                                         }
@@ -88,6 +92,8 @@ class SearchDegreeChange extends Command implements SelfHandling
                                         $data->name = $afi->getFullNameChange();
                                         $data->old_category = $result->categoria;
                                         $data->new_category = $eco_new->category->name??'';
+                                        $data->city = $eco_new->city->name;
+                                        $data->code = $eco_new->code;
                                         $data->id = $eco_new->id;
                                         $category[] = $data;
                                         if ($result->categoria > $eco_new->category->percentage) {
@@ -99,6 +105,8 @@ class SearchDegreeChange extends Command implements SelfHandling
                                             $data_men->new_category = $eco_new->category->name??'';
                                             $data_men->eco_old = $result->complemento_final;
                                             $data_men->eco_new = $eco_new->total;
+                                            $data_men->city = $eco_new->city->name;
+                                            $data_men->code = $eco_new->code;
                                             $data_men->id = $eco_new->id;
                                             $category_men[] = $data_men;
                                         }
@@ -121,10 +129,10 @@ class SearchDegreeChange extends Command implements SelfHandling
                     $excel->sheet('Grado',function($sheet){
                     global $degree, $i;
                     $i=1;
-                        $sheet->row($i, array('CI', 'EXT','NOMBRE','GRADO ANTIGUO','NUEVO GRADO','TIPO','ID'));
+                        $sheet->row($i, array('CI', 'EXT','NOMBRE','GRADO ANTIGUO','NUEVO GRADO','TIPO','REGIONAL','CODE','ID'));
                         $i++;
                         foreach ($degree as $value) {
-                            $sheet->row($i,   array($value->ci, $value->ext,$value->name,$value->old_degree,$value->new_degree,$value->type,$value->id));
+                            $sheet->row($i,   array($value->ci, $value->ext,$value->name,$value->old_degree,$value->new_degree,$value->type,$value->city,$value->code,$value->id));
                             $i++;
                         }
                     });
@@ -134,20 +142,20 @@ class SearchDegreeChange extends Command implements SelfHandling
                         $sheet->setColumnFormat(array(
                             'D' => '0%'
                         ));
-                        $sheet->row($i, array('CI', 'EXT','NOMBRE','CATEGORIA ANTIGUA','NUEVO CATEGORIA','ID'));
+                        $sheet->row($i, array('CI', 'EXT','NOMBRE','CATEGORIA ANTIGUA','NUEVO CATEGORIA','REGIONAL','CODE','ID'));
                         $i++;
                         foreach ($category as $value) {
-                            $sheet->row($i, array($value->ci, $value->ext,$value->name,$value->old_category,$value->new_category,$value->id));
+                            $sheet->row($i, array($value->ci, $value->ext,$value->name,$value->old_category,$value->new_category,$value->city,$value->code,$value->id));
                             $i++;
                         }
                     });
                     $excel->sheet('Grado Mayor',function($sheet){
                         global $degree_may,$i;
                         $i=1;
-                        $sheet->row($i, array('CI', 'EXT','NOMBRE','GRADO ANTIGUO','NUEVO GRADO','TIPO','COMPLEMENTO 2016','COMPLEMENTO 2017','ID'));
+                        $sheet->row($i, array('CI', 'EXT','NOMBRE','GRADO ANTIGUO','NUEVO GRADO','TIPO','COMPLEMENTO 2016','COMPLEMENTO 2017','REGIONAL','CODE','ID'));
                         $i++;
                         foreach ($degree_may as $value) {
-                            $sheet->row($i,   array($value->ci, $value->ext,$value->name,$value->old_degree,$value->new_degree,$value->type,$value->eco_old,$value->eco_new,$value->id));
+                            $sheet->row($i,   array($value->ci, $value->ext,$value->name,$value->old_degree,$value->new_degree,$value->type,$value->eco_old,$value->eco_new,$value->city,$value->code,$value->id));
                             $i++;
                         }
                     });
@@ -157,10 +165,10 @@ class SearchDegreeChange extends Command implements SelfHandling
                         $sheet->setColumnFormat(array(
                             'D' => '0%'
                         ));
-                        $sheet->row($i, array('CI', 'EXT','NOMBRE','CATEGORIA ANTIGUA','NUEVO CATEGORIA','COMPLEMENTO 2016','COMPLEMENTO 2017','ID'));
+                        $sheet->row($i, array('CI', 'EXT','NOMBRE','CATEGORIA ANTIGUA','NUEVO CATEGORIA','COMPLEMENTO 2016','COMPLEMENTO 2017','REGIONAL','CODE','ID'));
                         $i++;
                         foreach ($category_men as $value) {
-                            $sheet->row($i, array($value->ci, $value->ext,$value->name,$value->old_category,$value->new_category,$value->eco_old,$value->eco_new,$value->id));
+                            $sheet->row($i, array($value->ci, $value->ext,$value->name,$value->old_category,$value->new_category,$value->eco_old,$value->eco_new,$value->city,$value->code,$value->id));
                             $i++;
                         }
                     });
