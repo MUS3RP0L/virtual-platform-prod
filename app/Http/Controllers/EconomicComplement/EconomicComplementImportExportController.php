@@ -421,9 +421,10 @@ class EconomicComplementImportExportController extends Controller
                 global $year,$semester,$afi,$j,$semester1,$abv, $she;
                 $j = 2;
                 $excel->sheet($she.$year, function($sheet) {
-                  //$sheet->setColumnFormat(array(
-                   //   'D' => '0,000.00'
-                  //));
+                  $sheet->setColumnFormat(array(
+                     'D' => '#,##0.00' //1.000,10 (depende de windows)
+                     // 'D' => \PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1  //1.000,10
+                  ));
                 global $year,$semester, $afi,$j, $i,$semester1;
                 $i=1;
                 $sheet->row(1, array('DEPARTAMENTO','IDENTIFICACION','NOMBRE_Y_APELLIDO','IMPORTE_A_PAGAR','MONEDA_DEL_IMPORTE','DESCRIPCION_1','DESCRIPCION_2','DESCRIPCION_3'));
@@ -432,20 +433,20 @@ class EconomicComplementImportExportController extends Controller
                 {
                     $economic =  EconomicComplement::idIs($datos->id)->first();
 
-                    $import = number_format($datos->importe, 2, ',', '.');
-                    //$import=$datos->importe;
+                    //$import = number_format($datos->importe, 2, ',', '.');
+                    $import=$datos->importe;
                     if ($economic->has_legal_guardian)
                     {
-                     
+                      
                       $legal1 = EconomicComplementLegalGuardian::where('economic_complement_id','=', $economic->id)->first();
-                      $sheet->row($j, array($datos->regional,$legal1->identity_card." ".$legal1->city_identity_card->first_shortened,$legal1->getFullName(), $import,"1",$datos->modality." - ".$datos->degree." - ".$datos->category,$datos->affiliate_id,$semester1));                     
+                      $sheet->row($j, array($datos->regional,$legal1->identity_card." ".$legal1->city_identity_card->first_shortened,$legal1->getFullName(),$import,"1",$datos->modality." - ".$datos->degree." - ".$datos->category,$datos->affiliate_id,$semester1));                     
                       
                     }
                     else
                     {
                       
                       $apl =EconomicComplement::find($datos->id)->economic_complement_applicant;
-                      $sheet->row($j, array($datos->regional,$datos->identity_card." ".$datos->ext,$apl->getFullName(), $import,"1",$datos->modality." - ".$datos->degree." - ".$datos->category,$datos->affiliate_id,$semester1));  
+                      $sheet->row($j, array($datos->regional,$datos->identity_card." ".$datos->ext,$apl->getFullName(),  $import,"1",$datos->modality." - ".$datos->degree." - ".$datos->category,$datos->affiliate_id,$semester1));  
 
                     }                   
                     
