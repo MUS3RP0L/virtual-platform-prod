@@ -155,7 +155,7 @@ class ExportExcel extends Command
 
                                  foreach ($contribuciones as $contribucion) {
                                      # code...
-                                    $cotizable2 = $contribucion->base_wage + $contribucion->dignity_pension + $contribucion->seniority_bonus + $contribucion->study_bonus + $contribucion->position_bonus + $contribucion->border_bonus + $contribucion->east_bonus - $contribucion->public_security_bonus;
+                                    $cotizable2 = $contribucion->base_wage  + $contribucion->seniority_bonus;
                                     $row = array($afiliado->identity_card,$afiliado->first_name,$afiliado->second_name,$afiliado->last_name,$afiliado->mothers_last_name, $contribucion->month_year ,$contribucion->base_wage,$contribucion->seniority_bonus,$contribucion->quotable,$cotizable2,$contribucion->retirement_fund);
                                     //og::info($contribucion->"");
                                     array_push($rows, $row);
