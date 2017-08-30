@@ -255,10 +255,11 @@ class DashboardController extends Controller
 		//for (total) last 5 semesters
 		$sum_last_semesters=DB::table('economic_complements')
 			->select(DB::raw("sum(economic_complements.total) as quantity, substr(code,position('/' in code)+1,length(code)) as date"))
-			->whereRaw("EXTRACT(year from economic_complements.year ) <> EXTRACT(year from current_date) and economic_complements.semester  NOT LIKE '".Util::getCurrentSemester()."'")
+			->whereRaw("EXTRACT(year from economic_complements.year) <= ".$last_year."")
+			->where('economic_complements.total','>',0)
 			->groupBy(DB::raw("substr(code,position('/' in code)+1,length(code))"))
 			->orderBy(DB::raw("substr(substr(code,position('/' in code)+1,length(code)),length(substr(code,position('/' in code)+1,length(code)))-4, length(substr(code,position('/' in code)+1,length(code))))"),'desc')
-			->orderBy('date','asc')
+			->orderBy('date','desc')
 			->limit($limit_semesters)
 			->get();
 		$sum_last_semesters_data=[];
