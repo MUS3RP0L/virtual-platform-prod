@@ -1776,6 +1776,45 @@ class EconomicComplementImportExportController extends Controller
             });
         })->download('xls');
     }
+
+
+    public function export_no_review()
+    {
+      if(Auth::check())
+      {
+
+ 
+        global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;
+
+
+
+
+         
+        $afiliados = DB::table('v_observados')->get();
+        
+        $a = array();
+
+        foreach ($afiliados as $afiliado) {
+
+          # code...
+          $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)
+                                                           ->where('eco_com_procedure_id','=','2')
+                                                           ->where('state','=','Archived')
+                                                           ->whereIsNull('review_date')
+
+                                                           ->first();
+          if($complementos){
+             array_push($a, $afiliado->id);
+          }
+         
+        }
+
+        $afiliados = DB::table('v_observados')->whereIn('id',$a)->get();
+
+        return $afiliados;
+      }
+    }
+
     public function create()
     {
         //
