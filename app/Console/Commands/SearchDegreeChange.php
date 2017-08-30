@@ -29,7 +29,7 @@ class SearchDegreeChange extends Command implements SelfHandling
     }
 
     public function handle()
-    {   global $Progress, $aficount,$afincount, $d_ch_count, $d_n_ch_count,$c_ch_count, $c_n_ch_count, $nt, $degree, $category, $data ,$afi,$eco_new;
+    {   global $Progress, $aficount,$afincount, $d_ch_count, $d_n_ch_count,$c_ch_count, $c_n_ch_count, $nt, $degree, $category, $data ,$data_may ,$afi,$eco_new,$degree_may,$category_men;
         $password = $this->ask('Enter the password');
         if ($password == ACCESS) {
             $FolderName = $this->ask('Enter the name of the folder you want to import');
@@ -41,7 +41,7 @@ class SearchDegreeChange extends Command implements SelfHandling
                 $Progress->setFormat("%current%/%max% [%bar%] %percent:3s%%");
                 Excel::batch('public/file_to_import/' . $FolderName . '/', function($rows, $file) {
                     $rows->each(function($result) {
-                            global $Progress,$aficount, $afincount, $d_ch_count, $d_n_ch_count,$c_ch_count, $c_n_ch_count, $nt, $degree, $category,$data,$afi,$eco_new;
+                            global $Progress,$aficount, $afincount, $d_ch_count, $d_n_ch_count,$c_ch_count, $c_n_ch_count, $nt, $degree, $category,$data,$data_may,$afi,$eco_new,$degree_may,$category_men;
                             ini_set('memory_limit', '-1');
                             ini_set('max_execution_time', '-1');
                             ini_set('max_input_time', '-1');
@@ -58,10 +58,30 @@ class SearchDegreeChange extends Command implements SelfHandling
                                         $data = new stdClass;
                                         $data->ci = $afi->identity_card;
                                         $data->ext = $afi->city_identity_card->first_shortened ?? '';
-                                        $data->name = $afi->getFullName();
+                                        $data->name = $afi->getFullNameChange();
                                         $data->old_degree = $result->grado;
                                         $data->new_degree = $eco_new->degree->shortened ?? '';
+                                        $data->type = $eco_new->economic_complement_modality->economic_complement_type->name;
+                                        $data->city = $eco_new->city->name;
+                                        $data->code = $eco_new->code;
+                                        $data->id = $eco_new->id;
                                         $degree[] = $data;
+                                        if ($result->complemento_final > $eco_new->total) {
+                                            $data_may = new stdClass;
+                                            $data_may->ci = $afi->identity_card;
+                                            $data_may->ext = $afi->city_identity_card->first_shortened ?? '';
+                                            $data_may->name = $afi->getFullNameChange();
+                                            $data_may->old_degree = $result->grado;
+                                            $data_may->new_degree = $eco_new->degree->shortened ?? '';
+                                            $data_may->type = $eco_new->economic_complement_modality->economic_complement_type->name;
+                                            $data_may->eco_old = $result->complemento_final;
+                                            $data_may->eco_new = $eco_new->total;
+                                            $data_may->city = $eco_new->city->name;
+                                            $data_may->code = $eco_new->code;
+                                            $data_may->type = $eco_new->economic_complement_modality->economic_complement_type->name;
+                                            $data_may->id = $eco_new->id;
+                                            $degree_may[] = $data_may;
+                                        }
                                     }else{
                                         $d_n_ch_count++;
                                     }
@@ -70,10 +90,29 @@ class SearchDegreeChange extends Command implements SelfHandling
                                         $data = new stdClass;
                                         $data->ci = $afi->identity_card;
                                         $data->ext = $afi->city_identity_card->first_shortened ?? '';
-                                        $data->name = $afi->getFullName();
+                                        $data->name = $afi->getFullNameChange();
                                         $data->old_category = $result->categoria;
                                         $data->new_category = $eco_new->category->name??'';
+                                        $data->city = $eco_new->city->name;
+                                        $data->code = $eco_new->code;
+                                        $data->type = $eco_new->economic_complement_modality->economic_complement_type->name;
+                                        $data->id = $eco_new->id;
                                         $category[] = $data;
+                                        if ($result->categoria > $eco_new->category->percentage) {
+                                            $data_men = new stdClass;
+                                            $data_men->ci = $afi->identity_card;
+                                            $data_men->ext = $afi->city_identity_card->first_shortened ?? '';
+                                            $data_men->name = $afi->getFullNameChange();
+                                            $data_men->old_category = $result->categoria;
+                                            $data_men->new_category = $eco_new->category->name??'';
+                                            $data_men->eco_old = $result->complemento_final;
+                                            $data_men->eco_new = $eco_new->total;
+                                            $data_men->city = $eco_new->city->name;
+                                            $data_men->type = $eco_new->economic_complement_modality->economic_complement_type->name;
+                                            $data_men->code = $eco_new->code;
+                                            $data_men->id = $eco_new->id;
+                                            $category_men[] = $data_men;
+                                        }
                                     }else{
                                         $c_n_ch_count++;
                                     }
@@ -93,10 +132,10 @@ class SearchDegreeChange extends Command implements SelfHandling
                     $excel->sheet('Grado',function($sheet){
                     global $degree, $i;
                     $i=1;
-                        $sheet->row($i, array('CI', 'EXT','NOMBRE','GRADO ANTIGUO','NUEVO GRADO'));
+                        $sheet->row($i, array('CI', 'EXT','NOMBRE','GRADO ANTIGUO','NUEVO GRADO','TIPO','REGIONAL','CODE','ID'));
                         $i++;
                         foreach ($degree as $value) {
-                            $sheet->row($i,   array($value->ci, $value->ext,$value->name,$value->old_degree,$value->new_degree));
+                            $sheet->row($i,   array($value->ci, $value->ext,$value->name,$value->old_degree,$value->new_degree,$value->type,$value->city,$value->code,$value->id));
                             $i++;
                         }
                     });
@@ -106,10 +145,33 @@ class SearchDegreeChange extends Command implements SelfHandling
                         $sheet->setColumnFormat(array(
                             'D' => '0%'
                         ));
-                        $sheet->row($i, array('CI', 'EXT','NOMBRE','CATEGORIA ANTIGUA','NUEVO CATEGORIA'));
+                        $sheet->row($i, array('CI', 'EXT','NOMBRE','CATEGORIA ANTIGUA','NUEVO CATEGORIA','REGIONAL','TIPO','CODE','ID'));
                         $i++;
                         foreach ($category as $value) {
-                            $sheet->row($i, array($value->ci, $value->ext,$value->name,$value->old_category,$value->new_category));
+                            $sheet->row($i, array($value->ci, $value->ext,$value->name,$value->old_category,$value->new_category,$value->city,$value->type,$value->code,$value->id));
+                            $i++;
+                        }
+                    });
+                    $excel->sheet('Grado Mayor',function($sheet){
+                        global $degree_may,$i;
+                        $i=1;
+                        $sheet->row($i, array('CI', 'EXT','NOMBRE','GRADO ANTIGUO','NUEVO GRADO','TIPO','COMPLEMENTO 2016','COMPLEMENTO 2017','REGIONAL','TIPO','CODE','ID'));
+                        $i++;
+                        foreach ($degree_may as $value) {
+                            $sheet->row($i,   array($value->ci, $value->ext,$value->name,$value->old_degree,$value->new_degree,$value->type,$value->eco_old,$value->eco_new,$value->city,$value->type,$value->code,$value->id));
+                            $i++;
+                        }
+                    });
+                    $excel->sheet('Categoria Mayor',function($sheet){
+                        global $category_men,$i;
+                        $i=1;
+                        $sheet->setColumnFormat(array(
+                            'D' => '0%'
+                        ));
+                        $sheet->row($i, array('CI', 'EXT','NOMBRE','CATEGORIA ANTIGUA','NUEVO CATEGORIA','COMPLEMENTO 2016','COMPLEMENTO 2017','REGIONAL','TIPO','CODE','ID'));
+                        $i++;
+                        foreach ($category_men as $value) {
+                            $sheet->row($i, array($value->ci, $value->ext,$value->name,$value->old_category,$value->new_category,$value->eco_old,$value->eco_new,$value->city,$value->type,$value->code,$value->id));
                             $i++;
                         }
                     });
