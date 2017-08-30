@@ -15,6 +15,11 @@
           <div class="btn-group"  data-toggle="tooltip" data-original-title="Exportar Informe de Observados" style="margin: 0;">
                     <a href="{!! url('export_excel_observations') !!}" class="btn btn-success btn-raised bg-blue" ><i class="glyphicon glyphicon-save glyphicon-lg"></i></a>
           </div>
+
+          <div class="btn-group"  data-toggle="tooltip" data-original-title="Exportar Informe de Observados NO REVISADOS" style="margin: 0;">
+                    <a href="{!! url('export_not_review') !!}" class="btn btn-success btn-raised bg-red" ><i class="glyphicon glyphicon-save glyphicon-lg"></i></a>
+          </div>
+
           
         </div>          
     </div>

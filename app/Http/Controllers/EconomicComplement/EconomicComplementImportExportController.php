@@ -16,6 +16,8 @@ use Muserpol\Helper\Util;
 use Maatwebsite\Excel\Facades\Excel;
 
 use Muserpol\Affiliate;
+use Muserpol\AffiliateObservation;
+
 use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementProcedure;
 use Muserpol\EconomicComplementApplicant;
@@ -1993,7 +1995,88 @@ class EconomicComplementImportExportController extends Controller
             });
         })->download('xls');
     }
+
+    public function export_not_review()
+    {
+      if(Auth::check())
+      {
+
+ 
+        global $rows ;
+
+
+
+
+         
+        $afiliados = DB::table('v_observados')->get();
+        
+        $a = array();
+
+        foreach ($afiliados as $afiliado) {
+
+          # code...
+          $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)
+                                                           ->where('eco_com_procedure_id','=','2')
+                                                           ->where('state','!=','Edited')
+                                                           ->whereNull('review_date')
+
+                                                           ->first();
+          if($complementos){
+             array_push($a, $afiliado->id);
+          }
+         
+        }
+
+        $afiliados = DB::table('v_observados')->whereIn('id',$a)->get();
+
+        $rows =array();
+        array_push($rows, array("Numero de Tramite","Fecha de Recepcion","CI"," Nombres","Apellidos","Regional","Tipo de Tramite","Observaciones "));
+        foreach ($afiliados  as $afi) {
+          # code...
+          $observaciones = AffiliateObservation::where('affiliate_id',$afi->id)->whereIn('observation_type_id',[1,2,3,4,5,6,7,8,9,10,12,13,14,15])->get();
+          $obs ="";
+          foreach ($observaciones as $observacion) {
+            # code...
+            Log::info($observacion->observationType->name);
+            $obs = $obs." | ".$observacion->observationType->name;
+          }
+          $complemento = EconomicComplement::where('affiliate_id',$afi->id)
+                                                           ->where('eco_com_procedure_id','=','2')
+                                                           ->where('state','!=','Edited')
+                                                           ->whereNull('review_date')
+
+                                                           ->first();
+
+          Log::info($afi->id.": ".sizeof($observaciones));
+          array_push($rows, array($complemento->code,$complemento->reception_date,$afi->identity_card,$afi->names,$afi->surnames,$complemento->city->name,$complemento->economic_complement_modality->shortened,$obs));
+
+        }
+
+         Excel::create('Reporte Observados '.date("Y-m-d H:i:s"),function($excel) 
+         {
+          global $rows ;
+              $excel->sheet('No revisados',function($sheet) {
+                global $rows ;
+
+                $sheet->fromArray($rows, null, 'A1', false, false);
+                $sheet->cells('A1:H1', function($cells) {
+
+                    // manipulate the range of cells
+                    $cells->setBackground('#058A37');
+                    $cells->setFontColor('#ffffff');  
+
+                });
+
+              });
+         })->download('xls');
+
+        
+      }
+    }
+
+ 
     public function payrollLegalGuardianBank()
+
     {
         global $rows,$i;
         $eco=EconomicComplement::where('eco_com_procedure_id','=',2)
