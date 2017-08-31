@@ -91,7 +91,7 @@ class ExportExcel extends Command
 
                     // $grupo = $results->get()->groupBy('ci_a');
 
-                    $sheet = $results[0];
+                    $sheet = $results;
                     foreach ($sheet as $r) {
 
                         # code...
@@ -176,13 +176,14 @@ class ExportExcel extends Command
 
 
                     }
-
                     */
+                    
 
             //*individual*/
 
+
                     $rows = array();
-                    $titulos= array('CI','Exp','Fecha de Alta','Fecha de Baja','Fechas de disponibilidad','Cantidad de Aportes ','Monto BS','Años','Meses'); 
+                    $titulos= array('CI','Exp','Fecha de Alta','Fecha de Baja','Fechas de disponibilidad','Cantidad de Aportes ','Monto BS','Grado','Años','Meses'); 
                     array_push($rows, $titulos);
                     $results = $reader->select(array('ci_a','fecha_disponibilidad'))->get();
 
@@ -275,7 +276,7 @@ class ExportExcel extends Command
                                     $meses_contribuciones =  round((($contribuciones_tiempo->count()/12) - $años_contribuciones)*12);
                                     // Log::info("años ".$años_contribuciones);
                                     // Log::info("meses ".$meses_contribuciones);
-                                    $row =array($afiliado->identity_card,$exp,$fecha_alta,$fecha_baja,$fecha_disponibilidad,$qty_cotizaciones,$monto_contribuciones,$años_contribuciones,$meses_contribuciones);
+                                    $row =array($afiliado->identity_card,$exp,$fecha_alta,$fecha_baja,$fecha_disponibilidad,$qty_cotizaciones,$monto_contribuciones,$afiliado->degree->shortened,$años_contribuciones,$meses_contribuciones);
                                     array_push($rows, $row);
                                 }
 

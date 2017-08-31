@@ -22,6 +22,7 @@ use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementProcedure;
 use Muserpol\EconomicComplementApplicant;
 use Muserpol\EconomicComplementLegalGuardian;
+use Muserpol\EconomicComplementState;
 use stdClass;
 
 use App\CustomCollection;
@@ -2030,7 +2031,7 @@ class EconomicComplementImportExportController extends Controller
         $afiliados = DB::table('v_observados')->whereIn('id',$a)->get();
 
         $rows =array();
-        array_push($rows, array("Numero de Tramite","Fecha de Recepcion","CI"," Nombres","Apellidos","Regional","Tipo de Tramite","Observaciones "));
+        array_push($rows, array("ID","Numero de Tramite","Fecha de Recepcion","CI"," Nombres","Apellidos","Regional","Tipo de Tramite","Categoria","Sueldo Base ","Grado","Ente Gestor","Genero","SRenta Boleta","Renta Dignidad","Renta Neto","Neto","Salario Referencial","Antiguedad","Cotizable","Diferencia","Factor de Complemento","Reintegro","Total","Tipo de recepcion","Observaciones "));
         foreach ($afiliados  as $afi) {
           # code...
           $observaciones = AffiliateObservation::where('affiliate_id',$afi->id)->whereIn('observation_type_id',[1,2,3,4,5,6,7,8,9,10,12,13,14,15])->get();
@@ -2047,8 +2048,27 @@ class EconomicComplementImportExportController extends Controller
 
                                                            ->first();
 
-          Log::info($afi->id.": ".sizeof($observaciones));
-          array_push($rows, array($complemento->code,$complemento->reception_date,$afi->identity_card,$afi->names,$afi->surnames,$complemento->city->name,$complemento->economic_complement_modality->shortened,$obs));
+          // Log::info($afi->id.": ".sizeof($observaciones));
+          
+          // $eco_com_state = EconomicComplementState::where('id',$complemento->eco_com_state_id)->first();
+          
+          // $estado = "";
+        
+          // if($eco_com_state)
+          // {
+          //   $estado = $eco_com_state->name;
+          // }
+          $base_wage = DB::table("base_wages")->where("id",$complemento->base_wage_id)->first(); 
+          // $afiliado = Affiliate::where("id",$complemento->affiliate_id)->first();;
+          
+          $sueldo_base ="";
+          if($base_wage)
+          {
+            $sueldo_base = $base_wage->amount;
+          }
+
+      
+          array_push($rows, array($complemento->id,$complemento->code,$complemento->reception_date,$afi->identity_card,$afi->names,$afi->surnames,$complemento->city->name,$complemento->economic_complement_modality->shortened,$complemento->category->name,$sueldo_base,$complemento->affiliate->degree->shortened,$complemento->affiliate->pension_entity->name,$complemento->affiliate->gender,$complemento->sub_total_rent,$complemento->dignity_pension,$complemento->total_rent,$complemento->total_rent_calc,$complemento->salary_reference,$complemento->seniority,$complemento->salary_quotable,$complemento->diference,$complemento->complementary_factor,$complemento->reimbursement,$complemento->total,$complemento->reception_type,$obs));
 
         }
 
@@ -2059,7 +2079,7 @@ class EconomicComplementImportExportController extends Controller
                 global $rows ;
 
                 $sheet->fromArray($rows, null, 'A1', false, false);
-                $sheet->cells('A1:H1', function($cells) {
+                $sheet->cells('A1:Z1', function($cells) {
 
                     // manipulate the range of cells
                     $cells->setBackground('#058A37');
@@ -2125,29 +2145,29 @@ class EconomicComplementImportExportController extends Controller
    
 
 
- public function export_observation_bank(Request $request)
-{ global $year, $semester;
-  
-  $afi = DB::table('eco_com_applicants')
-          ->select(DB::raw("economic_complements.id,economic_complements.affiliate_id,economic_complements.semester,cities0.second_shortened as regional,eco_com_applicants.identity_card,cities1.first_shortened as ext,concat_ws(' ', NULLIF(eco_com_applicants.first_name,null), NULLIF(eco_com_applicants.second_name, null), NULLIF(eco_com_applicants.last_name, null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null)) as full_name,economic_complements.total as importe,eco_com_modalities.shortened as modality,degrees.shortened as degree, "))
-          ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
-          ->leftJoin('cities as cities0', 'economic_complements.city_id', '=', 'cities0.id')
-          ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
-          ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')          
-          ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
-          ->leftJoin('degrees', 'economic_complements.degree_id', '=', 'degrees.id')         
-          ->whereYear('economic_complements.year', '=', $year)
-          ->where('economic_complements.semester', '=', $semester)
-          ->where('economic_complements.workflow_id','=',1)
-          ->where('economic_complements.wf_current_state_id',2)
-          ->where('economic_complements.state','Edited')
-          ->where('economic_complements.total','>', 0)
-          ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')         
-          ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12,13,14,15) and is_enabled = false ) ")         
-          ->whereNotNull('economic_complements.review_date')->get();  
-  return $request->year;
-        
-}
+    public function export_observation_bank(Request $request)
+    { global $year, $semester;
+      
+      $afi = DB::table('eco_com_applicants')
+              ->select(DB::raw("economic_complements.id,economic_complements.affiliate_id,economic_complements.semester,cities0.second_shortened as regional,eco_com_applicants.identity_card,cities1.first_shortened as ext,concat_ws(' ', NULLIF(eco_com_applicants.first_name,null), NULLIF(eco_com_applicants.second_name, null), NULLIF(eco_com_applicants.last_name, null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null)) as full_name,economic_complements.total as importe,eco_com_modalities.shortened as modality,degrees.shortened as degree, "))
+              ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+              ->leftJoin('cities as cities0', 'economic_complements.city_id', '=', 'cities0.id')
+              ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+              ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')          
+              ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
+              ->leftJoin('degrees', 'economic_complements.degree_id', '=', 'degrees.id')         
+              ->whereYear('economic_complements.year', '=', $year)
+              ->where('economic_complements.semester', '=', $semester)
+              ->where('economic_complements.workflow_id','=',1)
+              ->where('economic_complements.wf_current_state_id',2)
+              ->where('economic_complements.state','Edited')
+              ->where('economic_complements.total','>', 0)
+              ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')         
+              ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12,13,14,15) and is_enabled = false ) ")         
+              ->whereNotNull('economic_complements.review_date')->get();  
+      return $request->year;
+            
+    }
 
 
 
