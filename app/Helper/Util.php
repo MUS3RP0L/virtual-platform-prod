@@ -344,7 +344,7 @@ class Util
 	public static function getSemester($date)
 	{
 		if ($date) {
-			if (date("n", strtotime($date))-1 < 8) {
+			if (date("n", strtotime($date))-1 < 10) {
 				return "Primer";
 			}else{
 				return "Segundo";
@@ -571,7 +571,7 @@ class Util
     {
     	$current_date = Carbon::now();
     	$current_month = $current_date->format('m');
-    	return $current_month<=8 ? "Primer" : "Segundo";
+    	return $current_month<=10 ? "Primer" : "Segundo";
 
     }
     public static function getFullNameUser()
