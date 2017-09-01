@@ -2005,48 +2005,77 @@ class EconomicComplementImportExportController extends Controller
  
         global $rows ;
 
-
-
-
-         
-        $afiliados = DB::table('v_observados')->get();
-        
-        $a = array();
-
-        foreach ($afiliados as $afiliado) {
-
+        // $revisados=EconomicComplement::where('economic_complements.workflow_id','=','1')
+        //     ->where('economic_complements.wf_current_state_id','2')
+        //     ->where('economic_complements.state','Edited')
+        //     ->where('economic_complements.eco_com_procedure_id','2')
+        //     ->whereNotNull('review_date')
+        //     ->get();  
+        $todos =  $norevisados = EconomicComplement::where('eco_com_procedure_id','=','2')->get();
+        $ids = array();
+        foreach ($todos as $complemento) {
           # code...
-          $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)
-                                                           ->where('eco_com_procedure_id','=','2')
-                                                           ->where('state','!=','Edited')
-                                                           ->whereNull('review_date')
-
-                                                           ->first();
-          if($complementos){
-             array_push($a, $afiliado->id);
-          }
-         
+              $revisado = EconomicComplement::where('id',$complemento->id)
+                                            ->where('economic_complements.workflow_id','=','1')
+                                            ->where('economic_complements.wf_current_state_id','2')
+                                            ->where('economic_complements.state','Edited')
+                                            ->where('economic_complements.eco_com_procedure_id','2')
+                                            ->whereNotNull('review_date')
+                                            ->first();
+              if(!$revisado)
+              {
+                array_push($ids, $complemento->id);
+              }
         }
 
-        $afiliados = DB::table('v_observados')->whereIn('id',$a)->get();
+        // $c =  DB::table("economic_complements")->where('eco_com_procedure_id','=','2')
+        //                                        ->where('state','!=','Edited')
+        //                                        // ->whereNull('review_date')
+        //                                        ->get();
+
+
+        //  dd(sizeof($ids)); 
+        //  exit();
+           
+        // $afiliados = DB::table('v_observados')->get();
+        
+        // $a = array();
+
+        // foreach ($afiliados as $afiliado) {
+
+        //   # code...
+        //   $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)
+        //                                                    ->where('eco_com_procedure_id','=','2')
+        //                                                    ->where('state','!=','Edited')
+        //                                                    ->whereNull('review_date')
+
+        //                                                    ->first();
+        //   if($complementos){
+        //      array_push($a, $afiliado->id);
+        //   }
+         
+        // }
+
+        // $afiliados = DB::table('affiliates')->whereIn('id',$ids)->get();
+        $complementos = EconomicComplement::whereIn('id',$ids)->get();
 
         $rows =array();
-        array_push($rows, array("ID","Numero de Tramite","Fecha de Recepcion","CI"," Nombres","Apellidos","Regional","Tipo de Tramite","Categoria","Sueldo Base ","Grado","Ente Gestor","Genero","SRenta Boleta","Renta Dignidad","Renta Neto","Neto","Salario Referencial","Antiguedad","Cotizable","Diferencia","Factor de Complemento","Reintegro","Total","Tipo de recepcion","Observaciones "));
-        foreach ($afiliados  as $afi) {
+        array_push($rows, array("ID","Numero de Tramite","Fecha de Recepcion","CI","Ext"," Nombres","Apellidos","Regional","Tipo de Tramite","Categoria","Sueldo Base ","Grado","Ente Gestor","Genero","SRenta Boleta","Renta Dignidad","Renta Neto","Neto","Salario Referencial","Antiguedad","Cotizable","Diferencia","Factor de Complemento","Reintegro","Total","Tipo de recepcion","Observaciones "));
+        foreach ($complementos  as $complemento) {
           # code...
-          $observaciones = AffiliateObservation::where('affiliate_id',$afi->id)->whereIn('observation_type_id',[1,2,3,4,5,6,7,8,9,10,12,13,14,15])->get();
+          $observaciones = AffiliateObservation::where('affiliate_id',$complemento->affiliate_id)->whereIn('observation_type_id',[1,2,3,4,5,6,7,8,9,10,12,13,14,15])->get();
           $obs ="";
           foreach ($observaciones as $observacion) {
             # code...
             Log::info($observacion->observationType->name);
             $obs = $obs." | ".$observacion->observationType->name;
           }
-          $complemento = EconomicComplement::where('affiliate_id',$afi->id)
-                                                           ->where('eco_com_procedure_id','=','2')
-                                                           ->where('state','!=','Edited')
-                                                           ->whereNull('review_date')
+          // $complemento = EconomicComplement::where('affiliate_id',$afi->id)
+          //                                                  ->where('eco_com_procedure_id','=','2')
+          //                                                  ->where('state','!=','Edited')
+          //                                                  ->whereNull('review_date')
 
-                                                           ->first();
+          //                                                  ->first();
 
           // Log::info($afi->id.": ".sizeof($observaciones));
           
@@ -2068,7 +2097,7 @@ class EconomicComplementImportExportController extends Controller
           }
 
       
-          array_push($rows, array($complemento->id,$complemento->code,$complemento->reception_date,$afi->identity_card,$afi->names,$afi->surnames,$complemento->city->name,$complemento->economic_complement_modality->shortened,$complemento->category->name,$sueldo_base,$complemento->affiliate->degree->shortened,$complemento->affiliate->pension_entity->name,$complemento->affiliate->gender,$complemento->sub_total_rent,$complemento->dignity_pension,$complemento->total_rent,$complemento->total_rent_calc,$complemento->salary_reference,$complemento->seniority,$complemento->salary_quotable,$complemento->diference,$complemento->complementary_factor,$complemento->reimbursement,$complemento->total,$complemento->reception_type,$obs));
+          array_push($rows, array($complemento->id,$complemento->code,$complemento->reception_date,$complemento->affiliate->identity_card,$complemento->affiliate->city_identity_card->second_shortened,$complemento->affiliate->first_name.' '.$complemento->affiliate->second_name,$complemento->affiliate->last_name.' '.$complemento->affiliate->mothers_last_name,$complemento->city->name,$complemento->economic_complement_modality->shortened,$complemento->category->name,$sueldo_base,$complemento->affiliate->degree->shortened,$complemento->affiliate->pension_entity->name,$complemento->affiliate->gender,$complemento->sub_total_rent,$complemento->dignity_pension,$complemento->total_rent,$complemento->total_rent_calc,$complemento->salary_reference,$complemento->seniority,$complemento->salary_quotable,$complemento->diference,$complemento->complementary_factor,$complemento->reimbursement,$complemento->total,$complemento->reception_type,$obs));
 
         }
 
