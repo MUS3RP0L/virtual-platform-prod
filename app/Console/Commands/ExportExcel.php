@@ -192,18 +192,22 @@ class ExportExcel extends Command
                     $sheet = $results;
                     Log::info($sheet);
                     $monto_total = 0;
+                    $i=0;
                     foreach ($sheet as $r) 
                     {
 
+                        $i++;
+                        Log::info("--------------  ".$i." ----------------");
                         # code...
                          $afiliado = Affiliate::where('identity_card','=',$r->ci_a)->first();
 
 
                         if($afiliado )
                         {
+                                // Log::info("d: ".$$r->fecha_disponibilidad);
                                 if($r->fecha_disponibilidad)
                                 {
-
+                                    Log::info("entro al proceso");
                                     Log::info($afiliado->id);
                                     $exp = 'sin registro';
                                     if($afiliado->city_identity_card_id)
@@ -278,10 +282,13 @@ class ExportExcel extends Command
                                     // Log::info("meses ".$meses_contribuciones);
                                     $row =array($afiliado->identity_card,$exp,$fecha_alta,$fecha_baja,$fecha_disponibilidad,$qty_cotizaciones,$monto_contribuciones,$afiliado->degree->shortened,$años_contribuciones,$meses_contribuciones);
                                     array_push($rows, $row);
+                                }else
+                                {
+                                     $row =array($afiliado->identity_card,$exp,'sin fecha de disponibilidad','----','----','----','----','----','----');
+                                     array_push($rows, $row);
                                 }
 
-                                $row =array($afiliado->identity_card,$exp,'sin fecha de disponibilidad','----','----','----','----','----','----');
-                                array_push($rows, $row);
+                               
                               
                         }
                         else
@@ -302,7 +309,7 @@ class ExportExcel extends Command
                 });
              Log::info(" el tamañno ". sizeof($rows) );
 
-             Excel::create('informe',function($excel)
+             Excel::create('informe hdp',function($excel)
              {
 
                  global $rows;
