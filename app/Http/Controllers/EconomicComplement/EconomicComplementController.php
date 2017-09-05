@@ -330,7 +330,13 @@ class EconomicComplementController extends Controller
             }else{
                 $code = 1;
             }
-            $economic_complement->code = $code . "/" . $data['year'];
+            $sem='';
+            if($data['semester']=='Primer'){
+                $sem='P';
+            }else{
+                $sem='S';
+            }
+            $economic_complement->code = $code . $sem . "/" . $data['year'];
             $economic_complement->affiliate_id = $affiliate->id;
             $economic_complement->year = Util::datePickYear($data['year'], $data['semester']);
             $economic_complement->semester = $data['semester'];
