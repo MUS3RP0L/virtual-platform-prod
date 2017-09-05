@@ -2060,7 +2060,37 @@ class EconomicComplementImportExportController extends Controller
         $complementos = EconomicComplement::whereIn('id',$ids)->get();
 
         $rows =array();
-        array_push($rows, array("ID","Numero de Tramite","Fecha de Recepcion","CI","Ext"," Nombres","Apellidos","Regional","Tipo de Tramite","Categoria","Sueldo Base ","Grado","Ente Gestor","Genero","SRenta Boleta","Renta Dignidad","Renta Neto","Neto","Salario Referencial","Antiguedad","Cotizable","Diferencia","Factor de Complemento","Reintegro","Total","Tipo de recepcion","Observaciones "));
+        array_push($rows, array("ID",
+                                "Numero de Tramite",
+                                "Fecha de Recepcion",
+                                "Titular CI",
+                                "Titular Ext",
+                                "Titular Nombres",
+                                "Titular Apellidos",
+                                "Beneficiario CI",
+                                "Beneficiario Ext",
+                                "Beneficiario Nombres",
+                                "Beneficiario Apellidos",
+                                "Regional",
+                                "Tipo de Tramite",
+                                "Categoria",
+                                "Sueldo Base ",
+                                "Grado",
+                                "Ente Gestor",
+                                "Genero",
+                                "SRenta Boleta",
+                                "Renta Dignidad",
+                                "Renta Neto",
+                                "Neto",
+                                "Salario Referencial",
+                                "Antiguedad",
+                                "Cotizable",
+                                "Diferencia",
+                                "Factor de Complemento",
+                                "Reintegro",
+                                "Total",
+                                "Tipo de recepcion",
+                                "Observaciones "));
         foreach ($complementos  as $complemento) {
           # code...
           $observaciones = AffiliateObservation::where('affiliate_id',$complemento->affiliate_id)->whereIn('observation_type_id',[1,2,3,4,5,6,7,8,9,10,12,13,14,15])->get();
@@ -2096,8 +2126,39 @@ class EconomicComplementImportExportController extends Controller
             $sueldo_base = $base_wage->amount;
           }
 
-      
-          array_push($rows, array($complemento->id,$complemento->code,$complemento->reception_date,$complemento->affiliate->identity_card,$complemento->affiliate->city_identity_card->second_shortened,$complemento->affiliate->first_name.' '.$complemento->affiliate->second_name,$complemento->affiliate->last_name.' '.$complemento->affiliate->mothers_last_name,$complemento->city->name,$complemento->economic_complement_modality->shortened,$complemento->category->name,$sueldo_base,$complemento->affiliate->degree->shortened,$complemento->affiliate->pension_entity->name,$complemento->affiliate->gender,$complemento->sub_total_rent,$complemento->dignity_pension,$complemento->total_rent,$complemento->total_rent_calc,$complemento->salary_reference,$complemento->seniority,$complemento->salary_quotable,$complemento->diference,$complemento->complementary_factor,$complemento->reimbursement,$complemento->total,$complemento->reception_type,$obs));
+          $aplicant  = EconomicComplementApplicant::where('economic_complement_id',$complemento->id)->first();
+
+          
+
+          array_push($rows, array($complemento->id,
+                                  $complemento->code,
+                                  $complemento->reception_date,
+                                  $complemento->affiliate->identity_card,
+                                  $complemento->affiliate->city_identity_card->second_shortened,
+                                  $complemento->affiliate->first_name.' '.$complemento->affiliate->second_name,
+                                  $complemento->affiliate->last_name.' '.$complemento->affiliate->mothers_last_name,
+                                  $aplicant->identity_card,
+                                  $aplicant->city_identity_card->second_shortened,
+                                  $aplicant->first_name.' '.$complemento->affiliate->second_name,
+                                  $aplicant->last_name.' '.$complemento->affiliate->mothers_last_name,
+                                  $complemento->city->name,
+                                  $complemento->economic_complement_modality->shortened,
+                                  $complemento->category->name,
+                                  $sueldo_base,
+                                  $complemento->affiliate->degree->shortened,
+                                  $complemento->affiliate->pension_entity->name,
+                                  $complemento->affiliate->gender,
+                                  $complemento->sub_total_rent,
+                                  $complemento->dignity_pension,$complemento->total_rent,
+                                  $complemento->total_rent_calc,$complemento->salary_reference,
+                                  $complemento->seniority,
+                                  $complemento->salary_quotable,
+                                  $complemento->diference,
+                                  $complemento->complementary_factor,
+                                  $complemento->reimbursement,
+                                  $complemento->total,
+                                  $complemento->reception_type,
+                                  $obs));
 
         }
 
@@ -2108,7 +2169,7 @@ class EconomicComplementImportExportController extends Controller
                 global $rows ;
 
                 $sheet->fromArray($rows, null, 'A1', false, false);
-                $sheet->cells('A1:Z1', function($cells) {
+                $sheet->cells('A1:AE1', function($cells) {
 
                     // manipulate the range of cells
                     $cells->setBackground('#058A37');
