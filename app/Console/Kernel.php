@@ -39,6 +39,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\ObservationsAmount::class,
         \Muserpol\Console\Commands\ObservationDegreeAndCategory::class,
         \Muserpol\Console\Commands\ObservationExcelCategoryDegree::class,
+        \Muserpol\Console\Commands\FusionAffiliate::class,
         \Muserpol\Console\Commands\ImportComplement2015::class,
         \Muserpol\Console\Commands\ImportComplement2016Primer::class,
         
