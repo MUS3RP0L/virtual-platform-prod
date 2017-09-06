@@ -65,6 +65,18 @@
 			                            </div>
 			                        </td>
 			                    </tr>
+			                    {{-- <tr>
+			                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+			                            <div class="row">
+			                                <div class="col-md-6">
+												Saldo Inicial
+											</div>
+			                                <div class="col-md-6">
+			                                    Bs {!! $beginning_balance !!}
+			                                </div>
+			                            </div>
+			                        </td>
+			                    </tr> --}}
 			                </table>
 			            </div>
 			            <div class="col-md-6">
@@ -93,6 +105,18 @@
 			                            </div>
 			                        </td>
 			                    </tr>
+			                    {{-- <tr>
+			                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+			                            <div class="row">
+											<div class="col-md-6">
+												Total Cuenta Individual
+											</div>
+			                                <div class="col-md-6">
+			                                    Bs {!! $total_balance !!}
+			                                </div>
+			                            </div>
+			                        </td>
+			                    </tr> --}}
 			                </table>
 			            </div>
 			        </div>
