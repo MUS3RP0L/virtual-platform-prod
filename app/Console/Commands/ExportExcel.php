@@ -91,7 +91,7 @@ class ExportExcel extends Command
 
                     // $grupo = $results->get()->groupBy('ci_a');
 
-                    $sheet = $results[0];
+                    $sheet = $results;
                     foreach ($sheet as $r) {
 
                         # code...
@@ -155,7 +155,7 @@ class ExportExcel extends Command
 
                                  foreach ($contribuciones as $contribucion) {
                                      # code...
-                                    $cotizable2 = $contribucion->base_wage + $contribucion->dignity_pension + $contribucion->seniority_bonus + $contribucion->study_bonus + $contribucion->position_bonus + $contribucion->border_bonus + $contribucion->east_bonus - $contribucion->public_security_bonus;
+                                    $cotizable2 = $contribucion->base_wage  + $contribucion->seniority_bonus;
                                     $row = array($afiliado->identity_card,$afiliado->first_name,$afiliado->second_name,$afiliado->last_name,$afiliado->mothers_last_name, $contribucion->month_year ,$contribucion->base_wage,$contribucion->seniority_bonus,$contribucion->quotable,$cotizable2,$contribucion->retirement_fund);
                                     //og::info($contribucion->"");
                                     array_push($rows, $row);
@@ -176,13 +176,14 @@ class ExportExcel extends Command
 
 
                     }
-
                     */
+                    
 
             //*individual*/
 
+
                     $rows = array();
-                    $titulos= array('CI','Exp','Fecha de Alta','Fecha de Baja','Fechas de disponibilidad','Cantidad de Aportes ','Monto BS','Años','Meses'); 
+                    $titulos= array('CI','Exp','Fecha de Alta','Fecha de Baja','Fechas de disponibilidad','Cantidad de Aportes ','Monto BS','Grado','Años','Meses'); 
                     array_push($rows, $titulos);
                     $results = $reader->select(array('ci_a','fecha_disponibilidad'))->get();
 
@@ -191,18 +192,22 @@ class ExportExcel extends Command
                     $sheet = $results;
                     Log::info($sheet);
                     $monto_total = 0;
+                    $i=0;
                     foreach ($sheet as $r) 
                     {
 
+                        $i++;
+                        Log::info("--------------  ".$i." ----------------");
                         # code...
                          $afiliado = Affiliate::where('identity_card','=',$r->ci_a)->first();
 
 
                         if($afiliado )
                         {
+                                // Log::info("d: ".$$r->fecha_disponibilidad);
                                 if($r->fecha_disponibilidad)
                                 {
-
+                                    Log::info("entro al proceso");
                                     Log::info($afiliado->id);
                                     $exp = 'sin registro';
                                     if($afiliado->city_identity_card_id)
@@ -275,12 +280,15 @@ class ExportExcel extends Command
                                     $meses_contribuciones =  round((($contribuciones_tiempo->count()/12) - $años_contribuciones)*12);
                                     // Log::info("años ".$años_contribuciones);
                                     // Log::info("meses ".$meses_contribuciones);
-                                    $row =array($afiliado->identity_card,$exp,$fecha_alta,$fecha_baja,$fecha_disponibilidad,$qty_cotizaciones,$monto_contribuciones,$años_contribuciones,$meses_contribuciones);
+                                    $row =array($afiliado->identity_card,$exp,$fecha_alta,$fecha_baja,$fecha_disponibilidad,$qty_cotizaciones,$monto_contribuciones,$afiliado->degree->shortened,$años_contribuciones,$meses_contribuciones);
                                     array_push($rows, $row);
+                                }else
+                                {
+                                     $row =array($afiliado->identity_card,$exp,'sin fecha de disponibilidad','----','----','----','----','----','----');
+                                     array_push($rows, $row);
                                 }
 
-                                $row =array($afiliado->identity_card,$exp,'sin fecha de disponibilidad','----','----','----','----','----','----');
-                                array_push($rows, $row);
+                               
                               
                         }
                         else
@@ -301,7 +309,7 @@ class ExportExcel extends Command
                 });
              Log::info(" el tamañno ". sizeof($rows) );
 
-             Excel::create('informe',function($excel)
+             Excel::create('informe hdp',function($excel)
              {
 
                  global $rows;
