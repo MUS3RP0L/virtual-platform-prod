@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
         $this->call(EconomicComplementRequirementTableSeeder::class);
         $this->call(ObservationTableSeeder::class);
         $this->call(AddedStateTypeSeeder::class);
+        $this->call(InterestTableSeeder::class);
        
 
         Model::reguard();
