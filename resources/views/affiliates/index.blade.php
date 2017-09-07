@@ -107,6 +107,7 @@
                             <table class="table table-bordered table-hover" id="affiliates-table">
                                 <thead>
                                     <tr class="success">
+                                        <th>ID</th>
                                         <th>Núm. Carnet</th>
                                         <th>Matrícula</th>
                                         <th>Grado</th>
@@ -391,6 +392,7 @@
                 }
             },
             columns: [
+                { data: 'id'},
                 { data: 'identity_card'},
                 { data: 'registration', bSortable: false },
                 { data: 'degree', bSortable: false },
