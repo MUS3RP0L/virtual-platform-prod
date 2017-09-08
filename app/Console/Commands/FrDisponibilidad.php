@@ -50,7 +50,7 @@ class FrDisponibilidad extends Command
 
         $afiliados = DB::table('affiliates')->leftJoin('affiliate_records','affiliate_records.affiliate_id','=','affiliates.id')
                                             ->where('affiliate_records.affiliate_state_id','=',3)
-                                            // ->where('affiliate_records.date','>','2014-01-01')
+                                            ->where('affiliate_records.date','>','2014-01-01')
                                             ->distinct()
                                             ->select('affiliates.id')
                                             ->get();    
@@ -82,7 +82,7 @@ class FrDisponibilidad extends Command
             $fecha_d = DB::table('affiliate_records')
                         ->join('affiliates','affiliate_records.affiliate_id','=','affiliates.id')
                         ->where('affiliate_records.affiliate_state_id','=',3)
-                        // ->where('affiliate_records.date','>','2014-01-01')
+                        ->where('affiliate_records.date','>','2014-01-01')
                         ->where('affiliates.identity_card','=',$afiliado->identity_card)->distinct()->select('affiliate_records.date')->get();
 
             $fecha_disponibilidad='sin disponibilidad';

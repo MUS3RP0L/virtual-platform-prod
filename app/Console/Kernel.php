@@ -40,14 +40,13 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\ObservationDegreeAndCategory::class,
         \Muserpol\Console\Commands\ObservationExcelCategoryDegree::class,
         \Muserpol\Console\Commands\FrDisponibilidad::class,
-<<<<<<< HEAD
+
         \Muserpol\Console\Commands\FrDisponibilidadAportes::class,
-=======
+
         \Muserpol\Console\Commands\FusionAffiliate::class,
         \Muserpol\Console\Commands\ImportComplement2015::class,
         \Muserpol\Console\Commands\ImportComplement2016Primer::class,
 
->>>>>>> 99d95aadfbc2aae4cfc2719e4821d2d04c2505d4
         
     ];
 
