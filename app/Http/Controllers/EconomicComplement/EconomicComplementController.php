@@ -1684,6 +1684,265 @@ class EconomicComplementController extends Controller
         //
     }
 
+    public function reporte_calculo($id_complemento)
+    {
+        $economic_complement = EconomicComplement::where('id',$id_complemento)->first();
+ 
+
+          try {
+            $state = EconomicComplementState::find($economic_complement->eco_com_state_id);
+
+        } catch (Exception $e) {
+            $state =null;
+        }
+
+        $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+
+        $eco_com_type = $economic_complement->economic_complement_modality;
+
+        $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+
+        $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
+
+        $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($economic_complement->id)->get();
+        $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
+
+        if (EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->first()) {
+            $status_documents = TRUE;
+        }else{
+            $status_documents = FALSE;
+        }
+
+        if ($eco_com_applicant->gender == 'M') {
+            $gender_list = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
+        }elseif ($eco_com_applicant->gender == 'F') {
+            $gender_list = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
+        }
+
+        $eco_com_states_block = EconomicComplementState::all();
+        $eco_com_states_block_list =  ['' => ''];
+        foreach ($eco_com_states_block as $item) {
+            if($item->eco_com_state_type_id > 4){
+                $eco_com_states_block_list[$item->id]=$item->name;
+            }
+        }
+
+        $last_year = Carbon::now()->subYear()->year;
+        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
+        if (EconomicComplement::affiliateIs($affiliate->id)
+                ->whereYear('year', '=', $last_year)
+                ->where('semester', '=', $last_semester)->first()) {
+                $affiliate->type_ecocom = 'Habitual';
+        }else{
+            $affiliate->type_ecocom = 'Inclusión';
+        }
+
+        $eco_com_state_type_list = EconomicComplementStateType::all();
+        $eco_com_state_type_lists = [];
+        foreach ($eco_com_state_type_list as $item) {
+            $eco_com_state_type_lists[$item->id]=$item->name;
+        }
+
+        $ca=Category::all();
+        $categories=[];
+        foreach ($ca as $key=>$d) {
+            if ($d->id != 9 && $d->id != 10) {
+                $categories[$d->id]=$d->name;
+            }
+        }
+
+        $dg=Degree::all();
+        $degrees=[''=>''];
+        foreach ($dg as $d) {
+            $degrees[$d->id]=$d->name;
+        }
+
+        $ep=PensionEntity::all();
+        $entity_pensions=array(''=>'');
+
+        foreach ($ep as $e) {
+            $entity_pensions[$e->id]=$e->name;
+        }
+
+        $economic_complement_legal_guardian=$economic_complement->economic_complement_legal_guardian;
+        $affi_observations = AffiliateObservation::where('affiliate_id',$affiliate->id)->first();
+        if (EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->first()) {
+            $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->get()->last();
+            if (EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->first()) {
+                if ($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Vejez') {
+                    $eco_com_submitted_documents_ar = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
+                    {
+                        $query->where('eco_com_requirement_id','=',3)
+                        ->orWhere('eco_com_requirement_id','=',4)
+                        ->orWhere('eco_com_requirement_id','=',5);
+                    })->orderBy('id','asc')->get();
+                    $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                    {
+                        $query->where('id','=',3)
+                        ->orWhere('id','=',4)
+                        ->orWhere('id','=',5);
+                    })->orderBy('id','asc')->get();
+
+                }else if($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Viudedad'){
+                    $eco_com_submitted_documents_ar = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
+                    {
+                        $query->where('eco_com_requirement_id','=',9)
+                        ->orWhere('eco_com_requirement_id','=',10)
+                        ->orWhere('eco_com_requirement_id','=',11)
+                        ->orWhere('eco_com_requirement_id','=',12);
+                    })->orderBy('id','asc')->get();
+
+                    $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                    {
+                        $query->where('id','=',9)
+                        ->orWhere('id','=',10)
+                        ->orWhere('id','=',11)
+                        ->orWhere('id','=',12);
+                    })->orderBy('id','asc')->get();
+                }else{
+                    $eco_com_submitted_documents_ar = EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->where(function ($query)
+                    {
+                        $query->where('eco_com_requirement_id','=',17)
+                        ->orWhere('eco_com_requirement_id','=',18)
+                        ->orWhere('eco_com_requirement_id','=',19)
+                        ->orWhere('eco_com_requirement_id','=',20)
+                        ->orWhere('eco_com_requirement_id','=',21);
+                    })->orderBy('id','asc')->get();
+
+                    $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                    {
+                        $query->where('id','=',17)
+                        ->orWhere('id','=',18)
+                        ->orWhere('id','=',19)
+                        ->orWhere('id','=',20)
+                        ->orWhere('id','=',21);
+                    })->orderBy('id','asc')->get();
+                }
+
+                $status_documents_ar = TRUE;
+            }else{
+                if ($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Vejez') {
+                    $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                    {
+                        $query->where('id','=',2)
+                        ->orWhere('id','=',3)
+                        ->orWhere('id','=',4)
+                        ->orWhere('id','=',5);
+                    })->orderBy('id','asc')->get();
+
+                }else if($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Viudedad'){
+                    $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                    {
+                        $query->where('id','=',7)
+                        ->orWhere('id','=',8)
+                        ->orWhere('id','=',9)
+                        ->orWhere('id','=',10)
+                        ->orWhere('id','=',11)
+                        ->orWhere('id','=',12);
+                    })->orderBy('id','asc')->get();
+                }else{
+                    $eco_com_requirements_ar = EconomicComplementRequirement::where(function ($query)
+                    {
+                        $query->where('id','=',14)
+                        ->orWhere('id','=',15)
+                        ->orWhere('id','=',16)
+                        ->orWhere('id','=',17)
+                        ->orWhere('id','=',18)
+                        ->orWhere('id','=',19)
+                        ->orWhere('id','=',20)
+                        ->orWhere('id','=',21);
+                    })->orderBy('id','asc')->get();
+                }
+
+                $eco_com_submitted_documents_ar = null;
+                $status_documents_ar = FALSE;
+            }
+        }else{
+            $eco_com_submitted_documents_ar = null;
+            $eco_com_requirements_ar = null;
+            $status_documents_ar = false;
+            $last_ecocom = null;
+        }
+        //for documents submitted
+        $status_eco_com_submitted_documents_ar=true;
+        if ($eco_com_submitted_documents_ar) {
+            $status_eco_com_submitted_documents_ar=true;
+            foreach ($eco_com_submitted_documents_ar as $eco_com_submitted_document) {
+                if (!$eco_com_submitted_document->status) {
+                    $status_eco_com_submitted_documents_ar=false;
+                    break;
+                }
+            }
+        }else{
+            $status_eco_com_submitted_documents_ar=false;
+        }
+
+        $data = [
+
+        'affiliate' => $affiliate,
+        'economic_complement' => $economic_complement,
+        'eco_com_type' => $eco_com_type->shortened,
+        'eco_com_applicant' => $eco_com_applicant,
+        'eco_com_requirements' => $eco_com_requirements,
+        'economic_complement_legal_guardian' => $economic_complement_legal_guardian,
+        'eco_com_submitted_documents' => $eco_com_submitted_documents,
+        'status_documents' => $status_documents,
+        'gender_list' => $gender_list,
+        'eco_com_states_block_list' => $eco_com_states_block_list,
+        'eco_com_state_type_lists' => $eco_com_state_type_lists,
+        'categories' => $categories,
+        'degrees' => $degrees,
+        //'type_eco_com' => $affiliate->type_ecocom,
+        'affi_observations' => $affi_observations,
+        'entity_pensions' => $entity_pensions,
+        'eco_com_submitted_documents_ar' => $eco_com_submitted_documents_ar,
+        'eco_com_requirements_ar' => $eco_com_requirements_ar,
+        'status_documents_ar' => $status_documents_ar,
+        'last_ecocom' => $last_ecocom,
+        'state' => $state,
+        'status_eco_com_submitted_documents_ar'=>$status_eco_com_submitted_documents_ar
+        ];
+        // dd($eco_com_submitted_documents_ar);
+
+        // if ($economic_complement->base_wage_id) {
+        //     $total_rent = $economic_complement->total_rent;
+        //     $salary_reference = $economic_complement->base_wage->amount;
+        //     $seniority = $economic_complement->category->percentage * $economic_complement->base_wage->amount;
+        //     $salary_quotable = $salary_reference + $seniority;
+        //     $difference = $salary_quotable - $total_rent;
+        //     $months_of_payment = 6;
+        //     $total_amount_semester = $difference * $months_of_payment;
+        //     $complementary_factor = $eco_com_type->id == 1 ? $economic_complement->complementary_factor->old_age : $economic_complement->complementary_factor->widowhood;
+        //     $total = $total_amount_semester * $complementary_factor/100;
+
+
+        $second_data = [
+
+        'sub_total_rent' => Util::formatMoney($economic_complement->sub_total_rent),
+        'reimbursement' => Util::formatMoney($economic_complement->reimbursement),
+        'dignity_pension' => Util::formatMoney($economic_complement->dignity_pension),
+        'total_rent' => Util::formatMoney($economic_complement->total_rent),
+        'total_rent_calc' => Util::formatMoney($economic_complement->total_rent_calc),
+        'salary_reference' => Util::formatMoney($economic_complement->salary_reference),
+        'seniority' => Util::formatMoney($economic_complement->seniority),
+        'salary_quotable' => Util::formatMoney($economic_complement->salary_quotable),
+        'difference' => Util::formatMoney($economic_complement->difference),
+        'total_amount_semester' => Util::formatMoney($economic_complement->difference*6),
+        'complementary_factor' => $economic_complement->complementary_factor,
+        'total' => Util::formatMoney($economic_complement->total)
+
+        ];
+
+        $data = array_merge($data, $second_data);
+        // }
+
+        $data = array_merge($data, self::getViewModel());
+
+        //aqui coloca  retornas la vista y le pasas los parametros
+         // return view('tu vista html', $data);
+            return $data;
+    }
+
     public function print_sworn_declaration($economic_complement_id,$type)
     {
       $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
