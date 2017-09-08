@@ -3,28 +3,26 @@
 namespace Muserpol\Console\Commands;
 
 use Illuminate\Console\Command;
-
 use Maatwebsite\Excel\Facades\Excel;
 use Muserpol\Affiliate;
 use Muserpol\Contribution;
 use Log;
 use Illuminate\Support\Facades\DB;
-
-class FrDisponibilidad extends Command
+class FrDisponibilidadAportes extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'FondoRetiro:FrDisponibilidad';
+    protected $signature = 'FondoRetiro:FrDisponibilidadAportes';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Para ver fechas de disponibilidades';
+    protected $description = 'Disponibilidad con los 60 aportes ';
 
     /**
      * Create a new command instance.
@@ -44,7 +42,7 @@ class FrDisponibilidad extends Command
     public function handle()
     {
         //
-        global $rows;
+         global $rows;
 
         $this->info("Verificando El total de las disponibilidades");
 
@@ -67,8 +65,12 @@ class FrDisponibilidad extends Command
                         'Exp',
                         'Fecha de Alta',
                         'Fechas de disponibilidad',
-                        'Cantidad de Aportes ',
-                        'Monto BS'
+                        'Categoria %',
+                        'Sueldo Base',
+                        'Antiguedad',
+                        'Fondo de Retiro',
+                        'Cotizable',
+
                         ); 
         array_push($rows, $titulos);
 
@@ -111,20 +113,19 @@ class FrDisponibilidad extends Command
                 $exp = $afiliado->city_identity_card->first_shortened;
             }
             
-            $monto_contribuciones=0;
+            // $monto_contribuciones=0;
 
             $contribuciones_c =  Contribution::where('affiliate_id','=',$afiliado->id)->where('breakdown_id','=',1)->where('month_year','>','2014-01-01')->get();
+
+
+
             if($contribuciones_c)
             {
-                $qty_cotizaciones = $contribuciones_c->count();
+                //$qty_cotizaciones = $contribuciones_c->count();
                 foreach ($contribuciones_c as $contribucion) {
                     # code...
-                    $monto_contribuciones+=$contribucion->total;
-
-                }
-            }
-
-             $row =array( 
+                    $cotizable_fondo = $contribucion->base_wage + $contribucion->seniority_bonus;
+                     $row =array( 
                           $afiliado->degree->shortened,
                           $afiliado->first_name.''.$afiliado->second_name,
                           $afiliado->last_name.' '.$afiliado->mothers_last_name,
@@ -132,11 +133,24 @@ class FrDisponibilidad extends Command
                           $exp,
                           $fecha_alta,
                           $fecha_disponibilidad,
-                          $qty_cotizaciones,
-                          $monto_contribuciones,  
+                          $contribucion->category->porcentage,
+                          $contribucion->base_wage,
+                          $contribucion->seniority_bonus,
+                          $contribucion->retirement_fund,
+                          $contribucion->cotizable_fondo,
+                          
+                        //  $qty_cotizaciones,
+                          // $monto_contribuciones,  
                         );
 
-             array_push($rows, $row);
+                    array_push($rows, $row);
+
+                    // $monto_contribuciones+=$contribucion->total;
+
+                }
+            }
+
+            
 
 
 
@@ -149,7 +163,7 @@ class FrDisponibilidad extends Command
              {
 
                  global $rows;
-                            $excel->sheet('Afiliados',function($sheet) {
+                            $excel->sheet('Afiliados Aportes > 2014',function($sheet) {
 
                                  global $rows;
 
@@ -169,7 +183,5 @@ class FrDisponibilidad extends Command
 
 
         $this->info("Finished XD");
-
-
     }
 }

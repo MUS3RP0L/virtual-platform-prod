@@ -40,6 +40,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\ObservationDegreeAndCategory::class,
         \Muserpol\Console\Commands\ObservationExcelCategoryDegree::class,
         \Muserpol\Console\Commands\FrDisponibilidad::class,
+        \Muserpol\Console\Commands\FrDisponibilidadAportes::class,
         
     ];
 
