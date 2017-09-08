@@ -983,10 +983,17 @@
             <!-- calculo total -->
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
-                    <div class="col-md-10">
+                    <div class="col-md-8">
                         <h3 class="box-title"><span class="fa fa-money"></span> Cálculo de Total</h3>
                     </div>
                         @can('eco_com_qualification')
+                        <div class="col-md-2 text-right">
+                            <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir">
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print">&nbsp;&nbsp;
+                                    <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
+                                </a>
+                            </div>
+                        </div>
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals">&nbsp;&nbsp;
@@ -1952,6 +1959,41 @@
             </div>
         </div>
     @endif
+    <div id="myModal-totals-print" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Imprimiendo Calculo de complemento</h4>
+                </div>
+                <div class="modal-body">
+                    {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement], 'class' => 'form-horizontal']) !!}
+                        <input type="hidden" name="step" value="print_total"/>
+                        <div class="row">
+                            <div class="form-group">
+                                {!! Form::label('comment', 'Nota: ', ['class' => 'col-md-3 control-label']) !!}
+                                <div class="col-md-8">
+                                {!! Form::textarea('comment', null, ['class' => 'form-control rent', 'required' => 'required','rows' => '3']) !!}
+                                    <span class="help-block">Escriba una nota</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <a href="{!! url('economic_complement/'.$economic_complement->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                    &nbsp;&nbsp;
+                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    {!! Form::close() !!}
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="myModal-requirements" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">

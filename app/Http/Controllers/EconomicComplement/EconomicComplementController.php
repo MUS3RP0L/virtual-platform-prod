@@ -1654,6 +1654,13 @@ class EconomicComplementController extends Controller
                 return redirect('economic_complement/'.$economic_complement->id);
             }
         break;
+        case 'print_total':
+
+            $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+            $economic_complement->comment = $request->comment;
+            $economic_complement->save();
+            return redirect('economic_complement/'.$economic_complement->id);
+        break;
         case 'legal_guardian':
             $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
               $eco_com_legal_guardian->identity_card = $request->identity_card_lg;

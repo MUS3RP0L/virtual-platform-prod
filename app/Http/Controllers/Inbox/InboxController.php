@@ -15,6 +15,8 @@ use Util;
 use Auth;
 use Validator;
 use Session;
+use stdClass;
+
 class InboxController extends Controller
 {
     /**
@@ -33,12 +35,21 @@ class InboxController extends Controller
         //id de tramites en proceso
         $state_id = 16;
         $economic_complements=EconomicComplement::where('economic_complements.state','Received')->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
+            ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
             ->where('wf_states.role_id',($user_ids->id))
             // ->where('economic_complements.eco_com_procedure_id','2')
             ->select('economic_complements.id','economic_complements.code')
 
             ->get();
         return Datatables::of($economic_complements)
+                ->addColumn('ci',function ($economic_complement)
+                {
+                    return $economic_complement->economic_complement_applicant->identity_card;
+                })
+                ->addColumn('name',function ($economic_complement)
+                {
+                    return $economic_complement->economic_complement_applicant->getFullName();
+                })
                 ->addColumn('action', function ($economic_complement) { return  '
                     <div class="btn-group" style="margin:-3px 0;">
                         <a href="economic_complement/'.$economic_complement->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
@@ -57,14 +68,35 @@ class InboxController extends Controller
             ->select('economic_complements.id','economic_complements.code')
             // ->take(4)
             ->get();
+            $data=[];
+            foreach ($economic_complements as $eco) {
+                $temp=[];
+                // $temp[]= new stdClass;
+                $temp[]= $eco->id;
+                $temp[]= $eco->economic_complement_applicant->identity_card;
+                $temp[]= $eco->economic_complement_applicant->getFullName();
+                $temp[]= $eco->code;
+
+                    $data[] = $temp;
+
+            }
+            return response()->json(["data"=>$data]);
         // return  $economic_complements;
         return Datatables::of($economic_complements)
-                ->addColumn('action', function ($economic_complement) {
-                    return '<div class="checkbox">
-                        <label>
-                            <input type="checkbox" class="checkBoxClass" value="'.$economic_complement->id.'" name="edited[]"><span class="checkbox-material"><span class="check"></span></span> 
-                        </label>
-                        </div>';
+                // ->addColumn('action', function ($economic_complement) {
+                //     return '<div class="checkbox">
+                //         <label>
+                //             <input type="checkbox" class="checkBoxClass" value="'.$economic_complement->id.'" name="edited[]"><span class="checkbox-material"><span class="check"></span></span> 
+                //         </label>
+                //         </div>';
+                // })
+                ->addColumn('ci',function ($economic_complement)
+                {
+                    return $economic_complement->economic_complement_applicant->identity_card;
+                })
+                ->addColumn('name',function ($economic_complement)
+                {
+                    return $economic_complement->economic_complement_applicant->getFullName();
                 })
                 ->make(true);
     }
@@ -88,10 +120,10 @@ class InboxController extends Controller
     public function store(Request $request)
     {
         $rules = [
-             'edited' =>'required',
+             'ids' =>'required|min:1',
         ];
         $messages = [
-            'edited.required' => 'Debe seleccionar por lo menos un tramite para enviar',
+            'ids.required' => 'Debe seleccionar por lo menos un tramite para enviar',
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
@@ -99,7 +131,14 @@ class InboxController extends Controller
             ->withErrors($validator)
             ->withInput();
         }else{
-            foreach ($request->edited as $key) {
+            // foreach ($request->edited as $key) {
+            //     $e=EconomicComplement::find($key);
+            //     $wfsq=WorkflowSequence::where('wf_state_current_id',$e->wf_current_state_id)->where('action','Aprobar')->first();
+            //     $e->wf_current_state_id=$wfsq->wf_state_next_id;
+            //     $e->state='Received';
+            //     // $e->save();
+            // }
+            foreach (explode(',',$request->ids) as $key) {
                 $e=EconomicComplement::find($key);
                 $wfsq=WorkflowSequence::where('wf_state_current_id',$e->wf_current_state_id)->where('action','Aprobar')->first();
                 $e->wf_current_state_id=$wfsq->wf_state_next_id;
