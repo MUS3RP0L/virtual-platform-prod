@@ -1686,7 +1686,14 @@ class EconomicComplementController extends Controller
 
     public function reporte_calculo($id_complemento)
     {
-        $economic_complement = EconomicComplement::where('id',$id_complemento)->first();
+
+            $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+            $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+            $title = "FORMULARIO DE DECLARACIÓN JURADA VOLUNTARIA";
+            $date = Util::getDateEdit(date('Y-m-d'));
+            $current_date = Carbon::now();
+            $economic_complement = EconomicComplement::where('id',$id_complemento)->first();
+            $hour = Carbon::parse($current_date)->toTimeString();
  
 
           try {
@@ -1699,6 +1706,17 @@ class EconomicComplementController extends Controller
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
         $eco_com_type = $economic_complement->economic_complement_modality;
+        if($economic_complement->complementary_factor > 1)
+            $fc = $economic_complement->complementary_factor/100;
+        else
+            $fc = $economic_complement->complementary_factor; 
+
+        $eco_com_prev = $economic_complement->total_amount_semester *  $fc;
+
+        $factor_complement = $fc;
+
+        $eco_tot_frac = $economic_complement->aps_total_cc + $economic_complement->aps_total_fsa + $economic_complement->aps_total_fs;
+        //dd($eco_tot_frac);
 
         $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
 
@@ -1900,7 +1918,10 @@ class EconomicComplementController extends Controller
         'status_documents_ar' => $status_documents_ar,
         'last_ecocom' => $last_ecocom,
         'state' => $state,
-        'status_eco_com_submitted_documents_ar'=>$status_eco_com_submitted_documents_ar
+        'status_eco_com_submitted_documents_ar'=>$status_eco_com_submitted_documents_ar,
+        'eco_com_prev' => number_format($eco_com_prev, 2, '.', ''),
+        'eco_tot_frac' => number_format($eco_tot_frac, 2, '.', ''),
+        'factor_complement' => $factor_complement * 100
         ];
         // dd($eco_com_submitted_documents_ar);
 
@@ -1937,10 +1958,14 @@ class EconomicComplementController extends Controller
         // }
 
         $data = array_merge($data, self::getViewModel());
-
+        //return $data;
         //aqui coloca  retornas la vista y le pasas los parametros
-         // return view('tu vista html', $data);
-            return $data;
+        //  return view('economic_complements.print.datashet_economic_complements', $data);
+        $view = \View::make('economic_complements.print.datashet_economic_complements',$data )->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();
+          //return json_encode($data);
     }
 
     public function print_sworn_declaration($economic_complement_id,$type)
