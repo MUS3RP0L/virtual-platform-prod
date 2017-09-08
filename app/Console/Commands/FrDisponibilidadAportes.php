@@ -50,7 +50,7 @@ class FrDisponibilidadAportes extends Command
                                             ->where('affiliate_records.affiliate_state_id','=',3)
                                             ->where('affiliate_records.date','>','2014-01-01')
                                             ->distinct()
-                                            ->select('affiliates.id')
+                                            ->select('affiliates.id','affiliate_records.date')
                                             ->get();    
         $this->info("Afiliados con disponibilidades ".sizeof($afiliados)); 
 
@@ -58,6 +58,7 @@ class FrDisponibilidadAportes extends Command
 
         $rows = array();
         $titulos= array(
+                        'id',
                         'Grado',
                         'Nombres',
                         'Apellidos',
@@ -65,6 +66,7 @@ class FrDisponibilidadAportes extends Command
                         'Exp',
                         'Fecha de Alta',
                         'Fechas de disponibilidad',
+                        'fecha de contribucion',
                         'Categoria %',
                         'Sueldo Base',
                         'Antiguedad',
@@ -77,24 +79,34 @@ class FrDisponibilidadAportes extends Command
         foreach ($afiliados as $afi) {
             # code...   
 
-            $afiliado = Affiliate::find($afi->id);
+            $afiliado = Affiliate::where('id',$afi->id)->first();
 
-            Log::info("Afiliado ".$afiliado->id. " CI ".$afiliado->identity_card );
-
+            Log::info("Afiliado ".$afi->id );
+            Log::info("fecha ".$afi->date );
             $fecha_d = DB::table('affiliate_records')
                         ->join('affiliates','affiliate_records.affiliate_id','=','affiliates.id')
                         ->where('affiliate_records.affiliate_state_id','=',3)
                         ->where('affiliate_records.date','>','2014-01-01')
                         ->where('affiliates.identity_card','=',$afiliado->identity_card)->distinct()->select('affiliate_records.date')->get();
 
+  
+                      
             $fecha_disponibilidad='sin disponibilidad';
-
             if(sizeof($fecha_d)>0)
             {
                 $cadena="";
+                $sw = true;
                 foreach($fecha_d as $f)
                 {
+                    // $primera_disponibilidad =null;
+                    // if($sw)
+                    // {
+                    //     $primera_disponibilidad = $f->date;
+
+                    //     $sw =false;
+                    // }
                     $cadena = $cadena."|".$f->date;
+                    // Log::info(json_encode($primera_disponibilidad));
                     // Log::info($fecha_d['']);
                 }
                 $fecha_disponibilidad=$cadena;
@@ -115,8 +127,12 @@ class FrDisponibilidadAportes extends Command
             
             // $monto_contribuciones=0;
 
-            $contribuciones_c =  Contribution::where('affiliate_id','=',$afiliado->id)->where('breakdown_id','=',1)->where('month_year','>','2014-01-01')->get();
-
+            $contribuciones_c =  Contribution::where('affiliate_id','=',$afiliado->id)->where('breakdown_id','=',1)
+                                                                                      ->where('month_year','<',$afi->date)
+                                                                                      ->orderBy('month_year','DESC')
+                                                                                      ->take(60)
+                                                                                      ->get();
+             // $contribuciones = Contribution::where('affiliate_id','=' ,$afiliado->id)->orderBy('month_year','DESC')->select('month_year','base_wage','seniority_bonus','quotable','dignity_pension','study_bonus','position_bonus','border_bonus','east_bonus','public_security_bonus','retirement_fund')->whereBetween('month_year',array($fecha_inicio,$fecha_fin))->take(60)->get();
 
 
             if($contribuciones_c)
@@ -126,6 +142,7 @@ class FrDisponibilidadAportes extends Command
                     # code...
                     $cotizable_fondo = $contribucion->base_wage + $contribucion->seniority_bonus;
                      $row =array( 
+                          $contribucion->id,
                           $afiliado->degree->shortened,
                           $afiliado->first_name.''.$afiliado->second_name,
                           $afiliado->last_name.' '.$afiliado->mothers_last_name,
@@ -133,11 +150,12 @@ class FrDisponibilidadAportes extends Command
                           $exp,
                           $fecha_alta,
                           $fecha_disponibilidad,
-                          $contribucion->category->porcentage,
+                          $contribucion->month_year,
+                          $contribucion->category->percentage,
                           $contribucion->base_wage,
                           $contribucion->seniority_bonus,
                           $contribucion->retirement_fund,
-                          $contribucion->cotizable_fondo,
+                          $cotizable_fondo,
                           
                         //  $qty_cotizaciones,
                           // $monto_contribuciones,  
@@ -159,7 +177,7 @@ class FrDisponibilidadAportes extends Command
 
         Log::info(" el tamañno ". sizeof($rows) );
 
-             Excel::create('informe Fondo de Retiro',function($excel)
+             Excel::create('informe Fondo de Retiro Aportes',function($excel)
              {
 
                  global $rows;
