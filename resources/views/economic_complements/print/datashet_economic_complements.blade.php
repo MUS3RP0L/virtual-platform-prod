@@ -98,7 +98,7 @@
 </table>
 <table>
   <tr>
-    <td colspan="3"><strong>CÁLCULO DEL TOTAL PAGADO</strong></td>
+    <td colspan="3" ><strong>CÁLCULO DEL TOTAL PAGADO</strong></td>
   </tr>
   <tr>
     <td><b>DETALLE</b></td><td><b>FRACCIÓN A FAVOR</b></td><td><b>DESCUENTO</b></td>
@@ -125,10 +125,10 @@
     <td>RENTA BOLETA</td><td class="number">{{$sub_total_rent}}</td><td></td>
   </tr>
   <tr>
-    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REINTEGRO</td><td></td><td>{{$reimbursement}}</td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REINTEGRO</td><td></td><td class="number">{{$reimbursement}}</td>
   </tr>
   <tr>
-    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RENTA DIGNIDAD</td><td></td><td>{{$dignity_pension}}</td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RENTA DIGNIDAD</td><td></td><td class="number">{{$dignity_pension}}</td>
   </tr>
   <tr>
     <td><b>RENTA TOTAL NETA</b></td><td class="number"><b>{{$total_rent_calc}}</b></td><td></td>
@@ -186,6 +186,16 @@
         <table>
           <tr>
             <th class="info" style="border: 0px;text-align:right;width: 100% ">
+                @if(isset($eco_com_applicant))
+                    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(90)->generate(
+                    
+                    'ID complemento: '.$eco_com_applicant->id.' || '.                    $eco_com_applicant->getTitleNameFull().' || '.
+                    'Carnet de Identidad: '.$eco_com_applicant->identity_card.' '.$eco_com_applicant->city_identity_card->first_shortened.' || '.
+                    'Edad del Afiliado: '.$eco_com_applicant->getHowOld().' || '.
+                    'Numero de CUA/NUA: '.$eco_com_applicant->nua
+                    )) !!} ">
+                    
+                @endif
                 
             </th>
           </tr>

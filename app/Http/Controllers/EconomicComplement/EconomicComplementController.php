@@ -1719,7 +1719,7 @@ class EconomicComplementController extends Controller
             $fc = $economic_complement->complementary_factor; 
 
         $eco_com_prev = $economic_complement->total_amount_semester *  $fc;
-
+        //dd($economic_complement->total_amount_semester);
         $factor_complement = $fc;
 
         $eco_tot_frac = $economic_complement->aps_total_cc + $economic_complement->aps_total_fsa + $economic_complement->aps_total_fs;
