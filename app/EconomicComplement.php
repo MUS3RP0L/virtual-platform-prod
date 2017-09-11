@@ -128,7 +128,7 @@ class EconomicComplement extends Model
 
     public function getCode()
     {
-        return "Proceso N° " . $this->code;
+        return "Trámite N° " . $this->code;
     }
     public function economic_complement_procedure()
     {

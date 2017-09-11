@@ -37,7 +37,7 @@
     <table class="table">
       <tr>
         <td style="border: 0px;text-align:left;">
-          <div class="title"><b>Fecha Emisión: </b> La Paz, {!! $date !!}-{!! $hour !!}<br></div>
+          <div class="title"><b>Fecha Emisión: </b> La Paz, {!! $date !!} - {!! $hour !!}<br></div>
         </td>
 
         @if(isset($user))
