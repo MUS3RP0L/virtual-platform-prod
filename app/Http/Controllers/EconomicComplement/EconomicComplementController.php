@@ -866,7 +866,8 @@ class EconomicComplementController extends Controller
         'difference' => Util::formatMoney($economic_complement->difference),
         'total_amount_semester' => Util::formatMoney($economic_complement->difference*6),
         'complementary_factor' => $economic_complement->complementary_factor,
-        'total' => Util::formatMoney($economic_complement->total)
+        'total' => Util::formatMoney($economic_complement->total),
+        'total_repay' => Util::formatMoney($economic_complement->total_repay)
 
         ];
 
@@ -1497,7 +1498,6 @@ class EconomicComplementController extends Controller
             else{
                 //send from request data
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
-
                 EconomicComplement::calculate($economic_complement,$request->total_rent, $request->sub_total_rent, $request->reimbursement, $request->dignity_pension, $request->aps_total_fsa, $request->aps_total_cc, $request->aps_total_fs, $request->aps_disability);
                 //$economic_complement->state = 'Edited';
                 $economic_complement->rent_type = 'Manual';
