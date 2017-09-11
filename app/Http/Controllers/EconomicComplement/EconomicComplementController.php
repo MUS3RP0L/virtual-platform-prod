@@ -1696,8 +1696,8 @@ class EconomicComplementController extends Controller
 
             $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
             $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-            $title = "FORMULARIO DE DECLARACIÓN JURADA VOLUNTARIA";
-            $date = Util::getDateEdit(date('Y-m-d'));
+            $title = "FICHA PAGO COMPLEMENTO ECONÓMICO";
+            $date = Util::getDateEdit(date('d/m/Y'));
             $current_date = Carbon::now();
             $economic_complement = EconomicComplement::where('id',$id_complemento)->first();
             $hour = Carbon::parse($current_date)->toTimeString();
@@ -1901,7 +1901,16 @@ class EconomicComplementController extends Controller
         }else{
             $status_eco_com_submitted_documents_ar=false;
         }
+        $t_v = $economic_complement->economic_complement_modality->shortened;
+           
+        if($t_v == 'VEJEZ' || $t_v == 'RENT-MEN-VEJ' || $t_v == 'RENT-1COMP-VEJ' || $t_v == 'RENT-1COM-MEN-VEJ'){
+            $modality = 1;
+        }
+        if($t_v == 'VIUDEDAD'){
+            $modality = 0;
+        }
 
+        
         $data = [
 
         'affiliate' => $affiliate,
@@ -1926,9 +1935,18 @@ class EconomicComplementController extends Controller
         'last_ecocom' => $last_ecocom,
         'state' => $state,
         'status_eco_com_submitted_documents_ar'=>$status_eco_com_submitted_documents_ar,
-        'eco_com_prev' => number_format($eco_com_prev, 2, '.', ''),
-        'eco_tot_frac' => number_format($eco_tot_frac, 2, '.', ''),
-        'factor_complement' => $factor_complement * 100
+        'eco_com_prev' => number_format($eco_com_prev, 2, '.', ','),
+        'eco_tot_frac' => number_format($eco_tot_frac, 2, '.', ','),
+        'factor_complement' => $factor_complement * 100,
+        'date' => $date,
+        'hour' => $hour,
+        'header1' => $header1,
+        'header2' => $header2,
+        'title' => $title,
+        'modality' => $modality,
+        'code' => $economic_complement->code,
+        'total' => number_format($economic_complement->total,2,'.',','),
+        'reception_date' => Util::getDateEdit($economic_complement->created_at,date('d/m/Y')),
         ];
         // dd($eco_com_submitted_documents_ar);
 
@@ -1957,22 +1975,18 @@ class EconomicComplementController extends Controller
         'difference' => Util::formatMoney($economic_complement->difference),
         'total_amount_semester' => Util::formatMoney($economic_complement->difference*6),
         'complementary_factor' => $economic_complement->complementary_factor,
-        'total' => Util::formatMoney($economic_complement->total)
+        'total' => Util::formatMoney($economic_complement->total),
+        'user_1' => Auth::user()
 
         ];
 
         $data = array_merge($data, $second_data);
-        // }
-
         $data = array_merge($data, self::getViewModel());
-        //return $data;
-        //aqui coloca  retornas la vista y le pasas los parametros
-        //  return view('economic_complements.print.datashet_economic_complements', $data);
         $view = \View::make('economic_complements.print.datashet_economic_complements',$data )->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
-          //return json_encode($data);
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view)->setPaper('legal');
+        return $pdf->stream();
+  
     }
 
     public function print_sworn_declaration($economic_complement_id,$type)

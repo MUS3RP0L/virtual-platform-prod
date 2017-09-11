@@ -1,107 +1,63 @@
-      <!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>PLATAFORMA VIRTUAL - MUSERPOL</title>
-  <link rel="stylesheet" href="css/style.css" media="all" />
-  <style>
-    .qrCode{
-      position: absolute;
-      left: 80%;
-      bottom: 15%;
-    }
-  </style>
-</head>
-<body>
+@extends('globalprint.print')
+@section('title2')
+
+@endsection
+@section('content')
 <style type="text/css">
     
     .number{
       text-align: right;
     }
   </style>
-  <header class="clearfix">
-    <table class="tableh">
+    <div id="project">
+    <div class="title2"><b>{!! $economic_complement->getCode() !!} </div>
+        <table>
       <tr>
-        <th style="width: 25%;border: 0px;">
-          <div id="logo">
-            <img src="img/logo.jpg">
-          </div>
-        </th>
-        <th style="width: 50%;border: 0px">
-          <h4><b>MUTUAL DE SERVICIOS AL POLICÍA<br>
-           <br>
-          </b>
-            <b>FICHA PAGO COMPLEMENTO ECONÓMICO</b>
-            <br>
-            <b>SEMESTRE I - 2017</b> 
-          </h4>
-          <br>
-          <h3>(Expresado en Bs.)</h3>
-        </th>
-        <th style="width: 25%;border: 0px">
-          <div id="logo2">
-            <img src="img/escudo.jpg">
-          </div>
-        </th>
-      </tr>
-    </table>
-    <table class="table">
-      <tr>
-        <td style="border: 0px;text-align:left;">
-          <div class="title"><b>Fecha Emisión: </b> La Paz, <br> </div>
-      </tr>
-    </table>
-    <br>
-    <h1>
-      <center><b></b></center>
-     
-    </h1>
-    <br>
-   
-  </header>
-
-<table>
-      <tr>
-        <td colspan="4"><strong>DERECHOHABIENTE</strong></td>
+        <td colspan="4" class="grand service"><strong>DERECHOHABIENTE</strong></td>
       </tr>
       <tr>
-        <td>TIPO DE RENTA:</td><td>{{$economic_complement->economic_complement_modality->shortened}}</td><td>REGIONAL:</td><td></td>
+        <td>TIPO DE RENTA:</td><td>{{$economic_complement->economic_complement_modality->shortened}}</td><td>REGIONAL:</td><td>{!! $economic_complement->city->name !!} </td>
       </tr>
       <tr>
         <td>BENEFICIARIO:</td><td colspan="3">{{$eco_com_applicant->last_name}} {{$eco_com_applicant->mothers_last_name}} {{$eco_com_applicant->first_name}}</td>
       </tr>
       <tr>
-        <td>CI:</td><td></td><td>MATRÍCULA:</td><td></td>
+        <td>CI:</td><td>{!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened !!}</td><td>MATRÍCULA:</td><td>{{$affiliate->registration}}</td>
       </tr>
       <tr>
-        <td>FECHA:</td><td colspan="3"></td>
+        <td>FECHA RECEPCIÓN:</td><td colspan="3">{!!$reception_date!!}</td>
       </tr>
       <tr>
         <td colspan="4"></td>
       </tr>
+       @if($modality  != 1)
       <tr>
-        <td colspan="4"><strong>CAUSAHABIENTE - DATOS TITULAR</strong></td>
+        <td colspan="4" class="grand service"><strong>CAUSAHABIENTE - DATOS TITULAR</strong></td>
       </tr>
       <tr>
         <td>DATOS TITULAR:</td><td colspan="3">{{$affiliate->last_name}} {{$affiliate->mothers_last_name}} {{$affiliate->first_name}}</td>
       </tr>
       <tr>
-        <td>CI:</td><td>{{$affiliate->identity_card}}</td><td>MATRÍCULA:</td><td></td>
+        <td>CI:</td><td>{!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened !!}</td><td>MATRÍCULA:</td><td></td>
       </tr>
       <tr>
-        <td>CARGO:</td><td></td><td>CATEGORÍA:</td><td></td>
+        <td>GRADO:</td><td>{!! $economic_complement->degree->shortened ?? '' !!}</td><td>CATEGORÍA:</td><td>{!! $economic_complement->category->getPercentage() !!}</td>
       </tr>
       <tr>
         <td>AÑOS DE SERVICIO:</td><td colspan="3"></td>
       </tr>
-
+      @endif  
 </table>
 <table>
   <tr>
-    <td colspan="3" ><strong>CÁLCULO DEL TOTAL PAGADO</strong></td>
+    <td colspan="3" class="grand service" ><strong>CÁLCULO DEL TOTAL PAGADO</strong></td>
   </tr>
   <tr>
-    <td><b>DETALLE</b></td><td><b>FRACCIÓN A FAVOR</b></td><td><b>DESCUENTO</b></td>
+    <td class="grand service" rowspan="2"><b>DETALLE</b></td>
+    <td class="grand service" colspan="2"><b style="text-align: center">FRACCIÓN CALCULADO</b></td>
+  </tr>
+  <tr>
+    <td class="grand service"><b>A FAVOR</b></td><td class="grand service"><b>DESCUENTO</b></td>
   </tr>
   <tr>
     <td>FRACCIÓN DE SALDO ACUMULADO</td><td class="number">{{$economic_complement->aps_total_fsa}}</td><td></td>
@@ -113,13 +69,17 @@
     <td>FRACCIÓN SOLIDARIA</td><td class="number">{{$economic_complement->aps_total_fs}}</td><td></td>
   </tr>
   <tr>
-    <td><b>TOTAL</b></td><td class="number"><b>{{$eco_tot_frac}}</b></td><td></td>
+    <td class="grand service"><b>TOTAL</b></td><td class="number"><b>{{$eco_tot_frac}}</b></td><td></td>
   </tr>
   <tr>
     <td colspan="3"></td>
   </tr>
   <tr>
-    <td><b>CONCEPTO</b></td><td><b>MONTO A FAVOR</b></td><td><b>DESCUENTO</b></td>
+    <td class="grand service" rowspan="2"><b>CONCEPTO</b></td>
+    <td class="grand service" colspan="2"><b style="text-align: center">MONTO CALCULADO</b></td>
+  </tr>
+  <tr>
+    <td class="grand service"><b>A FAVOR</b></td><td class="grand service"><b>DESCUENTO</b></td>
   </tr>
   <tr>
     <td>RENTA BOLETA</td><td class="number">{{$sub_total_rent}}</td><td></td>
@@ -149,7 +109,7 @@
     <td>DIFERENCIA</td><td class="number">{{$difference}}</td><td></td>
   </tr>
   <tr>
-    <td>TOTAL SEMESTRE(DIF * 6 Meses)</td><td class="number">{{$total_amount_semester}}</td><td></td>
+    <td class="grand service">TOTAL SEMESTRE(DIF * 6 Meses)</td><td class="number">{{$total_amount_semester}}</td><td></td>
   </tr>
   <tr>
     <td>FACTOR COMPLEMENTO</td><td class="number">{{$factor_complement}} %</td><td></td>
@@ -158,13 +118,13 @@
     <td colspan="3"></td>
   </tr>
   <tr>
-    <td><b>TOTAL COMP. EC. (TS * FC)</b></td><td class="number"><b>{{$eco_com_prev}}</b></td><td></td>
+    <td class="grand service"><b>TOTAL COMP. EC. (TS * FC)</b></td><td class="number"><b>{{$eco_com_prev}}</b></td><td></td>
   </tr>
   <tr>
     <td colspan="3"></td>
   </tr>
   <tr>
-    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CUENTAS POR COBRAR</td><td></td><td></td>
+    <td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CUENTAS POR COBRAR</td><td></td><td></td>
   </tr>
   <tr>
     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MORA POR PRÉSTAMOS</td><td></td><td class="number" >{{$economic_complement->amount_loan}}</td>
@@ -176,35 +136,20 @@
     <td colspan="3"></td>
   </tr>
   <tr>
-    <td><b>TOTAL PAGADO COMP. ECO.</b></td><td class="number"><b>{{$economic_complement->total}}</b></td><td></td>
+    <td class="grand service"><b>TOTAL PAGADO COMP. ECO.</b></td><td class="number"><b>{{$total}}</b></td><td></td>
   </tr>
 </table>
- <footer>
-    PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICÍA - 2017
-
-      <div class="visible-print text-right">
-        <table>
+<br><br>
+<table>
           <tr>
-            <th class="info" style="border: 0px;text-align:right;width: 100% ">
-                @if(isset($eco_com_applicant))
-                    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(90)->generate(
-                    
-                    'ID complemento: '.$eco_com_applicant->id.' || '.                    $eco_com_applicant->getTitleNameFull().' || '.
-                    'Carnet de Identidad: '.$eco_com_applicant->identity_card.' '.$eco_com_applicant->city_identity_card->first_shortened.' || '.
-                    'Edad del Afiliado: '.$eco_com_applicant->getHowOld().' || '.
-                    'Numero de CUA/NUA: '.$eco_com_applicant->nua
-                    )) !!} ">
-                    
-                @endif
-                
-            </th>
+            <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>-------------------------------------------</th>
           </tr>
-        </table>
-      </div>
-  </footer>
-</body>
-</html>
+          <tr>
+            <th class="info" style="border: 0px;text-align:center;"><b>ELABORADO POR:<br/>{!! $user_1->first_name !!} {!! $user_1->last_name !!} <br> {!! $user_1->getAllRolesToString() !!}</b></th>        
+          </tr>
+</table>
+
+    </div>
 
 
-
-
+@endsection
