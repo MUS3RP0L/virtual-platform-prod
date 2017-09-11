@@ -125,6 +125,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('export_by_department', array('as'=>'export_by_department', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_by_department'));
 
 	Route::get('get_causes_by_state', array('as'=>'get_causes_by_state', 'uses'=>'EconomicComplement\EconomicComplementController@getCausesByState'));
+
+	Route::get('economic_complement/ficha_tecnica/{id_complemento}','EconomicComplement\EconomicComplementReportController@data_shet');
 	//david
 	Route::get('export_excel','EconomicComplement\EconomicComplementImportExportController@export_excel');
 	Route::get('export_excel_user','EconomicComplement\EconomicComplementImportExportController@export_excel_user');
@@ -134,7 +136,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('export_excel_observations','EconomicComplement\EconomicComplementImportExportController@export_excel_observations');
 	Route::get('export_not_review','EconomicComplement\EconomicComplementImportExportController@export_not_review');
 
-	Route::get('economic_complement/reporte_calculo/{id_complemento}','EconomicComplement\EconomicComplementController@reporte_calculo');
+	
 		
 	// Economic Complement Record
 	Route::get('get_economic_complement_record/{ecomomic_complement_id}', array('as'=>'get_economic_complement_record', 'uses'=>'EconomicComplement\EconomicComplementController@get_record'));
