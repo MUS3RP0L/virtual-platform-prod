@@ -11,42 +11,119 @@
   </style>
     <div id="project">
     <div class="title2"><b>{!! $economic_complement->getCode() !!} </div>
-        <table>
+
+
+  {{--Información beneficiario--}}
+  @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1)
+    <table class="table" style="width:100%;">
       <tr>
-        <td colspan="4" class="grand service"><strong>DERECHOHABIENTE</strong></td>
+          <td colspan="4" class="grand service">
+          INFORMACIÓN BENEFICIARIO
+            @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1)
+             - CAUSAHABIENTE
+            @endif
+          </td>
       </tr>
       <tr>
-        <td>TIPO DE RENTA:</td><td>{{$economic_complement->economic_complement_modality->shortened}}</td><td>REGIONAL:</td><td>{!! $economic_complement->city->name !!} </td>
+          <td>NOMBRE:</td><td nowrap>{!! $affiliate->last_name !!} {!! $affiliate->mothers_last_name !!} {!! $affiliate->first_name !!}</td>
+          <td>C.I.:</td><td nowrap>  {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card->first_shortened ?? '' !!}</td>
       </tr>
       <tr>
-        <td>BENEFICIARIO:</td><td colspan="3">{{$eco_com_applicant->last_name}} {{$eco_com_applicant->mothers_last_name}} {{$eco_com_applicant->first_name}}</td>
+        <td>TELÉFONO:</td>
+        <td>
+              @foreach(explode(',',$affiliate->phone_number) as $phone)
+                {!! $phone !!}<br/>
+              @endforeach
+        </td>
+        <td>CELULAR:</td>
+        <td>
+             @foreach(explode(',',$affiliate->cell_phone_number) as $phone)
+              {!! $phone !!}<br/>
+             @endforeach
+        </td>
       </tr>
       <tr>
-        <td>CI:</td><td>{!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened !!}</td><td>MATRÍCULA:</td><td>{{$affiliate->registration}}</td>
+          <td>FECHA NACIMIENTO:</td><td> {!! $affiliate->getShortBirthDate() !!}</td><td>EDAD:</td><td>{!! $affiliate->getHowOld() !!}</td>
+      </tr>
+    </table>
+  @endif
+  {{--Información derechohabiente--}}
+    <table class="table" style="width:100%;">
+      <tr>
+          <td colspan="4" class="grand service">
+              INFORMACIÓN BENECIFIARIO
+              @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1)
+               - DERECHOHABIENTE
+              @endif
+          </td>
       </tr>
       <tr>
-        <td>FECHA RECEPCIÓN:</td><td colspan="3">{!!$reception_date!!}</td>
+          <td>NOMBRE:</td><td nowrap>{!! $eco_com_applicant->last_name !!} {!! $eco_com_applicant->mothers_last_name !!} {!! $eco_com_applicant->first_name !!} {!! $eco_com_applicant->second_name !!}</td>
+          <td>C.I.:</td><td nowrap>{!! $eco_com_applicant->identity_card !!} {{$eco_com_applicant->city_identity_card->first_shortened ?? ''}}
+          </td>
+      </tr>
+      @if ($eco_com_applicant->surname_husband)
+      <tr>
+          <td>APELLIDO ESPOSO:</td><td colspan="3">{!! $eco_com_applicant->surname_husband !!}</td>
+      </tr>
+      @endif
+      <tr>
+          <td>FECHA NACIMIENTO:</td><td> {!! $eco_com_applicant->getShortBirthDate() !!}</td><td>EDAD:</td><td>{!! $eco_com_applicant->getHowOld() !!}</td>
       </tr>
       <tr>
-        <td colspan="4"></td>
+        <td>TELÉFONO:</td>
+        <td>
+              @foreach(explode(',',$eco_com_applicant->phone_number) as $phone)
+                {!! $phone !!}<br/>
+              @endforeach
+        </td>
+        <td>CELULAR:</td>
+        <td>
+             @foreach(explode(',',$eco_com_applicant->cell_phone_number) as $phone)
+              {!! $phone !!}<br/>
+             @endforeach
+        </td>
       </tr>
-       @if($modality  != 1)
+    </table>
+
+  {{--Información apoderado--}}  
+@if($economic_complement->has_legal_guardian)
+    <table>
       <tr>
-        <td colspan="4" class="grand service"><strong>CAUSAHABIENTE - DATOS TITULAR</strong></td>
+        <td colspan="4" class="grand service">INFORMACIÓN DEL APODERADO</td>
       </tr>
       <tr>
-        <td>DATOS TITULAR:</td><td colspan="3">{{$affiliate->last_name}} {{$affiliate->mothers_last_name}} {{$affiliate->first_name}}</td>
+        <td>NOMBRE:</td><td nowrap>{!! $economic_complement_legal_guardian->last_name !!} {!! $economic_complement_legal_guardian->mother_name !!} {!! $economic_complement_legal_guardian->first_name !!}</td><td>C.I.:</td><td nowrap>{!! $economic_complement_legal_guardian->identity_card !!} {!! $economic_complement_legal_guardian->city_identity_card->first_shortened ?? '' !!}</td>
       </tr>
-      <tr>
-        <td>CI:</td><td>{!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened !!}</td><td>MATRÍCULA:</td><td></td>
-      </tr>
-      <tr>
-        <td>GRADO:</td><td>{!! $economic_complement->degree->shortened ?? '' !!}</td><td>CATEGORÍA:</td><td>{!! $economic_complement->category->getPercentage() !!}</td>
-      </tr>
-      <tr>
-        <td>AÑOS DE SERVICIO:</td><td colspan="3"></td>
-      </tr>
-      @endif  
+      <td>TELÉFONO:</td>
+      <td>
+          @foreach(explode(',',$economic_complement_legal_guardian->phone_number) as $phone)
+            {!! $phone !!}<br/>
+          @endforeach
+      </td>
+      <td>CELULAR:</td>
+      <td>
+          @foreach(explode(',',$economic_complement_legal_guardian->cell_phone_number) as $phone)
+            {!! $phone !!}<br/>
+          @endforeach
+      </td>
+    </table>
+@endif
+
+{{--Información del trámite--}}
+<table>
+  <tr>
+    <td colspan="4" class="grand service">INFORMACIÓN DEL TRÁMITE</td>
+  </tr>
+  <tr>
+    <td>TIPO:</td><td>{{$economic_complement->economic_complement_modality->shortened}}</td><td>ENTE GESTOR:</td><td>{!! $affiliate->pension_entity->name ?? '' !!}</td>
+  </tr>
+  <tr>
+    <td>GRADO:</td><td>{!! $economic_complement->degree->shortened ?? '' !!}</td><td>CATEGORÍA:</td><td>{!! $economic_complement->category->getPercentage() !!}</td>
+  </tr>
+  <tr>
+    <td>SEMESTRE:</td><td>{!! $economic_complement->semester !!}</td><td>GESTIÓN:</td><td> {!! $economic_complement->getYear() !!}</td>
+  </tr>
 </table>
 <table>
   <tr>
@@ -115,13 +192,7 @@
     <td>FACTOR COMPLEMENTO</td><td class="number">{{$factor_complement}} %</td><td></td>
   </tr>
   <tr>
-    <td colspan="3"></td>
-  </tr>
-  <tr>
     <td class="grand service"><b>TOTAL COMP. EC. (TS * FC)</b></td><td class="number"><b>{{$eco_com_prev}}</b></td><td></td>
-  </tr>
-  <tr>
-    <td colspan="3"></td>
   </tr>
   <tr>
     <td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CUENTAS POR COBRAR</td><td></td><td></td>
@@ -136,20 +207,26 @@
     <td colspan="3"></td>
   </tr>
   <tr>
-    <td class="grand service"><b>TOTAL PAGADO COMP. ECO.</b></td><td class="number"><b>{{$total}}</b></td><td></td>
+  <td class="grand service"><b>TOTAL PAGADO COMP. ECO.</b></td><td class="number"><b>{{$total}}</b></td><td></td>
+  </tr>
+  <tr>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td colspan="3" class="grand service">NOTA</td>
+  </tr>
+  <tr>
+    <td colspan="3"><b> </b>{!!$economic_complement->comment!!}</td>
   </tr>
 </table>
-<br><br>
 <table>
-          <tr>
-            <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>-------------------------------------------</th>
-          </tr>
-          <tr>
-            <th class="info" style="border: 0px;text-align:center;"><b>ELABORADO POR:<br/>{!! $user_1->first_name !!} {!! $user_1->last_name !!} <br> {!! $user_1->getAllRolesToString() !!}</b></th>        
-          </tr>
+  <tr>
+    <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>-------------------------------------------</th>
+  </tr>
+  <tr>
+    <th class="info" style="border: 0px;text-align:center;"><b>Elaborado por {!! $user_1->first_name !!} {!! $user_1->last_name !!} <br> {!! $user_1->getAllRolesToString() !!}</b></th>        
+  </tr>
 </table>
 
-    </div>
-
-
+</div>
 @endsection
