@@ -282,14 +282,14 @@ public static function import_from_bank(Request $request)
     //substr_replace($string ,"",-1);
     if($request->hasFile('archive'))
     {
-      global $year, $semester, $result,$i,$afi,$list;
+      global $year, $semester, $result;
       $reader = $request->file('archive');
       $filename = $reader->getRealPath();
       $year = $request->year;
       $semester = $request->semester;
       Excel::load($filename, function($reader) 
       {
-              global $result,$i,$afi,$list;
+              global $result;
               ini_set('memory_limit', '-1');
               ini_set('max_execution_time', '-1');
               ini_set('max_input_time', '-1');
@@ -299,10 +299,11 @@ public static function import_from_bank(Request $request)
 
       
       $found=0;
-      $nofound=0;      
+      $nofound=0;  
+
       foreach ($result as $valor)
-      {           
-          $ecom = EconomicComplement::where('affiliate_id','=', $result->descripcion2)
+      {   dd($valor->Descripcion2);
+          $ecom = EconomicComplement::where('affiliate_id','=', $valor->Descripcion2)
                                     ->whereYear('year','=', $year)
                                     ->where('semester','=', $semester)->first();
           if ($ecom)
