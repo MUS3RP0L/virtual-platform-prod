@@ -279,10 +279,10 @@ class EconomicComplementImportExportController extends Controller
 
 public static function import_from_bank(Request $request) 
 {
-    //substr_replace($string ,"",-1);
+    global $year, $semester, $result;
     if($request->hasFile('archive'))
     {
-      global $year, $semester, $result;
+      
       $reader = $request->file('archive');
       $filename = $reader->getRealPath();
       $year = $request->year;
@@ -300,15 +300,16 @@ public static function import_from_bank(Request $request)
       
       $found=0;
       $nofound=0;  
-
+     // dd($result->toArray());
       foreach ($result as $valor)
-      {   dd($valor->Descripcion2);
-          $ecom = EconomicComplement::where('affiliate_id','=', $valor->Descripcion2)
+      {  // dd($valor->descripcion2);
+          $ecom = EconomicComplement::where('affiliate_id','=', $valor->descripcion2)
                                     ->whereYear('year','=', $year)
                                     ->where('semester','=', $semester)->first();
           if ($ecom)
           {
-                  $ecom->eco_com_state_id = 1;                 
+                  $ecom->eco_com_state_id = 1;  
+                  $ecom->wf_current_state_id= 8;               
                   $ecom->payment_number = $valor->nro_comprobante;
                   $ecom->payment_date = $valor->fecha_pago;
                   $ecom->bank_agency = $valor->agencia.' - '.$valor->cod_agencia;
@@ -320,7 +321,7 @@ public static function import_from_bank(Request $request)
                 $nofound ++;              
           }
       }
-      Session::flash('message', "Importación Exitosa");
+      Session::flash('message', "Importación Exitosa"." ".$found);
       return redirect('economic_complement');
     }
 }
