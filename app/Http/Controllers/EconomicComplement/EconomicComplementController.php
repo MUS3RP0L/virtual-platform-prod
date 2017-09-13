@@ -1833,4 +1833,36 @@ class EconomicComplementController extends Controller
         }
         return $reception_type;
     }
+
+    public function save_amortization(Request $request)
+    {
+        
+        $rol = Util::getRol();
+
+        switch ($rol->id) {
+            case 7: //contabiliadad
+                
+                $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
+                $complemento->amount_accounting = $request->amount_amortization;
+                $complemento->save();
+                break;
+
+            case 6: //prestamo 
+                
+                $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
+                $complemento->amount_loan = $request->amount_amortization;
+                $complemento->save();
+                break;
+            
+            case 2: //complemento
+                
+                $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
+                $complemento->amount_replacement = $request->amount_amortization;
+                $complemento->save();
+                break;
+            
+        }
+        
+        return back()->withInput();
+    }
 }

@@ -136,6 +136,9 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('export_excel_observations','EconomicComplement\EconomicComplementImportExportController@export_excel_observations');
 	Route::get('export_not_review','EconomicComplement\EconomicComplementImportExportController@export_not_review');
 
+	Route::post('save_amortization','EconomicComplement\EconomicComplementController@save_amortization');
+	Route::get('ChangeRol','User\UserController@ChangeRol');
+	Route::post('PostChangeRol','User\UserController@PostChangeRol');
 	
 		
 	// Economic Complement Record

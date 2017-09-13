@@ -41,6 +41,11 @@ class Exportar_de_MDB extends Command
     public function handle()
     {
         //
+        $pruebas =  DB::connection('sqlsrv')->table('prueba')->get();
+
+        $this->info("pruebas ".$pruebas);
+        
+        exit();
         global $rows,$no_registrados;
 
         $rows = array();
