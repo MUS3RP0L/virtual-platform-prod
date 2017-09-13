@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInterestRateTable extends Migration
+class AddColumnJsonToEcoComTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,10 @@ class CreateInterestRateTable extends Migration
      */
     public function up()
     {
-        Schema::create('interest_rates', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->date('month_year');
-            $table->decimal('rate', 13, 5);
-            $table->timestamps();
+        Schema::table('economic_complements', function (Blueprint $table) {
+            $table->date('recalification_date')->nullable();
+            $table->json('old_eco_com')->nullable();
+            $table->decimal('total_repay', 13, 2)->nullable();
         });
     }
 
@@ -27,6 +26,6 @@ class CreateInterestRateTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('interest_rates');
+        //
     }
 }

@@ -997,7 +997,7 @@
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals">&nbsp;&nbsp;
-                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                    <span class="fa fa-lg fa-calculator" aria-hidden="true"></span>&nbsp;&nbsp;
                                 </a>
                             </div>
                         </div>
@@ -1146,6 +1146,16 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                @if($total_repay)
+                                <table class="table table-bordered table-hover " style="width:100%;font-size: 14px">
+                                    <tbody>
+                                        <tr class="warning">
+                                            <td style="width: 70%">Total Reintegro</td>
+                                            <td  style="text-align: right">{!! $total_repay !!}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                @endif
                             {{-- @else
                                 <div class="row text-center">
                                     <i class="fa  fa-list-alt fa-3x  fa-border" aria-hidden="true"></i>
