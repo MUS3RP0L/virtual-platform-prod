@@ -66,42 +66,42 @@ class ImportFileMakerContribution extends Command
                         $affi=Affiliate::where('identity_card','like',$ci)->first();
                         // $affi=DB::table('affiliates')->whereRaw("split_part(affiliates.identity_card, '-',1) like '".$ci."'")->first();
                         if ($affi) {
-                            // $year=$result->anio;
-                            // $month=$result->mes;
-                            // if (Util::getDegreeId_name($result->grado) != "error" ) {
-                            //     $degree=Util::getDegreeId_name($result->grado);
-                            // }else{
-                            //     Log::info($result->grado);
-                            //     $degree_count++;
-                            // }
-                            // $amount=$result->monto;
-                            // $contribution=Contribution::where('affiliate_id','=',$affi->id)->whereRaw("extract(year from month_year) = ".$year."")->whereRaw("extract(month from month_year) = ".$month."")->first();
-                            // if ($contribution) {
-                            //     // Log::info("------Existe ". $ci." ".$year."-".$month );
-                            // }else{
-                            //     // Log::info("********** NO Existe ".$ci);
-                            //     $contribution_rate = ContributionRate::whereRaw("extract(year from month_year) = ".$year)->whereRaw("extract(month from month_year) = ".$month)->first();
-                            //     $contri =new Contribution;
-                            //     $contri->user_id = 1;
-                            //     $contri->type = 'Directo';
-                            //     $contri->affiliate_id = $affi->id;
-                            //     $contri->degree_id = $degree;
-                            //     $percentage = round(($contribution_rate->retirement_fund + $contribution_rate->mortuary_quota) * 100, 1);
-                            //     $contri->month_year = Carbon::create($year, $month,1,0,0,0);
-                            //     $contri->retirement_fund = $amount * $contribution_rate->retirement_fund / $percentage * 100;
-                            //     $contri->mortuary_quota = $amount * $contribution_rate->mortuary_quota / $percentage * 100;
-                            //     $contri->total = $amount;
-                            //     $contri->base_wage = 0;
-                            //     $contri->seniority_bonus = 0;
-                            //     $contri->study_bonus = 0;
-                            //     $contri->position_bonus = 0;
-                            //     $contri->border_bonus = 0;
-                            //     $contri->east_bonus = 0;
-                            //     $contri->gain = 0;
-                            //     $contri->quotable = 0;
-                            //     $contri->save();
-                            //     // dd($contri);
-                            // }
+                            $year=$result->anio;
+                            $month=$result->mes;
+                            if (Util::getDegreeId_name($result->grado) != "error" ) {
+                                $degree=Util::getDegreeId_name($result->grado);
+                            }else{
+                                Log::info($result->grado);
+                                $degree_count++;
+                            }
+                            $amount=$result->monto;
+                            $contribution=Contribution::where('affiliate_id','=',$affi->id)->whereRaw("extract(year from month_year) = ".$year."")->whereRaw("extract(month from month_year) = ".$month."")->first();
+                            if ($contribution) {
+                                // Log::info("------Existe ". $ci." ".$year."-".$month );
+                            }else{
+                                // Log::info("********** NO Existe ".$ci);
+                                $contribution_rate = ContributionRate::whereRaw("extract(year from month_year) = ".$year)->whereRaw("extract(month from month_year) = ".$month)->first();
+                                $contri =new Contribution;
+                                $contri->user_id = 1;
+                                $contri->type = 'Directo';
+                                $contri->affiliate_id = $affi->id;
+                                $contri->degree_id = $degree;
+                                $percentage = round(($contribution_rate->retirement_fund + $contribution_rate->mortuary_quota) * 100, 1);
+                                $contri->month_year = Carbon::create($year, $month,1,0,0,0);
+                                $contri->retirement_fund = $amount * $contribution_rate->retirement_fund / $percentage * 100;
+                                $contri->mortuary_quota = $amount * $contribution_rate->mortuary_quota / $percentage * 100;
+                                $contri->total = $amount;
+                                $contri->base_wage = 0;
+                                $contri->seniority_bonus = 0;
+                                $contri->study_bonus = 0;
+                                $contri->position_bonus = 0;
+                                $contri->border_bonus = 0;
+                                $contri->east_bonus = 0;
+                                $contri->gain = 0;
+                                $contri->quotable = 0;
+                                $contri->save();
+                                // dd($contri);
+                            }
                             $affi_succ++;
                         }else{
                             $affiliate_no[]= array(
