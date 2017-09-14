@@ -1838,30 +1838,36 @@ class EconomicComplementController extends Controller
     {
         
         $rol = Util::getRol();
+        if($request->amount_amortization > 0)
+        {
+            switch ($rol->module_id) {
+                case 8: //contabiliadad
+                    
+                    $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
+                    $complemento->amount_accounting = $request->amount_amortization;
+                    $complemento->save();
+                    break;
 
-        switch ($rol->id) {
-            case 7: //contabiliadad
+                case 6: //prestamo 
+                    
+                    $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
+                    $complemento->amount_loan = $request->amount_amortization;
+                    $complemento->save();
+                    break;
                 
-                $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
-                $complemento->amount_accounting = $request->amount_amortization;
-                $complemento->save();
-                break;
-
-            case 6: //prestamo 
+                case 2: //complemento
+                    
+                    $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
+                    $complemento->amount_replacement = $request->amount_amortization;
+                    $complemento->save();
+                    break;
                 
-                $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
-                $complemento->amount_loan = $request->amount_amortization;
-                $complemento->save();
-                break;
-            
-            case 2: //complemento
-                
-                $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
-                $complemento->amount_replacement = $request->amount_amortization;
-                $complemento->save();
-                break;
-            
+            }
         }
+        else{
+            Session::flash('message', 'El Monto de amortizacion debe ser mayor a 0 ');
+        }
+        
         
         return back()->withInput();
     }

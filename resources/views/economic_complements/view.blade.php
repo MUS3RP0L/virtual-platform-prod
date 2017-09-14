@@ -33,13 +33,15 @@
             @endif
         @endcan
         
-        @can('accounting')
+      
+        @if(Util::getRol()->module_id==8 or Util::getRol()->module_id==2 or Util::getRol()->module_id == 6 )
+       
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Amortización" style="margin:0px;">
                     <a href="#" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled"  data-toggle="modal" data-target="#amortization-modal" >
                         &nbsp;<span class="fa fa-money"></span>&nbsp;
                     </a>
                 </div>
-        @endcan
+        @endif
         <div class="btn-group">
             <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm btn-raised btn-lg bg-orange"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar Tramite"><i aria-hidden="true" class="fa fa-refresh"></i></a>
         </div>

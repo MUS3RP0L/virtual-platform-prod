@@ -345,7 +345,7 @@ class UserController extends Controller
 
     public function ChangeRol()
     {
-        
+        // return Util::getRol();
         $roles = Auth::user()->roles;
         // return $roles;
 
@@ -375,8 +375,6 @@ class UserController extends Controller
        }
        
         return redirect('/');
-       
-        
 
     }
 
