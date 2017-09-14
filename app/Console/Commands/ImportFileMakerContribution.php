@@ -62,7 +62,7 @@ class ImportFileMakerContribution extends Command
                         ini_set('max_execution_time', '-1');
                         ini_set('max_input_time', '-1');
                         set_time_limit('-1');
-                        $ci = $result->ci;
+                        $ci = trim($result->ci);
                         $affi=Affiliate::where('identity_card','like',$ci)->first();
                         // $affi=DB::table('affiliates')->whereRaw("split_part(affiliates.identity_card, '-',1) like '".$ci."'")->first();
                         if ($affi) {
@@ -104,27 +104,30 @@ class ImportFileMakerContribution extends Command
                             // }
                             $affi_succ++;
                         }else{
-                            $affiliate_no[]=(array)json_encode($result);
+                            $affiliate_no[]= array(
+                                'ci' => $result->ci,
+                                'nombre'=>$result->nombre,
+                                'paterno'=>$result->paterno,
+                                'materno'=>$result->materno,
+                                'grado'=>$result->grado,
+                                'anio'=>$result->anio,
+                                'mes'=>$result->mes,
+                                'monto'=>$result->monto
+                            );
                             $affi_no++;
                         }
                         $Progress->advance();
                     });
                 });
-                // Excel::create('Lista Afiliados NO importados de File Maker'.date("Y-m-d H:i:s"),function($excel)
-                // {
-                    // global $affiliate_no;
-                    // $excel->sheet('afiliados no importados',function($sheet){
-                    // global $affiliate_no;
-                    // $i=1;
-                    //     $sheet->row($i, array('CI', 'EXT','NOMBRE','GRADO ANTIGUO','NUEVO GRADO','TIPO','REGIONAL','CODE','ID'));
-                    //     $i++;
-                    //     foreach ($degree as $value) {
-                    //         $sheet->row($i,   array($value->ci, $value->ext,$value->name,$value->old_degree,$value->new_degree,$value->type,$value->city,$value->code,$value->id));
-                    //         $i++;
-                    //     }
-                    // });
-                    
-                // })->store('xls', storage_path('excel/exports'));
+                // dd($affiliate_no);
+                Excel::create('Lista Afiliados NO importados de File Maker'.date("Y-m-d H:i:s"),function($excel) use($affiliate_no)
+                {
+                    global $affiliate_no;
+                    $excel->sheet('afiliados no importados',function($sheet) use($affiliate_no){
+                        global $affiliate_no;
+                        $sheet->fromArray($affiliate_no);
+                    });
+                })->store('xls', storage_path('excel/exports'));
                 $time_end = microtime(true);
                 $execution_time = ($time_end - $time_start)/60;
                 $Progress->finish();
