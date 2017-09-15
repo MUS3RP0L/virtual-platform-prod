@@ -63,8 +63,8 @@ class ImportFileMakerContribution extends Command
                         ini_set('max_input_time', '-1');
                         set_time_limit('-1');
                         $ci = trim($result->ci);
-                        $affi=Affiliate::where('identity_card','like',$ci)->first();
-                        // $affi=DB::table('affiliates')->whereRaw("split_part(affiliates.identity_card, '-',1) like '".$ci."'")->first();
+                        // $affi=Affiliate::where('identity_card','like',$ci)->first();
+                        $affi=DB::table('affiliates')->whereRaw("split_part(affiliates.identity_card, '-',1) like '".$ci."'")->first();
                         if ($affi) {
                             $year=$result->anio;
                             $month=$result->mes;
