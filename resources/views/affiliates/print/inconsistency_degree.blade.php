@@ -6,7 +6,7 @@
 
 <table>
   <p align="justify">
-      En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN</b> CITE N° {!!$eco_com_applicant->code !!} de la <b>UNIDAD DE OTORGACIÓN DEL BENEFICIO DEL COMPLEMENTO ECONÓMICO - MUSERPOL</b> de fecha {!! $eco_com_applicant_date!!}, quien recibió en mano propia el original de dicho documento.
+       En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN</b> CITE N° {!!$eco_com_applicant->code !!} de la <b>UNIDAD DE OTORGACIÓN DEL BENEFICIO DEL COMPLEMENTO ECONÓMICO - MUSERPOL</b> de fecha {!! $eco_com_applicant_date!!}, quien recibió en mano propia el original de dicho documento.
   </p>
 </table>
 
@@ -16,7 +16,7 @@
         <th align="center"></th>
       </tr>
     </thead>
-    <tbody>
+     <tbody>
       <tr>
         <td class="grand service" style="text-align:center;width: 10%;height: 10%"><p align="center">FIRMA DEL NOTIFICADO(A).</p>
         <table>
@@ -51,7 +51,7 @@
     </tbody>
   </table>
 <footer>
-  PLATAFORMA VIRUTAL - MUTUAL DE SERVICIOS AL POLICIA
+  PLATAFORMA VIRTUAL - MUTUAL DE SERVICIOS AL POLICÍA
 </footer>
 <div class="page-break"></div>
 <header class="clearfix">
@@ -82,28 +82,26 @@
   </h1>
 </header>
   <table>
-      <p align="right"> La Paz {{ $dateHeader }}<br>CITE: UCE – EGSB /2017
+      <p align="right"> La Paz {!! $dateHeader !!}<br>CITE: UCE - EGSB {!! $eco_com_applicant->semester !!}/{!! $yearcomplement->year !!}<br>CITE: UCE – EGSB /2017
+
       </p>
   </table>
   <table>
       <p align="left">Señor (a): <br>
-      {!! $eco_com_applicant->getTitleNameFull() !!}.<br>
+        {!! $eco_com_applicant->getTitleNameFull() !!}<br>
       Presente.-
        </p>
   </table>
          <p align="right"><b>REF.- <ins> CARTA DE NOTIFICACIÓN </ins></b></p>
-        <p align="justify">De nuestra consideracion.</p>
-         <p>
-             De la revisión efectuada por el Área Técnica de la Unidad de Otorgación del Beneficio del Complemento Económico, <b>se comunica a usted que percibe una prestación por INVALIDEZ COMUN.</b>
-        </p>
+        <p align="justify">De nuestra consideración.</p>
+         
     <p align="justify">
-      Y en estricto cumplimiento al Decreto Supremo Nº 1446, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 17.- (Complemento Económico). Parágrafo I, modificado mediante D. S. Nº 3231 de fecha 27 de junio de 2017, con el siguiente texto: El Complemento Económico, es un beneficio que otorga la MUSERPOL al sector pasivo de la Policía Boliviana y sus derechohabientes de primer grado, <b><ins>con prestaciones por vejez</ins></b> en curso de pago del Sistema de Reparto y <b><ins>del Sistema Integral de Pensiones</ins></b> y con prestaciones por invalidez del Sistema de Reparto, cuyos montos sean inferiores al haber básico más categoría que perciban los miembros del servicio activo de la Policía en el grado correspondiente y los titulares hayan alcanzado la edad requerida para la jubilación por vejez y cumplido como mínimo con dieciséis (16) años de servicio en la Policía Boliviana
-    <p align="justify">
-      <b>Del Reglamento del Complemento Económico de 2017</b>, aprobado mediante Resolución de Directorio Nº 27/2017 de fecha 11 de agosto de 2017, norma en su <b>ARTÍCULO 7° (Exclusión).</b>Quedan excluidos del pago del beneficio del Complemento Económico: inc. 5.- Los titulares, derechohabientes de primer grado o huérfanos absolutos, <b>que perciben pensiones por Riesgo Común y/o Profesional e Invalidez Común y/o Profesional o muerte.</b></p>
+      Se comunica a usted, que mediante el Área Técnica de la Unidad de Otorgación del Beneficio del Complemento Económico se procedió con la revisión de la documentación presentada por su persona, respecto al Certificado de Años de Servicio, emitido por el Comando General de la Policía Boliviana y <b>se evidenció que existe inconsistencia en el GRADO consignado, en relación con el registro en la Base de Datos de la Unidad</b>.
     </p>
-    <p align="justify"><b>
-      Es decir, que en su boleta de jubilación no percibe una prestación por VEJEZ; por lo que no podrá acceder al Pago del Beneficio del Complemento Económico, correspondiente al {{ $current_semester }} Semestre de la Gestión {{ $current_year}}.
-    </b></p>
+    <p align="justify">
+      En tal sentido, de acuerdo a instrucciones contenidas en Memorándum DIR.GRAL.EJEC. N° 171/2017 y D.B.E. N° 0024/2017 de fecha 04 de septiembre de 2017, <b>su persona contará con el plazo de Treinta (30) días calendario a partir de su notificación formal, para aclarar o confirmar el GRADO de Elija un elemento. con el cual se estaba beneficiando del Complemento Económico hasta el {!! $eco_com_applicant->semester !!}. Semestre de la gestión {!! $yearcomplement->year !!}</b>, en caso de no confirmar dicho GRADO, deberá proceder con la devolución de los montos pagados en demasía inicialmente a partir de la gestión 2013, dado que su fecha de inclusión a la planilla de beneficio puede ser anterior.
+    </p>
+   
     <p align="justify">
           Sin otro motivo en particular, saludo a usted.<br>
           Atentamente.

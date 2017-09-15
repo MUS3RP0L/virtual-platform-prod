@@ -694,6 +694,23 @@ class AffiliateController extends Controller
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
+
+             
+            //Inconsistencia por categoría
+            case '14':
+
+                $view = \View::make('affiliates.print.inconsistency_category',compact('header1','header2','title','date','dateHeader','eco_com_applicant_date','hour','eco_com_applicant','yearcomplement','nextSemester','nextYear'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();
+            //Inconsistencia por grado    
+            case '15':
+            
+                $view = \View::make('affiliates.print.inconsistency_degree',compact('header1','header2','title','date','dateHeader','eco_com_applicant_date','hour','eco_com_applicant','yearcomplement','nextSemester','nextYear'))->render(); 
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();   
+
         }
     }
 

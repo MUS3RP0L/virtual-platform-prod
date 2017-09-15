@@ -6,7 +6,7 @@
 
 <table>
   <p align="justify">
-      En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!! $eco_com_applicant->code !!} de fecha {!! $eco_com_applicant_date !!}, quien recibió en mano propia el original de dicho documento.
+      En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN</b> CITE N° {!!$eco_com_applicant->code !!} de la <b>UNIDAD DE OTORGACIÓN DEL BENEFICIO DEL COMPLEMENTO ECONÓMICO - MUSERPOL</b> de fecha {!! $eco_com_applicant_date!!}, quien recibió en mano propia el original de dicho documento.
   </p>
 </table>
 
@@ -18,15 +18,40 @@
     </thead>
     <tbody>
       <tr>
-        <td class="grand service" style="text-align:center;width: 10%;height: 10%"><p align="center">FIRMA DEL NOTIFICADO.</p></td>
+        <td class="grand service" style="text-align:center;width: 10%;height: 10%"><p align="center">FIRMA DEL NOTIFICADO(A).</p>
+        <table>
+             <tr>
+                <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>-------------------------------------------</th>
+              </tr>
+              <tr>
+                <th class="info" style="border: 0px;text-align:center;"><b>C.I. N°: {{$eco_com_applicant->identity_card}}</b></th>
+              </tr>
+              <tr>
+                @if($eco_com_applicant->getPhone())
+                <th class="info" style="border: 0px;text-align:center;"><b>TELF/CEL: <br><ins>{{ $eco_com_applicant->getPhone() }}</ins></b></th>        
+              </tr>
+              @else
+              <th class="info" style="border: 0px;text-align:center;"><b>TELF/CEL:</b><br><br>-------------------------------------------</th>
+              @endif
+        </table>
+        </td>
       </tr>
         <tr>
-        <td class="grand service" style="text-align:center;width: 10%;height: 10%"><p align="center">ACLARACIÓN DE FIRMA.</p></td>
+        <td class="grand service" style="text-align:center;width: 10%;height: 10%"><p align="center">NOTIFICADO POR:</p>
+          <table>
+              <tr>
+                <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>-------------------------------------------</th>
+              </tr>
+              <tr>
+                <th class="info" style="border: 0px;text-align:center;"><b>{!! Auth::user()->first_name !!} {!! Auth::user()->last_name !!} <br> {!! Auth::user()->getAllRolesToString() !!}</b></th>        
+              </tr>
+          </table>
+        </td>
       </tr>
     </tbody>
   </table>
 <footer>
-  PLATAFORMA VIRUTAL - MUTUAL DE SERVICIOS AL POLICIA
+  PLATAFORMA VIRTUAL - MUTUAL DE SERVICIOS AL POLICIA
 </footer>
 <div class="page-break"></div>
 <header class="clearfix">
@@ -38,7 +63,7 @@
         </div>
       </th>
       <th style="width: 50%;border: 0px">
-        <h4><b>MUTUAL DE SERVICIOS AL POLICIA<br>
+        <h4><b>MUTUAL DE SERVICIOS AL POLICÍA<br>
           {!! $header1 !!} <br> {!! $header2 !!}
         </b></h4>
       </th>
@@ -74,8 +99,7 @@
     <p align="justify"><b>
       Y en estricto cumplimiento al Decreto Supremo Nº 1446</b>, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 3º.- (Funciones y fines). La MUSERPOL tiene las siguientes funciones y fines: inc. 5) <b>Pagar el Complemento Económico al sector pasivo de la Policía Boliviana conforme a Reglamento. </b>
     <p align="justify">
-      Asimismo, se halla enmarcado en las normas legales vigentes, el <b>Reglamento del Complemento Económico de 2016</b>, aprobado mediante Resolución de Directorio Nº 36/2016 de fecha 09 de diciembre de 2016, que norma en su <b>ARTÍCULO 7° (Exclusión). Quedan excluidos del pago del beneficio del Complemento Económico:</b>inc. 4.-  Cuando el afiliado semestralmente se encuentre en calidad de imputado, acusado o sentenciado en proceso judicial seguido por la MUSEPOL y/o MUSERPOL en su contra. La sentencia absolutoria ejecutoriada, que pueda emitir el órgano judicial a favor del procesado por MUSEPOL y/o MUSERPOL, es el documento que permitirá la viabilidad de pago a solicitud del interesado, a partir del siguiente semestre de pago de Complemento Económico.</p>
-
+      <b>Del Reglamento del Beneficio del Complemento Económico de 2017</b>, aprobado mediante Resolución de Directorio Nº 27/2017 de fecha 11 de agosto de 2017, norma en su ARTÍCULO 7° (Exclusión). Quedan excluidos del pago del beneficio del Complemento Económico: inc. 3.- Los afiliados con renta o pensión en curso de pago, que tengan sentencia condenatoria ejecutoriada por delitos cometidos contra la MUSEPOL y/o MUSERPOL.</p>
     </p>
 
     <p align="justify">
