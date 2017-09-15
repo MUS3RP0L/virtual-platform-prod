@@ -274,8 +274,9 @@ class AffiliateController extends Controller
             }
         }
 
-        $moduleObservation=Auth::user()->roles()->first()->module->id;
-        $observations_types = $moduleObservation == 1 ? ObservationType::all() : ObservationType::where('module_id',$moduleObservation)->get();
+        // $moduleObservation=Auth::user()->roles()->first()->module->id;
+        // $observations_types = $moduleObservation == 1 ? ObservationType::all() : ObservationType::where('module_id',$moduleObservation)->get();
+        $observations_types = ObservationType::where('module_id',Util::getRol()->module_id)->get();
         $observation_types_list = array('' => '');
         foreach ($observations_types as $item) {
             $observation_types_list[$item->id]=$item->name;

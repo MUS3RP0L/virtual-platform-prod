@@ -269,7 +269,7 @@ class DashboardController extends Controller
 		$sum_last_semesters_data_reverse=array_reverse($sum_last_semesters_data, true);
 			
 	   	 $revisados=EconomicComplement::where('economic_complements.workflow_id','=','1')
-            ->where('economic_complements.wf_current_state_id','2')
+            ->where('economic_complements.wf_current_state_id','2')//
             ->where('economic_complements.state','Edited')
             ->where('economic_complements.eco_com_procedure_id','2')
             ->whereNotNull('review_date')
@@ -282,12 +282,16 @@ class DashboardController extends Controller
            // Log::info("revisados : ".$revisados->count());
              $semestre = DB::table('eco_com_procedures')->orderBy('id','DESC')->first();
 
-           $norevisados = EconomicComplement::where('eco_com_procedure_id','=','2')->get();
+           $norevisados = EconomicComplement::where('economic_complements.workflow_id','=','1')
+           ->where('eco_com_procedure_id','=','2')
+           ->where('economic_complements.state','Received')
+           ->get();
+           // dd($norevisados->count());
            // Log::info("no revisados".$norevisados->count());
            $valid_array=array();
             array_push($valid_array, array('Revisados','No Revisados'));
-            $n= $norevisados->count()-$revisados->count();
-            array_push($valid_array, array($revisados->count(),$n));	
+            $n= $revisados->count()-$norevisados->count();
+            array_push($valid_array, array($revisados->count(),$norevisados->count()));	
 
            // Log::info($valid_array);
 

@@ -342,4 +342,40 @@ class UserController extends Controller
         Session::flash('message', $message);
         return redirect('user');
     }
+
+    public function ChangeRol()
+    {
+        // return Util::getRol();
+        $roles = Auth::user()->roles;
+        // return $roles;
+
+        return view('auth.change')->with('roles',$roles);
+       
+        
+    }
+    public function PostChangeRol(Request $request)
+    {
+       $sw = false;
+       {
+        
+        $roles = Auth::user()->roles;
+
+        foreach ($roles as $rol) {
+            # code...
+            if($request->rol_id==$rol->id)
+            {
+                $sw = true;
+            }
+        }
+       }
+
+       if($sw)
+       {
+         Session::put('rol_id',$request->rol_id);
+       }
+       
+        return redirect('/');
+
+    }
+
 }

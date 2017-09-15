@@ -42,98 +42,106 @@ class AuthServiceProvider extends ServiceProvider
         parent::registerPolicies($gate);
             
         $gate->before(function ($user, $ability) {
-            foreach ($user->roles as $role) {
-                if($role->id == 1){
+            // foreach ($user->roles as $role) {
+                if(Util::getRol()->id == 1){
                     return true;
                 }
-            }
+            // }
         });
 
         $gate->define('manage', function ($user) {
-            foreach ($user->roles as $role) {
-                if ($role->id == 1) {
+            // foreach ($user->roles as $role) {
+                if (Util::getRol()->id == 1) {
                     return true;
                 }
-            }
+            // }
             return false;
         });
 
         $gate->define('economic_complement',function($user){
-            if($user->roles()->first()->module->id == 2){
+            if(Util::getRol()->module_id == 2){
                 return true;
             }
             return false;
         });
 
         $gate->define('eco_com_reception',function($user){
-            foreach ($user->roles as $role) {
-                if($role->id == 2){
+            // foreach ($user->roles as $role) {
+                if(Util::getRol()->id == 2){
                     return true;
                 }
-            }
+            // }
             return false;
         });
 
         $gate->define('eco_com_review',function($user){
-            foreach ($user->roles as $role) {
-                if($role->id == 3){
+            // foreach ($user->roles as $role) {
+                if(Util::getRol()->id == 3){
                     return true;
                 }
-            }
+            // }
             return false;
         });
 
-        $gate->define('eco_com_qualification',function($user){
-            foreach ($user->roles as $role) {
-                if($role->id == 4){
+        $gate->define('eco_com_review_and_reception',function($user){
+            // foreach ($user->roles as $role) {
+                if(Util::getRol()->id == 3 || Util::getRol()->id == 2 ){
                     return true;
                 }
-            }
+            // }
+            return false;
+        });
+        $gate->define('eco_com_qualification',function($user){
+            // foreach ($user->roles as $role) {
+                if(Util::getRol()->id == 4){
+                    return true;
+                }
+            // }
             return false;
         });
 
         $gate->define('eco_com_approval',function($user){
-            foreach ($user->roles as $role) {
-                if($role->id == 5){
+            // foreach ($user->roles as $role) {
+                if(Util::getRol()->id == 5){
                     return true;
                 }
-            }
+            // }
             return false;
         });
 
         $gate->define('eco_com_lawyer',function($user){
-            foreach ($user->roles as $role) {
-                if($role->id == 6){
+            // foreach ($user->roles as $role) {
+                if(Util::getRol()->id == 6){
                     return true;
                 }
-            }
+            // }
             return false;
         });
 
         $gate->define('accounting',function($user){
-            foreach ($user->roles as $role) {
-                if($role->id == 7){
+            // foreach ($user->roles as $role) {
+                if(Util::getRol()->id == 7){
                     return true;
                 }
-            }
+            // }
             return false;
         });
   
         $gate->define('budget',function($user){
-            foreach ($user->roles as $role) {
-                if($role->id == 8){
+            // foreach ($user->roles as $role) {
+                if(Util::getRol()->id == 8){
                     return true;
                 }
-            }
+            // }
             return false;
         });
 
         $gate->define('treasury',function($user){
-            foreach ($user->roles as $role) {
-                if($role->id == 9){
+            // foreach ($user->roles as $role) {
+                if(Util::getRol()->id == 9){
                     return true;
                 }
-            }
+            // }
             return false;
         });
 
@@ -145,11 +153,11 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         $gate->define('observate', function($user){
-            foreach ($user->roles as $role) {
-                if($role->id == 2 || $role->id == 3 || $role->id == 4 || $role->id == 7 || $role->id == 16 || $role->id == 17){
+            // foreach ($user->roles as $role) {
+                if(Util::getRol()->id == 2 || Util::getRol()->id == 3 || Util::getRol()->id == 4 || Util::getRol()->id == 7 || Util::getRol()->id == 16 || Util::getRol()->id == 17){
                     return true;
                 }
-            }
+            // }
             return false;
         });
 

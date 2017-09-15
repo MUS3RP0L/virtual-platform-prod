@@ -50,6 +50,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\FusionOnlyAffiliate::class,
         \Muserpol\Console\Commands\ImportSismuNormal::class,
         \Muserpol\Console\Commands\ImportSismuReintegro::class,
+        \Muserpol\Console\Commands\ImportRezagados::class,
 
         
     ];

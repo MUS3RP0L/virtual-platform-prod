@@ -16,6 +16,7 @@ use Auth;
 use Validator;
 use Session;
 use stdClass;
+use Log;
 
 class InboxController extends Controller
 {
@@ -31,13 +32,16 @@ class InboxController extends Controller
     public function DataReceived()
     {
 
-        $user_ids=Auth::user()->roles()->first();
+        // $rol=Auth::user()->roles()->first();
+        // dd($rol);
         //id de tramites en proceso
+        $rol = Util::getRol();
+        Log::info("rol actual".$rol);
         $state_id = 16;
         $economic_complements=EconomicComplement::where('economic_complements.state','Received')->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
-            ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
-            ->where('wf_states.role_id',($user_ids->id))
-            // ->where('economic_complements.eco_com_procedure_id','2')
+            // ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
+            ->where('wf_states.role_id',($rol->id))
+            ->where('economic_complements.eco_com_procedure_id','2')
             ->select('economic_complements.id','economic_complements.code')
 
             ->get();
@@ -58,11 +62,12 @@ class InboxController extends Controller
     }
     public function DataEdited()
     {
-        $user_role_id=Auth::user()->roles()->first();
+        // $user_role_id=Auth::user()->roles()->first();
+        $rol = Util::getRol();
         //id de tramites en proceso
         $state_id = 16;
         $economic_complements=EconomicComplement::where('economic_complements.state','Edited')->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
-            ->where('wf_states.role_id',($user_role_id->id))
+            ->where('wf_states.role_id',($rol->id))
             ->where('economic_complements.eco_com_procedure_id','2')
             ->where('economic_complements.user_id',Auth::user()->id)
             ->select('economic_complements.id','economic_complements.code')

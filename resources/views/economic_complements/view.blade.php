@@ -5,12 +5,19 @@
 		{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
 	</div>
 	<div class="col-md-6">
+        @can('eco_com_review')
+                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
+                    <a href="" class="btn btn-success btn-sm btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
+                </div>
+            @endcan
+            
        @can('eco_com_reception')
             @can('observate')
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
                     <a href="" class="btn btn-success btn-sm btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
                 </div>
             @endcan
+
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Declaración Jurada" style="margin:0px;">
                 <a href="" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
                     &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
@@ -32,9 +39,21 @@
                 </div>
             @endif
         @endcan
+        
+      
+        @if($has_amortization)
+       
+                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Amortización" style="margin:0px;">
+                    <a href="#" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled"  data-toggle="modal" data-target="#amortization-modal" >
+                        &nbsp;<span class="fa fa-money"></span>&nbsp;
+                    </a>
+                </div>
+        @endif
+        @can("eco_com_review_and_reception")
         <div class="btn-group">
             <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm btn-raised btn-lg bg-orange"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar Tramite"><i aria-hidden="true" class="fa fa-refresh"></i></a>
         </div>
+        @endcan
         <div class="btn-group">
             <span data-toggle="modal" data-target="#recordEcoModal">
                 <a href="#" class="btn btn-sm btn-raised btn-lg bg-blue"  data-toggle="tooltip"  data-placement="top" data-original-title="Historial"><i class="fa fa-lg fa-clock-o"></i></a>
@@ -43,10 +62,10 @@
         <div class="pull-right">
             <div class="btn-group">
                 <span data-toggle="tooltip" data-placement="top" data-original-title="ver" style="margin:0px;">
-                    <a href="" data-target="#myModal-review-user" class="btn btn-sm btn-raised btn-{{ $economic_complement->stateOfReview() ? 'info' : 'warning'}} dropdown-toggle enabled" data-toggle="modal"> <strong>{{ $economic_complement->stateOfReview() ? "Revisado":"No revisado"}}</strong></a>
+                    <a href="" data-target="#myModal-review-user" class="btn btn-sm btn-raised btn-{{ $economic_complement->stateOf() ? 'info' : 'warning'}} dropdown-toggle enabled" data-toggle="modal"> <strong>{{ $economic_complement->stateOf() ? "Revisado":"No revisado"}}</strong></a>
                 </span>
             </div>
-            @can('eco_com_review')
+           
                 
                     <div class="btn-group">
                         <span data-toggle="tooltip" data-placement="top" data-original-title="Revertir" style="margin:0px;">
@@ -59,7 +78,8 @@
                         </span>
                     </div>
 
-            @endcan
+          
+
         </div>
     </div>
 </div>
@@ -83,6 +103,8 @@
                                     </h3>
                                 </a>
                             </div>
+
+                            @can("eco_com_review_and_reception")
                             <div class="col-md-2 text-right">
                                 <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                     <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-personal">
@@ -90,6 +112,7 @@
                                     </a>
                                 </div>
                             </div>
+                            @endcan
                         </div>
                     </div>
                     <div class="box-body">
@@ -324,7 +347,7 @@
                             <div class="box-tools pull-right">
                             </div>
                         </div>
-                        @can('economic_complement')
+                        @can('eco_com_review_and_reception')
                         {{--@can('showEdit', $economic_complement)--}}
                         <div class="col-md-4 text-right">
                             <span data-toggle="tooltip" data-placement="left" data-original-title="Editar">
@@ -598,6 +621,7 @@
                         <div class="col-md-10">
                             <h3 class="box-title"><span class="fa fa-shield"></span> Informacion del Apoderado</h3>
                         </div>
+                        @can("eco_com_review_and_reception")
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-guardian">&nbsp;&nbsp;
@@ -605,6 +629,9 @@
                                 </a>
                             </div>
                         </div>
+                        @endcan
+
+
                     </div>
                 </div>
                 <div class="box-body">
@@ -734,7 +761,7 @@
                         <div class="col-md-10">
                             <h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span> Requisitos Presentados</h3>
                         </div>
-                        @can('economic_complement')
+                        @can("eco_com_review_and_reception")
                         {{--@can('showEdit', $economic_complement)--}}
                             <div class="col-md-2 text-right">
                                 <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
@@ -797,7 +824,7 @@
                         <div class="col-md-8">
                             <h3 class="box-title"><span class="glyphicon glyphicon-info-sign"></span> Información del Trámite</h3>
                         </div>
-                        @can('economic_complement')
+                        @can("eco_com_review_and_reception")
                         {{--@can('showEdit', $economic_complement)--}}
                         <div class="col-md-4 text-right">
                             <span data-toggle="modal" data-target="#policeModal">
@@ -805,20 +832,7 @@
                             </span>
                         </div>
                         @endcan
-                       {{--  <div class="col-md-2 text-right">
-                            <div data-toggle="tooltip" data-placement="top" data-original-title="Editar">
-                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-edit">&nbsp;&nbsp;
-                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-2 text-right">
-                            <div data-toggle="tooltip" data-placement="top" data-original-title="Editar">
-                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-block">&nbsp;&nbsp;
-                                    <span class="fa fa-lg fa-exclamation-triangle" aria-hidden="true"></span>&nbsp;&nbsp;
-                                </a>
-                            </div>
-                        </div> --}}
+            
                     </div>
                 </div>
                 <div class="box-body">
@@ -1175,6 +1189,8 @@
                         <div class="col-md-10">
                             <h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span> Documentos Presentados</h3>
                         </div>
+                        @can("eco_com_review_and_reception")
+
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-red-active" data-toggle="modal" data-target="#myModal-requirements-ar">&nbsp;&nbsp;
@@ -1182,6 +1198,7 @@
                                 </a>
                             </div>
                         </div>
+                        @endcan
                     </div>
                 </div>
                 <div class="box-body">
@@ -2423,7 +2440,7 @@
             <div class="modal-content">
 
                 <div class="modal-body">
-                @if( $economic_complement->stateOfReview())
+                @if( $economic_complement->stateOf())
                     <h3>Tramite Revisado por: {{ $economic_complement->getUser() }}</h3>
                     <strong>El {{ $economic_complement->getReviewDate() }}</strong>
 
@@ -2437,6 +2454,34 @@
             </div>
         </div>
     </div>
+    <form  action="{{url('save_amortization')}}" method="POST">
+            
+        
+        
+        <div id="amortization-modal" class="modal fade" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                 <input type="hidden" name="_token" value="{{ csrf_token() }}">  
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Amortizar</h4>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                    <label>Monto :</label> <input type="number" required  step="any" name="amount_amortization" class="form-control">
+                    <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">
+                </div>
+                
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar </button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+    </form>
 @include('observations.create')
 
 @endsection

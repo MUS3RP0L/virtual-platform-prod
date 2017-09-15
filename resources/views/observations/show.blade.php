@@ -1,11 +1,11 @@
-@can('observate')
 <div class="box box-success box-solid">
     <div class="box-header with-border">
         <div class="row">
             <div class="col-md-10">
                 <h3 class="box-title"><span class="glyphicon glyphicon-eye-open"></span> Observaciones</h3>
             </div>
-            @if(true)
+            @can("eco_com_review_and_reception")
+            
                 <div class="col-md-2 text-right">
                     <div data-toggle="tooltip" data-placement="left" data-original-title="Añadir">
                         <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#observationModal">
@@ -13,7 +13,7 @@
                         </a>
                     </div>
                 </div>
-            @endif
+            @endcan
         </div>
     </div>
     <div class="box-body">
@@ -34,8 +34,8 @@
                 </div>
             @else
                 <div class="row text-center">
-                    <div data-toggle="modal" data-target="#observationModal">
-                        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Adicionar Observacion">
+                    <div data-toggle="modal" data-target="#">
+                        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="No hay observaciones">
                         <span class="fa fa-eye fa-5x" style="opacity: .4"></span>
                         </button>
                     </div>
@@ -73,7 +73,7 @@
         </div>
     </div>
 </div>
-@endcan
+
 @push('scripts')
 <script>
     var observationsTable = $('#observations-table').DataTable({

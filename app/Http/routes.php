@@ -121,6 +121,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('import_bank', array('as'=>'import_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@import_from_bank'));
 	Route::post('export_aps', array('as'=>'export_aps', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_aps'));
 	Route::post('export_bank', array('as'=>'export_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_bank'));
+	Route::get('export_aps_availability','EconomicComplement\EconomicComplementImportExportController@export_aps_availability');  //APS AVAILABILIT
 	Route::post('export_by_department_bank', array('as'=>'export_by_department_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_by_department_bank'));
 	Route::post('export_by_department', array('as'=>'export_by_department', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_by_department'));
 
@@ -136,6 +137,9 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('export_excel_observations','EconomicComplement\EconomicComplementImportExportController@export_excel_observations');
 	Route::get('export_not_review','EconomicComplement\EconomicComplementImportExportController@export_not_review');
 
+	Route::post('save_amortization','EconomicComplement\EconomicComplementController@save_amortization');
+	Route::get('ChangeRol','User\UserController@ChangeRol');
+	Route::post('PostChangeRol','User\UserController@PostChangeRol');
 	
 		
 	// Economic Complement Record
