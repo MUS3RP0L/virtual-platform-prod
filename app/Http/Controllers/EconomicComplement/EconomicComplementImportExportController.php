@@ -2236,6 +2236,41 @@ public static function import_from_bank(Request $request)
             
     }
 
+  public function export_aps_availability()
+  {
+    global $i,$afi;
+   
+    Excel::create('Muserpol_aps_disponibilidad', function($excel) 
+    {
+              global $j;
+              $j = 2;
+              $excel->sheet("APS_DISPONIBILIDAD", function($sheet) 
+              {
+                global $j, $i, $afi;
+                $i=1;
+                $sheet->row(1, array('NRO', 'TIPO_ID', 'NUM_ID', 'EXTENSION', 'CUA', 'PRIMER_APELLIDO_T', 'SEGUNDO_APELLIDO_T','PRIMER_NOMBRE_T','SEGUNDO_NOMBRE_T','APELLIDO_CASADA_T','FECHA_NACIMIENTO_T'));
+                $afi = DB::table('affiliates')
+                    ->select(DB::raw("concat(repeat('0',13-length(RTRIM(affiliates.identity_card))), RTRIM(affiliates.identity_card)) as identity_card, CITIES.third_shortened, cast(concat(repeat('0',9-length(RTRIM(cast(affiliates.nua as text)))), RTRIM(cast(affiliates.nua as text))) as text) as nua, affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,replace(cast(affiliates.birth_date as text), '-', '') as birth_date"))
+                    ->leftJoin('units','affiliates.unit_id','=','units.id')
+                    ->leftJoin('breakdowns', 'units.breakdown_id', '=', 'breakdowns.id')
+                    ->leftJoin('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
+                    ->where('breakdowns.id','=', 1)
+                    ->whereNull('affiliates.pension_entity_id')
+                    ->where('affiliates.nua','>', 0)
+                    ->get();
+
+                foreach ($afi as $datos)
+                {
+                    $sheet->row($j, array($i, "I",$datos->identity_card,$datos->third_shortened,$datos->nua, $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,$datos->birth_date));
+                    $j++;
+                    $i++;
+                }
+            });
+    })->export('xlsx');
+        Session::flash('message', "Exportación Exitosa");
+        return redirect('economic_complement');
+  }
+
 
    
 }
