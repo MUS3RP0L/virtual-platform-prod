@@ -628,6 +628,15 @@ class Util
     	$cat = DB::table('categories')->where('percentage','=', $cat)->first();
     	return $cat->id;
     }
+    public static function getCategoryId_number($cat)
+    {
+
+    	$cat = DB::table('categories')->where('percentage','=', $cat)->first();
+    	if ($cat) {
+    		return $cat->id;
+    	}
+    	return "error";
+    }
     public static function getEntityPensionId($ent)
     {
     	$ent = DB::table('pension_entities')->where('name','like',$ent)->first();
