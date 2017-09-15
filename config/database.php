@@ -73,6 +73,16 @@ return [
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
         ],
+        'sqlsrv' => [
+            'driver' => 'sqlsrv',
+            'host' => '192.168.2.97',
+            'port' => '1433',
+            'database' => 'db_muserpol',
+            'username' => 'sa',
+            'password' => '123123',
+            'charset' => 'utf8',
+            'prefix' => '',
+        ],
         
 
     ],

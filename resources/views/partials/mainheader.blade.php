@@ -28,12 +28,12 @@
                             <p style="color:#fff;  font-weight: bold;">
                                 {!! Util::ucw(Auth::user()->first_name) !!} {!! Util::ucw(Auth::user()->last_name)!!}
                             </p>
-                            <p style=" font-size:initial;">
-                                 {!!Auth::user()->getAllRolesToString()!!}
-                                 <br>
-                                {!!Auth::user()->getModule()->name !!}
+                            <p >
+                                 {!!   Util::getRol()->name !!}
+                                <!-- {!!Auth::user()->getModule()->name !!} -->
+                                <a href="{{ url('ChangeRol')}}" class="btn btn-raised btn-xs" data-toggle="tooltip" title="Cambiar de Rol" ><i class="fa fa-exchange"></i></a>
                             </p>
-                       
+                            
                      
                         </li>
                         </li>

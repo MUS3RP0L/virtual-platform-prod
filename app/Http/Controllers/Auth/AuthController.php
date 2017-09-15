@@ -25,6 +25,8 @@ class AuthController extends Controller
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
+    protected $redirectPath = '/ChangeRol';
+
     /**
      * Create a new authentication controller instance.
      *
@@ -51,7 +53,8 @@ class AuthController extends Controller
                     'status' => 'active'
                 ]
                 )){
-            return redirect()->intended($this->redirectPath());
+            // return redirect()->intended($this->redirectPath());
+            return redirect("ChangeRol");
         }
         else{
             $rules = [

@@ -32,6 +32,16 @@
                 </div>
             @endif
         @endcan
+        
+      
+        @if($has_amortization)
+       
+                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Amortización" style="margin:0px;">
+                    <a href="#" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled"  data-toggle="modal" data-target="#amortization-modal" >
+                        &nbsp;<span class="fa fa-money"></span>&nbsp;
+                    </a>
+                </div>
+        @endif
         <div class="btn-group">
             <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm btn-raised btn-lg bg-orange"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar Tramite"><i aria-hidden="true" class="fa fa-refresh"></i></a>
         </div>
@@ -60,6 +70,7 @@
                     </div>
 
             @endcan
+
         </div>
     </div>
 </div>
@@ -2437,6 +2448,34 @@
             </div>
         </div>
     </div>
+    <form  action="{{url('save_amortization')}}" method="POST">
+            
+        
+        
+        <div id="amortization-modal" class="modal fade" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                 <input type="hidden" name="_token" value="{{ csrf_token() }}">  
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Amortizar</h4>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                    <label>Monto :</label> <input type="number" required  step="any" name="amount_amortization" class="form-control">
+                    <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">
+                </div>
+                
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar </button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+    </form>
 @include('observations.create')
 
 @endsection
