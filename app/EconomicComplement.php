@@ -167,9 +167,29 @@ class EconomicComplement extends Model
             return Util::getDateShort($this->review_date);
         }
     }
-    public function stateOfReview()
+    public function stateOf()
     {
-        return $this->review_date!=null && $this->state == 'Edited';
+        $role=Util::getRol();
+        switch ($role->id) {
+            case 3:
+                # code...
+                return $this->review_date!=null && $this->state == 'Edited';
+
+                break;
+            case 4:
+                 return $this->calculation_date!=null && $this->state == 'Edited';
+                break;
+
+            case 5:
+                 return $this->aprobation_date!=null && $this->state == 'Edited';
+                break;
+     
+            default:
+                # code...
+                    return false;
+                break;
+        }
+     
     }
     public function getTotalFractions()
     {

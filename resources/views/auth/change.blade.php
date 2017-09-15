@@ -15,7 +15,8 @@
                     <div class="form-group has-feedback">
                         <select  class="form-control" name="rol_id">
                             @foreach($roles as $role)
-                            <option value="{{$role->id}}"> {{$role->name}} </option>
+                                
+                                    <option value="{{$role->id}}" {{(Util::getRol()->id == $role->id) ? 'selected' : '' }}> {{$role->name}} de {{$role->module->name}}  </option>
                             @endforeach
                             
                         </select>
