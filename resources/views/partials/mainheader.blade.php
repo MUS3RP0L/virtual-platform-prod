@@ -29,9 +29,10 @@
                                 {!! Util::ucw(Auth::user()->first_name) !!} {!! Util::ucw(Auth::user()->last_name)!!}
                             </p>
                             <p >
-                                 {!!   Util::getRol()->name !!}
-                                <!-- {!!Auth::user()->getModule()->name !!} -->
-                                <a href="{{ url('ChangeRol')}}" class="btn btn-raised btn-xs" data-toggle="tooltip" title="Cambiar de Rol" ><i class="fa fa-exchange"></i></a>
+                                 {!!   Util::getRol()->name !!}  <a href="{{ url('ChangeRol')}}" class="btn btn-raised btn-xs" data-toggle="tooltip" title="Cambiar de Rol" > <i class="fa fa-exchange"></i></a>
+                                 <br>
+                                 {!! Util::getRol()->module->name !!}
+                                 {!! Util::getRol()->id  !!}
                             </p>
                             
                      
