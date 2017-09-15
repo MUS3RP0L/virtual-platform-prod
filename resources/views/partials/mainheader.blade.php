@@ -32,7 +32,7 @@
                                  {!!   Util::getRol()->name !!}  <a href="{{ url('ChangeRol')}}" class="btn btn-raised btn-xs" data-toggle="tooltip" title="Cambiar de Rol" > <i class="fa fa-exchange"></i></a>
                                  <br>
                                  {!! Util::getRol()->module->name !!}
-                                 {!! Util::getRol()->id  !!}
+                               
                             </p>
                             
                      
