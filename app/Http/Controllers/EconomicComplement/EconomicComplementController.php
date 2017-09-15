@@ -359,12 +359,14 @@ class EconomicComplementController extends Controller
             $semester_list[$item]=$item;
         }
 
-        $moduleObservation=Auth::user()->roles()->first()->module->id;
-        $observations_types = $moduleObservation == 1 ? ObservationType::all() : ObservationType::where('module_id',$moduleObservation)->get();
+        // $moduleObservation=Auth::user()->roles()->first()->module->id;
+        // $observations_types = $moduleObservation == 1 ? ObservationType::all() : ObservationType::where('module_id',$moduleObservation)->get();
+        $observations_types = ObservationType::where('module_id',Util::getRol()->module_id)->get();
         $observation_types_list = array('' => '');
-                foreach ($observations_types as $item) {
-                    $observation_types_list[$item->id]=$item->name;
-                }
+            foreach ($observations_types as $item) {
+                $observation_types_list[$item->id]=$item->name;
+            }
+
 
         return [
             'eco_com_states_list' => $eco_com_states_list,
@@ -374,7 +376,7 @@ class EconomicComplementController extends Controller
             'cities_list' => $cities_list,
             'cities_list_short' => $cities_list_short,
             'observations_types' => $observation_types_list,
-            // 'affi_observations' => $affi_observations,
+            
         ];
     }
 
@@ -702,7 +704,8 @@ class EconomicComplementController extends Controller
         }
 
         $economic_complement_legal_guardian=$economic_complement->economic_complement_legal_guardian;
-        $affi_observations = AffiliateObservation::where('affiliate_id',$affiliate->id)->first();
+        $affi_observations = AffiliateObservation::where('affiliate_id',$affiliate->id)->get();
+        Log::info($affi_observations);
         if (EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->first()) {
             $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->get()->last();
             if (EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->first()) {
@@ -814,6 +817,45 @@ class EconomicComplementController extends Controller
             $status_eco_com_submitted_documents_ar=false;
         }
 
+
+         // Log::info(" entrando al complemento hdpl ");
+        $hasObservation =false;
+        foreach ($affi_observations as $observation) {
+            # code...
+            if(Util::getRol()->module_id == $observation->observationType->module_id)
+            {
+                $hasObservation = true;
+            }  
+        }
+         
+        // Log::info("has observatop ".json_encode($hasObservation));
+        $hasAmortization = false;
+        switch (Util::getRol()->module_id) {
+            case 8:
+            case 6:
+            case 2:
+                if($hasObservation)
+                {
+                    $last_complement = EconomicComplement::where('affiliate_id',$economic_complement->affiliate_id)->orderBy('year','desc')->first();
+
+                    // Log::info("complemento actual ".$economic_complement->year);
+                    // Log::info("ultimo complemento ".$last_complement->year);
+
+                    if($economic_complement->year == $last_complement->year)
+                    {
+                        if($economic_complement->total > 0)
+                        {
+                            $hasAmortization =true; 
+                        }
+                        
+                    }
+                     
+                }
+               
+                break;
+    
+        }
+
         $data = [
 
         'affiliate' => $affiliate,
@@ -837,7 +879,8 @@ class EconomicComplementController extends Controller
         'status_documents_ar' => $status_documents_ar,
         'last_ecocom' => $last_ecocom,
         'state' => $state,
-        'status_eco_com_submitted_documents_ar'=>$status_eco_com_submitted_documents_ar
+        'status_eco_com_submitted_documents_ar'=>$status_eco_com_submitted_documents_ar,
+        'has_amortization' => $hasAmortization
         ];
         // dd($eco_com_submitted_documents_ar);
 
@@ -875,7 +918,7 @@ class EconomicComplementController extends Controller
         // }
 
         $data = array_merge($data, self::getViewModel());
-
+        // return $data;
         return view('economic_complements.view', $data);
     }
 

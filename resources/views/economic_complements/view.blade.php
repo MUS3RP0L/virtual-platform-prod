@@ -34,7 +34,7 @@
         @endcan
         
       
-        @if(Util::getRol()->module_id==8 or Util::getRol()->module_id==2 or Util::getRol()->module_id == 6 )
+        @if($has_amortization)
        
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Amortización" style="margin:0px;">
                     <a href="#" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled"  data-toggle="modal" data-target="#amortization-modal" >
