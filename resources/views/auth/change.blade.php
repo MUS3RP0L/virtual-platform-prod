@@ -26,7 +26,7 @@
                     
                     <div class="row">
                         <div class="col-xs-12">
-                            <button type="submit" class="btn btn-block btn-raised btn-primary">Cambiar</button>
+                            <button type="submit" class="btn btn-block btn-raised btn-primary">{{ Util::getRol() ? 'Cambiar' : 'Ingresar'  }}</button>
                         </div>
                     </div>
                 {!! Form::close() !!}
