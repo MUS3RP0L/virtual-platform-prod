@@ -83,7 +83,7 @@
   </h1>
 </header>
   <table>
-      <p align="right"> La Paz {!! $dateHeader !!}
+      <p align="right"> {!!$user->city->name ?? 'La Paz'!!}, {!! $dateHeader !!}
       <br>CITE: UCE – EGSB /2017
       </p>
   </table>
