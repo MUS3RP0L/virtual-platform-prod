@@ -26,7 +26,7 @@
     </tbody>
   </table>
 <footer>
-  PLATAFORMA VIRUTAL - MUTUAL DE SERVICIOS AL POLICIA
+  PLATAFORMA VIRTUAL - MUTUAL DE SERVICIOS AL POLICÍA
 </footer>
 <br>
 <div class="page-break"></div>
@@ -58,7 +58,7 @@
   </h1>
 </header>
   <table>
-      <p align="right"> La Paz {!! $dateHeader !!}<br>CITE: UCE – EGSB /2017
+      <p align="right"> {!!$user->city->name ?? 'La Paz'!!}, {!! $dateHeader !!}<br>CITE: UCE – EGSB /2017
       </p>
   </table>
   <table>

@@ -1,6 +1,6 @@
 @extends('globalprint.print')
 @section('title2')
-<h3>(Página 1/3)</h3>
+<h3>(Página 1/2)</h3>
 @endsection
 @section('content')
 
@@ -77,12 +77,12 @@
   <h1>
     <b>
       {{ $title }}<br>
-      <h3>(Página 2/3)</h3>
+      <h3>(Página 2/2)</h3>
     </b>
   </h1>
 </header>
   <table>
-      <p align="right">{!! $user->city->name ?? 'La Paz' !!}, {!! $dateHeader !!}<br>CITE: UCE – EGSB /2017
+      <p align="right">{!!$user->city->name ?? 'La Paz'!!}, {!! $dateHeader !!}<br>CITE: UCE – EGSB /2017
       </p>
   </table>
   <table>
@@ -96,58 +96,31 @@
          <p align="justify">
               En atención al reclamo realizado por su persona en Secretaria de la Dirección General Ejecutiva, MUSERPOL – La Paz, <b>referente al Beneficio del Complemento Económico del {!! $eco_com_applicant->semester !!} Semestre de la gestión {!! $yearcomplement->year !!}</b>, se comunica lo siguiente: 
         </p>
-    <p align="justify"><b>Y en estricto cumplimiento al Decreto Supremo Nº 1446</b>, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 3º.- (Funciones y fines). La MUSERPOL tiene las siguientes funciones y fines: inc. <b>5) Pagar el Complemento Económico al sector pasivo de la Policía Boliviana conforme a Reglamento</b>.
+    <p align="justify"><b>En estricto cumplimiento al Decreto Supremo Nº 1446</b>, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 3º.- (Funciones y fines). La MUSERPOL tiene las siguientes funciones y fines: inc. <b>5) Pagar el Complemento Económico al sector pasivo de la Policía Boliviana conforme a Reglamento</b>.
     <p align="justify">
      Del <b>Reglamento del Beneficio del Complemento Económico de la Gestión 2017</b>, aprobado mediante Resolución de Directorio Nº 27/2017 de fecha 11 de agosto de 2017, norma en su <b>Artículo 7° (Exclusión). Quedan excluidos del pago del beneficio del Complemento Económico:</b> inc. 2) Los titulares o derechohabientes de primer grado, con rentas en curso de pago iguales o superiores al haber básico más categoría que perciban los miembros del servicio activo de la Policía Boliviana en el grado correspondiente. 
     </p>
     <p align="justify">
-      En concordancia con el <b>Artículo 26° (Reclamos). Parágrafo I.- El Beneficiario podrá presentar reclamo mediante nota escrita, dirigido a la Dirección General Ejecutiva, dicha nota podrá ser presentada en la Oficina Central de La Paz – MUSERPOL o en las Regionales; acompañando toda la documentación de respaldo, señalando domicilio y número telefónico, desde el 1er. día hábil posterior a realizado el Pago por la Entidad Bancaria o Financiera y/o recojo del cheque de Pago del Complemento Económico, en los siguientes casos:
+      En concordancia con el <b>Artículo 24° (Casos especiales)</b>. Se consideran casos especiales los siguientes:
     </p>
-    <ul type="a">
+    <ul type="1">
       <li>
-        Monto cobrado del Complemento Económico.
+        Renta y/o pensión solo con Compensación de Cotizaciones.
       </li>
       <li>
-        Error en el grado y/o categoría.
+        Renta y/o pensión solo con acumulación de saldo de capital.
+      </li>
+      <li>
+        Renta y/o pensión calificadas con reducción de edad.
       </li>
     </ul>
     <p align="justify">
-      En los casos descritos anteriormente, para los beneficiarios o terceros acreditados que cobren el Complemento Económico, contarán con un plazo de 10 días hábiles para efectuar el reclamo, que correrá a partir desde el 1er. día hábil posterior a realizado el Pago por la Entidad Bancaria o Financiera y/o recojo del cheque de Pago del Complemento Económico.
+      El cálculo del importe para el pago del beneficio del Complemento Económico y la procedencia del mismo en los casos anteriormente señalados, serán determinados en el Estudio Técnico Financiero, estableciéndose como casos especiales.
     </p>
     <p align="justify">
-      Una vez recepcionado el reclamo escrito, se dará respuesta a la (el) solicitante, mediante carta de notificación, en caso de ser representado, la Unidad de Complemento Económico, efectuará un análisis técnico-legal de la documentación presentada por el beneficiario, asimismo se podrá solicitar complementaciones e información adicional a la Autoridad de Fiscalización y Control de Pensiones y Seguros, Servicio Nacional de Sistema de Reparto, Comando General de la Policía Boliviana y otras entidades requeridas. Una vez revisada la documentación presentada, se procederá a la emisión de un informe técnico-legal dentro del plazo de quince (15) días hábiles desde el día hábil siguiente a la presentación de reclamo. 
+      En caso de Titulares, Viudas o Huérfanos Absolutos, que perciban sus prestaciones por vejez del Sistema Integral de Pensiones y tengan temporalmente suspendido uno de sus componentes, el cálculo del beneficio del Complemento Económico será realizado tomando en cuenta el monto del componente suspendido, <b>asimismo en caso de percibir la pensión de vejez o solidaria de vejez y simultáneamente la prestación de invalidez (concurrencia)</b>, el cálculo del beneficio será realizado sumando ambas prestaciones, a efecto de estandarizar el pago del beneficio del Complemento Económico, dicho procedimiento será realizado conforme la información proporcionada por la Autoridad de Fiscalización y Control de Pensiones y Seguros – APS. 
     </p>
-    <p align="justify">
-      Del Parágrafo II.- En caso de Ausencia de Beneficiarios en Planillas, se realizará el seguimiento pertinente para verificar el estado de solicitud y posterior procesamiento de pago si correspondiera; de evidenciar que no corresponde el Beneficio del Complemento Económico, se emitirá respuesta mediante nota al interesado (a), a través de la Unidad de Otorgación del Complemento Económico. En caso de ser representado, se efectuará un Informe Técnico – Legal. 
-    </p>
-    <div class="page-break"></div>
-    <header class="clearfix">
-      <table class="tableh">
-        <tr>
-          <th style="width: 25%;border: 0px;">
-            <div id="logo">
-              <img src="img/logo.jpg">
-            </div>
-          </th>
-          <th style="width: 50%;border: 0px">
-            <h4><b>MUTUAL DE SERVICIOS AL POLICIA<br>
-              {!! $header1 !!} <br> {!! $header2 !!}
-            </b></h4>
-          </th>
-          <th style="width: 25%;border: 0px">
-            <div id="logo2">
-              <img src="img/escudo.jpg">
-            </div>
-          </th>
-        </tr>
-      </table>
-      <h1>
-        <b>
-          {{ $title }}<br>
-          <h3>(Página 3/3)</h3>
-        </b>
-      </h1>
-    </header>
+    
     <p align="justify">
       Es decir que la renta y/o pensión de jubilación por vejez que percibe, es mayor al haber básico más categoría que perciben los miembros del servicio activo de la Policía Boliviana en el mismo grado, motivo por el cual <b>no le corresponde el Pago del Beneficio del Complemento Económico.</b><br><br>
       Con este motivo saludo a usted. <br><br>

@@ -6,7 +6,7 @@
 
 <table>
   <p align="justify">
-     En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN</b> CITE N° {!!$eco_com_applicant->code !!} de la <b>UNIDAD DE OTORGACIÓN DEL BENEFICIO DEL COMPLEMENTO ECONÓMICO - MUSERPOL</b> de fecha {!! $eco_com_applicant_date!!}, quien recibió en mano propia el original de dicho documento.
+     En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!!$eco_com_applicant->code !!} de fecha {!! $eco_com_applicant_date!!}, quien recibió en mano propia el original de dicho documento.
   </p>
 </table>
 
@@ -82,7 +82,7 @@
   </h1>
 </header>
   <table>
-      <p align="right">{!! $user->city->name ?? 'La Paz' !!}, {!! $dateHeader !!}<br>CITE: UCE – EGSB /2017
+      <p align="right">{!! $user->city->name ?? 'La Paz '!!} {!! $dateHeader !!}<br>CITE: UCE – EGSB /2017
       </p>
   </table>
   <table>
@@ -94,31 +94,31 @@
          <p align="right"><b>REF.- <ins> CARTA DE NOTIFICACIÓN </ins></b></p>
         <p align="justify">De nuestra consideracion.</p>
          <p align="justify">
-              En atención al reclamo realizado por su persona en Secretaria de la Dirección General Ejecutiva, MUSERPOL – La Paz, <b>referente al Beneficio del Complemento Económico del {!! $eco_com_applicant->semester !!} Semestre de la gestión {!! $yearcomplement->year !!}</b>, se comunica lo siguiente: 
+              Mediante la presente y en atención al reclamo realizado por su persona, se comunica que de la recalificación realizada por el Área Técnica de la Unidad de Otorgación del Complemento Económico, <b>el importe pagado de Bs. {!!$eco_com_applicant->total !!} es el correcto, considerando que su persona percibe una pensión por Jubilación y simultáneamente la prestación de invalidez (concurrencia).</b> 
         </p>
     <p align="justify"><b>Y en estricto cumplimiento al Decreto Supremo Nº 1446</b>, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 3º.- (Funciones y fines). La MUSERPOL tiene las siguientes funciones y fines: inc. <b>5) Pagar el Complemento Económico al sector pasivo de la Policía Boliviana conforme a Reglamento</b>.
     <p align="justify">
-     Del <b>Reglamento del Beneficio del Complemento Económico de la Gestión 2017</b>, aprobado mediante Resolución de Directorio Nº 27/2017 de fecha 11 de agosto de 2017, norma en su <b>Artículo 7° (Exclusión). Quedan excluidos del pago del beneficio del Complemento Económico:</b> inc. 2) Los titulares o derechohabientes de primer grado, con rentas en curso de pago iguales o superiores al haber básico más categoría que perciban los miembros del servicio activo de la Policía Boliviana en el grado correspondiente. 
+     Asimismo, se halla enmarcado en las normas legales vigentes, del <b>Reglamento del Complemento Económico de la gestión 2017</b>, aprobado mediante Resolución de Directorio Nº 27/2017 de fecha 11 de agosto de 2017, que norma en su <b>ARTICULO 24° (Casos Especiales)</b>. Se consideran casos especiales los siguientes:
     </p>
-    <p align="justify">
-      En concordancia con el <b>Artículo 26° (Reclamos). Parágrafo I.- El Beneficiario podrá presentar reclamo mediante nota escrita, dirigido a la Dirección General Ejecutiva, dicha nota podrá ser presentada en la Oficina Central de La Paz – MUSERPOL o en las Regionales; acompañando toda la documentación de respaldo, señalando domicilio y número telefónico, desde el 1er. día hábil posterior a realizado el Pago por la Entidad Bancaria o Financiera y/o recojo del cheque de Pago del Complemento Económico, en los siguientes casos:
-    </p>
-    <ul type="a">
+    <ul type="1">
       <li>
-        Monto cobrado del Complemento Económico.
+        Renta y/o pensión solo con Compensación de Cotizaciones.
       </li>
       <li>
-        Error en el grado y/o categoría.
+        Renta y/o pensión solo con acumulación de saldo de capital.
+      </li>
+      <li>
+        Renta y/o pensión calificadas con reducción de edad.
       </li>
     </ul>
     <p align="justify">
-      En los casos descritos anteriormente, para los beneficiarios o terceros acreditados que cobren el Complemento Económico, contarán con un plazo de 10 días hábiles para efectuar el reclamo, que correrá a partir desde el 1er. día hábil posterior a realizado el Pago por la Entidad Bancaria o Financiera y/o recojo del cheque de Pago del Complemento Económico.
+      El cálculo del importe para el pago del beneficio del Complemento Económico y la procedencia del mismo en los casos anteriormente señalados, serán determinados en el Estudio Técnico Financiero, estableciéndose como casos especiales.
     </p>
     <p align="justify">
-      Una vez recepcionado el reclamo escrito, se dará respuesta a la (el) solicitante, mediante carta de notificación, en caso de ser representado, la Unidad de Complemento Económico, efectuará un análisis técnico-legal de la documentación presentada por el beneficiario, asimismo se podrá solicitar complementaciones e información adicional a la Autoridad de Fiscalización y Control de Pensiones y Seguros, Servicio Nacional de Sistema de Reparto, Comando General de la Policía Boliviana y otras entidades requeridas. Una vez revisada la documentación presentada, se procederá a la emisión de un informe técnico-legal dentro del plazo de quince (15) días hábiles desde el día hábil siguiente a la presentación de reclamo. 
+      En caso de Titulares, Viudas o Huérfanos Absolutos, que perciban sus prestaciones por vejez del Sistema Integral de Pensiones y tengan temporalmente suspendido uno de sus componentes, el cálculo del beneficio del Complemento Económico será realizado tomando en cuenta el monto del componente suspendido, asimismo <ins>en caso de percibir la pensión de vejez o solidaria de vejez y simultáneamente la prestación de invalidez (concurrencia), el cálculo del beneficio será realizado sumando ambas prestaciones, a efecto de estandarizar el pago del beneficio del Complemento Económico, dicho procedimiento será realizado conforme la información proporcionada por la Autoridad de Fiscalización y Control de Pensiones y Seguros – APS</ins>. 
     </p>
     <p align="justify">
-      Del Parágrafo II.- En caso de Ausencia de Beneficiarios en Planillas, se realizará el seguimiento pertinente para verificar el estado de solicitud y posterior procesamiento de pago si correspondiera; de evidenciar que no corresponde el Beneficio del Complemento Económico, se emitirá respuesta mediante nota al interesado (a), a través de la Unidad de Otorgación del Complemento Económico. En caso de ser representado, se efectuará un Informe Técnico – Legal. 
+      Una vez recepcionado el reclamo escrito, se dará respuesta a la (el) solicitante, mediante carta de notificación, en caso de ser representado, la Unidad de Complemento Económico, efectuará un análisis técnico-legal de la documentación presentada por el beneficiario, asimismo se podrá solicitar complementaciones e información adicional a la Autoridad de Fiscalización y Control de Pensiones y Seguros, Servicio Nacional de Sistema de Reparto, Comando General de la Policía Boliviana y otras entidades requeridas. Una vez revisada la documentación presentada, se procederá a la emisión de un informe técnico-legal dentro del plazo de quince (15) días hábiles desde el día hábil siguiente a la presentación de reclamo.
     </p>
     <div class="page-break"></div>
     <header class="clearfix">
@@ -148,9 +148,11 @@
         </b>
       </h1>
     </header>
+
     <p align="justify">
-      Es decir que la renta y/o pensión de jubilación por vejez que percibe, es mayor al haber básico más categoría que perciben los miembros del servicio activo de la Policía Boliviana en el mismo grado, motivo por el cual <b>no le corresponde el Pago del Beneficio del Complemento Económico.</b><br><br>
-      Con este motivo saludo a usted. <br><br>
+      Por lo que de la recalificación y revisión realizada con referencia al monto de pago del Beneficio del Complemento Económico, correspondiente al {!! $eco_com_applicant->semester !!} Semestre de la gestión {!! $eco_com_applicant->year !!}, por el importe de Bs. {!! $eco_com_applicant->total !!}, <b>no existe error en el monto pagado</b>. Asimismo, comunicar a su persona que el monto individual del Complemento Económico es <b>variable</b>, determinado semestralmente en base a un Estudio Técnico Financiero y Reglamentación, aprobado por el Directorio de la MUSERPOL, en función a las transferencias determinadas por Ley para el pago del Complemento Económico.
+      <br><br>
+      Sin otro motivo en particular, saludo a usted. <br><br>
       Atentamente,
         </p>
 </div>

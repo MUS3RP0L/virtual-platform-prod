@@ -6,7 +6,7 @@
 
 <table>
   <p align="justify">
-      En fecha {{ $date }}, a horas {{ $hour }} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN de la Unidad de Complemento Económico N°</b> {!!$eco_com_applicant->code !!} de fecha {!! $eco_com_applicant_date!!}, quien recibió en mano propia el original de dicho documento.
+      En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN</b> CITE N° {!!$eco_com_applicant->code !!} de la <b>UNIDAD DE OTORGACIÓN DEL BENEFICIO DEL COMPLEMENTO ECONÓMICO - MUSERPOL</b> de fecha {!! $eco_com_applicant_date!!}, quien recibió en mano propia el original de dicho documento.
   </p>
 </table>
 
@@ -18,10 +18,35 @@
     </thead>
     <tbody>
       <tr>
-        <td class="grand service" style="text-align:center;width: 10%;height: 10%"><p align="center">FIRMA DEL NOTIFICADO.</p></td>
+        <td class="grand service" style="text-align:center;width: 10%;height: 10%"><p align="center">FIRMA DEL NOTIFICADO(A).</p>
+        <table>
+             <tr>
+                <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>-------------------------------------------</th>
+              </tr>
+              <tr>
+                <th class="info" style="border: 0px;text-align:center;"><b>C.I. N°: {{$eco_com_applicant->identity_card}}</b></th>
+              </tr>
+              <tr>
+                @if($eco_com_applicant->getPhone())
+                <th class="info" style="border: 0px;text-align:center;"><b>TELF/CEL: <br><ins>{{ $eco_com_applicant->getPhone() }}</ins></b></th>        
+              </tr>
+              @else
+              <th class="info" style="border: 0px;text-align:center;"><b>TELF/CEL:</b><br><br>-------------------------------------------</th>
+              @endif
+        </table>
+        </td>
       </tr>
         <tr>
-        <td class="grand service" style="text-align:center;width: 10%;height: 10%"><p align="center">ACLARACIÓN DE FIRMA.</p></td>
+        <td class="grand service" style="text-align:center;width: 10%;height: 10%"><p align="center">NOTIFICADO POR:</p>
+          <table>
+              <tr>
+                <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>-------------------------------------------</th>
+              </tr>
+              <tr>
+                <th class="info" style="border: 0px;text-align:center;"><b>{!! Auth::user()->first_name !!} {!! Auth::user()->last_name !!} <br> {!! Auth::user()->getAllRolesToString() !!}</b></th>        
+              </tr>
+          </table>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -57,7 +82,7 @@
   </h1>
 </header>
   <table>
-      <p align="right"> La Paz {{ $dateHeader }}<br>CITE: UCE – EGSB /2017
+      <p align="right"> {!!$user->city->name ?? 'La Paz'!!}, {{ $dateHeader }}<br>CITE: UCE – EGSB /2017
       </p>
   </table>
   <table>
@@ -69,12 +94,12 @@
          <p align="right"><b>REF.- <ins> CARTA DE NOTIFICACIÓN </ins></b></p>
         <p align="justify">De nuestra consideracion.</p>
          <p>
-              De la revisión efectuada por el Área Técnica de la Unidad de otorgación del Complemento Económico, <b>se comunica a usted que percibe una prestación por INVALIDEZ.</b>
+             De la revisión efectuada por el Área Técnica de la Unidad de Otorgación del Beneficio del Complemento Económico, <b>se comunica a usted que percibe una prestación por INVALIDEZ COMUN.</b>
         </p>
-    <p align="justify"><b>
-      Y en estricto cumplimiento al Decreto Supremo Nº 1446</b>, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 17.- (Complemento Económico). El Complemento Económico es un Beneficio que otorga la MUSERPOL AL SECTOR PASIVO DE LA POLICIA BOLIVIANA y sus derechohabientes de primer grado <b><ins>CON PRESTACIONES POR VEJEZ</b></ins>en curso de pago del Sistema de Reparto y del Sistema Integral de Pensiones, cuyos montos sean inferiores al haber básico más categoría que perciban los miembros del servicio activo de la Policía Boliviana en el grado correspondiente.
     <p align="justify">
-      Asimismo, se halla enmarcado en las normas legales vigentes, el <b>Reglamento del Complemento Económico de 2016</b>, aprobado mediante Resolución de Directorio Nº 36/2016 de fecha 09 de diciembre de 2016, que norma en su <b>ARTÍCULO 7° (Exclusión).</b>Quedan excluidos del pago del beneficio del Complemento Económico: inc. 6.- Los titulares, derechohabientes de primer grado o huérfanos absolutos, <b>que perciben rentas y/o pensión por Riesgo Común y/o Profesional e Invalidez Común y/o Profesional o muerte.</b></p>
+      Y en estricto cumplimiento al Decreto Supremo Nº 1446, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 17.- (Complemento Económico). Parágrafo I, modificado mediante D. S. Nº 3231 de fecha 27 de junio de 2017, con el siguiente texto: El Complemento Económico, es un beneficio que otorga la MUSERPOL al sector pasivo de la Policía Boliviana y sus derechohabientes de primer grado, <b><ins>con prestaciones por vejez</ins></b> en curso de pago del Sistema de Reparto y <b><ins>del Sistema Integral de Pensiones</ins></b> y con prestaciones por invalidez del Sistema de Reparto, cuyos montos sean inferiores al haber básico más categoría que perciban los miembros del servicio activo de la Policía en el grado correspondiente y los titulares hayan alcanzado la edad requerida para la jubilación por vejez y cumplido como mínimo con dieciséis (16) años de servicio en la Policía Boliviana
+    <p align="justify">
+      <b>Del Reglamento del Complemento Económico de 2017</b>, aprobado mediante Resolución de Directorio Nº 27/2017 de fecha 11 de agosto de 2017, norma en su <b>ARTÍCULO 7° (Exclusión).</b>Quedan excluidos del pago del beneficio del Complemento Económico: inc. 5.- Los titulares, derechohabientes de primer grado o huérfanos absolutos, <b>que perciben pensiones por Riesgo Común y/o Profesional e Invalidez Común y/o Profesional o muerte.</b></p>
     </p>
     <p align="justify"><b>
       Es decir, que en su boleta de jubilación no percibe una prestación por VEJEZ; por lo que no podrá acceder al Pago del Beneficio del Complemento Económico, correspondiente al {{ $current_semester }} Semestre de la Gestión {{ $current_year}}.
