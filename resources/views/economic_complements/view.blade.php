@@ -8,14 +8,14 @@
     
             
        @can('eco_com_reception')
-         
+         @if( $economic_complement->reception_type == 'Inclusion' )
 
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Declaración Jurada" style="margin:0px;">
                 <a href="" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
                     &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
                 </a>
             </div>
-
+        @endif
             @if($economic_complement->reception_type == "Inclusion")
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción Inclusiones" style="margin:0px;">
                     <a href="" class="btn btn-sm btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReportInclusion');" >
@@ -55,28 +55,33 @@
         <div class="pull-right">
             @if($wf_state_before)
             <div class="btn-group">
-                <span data-toggle="tooltip" data-placement="top" data-original-title="Retroceso de Tramite" style="margin:0px;">
-                    <a href="" data-target="#back-modal" class="btn btn-sm btn-raised btn-danger dropdown-toggle enabled" data-toggle="modal"> <i class="fa  fa-arrow-left"></i></strong></a>
+                <span data-toggle="tooltip" data-placement="top" data-original-title="Devolución de Tramite" style="margin:0px;">
+                    <a href="" data-target="#back-modal" class="btn btn-sm btn-raised btn-warning dropdown-toggle enabled" data-toggle="modal"> <i class="fa  fa-arrow-left"></i></strong></a>
                 </span>
             </div>
             @endif
-            <div class="btn-group">
+            <!-- <div class="btn-group">
                 <span data-toggle="tooltip" data-placement="top" data-original-title="ver" style="margin:0px;">
                     <a href="" data-target="#myModal-review-user" class="btn btn-sm btn-raised btn-{{ $economic_complement->stateOf() ? 'info' : 'warning'}} dropdown-toggle enabled" data-toggle="modal"> <strong>{{ $economic_complement->stateOf() ? "Revisado":"No revisado"}}</strong></a>
                 </span>
-            </div>
+            </div> -->
            
+
                 
+                    @if($economic_complement->state == "Edited")
+
                     <div class="btn-group">
-                        <span data-toggle="tooltip" data-placement="top" data-original-title="Revertir" style="margin:0px;">
+                        <span data-toggle="tooltip" data-placement="top" data-original-title="Cancelar" style="margin:0px;">
                             <a href="" data-target="#myModal-revert" class="btn btn-sm btn-raised btn-danger dropdown-toggle enabled" data-toggle="modal">&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;</a>
                         </span>
                     </div>
+                    @else
                     <div class="btn-group">
                         <span data-toggle="tooltip" data-placement="top" data-original-title="Confirmar" style="margin:0px;">
                             <a href="" data-target="#myModal-confirm" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal">&nbsp;<span class="glyphicon glyphicon-ok"></span>&nbsp;</a>
                         </span>
                     </div>
+                    @endif
 
           
 
