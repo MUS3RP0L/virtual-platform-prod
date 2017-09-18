@@ -66,16 +66,22 @@
                 </span>
             </div> -->
            
+
+                
+                    @if($economic_complement->state == "Edited")
+
                     <div class="btn-group">
-                        <span data-toggle="tooltip" data-placement="top" data-original-title="Revertir" style="margin:0px;">
+                        <span data-toggle="tooltip" data-placement="top" data-original-title="Cancelar" style="margin:0px;">
                             <a href="" data-target="#myModal-revert" class="btn btn-sm btn-raised btn-danger dropdown-toggle enabled" data-toggle="modal">&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;</a>
                         </span>
                     </div>
+                    @else
                     <div class="btn-group">
                         <span data-toggle="tooltip" data-placement="top" data-original-title="Confirmar" style="margin:0px;">
                             <a href="" data-target="#myModal-confirm" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal">&nbsp;<span class="glyphicon glyphicon-ok"></span>&nbsp;</a>
                         </span>
                     </div>
+                    @endif
 
           
 
