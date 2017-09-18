@@ -183,6 +183,10 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('get_reception_type',['as'=>'get_reception_type','uses'=>'EconomicComplement\EconomicComplementController@getReceptionType']);
 	// for Importation files excel
 	Route::get('import','ImportAportController@importAP');
+
+	//WorkFlows
+	Route::post('export_payment_bank', array('as'=>'export_payment_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_payment_bank'));
+	Route::post('export_rezagados', array('as'=>'export_rezagados', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_rezagados'));
 });
 
 define('ACCESS', env('ACCESS_PASS'));

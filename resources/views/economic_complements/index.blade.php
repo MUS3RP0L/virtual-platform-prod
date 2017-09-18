@@ -6,6 +6,21 @@
             {!! Breadcrumbs::render('economic_complements') !!}
         </div>
         <div class="col-md-6 text-right">
+            <div class="btn-group" style="margin:-3px 0;" data-toggle="tooltip" data-placement="top" data-original-title="Exportar por Workflow">                
+                <a href="" class="btn btn-primary btn-raised" data-toggle="dropdown"><i class="fa fa-money"></i></a>
+                <a href="" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wfbanco" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados por Banco</a> <li>                   
+                    <li role="separator" class="divider"></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wfmuserpol" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados por Muserpol</a> <li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wfdomicilio" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados a Domicilio</a> <li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wfrezagados" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Rezagados</a> <li>
+
+
+                </ul>
+            </div>
+
             <div class="btn-group" style="margin:-3px 0;" data-toggle="tooltip" data-placement="top" data-original-title="Exportar APS">                
                 <a href="" class="btn btn-primary btn-raised" data-toggle="dropdown"><i class="fa fa-building"></i></a>
                 <a href="" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
@@ -697,6 +712,114 @@
                   </div>
               </div>
     </div>
+
+<div id="myModal-wfbanco" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+             <div class="modal-dialog">
+                 <div class="modal-content">
+                     <div class="box-header with-border">
+                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                         <h4 class="modal-title">Exportar Pagados por Banco/h4>
+                     </div>
+                     <div class="modal-body">
+
+                         {!! Form::open(['method' => 'POST', 'route' => ['export_payment_bank'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+                             <br>                            
+                             <div class="row">
+                                 <div class="col-md-12">
+                                     <div class="form-group">
+                                             {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                         <div class="col-md-7">
+                                             <div class="input-group">
+                                                   {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                   <span class="help-block">Año</span>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+
+                             <div class="row">
+                                 <div class="col-md-12">
+                                     <div class="form-group">
+                                             {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                         <div class="col-md-7">
+                                             <div class="form-group">
+                                                   {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                   <span class="help-block">Seleccione Semestre</span>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="row text-center">
+                                 <div class="form-group">
+                                     <div class="col-md-12">
+                                         <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                         &nbsp;&nbsp;
+                                         <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                     </div>
+                                 </div>
+                             </div>
+                         {!! Form::close() !!}
+                     </div>
+                 </div>
+             </div>
+   </div>
+
+<div id="myModal-wfrezagados" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="box-header with-border">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Exportar Rezagados</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        {!! Form::open(['method' => 'POST', 'route' => ['export_rezagados'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+                            <br>                            
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                            {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                  {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                  <span class="help-block">Año</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                            {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                        <div class="col-md-7">
+                                            <div class="form-group">
+                                                  {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                  <span class="help-block">Seleccione Semestre</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-center">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                        &nbsp;&nbsp;
+                                        <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+  </div>
 
 
 @endsection
