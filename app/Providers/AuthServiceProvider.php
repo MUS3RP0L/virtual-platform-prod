@@ -91,6 +91,23 @@ class AuthServiceProvider extends ServiceProvider
             // }
             return false;
         });
+        $gate->define('eco_com_review_reception_calification',function($user){
+            // foreach ($user->roles as $role) {
+                if(Util::getRol()->id == 3 || Util::getRol()->id == 2 || Util::getRol()->id == 4 ){
+                    return true;
+                }
+            // }
+            return false;
+        });
+
+        $gate->define('eco_com_review_reception_calification_contabilidad',function($user){
+            // foreach ($user->roles as $role) {
+                if(Util::getRol()->id == 3 || Util::getRol()->id == 2 || Util::getRol()->id == 4 || Util::getRol()->id == 7 ){
+                    return true;
+                }
+            // }
+            return false;
+        });
         $gate->define('eco_com_qualification',function($user){
             // foreach ($user->roles as $role) {
                 if(Util::getRol()->id == 4){
@@ -121,6 +138,15 @@ class AuthServiceProvider extends ServiceProvider
         $gate->define('accounting',function($user){
             // foreach ($user->roles as $role) {
                 if(Util::getRol()->id == 7){
+                    return true;
+                }
+            // }
+            return false;
+        });
+
+        $gate->define('loan',function($user){
+            // foreach ($user->roles as $role) {
+                if(Util::getRol()->id == 8){
                     return true;
                 }
             // }

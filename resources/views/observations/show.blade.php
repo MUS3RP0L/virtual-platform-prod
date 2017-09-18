@@ -4,7 +4,7 @@
             <div class="col-md-10">
                 <h3 class="box-title"><span class="glyphicon glyphicon-eye-open"></span> Observaciones</h3>
             </div>
-            @can("eco_com_review_and_reception")
+            @can("eco_com_review_reception_calification_contabilidad")
             
                 <div class="col-md-2 text-right">
                     <div data-toggle="tooltip" data-placement="left" data-original-title="Añadir">
