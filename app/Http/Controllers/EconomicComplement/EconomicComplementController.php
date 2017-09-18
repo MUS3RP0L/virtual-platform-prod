@@ -654,6 +654,11 @@ class EconomicComplementController extends Controller
         {
             $wf_state_before = null;
         }
+
+        if($wf_state_before && $economic_complement->state=='Edited')
+        {
+            $wf_state_before = null;
+        }
                                      
         // dd($sequence);
 
