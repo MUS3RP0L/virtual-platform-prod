@@ -990,6 +990,18 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Flujo</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $economic_complement->workflow->name ?? ''!!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     </div>
