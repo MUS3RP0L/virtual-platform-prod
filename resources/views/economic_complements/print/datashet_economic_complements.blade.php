@@ -44,7 +44,7 @@
         <td>GRADO:</td><td>{!! $economic_complement->degree->shortened ?? '' !!}</td><td>CATEGORÍA:</td><td>{!! $economic_complement->category->getPercentage() !!}</td>
       </tr>
       <tr>
-        <td>AÑOS DE SERVICIO:</td><td colspan="3"></td>
+        <td>AÑOS DE SERVICIO:</td><td colspan="3"></td>status_documents
       </tr>
       @endif  
 </table>
