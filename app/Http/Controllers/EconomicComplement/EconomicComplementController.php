@@ -1534,8 +1534,8 @@ class EconomicComplementController extends Controller
                 $economic_complement->state = 'Edited';
                 $economic_complement->save();
                 
-                // return redirect('inbox');
-                return redirect('economic_complement');
+                return redirect('inbox');
+                // return redirect('economic_complement');
                 // return redirect('economic_complement/'.$economic_complement->id);
 
             }
