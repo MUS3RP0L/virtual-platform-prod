@@ -2271,6 +2271,65 @@ public static function import_from_bank(Request $request)
         return redirect('economic_complement');
   }
 
+//EXPORT BY WORKFLOWS ID
+public function export_payment_bank(Request $request)
+{
 
-   
+}
+
+
+public function export_rezagados(Request $request)
+{
+  global $j,$ecom;
+  $j=2;
+  $ecom = DB::table('eco_com_applicants')
+              ->Select(DB::raw('eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement'))
+              ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+              ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')              
+              ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+              ->leftJoin('cities as cities1','economic_complements.city_id','=','cities1.id')
+              ->leftJoin('cities as cities2', 'eco_com_applicants.city_identity_card_id','=', 'cities2.id')
+              ->leftJoin('degrees','economic_complements.degree_id','=','degrees.id')
+              ->leftJoin('categories','economic_complements.category_id', '=', 'categories.id')
+              ->leftJoin('pension_entities', 'affiliates.pension_entity_id','=','pension_entities.id')
+              ->where('economic_complements.eco_com_procedure_id','=', 2)
+              ->where('economic_complements.workflow_id','=',2)
+              ->get();
+  //dd($ecom);
+  if(sizeof($ecom) > 0)
+  {
+    Excel::create('Rezagados', function($excel)
+    { global $ecom;
+      $excel->sheet("Rezagados", function($sheet)
+      {
+        global $i,$j, $ecom;
+        $i=1;
+        $sheet->row(1, array('NRO','CI','EXT','PRIMER_NOMBRE','SEGUNDO_NOMBRE','PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL','GRADO','CATEGORIA','TIPO_RENTA','ENTE_GESTOR','MONTO_PAGADO','AMORTIZACION_PRESTAMOS','AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO','TOTAL'));     
+
+        foreach ($ecom as $datos) 
+        {
+          $sheet->row($j,array($i, $datos->identity_card, $datos->ext, $datos->first_name,$datos->second_name,$datos->last_name,$datos->mothers_last_name, $datos->surname_husband, $datos->regional,$datos->degree,$datos->category,$datos->modality,$datos->pension_entity,$datos->total,$datos->amount_loan,$datos->amount_accounting,$datos->amount_replacement));
+          $j++;
+          $i++;
+        }
+
+
+      });
+    })->export('xlsx');
+     Session::flash('message', "Exportación Exitosa");
+    return redirect('economic_complement');
+  }
+  else
+  {
+    Session::flash('message', "No existen registros para exportar rezagados");
+    return redirect('economic_complement');
+  }  
+
+}
+
+
+
+
+
+
 }

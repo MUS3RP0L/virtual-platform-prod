@@ -15,6 +15,7 @@
                     <li><a href="" data-toggle="modal" data-target="#myModal-wfmuserpol" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados por Muserpol</a> <li>
                     <li role="separator" class="divider"></li>
                     <li><a href="" data-toggle="modal" data-target="#myModal-wfdomicilio" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados a Domicilio</a> <li>
+                    <li role="separator" class="divider"></li>
                     <li><a href="" data-toggle="modal" data-target="#myModal-wfrezagados" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Rezagados</a> <li>
 
 
