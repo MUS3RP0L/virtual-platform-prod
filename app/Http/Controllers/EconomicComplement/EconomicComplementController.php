@@ -37,6 +37,9 @@ use Muserpol\Degree;
 use Muserpol\Unit;
 use Muserpol\Category;
 use Muserpol\WorkflowRecord;
+use Muserpol\WorkflowSequence;
+use Muserpol\WorkflowState;
+
 use Muserpol\ObservationType;
 use Muserpol\AffiliateObservation;
 class EconomicComplementController extends Controller
@@ -628,12 +631,31 @@ class EconomicComplementController extends Controller
     {   
         //Log::info("show_id_complement= ".$economic_complement->id);
 
+
+
         try {
             $state = EconomicComplementState::find($economic_complement->eco_com_state_id);
 
         } catch (Exception $e) {
             $state =null;
         }
+        // $state_actual = $economic_complement->wf_current_state_id;
+        // dd($state_actual);
+        // dd($economic_complement->workflow_id);
+        $sequence = WorkflowSequence::where("workflow_id",$economic_complement->workflow_id)
+                                     ->where("wf_state_current_id",$economic_complement->wf_current_state_id)
+                                     ->where('action','Denegar')
+                                     ->first();
+        // dd($sequence);
+        if($sequence)
+        {
+            $wf_state_before = WorkflowState::where('id',$sequence->wf_state_next_id)->first(); 
+        }else
+        {
+            $wf_state_before = null;
+        }
+                                     
+        // dd($sequence);
 
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
@@ -880,7 +902,8 @@ class EconomicComplementController extends Controller
         'last_ecocom' => $last_ecocom,
         'state' => $state,
         'status_eco_com_submitted_documents_ar'=>$status_eco_com_submitted_documents_ar,
-        'has_amortization' => $hasAmortization
+        'has_amortization' => $hasAmortization,
+        'wf_state_before' => $wf_state_before
         ];
         // dd($eco_com_submitted_documents_ar);
 
@@ -1927,6 +1950,22 @@ class EconomicComplementController extends Controller
         
         
         return back()->withInput();
+    }
+
+    public function retroceso_de_tramite(Request $request)
+    {
+        $economic_complement = EconomicComplement::where('id',$request->id_complemento)->first();
+
+        $sequence = WorkflowSequence::where("workflow_id",$economic_complement->workflow_id)
+                                     ->where("wf_state_current_id",$economic_complement->wf_current_state_id)
+                                     ->where('action','Denegar')
+                                     ->first();
+        // $wf_state_before = WorkflowState::where('id',$sequence->wf_state_next_id)->first(); 
+        $economic_complement->wf_current_state_id = $sequence->wf_state_next_id;
+        $economic_complement->save();
+
+        return back()->withInput();
+
     }
 
     public function print_total($eco_com_id)

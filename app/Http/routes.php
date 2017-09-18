@@ -141,6 +141,9 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('save_amortization','EconomicComplement\EconomicComplementController@save_amortization');
 	Route::get('ChangeRol','User\UserController@ChangeRol');
 	Route::post('PostChangeRol','User\UserController@PostChangeRol');
+	Route::post('retroceso_de_tramite','EconomicComplement\EconomicComplementController@retroceso_de_tramite');
+
+	
 	
 		
 	// Economic Complement Record

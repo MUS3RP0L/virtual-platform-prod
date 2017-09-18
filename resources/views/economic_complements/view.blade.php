@@ -5,18 +5,10 @@
 		{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
 	</div>
 	<div class="col-md-6">
-        @can('eco_com_review')
-                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
-                    <a href="" class="btn btn-success btn-sm btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
-                </div>
-            @endcan
+    
             
        @can('eco_com_reception')
-            @can('observate')
-                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
-                    <a href="" class="btn btn-success btn-sm btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
-                </div>
-            @endcan
+         
 
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Declaración Jurada" style="margin:0px;">
                 <a href="" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
@@ -54,17 +46,20 @@
             <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm btn-raised btn-lg bg-orange"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar Tramite"><i aria-hidden="true" class="fa fa-refresh"></i></a>
         </div>
         @endcan
-         <div class="btn-group">
-            
-                <a href="{{url('economic_complement/ficha_tecnica/'.$economic_complement->id)}}" class="btn btn-sm btn-raised btn-lg btn-info "  data-toggle="tooltip"  data-placement="top" data-original-title="Ficha Tecnica"><i class="fa fa-lg fa-file-text-o"></i></a>
-           
-        </div>
+       
         <div class="btn-group">
             <span data-toggle="modal" data-target="#recordEcoModal">
                 <a href="#" class="btn btn-sm btn-raised btn-lg bg-blue"  data-toggle="tooltip"  data-placement="top" data-original-title="Historial"><i class="fa fa-lg fa-clock-o"></i></a>
             </span>
         </div>
         <div class="pull-right">
+            @if($wf_state_before)
+            <div class="btn-group">
+                <span data-toggle="tooltip" data-placement="top" data-original-title="Retroceso de Tramite" style="margin:0px;">
+                    <a href="" data-target="#back-modal" class="btn btn-sm btn-raised btn-danger dropdown-toggle enabled" data-toggle="modal"> <i class="fa  fa-arrow-left"></i></strong></a>
+                </span>
+            </div>
+            @endif
             <div class="btn-group">
                 <span data-toggle="tooltip" data-placement="top" data-original-title="ver" style="margin:0px;">
                     <a href="" data-target="#myModal-review-user" class="btn btn-sm btn-raised btn-{{ $economic_complement->stateOf() ? 'info' : 'warning'}} dropdown-toggle enabled" data-toggle="modal"> <strong>{{ $economic_complement->stateOf() ? "Revisado":"No revisado"}}</strong></a>
@@ -2482,6 +2477,34 @@
         </div><!-- /.modal -->
 
     </form>
+    @if($wf_state_before)
+    <form  action="{{url('retroceso_de_tramite')}}" method="POST">
+            
+        
+        <div id="back-modal" class="modal fade modal-warning" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                 <input type="hidden" name="_token" value="{{ csrf_token() }}">  
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Retroceso de Tramite</h4>
+              </div>
+              <div class="modal-body">
+              
+                    Esta seguro de enviar el tramite de <strong> {{$economic_complement->wf_state->name }}</strong>  a  <strong>{{ $wf_state_before->name }} ?</strong>
+                <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">    
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">No</button>
+                <button type="submit" class="btn btn-raised btn-danger">Si </button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+    </form>
+    @endif
+
 @include('observations.create')
 
 @endsection
