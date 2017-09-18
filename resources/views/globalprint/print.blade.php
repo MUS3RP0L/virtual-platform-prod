@@ -37,11 +37,11 @@
     <table class="table">
       <tr>
         <td style="border: 0px;text-align:left;">
-          <div class="title"><b>Fecha Emisión: </b> La Paz, {!! $date !!} - {!! $hour !!}<br></div>
+          <div class="title"><b>Fecha Emisión: </b> {{ $user->city->name ?? 'La Paz'}}, {!! $date !!} - {!! $hour !!}<br></div>
         </td>
         @if(isset($user))
         <td style="border: 0px;text-align:right;">
-          <div class="title"><b>Usuario: </b> {!! $user->first_name !!} {!! $user->last_name !!} - {!! $user->getAllRolesToString() !!} <br></div>
+          <div class="title"><b>Usuario: </b> {!! $user->username !!} - {!! $user_role !!} <br></div>
         </td>
         @endif
       </tr>
@@ -68,7 +68,7 @@
                     $title.'                                     '.
                     'Registro: Nº '.$eco_com_applicant->code.' || '.
                     $eco_com_applicant->getTitleNameFull().' || '.
-                    'Carnet de Identidad: '.$eco_com_applicant->identity_card.' '.$eco_com_applicant->city_identity_card->first_shortened.' || '.
+                    'Carnet de Identidad: '.$eco_com_applicant->identity_card.' '.($eco_com_applicant->city_identity_card->first_shortened ?? '').' || '.
                     'Edad del Afiliado: '.$eco_com_applicant->getHowOld().' || '.
                     'Numero de CUA/NUA: '.$eco_com_applicant->nua
                     )) !!} ">
@@ -77,7 +77,7 @@
                             <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(90)->generate(
                             $title.'                                     '.
                             $affiliate->getTitleNameFull().' || '.
-                            'Carnet de Identidad: '.$affiliate->identity_card.' '.$affiliate->city_identity_card->first_shortened.' || '.
+                            'Carnet de Identidad: '.$affiliate->identity_card.' '.($affiliate->city_identity_card->first_shortened ?? '').' || '.
                             'Edad del Afiliado: '.$affiliate->getHowOld().' || '.
                             'Numero de CUA/NUA: '.$affiliate->nua
                             )) !!} ">
