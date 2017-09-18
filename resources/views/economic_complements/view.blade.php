@@ -54,6 +54,11 @@
             <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm btn-raised btn-lg bg-orange"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar Tramite"><i aria-hidden="true" class="fa fa-refresh"></i></a>
         </div>
         @endcan
+         <div class="btn-group">
+            
+                <a href="{{url('economic_complement/ficha_tecnica/'.$economic_complement->id)}}" class="btn btn-sm btn-raised btn-lg btn-info "  data-toggle="tooltip"  data-placement="top" data-original-title="Ficha Tecnica"><i class="fa fa-lg fa-file-text-o"></i></a>
+           
+        </div>
         <div class="btn-group">
             <span data-toggle="modal" data-target="#recordEcoModal">
                 <a href="#" class="btn btn-sm btn-raised btn-lg bg-blue"  data-toggle="tooltip"  data-placement="top" data-original-title="Historial"><i class="fa fa-lg fa-clock-o"></i></a>
@@ -1978,9 +1983,7 @@
                                     </div>
                                 </div>
                             </div>
-
                         {!! Form::close() !!}
-
                     </div>
                 </div>
             </div>
@@ -2010,13 +2013,11 @@
                                 <div class="col-md-12">
                                     <a href="{!! url('economic_complement/'.$economic_complement->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
                                     &nbsp;&nbsp;
-                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar e Imprimir">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
                                 </div>
                             </div>
                         </div>
-
                     {!! Form::close() !!}
-
                 </div>
             </div>
         </div>
@@ -2060,7 +2061,6 @@
                         {!! Form::hidden('data', null, ['data-bind'=> 'value: lastSavedJson']) !!}
                         <input type="hidden" name="id_complemento" value={{$economic_complement->id}} >
                         <br>
-                         
                         <div class="row text-center">
                             <div class="form-group">
                                 <div class="col-md-12">
