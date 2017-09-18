@@ -868,7 +868,7 @@ class EconomicComplementReportController extends Controller
             $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
             $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
             $title = "FICHA PAGO COMPLEMENTO ECONÓMICO";
-            $date = Util::getDateEdit(date('d/m/Y'));
+            $date = Util::getDateShort((date('Y-m-d')));
             $current_date = Carbon::now();
             $economic_complement = EconomicComplement::where('id',$id_complemento)->first();
             $hour = Carbon::parse($current_date)->toTimeString();
@@ -914,7 +914,6 @@ class EconomicComplementReportController extends Controller
             $modality = 0;
         }
 
-        
         $data = [
 
         'affiliate' => $affiliate,
@@ -940,7 +939,7 @@ class EconomicComplementReportController extends Controller
         'modality' => $modality,
         'code' => $economic_complement->code,
         'total' => number_format($economic_complement->total,2,'.',','),
-        'reception_date' => Util::getDateEdit($economic_complement->created_at,date('d/m/Y')),
+        'reception_date' => Util::getDateShort($economic_complement->created_at,date('d/m/Y')),
         ];
        
 
@@ -961,7 +960,7 @@ class EconomicComplementReportController extends Controller
         'user_1' => Auth::user()
 
         ];
-
+        
         $data = array_merge($data, $second_data);
        
         $view = \View::make('economic_complements.print.datashet_economic_complements',$data )->render();
