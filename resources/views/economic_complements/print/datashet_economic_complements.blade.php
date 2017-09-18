@@ -93,7 +93,9 @@
         <td colspan="4" class="grand service">INFORMACIÓN DEL APODERADO</td>
       </tr>
       <tr>
+
         <td>NOMBRE:</td><td nowrap>{!! $economic_complement_legal_guardian->last_name !!} {!! $economic_complement_legal_guardian->mother_name !!} {!! $economic_complement_legal_guardian->first_name !!}</td><td>C.I.:</td><td nowrap>{!! $economic_complement_legal_guardian->identity_card !!} {!! $economic_complement_legal_guardian->city_identity_card->first_shortened ?? '' !!}</td>
+
       </tr>
       <td>TELÉFONO:</td>
       <td>
@@ -220,11 +222,9 @@
   </tr>
 </table>
 <table>
-  <tr>
-    <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>-------------------------------------------</th>
-  </tr>
-  <tr>
-    <th class="info" style="border: 0px;text-align:center;"><b>Elaborado por {!! $user_1->first_name !!} {!! $user_1->last_name !!} <br> {!! $user_1->getAllRolesToString() !!}</b></th>        
+  <tr >
+    
+    <th  class="info" style="border: 0px;"><br> __________________________________________  <br> Elaborado por {!! $user_1->first_name !!} {!! $user_1->last_name !!} <br> {!! Util::getRol()->name !!}</b></th>        
   </tr>
 </table>
 
