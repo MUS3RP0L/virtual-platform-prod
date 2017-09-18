@@ -611,10 +611,32 @@ class Util
     	$degree = DB::table('degrees')->where('shortened','like',$degree)->first();
     	return $degree->id;
     }
+    public static function getDegreeId_name($degree)
+    {
+    	$degree = DB::table('degrees')->where('shortened','like',strtoupper(trim($degree)))->first();
+    	if ($degree) {
+	    	return $degree->id;
+    	}
+    	$degree = DB::table('degrees')->where('name','like',strtoupper(trim($degree)))->first();
+    	if ($degree) {
+	    	return $degree->id;
+    	}
+    	return "error";
+
+    }
     public static function getCategoryId($cat)
     {
     	$cat = DB::table('categories')->where('percentage','=', $cat)->first();
     	return $cat->id;
+    }
+    public static function getCategoryId_number($cat)
+    {
+
+    	$cat = DB::table('categories')->where('percentage','=', $cat)->first();
+    	if ($cat) {
+    		return $cat->id;
+    	}
+    	return "error";
     }
     public static function getEntityPensionId($ent)
     {

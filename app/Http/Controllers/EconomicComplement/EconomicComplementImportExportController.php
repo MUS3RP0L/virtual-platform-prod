@@ -277,77 +277,54 @@ class EconomicComplementImportExportController extends Controller
     }
   }
 
-  public static function import_from_bank(Request $request) {
-    //substr_replace($string ,"",-1);
+public static function import_from_bank(Request $request) 
+{
+    global $year, $semester, $result;
     if($request->hasFile('archive'))
     {
-      global $year, $semester, $results,$i,$afi,$list;
+      
       $reader = $request->file('archive');
       $filename = $reader->getRealPath();
       $year = $request->year;
       $semester = $request->semester;
-      Excel::load($filename, function($reader) {
-              global $results,$i,$afi,$list;
+      Excel::load($filename, function($reader) 
+      {
+              global $result;
               ini_set('memory_limit', '-1');
               ini_set('max_execution_time', '-1');
               ini_set('max_input_time', '-1');
               set_time_limit('-1');
-              $results = collect($reader->get());
+              $result = collect($reader->get());
       });
 
-      $afi;
+      
       $found=0;
-      $nofound=0;
-      //return response()->json($results);
-      foreach ($results as $valor){
-          $ci = substr_replace($valor->carnet,"",-2);
-          $card = rtrim($ci);
-        //  return response()->json($card);
-          $afi = DB::table('economic_complements')
-            ->select(DB::raw('economic_complements.*'))
-            ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
-            ->where('affiliates.identity_card', '=',rtrim($card))
-            ->whereYear('economic_complements.review_date', '=', $year)
-            ->where('economic_complements.semester', '=', $semester)
-            ->where('economic_complements.eco_com_state_id', '=', 2)->first();
-            if ($afi){
-                $ecomplement = EconomicComplement::where('affiliate_id','=', $afi->affiliate_id)->whereYear('review_date','=', $afi->review_date)->where('semester','=', $afi->semester)->where('eco_com_state_id','=', $afi->eco_com_state_id)->first();
-                $ecomplement->eco_com_state_id = 4;
-                $ecomplement->total = $valor->monto_asignado;
-                $ecomplement->payment_number = $valor->nro_comprobante;
-                $ecomplement->payment_date = $valor->fecha_pago;
-                $ecomplement->save();
-                $found ++;
-            }
-            else{
-              $nofound ++;
-              $i ++;
-              $list[]= $valor;
-            }
-        }
-        //return response()->json($list);
-        //export record no found
-        Excel::create('REPORTE_BANCO_NO_ENCONTRADO', function($excel) {
-            global $list, $j,$k;
-            $j = 2;
-            $k=1;
-            $excel->sheet('Lista_Banco', function($sheet) {
-            global $list, $j,$k;
-            $sheet->row(1, array('NRO', 'DEPARTAMENTO','CARNET','NOMBRE','MONTO_ASIGNADO','DESCRIPCION1','DESCRIPCION2','NRO_COMPROBANTE','FECHA_PAGO'));
-            foreach ($list as $datos) {
-                $sheet->row($j, array($k,$datos->departamento,$datos->carnet,$datos->nombre, $datos->monto_asignado,$datos->descripcion1,$datos->descripcion2,$datos->nro_comprobante,$datos->fecha_pago));
-                $j++;
-                $k++;
-            }
-
-          });
-
-        })->export('xlsx');
-        Session::flash('message', "Importación Exitosa"." F:".$found." NF:".$nofound);
-        return redirect('economic_complement');
-  }
-
-  }
+      $nofound=0;  
+     // dd($result->toArray());
+      foreach ($result as $valor)
+      {  // dd($valor->descripcion2);
+          $ecom = EconomicComplement::where('affiliate_id','=', $valor->descripcion2)
+                                    ->whereYear('year','=', $year)
+                                    ->where('semester','=', $semester)->first();
+          if ($ecom)
+          {
+                  $ecom->eco_com_state_id = 1;  
+                  $ecom->wf_current_state_id= 8;               
+                  $ecom->payment_number = $valor->nro_comprobante;
+                  $ecom->payment_date = $valor->fecha_pago;
+                  $ecom->bank_agency = $valor->agencia.' - '.$valor->cod_agencia;
+                  $ecom->save();
+                  $found ++;                  
+          }
+          else
+          {
+                $nofound ++;              
+          }
+      }
+      Session::flash('message', "Importación Exitosa"." ".$found);
+      return redirect('economic_complement');
+    }
+}
 
     //############################################## EXPORT AFFILIATES TO APS ###################################
     public function export_to_aps(Request $request)
@@ -2258,6 +2235,41 @@ class EconomicComplementImportExportController extends Controller
       return $request->year;
             
     }
+
+  public function export_aps_availability()
+  {
+    global $i,$afi;
+   
+    Excel::create('Muserpol_aps_disponibilidad', function($excel) 
+    {
+              global $j;
+              $j = 2;
+              $excel->sheet("APS_DISPONIBILIDAD", function($sheet) 
+              {
+                global $j, $i, $afi;
+                $i=1;
+                $sheet->row(1, array('NRO', 'TIPO_ID', 'NUM_ID', 'EXTENSION', 'CUA', 'PRIMER_APELLIDO_T', 'SEGUNDO_APELLIDO_T','PRIMER_NOMBRE_T','SEGUNDO_NOMBRE_T','APELLIDO_CASADA_T','FECHA_NACIMIENTO_T'));
+                $afi = DB::table('affiliates')
+                    ->select(DB::raw("concat(repeat('0',13-length(RTRIM(affiliates.identity_card))), RTRIM(affiliates.identity_card)) as identity_card, CITIES.third_shortened, cast(concat(repeat('0',9-length(RTRIM(cast(affiliates.nua as text)))), RTRIM(cast(affiliates.nua as text))) as text) as nua, affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,replace(cast(affiliates.birth_date as text), '-', '') as birth_date"))
+                    ->leftJoin('units','affiliates.unit_id','=','units.id')
+                    ->leftJoin('breakdowns', 'units.breakdown_id', '=', 'breakdowns.id')
+                    ->leftJoin('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
+                    ->where('breakdowns.id','=', 1)
+                    ->whereNull('affiliates.pension_entity_id')
+                    ->where('affiliates.nua','>', 0)
+                    ->get();
+
+                foreach ($afi as $datos)
+                {
+                    $sheet->row($j, array($i, "I",$datos->identity_card,$datos->third_shortened,$datos->nua, $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,$datos->birth_date));
+                    $j++;
+                    $i++;
+                }
+            });
+    })->export('xlsx');
+        Session::flash('message', "Exportación Exitosa");
+        return redirect('economic_complement');
+  }
 
 
    

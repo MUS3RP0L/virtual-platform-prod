@@ -46,6 +46,11 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\FusionAffiliate::class,
         \Muserpol\Console\Commands\ImportComplement2015::class,
         \Muserpol\Console\Commands\ImportComplement2016Primer::class,
+        \Muserpol\Console\Commands\ImportFileMakerContribution::class,
+        \Muserpol\Console\Commands\FusionOnlyAffiliate::class,
+        \Muserpol\Console\Commands\ImportSismuNormal::class,
+        \Muserpol\Console\Commands\ImportSismuReintegro::class,
+        \Muserpol\Console\Commands\ImportRezagados::class,
 
         
     ];

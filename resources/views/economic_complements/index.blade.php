@@ -6,8 +6,16 @@
             {!! Breadcrumbs::render('economic_complements') !!}
         </div>
         <div class="col-md-6 text-right">
-            <div class="btn-group" style="margin:-3px 0;" data-toggle="tooltip" data-placement="top" data-original-title="Exportar APS">
-                <a href="" class="btn btn-primary btn-raised" data-target="#myModal-exportaps" data-toggle="modal"><i class="fa fa-building"></i> APS</a>
+            <div class="btn-group" style="margin:-3px 0;" data-toggle="tooltip" data-placement="top" data-original-title="Exportar APS">                
+                <a href="" class="btn btn-primary btn-raised" data-toggle="dropdown"><i class="fa fa-building"></i></a>
+                <a href="" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                     <li><a href="" data-toggle="modal" data-target="#myModal-exportaps" data-toggle="modal"><i class="fa  fa-shield"></i> APS</a> <li>                   
+                    <li role="separator" class="divider"></li>
+                    <li><a href="{{url('export_aps_availability')}}"  style="padding:3px 5px;"><i class="fa  fa-file-excel-o"></i>ASP Disponibilidad</a></li>        
+                   
+
+                </ul>
             </div>
             <div class="btn-group" style="margin:-3px 0;" data-toggle="tooltip" data-placement="top" data-original-title="Exportar Banco">
                 <a href="" class="btn btn-primary btn-raised" data-toggle="dropdown"><i class="fa fa-bank"></i></a>
