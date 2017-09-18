@@ -654,6 +654,11 @@ class EconomicComplementController extends Controller
         {
             $wf_state_before = null;
         }
+
+        if($wf_state_before && $economic_complement->state=='Edited')
+        {
+            $wf_state_before = null;
+        }
                                      
         // dd($sequence);
 
@@ -1534,8 +1539,8 @@ class EconomicComplementController extends Controller
                 $economic_complement->state = 'Edited';
                 $economic_complement->save();
                 
-                // return redirect('inbox');
-                return redirect('economic_complement');
+                return redirect('inbox');
+                // return redirect('economic_complement');
                 // return redirect('economic_complement/'.$economic_complement->id);
 
             }
@@ -1842,6 +1847,7 @@ class EconomicComplementController extends Controller
       $date = Util::getDateEdit(date('Y-m-d'));
       $current_date = Carbon::now();
       $user = Auth::user();
+      $user_role = Util::getRol()->name;
       $hour = Carbon::parse($current_date)->toTimeString();
       $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
       $eco_com_submitted_document = EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->get();
@@ -1861,21 +1867,21 @@ class EconomicComplementController extends Controller
         switch ($type) {
             case 'report':
                 $title= "RECEPCIÓN DE REQUISITOS";
-                $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user','yearcomplement'))->render();
+                $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user', 'user_role','yearcomplement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
 
             case 'inclusion':
                 $title= "";
-                $view = \View::make('economic_complements.print.inclusion_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type', 'user'))->render();
+                $view = \View::make('economic_complements.print.inclusion_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type', 'user', 'user_role'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
 
             case 'habitual':
                 $title= "";
-                $view = \View::make('economic_complements.print.habitual_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type', 'user'))->render();
+                $view = \View::make('economic_complements.print.habitual_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type', 'user', 'user_role'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
@@ -1998,6 +2004,7 @@ class EconomicComplementController extends Controller
                                      ->first();
         // $wf_state_before = WorkflowState::where('id',$sequence->wf_state_next_id)->first(); 
         $economic_complement->wf_current_state_id = $sequence->wf_state_next_id;
+        $economic_complement->state= 'Received';
         $economic_complement->save();
 
         return back()->withInput();
