@@ -129,6 +129,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::get('economic_complement/ficha_tecnica/{id_complemento}','EconomicComplement\EconomicComplementReportController@data_shet');
 	Route::get('economic_complement/print_total/{ecomomic_complement_id}','EconomicComplement\EconomicComplementController@print_total');
+	Route::get('economic_complement/print_total_old/{ecomomic_complement_id}','EconomicComplement\EconomicComplementController@print_total_old');
 	//david
 	Route::get('export_excel','EconomicComplement\EconomicComplementImportExportController@export_excel');
 	Route::get('export_excel_user','EconomicComplement\EconomicComplementImportExportController@export_excel_user');
