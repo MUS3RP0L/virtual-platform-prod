@@ -595,7 +595,7 @@ class EconomicComplementController extends Controller
                 $economic_complement->affiliate_id = $affiliate->id;
                 $economic_complement->eco_com_modality_id = $eco_com_modality->id;
                 $economic_complement->eco_com_procedure_id = $eco_com_pro->id;
-                $economic_complement->workflow_id = 1;
+                $economic_complement->workflow_id = 3;
                 $economic_complement->wf_current_state_id = 1;
                 $economic_complement->eco_com_state_id = 16;
                 $economic_complement->city_id = trim($request->city);
@@ -1985,6 +1985,10 @@ class EconomicComplementController extends Controller
                     break;
                 
             }
+            if ($complemento->total_rent > 0 ) {   
+                EconomicComplement::calculate($complemento,$complemento->total_rent, $complemento->sub_total_rent, $complemento->reimbursement, $complemento->dignity_pension, $complemento->aps_total_fsa, $complemento->aps_total_cc, $complemento->aps_total_fs, $complemento->aps_disability);
+                $complemento->save();
+            }
         }
         else{
             Session::flash('message', 'El Monto de amortizacion debe ser mayor a 0 ');
@@ -2010,6 +2014,32 @@ class EconomicComplementController extends Controller
         return back()->withInput();
 
     }
+
+    public function moreInfo(Request $request)
+    {
+        $economic_complement = EconomicComplement::where('id',$request->id_complemento)->first();
+
+        if($request->has("number_accounting"))
+        {
+            $economic_complement->number_accounting = $request->number_accounting;
+        }
+        if($request->has("number_budget"))
+        {
+            $economic_complement->number_budget = $request->number_budget;
+        }
+
+        if($request->has("number_check"))
+        {
+            $economic_complement->number_check = $request->number_check;
+        }
+
+        $economic_complement->save();
+
+        return back()->withInput();
+
+    }
+
+
 
     public function print_total($eco_com_id)
     {

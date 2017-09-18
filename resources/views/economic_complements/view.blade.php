@@ -829,11 +829,18 @@
                         <div class="col-md-8">
                             <h3 class="box-title"><span class="glyphicon glyphicon-info-sign"></span> Información del Trámite</h3>
                         </div>
-                        @can("eco_com_review_and_reception")
+                        @can("eco_com_qualification")
                         {{--@can('showEdit', $economic_complement)--}}
                         <div class="col-md-4 text-right">
                             <span data-toggle="modal" data-target="#policeModal">
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
+                            </span>
+                        </div>
+                        @endcan
+                        @can("accounting")
+                        <div class="col-md-4 text-right">
+                            <span data-toggle="modal" data-target="#addMoreInfo">
+                                <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Adicionar Información"><i class="fa fa-lg fa fa-plus"></i></a>
                             </span>
                         </div>
                         @endcan
@@ -928,6 +935,52 @@
                                         </div>
                                     </td>
                                 </tr>
+
+                                @can("accounting")
+                                <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Numero de comprobante</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $economic_complement->number_accounting ?? '' !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endcan
+
+                                @can("loan")
+                                <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Numero de comprobante</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $economic_complement->number_budget ?? '' !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endcan
+
+                                @can("treasury")
+                                <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Numero de comprobante</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $economic_complement->number_check ?? '' !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endcan
+
                             </table>
                         </div>
                         <div class="col-md-6">
@@ -2523,6 +2576,46 @@
                 <div class="row">
                     <label>Monto :</label> <input type="number" required  step="any" name="amount_amortization" class="form-control">
                     <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">
+                </div>
+                
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar </button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+    </form>
+
+    <form  action="{{url('moreInfo')}}" method="POST">
+        
+        <div id="addMoreInfo" class="modal fade" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                 <input type="hidden" name="_token" value="{{ csrf_token() }}">  
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"> Adicionar Informacion </h4>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+
+                    <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">
+
+                    @can("accounting")
+                    <label>Nro de Comprobante :</label> <input type="number" required name="number_accounting" class="form-control">
+                    @endcan
+
+                    @can("loan")
+                    <label>Certificacion Presupuestaria :</label> <input type="text" required   name="number_budget" class="form-control">
+                    @endcan
+
+                    @can("treasury")
+                    <label>Numero de Checke :</label> <input type="number" required  name="number_check" class="form-control">
+                    @endcan
+
                 </div>
                 
               </div>
