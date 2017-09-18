@@ -86,8 +86,8 @@
     });
 
     // Economic Complements
-    Breadcrumbs::register('economic_complements', function($breadcrumbs, $economic_complement) {
-        $breadcrumbs->push('Pago de '.$economic_complement->workflow->name, URL::to('economic_complement'));
+    Breadcrumbs::register('economic_complements', function($breadcrumbs) {
+        $breadcrumbs->push('Pago de Complemento', URL::to('economic_complement'));
     });
     // Create Economic Complement
     Breadcrumbs::register('create_economic_complement', function($breadcrumbs, $affiliate) {
