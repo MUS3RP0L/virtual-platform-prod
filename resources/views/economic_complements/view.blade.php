@@ -5,18 +5,10 @@
 		{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
 	</div>
 	<div class="col-md-6">
-        @can('eco_com_review')
-                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
-                    <a href="" class="btn btn-success btn-sm btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
-                </div>
-            @endcan
+    
             
        @can('eco_com_reception')
-            @can('observate')
-                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
-                    <a href="" class="btn btn-success btn-sm btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
-                </div>
-            @endcan
+         
 
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Declaración Jurada" style="margin:0px;">
                 <a href="" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
@@ -54,17 +46,20 @@
             <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm btn-raised btn-lg bg-orange"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar Tramite"><i aria-hidden="true" class="fa fa-refresh"></i></a>
         </div>
         @endcan
-         <div class="btn-group">
-            
-                <a href="{{url('economic_complement/ficha_tecnica/'.$economic_complement->id)}}" class="btn btn-sm btn-raised btn-lg btn-info "  data-toggle="tooltip"  data-placement="top" data-original-title="Ficha Tecnica"><i class="fa fa-lg fa-file-text-o"></i></a>
-           
-        </div>
+       
         <div class="btn-group">
             <span data-toggle="modal" data-target="#recordEcoModal">
                 <a href="#" class="btn btn-sm btn-raised btn-lg bg-blue"  data-toggle="tooltip"  data-placement="top" data-original-title="Historial"><i class="fa fa-lg fa-clock-o"></i></a>
             </span>
         </div>
         <div class="pull-right">
+            @if($wf_state_before)
+            <div class="btn-group">
+                <span data-toggle="tooltip" data-placement="top" data-original-title="Retroceso de Tramite" style="margin:0px;">
+                    <a href="" data-target="#back-modal" class="btn btn-sm btn-raised btn-danger dropdown-toggle enabled" data-toggle="modal"> <i class="fa  fa-arrow-left"></i></strong></a>
+                </span>
+            </div>
+            @endif
             <div class="btn-group">
                 <span data-toggle="tooltip" data-placement="top" data-original-title="ver" style="margin:0px;">
                     <a href="" data-target="#myModal-review-user" class="btn btn-sm btn-raised btn-{{ $economic_complement->stateOf() ? 'info' : 'warning'}} dropdown-toggle enabled" data-toggle="modal"> <strong>{{ $economic_complement->stateOf() ? "Revisado":"No revisado"}}</strong></a>
@@ -1002,25 +997,34 @@
             <!-- calculo total -->
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
-                    <div class="col-md-8">
+                    <div class="col-md-{{ $economic_complement->old_eco_com ? '6':'8' }}">
                         <h3 class="box-title"><span class="fa fa-money"></span> Cálculo de Total</h3>
                     </div>
                         @can('eco_com_qualification')
-                        <div class="col-md-2 text-right">
-                            <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir">
-                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print">&nbsp;&nbsp;
-                                    <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
-                                </a>
+                            @if($economic_complement->old_eco_com)
+                            <div class="col-md-2">
+                                <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir Tramite Anterior">
+                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print-old">&nbsp;&nbsp;
+                                        <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
+                                    </a>
+                               </div>
                             </div>
-                        </div>
-                        <div class="col-md-2 text-right">
-                            <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals">&nbsp;&nbsp;
-                                    <span class="fa fa-lg fa-calculator" aria-hidden="true"></span>&nbsp;&nbsp;
-                                </a>
+                            @endif
+                            <div class="col-md-2">
+                                <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir {{ $economic_complement->old_eco_com ? 'Recalifiación' : 'Califiación' }}">
+                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print">&nbsp;&nbsp;
+                                        <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    @endcan
+                            <div class="col-md-2">
+                                <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals">&nbsp;&nbsp;
+                                        <span class="fa fa-lg fa-calculator" aria-hidden="true"></span>&nbsp;&nbsp;
+                                    </a>
+                                </div>
+                            </div>
+                        @endcan
                 </div>
                 <div class="box-body">
                     <div class="row">
@@ -2003,6 +2007,39 @@
                             <div class="form-group">
                                 {!! Form::label('comment', 'Nota: ', ['class' => 'col-md-3 control-label']) !!}
                                 <div class="col-md-8">
+                                {!! Form::textarea('comment', null, ['class' => 'form-control rent', 'required' => 'required','rows' => '3', 'id'=>'comment']) !!}
+                                    <span class="help-block">Escriba una nota {{-- (Caracteres restantes <span id="comment_count"></span>)</span> --}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <a href="{!! url('economic_complement/'.$economic_complement->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                    &nbsp;&nbsp;
+                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar e Imprimir">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                </div>
+                            </div>
+                        </div>
+                    {!! Form::close() !!}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="myModal-totals-print-old" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Imprimiendo Calculo de complemento (Trámite Anterior)</h4>
+                </div>
+                <div class="modal-body">
+                    {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement], 'class' => 'form-horizontal']) !!}
+                        <input type="hidden" name="step" value="print_total_old"/>
+                        <div class="row">
+                            <div class="form-group">
+                                {!! Form::label('comment', 'Nota: ', ['class' => 'col-md-3 control-label']) !!}
+                                <div class="col-md-8">
                                 {!! Form::textarea('comment', null, ['class' => 'form-control rent', 'required' => 'required','rows' => '3']) !!}
                                     <span class="help-block">Escriba una nota</span>
                                 </div>
@@ -2021,8 +2058,7 @@
                 </div>
             </div>
         </div>
-    </div>
-
+    </div>    
     <div id="myModal-requirements" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -2482,6 +2518,34 @@
         </div><!-- /.modal -->
 
     </form>
+    @if($wf_state_before)
+    <form  action="{{url('retroceso_de_tramite')}}" method="POST">
+            
+        
+        <div id="back-modal" class="modal fade modal-warning" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                 <input type="hidden" name="_token" value="{{ csrf_token() }}">  
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Retroceso de Tramite</h4>
+              </div>
+              <div class="modal-body">
+              
+                    Esta seguro de enviar el tramite de <strong> {{$economic_complement->wf_state->name }}</strong>  a  <strong>{{ $wf_state_before->name }} ?</strong>
+                <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">    
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">No</button>
+                <button type="submit" class="btn btn-raised btn-danger">Si </button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+    </form>
+    @endif
+
 @include('observations.create')
 
 @endsection
@@ -2630,6 +2694,20 @@ $(document).ready(function() {
 
     // ko.applyBindings();
     ko.applyBindings(model,selectedlModel());
+
+    // $(document).ready(function() {
+    //     $('#comment').on('keyup', function(e) {
+    //         var value=$('#comment').val();
+    //         var l=value.length;
+    //         var remain = parseInt(300 - l);
+    //         $('#comment_count').text(remain);
+    //         if (remain <= 0 ) {
+    //             $('#comment').val((value).substring(0, l - 1));
+    //                 return false;
+    //         }
+    //         e.preventDefault();
+    //     });
+    // });
 	//for phone numbers
 	$('#addPhoneNumber').on('click', function(event) {
 		$('#phonesNumbers').append('<div class="col-md-offset-5"><div class="col-md-7"><input type="text" class="form-control" name="phone_number[]" data-inputmask="\'mask\': \'(9) 999-999\'" data-mask></div><div class="col-md-1"><button class="btn btn-warning deletePhone" type="button" ><i class="fa fa-minus"></i></button></div></div>')
