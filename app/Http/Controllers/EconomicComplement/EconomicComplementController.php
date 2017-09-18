@@ -1998,6 +1998,7 @@ class EconomicComplementController extends Controller
                                      ->first();
         // $wf_state_before = WorkflowState::where('id',$sequence->wf_state_next_id)->first(); 
         $economic_complement->wf_current_state_id = $sequence->wf_state_next_id;
+        $economic_complement->state= 'Received';
         $economic_complement->save();
 
         return back()->withInput();
