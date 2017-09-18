@@ -39,7 +39,6 @@
         <td style="border: 0px;text-align:left;">
           <div class="title"><b>Fecha Emisión: </b> La Paz, {!! $date !!} - {!! $hour !!}<br></div>
         </td>
-
         @if(isset($user))
         <td style="border: 0px;text-align:right;">
           <div class="title"><b>Usuario: </b> {!! $user->first_name !!} {!! $user->last_name !!} - {!! $user->getAllRolesToString() !!} <br></div>
@@ -48,16 +47,18 @@
       </tr>
     </table>
     <br>
+    @if($title)
     <h1>
       <center><b>{{ $title }}</b></center>
+      @yield('subtitle')
       @yield('title2')
     </h1>
+    @endif
     <br>
     @yield('content')
   </header>
   <footer>
     PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICÍA - 2017
-
       <div class="visible-print text-right">
         <table>
           <tr>

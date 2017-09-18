@@ -357,6 +357,15 @@ class Affiliate extends Model
     {
     return $this->degree->name . ' ' . $this->last_name. ' ' . $this->mothers_last_name . ' ' . $this->surname_husband . ' ' . $this->first_name . ' ' . $this->second_name;
     }
+    public function getFullNamePrintTotal()
+    {
+        $name = ($this->first_name)." ".($this->second_name)." ".($this->last_name)." ".($this->mothers_last_name)." ".($this->surname_husband);
+        $re = '/\s+/';
+        $subst = ' ';
+        $result = preg_replace($re, $subst, $name);
+
+        return $result;
+    }
     public function getFullNameChange()
     {
         $name = ($this->last_name)." ".($this->mothers_last_name)." ".($this->surname_husband)." ".($this->first_name)." ".($this->second_name);
