@@ -1713,10 +1713,46 @@ class EconomicComplementController extends Controller
             }
         break;
         case 'print_total':
-            $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
-            $economic_complement->comment = $request->comment;
-            $economic_complement->save();
-            return redirect('economic_complement/print_total/'.$economic_complement->id);
+            $rules = [
+                'comment'=>'required|max:350'
+            ];
+            $messages = [
+                'comment.required'=>'Debe escribir una Nota.',
+                'comment.max'=>'La Nota debe ser un maximo de 300 carcateres.',
+            ];
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()){
+                return redirect('economic_complement/' . $economic_complement->id)
+                ->withErrors($validator)
+                ->withInput();
+            }
+            else{
+                $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+                $economic_complement->comment = $request->comment;
+                $economic_complement->save();
+                return redirect('economic_complement/print_total/'.$economic_complement->id);
+            }
+        break;
+        case 'print_total_old':
+            $rules = [
+                'comment'=>'required|max:350'
+            ];
+            $messages = [
+                'comment.required'=>'Debe escribir una Nota.',
+                'comment.max'=>'La Nota debe ser un maximo de 300 carcateres.',
+            ];
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()){
+                return redirect('economic_complement/' . $economic_complement->id)
+                ->withErrors($validator)
+                ->withInput();
+            }
+            else{
+                $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
+                $economic_complement->comment = $request->comment;
+                $economic_complement->save();
+                return redirect('economic_complement/print_total_old/'.$economic_complement->id);
+            }
         break;
         case 'legal_guardian':
             $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
@@ -1995,10 +2031,88 @@ class EconomicComplementController extends Controller
             'total_amount_semester' => Util::formatMoney($economic_complement->difference*6),
             'complementary_factor' => $economic_complement->complementary_factor,
             'total' => Util::formatMoney($economic_complement->total),
-            'user_1' => Auth::user()
+            'user' => Auth::user(),
+            'user_role' =>Util::getRol()->name
         ];
         $data = array_merge($data, $second_data);
         $view = \View::make('economic_complements.print.print_total',$data )->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view)->setPaper('legal');
+        return $pdf->stream();
+    }
+    public function print_total_old($eco_com_id)
+    {
+        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+        $title = "FICHA DE PAGO COMPLEMENTO ECONÓMICO";
+        $date = Util::getDateEdit(date('Y-m-d'));
+        setlocale(LC_ALL, "es_ES.UTF-8");
+        $date = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
+        $current_date = Carbon::now();
+        $hour = Carbon::parse($current_date)->toTimeString();
+
+        $economic_complement = EconomicComplement::where('id',$eco_com_id)->first();
+        $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+        $eco_com_applicant = $economic_complement->economic_complement_applicant;
+        $economic_complement_legal_guardian = $economic_complement->economic_complement_legal_guardian;
+        $eco_tot_frac = $economic_complement->aps_total_cc + $economic_complement->aps_total_fsa + $economic_complement->aps_total_fs;
+        if ($economic_complement->old_eco_com) {
+            $old_eco_com=json_decode($economic_complement->old_eco_com);
+            $old_eco_com_total_frac = $old_eco_com->aps_total_cc + $old_eco_com->aps_total_fsa + $old_eco_com->aps_total_fs;
+            $modality=\Muserpol\EconomicComplementModality::where('id',$old_eco_com->eco_com_modality_id)->first();
+            $old_eco_com_modality_name = $modality->economic_complement_type->name;
+            $old_eco_com_modality = $modality->shortened;
+            $degree=\Muserpol\Degree::where('id',$old_eco_com->degree_id)->first();
+            $old_eco_com_degree = $degree->shortened;
+            $old_eco_com_year = Carbon::parse($degree->year)->year;
+            $category=\Muserpol\Category::where('id',$old_eco_com->category_id)->first();
+            $old_eco_com_category = $category->name;
+            $city=\Muserpol\City::where('id',$old_eco_com->city_id)->first();
+            $old_eco_com_city = $city->name;
+            $old_eco_com_reception_date = Util::getDateShort($old_eco_com->reception_date);
+        }
+
+        $data = [
+            'affiliate' => $affiliate,
+            'economic_complement' => $economic_complement,
+            'eco_com_applicant' => $eco_com_applicant,
+            'old_eco_com' => $old_eco_com ?? null,
+            'old_eco_com_total_frac' => $old_eco_com_total_frac ?? null,
+            'old_eco_com_modality_name' => $old_eco_com_modality_name ?? null,
+            'old_eco_com_modality' => $old_eco_com_modality ?? null,
+            'old_eco_com_degree' => $old_eco_com_degree ?? null,
+            'old_eco_com_year' => $old_eco_com_year ?? null,
+            'old_eco_com_category' => $old_eco_com_category ?? null,
+            'old_eco_com_city' => $old_eco_com_city ?? null,
+            'old_eco_com_reception_date' => $old_eco_com_reception_date ?? null,
+            'economic_complement_legal_guardian' => $economic_complement_legal_guardian, 
+            'eco_tot_frac' => number_format($eco_tot_frac, 2, '.', ','),
+            'factor_complement' => $economic_complement->complementary_factor,
+            'date' => $date,
+            'hour' => $hour,
+            'header1' => $header1,
+            'header2' => $header2,
+            'title' => $title,
+            'total' => number_format($economic_complement->total,2,'.',','),
+        ];
+        $second_data = [
+            'sub_total_rent' => Util::formatMoney($economic_complement->sub_total_rent),
+            'reimbursement' => Util::formatMoney($economic_complement->reimbursement),
+            'dignity_pension' => Util::formatMoney($economic_complement->dignity_pension),
+            'total_rent' => Util::formatMoney($economic_complement->total_rent),
+            'total_rent_calc' => Util::formatMoney($economic_complement->total_rent_calc),
+            'salary_reference' => Util::formatMoney($economic_complement->salary_reference),
+            'seniority' => Util::formatMoney($economic_complement->seniority),
+            'salary_quotable' => Util::formatMoney($economic_complement->salary_quotable),
+            'difference' => Util::formatMoney($economic_complement->difference),
+            'total_amount_semester' => Util::formatMoney($economic_complement->difference*6),
+            'complementary_factor' => $economic_complement->complementary_factor,
+            'total' => Util::formatMoney($economic_complement->total),
+            'user' => Auth::user(),
+            'user_role' =>Util::getRol()->name
+        ];
+        $data = array_merge($data, $second_data);
+        $view = \View::make('economic_complements.print.print_total_old',$data )->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view)->setPaper('legal');
         return $pdf->stream();
