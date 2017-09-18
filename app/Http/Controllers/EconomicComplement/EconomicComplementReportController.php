@@ -897,6 +897,7 @@ class EconomicComplementReportController extends Controller
         //dd($eco_tot_frac);
 
         $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+        $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
 
         if (EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->first()) {
             $status_documents = TRUE;
@@ -922,7 +923,7 @@ class EconomicComplementReportController extends Controller
     
         'eco_com_applicant' => $eco_com_applicant,
 
-       
+        'economic_complement_legal_guardian' => $economic_complement_legal_guardian,
        
       
         'status_documents' => $status_documents,
