@@ -1978,9 +1978,7 @@
                                     </div>
                                 </div>
                             </div>
-
                         {!! Form::close() !!}
-
                     </div>
                 </div>
             </div>
@@ -2010,13 +2008,11 @@
                                 <div class="col-md-12">
                                     <a href="{!! url('economic_complement/'.$economic_complement->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
                                     &nbsp;&nbsp;
-                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar e Imprimir">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
                                 </div>
                             </div>
                         </div>
-
                     {!! Form::close() !!}
-
                 </div>
             </div>
         </div>
@@ -2060,7 +2056,6 @@
                         {!! Form::hidden('data', null, ['data-bind'=> 'value: lastSavedJson']) !!}
                         <input type="hidden" name="id_complemento" value={{$economic_complement->id}} >
                         <br>
-                         
                         <div class="row text-center">
                             <div class="form-group">
                                 <div class="col-md-12">

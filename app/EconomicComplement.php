@@ -343,7 +343,6 @@ class EconomicComplement extends Model
                 }
             }
             $base_wage = BaseWage::degreeIs($economic_complement->degree_id)->whereYear('month_year','=',Carbon::parse($economic_complement->year)->year)->first();
-
             //para el caso de las viudas 80%
             if ($economic_complement->economic_complement_modality->economic_complement_type->id == 2) {
                 $base_wage_amount = $base_wage->amount*(80/100);
