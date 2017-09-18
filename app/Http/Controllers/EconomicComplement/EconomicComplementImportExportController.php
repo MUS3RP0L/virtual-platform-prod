@@ -2293,6 +2293,8 @@ public function export_rezagados(Request $request)
               ->leftJoin('categories','economic_complements.category_id', '=', 'categories.id')
               ->leftJoin('pension_entities', 'affiliates.pension_entity_id','=','pension_entities.id')
               ->where('economic_complements.eco_com_procedure_id','=', 2)
+              ->whereYear('economic_complements.year','=', $request->year)
+              ->where('economic_complements.semester','=', $request->semester)
               ->where('economic_complements.workflow_id','=',2)
               ->get();
   //dd($ecom);
