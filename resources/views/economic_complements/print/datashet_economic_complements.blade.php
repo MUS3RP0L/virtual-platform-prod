@@ -222,11 +222,9 @@
   </tr>
 </table>
 <table>
-  <tr>
-    <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>-------------------------------------------</th>
-  </tr>
-  <tr>
-    <th class="info" style="border: 0px;text-align:center;"><b>Elaborado por {!! $user_1->first_name !!} {!! $user_1->last_name !!} <br> {!! $user_1->getAllRolesToString() !!}</b></th>        
+  <tr >
+    
+    <th  class="info" style="border: 0px;"><br> __________________________________________  <br> Elaborado por {!! $user_1->first_name !!} {!! $user_1->last_name !!} <br> {!! Util::getRol()->name !!}</b></th>        
   </tr>
 </table>
 
