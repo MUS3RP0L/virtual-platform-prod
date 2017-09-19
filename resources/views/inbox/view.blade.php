@@ -74,8 +74,30 @@
                 </tr>
             </thead>
 		</table>
-    <button type="submit" class="btn btn-primary btn btn-success btn-raised">Enviar</button>
-        <input type="hidden" id="ids" name="ids">
+    <button type="button"  data-target="#modal-confirm"  data-toggle="modal"  class="btn btn-primary btn btn-success btn-raised">Enviar</button>
+    <input type="hidden" id="ids" name="ids">
+
+        <div id="modal-confirm" class="modal fade modal-info" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                 <input type="hidden" name="_token" value="{{ csrf_token() }}">  
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Enviar tramite</h4>
+              </div>
+              <div class="modal-body">
+              
+                    Esta seguro de enviar los tramites de <strong> {{ $sw_actual->name }}</strong>  a  <strong> {{ $sw_siguiente->name}}</strong> ?
+                  
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-raised" data-dismiss="modal"> No</button>
+                <button type="submit" class="btn btn-raised" >Si </button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
     {!! Form::close() !!}
 		</div>
 	</div>

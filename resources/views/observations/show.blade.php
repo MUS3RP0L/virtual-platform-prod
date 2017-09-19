@@ -1,4 +1,4 @@
-<div class="box box-success box-solid">
+<div class="box box-danger box-solid">
     <div class="box-header with-border">
         <div class="row">
             <div class="col-md-10">
@@ -8,7 +8,7 @@
             
                 <div class="col-md-2 text-right">
                     <div data-toggle="tooltip" data-placement="left" data-original-title="Añadir">
-                        <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#observationModal">
+                        <a href="" class="btn btn-sm bg-red" data-toggle="modal" data-target="#observationModal">
                             <span class="fa fa-lg fa-plus" aria-hidden="true"></span>
                         </a>
                     </div>
