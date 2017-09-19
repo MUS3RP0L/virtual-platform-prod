@@ -25,7 +25,7 @@
                 <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>-------------------------------------------</th>
               </tr>
               <tr>
-                <th class="info" style="border: 0px;text-align:center;"><b>C.I. N°: {{$eco_com_applicant->identity_card}}</b></th>
+                <th class="info" style="border: 0px;text-align:center;"><b>C.I. N°: {{$eco_com_applicant->identity_card}} {{$eco_com_applicant->city_identity_card->first_shortened ?? ''}}</b></th>
               </tr>
               <tr>
                 @if($eco_com_applicant->getPhone())

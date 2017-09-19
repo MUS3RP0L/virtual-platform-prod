@@ -25,7 +25,7 @@
                 <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>-------------------------------------------</th>
               </tr>
               <tr>
-                <th class="info" style="border: 0px;text-align:center;"><b>C.I. N°: {{$eco_com_applicant->identity_card}}</b></th>
+                <th class="info" style="border: 0px;text-align:center;"><b>C.I. N°: {{$eco_com_applicant->identity_card}} {{$eco_com_applicant->city_identity_card->first_shortened ?? ''}}</b></th>
               </tr>
               <tr>
                 @if($eco_com_applicant->getPhone())
@@ -130,12 +130,10 @@
     </ul>
           </p>
     <p align="justify">
-      Estos requisitos deben ser presentados en doble ejemplar.<br>
-      Al fallecimiento del titular solo podrán cobrar el beneficio del Complemento Económico, la Viuda o Huérfanos Absolutos.
+      Estos requisitos deben ser presentados en doble ejemplar.<br><br>
+      Al fallecimiento del titular solo podrán cobrar el beneficio del Complemento Económico, la Viuda o Huérfanos Absolutos.<br><br>
     </p>
-    <p align="justify">
-      <b>En observancia del Artículo 26º</b>, Parágrafo III.  En los siguientes casos, se emitirá respuesta prediseñada, <b>Inc. h) Incumplimiento de requisitos de Inclusión.</b>
-    </p>
+   
 
     <div class="page-break"></div>
     <header class="clearfix">
@@ -165,6 +163,9 @@
         </b>
       </h1>
     </header>
+     <p align="justify">
+      <b>En observancia del Artículo 26º</b>, Parágrafo III.  En los siguientes casos, se emitirá respuesta prediseñada, <b>Inc. h) Incumplimiento de requisitos de Inclusión.</b>
+    </p>
 
     <p align="justify">
       Respecto a los incisos <b>h)</b> e <b>i)</b> contaran con un plazo de 90 días calendarios a partir de la notificación, para presentar los requisitos faltantes, vencido el plazo no podrá acceder al pago del Beneficio del Complemento Económico del Semestre solicitado.

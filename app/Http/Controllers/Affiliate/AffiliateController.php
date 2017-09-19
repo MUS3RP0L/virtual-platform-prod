@@ -676,9 +676,9 @@ class AffiliateController extends Controller
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
             
-            //Falta de requisitos
-            case '6':
-                $view = \View::make('affiliates.print.miss_requiriments', compact('header1','header2','title','date','dateHeader','eco_com_applicant_date','hour','eco_com_applicant','yearcomplement'))->render();
+            //Falta de requisitos habitual inclusión
+            case '7':
+                $view = \View::make('affiliates.print.print_miss_requiriments_habinc', compact('header1','header2','title','date','dateHeader','eco_com_applicant_date','hour','eco_com_applicant','yearcomplement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
