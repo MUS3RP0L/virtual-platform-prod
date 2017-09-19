@@ -914,7 +914,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                {{-- <tr>
+                                <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -925,7 +925,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                </tr> --}}
+                                </tr> 
                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
