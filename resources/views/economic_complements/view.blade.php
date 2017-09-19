@@ -829,7 +829,7 @@
                         <div class="col-md-8">
                             <h3 class="box-title"><span class="glyphicon glyphicon-info-sign"></span> Información del Trámite</h3>
                         </div>
-                        @can("eco_com_qualification")
+                        @can("eco_com_review_reception_calification")
                         {{--@can('showEdit', $economic_complement)--}}
                         <div class="col-md-4 text-right">
                             <span data-toggle="modal" data-target="#policeModal">
