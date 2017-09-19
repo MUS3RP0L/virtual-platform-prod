@@ -1070,26 +1070,28 @@
             <!-- calculo total -->
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
-                    <div class="col-md-{{ $economic_complement->old_eco_com ? '6':'8' }}">
+                    <div class="col-md-{{ $economic_complement->old_eco_com ? '6':($economic_complement->total_rent > 0 ? '8':'10') }}">
                         <h3 class="box-title"><span class="fa fa-money"></span> Cálculo de Total</h3>
                     </div>
                         @can('eco_com_qualification')
-                            @if($economic_complement->old_eco_com)
-                            <div class="col-md-2">
-                                <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir Tramite Anterior">
-                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print-old">&nbsp;&nbsp;
-                                        <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
-                                    </a>
-                               </div>
-                            </div>
-                            @endif
-                            <div class="col-md-2">
-                                <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir {{ $economic_complement->old_eco_com ? 'Recalifiación' : 'Califiación' }}">
-                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print">&nbsp;&nbsp;
-                                        <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
-                                    </a>
+                            @if($economic_complement->total_rent > 0 )
+                                @if($economic_complement->old_eco_com)
+                                <div class="col-md-2">
+                                    <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir Tramite Anterior">
+                                        <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print-old">&nbsp;&nbsp;
+                                            <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
+                                        </a>
+                                   </div>
                                 </div>
-                            </div>
+                                @endif
+                                <div class="col-md-2">
+                                    <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir {{ $economic_complement->old_eco_com ? 'Recalifiación' : 'Califiación' }}">
+                                        <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print">&nbsp;&nbsp;
+                                            <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
+                                        </a>
+                                    </div>
+                                </div>
+                            @endif
                             <div class="col-md-2">
                                 <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                     <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals">&nbsp;&nbsp;
