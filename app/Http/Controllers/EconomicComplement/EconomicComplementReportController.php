@@ -970,7 +970,27 @@ class EconomicComplementReportController extends Controller
         return $pdf->stream();
   
     }
-
-
-
+    public function print_edited_data(Request $request)
+    {
+      $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+      $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+      $title = "*********************";
+      // $title = "REPORTE DE BENEFICIARIOS DEL COMPLEMENTO ECONÓMICO";
+      $date = Util::getDateEdit(date('Y-m-d'));
+      $type = "user";
+      $anio = Carbon::now()->year;
+      $user = Auth::user();
+      $current_date = Carbon::now();
+      $hour = Carbon::parse($current_date)->toTimeString();
+      $rol = Util::getRol();
+      $economic_complements_array=EconomicComplement::where('economic_complements.state','Edited')->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
+                  ->where('wf_states.role_id',($rol->id))
+                  ->where('economic_complements.eco_com_procedure_id','2')
+                  ->where('economic_complements.user_id',Auth::user()->id)
+                  ->select('economic_complements.id')
+                  ->get()
+                  ->pluck('id');
+      $economic_complements=EconomicComplement::whereIn('id',$economic_complements_array)->get();
+      return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','date','type','anio','hour','economic_complements','user'))->setPaper('letter')->setOrientation('landscape')->stream('report_edited.pdf');
+    }
 }
