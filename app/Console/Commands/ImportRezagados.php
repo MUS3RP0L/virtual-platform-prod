@@ -60,7 +60,10 @@ class ImportRezagados extends Command implements SelfHandling
                             }
                             else
                             {                                
-                              $ecom->workflow_id= 2;                                 
+                              $ecom->workflow_id= 2;
+                              $ecom->wf_current_state_id = 3;
+                              $ecom->eco_com_state_id = 15;
+
                               $ecom->save();
                               $rezagados ++;
                             }
