@@ -111,7 +111,7 @@ $(document).ready(function (){
         "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
         // processing: true,
         // serverSide: true,
-        pageLength: 10,
+        "lengthMenu": [[15, 25, 50,100, -1], [15, 25, 50,100, "Todos"]],
         autoWidth: false,
         ajax: {
             url: '{!! route('received_data') !!}',
@@ -144,7 +144,7 @@ $(document).ready(function (){
        ajax: {
             url: '{!! route('edited_data') !!}',
         },
-        "lengthMenu": [[10, 25, 50,100, -1], [10, 25, 50,100, "All"]],
+        "lengthMenu": [[15, 25, 50,100, -1], [15, 25, 50,100, "Todos"]],
       'columnDefs': [{
          'targets': 0,
          'searchable':false,
