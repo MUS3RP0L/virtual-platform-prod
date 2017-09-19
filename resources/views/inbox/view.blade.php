@@ -20,7 +20,7 @@
           </div>
 
           <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Revisados" style="margin: 0;">
-                    <a href="{!! route('edited_data') !!}" class="btn btn-primary btn-raised  bg-blue" ><i class="fa fa-print fa-lg"></i></a>
+                    <a href="{!! route('print_edited_data') !!}" class="btn btn-primary btn-raised  bg-blue" ><i class="fa fa-print fa-lg"></i></a>
           </div>
     		</div>
     </div>
