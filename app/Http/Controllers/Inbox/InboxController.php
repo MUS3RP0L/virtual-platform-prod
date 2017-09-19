@@ -29,16 +29,24 @@ class InboxController extends Controller
     public function index()
     {   
       
-
-        $sw_actual = WorkflowState::where('role_id',Util::getRol()->id)->first();
-        // return $sw_actual;
-        $sequence = WorkflowSequence::where("workflow_id",1)
-                                     ->where("wf_state_current_id",$sw_actual->id)
-                                     ->where('action','Aprobar')
-                                     ->first();
-        $sw_siguiente = WorkflowState::where('id',$sequence->wf_state_next_id)->first();
-        $data = array('sw_actual' => $sw_actual, 'sw_siguiente' => $sw_siguiente );
-        return view('inbox.view',$data);
+        if(Util::getRol()->module_id ==2 )
+        {
+            $sw_actual = WorkflowState::where('role_id',Util::getRol()->id)->first();
+        
+            $sequence = WorkflowSequence::where("workflow_id",1)
+                                         ->where("wf_state_current_id",$sw_actual->id)
+                                         ->where('action','Aprobar')
+                                         ->first();
+        
+            $sw_siguiente = WorkflowState::where('id',$sequence->wf_state_next_id)->first();
+            $data = array('sw_actual' => $sw_actual, 'sw_siguiente' => $sw_siguiente );
+            return view('inbox.view',$data);
+        }
+        else
+        {
+            return redirect("home");
+        }
+       
     }
     public function DataReceived()
     {
