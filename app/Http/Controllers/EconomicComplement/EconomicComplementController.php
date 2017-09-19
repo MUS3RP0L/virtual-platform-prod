@@ -647,6 +647,17 @@ class EconomicComplementController extends Controller
                                      ->where('action','Denegar')
                                      ->first();
         // dd($sequence);
+        
+        $sw_actual = WorkflowState::where('role_id',Util::getRol()->id)->first();
+
+        $buttons_enabled=false;
+
+        if($sw_actual->id == $economic_complement->wf_state->id)
+        {
+            $buttons_enabled =true;
+        }
+
+
         if($sequence)
         {
             $wf_state_before = WorkflowState::where('id',$sequence->wf_state_next_id)->first(); 
@@ -908,7 +919,8 @@ class EconomicComplementController extends Controller
         'state' => $state,
         'status_eco_com_submitted_documents_ar'=>$status_eco_com_submitted_documents_ar,
         'has_amortization' => $hasAmortization,
-        'wf_state_before' => $wf_state_before
+        'wf_state_before' => $wf_state_before,
+        'buttons_enabled' => $buttons_enabled,
         ];
         // dd($eco_com_submitted_documents_ar);
 

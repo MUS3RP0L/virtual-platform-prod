@@ -53,20 +53,23 @@
             </span>
         </div>
         <div class="pull-right">
-            @if($wf_state_before)
-            <div class="btn-group">
-                <span data-toggle="tooltip" data-placement="top" data-original-title="Devolución de Tramite" style="margin:0px;">
-                    <a href="" data-target="#back-modal" class="btn btn-sm btn-raised btn-warning dropdown-toggle enabled" data-toggle="modal"> <i class="fa  fa-arrow-left"></i></strong></a>
-                </span>
-            </div>
-            @endif
+
+            @if($buttons_enabled)
+            
+                    @if($wf_state_before)
+                    <div class="btn-group">
+                        <span data-toggle="tooltip" data-placement="top" data-original-title="Devolución de Tramite" style="margin:0px;">
+                            <a href="" data-target="#back-modal" class="btn btn-sm btn-raised btn-warning dropdown-toggle enabled" data-toggle="modal"> <i class="fa  fa-arrow-left"></i></strong></a>
+                        </span>
+                    </div>
+                    @endif
             <!-- <div class="btn-group">
                 <span data-toggle="tooltip" data-placement="top" data-original-title="ver" style="margin:0px;">
                     <a href="" data-target="#myModal-review-user" class="btn btn-sm btn-raised btn-{{ $economic_complement->stateOf() ? 'info' : 'warning'}} dropdown-toggle enabled" data-toggle="modal"> <strong>{{ $economic_complement->stateOf() ? "Revisado":"No revisado"}}</strong></a>
                 </span>
             </div> -->
+            
            
-
                 
                     @if($economic_complement->state == "Edited")
 
@@ -82,7 +85,7 @@
                         </span>
                     </div>
                     @endif
-
+            @endif
           
 
         </div>
@@ -1250,7 +1253,7 @@
             <!-- /calculo total -->
 
             <!-- documentos presentados -->
-            <div class="box box-danger box-solid">
+            <div class="box box-warning box-solid">
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-10">
@@ -1260,7 +1263,7 @@
 
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                <a href="" class="btn btn-sm bg-red-active" data-toggle="modal" data-target="#myModal-requirements-ar">&nbsp;&nbsp;
+                                <a href="" class="btn btn-sm bg-yellow-active" data-toggle="modal" data-target="#myModal-requirements-ar">&nbsp;&nbsp;
                                     <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
                                 </a>
                             </div>
