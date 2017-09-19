@@ -9,6 +9,7 @@ use Muserpol\Http\Controllers\Controller;
 
 use Muserpol\Affiliate;
 use Muserpol\WorkflowSequence;
+use Muserpol\WorkflowState;
 use Muserpol\EconomicComplement;
 use Datatables;
 use Util;
@@ -27,7 +28,17 @@ class InboxController extends Controller
      */
     public function index()
     {   
-        return view('inbox.view');
+      
+
+        $sw_actual = WorkflowState::where('role_id',Util::getRol()->id)->first();
+        // return $sw_actual;
+        $sequence = WorkflowSequence::where("workflow_id",1)
+                                     ->where("wf_state_current_id",$sw_actual->id)
+                                     ->where('action','Aprobar')
+                                     ->first();
+        $sw_siguiente = WorkflowState::where('id',$sequence->wf_state_next_id)->first();
+        $data = array('sw_actual' => $sw_actual, 'sw_siguiente' => $sw_siguiente );
+        return view('inbox.view',$data);
     }
     public function DataReceived()
     {
@@ -150,7 +161,7 @@ class InboxController extends Controller
                 $e->state='Received';
                 $e->save();
             }
-            return view('inbox.view'); 
+            return redirect('inbox'); 
         }
     }
 

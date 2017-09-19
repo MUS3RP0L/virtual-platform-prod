@@ -32,6 +32,7 @@
                                 <th>Celular</th>
                                 <th>Departamento</th>
                                 <th>Unidad</th>
+                                <th>Rol</th>
                                 <th>Cargo</th>
                                 <th>Estado</th>
                                 <th class="text-center">Acción</th>
@@ -66,6 +67,7 @@
                     { data: 'city', bSortable: false },
                     { data: 'module', bSortable: false },
                     { data: 'role', bSortable: false },
+                    { data: 'position', bSortable: false },
                     { data: 'status', bSortable: false },
                     { data: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
                 ]

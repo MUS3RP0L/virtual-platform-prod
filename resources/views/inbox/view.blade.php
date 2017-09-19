@@ -74,8 +74,30 @@
                 </tr>
             </thead>
 		</table>
-    <button type="submit" class="btn btn-primary btn btn-success btn-raised">Enviar</button>
-        <input type="hidden" id="ids" name="ids">
+    <button type="button"  data-target="#modal-confirm"  data-toggle="modal"  class="btn btn-primary btn btn-success btn-raised">Enviar</button>
+    <input type="hidden" id="ids" name="ids">
+
+        <div id="modal-confirm" class="modal fade modal-info" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                 <input type="hidden" name="_token" value="{{ csrf_token() }}">  
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Enviar tramite</h4>
+              </div>
+              <div class="modal-body">
+              
+                    Esta seguro de enviar los tramites de <strong> {{ $sw_actual->name }}</strong>  a  <strong> {{ $sw_siguiente->name}}</strong> ?
+                  
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-raised" data-dismiss="modal"> No</button>
+                <button type="submit" class="btn btn-raised" >Si </button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
     {!! Form::close() !!}
 		</div>
 	</div>
@@ -85,49 +107,35 @@
 <script>
 $(document).ready(function (){
     var oTable = $('#received').DataTable({
-        columnDefs : [
-        { targets: 0, sortable: false},
-        ],
-        order: [[ 3, "asc" ]],
+        
         "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
-        processing: true,
-        serverSide: true,
+        // processing: true,
+        // serverSide: true,
         pageLength: 10,
         autoWidth: false,
         ajax: {
             url: '{!! route('received_data') !!}',
         },
         columns: [
-            // { data: 'id'},
-            { data: 'ci', bSortable:false},
-            { data: 'name', bSortable:false},
-            { data: 'code'},
+            { data: 'ci', name:'ci'},
+            { data: 'name',name: 'name'},
+            { data: 'code',name:'code'},
             { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
-        ]
+        ],
+        initComplete: function () {
+            this.api().columns().every(function () {
+                var column = this;
+                var input = document.createElement('input');
+                $(input).appendTo($(column.footer()).empty())
+                .on('change', function () {
+                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                    column.search(val ? val : '', true, false).draw();
+                });
+            });
+        }
         });
-//     var tableEdited = $('#editedd').DataTable({
-//         columnDefs : [
-//             { targets: 0, sortable: false},
-//         ],
-//         order: [[ 3, "asc" ]],
-//         "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
-//         processing: true,
-//         serverSide: true,
-//         pageLength: 10,
-//         autoWidth: false,
-//         ajax: {
-//             url: '{!! route('edited_data') !!}',
-//         },
-//         columns: [
-//             { data: 'action', name: 'action', sClass: 'text-center'},
-//             { data: 'ci', bSortable:false},
-//             { data: 'name', bSortable:false},
-//             { data: 'code' },
-//         ]
-//     });
-//     // $("#editedCheckboxAll").change(function () {
-//     //     $(".checkBoxClass").prop('checked', $(this).prop('checked'))    
-//     // });
+
 
 });
 $(document).ready(function (){   

@@ -159,7 +159,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('export_payroll_loan','EconomicComplement\EconomicComplementImportExportController@payrollLoan');
 	Route::get('export_payroll_accounting','EconomicComplement\EconomicComplementImportExportController@payrollaccounting');
 
-		//for bank
+	//for bank
 	Route::get('export_payroll_legal_guardian_bank','EconomicComplement\EconomicComplementImportExportController@payrollLegalGuardianBank');	
 	Route::get('export_observation_bank',array('as'=>'export_observation_bank', 'uses'=>'EconomicComplement\EconomicComplementImportExportController@export_observation_bank'));
 	

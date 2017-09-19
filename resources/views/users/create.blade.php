@@ -53,6 +53,13 @@
 										<span class="help-block">Departamento</span>
 									</div>
 								</div>
+								<div class="form-group">
+									{!! Form::label('position', 'Cargo', ['class' => 'col-md-4 control-label']) !!}
+									<div class="col-md-6">
+										{!! Form::text('position', '', ['class' => 'form-control','required' => 'required']) !!}
+										<span class="help-block">Cargo</span>
+									</div>
+								</div>
 
 							</div>
 						</div>
@@ -75,7 +82,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									{!! Form::label('role', 'Cargo', ['class' => 'col-md-4 control-label']) !!}
+									{!! Form::label('role', 'Rol', ['class' => 'col-md-4 control-label']) !!}
 									<div class="col-md-6 checks" id='check'>
 									{{-- <span class="help-block">Selecione el Cargo</span> --}}
 									</div>
