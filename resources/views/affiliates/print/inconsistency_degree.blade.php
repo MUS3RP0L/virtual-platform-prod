@@ -6,7 +6,7 @@
 
 <table>
   <p align="justify">
-      En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN</b> CITE N° {!!$eco_com_applicant->code !!} de la <b>UNIDAD DE OTORGACIÓN DEL BENEFICIO DEL COMPLEMENTO ECONÓMICO - MUSERPOL</b> de fecha {!! $eco_com_applicant_date!!}, quien recibió en mano propia el original de dicho documento.
+       En fecha {!! $date !!}, a horas {!! $hour !!} se <b>NOTIFICA</b> en forma personal al Sr.(a) {!! $eco_com_applicant->getTitleNameFull() !!} con <b>CARTA DE NOTIFICACIÓN</b> CITE N° {!!$eco_com_applicant->code !!} de la <b>UNIDAD DE OTORGACIÓN DEL BENEFICIO DEL COMPLEMENTO ECONÓMICO - MUSERPOL</b> de fecha {!! $eco_com_applicant_date!!}, quien recibió en mano propia el original de dicho documento.
   </p>
 </table>
 
@@ -16,7 +16,7 @@
         <th align="center"></th>
       </tr>
     </thead>
-    <tbody>
+     <tbody>
       <tr>
         <td class="grand service" style="text-align:center;width: 10%;height: 10%"><p align="center">FIRMA DEL NOTIFICADO(A).</p>
         <table>
@@ -51,7 +51,7 @@
     </tbody>
   </table>
 <footer>
-  PLATAFORMA VIRTUAL - MUTUAL DE SERVICIOS AL POLICIA
+  PLATAFORMA VIRTUAL - MUTUAL DE SERVICIOS AL POLICÍA
 </footer>
 <div class="page-break"></div>
 <header class="clearfix">
@@ -82,35 +82,24 @@
   </h1>
 </header>
   <table>
-      <p align="right"> {!!$user->city->name ?? 'La Paz'!!}, {!! $dateHeader !!}<br>CITE: UCE - EGSB /{!! $eco_com_applicant->semester !!}/{!! $yearcomplement->year !!}<br>CITE: UCE – EGSB /2017
+      <p align="right"> {!! $user->city->name ?? 'La Paz' !!}, {!! $dateHeader !!}<br>CITE: UCE - EGSB {!! $eco_com_applicant->semester !!}/{!! $yearcomplement->year !!}<br>CITE: UCE – EGSB /2017
+
       </p>
   </table>
   <table>
       <p align="left">Señor (a): <br>
-       {!! $eco_com_applicant->getTitleNameFull() !!}<br>
+        {!! $eco_com_applicant->getTitleNameFull() !!}<br>
       Presente.-
        </p>
   </table>
          <p align="right"><b>REF.- <ins> CARTA DE NOTIFICACIÓN </ins></b></p>
-        <p align="justify">De nuestra consideracion.</p>
-         <p>
-
-              De la revisión efectuada por el Área Técnica la Unidad de Otorgación del Complemento Económico,  <b>se comunica a usted, que su trámite ingreso Fuera de Plazo.</b>
-        </p>
-    <p align="justify"><b>
-      Y en estricto cumplimiento al Decreto Supremo Nº 1446</b>, de fecha 19 de diciembre de 2012, que crea la Mutual de Servicios al Policía ¨MUSERPOL¨, establece en su Artículo 3, inc. 5.- Pagar el Complemento Económico al asector pasivo de la Policia Boliviana conforme a Reglamento. 
+        <p align="justify">De nuestra consideración.</p>
+         
+    <p align="justify">
+      Se comunica a usted, que mediante el Área Técnica de la Unidad de Otorgación del Beneficio del Complemento Económico se procedió con la revisión de la documentación presentada por su persona, respecto al Certificado de Años de Servicio, emitido por el Comando General de la Policía Boliviana y <b>se evidenció que existe inconsistencia en el GRADO consignado, en relación con el registro en la Base de Datos de la Unidad</b>.
     </p>
     <p align="justify">
-      <b>Del Reglamento del Beneficio del Complemento Económico de 2017</b> aprobado mediante Resolución de Directorio N° 27/2017, norma en su <b>ARTÍCULO 17° (Complemento Económico No Solicitado).</b> <ins>Los Beneficiarios nuevos</ins> que no hayan presentado su solicitud de inclusión en los plazos determinados según comunicado semestral, <b>contarán con un plazo de Noventa (90) días calendario,</b> para presentar solicitud del beneficio posterior a realizado el pago por la Entidad Bancaria o Financiera, por lo que no se dará curso a solicitudes posteriores.
-      </p>
-          </p>
-
-    <p align="justify">
-      <ins><b>Los Beneficiarios habituales </b></ins> que no hayan presentado su solicitud, en los plazos determinados según comunicado semestral, <ins><b>contarán con un plazo de Noventa (90) días calendario</b></ins>, para presentar solicitud del beneficio posterior a realizado el pago por la Entidad Bancaria o Financiera.   
-    </p>
-    <p align="justify">
-      <b>
-      Por lo que, al haber ingresado su trámite en fecha {!! $eco_com_applicant->reception_date!!}. y de acuerdo a los plazos establecidos de recepción de requisitos correspondiente al  {!! $eco_com_applicant->semester !!}. Semestre de la Gestión  {!! $yearcomplement->year !!}, que fenece el {!! $procedure->additional_end_date !!}., su trámite ingreso fuera de plazo, por lo que no corresponde el pago del beneficio del Complemento Económico. </b>
+      En tal sentido, de acuerdo a instrucciones contenidas en Memorándum DIR.GRAL.EJEC. N° 171/2017 y D.B.E. N° 0024/2017 de fecha 04 de septiembre de 2017, <b>su persona contará con el plazo de Treinta (30) días calendario a partir de su notificación formal, para aclarar o confirmar el GRADO de Elija un elemento. con el cual se estaba beneficiando del Complemento Económico hasta el {!! $eco_com_applicant->semester !!}. Semestre de la gestión {!! $yearcomplement->year !!}</b>, en caso de no confirmar dicho GRADO, deberá proceder con la devolución de los montos pagados en demasía inicialmente a partir de la gestión 2013, dado que su fecha de inclusión a la planilla de beneficio puede ser anterior.
     </p>
    
     <p align="justify">
