@@ -914,7 +914,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                {{-- <tr>
+                                <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -925,7 +925,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                </tr> --}}
+                                </tr> 
                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
@@ -959,7 +959,7 @@
                                     <td style="border-top:0px;;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Numero de comprobante</strong>
+                                                <strong>Certificacion Presupuestaria</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $economic_complement->number_budget ?? '' !!}
@@ -974,7 +974,7 @@
                                     <td style="border-top:0px;;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Numero de comprobante</strong>
+                                                <strong>Numero de cheque</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $economic_complement->number_check ?? '' !!}
