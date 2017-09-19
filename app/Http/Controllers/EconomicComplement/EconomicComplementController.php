@@ -650,12 +650,12 @@ class EconomicComplementController extends Controller
         
         $sw_actual = WorkflowState::where('role_id',Util::getRol()->id)->first();
 
-        $buttons_enabled=false;
+        // $buttons_enabled=false;
 
-        if($sw_actual->id == $economic_complement->wf_state->id)
-        {
+        // if($sw_actual->id == $economic_complement->wf_state->id)
+        // {
             $buttons_enabled =true;
-        }
+        // }
 
 
         if($sequence)
