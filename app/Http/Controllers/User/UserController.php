@@ -39,7 +39,7 @@ class UserController extends Controller
     }
     public function Data()
     {
-        $users = User::select(['id','username', 'first_name', 'last_name', 'phone','status','city_id'])->where('id', '>', 1);
+        $users = User::select(['id','username', 'first_name', 'last_name','position', 'phone','status','city_id'])->where('id', '>', 1);
         return Datatables::of($users)
             ->addColumn('name', function ($user) { return Util::ucw($user->first_name) . ' ' . Util::ucw($user->last_name); })
             ->addColumn('module', function ($user) { return $user->roles()->first()->module()->first()->name; })
@@ -187,6 +187,7 @@ class UserController extends Controller
                 'last_name' => 'required|min:3',
                 'first_name' => 'required|min:3',
                 'phone' => 'required|min:8',
+                'position' => 'required',
                 'username' => 'required|unique:users,username,'.$user->id,
 
                      ];
@@ -200,8 +201,8 @@ class UserController extends Controller
                     'phone' => 'required|min:8',
                     'username' => 'required|unique:users,username',
                     'password' => 'required|min:6|confirmed',
-                    'role' => 'required'
-
+                    'role' => 'required',
+                    'position' => 'required',
                 ];
             }
 
@@ -224,8 +225,8 @@ class UserController extends Controller
                 'password.required' => 'El campo contraseña es requerido',
                 'password.min' => 'El mínimo de caracteres permitidos en contraseña es 6',
                 'password.confirmed' => 'Las contraseñas no coinciden',
-
-                'role.required' => 'El campo tipo de usuario es requerido'
+                'role.required' => 'El campo tipo de usuario es requerido',
+                'position.required' => 'El campo Cargo es requerido'
 
             ];
 
@@ -253,6 +254,7 @@ class UserController extends Controller
                 $user->last_name = trim($request->last_name);
                 $user->phone = trim($request->phone);
                 $user->username = trim($request->username);
+                $user->position = trim($request->position);
                 $user->city_id=$request->city;
                 if($request->password){$user->password = bcrypt(trim($request->password));}
                     $user->save();
@@ -279,8 +281,7 @@ class UserController extends Controller
                             'last_name' => 'required|min:3',
                             'first_name' => 'required|min:3',
                             'phone' => 'required|min:8',
-                            
-
+                            'position' => 'required',
                         ];
 
                 $messages = [
@@ -303,7 +304,8 @@ class UserController extends Controller
                         'password.min' => 'El mínimo de caracteres permitidos en contraseña es 6',
                         'password.confirmed' => 'Las contraseñas no coinciden',
 
-                        'role.required' => 'El campo tipo de usuario es requerido'
+                        'role.required' => 'El campo tipo de usuario es requerido',
+                        'position.required' => 'El campo Cargo es requerido',
 
                     ];   
                 $validator = Validator::make($request->all(), $rules, $messages);
@@ -311,6 +313,7 @@ class UserController extends Controller
                 $user->first_name = trim($request->first_name);
                 $user->last_name = trim($request->last_name);
                 $user->phone = trim($request->phone);
+                $user->position = trim($request->position);
               //  $user->username = trim($request->username);
                 $user->city_id=$request->city;
 

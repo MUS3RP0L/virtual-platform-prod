@@ -85,49 +85,35 @@
 <script>
 $(document).ready(function (){
     var oTable = $('#received').DataTable({
-        columnDefs : [
-        { targets: 0, sortable: false},
-        ],
-        order: [[ 3, "asc" ]],
+        
         "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
-        processing: true,
-        serverSide: true,
+        // processing: true,
+        // serverSide: true,
         pageLength: 10,
         autoWidth: false,
         ajax: {
             url: '{!! route('received_data') !!}',
         },
         columns: [
-            // { data: 'id'},
-            { data: 'ci', bSortable:false},
-            { data: 'name', bSortable:false},
-            { data: 'code'},
+            { data: 'ci', name:'ci'},
+            { data: 'name',name: 'name'},
+            { data: 'code',name:'code'},
             { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
-        ]
+        ],
+        initComplete: function () {
+            this.api().columns().every(function () {
+                var column = this;
+                var input = document.createElement('input');
+                $(input).appendTo($(column.footer()).empty())
+                .on('change', function () {
+                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                    column.search(val ? val : '', true, false).draw();
+                });
+            });
+        }
         });
-//     var tableEdited = $('#editedd').DataTable({
-//         columnDefs : [
-//             { targets: 0, sortable: false},
-//         ],
-//         order: [[ 3, "asc" ]],
-//         "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
-//         processing: true,
-//         serverSide: true,
-//         pageLength: 10,
-//         autoWidth: false,
-//         ajax: {
-//             url: '{!! route('edited_data') !!}',
-//         },
-//         columns: [
-//             { data: 'action', name: 'action', sClass: 'text-center'},
-//             { data: 'ci', bSortable:false},
-//             { data: 'name', bSortable:false},
-//             { data: 'code' },
-//         ]
-//     });
-//     // $("#editedCheckboxAll").change(function () {
-//     //     $(".checkBoxClass").prop('checked', $(this).prop('checked'))    
-//     // });
+
 
 });
 $(document).ready(function (){   

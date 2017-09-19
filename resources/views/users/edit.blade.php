@@ -55,6 +55,13 @@
 											<span class="help-block">Departamento</span>
 										</div>
 									</div>
+									<div class="form-group">
+										{!! Form::label('position', 'Cargo', ['class' => 'col-md-4 control-label']) !!}
+										<div class="col-md-6">
+											{!! Form::text('position', $user->position, ['class' => 'form-control','required' => 'required']) !!}
+											<span class="help-block">cargo</span>
+										</div>
+									</div>
 							</div>
 						</div>
 					</div>
