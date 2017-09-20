@@ -32,7 +32,7 @@
                         <td style="border-top:0px;">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <strong>Carnet Identidad</strong>
+                                    <strong>Cédula de Identidad</strong>
                                 </div>
                                 <div class="col-md-6">
                                     {!! $affiliate->city_identity_card_id ? $affiliate->identity_card . ' ' . $affiliate->city_identity_card->shortened : $affiliate->identity_card !!}
