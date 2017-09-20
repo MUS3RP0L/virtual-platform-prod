@@ -206,7 +206,7 @@
 	    <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>____________________________________________</th>
 	  </tr>
 	  <tr>
-	    <th class="info" style="border: 0px;text-align:center;"><b>Elaborado por {!! $user->getFullName() !!}</b></th>        
+	    <th class="info" style="border: 0px;text-align:center;"><b>Elaborado por {!! $user->getFullName() !!} <br> {{ $user->position }}</b></th>        
 	  </tr>
 	</table>
 
