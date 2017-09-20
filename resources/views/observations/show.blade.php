@@ -23,9 +23,9 @@
                     <table class="table table-bordered table-hover table-striped" id="observations-table">
                         <thead>
                             <tr class="success">
-                                <th>Fecha</th>
-                                <th>Tipo</th>
-                                <th>Mensaje</th>
+                                <th>Fecha de la Observación Realizada</th>
+                                <th>Tipo de Observación</th>
+                                <th>Descripción de la Observación</th>
                                 <th>Habilitado</th>
                                 <th>Opciones</th>
                             </tr>
