@@ -131,7 +131,7 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <strong>Carnet Identidad:</strong>
+                                                    <strong>Cédula de Identidad:</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                     {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card->first_shortened ?? '' !!}
@@ -346,7 +346,7 @@
                     <div class="row">
                         <div class="col-md-8">
                             <a href="/affiliate/{{ $economic_complement->affiliate_id  }}" data-toggle="tooltip" data-placement="top" title="Volver al afiliado">
-                            <h3 class="box-title"><span class="fa fa-user-plus"></span> Información de Beneficiario
+                            <h3 class="box-title"><span class="fa fa-user-plus"></span> Información del Beneficiario
                             @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1)
                             - Derechohabiente
                             @endif
@@ -375,7 +375,7 @@
                                     <td style="border-top:0px;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Carnet Identidad</strong>
+                                                <strong>Cédula de Identidad</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $eco_com_applicant->identity_card !!} {{$eco_com_applicant->city_identity_card->first_shortened ?? ''}}
@@ -650,7 +650,7 @@
                                     <td style="border-top:0px;;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Carnet Identidad</strong>
+                                                <strong>Cédula de Identidad</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $economic_complement_legal_guardian->identity_card !!} {!! $economic_complement_legal_guardian->city_identity_card->first_shortened ?? '' !!}
@@ -906,7 +906,7 @@
                                     <td style="border-top:0px;;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Tipo</strong>
+                                                <strong>Tipo de Prestación</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $eco_com_type !!}
@@ -930,7 +930,7 @@
                                     <td style="border-top:0px;;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Tipo de Recepción</strong>
+                                                <strong>Tipo de Trámite</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $economic_complement->reception_type ?? '' !!}
@@ -1004,7 +1004,7 @@
                                     <td style="border-top:0px;;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Ciudad</strong>
+                                                <strong>Regional</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $economic_complement->city->name ?? '' !!}
@@ -1071,7 +1071,9 @@
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="col-md-{{ $economic_complement->old_eco_com ? '6':($economic_complement->total_rent > 0 ? '8':'10') }}">
-                        <h3 class="box-title"><span class="fa fa-money"></span> Cálculo de Total</h3>
+
+                        <h3 class="box-title"><span class="fa fa-money"></span> Cálculo del Complemento Económico</h3>
+
                     </div>
                         @can('eco_com_qualification')
                             @if($economic_complement->total_rent > 0 )
@@ -1108,21 +1110,21 @@
                                 <table class="table table-bordered table-responsive table-hover table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Detalle</th>
-                                            <th>Total Fracion</th>
+                                            <th>Detalle de la Fracción</th>
+                                            <th>Total</th>
                                         </tr>
                                     </thead>
                                 <tbody>
                                     <tr>
-                                        <td style="width: 70%">Fracion de saldo acumulada</td>
+                                        <td style="width: 70%">Fracción de Saldo Acumulada</td>
                                         <td style="text-align: right">{{ $economic_complement->aps_total_fsa}} </td>
                                     </tr>
                                     <tr>
-                                        <td style="width: 70%">Fracion complementaria</td>
+                                        <td style="width: 70%">Fracción de Pensión CCM o Pago de CCM</td>
                                         <td style="text-align: right">{{ $economic_complement->aps_total_cc}} </td>
                                     </tr>
                                     <tr>
-                                        <td style="width: 70%">Fracion solidaria</td>
+                                        <td style="width: 70%">Fracion Solidaria de Vejéz</td>
                                         <td style="text-align: right">{{ $economic_complement->aps_total_fs}} </td>
                                     </tr>
                                 </tbody>
@@ -1141,13 +1143,13 @@
                                 <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
                                     <thead>
                                         <tr style="background: #f45642">
-                                            <th>Concepto</th>
+                                            <th>Concurrencia(Caso Especial)</th>
                                             <th style="text-align: right">Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr class="danger">
-                                           <td style="width: 70%">Concurrencia - Renta Invalidez</td>
+                                           <td style="width: 70%">Prestación por Invalidéz</td>
                                             <td style="text-align: right">{!! $economic_complement->aps_disability !!}</td>
                                         </tr>
                                     </tbody>
@@ -1157,49 +1159,49 @@
                                 <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
                                     <thead>
                                         <tr>
-                                            <th>Concepto</th>
+                                            <th>Detalle</th>
                                             <th style="text-align: right">Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td style="width: 70%">Renta Boleta</td>
+                                            <td style="width: 70%">Total Ganado Renta ó Pensión</td>
                                             <td style="text-align: right">{!! $sub_total_rent !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Reintegro</td>
+                                            <td style="width: 70%">- Reintegro</td>
                                             <td style="text-align: right">{!! $reimbursement !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Renta Dignidad</td>
+                                            <td style="width: 70%">- Renta Dignidad</td>
                                             <td style="text-align: right">{!! $dignity_pension !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Renta total Neta</td>
+                                            <td style="width: 70%">Total Renta ó Pensión</td>
                                             <td style="text-align: right">{!! $total_rent !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Neto</td>
+                                            <td style="width: 70%">Renta ó Pensión Pasivo Neto</td>
                                             <td style="text-align: right">{!! $total_rent_calc !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Referente Salarial</td>
+                                            <td style="width: 70%">Referente Salario del Activo</td>
                                             <td style="text-align: right">{!! $salary_reference !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Antigüedad</td>
+                                            <td style="width: 70%">Antigüedad(Según Categoría)</td>
                                             <td style="text-align: right">{!! $seniority !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Salario Cotizable</td>
+                                            <td style="width: 70%">Salario Cotizable(Salario del Activo + Antigüedad)</td>
                                             <td style="text-align: right">{!! $salary_quotable !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Diferencia</td>
+                                            <td style="width: 70%">Diferencia(Salario Activo y Renta Pasivo)</td>
                                             <td style="text-align: right">{!! $difference !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Total Semestre</td>
+                                            <td style="width: 70%">Total Semestre(Diferencia * 6 meses)</td>
                                             <td style="text-align: right">{!! $total_amount_semester !!}</td>
                                         </tr>
                                         <tr>
@@ -1213,7 +1215,7 @@
                                 <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
                                     <tbody>
                                         <tr>
-                                            <td style="width: 70%">Total</td>
+                                            <td style="width: 70%">Total Complemento Económico en Bs.</td>
                                             <td  style="text-align: right" id="tempTotal"></td>
                                         </tr>
                                     </tbody>
@@ -2509,12 +2511,12 @@
                 </div>
                 <div class="modal-body">
                     @if($status_documents_ar)
-                    <h3>Todos los documentos presentados</h3>
+                    <h3>Documentos presentados</h3>
                     <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
                         <thead>
                             <tr>
-                                <th>Nombre de Requisito</th>
-                                <th>Fecha</th>
+                                <th>Requisito</th>
+                                <th>Fecha de Presentación</th>
                                 <th class="text-center">Estado</th>
                             </tr>
                         </thead>

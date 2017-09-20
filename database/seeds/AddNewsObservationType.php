@@ -28,5 +28,7 @@ class AddNewsObservationType extends Seeder
         	'name' => 'Observación Calificación Correcta',
         	'description' => 'Referente a no existencia en error del monto pagado'
         ]);
+
+        
     }
 }

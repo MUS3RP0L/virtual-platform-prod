@@ -107,7 +107,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Carnet Identidad:</strong>
+                                                <strong>Cédula de Identidad:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card !!}
@@ -449,7 +449,7 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <strong>Carnet Identidad:</strong>
+                                                    <strong>Cédula de Identidad:</strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                      {!! $spouse->identity_card !!} {!! $spouse->city_identity_card !!}
@@ -727,7 +727,7 @@
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <strong>Fecha de Ingreso:</strong>
+                                                <strong>Fecha de Ingreso a la Institución Policial:</strong>
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $affiliate->getShortDateEntry() !!}
@@ -1482,7 +1482,7 @@
                                     </div>
                                 </div> --}}
                                 <div class="form-group">
-                                        {!! Form::label('date_entry', 'Fecha de Ingreso', ['class' => 'col-md-5 control-label']) !!}
+                                        {!! Form::label('date_entry', 'Fecha de Ingreso a la Institución Policial', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
                                         <div class="input-group">
                                             <input type="text" id="date_entry" class="form-control" name="date_entry" value="{!! $affiliate->date_entry !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
