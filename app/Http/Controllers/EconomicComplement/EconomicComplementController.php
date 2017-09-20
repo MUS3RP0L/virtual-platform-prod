@@ -288,8 +288,9 @@ class EconomicComplementController extends Controller
 
     public function Data_by_affiliate(Request $request)
     {
-        $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'wf_current_state_id','eco_com_state_id', 'code', 'reception_date', 'total','year'])->orderBy('year','desc');
+        $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'wf_current_state_id','eco_com_state_id', 'code', 'reception_date', 'total','year','semester'])->orderBy('year','desc');
         return Datatables::of($economic_complements)
+        ->editColumn('gestion',function($economic_complement){ return $economic_complement->getYear() .' '.$economic_complement->semester;})
         ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
         ->editColumn('wf_state', function ($economic_complement) { return $economic_complement->wf_state->name; })
         ->editColumn('state', function ($economic_complement) {

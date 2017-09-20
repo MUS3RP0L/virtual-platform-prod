@@ -1071,7 +1071,9 @@
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <div class="col-md-{{ $economic_complement->old_eco_com ? '6':($economic_complement->total_rent > 0 ? '8':'10') }}">
+
                         <h3 class="box-title"><span class="fa fa-money"></span> Cálculo del Complemento Económico</h3>
+
                     </div>
                         @can('eco_com_qualification')
                             @if($economic_complement->total_rent > 0 )
