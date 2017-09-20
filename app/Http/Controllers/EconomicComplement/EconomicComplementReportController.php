@@ -974,9 +974,12 @@ class EconomicComplementReportController extends Controller
     {
       $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
       $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-      $title = "*********************";
+      $title = "&nbsp;";
+      $title2 = "PLANILLA DE FIRMAS";
       // $title = "REPORTE DE BENEFICIARIOS DEL COMPLEMENTO ECONÓMICO";
+      setlocale(LC_ALL, "es_ES.UTF-8");
       $date = Util::getDateEdit(date('Y-m-d'));
+      $date =strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
       $type = "user";
       $anio = Carbon::now()->year;
       $user = Auth::user();
@@ -991,6 +994,6 @@ class EconomicComplementReportController extends Controller
                   ->get()
                   ->pluck('id');
       $economic_complements=EconomicComplement::whereIn('id',$economic_complements_array)->get();
-      return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','date','type','anio','hour','economic_complements','user'))->setPaper('letter')->setOrientation('landscape')->stream('report_edited.pdf');
+      return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user'))->setPaper('legal')->setOrientation('landscape')->stream('report_edited.pdf');
     }
 }
