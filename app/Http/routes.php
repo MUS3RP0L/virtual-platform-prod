@@ -175,6 +175,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::resource('inbox', 'Inbox\InboxController');
 	Route::get('received_data', array('as'=>'received_data','uses'=>'Inbox\InboxController@DataReceived'));
 	Route::get('edited_data', array('as'=>'edited_data','uses'=>'Inbox\InboxController@DataEdited'));
+	Route::post('inbox_send_all', array('as'=>'inbox_send_all','uses'=>'Inbox\InboxController@send_all'));
 
 	//Observations
 	Route::get('print_observations/{id_complement}/{type}', 'Affiliate\AffiliateController@print_observations');

@@ -124,6 +124,27 @@ class InboxController extends Controller
                 })
                 ->make(true);
     }
+    public function send_all()
+    {
+        $rol = Util::getRol();
+        $ids=EconomicComplement::where('economic_complements.state','Received')->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
+            ->where('wf_states.role_id',($rol->id))
+            ->where('economic_complements.eco_com_procedure_id','2')
+            ->select('economic_complements.id','economic_complements.code')
+            ->get()
+            ->pluck('id')
+            ;
+        $economic_complements=EconomicComplement::whereIn('id',$ids)->get();
+        foreach ($economic_complements as $eco) {
+             $eco->user_id = Auth::user()->id;
+             $eco->aprobation_date  = date('Y-m-d');    
+             $eco->state = 'Edited';
+             // dd($eco);
+             $eco->save();
+        }
+        return redirect('inbox'); 
+        
+    }
 
     /**
      * Show the form for creating a new resource.
