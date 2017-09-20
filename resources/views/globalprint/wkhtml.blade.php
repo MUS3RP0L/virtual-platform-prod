@@ -12,9 +12,11 @@
     }
     div#izq{
         float:left;
+        font-size: 10px;
     }
     div#der{
       float:right;
+      font-size: 10px;
     }
   </style>
 </head>
@@ -24,17 +26,12 @@
             {!! $header1 !!}<br>{!! $header2 !!}
             @yield('title')
           </b></h4></center>
-
-    
-       
         <div id="izq"><b>Fecha Emisi&#243n: </b> La Paz, {!! $date !!}-{!! $hour !!}</div>
-       
         @if(isset($user))
             <div id="der"><b>Usuario: </b> {!! $user->first_name !!} {!! $user->last_name !!} - {!! $user->getAllRolesToString() !!}</div>
        
         @endif
-        <br>
- 
+
     <h2>
       <center><b>{{ $title }}</b></center>
       @yield('title2')
