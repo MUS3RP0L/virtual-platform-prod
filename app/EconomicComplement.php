@@ -144,7 +144,7 @@ class EconomicComplement extends Model
     }
     public function wf_state()
     {
-        return $this->belongsTo('Muserpol\WorkflowState','wf_current_state_id');
+        return $this->belongsTo('Muserpol\WorkflowState','wf_current_state_id','id');
     }
 
     public function getYear()
