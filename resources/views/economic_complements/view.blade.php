@@ -1079,7 +1079,7 @@
                             @if($economic_complement->total_rent > 0 )
                                 @if($economic_complement->old_eco_com)
                                 <div class="col-md-2">
-                                    <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir Tramite Anterior">
+                                    <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir Formulario CE -1">
                                         <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print-old">&nbsp;&nbsp;
                                             <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
                                         </a>
@@ -1087,7 +1087,7 @@
                                 </div>
                                 @endif
                                 <div class="col-md-2">
-                                    <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir {{ $economic_complement->old_eco_com ? 'Recalifiación' : 'Califiación' }}">
+                                    <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir {{ $economic_complement->old_eco_com ? 'Formulario CE - 2' : 'Formulario CE - 1' }}">
                                         <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print">&nbsp;&nbsp;
                                             <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
                                         </a>
