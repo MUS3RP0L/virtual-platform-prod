@@ -897,7 +897,7 @@
                                                  <strong>Semestre</strong>
                                              </div>
                                              <div class="col-md-6">
-                                                 {!! $economic_complement->semester !!}
+                                                 {!! $economic_complement->semester ?? '1er. Semestre'   !!}
                                              </div>
                                          </div>
                                      </td>

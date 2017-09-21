@@ -25,11 +25,18 @@
 										</div>
 								</div>
 								<div class="form-group">
-									{!! Form::label('semester', 'Semester', ['class' => 'col-md-4 control-label']) !!}
+									{!! Form::label('semester', 'Semestre', ['class' => 'col-md-4 control-label']) !!}
 									<div class="col-md-4">
 										{!! Form::select('semester', ['Primer' => 'Primer', 'Segundo' => 'Segundo'], $semester ?? null,['class' => 'form-control combobox','required']) !!}
 									</div>
 								</div>
+								<div class="form-group">
+									{!! Form::label('rent_month', 'Mes Renta', ['class' => 'col-md-4 control-label']) !!}
+									<div class="col-md-4">
+										{!! Form::select('rent_month',['Enero' => 'Enero', 'Febrero' => 'Febrero', 'Marzo' => 'Marzo', 'Abril' => 'Abril', 'Mayo' => 'Mayo', 'Junio' => 'Junio', 'Julio' => 'Julio', 'Agosto' => 'Agosto', 'Septiembre' => 'Septiembre', 'Octubre' => 'Octubre','Noviembre' => 'Noviembre', 'Diciembre' => 'Diciembre'],null,['class' => 'form-control combobox','required']) !!}
+									</div>
+								</div>
+
 								<div class="form-group">
 									{!! Form::label('normal_range_date', 'Normal', ['class' => 'col-md-4 control-label']) !!}
 								    <div class='col-md-6'>

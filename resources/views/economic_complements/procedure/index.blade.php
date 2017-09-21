@@ -24,6 +24,7 @@
 				<tr>
 					<th>Año</th>
 					<th>Semestre</th>
+					<th>Mes Renta</th>
 					<th>Inicio Normal</th>
 					<th>Fin Normal</th>
 					<th>Inicio Rezagados</th>
@@ -60,6 +61,12 @@
 						{!! Form::label('semester', 'Semestre',['class' => 'col-md-4 control-label']) !!}
 						<div class="col-md-6">
 						{!! Form::text('semester', null, ['class' => 'form-control', 'readonly']) !!}
+						</div>
+					</div>
+					<div class="form-group">
+						{!! Form::label('rent_month', 'Mes Renta',['class' => 'col-md-4 control-label']) !!}
+						<div class="col-md-6">
+						{!! Form::text('rent_month', null, ['class' => 'form-control', 'readonly']) !!}
 						</div>
 					</div>
 					<div class="form-group">
@@ -230,6 +237,7 @@ $(function () {
             	$('#additional_end_date_edit').find('input').val(data.additional_end_date);
             	$('#lagging_start_date_edit').find('input').val(data.lagging_start_date);
             	$('#lagging_end_date_edit').find('input').val(data.lagging_end_date);
+            	$('#renth_month').find('input').val(data.renth_month);
             	$('#semester').val(data.semester);
             	$('#year').val(data.year);
             	$('#indicator').val(data.indicator);
@@ -255,6 +263,7 @@ $(function () {
 				columns: [
 					{data: 'year', name: 'year'},
 					{data: 'semester', name: 'release_date',bSortable: false },
+					{data: 'rent_month', name: 'rent_month',bSortable: false },
 					{data: 'normal_start_date', name: 'normal_start_date',bSortable: false },
 					{data: 'normal_end_date', name: 'normal_end_date',bSortable: false },
 					{data: 'lagging_start_date', name: 'lagging_start_date',bSortable: false },
