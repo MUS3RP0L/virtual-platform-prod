@@ -188,6 +188,11 @@
 	        serverSide: true,
 	        pageLength: 50,
 	        autoWidth: false,
+	        createdRow: function ( row, data, index ) {
+	        	if (data.type  == "Directo") {
+					$('td', row).addClass('warning');
+	        	}
+	        },
 	        ajax: {
 	            url: '{!! route('get_contribution') !!}',
 	            data: function (d) {
