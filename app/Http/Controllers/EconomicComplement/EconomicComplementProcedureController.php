@@ -28,7 +28,7 @@ class EconomicComplementProcedureController extends Controller
     }
     public function Data(Request $request)
     {
-        $procedures = EconomicComplementProcedure::select(['id', 'year', 'semester', 'normal_start_date', 'normal_end_date', 'lagging_start_date', 'lagging_end_date',  'additional_start_date', 'additional_end_date', 'indicator']);
+        $procedures = EconomicComplementProcedure::select(['id', 'year', 'semester', 'normal_start_date', 'normal_end_date', 'lagging_start_date', 'lagging_end_date',  'additional_start_date', 'additional_end_date', 'indicator','rent_month']);
         return Datatables::of($procedures)
                ->editColumn('year', function ($procedure) { return Util::getYear($procedure->year); })
                ->addColumn('action', function ($procedure) { return
@@ -95,6 +95,7 @@ class EconomicComplementProcedureController extends Controller
             $eco_com_pro->additional_start_date = Util::datePick($request->additional_start_date);
             $eco_com_pro->additional_end_date = Util::datePick($request->additional_end_date);
             $eco_com_pro->indicator = floatval(str_replace(',','',$request->indicator));
+            $eco_com_pro->rent_month = $request->rent_month;
             $eco_com_pro->save();
             Session::flash('message', $message);
             return redirect('economic_complement_procedure');
