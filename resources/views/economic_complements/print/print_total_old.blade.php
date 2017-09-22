@@ -1,7 +1,7 @@
 @extends('globalprint.print')
 @section('subtitle')
 @if($economic_complement->old_eco_com)
-	<center><b>(TRÁMITE ANTERIOR)</b></center>
+	{{-- <center><b>(TRÁMITE ANTERIOR)</b></center> --}}
 	@endif
 @endsection
 @section('content')
@@ -16,14 +16,20 @@
       font-weight: 600;
       opacity: .85;
     }
+    .title3{
+      font-size: 1.1em;
+      text-align: right;
+      margin-right: 15px;
+      text-decoration: underline;
+    }
 </style>
    <div id="project">
-
-    	<div class="title2">
-    		<strong>
-    			Tramite N°: {!! $economic_complement->code !!}
-    		</strong>
-    	</div> 
+   	<div class="title3">
+   	      <strong>
+   	        Tramite N°: {!! $economic_complement->code !!}
+   	      </strong>  
+   	</div>
+   	<br>
 			  {{--Información beneficiario--}}
   @if($economic_complement->economic_complement_modality->economic_complement_type->id > 1)
   <table class="table" style="width:100%;">
@@ -175,6 +181,9 @@
 		  @endif
 		  <tr>
 		  <td class="grand service"><b>TOTAL PAGADO COMP. ECO.</b></td><td class="number"><b>{{$old_eco_com->total}}</b></td><td></td>
+		  </tr>
+		  <tr>
+		  	<td colspan="3"><strong>Son: </strong>{!! $total_literal !!}</td>
 		  </tr>
 		</table>
 	@endif
