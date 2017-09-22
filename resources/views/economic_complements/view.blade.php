@@ -788,8 +788,8 @@
                                 <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
                                     <thead>
                                         <tr>
-                                            <th>Nombre de Requisito</th>
-                                            <th>Fecha</th>
+                                            <th>Requisito</th>
+                                            <th>Fecha de Presentación</th>
                                             <th class="text-center">Estado</th>
                                         </tr>
                                     </thead>
@@ -1020,6 +1020,18 @@
                                             </div>
                                             <div class="col-md-6">
                                                 {!! $affiliate->pension_entity->name ?? '' !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Mes Renta</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $rent_month->rent_month ?? 'Indeter' !!}
                                             </div>
                                         </div>
                                     </td>

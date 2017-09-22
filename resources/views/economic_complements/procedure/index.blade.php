@@ -65,8 +65,8 @@
 					</div>
 					<div class="form-group">
 						{!! Form::label('rent_month', 'Mes Renta',['class' => 'col-md-4 control-label']) !!}
-						<div class="col-md-6">
-						{!! Form::text('rent_month', null, ['class' => 'form-control', 'readonly']) !!}
+						<div class="col-md-4">
+										{!! Form::select('rent_month',['Enero' => 'Enero', 'Febrero' => 'Febrero', 'Marzo' => 'Marzo', 'Abril' => 'Abril', 'Mayo' => 'Mayo', 'Junio' => 'Junio', 'Julio' => 'Julio', 'Agosto' => 'Agosto', 'Septiembre' => 'Septiembre', 'Octubre' => 'Octubre','Noviembre' => 'Noviembre', 'Diciembre' => 'Diciembre'],'rent_month',['class' => 'form-control combobox','required']) !!}
 						</div>
 					</div>
 					<div class="form-group">
@@ -237,12 +237,13 @@ $(function () {
             	$('#additional_end_date_edit').find('input').val(data.additional_end_date);
             	$('#lagging_start_date_edit').find('input').val(data.lagging_start_date);
             	$('#lagging_end_date_edit').find('input').val(data.lagging_end_date);
-            	$('#renth_month').find('input').val(data.renth_month);
+            	$('#rent_month').find('input').val(data.rent_month);
             	$('#semester').val(data.semester);
             	$('#year').val(data.year);
             	$('#indicator').val(data.indicator);
             	$('#economic_complement_procedure_id').val(data.id);
-            	//$('#semester').combobox();
+            	$('#rent_month').val(data.rent_month);
+            	$('#rent_month').combobox();
             });
             event.preventDefault();
         });
