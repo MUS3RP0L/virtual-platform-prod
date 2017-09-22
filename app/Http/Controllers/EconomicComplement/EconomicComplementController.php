@@ -899,6 +899,8 @@ class EconomicComplementController extends Controller
     
         }
 
+        $rent_month = EconomicComplementProcedure::find($economic_complement->eco_com_procedure_id);
+
         $data = [
 
         'affiliate' => $affiliate,
@@ -926,6 +928,7 @@ class EconomicComplementController extends Controller
         'has_amortization' => $hasAmortization,
         'wf_state_before' => $wf_state_before,
         'buttons_enabled' => $buttons_enabled,
+        'rent_month' => $rent_month,
         ];
         // dd($eco_com_submitted_documents_ar);
 

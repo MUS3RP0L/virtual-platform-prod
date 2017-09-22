@@ -171,6 +171,7 @@ $(function () {
             $('#lagging_start_date').data("DateTimePicker").maxDate(e.date);
         });
         $('#semester').combobox();
+        $('#rent_month').combobox();
     });
 </script>
 @endpush
