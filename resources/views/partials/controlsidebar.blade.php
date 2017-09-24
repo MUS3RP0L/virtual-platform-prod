@@ -13,7 +13,7 @@
                     <li>
                       <a href="{{ url('user') }}">
                         <div class="menu">
-                            <label class="control-sidebar-subheading">- Usuarios</label>
+                            <label class="control-sidebar-subheading"><i class="fa fa-users"> Usuarios</i></label>
                         </div>
                       </a>
                     </li>
@@ -22,21 +22,21 @@
                     <li>
                         <a href="{!! url('averages') !!}">
                             <div class="menu">
-                                <label class="control-sidebar-subheading">- Promedios</label>
+                                <label class="control-sidebar-subheading"><i class="fa fa-medium"> Promedios</i></label>
                             </div>
                         </a>
                     </li>
                     <li>
                       <a href="{{ url('economic_complement_procedure') }}">
                         <div class="menu">
-                            <label class="control-sidebar-subheading">- Intervalos de Fechas</label>
+                            <label class="control-sidebar-subheading"><i class="fa fa-calendar-check-o"> Intervalos de Fechas</i></label>
                         </div>
                       </a>
                     </li>
                     <li>
                         <a href="{{ url('complementary_factor') }}">
                             <div class="menu">
-                                <label class="control-sidebar-subheading">- Factor de Complemantación</label>
+                                <label class="control-sidebar-subheading"><i class="fa fa-percent"> Factor de Complemantación</i></label>
                             </div>
                         </a>
                     </li>
@@ -45,14 +45,14 @@
                     <li>
                         <a href="{{ url('contribution_rate') }}">
                             <div class="menu">
-                                <label class="control-sidebar-subheading">- Tasas de Aporte</label>
+                                <label class="control-sidebar-subheading"><i class="fa fa-line-chart"> Tasas de Aporte</i></label>
                             </div>
                         </a>
                     </li>
                     <li>
                         <a href="{{ url('ipc_rate') }}">
                             <div class="menu">
-                                <label class="control-sidebar-subheading">- Tasas de IPC</label>
+                                <label class="control-sidebar-subheading"><i class="fa fa-bar-chart-o"> Tasas de IPC</i></label>
                             </div>
                         </a>
                     </li>
@@ -60,7 +60,7 @@
                 <li>
                   <a href="{{ url('base_wage') }}">
                     <div class="menu">
-                        <label class="control-sidebar-subheading">- Salario Básico</label>
+                        <label class="control-sidebar-subheading"><i class="fa fa-money"> Salario Básico</i></label>
                     </div>
                   </a>
                 </li>
@@ -75,14 +75,14 @@
                     <li>
                       <a href="{!! url('report_complement') !!}">
                         <div class="menu">
-                            <label class="control-sidebar-subheading">- Parametrizada</label>
+                            <label class="control-sidebar-subheading"><i class="fa fa-line-chart"> Parametrizada</i></label>
                         </div>
                       </a>
                     </li>
                     <li>
                         <a href="{!! url('get_updated_list') !!}">
                             <div class="menu">
-                                <label class="control-sidebar-subheading">- Modificaciones</label>
+                                <label class="control-sidebar-subheading"><i class="fa fa-pencil-square-o"> Modificaciones</i></label>
                             </div>
                         </a>
                     </li>
