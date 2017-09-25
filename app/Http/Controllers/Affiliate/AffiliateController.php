@@ -516,7 +516,7 @@ class AffiliateController extends Controller
                     $economic_complement = EconomicComplement::find($request->economic_complement_id);
 
                     // recalculate
-                    if ($economic_complement->total > 0 && ( $economic_complement->eco_com_state_id == 1 || $economic_complement->eco_com_state_id == 2 || $economic_complement->eco_com_state_id == 3 )) {
+                    if ($economic_complement->total > 0 && ( $economic_complement->eco_com_state_id == 1 || $economic_complement->eco_com_state_id == 2 || $economic_complement->eco_com_state_id == 3 || $economic_complement->eco_com_state_id == 17 || $economic_complement->eco_com_state_id == 18 || $economic_complement->eco_com_state_id == 15 )) {
                         $economic_complement->recalification_date = Carbon::now();
                         $temp_eco_com = (array)json_decode($economic_complement);
                         $old_eco_com = [];
