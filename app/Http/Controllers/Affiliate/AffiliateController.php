@@ -516,20 +516,20 @@ class AffiliateController extends Controller
                     $economic_complement = EconomicComplement::find($request->economic_complement_id);
 
                     // recalculate
-                    if ($economic_complement->total > 0 && ( $economic_complement->eco_com_state_id == 1 || $economic_complement->eco_com_state_id == 2 || $economic_complement->eco_com_state_id == 3 || $economic_complement->eco_com_state_id == 17 || $economic_complement->eco_com_state_id == 18 || $economic_complement->eco_com_state_id == 15 )) {
-                        $economic_complement->recalification_date = Carbon::now();
-                        $temp_eco_com = (array)json_decode($economic_complement);
-                        $old_eco_com = [];
-                        foreach ($temp_eco_com as $key => $value) {
-                            if ($key != 'old_eco_com') {
-                                $old_eco_com[$key] = $value;
-                            }
-                        }
-                        if (!$economic_complement->old_eco_com) {
-                            $economic_complement->old_eco_com=json_encode($old_eco_com);
-                        }
-                        $economic_complement->save();
-                    }
+                    // if ($economic_complement->total > 0 && ( $economic_complement->eco_com_state_id == 1 || $economic_complement->eco_com_state_id == 2 || $economic_complement->eco_com_state_id == 3 || $economic_complement->eco_com_state_id == 17 || $economic_complement->eco_com_state_id == 18 || $economic_complement->eco_com_state_id == 15 )) {
+                    //     $economic_complement->recalification_date = Carbon::now();
+                    //     $temp_eco_com = (array)json_decode($economic_complement);
+                    //     $old_eco_com = [];
+                    //     foreach ($temp_eco_com as $key => $value) {
+                    //         if ($key != 'old_eco_com') {
+                    //             $old_eco_com[$key] = $value;
+                    //         }
+                    //     }
+                    //     if (!$economic_complement->old_eco_com) {
+                    //         $economic_complement->old_eco_com=json_encode($old_eco_com);
+                    //     }
+                    //     $economic_complement->save();
+                    // }
                     // /recalculate
                     $economic_complement->city_id = $request->regional;
                     $economic_complement->category_id = $request->category;
