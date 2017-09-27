@@ -832,22 +832,23 @@
                         <div class="col-md-8">
                             <h3 class="box-title"><span class="glyphicon glyphicon-info-sign"></span> Información del Trámite</h3>
                         </div>
-                        @can("eco_com_review_reception_calification")
-                        {{--@can('showEdit', $economic_complement)--}}
                         <div class="col-md-4 text-right">
-                            <span data-toggle="modal" data-target="#policeModal">
-                                <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
-                            </span>
+                            @can("eco_com_review_reception_calification")
+                            {{--@can('showEdit', $economic_complement)--}}
+                            
+                                <span data-toggle="modal" data-target="#policeModal">
+                                    <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
+                                </span>
+                           
+                            @endcan
+                            @can("accounting")
+                           
+                                <span data-toggle="modal" data-target="#addMoreInfo">
+                                    <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Adicionar Información"><i class="fa fa-lg fa fa-plus"></i></a>
+                                </span>
+                          
+                            @endcan
                         </div>
-                        @endcan
-                        @can("accounting")
-                        <div class="col-md-4 text-right">
-                            <span data-toggle="modal" data-target="#addMoreInfo">
-                                <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Adicionar Información"><i class="fa fa-lg fa fa-plus"></i></a>
-                            </span>
-                        </div>
-                        @endcan
-            
                     </div>
                 </div>
                 <div class="box-body">
@@ -1215,7 +1216,7 @@
                                 <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
                                     <tbody>
                                         <tr>
-                                            <td style="width: 70%">Total Complemento Económico en Bs.</td>
+                                            <td style="width: 70%"><strong>Total Complemento Económico en Bs.</strong></td>
                                             <td  style="text-align: right" id="tempTotal"></td>
                                         </tr>
                                     </tbody>
@@ -1241,7 +1242,7 @@
                                 <table class="table table-bordered table-hover " style="width:100%;font-size: 14px">
                                     <tbody>
                                         <tr class="success">
-                                            <td style="width: 70%">Total</td>
+                                            <td style="width: 70%"><strong>Total</strong></td>
                                             <td  style="text-align: right">{!! $total !!}</td>
                                         </tr>
                                     </tbody>

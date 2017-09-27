@@ -876,9 +876,10 @@ class EconomicComplementController extends Controller
         switch (Util::getRol()->module_id) {
             case 8:
             case 6:
-            case 2:
+           
                 if($hasObservation)
                 {
+
                     $last_complement = EconomicComplement::where('affiliate_id',$economic_complement->affiliate_id)->orderBy('year','desc')->first();
 
                     // Log::info("complemento actual ".$economic_complement->year);
@@ -896,7 +897,37 @@ class EconomicComplementController extends Controller
                 }
                
                 break;
-    
+             case 2:
+                
+                if($hasObservation)
+                {
+                    $has_repocision_observation = false;
+                    foreach ($affi_observations as $observation) {
+                         # code...
+                        if($observation->observation_type_id == 13)
+                        {
+                            $has_repocision_observation = true;
+                        }
+                     } 
+                    if($has_repocision_observation)
+                    {
+
+                        $last_complement = EconomicComplement::where('affiliate_id',$economic_complement->affiliate_id)->orderBy('year','desc')->first();
+
+                        if($economic_complement->year == $last_complement->year)
+                        {
+                            if($economic_complement->total > 0)
+                            {
+                                $hasAmortization =true; 
+                            }
+                            
+                        }
+                    }
+                     
+                }
+
+             break;
+
         }
 
         $data = [
