@@ -206,7 +206,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('export_wfamort_total', array('as'=>'export_wfamort_total', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wfamort_total'));
 
 	Route::post('export_wf_sup_fondo', array('as'=>'export_wf_sup_fondo', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wf_sup_fondo'));
-	Route::post('export_wf_sup_prestamos', array('as'=>'export_wf_sup_prestamos', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_export_wf_sup_fondo'));
+	Route::post('export_wf_sup_prestamos', array('as'=>'export_wf_sup_prestamos', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wf_sup_prestamos'));
 	Route::post('export_wf_sup_contabilidad', array('as'=>'export_wf_sup_contabilidad', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wf_sup_contabilidad'));
 	Route::post('export_wf_sup', array('as'=>'export_wf_sup', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wf_sup'));
 });
