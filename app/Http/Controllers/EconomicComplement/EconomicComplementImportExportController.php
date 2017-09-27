@@ -2624,9 +2624,9 @@ public function export_wfmora_prestamos(Request $request) // EXPORTAR PAGADOS CO
   
   if(sizeof($ecom) > 0)
   {
-    Excel::create('Pagados_mora_prestamos', function($excel)
+    Excel::create('Pagados_amort_prestamos', function($excel)
     { global $ecom;
-      $excel->sheet("Pagados_mora_prestamos", function($sheet)
+      $excel->sheet("Pagados_amort_prestamos", function($sheet)
       {
         global $i,$j, $ecom;
         $i=1;
