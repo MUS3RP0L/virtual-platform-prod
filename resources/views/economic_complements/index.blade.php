@@ -49,10 +49,10 @@
                     <!-- /Excluidos por salario -->
 
                     <!-- Suspendidos-->
-                    <li><a href="" data-toggle="modal" data-target="#myModal-wfbanco" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Suspendidos (Sin amortización)</a> </li>
-                    <li><a href="" data-toggle="modal" data-target="#myModal-wfbanco" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Supendidos por prestamo</a></li>
-                    <li><a href="" data-toggle="modal" data-target="#myModal-wfbanco" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Supendidos por Rep. de Fondos</a></li>
-                    <li><a href="" data-toggle="modal" data-target="#myModal-wfbanco" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Suspendidos por Contabilidad</a></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wf_sup" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Suspendidos (Sin amortización)</a> </li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wf_sup_prestamos" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Supendidos por prestamo</a></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wf_sup_fondo" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Supendidos por Rep. de Fondos</a></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wf_sup_contabilidad" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Suspendidos por Contabilidad</a></li>
                     <li role="separator" class="divider"></li>
                     <!-- /Suspendidos-->
 
@@ -1201,6 +1201,221 @@
                   <div class="modal-body">
 
                       {!! Form::open(['method' => 'POST', 'route' => ['export_wfcontabilidad'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+                          <br>                            
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="input-group">
+                                                {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Año</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="form-group">
+                                                {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Seleccione Semestre</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row text-center">
+                              <div class="form-group">
+                                  <div class="col-md-12">
+                                      <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                      &nbsp;&nbsp;
+                                      <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                  </div>
+                              </div>
+                          </div>
+                      {!! Form::close() !!}
+                  </div>
+              </div>
+          </div>
+</div>
+
+<div id="myModal-wf_sup_fondo" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="box-header with-border">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Exportar Supendidos por Reposicion de Fondos</h4>
+                  </div>
+                  <div class="modal-body">
+
+                      {!! Form::open(['method' => 'POST', 'route' => ['export_wf_sup_fondo'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+                          <br>                            
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="input-group">
+                                                {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Año</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="form-group">
+                                                {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Seleccione Semestre</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row text-center">
+                              <div class="form-group">
+                                  <div class="col-md-12">
+                                      <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                      &nbsp;&nbsp;
+                                      <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                  </div>
+                              </div>
+                          </div>
+                      {!! Form::close() !!}
+                  </div>
+              </div>
+          </div>
+</div>
+<div id="myModal-wf_sup_contabilidad" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="box-header with-border">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Exportar Supendidos por Contabilidad</h4>
+                  </div>
+                  <div class="modal-body">
+
+                      {!! Form::open(['method' => 'POST', 'route' => ['export_wf_sup_contabilidad'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+                          <br>                            
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="input-group">
+                                                {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Año</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="form-group">
+                                                {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Seleccione Semestre</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row text-center">
+                              <div class="form-group">
+                                  <div class="col-md-12">
+                                      <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                      &nbsp;&nbsp;
+                                      <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                  </div>
+                              </div>
+                          </div>
+                      {!! Form::close() !!}
+                  </div>
+              </div>
+          </div>
+</div>
+
+<div id="myModal-wf_sup_prestamos" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="box-header with-border">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Exportar Supendidos por Prestamos</h4>
+                  </div>
+                  <div class="modal-body">
+
+                      {!! Form::open(['method' => 'POST', 'route' => ['export_wf_sup_prestamos'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+                          <br>                            
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="input-group">
+                                                {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Año</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="form-group">
+                                                {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Seleccione Semestre</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row text-center">
+                              <div class="form-group">
+                                  <div class="col-md-12">
+                                      <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                      &nbsp;&nbsp;
+                                      <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                  </div>
+                              </div>
+                          </div>
+                      {!! Form::close() !!}
+                  </div>
+              </div>
+          </div>
+</div>
+
+<div id="myModal-wf_sup" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="box-header with-border">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Exportar Supendidos</h4>
+                  </div>
+                  <div class="modal-body">
+
+                      {!! Form::open(['method' => 'POST', 'route' => ['export_wf_sup'], 'class' => 'form-horizontal', 'files' => true ]) !!}
 
                           <br>                            
                           <div class="row">
