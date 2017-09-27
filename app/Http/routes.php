@@ -203,12 +203,12 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('export_wfcontabilidad', array('as'=>'export_wfcontabilidad', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wfcontabilidad'));
 
 	Route::post('export_wfnormal', array('as'=>'export_wfnormal', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wfnormal'));
+	Route::post('export_wfamort_total', array('as'=>'export_wfamort_total', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wfamort_total'));
 
 	Route::post('export_wf_sup_fondo', array('as'=>'export_wf_sup_fondo', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wf_sup_fondo'));
 	Route::post('export_wf_sup_prestamos', array('as'=>'export_wf_sup_prestamos', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_export_wf_sup_fondo'));
 	Route::post('export_wf_sup_contabilidad', array('as'=>'export_wf_sup_contabilidad', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wf_sup_contabilidad'));
 	Route::post('export_wf_sup', array('as'=>'export_wf_sup', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wf_sup'));
-
 });
 
 define('ACCESS', env('ACCESS_PASS'));
