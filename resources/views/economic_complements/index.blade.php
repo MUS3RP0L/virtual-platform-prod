@@ -15,8 +15,7 @@
 
                     <!-- Pagados en banco -->
                     <li><a href="" data-toggle="modal" data-target="#myModal-wfbanco" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados en Banco</a> </li>
-                    <li><a href="" data-toggle="modal" data-target="#myModal-wfbanco" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Pago Normal</a> </li>
-                    <li><a href="" data-toggle="modal" data-target="#myModal-wfpoder" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Pago con Poder</a> </li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wfnormal" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Pago Normal</a> </li>
                     <li><a href="" data-toggle="modal" data-target="#myModal-wfprestamos" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Pago c/amortizacion (Prestamo)</a> </li>
                     <li><a href="" data-toggle="modal" data-target="#myModal-wfrep_fondos" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Pago c/amortizacion (Rep. de fondos)</a></li>
                     <li><a href="" data-toggle="modal" data-target="#myModal-wfcontabilidad" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Pago c/amortizacion (Contabilidad)</a></li>
@@ -55,6 +54,11 @@
                     <li><a href="" data-toggle="modal" data-target="#myModal-wf_sup_contabilidad" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Suspendidos por Contabilidad</a></li>
                     <li role="separator" class="divider"></li>
                     <!-- /Suspendidos-->
+
+                    <!-- Pagos con poder -->
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wfpoder" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pago con Poder</a> </li>
+                    <li role="separator" class="divider"></li>
+                    <!-- /Pagos con poder -->
 
                   {{--   <li><a href="" data-toggle="modal" data-target="#myModal-wfmuserpol" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados por Muserpol</a></li>
                     <li role="separator" class="divider"></li>
@@ -1411,11 +1415,70 @@
               <div class="modal-content">
                   <div class="box-header with-border">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      <h4 class="modal-title">Exportar Supendidos</h4>
+                          <h4 class="modal-title">Exportar Supendidos</h4>
+                      </div>
+                      <div class="modal-body">
+
+                          {!! Form::open(['method' => 'POST', 'route' => ['export_wf_sup'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+<br>                            
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="input-group">
+                                                {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Año</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="form-group">
+                                                {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Seleccione Semestre</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row text-center">
+                              <div class="form-group">
+                                  <div class="col-md-12">
+                                      <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                      &nbsp;&nbsp;
+                                      <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                  </div>
+                              </div>
+                          </div>
+                      {!! Form::close() !!}
+                  </div>
+              </div>
+          </div>
+</div>
+
+
+        
+<div id="myModal-wfnormal" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="box-header with-border">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                      <h4 class="modal-title">Exportar Pagados Normal</h4>
                   </div>
                   <div class="modal-body">
 
-                      {!! Form::open(['method' => 'POST', 'route' => ['export_wf_sup'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+                      {!! Form::open(['method' => 'POST', 'route' => ['export_wfnormal'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
 
                           <br>                            
                           <div class="row">
