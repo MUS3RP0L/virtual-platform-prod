@@ -2428,7 +2428,7 @@ public function export_payment_home(Request $request)
   }  
 
 }
- 
+
 public function export_wf_gral_banco(Request $request) // EXPORTAR PAGADOS POR BANCO Y REZAGADOS DEL BANCO PARA GENERAR LA PLANILLA GRAL. BANCO
 { 
   global $j,$ecom;
@@ -2862,6 +2862,7 @@ public function export_wfamort_total(Request $request) // EXPORTAR PAGADOS CON A
     return redirect('economic_complement');
   } 
 }
+
 
 
 
