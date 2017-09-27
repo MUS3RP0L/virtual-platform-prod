@@ -177,6 +177,8 @@ class AffiliateObservationController extends Controller
           # code...
           $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)
                                                            ->where('eco_com_procedure_id','=','2')
+                                                           ->where('wf_current_state_id','=','2')
+                                                           ->where('workflow_id','<=','3')
                                                            ->where('state','=','Edited')
                                                            ->whereNotNull('review_date')
                                                            ->first();
