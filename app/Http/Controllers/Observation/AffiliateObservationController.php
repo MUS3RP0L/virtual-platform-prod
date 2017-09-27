@@ -107,6 +107,10 @@ class AffiliateObservationController extends Controller
       }
 
       return Datatables::of($observations_list)
+        ->editColumn('date',function ($observation)
+        {
+          return Util::getDateShort($observation->date);
+        })
         ->addColumn('type',function ($observation){
           return $observation->observationType->name;
         })
