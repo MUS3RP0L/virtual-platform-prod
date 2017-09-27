@@ -24,7 +24,7 @@
                     <li role="separator" class="divider"></li>
                     <li><a href="" data-toggle="modal" data-target="#myModal-wfpoder" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados con Poder</a> <li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="" data-toggle="modal" data-target="#myModal-wfpoder" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Amortización mora(Prestamos)</a> <li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wfprestamos" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados con Amortización(Prestamos)</a> <li>
 
 
 
@@ -1049,7 +1049,7 @@
           </div>
 </div>
 
-<div id="myModal-wfpoder" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+<div id="myModal-wfprestamos" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
           <div class="modal-dialog">
               <div class="modal-content">
                   <div class="box-header with-border">

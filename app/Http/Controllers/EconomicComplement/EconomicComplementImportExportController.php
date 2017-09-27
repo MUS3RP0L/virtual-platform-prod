@@ -2618,7 +2618,7 @@ public function export_wfmora_prestamos(Request $request) // EXPORTAR PAGADOS CO
               ->where('economic_complements.semester','=', $request->semester)
               ->where('economic_complements.workflow_id','=',1)
               ->where('economic_complements.eco_com_state_id','=',1)
-              ->where('economic_complements.amount_loan','>',0)
+              ->where('economic_complements.amount_loan','>', 0)
               ->get(); 
   
   
