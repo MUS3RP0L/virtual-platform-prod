@@ -930,6 +930,8 @@ class EconomicComplementController extends Controller
 
         }
 
+        $rent_month = EconomicComplementProcedure::find($economic_complement->eco_com_procedure_id);
+
         $data = [
 
         'affiliate' => $affiliate,
@@ -957,6 +959,7 @@ class EconomicComplementController extends Controller
         'has_amortization' => $hasAmortization,
         'wf_state_before' => $wf_state_before,
         'buttons_enabled' => $buttons_enabled,
+        'rent_month' => $rent_month,
         ];
         // dd($eco_com_submitted_documents_ar);
 
@@ -2093,7 +2096,6 @@ class EconomicComplementController extends Controller
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-        $title = "FICHA DE PAGO COMPLEMENTO ECONÓMICO";
         $date = Util::getDateEdit(date('Y-m-d'));
         setlocale(LC_ALL, "es_ES.UTF-8");
         $date = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
@@ -2101,6 +2103,9 @@ class EconomicComplementController extends Controller
         $hour = Carbon::parse($current_date)->toTimeString();
 
         $economic_complement = EconomicComplement::where('id',$eco_com_id)->first();
+
+        $title = ($economic_complement->old_eco_com == null) ? "FORMULARIO CE - 1" : "FORMULARIO CE - 2";
+
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
         $eco_com_applicant = $economic_complement->economic_complement_applicant;
         $economic_complement_legal_guardian = $economic_complement->economic_complement_legal_guardian;
@@ -2119,6 +2124,7 @@ class EconomicComplementController extends Controller
             $city=\Muserpol\City::where('id',$old_eco_com->city_id)->first();
             $old_eco_com_city = $city->name;
         }
+        $total_literal= Util::convertir($economic_complement->total);
 
         $data = [
             'affiliate' => $affiliate,
@@ -2141,6 +2147,7 @@ class EconomicComplementController extends Controller
             'header2' => $header2,
             'title' => $title,
             'total' => number_format($economic_complement->total,2,'.',','),
+            'total_literal' => $total_literal,
         ];
         $second_data = [
             'sub_total_rent' => Util::formatMoney($economic_complement->sub_total_rent),
@@ -2168,7 +2175,7 @@ class EconomicComplementController extends Controller
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-        $title = "FICHA DE PAGO COMPLEMENTO ECONÓMICO";
+        $title = "FORMULARIO CE - 1";
         $date = Util::getDateEdit(date('Y-m-d'));
         setlocale(LC_ALL, "es_ES.UTF-8");
         $date = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
@@ -2180,6 +2187,8 @@ class EconomicComplementController extends Controller
         $eco_com_applicant = $economic_complement->economic_complement_applicant;
         $economic_complement_legal_guardian = $economic_complement->economic_complement_legal_guardian;
         $eco_tot_frac = $economic_complement->aps_total_cc + $economic_complement->aps_total_fsa + $economic_complement->aps_total_fs;
+        
+        $total_literal=Util::convertir($economic_complement->total);
         if ($economic_complement->old_eco_com) {
             $old_eco_com=json_decode($economic_complement->old_eco_com);
             $old_eco_com_total_frac = $old_eco_com->aps_total_cc + $old_eco_com->aps_total_fsa + $old_eco_com->aps_total_fs;
@@ -2218,6 +2227,7 @@ class EconomicComplementController extends Controller
             'header2' => $header2,
             'title' => $title,
             'total' => number_format($economic_complement->total,2,'.',','),
+            'total_literal' => $total_literal,
         ];
         $second_data = [
             'sub_total_rent' => Util::formatMoney($economic_complement->sub_total_rent),

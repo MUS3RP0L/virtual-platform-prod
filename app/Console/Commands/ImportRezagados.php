@@ -12,6 +12,7 @@ use Muserpol\Affiliate;
 use Muserpol\Spouse;
 use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementApplicant;
+use Log;
 
 
 class ImportRezagados extends Command implements SelfHandling
@@ -22,7 +23,7 @@ class ImportRezagados extends Command implements SelfHandling
 
     public function handle()
     {   
-        global $Progress,$rezagados, $pagados;
+        global $Progress,$rezagados, $pagados,$cam;
         
        $password = $this->ask('Enter the password');
         if ($password == ACCESS) 
@@ -41,7 +42,7 @@ class ImportRezagados extends Command implements SelfHandling
                 {
                     $rows->each(function($result) 
                     {
-                        global $Progress,$rezagados, $pagados;
+                        global $Progress,$rezagados, $pagados,$cam;
                         ini_set('memory_limit', '-1');
                         ini_set('max_execution_time', '-1');
                         ini_set('max_input_time', '-1');
@@ -59,13 +60,22 @@ class ImportRezagados extends Command implements SelfHandling
                               $pagados ++;                     
                             }
                             else
-                            {                                
-                              $ecom->workflow_id= 2;
-                              $ecom->wf_current_state_id = 3;
-                              $ecom->eco_com_state_id = 15;
+                            { 
+                              if($ecom->total == $result->importe_a_pagar)                               
+                              {
+                                 $ecom->workflow_id= 2;
+                                    $ecom->wf_current_state_id = 3;
+                                    $ecom->eco_com_state_id = 15;
 
-                              $ecom->save();
-                              $rezagados ++;
+                                $ecom->save();
+                                $rezagados ++;
+                              }
+                              else
+                              {
+                                    Log::info($ecom->id);
+                              }
+
+                             
                             }
                             
                         }                 

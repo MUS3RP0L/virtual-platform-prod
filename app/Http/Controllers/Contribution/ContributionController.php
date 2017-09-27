@@ -108,7 +108,7 @@ class ContributionController extends Controller
 
     public function ShowData(Request $request)
     {
-        $contributions = Contribution::select(['id','breakdown_id', 'month_year', 'degree_id', 'unit_id', 'item', 'base_wage','seniority_bonus', 'study_bonus', 'position_bonus', 'border_bonus', 'east_bonus', 'public_security_bonus', 'gain', 'quotable', 'retirement_fund', 'mortuary_quota', 'total'])
+        $contributions = Contribution::select(['id','breakdown_id', 'month_year', 'degree_id', 'unit_id', 'item', 'base_wage','seniority_bonus', 'study_bonus', 'position_bonus', 'border_bonus', 'east_bonus', 'public_security_bonus', 'gain', 'quotable', 'retirement_fund', 'mortuary_quota', 'total','type'])
                                         ->where('affiliate_id', $request->affiliate_id);
         Log::info(" cantidad de Aportes:".$contributions->count());
 

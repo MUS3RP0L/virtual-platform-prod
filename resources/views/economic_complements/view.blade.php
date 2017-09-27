@@ -788,8 +788,8 @@
                                 <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
                                     <thead>
                                         <tr>
-                                            <th>Nombre de Requisito</th>
-                                            <th>Fecha</th>
+                                            <th>Requisito</th>
+                                            <th>Fecha de Presentación</th>
                                             <th class="text-center">Estado</th>
                                         </tr>
                                     </thead>
@@ -898,7 +898,7 @@
                                                  <strong>Semestre</strong>
                                              </div>
                                              <div class="col-md-6">
-                                                 {!! $economic_complement->semester !!}
+                                                 {!! $economic_complement->semester ?? '1er. Semestre'   !!}
                                              </div>
                                          </div>
                                      </td>
@@ -1026,6 +1026,18 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Mes Renta</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $rent_month->rent_month ?? 'Indeter' !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -1080,7 +1092,7 @@
                             @if($economic_complement->total_rent > 0 )
                                 @if($economic_complement->old_eco_com)
                                 <div class="col-md-2">
-                                    <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir Tramite Anterior">
+                                    <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir Formulario CE -1">
                                         <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print-old">&nbsp;&nbsp;
                                             <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
                                         </a>
@@ -1088,7 +1100,7 @@
                                 </div>
                                 @endif
                                 <div class="col-md-2">
-                                    <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir {{ $economic_complement->old_eco_com ? 'Recalifiación' : 'Califiación' }}">
+                                    <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir {{ $economic_complement->old_eco_com ? 'Formulario CE - 2' : 'Formulario CE - 1' }}">
                                         <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print">&nbsp;&nbsp;
                                             <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
                                         </a>

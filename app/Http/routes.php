@@ -195,6 +195,12 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('export_payment_bank', array('as'=>'export_payment_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_payment_bank'));
 	Route::post('export_rezagados', array('as'=>'export_rezagados', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_rezagados'));
 	Route::post('export_payment_home', array('as'=>'export_payment_home', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_payment_home'));
+	Route::post('export_wf_gral_banco', array('as'=>'export_wf_gral_banco', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wf_gral_banco'));
+	Route::post('export_wf_adicionales', array('as'=>'export_wf_adicionales', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wf_adicionales'));
+	Route::post('export_wfpoder', array('as'=>'export_wfpoder', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wfpoder'));
+	Route::post('export_wfmora_prestamos', array('as'=>'export_wfmora_prestamos', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wfmora_prestamos'));
+	Route::post('export_wfrep_fondos', array('as'=>'export_wfrep_fondos', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wfrep_fondos'));
+	Route::post('export_wfcontabilidad', array('as'=>'export_wfcontabilidad', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wfcontabilidad'));
 });
 
 define('ACCESS', env('ACCESS_PASS'));

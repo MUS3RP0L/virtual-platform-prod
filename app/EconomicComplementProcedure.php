@@ -16,7 +16,8 @@ class EconomicComplementProcedure extends Model
   		'lagging_start_date',
   		'lagging_end_date',
   		'additional_start_date',
-  		'additional_end_date'
+  		'additional_end_date',
+      'rent_month'
   	];
 
     protected $guarded = ['id'];

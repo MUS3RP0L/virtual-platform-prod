@@ -212,7 +212,7 @@ class EconomicComplement extends Model
     public static function calculate(EconomicComplement $economic_complement,$n_total_rent, $sub_total_rent, $reimbursement, $dignity_pension, $aps_total_fsa, $aps_total_cc, $aps_total_fs,$aps_disability)
     {
         // recalculate
-        if ($economic_complement->total > 0 && ( $economic_complement->eco_com_state_id == 1 || $economic_complement->eco_com_state_id == 2 || $economic_complement->eco_com_state_id == 3 ) ) {
+        if ($economic_complement->total > 0 && ( $economic_complement->eco_com_state_id == 1 || $economic_complement->eco_com_state_id == 2 || $economic_complement->eco_com_state_id == 3 || $economic_complement->eco_com_state_id == 17 || $economic_complement->eco_com_state_id == 18 || $economic_complement->eco_com_state_id == 15 ) ) {
             $economic_complement->recalification_date = Carbon::now();
             $temp_eco_com = (array)json_decode($economic_complement);
             $old_eco_com = [];

@@ -1,7 +1,7 @@
 @extends('globalprint.print')
 @section('subtitle')
 @if($economic_complement->old_eco_com)
-	<center><b>(RECALIFICACION)</b></center>
+  {{-- <center><b>(RECALIFICACION)</b></center> --}}
 	@endif
 @endsection
 @section('content')
@@ -16,15 +16,21 @@
       font-weight: 600;
       opacity: .85;
     }
+    .title3{
+      font-size: 1.1em;
+      text-align: right;
+      margin-right: 15px;
+      text-decoration: underline;
+    }
 </style>
    <div id="project">
-
-    	<div class="title2">
-    		<strong>
-    			Tramite N°: {!! $economic_complement->code !!}
-    		</strong>
-    	</div> 
-			  {{--Información beneficiario--}}
+    <div class="title3">
+          <strong>
+            Tramite N°: {!! $economic_complement->code !!}
+          </strong>  
+    </div>
+    <br>
+  		  {{--Información beneficiario--}}
   @if($economic_complement->economic_complement_modality->economic_complement_type->id > 1)
   <table class="table" style="width:100%;">
   	<tr>
@@ -191,6 +197,13 @@
     <td class="number"><strong>{!! $economic_complement->total_repay !!}</strong></td>
     <td></td>
   </tr>
+  <tr>
+    <td colspan="3"><strong>Son: </strong> {{ Util::convertir($economic_complement->total_repay) }}</td>
+  </tr>
+  @else
+    <tr>
+      <td colspan="3"><strong>Son: </strong> {{ $total_literal }}</td>
+    </tr>
   @endif
 </table>
 	<table>
