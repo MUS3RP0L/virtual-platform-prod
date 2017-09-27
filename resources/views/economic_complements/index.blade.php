@@ -25,6 +25,8 @@
                     <li><a href="" data-toggle="modal" data-target="#myModal-wfpoder" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados con Poder</a> <li>
                     <li role="separator" class="divider"></li>
                     <li><a href="" data-toggle="modal" data-target="#myModal-wfprestamos" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados con Amortización(Prestamos)</a> <li>
+                     <li role="separator" class="divider"></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wfrep_fondos" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados con Amortización(Rep. Fondos)</a> <li>
 
 
 
@@ -1103,6 +1105,59 @@
           </div>
 </div>
 
+<div id="myModal-wfrep_fondos" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="box-header with-border">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Exportar Pagados con Amortización(Rep. Fondos)</h4>
+                  </div>
+                  <div class="modal-body">
+
+                      {!! Form::open(['method' => 'POST', 'route' => ['export_wfrep_fondos'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+                          <br>                            
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="input-group">
+                                                {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Año</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="form-group">
+                                                {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Seleccione Semestre</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row text-center">
+                              <div class="form-group">
+                                  <div class="col-md-12">
+                                      <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                      &nbsp;&nbsp;
+                                      <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                  </div>
+                              </div>
+                          </div>
+                      {!! Form::close() !!}
+                  </div>
+              </div>
+          </div>
+</div>
 
 @endsection
 
