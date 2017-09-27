@@ -3082,6 +3082,331 @@ public function export_wf_sup(Request $request)
   } 
 }
 
+public function export_wf_rez_contabilidad(Request $request)
+{
+
+  global $j,$ecom;
+  $j=2;
+
+  $aff=DB::table('affiliates')
+                ->leftJoin('affiliate_observations','affiliates.id','=','affiliate_observations.affiliate_id')
+                ->leftJoin('observation_types', 'affiliate_observations.observation_type_id', '=', 'observation_types.id')
+                ->where('affiliate_observations.is_enabled','=',true)
+                ->where('observation_types.id','=',1)
+                ->select('affiliates.id')
+                ->get()
+                ;
+  $afff=[];
+  foreach ($aff as $val) {
+    array_push($afff, $val->id);
+  }
+  $ecom = DB::table('eco_com_applicants')
+              ->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+              ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+              ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')              
+              ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+              ->leftJoin('cities as cities1','economic_complements.city_id','=','cities1.id')
+              ->leftJoin('cities as cities2', 'eco_com_applicants.city_identity_card_id','=', 'cities2.id')
+              ->leftJoin('degrees','economic_complements.degree_id','=','degrees.id')
+              ->leftJoin('categories','economic_complements.category_id', '=', 'categories.id')
+              ->leftJoin('pension_entities', 'affiliates.pension_entity_id','=','pension_entities.id')             
+              ->whereYear('economic_complements.year','=', $request->year)
+              ->where('economic_complements.semester','=', $request->semester)
+              // ->where('economic_complements.workflow_id','=',3)
+              ->where('economic_complements.state','=','Edited')
+              ->whereNotNull('economic_complements.review_date')
+              ->where('economic_complements.review_date','<=', "2017-08-25 23:58:00")
+              ->whereIn('economic_complements.affiliate_id', $afff)
+              ->where('economic_complements.eco_com_state_id','=',15)
+              ->get(); 
+  // dd($ecom);
+  if(sizeof($ecom) > 0)
+  {
+    Excel::create('Rezagados_contabilidad', function($excel)
+    { global $ecom;
+      $excel->sheet("rez_cont", function($sheet)
+      {
+        global $i,$j, $ecom;
+        $i=1;
+        $sheet->row(1, array('NRO','CODIGO_TRAMITE','CI','EXT','PRIMER_NOMBRE','SEGUNDO_NOMBRE','PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL','GRADO','CATEGORIA','TIPO_RENTA','ENTE_GESTOR','SUBTOTAL','AMORTIZACION_PRESTAMOS','AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO','TOTAL'));     
+
+        foreach ($ecom as $datos) 
+        {
+          $sheet->row($j,array($i, $datos->code,$datos->identity_card, $datos->ext, $datos->first_name,$datos->second_name,$datos->last_name,$datos->mothers_last_name, $datos->surname_husband, $datos->regional,$datos->degree,$datos->category,$datos->modality,$datos->pension_entity,$datos->subtotal,$datos->amount_loan,$datos->amount_accounting,$datos->amount_replacement,$datos->total));
+          $j++;
+          $i++;
+        }
+
+
+      });
+    })->export('xlsx');
+     Session::flash('message', "Exportación Exitosa");
+    return redirect('economic_complement');
+  }
+  else
+  {
+    Session::flash('message', "No existen registros");
+    return redirect('economic_complement');
+  } 
+}
+public function export_wf_rez_prestamos(Request $request)
+{
+
+  global $j,$ecom;
+  $j=2;
+
+  $aff=DB::table('affiliates')
+                ->leftJoin('affiliate_observations','affiliates.id','=','affiliate_observations.affiliate_id')
+                ->leftJoin('observation_types', 'affiliate_observations.observation_type_id', '=', 'observation_types.id')
+                ->where('affiliate_observations.is_enabled','=',true)
+                ->where('observation_types.id','=',2)
+                ->select('affiliates.id')
+                ->get()
+                ;
+  $afff=[];
+  foreach ($aff as $val) {
+    array_push($afff, $val->id);
+  }
+  $ecom = DB::table('eco_com_applicants')
+              ->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+              ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+              ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')              
+              ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+              ->leftJoin('cities as cities1','economic_complements.city_id','=','cities1.id')
+              ->leftJoin('cities as cities2', 'eco_com_applicants.city_identity_card_id','=', 'cities2.id')
+              ->leftJoin('degrees','economic_complements.degree_id','=','degrees.id')
+              ->leftJoin('categories','economic_complements.category_id', '=', 'categories.id')
+              ->leftJoin('pension_entities', 'affiliates.pension_entity_id','=','pension_entities.id')             
+              ->whereYear('economic_complements.year','=', $request->year)
+              ->where('economic_complements.semester','=', $request->semester)
+              // ->where('economic_complements.workflow_id','=',3)
+              ->where('economic_complements.state','=','Edited')
+              ->whereNotNull('economic_complements.review_date')
+              ->where('economic_complements.eco_com_state_id','=',15)
+              ->where('economic_complements.review_date','<=', "2017-08-25 23:58:00")
+              ->whereIn('economic_complements.affiliate_id', $afff)
+         
+              ->get(); 
+  // dd($ecom);
+  if(sizeof($ecom) > 0)
+  {
+    Excel::create('Rezagados_prestamos', function($excel)
+    { global $ecom;
+      $excel->sheet("rez_prestamos", function($sheet)
+      {
+        global $i,$j, $ecom;
+        $i=1;
+        $sheet->row(1, array('NRO','CODIGO_TRAMITE','CI','EXT','PRIMER_NOMBRE','SEGUNDO_NOMBRE','PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL','GRADO','CATEGORIA','TIPO_RENTA','ENTE_GESTOR','SUBTOTAL','AMORTIZACION_PRESTAMOS','AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO','TOTAL'));     
+
+        foreach ($ecom as $datos) 
+        {
+          $sheet->row($j,array($i, $datos->code,$datos->identity_card, $datos->ext, $datos->first_name,$datos->second_name,$datos->last_name,$datos->mothers_last_name, $datos->surname_husband, $datos->regional,$datos->degree,$datos->category,$datos->modality,$datos->pension_entity,$datos->subtotal,$datos->amount_loan,$datos->amount_accounting,$datos->amount_replacement,$datos->total));
+          $j++;
+          $i++;
+        }
+
+
+      });
+    })->export('xlsx');
+     Session::flash('message', "Exportación Exitosa");
+    return redirect('economic_complement');
+  }
+  else
+  {
+    Session::flash('message', "No existen registros");
+    return redirect('economic_complement');
+  } 
+}
+public function export_wf_rez_fondos(Request $request)
+{
+
+  global $j,$ecom;
+  $j=2;
+
+  $aff=DB::table('affiliates')
+                ->leftJoin('affiliate_observations','affiliates.id','=','affiliate_observations.affiliate_id')
+                ->leftJoin('observation_types', 'affiliate_observations.observation_type_id', '=', 'observation_types.id')
+                ->where('affiliate_observations.is_enabled','=',true)
+                ->where('observation_types.id','=',13)
+                ->select('affiliates.id')
+                ->get()
+                ;
+  $afff=[];
+  foreach ($aff as $val) {
+    array_push($afff, $val->id);
+  }
+  $ecom = DB::table('eco_com_applicants')
+              ->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+              ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+              ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')              
+              ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+              ->leftJoin('cities as cities1','economic_complements.city_id','=','cities1.id')
+              ->leftJoin('cities as cities2', 'eco_com_applicants.city_identity_card_id','=', 'cities2.id')
+              ->leftJoin('degrees','economic_complements.degree_id','=','degrees.id')
+              ->leftJoin('categories','economic_complements.category_id', '=', 'categories.id')
+              ->leftJoin('pension_entities', 'affiliates.pension_entity_id','=','pension_entities.id')             
+              ->whereYear('economic_complements.year','=', $request->year)
+              ->where('economic_complements.semester','=', $request->semester)
+              // ->where('economic_complements.workflow_id','=',3)
+              ->where('economic_complements.state','=','Edited')
+              ->whereNotNull('economic_complements.review_date')
+              ->where('economic_complements.review_date','<=', "2017-08-25 23:58:00")
+              ->whereIn('economic_complements.affiliate_id', $afff)
+              ->where('economic_complements.eco_com_state_id','=',15)
+              ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(14,15) and is_enabled = false ) ")         
+              ->get(); 
+  // dd($ecom);
+  if(sizeof($ecom) > 0)
+  {
+    Excel::create('Rezagados_rep_fondos', function($excel)
+    { global $ecom;
+      $excel->sheet("rez_rep_fondos", function($sheet)
+      {
+        global $i,$j, $ecom;
+        $i=1;
+        $sheet->row(1, array('NRO','CODIGO_TRAMITE','CI','EXT','PRIMER_NOMBRE','SEGUNDO_NOMBRE','PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL','GRADO','CATEGORIA','TIPO_RENTA','ENTE_GESTOR','SUBTOTAL','AMORTIZACION_PRESTAMOS','AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO','TOTAL'));     
+
+        foreach ($ecom as $datos) 
+        {
+          $sheet->row($j,array($i, $datos->code,$datos->identity_card, $datos->ext, $datos->first_name,$datos->second_name,$datos->last_name,$datos->mothers_last_name, $datos->surname_husband, $datos->regional,$datos->degree,$datos->category,$datos->modality,$datos->pension_entity,$datos->subtotal,$datos->amount_loan,$datos->amount_accounting,$datos->amount_replacement,$datos->total));
+          $j++;
+          $i++;
+        }
+
+
+      });
+    })->export('xlsx');
+     Session::flash('message', "Exportación Exitosa");
+    return redirect('economic_complement');
+  }
+  else
+  {
+    Session::flash('message', "No existen registros");
+    return redirect('economic_complement');
+  } 
+}
+public function export_wf_rez_normal(Request $request)
+{
+
+  global $j,$ecom;
+  $j=2;
+
+  $aff=DB::table('affiliates')
+                ->leftJoin('affiliate_observations','affiliates.id','=','affiliate_observations.affiliate_id')
+                ->leftJoin('observation_types', 'affiliate_observations.observation_type_id', '=', 'observation_types.id')
+                // ->where('affiliate_observations.is_enabled','=',true)
+                ->whereNotIn('observation_types.id',[1,2,13])
+                ->select('affiliates.id')
+                ->get()
+                ;
+  $afff=[];
+  foreach ($aff as $val) {
+    array_push($afff, $val->id);
+  }
+  $ecom = DB::table('eco_com_applicants')
+              ->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+              ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+              ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')              
+              ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+              ->leftJoin('cities as cities1','economic_complements.city_id','=','cities1.id')
+              ->leftJoin('cities as cities2', 'eco_com_applicants.city_identity_card_id','=', 'cities2.id')
+              ->leftJoin('degrees','economic_complements.degree_id','=','degrees.id')
+              ->leftJoin('categories','economic_complements.category_id', '=', 'categories.id')
+              ->leftJoin('pension_entities', 'affiliates.pension_entity_id','=','pension_entities.id')             
+              ->whereYear('economic_complements.year','=', $request->year)
+              ->where('economic_complements.semester','=', $request->semester)
+              // ->where('economic_complements.workflow_id','=',3)
+              ->where('economic_complements.state','=','Edited')
+              ->whereNotNull('economic_complements.review_date')
+              ->where('economic_complements.review_date','<=', "2017-08-25 23:58:00")
+              // ->whereIn('economic_complements.affiliate_id', $afff)
+              ->where('economic_complements.eco_com_state_id','=',15)
+              ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,13) and is_enabled = true ) ") 
+              ->get(); 
+  // dd($ecom);
+  if(sizeof($ecom) > 0)
+  {
+    Excel::create('Rezagados_normal', function($excel)
+    { global $ecom;
+      $excel->sheet("rez_normal", function($sheet)
+      {
+        global $i,$j, $ecom;
+        $i=1;
+        $sheet->row(1, array('NRO','CODIGO_TRAMITE','CI','EXT','PRIMER_NOMBRE','SEGUNDO_NOMBRE','PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL','GRADO','CATEGORIA','TIPO_RENTA','ENTE_GESTOR','SUBTOTAL','AMORTIZACION_PRESTAMOS','AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO','TOTAL'));     
+
+        foreach ($ecom as $datos) 
+        {
+          $sheet->row($j,array($i, $datos->code,$datos->identity_card, $datos->ext, $datos->first_name,$datos->second_name,$datos->last_name,$datos->mothers_last_name, $datos->surname_husband, $datos->regional,$datos->degree,$datos->category,$datos->modality,$datos->pension_entity,$datos->subtotal,$datos->amount_loan,$datos->amount_accounting,$datos->amount_replacement,$datos->total));
+          $j++;
+          $i++;
+        }
+
+
+      });
+    })->export('xlsx');
+     Session::flash('message', "Exportación Exitosa");
+    return redirect('economic_complement');
+  }
+  else
+  {
+    Session::flash('message', "No existen registros");
+    return redirect('economic_complement');
+  } 
+}
+public function export_wf_rez(Request $request)
+{
+
+  global $j,$ecom;
+  $j=2;
+
+  $ecom = DB::table('eco_com_applicants')
+              ->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+              ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+              ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')              
+              ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+              ->leftJoin('cities as cities1','economic_complements.city_id','=','cities1.id')
+              ->leftJoin('cities as cities2', 'eco_com_applicants.city_identity_card_id','=', 'cities2.id')
+              ->leftJoin('degrees','economic_complements.degree_id','=','degrees.id')
+              ->leftJoin('categories','economic_complements.category_id', '=', 'categories.id')
+              ->leftJoin('pension_entities', 'affiliates.pension_entity_id','=','pension_entities.id')             
+              ->whereYear('economic_complements.year','=', $request->year)
+              ->where('economic_complements.semester','=', $request->semester)
+              // ->where('economic_complements.workflow_id','=',3)
+              ->where('economic_complements.state','=','Edited')
+              ->whereNotNull('economic_complements.review_date')
+              ->where('economic_complements.review_date','<=', "2017-08-25 23:58:00")
+              ->where('economic_complements.eco_com_state_id','=',15)       
+              ->get(); 
+  // dd($ecom);
+  if(sizeof($ecom) > 0)
+  {
+    Excel::create('Rezagados', function($excel)
+    { global $ecom;
+      $excel->sheet("rezagados", function($sheet)
+      {
+        global $i,$j, $ecom;
+        $i=1;
+        $sheet->row(1, array('NRO','CODIGO_TRAMITE','CI','EXT','PRIMER_NOMBRE','SEGUNDO_NOMBRE','PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL','GRADO','CATEGORIA','TIPO_RENTA','ENTE_GESTOR','SUBTOTAL','AMORTIZACION_PRESTAMOS','AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO','TOTAL'));     
+
+        foreach ($ecom as $datos) 
+        {
+          $sheet->row($j,array($i, $datos->code,$datos->identity_card, $datos->ext, $datos->first_name,$datos->second_name,$datos->last_name,$datos->mothers_last_name, $datos->surname_husband, $datos->regional,$datos->degree,$datos->category,$datos->modality,$datos->pension_entity,$datos->subtotal,$datos->amount_loan,$datos->amount_accounting,$datos->amount_replacement,$datos->total));
+          $j++;
+          $i++;
+        }
+
+
+      });
+    })->export('xlsx');
+     Session::flash('message', "Exportación Exitosa");
+    return redirect('economic_complement');
+  }
+  else
+  {
+    Session::flash('message', "No existen registros");
+    return redirect('economic_complement');
+  } 
+}
 
 public function export_wfamort_total(Request $request) // EXPORTAR PAGADOS CON AMORIZACION REP. FONDOS
 {

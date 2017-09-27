@@ -18,34 +18,35 @@
                     <li><a href="" data-toggle="modal" data-target="#myModal-wfnormal" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Pago Normal</a> </li>
                     <li><a href="" data-toggle="modal" data-target="#myModal-wfprestamos" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Pago c/amortizacion (Prestamo)</a> </li>
                     <li><a href="" data-toggle="modal" data-target="#myModal-wfrep_fondos" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Pago c/amortizacion (Rep. de fondos)</a></li>
-                    <li><a href="" data-toggle="modal" data-target="#myModal-wfcontabilidad" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Pago c/amortizacion (Contabilidad)</a></li>
+                    {{-- <li><a href="" data-toggle="modal" data-target="#myModal-wfcontabilidad" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Pago c/amortizacion (Contabilidad)</a></li> --}}
+                    <!-- pagos a domiclio -->
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wfdomicilio" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados a Domicilio</a></li>
+                    <!-- /pagos a domicilio -->
+                    <!-- Pagos con poder -->
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wfpoder" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pago con Poder</a> </li>
+                    <!-- /Pagos con poder -->
+
                     <li role="separator" class="divider"></li>
-                    
                     <!-- /Pagados en banco -->
 
                     <!-- Amortizacion total 100% -->
                     <li><a href="" data-toggle="modal" data-target="#myModal-wfamort_total" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Amortizacion Total (100%)</a> </li>
                     <li><a href="" data-toggle="modal" data-target="#myModal-wfamort_prestamos" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Amortiz. total Prestamo</a></li>
                     <li><a href="" data-toggle="modal" data-target="#myModal-wfamort_fondos" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Amortiz. total Rep. de Fondos</a></li>
-                    <li><a href="" data-toggle="modal" data-target="#myModal-wfamort_contabilidad" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Amortiz. total Contabilidad</a> </li>
+                    {{-- <li><a href="" data-toggle="modal" data-target="#myModal-wfamort_contabilidad" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Amortiz. total Contabilidad</a> </li> --}}
                     <li role="separator" class="divider"></li>
                     
                     <!-- /Amortizacion total 100%-->
 
-                    <!-- pagos a domiclio -->
-                    <li><a href="" data-toggle="modal" data-target="#myModal-wfdomicilio" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados a Domicilio</a></li>
-                    <li role="separator" class="divider"></li>
-                    <!-- /pagos a domicilio -->
                     
                     <!-- rezagados -->
-                    <li><a href="" data-toggle="modal" data-target="#myModal-wfrezagados" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Rezagados</a></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wf_rez" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Rezagados</a></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wf_rez_normal" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Rezagados Normal</a></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wf_rez_prestamos" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Rezagados c/amortizacion prestamos</a></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wf_rez_fondos" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Rezagados c/amortizacion Rep. de Fondos</a></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wf_rez_contabilidad" data-toggle="modal">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa  fa-caret-right"></i>Rezagados c/amortizacion Contabilidad</a></li>
                     <li role="separator" class="divider"></li>
                     <!-- /rezagados -->
-
-                    <!-- Excluidos por salario -->
-                    <li><a href="" data-toggle="modal" data-target="#myModal-wfrezagados" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Excluidos por salario</a></li>
-                    <li role="separator" class="divider"></li>
-                    <!-- /Excluidos por salario -->
 
                     <!-- Suspendidos-->
                     <li><a href="" data-toggle="modal" data-target="#myModal-wf_sup" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Suspendidos (Sin amortización)</a> </li>
@@ -55,10 +56,7 @@
                     <li role="separator" class="divider"></li>
                     <!-- /Suspendidos-->
 
-                    <!-- Pagos con poder -->
-                    <li><a href="" data-toggle="modal" data-target="#myModal-wfpoder" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pago con Poder</a> </li>
-                    <li role="separator" class="divider"></li>
-                    <!-- /Pagos con poder -->
+                    
 
                   {{--   <li><a href="" data-toggle="modal" data-target="#myModal-wfmuserpol" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados por Muserpol</a></li>
                     <li role="separator" class="divider"></li>
@@ -1706,6 +1704,274 @@
                   <div class="modal-body">
 
                       {!! Form::open(['method' => 'POST', 'route' => ['export_wfamort_total_contabilidad'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+                          <br>                            
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="input-group">
+                                                {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Año</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="form-group">
+                                                {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Seleccione Semestre</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row text-center">
+                              <div class="form-group">
+                                  <div class="col-md-12">
+                                      <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                      &nbsp;&nbsp;
+                                      <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                  </div>
+                              </div>
+                          </div>
+                      {!! Form::close() !!}
+                  </div>
+              </div>
+          </div>
+</div>
+
+<div id="myModal-wf_rez_prestamos" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="box-header with-border">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Exportar Rezagados c/Amortizacion Prestamos</h4>
+                  </div>
+                  <div class="modal-body">
+
+                      {!! Form::open(['method' => 'POST', 'route' => ['export_wf_rez_prestamos'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+                          <br>                            
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="input-group">
+                                                {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Año</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="form-group">
+                                                {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Seleccione Semestre</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row text-center">
+                              <div class="form-group">
+                                  <div class="col-md-12">
+                                      <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                      &nbsp;&nbsp;
+                                      <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                  </div>
+                              </div>
+                          </div>
+                      {!! Form::close() !!}
+                  </div>
+              </div>
+          </div>
+</div>
+<div id="myModal-wf_rez_fondos" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="box-header with-border">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Exportar Rezagados c/Amortizacion Rep de Fondos</h4>
+                  </div>
+                  <div class="modal-body">
+
+                      {!! Form::open(['method' => 'POST', 'route' => ['export_wf_rez_fondos'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+                          <br>                            
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="input-group">
+                                                {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Año</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="form-group">
+                                                {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Seleccione Semestre</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row text-center">
+                              <div class="form-group">
+                                  <div class="col-md-12">
+                                      <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                      &nbsp;&nbsp;
+                                      <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                  </div>
+                              </div>
+                          </div>
+                      {!! Form::close() !!}
+                  </div>
+              </div>
+          </div>
+</div>
+
+<div id="myModal-wf_rez_contabilidad" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="box-header with-border">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Exportar Rezagados c/Amortizacion Contabilidad</h4>
+                  </div>
+                  <div class="modal-body">
+
+                      {!! Form::open(['method' => 'POST', 'route' => ['export_wf_rez_contabilidad'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+                          <br>                            
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="input-group">
+                                                {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Año</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="form-group">
+                                                {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Seleccione Semestre</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row text-center">
+                              <div class="form-group">
+                                  <div class="col-md-12">
+                                      <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                      &nbsp;&nbsp;
+                                      <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                  </div>
+                              </div>
+                          </div>
+                      {!! Form::close() !!}
+                  </div>
+              </div>
+          </div>
+</div>
+
+<div id="myModal-wf_rez_normal" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="box-header with-border">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Exportar rezagados Normal</h4>
+                  </div>
+                  <div class="modal-body">
+
+                      {!! Form::open(['method' => 'POST', 'route' => ['export_wf_rez_normal'], 'class' => 'form-horizontal', 'files' => true ]) !!}
+
+                          <br>                            
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('year', 'Año', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="input-group">
+                                                {!! Form::text('year', $year, ['class'=> 'form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Año</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                          {!! Form::label('semestre', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
+                                      <div class="col-md-7">
+                                          <div class="form-group">
+                                                {!! Form::select('semester',$semester_list,'',['class' => 'combobox form-control', 'required' => 'required']) !!}
+                                                <span class="help-block">Seleccione Semestre</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row text-center">
+                              <div class="form-group">
+                                  <div class="col-md-12">
+                                      <a href="{!! url('economic_complement') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Cancelar">&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;</a>
+                                      &nbsp;&nbsp;
+                                      <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;</button>
+                                  </div>
+                              </div>
+                          </div>
+                      {!! Form::close() !!}
+                  </div>
+              </div>
+          </div>
+</div>
+<div id="myModal-wf_rez" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="box-header with-border">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Exportar rezagados</h4>
+                  </div>
+                  <div class="modal-body">
+
+                      {!! Form::open(['method' => 'POST', 'route' => ['export_wf_rez'], 'class' => 'form-horizontal', 'files' => true ]) !!}
 
                           <br>                            
                           <div class="row">
