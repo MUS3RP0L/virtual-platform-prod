@@ -2619,6 +2619,7 @@ public function export_wfmora_prestamos(Request $request) // EXPORTAR PAGADOS CO
               ->where('economic_complements.workflow_id','=',1)
               ->where('economic_complements.eco_com_state_id','=',1)
               ->where('economic_complements.amount_loan','>', 0)
+              //->where('economic_complements.has_legal_guardian', '=',false)
               ->get(); 
   
   
@@ -2672,6 +2673,7 @@ public function export_wfrep_fondos(Request $request) // EXPORTAR PAGADOS CON AM
               ->where('economic_complements.workflow_id','=',1)
               ->where('economic_complements.eco_com_state_id','=',1)
               ->where('economic_complements.amount_replacement','>', 0)
+              //->where('economic_complements.has_legal_guardian', '=',false)
               ->get(); 
   
   
@@ -2724,6 +2726,7 @@ public function export_wfcontabilidad(Request $request) // EXPORTAR PAGADOS CON 
               ->where('economic_complements.workflow_id','=',1)
               ->where('economic_complements.eco_com_state_id','=',1)
               ->where('economic_complements.amount_accounting','>', 0)
+              //->where('economic_complements.has_legal_guardian', '=',false)
               ->get(); 
   
   
@@ -2732,6 +2735,61 @@ public function export_wfcontabilidad(Request $request) // EXPORTAR PAGADOS CON 
     Excel::create('Pagados_amort_contabi', function($excel)
     { global $ecom;
       $excel->sheet("Pagados_amort_contabi", function($sheet)
+      {
+        global $i,$j, $ecom;
+        $i=1;
+        $sheet->row(1, array('NRO','CODIGO_TRAMITE','CI','EXT','PRIMER_NOMBRE','SEGUNDO_NOMBRE','PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL','GRADO','CATEGORIA','TIPO_RENTA','ENTE_GESTOR','SUBTOTAL','AMORTIZACION_PRESTAMOS','AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO','TOTAL'));     
+
+        foreach ($ecom as $datos) 
+        {
+          $sheet->row($j,array($i, $datos->code,$datos->identity_card, $datos->ext, $datos->first_name,$datos->second_name,$datos->last_name,$datos->mothers_last_name, $datos->surname_husband, $datos->regional,$datos->degree,$datos->category,$datos->modality,$datos->pension_entity,$datos->subtotal,$datos->amount_loan,$datos->amount_accounting,$datos->amount_replacement,$datos->total));
+          $j++;
+          $i++;
+        }
+
+
+      });
+    })->export('xlsx');
+     Session::flash('message', "Exportación Exitosa");
+    return redirect('economic_complement');
+  }
+  else
+  {
+    Session::flash('message', "No existen registros");
+    return redirect('economic_complement');
+  } 
+}
+
+public function export_wfnormal(Request $request) // EXPORTAR PAGADOS CON AMORIZACION REP. FONDOS
+{
+  global $j,$ecom;
+  $j=2;
+  $ecom = DB::table('eco_com_applicants')
+              ->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+              ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+              ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')              
+              ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+              ->leftJoin('cities as cities1','economic_complements.city_id','=','cities1.id')
+              ->leftJoin('cities as cities2', 'eco_com_applicants.city_identity_card_id','=', 'cities2.id')
+              ->leftJoin('degrees','economic_complements.degree_id','=','degrees.id')
+              ->leftJoin('categories','economic_complements.category_id', '=', 'categories.id')
+              ->leftJoin('pension_entities', 'affiliates.pension_entity_id','=','pension_entities.id')             
+              ->whereYear('economic_complements.year','=', $request->year)
+              ->where('economic_complements.semester','=', $request->semester)
+              ->where('economic_complements.workflow_id','=',1)
+              ->where('economic_complements.eco_com_state_id','=',1)
+              ->whereNull('economic_complements.amount_accounting')
+              ->whereNull('economic_complements.amount_loan')
+              ->whereNull('economic_complements.amount_replacement')
+              //->where('economic_complements.has_legal_guardian', '=',false)
+              ->get(); 
+  
+  
+  if(sizeof($ecom) > 0)
+  {
+    Excel::create('Pagados_Normal', function($excel)
+    { global $ecom;
+      $excel->sheet("Pagados_Normal", function($sheet)
       {
         global $i,$j, $ecom;
         $i=1;

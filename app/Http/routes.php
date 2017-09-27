@@ -201,6 +201,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('export_wfmora_prestamos', array('as'=>'export_wfmora_prestamos', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wfmora_prestamos'));
 	Route::post('export_wfrep_fondos', array('as'=>'export_wfrep_fondos', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wfrep_fondos'));
 	Route::post('export_wfcontabilidad', array('as'=>'export_wfcontabilidad', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wfcontabilidad'));
+	Route::post('export_wfnormal', array('as'=>'export_wfnormal', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wfnormal'));
 });
 
 define('ACCESS', env('ACCESS_PASS'));
