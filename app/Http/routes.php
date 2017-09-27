@@ -209,6 +209,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('export_wf_sup_prestamos', array('as'=>'export_wf_sup_prestamos', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_export_wf_sup_fondo'));
 	Route::post('export_wf_sup_contabilidad', array('as'=>'export_wf_sup_contabilidad', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wf_sup_contabilidad'));
 	Route::post('export_wf_sup', array('as'=>'export_wf_sup', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wf_sup'));
+
 });
 
 define('ACCESS', env('ACCESS_PASS'));

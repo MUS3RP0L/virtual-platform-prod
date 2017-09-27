@@ -63,7 +63,18 @@
                   {{--   <li><a href="" data-toggle="modal" data-target="#myModal-wfmuserpol" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados por Muserpol</a></li>
                     <li role="separator" class="divider"></li>
 
-                    <li><a href="" data-toggle="modal" data-target="#myModal-wfadicionales" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Trámites Adicionales</a></li> --}}
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wfrezagados" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Rezagados</a> <li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wfadicionales" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Trámites Adicionales</a> <li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wfpoder" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados con Poder</a> <li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wfprestamos" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados con Amortización(Prestamos)</a> <li>
+                     <li role="separator" class="divider"></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wfrep_fondos" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados con Amortización(Rep. Fondos)</a> <li>
+                     <li role="separator" class="divider"></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal-wfcontabilidad" data-toggle="modal"><i class="fa  fa-file-excel-o"></i>Pagados con Amortización(Contabilidad)</a> <li> --}}
+
 
 
                 </ul>

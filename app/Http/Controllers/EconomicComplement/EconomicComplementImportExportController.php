@@ -685,6 +685,8 @@ public static function import_from_bank(Request $request)
              $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)
                                                               ->where('eco_com_procedure_id','=','2')
                                                               ->where('state','=','Edited')
+                                                              ->where('wf_current_state_id','=','2')
+                                                              ->where('workflow_id','<=','3')
                                                               ->whereNotNull('review_date')
                                                               ->get();
              if($complementos)
@@ -2619,7 +2621,6 @@ public function export_wfmora_prestamos(Request $request) // EXPORTAR PAGADOS CO
               ->where('economic_complements.workflow_id','=',1)
               ->where('economic_complements.eco_com_state_id','=',1)
               ->where('economic_complements.amount_loan','>', 0)
-              //->where('economic_complements.has_legal_guardian', '=',false)
               ->get(); 
   
   
@@ -2673,7 +2674,6 @@ public function export_wfrep_fondos(Request $request) // EXPORTAR PAGADOS CON AM
               ->where('economic_complements.workflow_id','=',1)
               ->where('economic_complements.eco_com_state_id','=',1)
               ->where('economic_complements.amount_replacement','>', 0)
-              //->where('economic_complements.has_legal_guardian', '=',false)
               ->get(); 
   
   
@@ -2726,7 +2726,6 @@ public function export_wfcontabilidad(Request $request) // EXPORTAR PAGADOS CON 
               ->where('economic_complements.workflow_id','=',1)
               ->where('economic_complements.eco_com_state_id','=',1)
               ->where('economic_complements.amount_accounting','>', 0)
-              //->where('economic_complements.has_legal_guardian', '=',false)
               ->get(); 
   
   

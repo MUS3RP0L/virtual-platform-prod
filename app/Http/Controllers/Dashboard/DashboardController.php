@@ -273,6 +273,7 @@ class DashboardController extends Controller
             ->where('economic_complements.state','Edited')
             ->where('economic_complements.eco_com_procedure_id','2')
             ->whereNotNull('review_date')
+            ->where('created_at','<=','2017-08-25 23:59')
             // ->where('economic_complements.user_id',Auth::user()->id)
 
 
@@ -286,6 +287,7 @@ class DashboardController extends Controller
            ->where('eco_com_procedure_id','=','2')
            ->where('economic_complements.wf_current_state_id','2')//
            ->where('economic_complements.state','Received')
+           ->where('created_at','<=','2017-08-25 23:59')
            ->get();
            
            // dd($norevisados->count());
