@@ -105,7 +105,7 @@
 		    <td colspan="4" class="grand info_title">INFORMACIÓN DEL TRÁMITE</td>
 		  </tr>
 		  <tr>
-		    <td><strong>TIPO DE TRÁMITE: </strong></td><td>{{ $old_eco_com_modality_name }}</td>
+		    <td><strong>TIPO DE PRESTACIÓN: </strong></td><td>{{ $old_eco_com_modality_name }}</td>
 		    <td><strong>MODALIDAD: </strong></td><td>{{ $old_eco_com_modality }}</td>
 		  </tr>
 		  <tr>
@@ -123,18 +123,18 @@
 		    <td>{!! $affiliate->pension_entity->name ?? '' !!}</td>
 		  </tr>
 		  <tr>
-		    <td><strong>TIPO DE RECEPCION: </strong></td>  	
+		    <td><strong>TIPO DE TRÁMITE: </strong></td>  	
 		    <td>{!! $old_eco_com->reception_type !!}</td>  	
-		    <td><strong>FECHA DE RECEPCION:</strong></td>
+		    <td><strong>FECHA DE RECEPCIÓN:</strong></td>
 		    <td>{!! $old_eco_com_reception_date!!}</td>
 		  </tr>
 		</table>
 		<table>
 		  <tr>
-		    <td colspan="3" class="grand info_title" ><strong>CÁLCULO DEL TOTAL PAGADO</strong></td>
+		    <td colspan="3" class="grand info_title" ><strong>CÁLCULO DE TOTAL PAGADO</strong></td>
 		  </tr>
 		  <tr>
-		    <td class="grand service" rowspan="2"><b>CONCEPTO</b></td>
+		    <td class="grand service" rowspan="2"><b>DETALLE</b></td>
 		    <td class="grand service" colspan="2"><b style="text-align: center">MONTO CALCULADO</b></td>
 		  </tr>
 		  <tr>
@@ -144,43 +144,43 @@
 		    <td><b>BOLETA TOTAL</b></td><td class="number"><b>{{$old_eco_com->total_rent}}</b></td><td></td>
 		  </tr>
 		  <tr>
-		    <td>NETO</td><td class="number">{{$old_eco_com->total_rent_calc}}</td><td></td>
+		    <td>RENTA O PENSIÓN PASIVO NETO<</td><td class="number">{{Util::formatMoney($old_eco_com->total_rent_calc)}}</td><td></td>
 		  </tr>
 		  <tr>
-		    <td>REFERENTE SALARIAL</td><td class="number">{{$old_eco_com->salary_reference}}</td><td></td>
+		    <td>REFERENTE SALARIO DEL ACTIVO</td><td class="number">{{Util::formatMoney($old_eco_com->salary_reference)}}</td><td></td>
 		  </tr>
 		  <tr>
-		    <td>ANTIGÜEDAD</td><td class="number">{{$old_eco_com->seniority}}</td><td></td>
+		    <td>ANTIGÜEDAD (SEGÚN CATEGORÍA)</td><td class="number">{{Util::formatMoney($old_eco_com->seniority)}}</td><td></td>
 		  </tr>
 		  <tr>
-		    <td>SALARIO COTIZABLE</td><td class="number">{{$old_eco_com->salary_quotable}}</td><td></td>
+		    <td>SALARIO COTIZABLE (SALARIO DEL ACTIVO + ANTIGÜEDAD)</td><td class="number">{{Util::formatMoney($old_eco_com->salary_quotable)}}</td><td></td>
 		  </tr>
 		  <tr>
-		    <td>DIFERENCIA</td><td class="number">{{$old_eco_com->difference}}</td><td></td>
+		    <td>DIFERENCIA (SALARIO ACTIVO Y RENTA PASIVO)</td><td class="number">{{Util::formatMoney($old_eco_com->difference)}}</td><td></td>
 		  </tr>
 		  <tr>
-		    <td>TOTAL SEMESTRE</td><td class="number">{{$total_amount_semester}}</td><td></td>
+		    <td>TOTAL SEMESTRE (DIFERENCIA SE MULTIPLICA POR 6 MESES)</td><td class="number">{{$total_amount_semester}}</td><td></td>
 		  </tr>
 		  <tr>
-		    <td>FACTOR DE COMPLEMENTACION</td><td class="number">{{ $old_eco_com->complementary_factor }} %</td><td></td>
+		    <td>FACTOR DE COMPLEMENTACIÓN</td><td class="number">{{ Util::formatMoney($old_eco_com->complementary_factor) }} %</td><td></td>
 		  </tr>
 		  @if($old_eco_com->amount_loan)
 		  <tr>
-		    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MORA POR PRÉSTAMOS</td><td></td><td class="number" >{{$old_eco_com->amount_loan}}</td>
+		    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MORA POR PRÉSTAMOS</td><td></td><td class="number" >{{Util::formatMoney($old_eco_com->amount_loan)}}</td>
 		  </tr>
 		  @endif
 		  @if($old_eco_com->amount_accounting)
 		  <tr>
-		    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MONTO POR CONTABILIDAD</td><td></td><td class="number" >{{$old_eco_com->amount_accounting}}</td>
+		    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MONTO POR CONTABILIDAD</td><td></td><td class="number" >{{Util::formatMoney($old_eco_com->amount_accounting)}}</td>
 		  </tr>
 		  @endif
 		  @if($old_eco_com->amount_replacement)
 		  <tr>
-		    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MONTO POR REPOSICION</td><td></td><td class="number" >{{$old_eco_com->amount_replacement}}</td>
+		    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MONTO POR REPOSICION DE FONDOS</td><td></td><td class="number" >{{Util::formatMoney($old_eco_com->amount_replacement)}}</td>
 		  </tr>
 		  @endif
 		  <tr>
-		  <td class="grand service"><b>TOTAL PAGADO COMP. ECO.</b></td><td class="number"><b>{{$old_eco_com->total}}</b></td><td></td>
+		  <td class="grand service"><b>TOTAL COMPLEMENTO ECONÓMICO EN BS.</b></td><td class="number"><b>{{ Util::formatMoney($old_eco_com->total)}}</b></td><td></td>
 		  </tr>
 		  <tr>
 		  	<td colspan="3"><strong>Son: </strong>{!! $total_literal !!}</td>
