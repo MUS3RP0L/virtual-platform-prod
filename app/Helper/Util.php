@@ -264,7 +264,7 @@ class Util
 	public static function formatMoney($value)
 	{
 		if ($value) {
-	    	$value = number_format($value, 2, '.', ',');
+	    	$value = number_format($value, 2, ',', '.');
         	return $value;
 		}
     }
@@ -472,7 +472,7 @@ class Util
         'VEINTE '
     ];
     private static $DECENAS = [
-        'VENTI',
+        'VEINTI',
         'TREINTA ',
         'CUARENTA ',
         'CINCUENTA ',

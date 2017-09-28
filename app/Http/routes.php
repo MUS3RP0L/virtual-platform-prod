@@ -128,8 +128,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('get_causes_by_state', array('as'=>'get_causes_by_state', 'uses'=>'EconomicComplement\EconomicComplementController@getCausesByState'));
 
 	Route::get('economic_complement/ficha_tecnica/{id_complemento}','EconomicComplement\EconomicComplementReportController@data_shet');
-	Route::get('economic_complement/print_total/{ecomomic_complement_id}','EconomicComplement\EconomicComplementController@print_total');
-	Route::get('economic_complement/print_total_old/{ecomomic_complement_id}','EconomicComplement\EconomicComplementController@print_total_old');
+	Route::get('economic_complement/print_total/{ecomomic_complement_id}','EconomicComplement\EconomicComplementReportController@print_total');
+	Route::get('economic_complement/print_total_old/{ecomomic_complement_id}','EconomicComplement\EconomicComplementReportController@print_total_old');
 	Route::get('print_edited_data', array('as'=>'print_edited_data', 'uses'=> 'EconomicComplement\EconomicComplementReportController@print_edited_data'));
 	//david
 	Route::get('export_excel','EconomicComplement\EconomicComplementImportExportController@export_excel');
