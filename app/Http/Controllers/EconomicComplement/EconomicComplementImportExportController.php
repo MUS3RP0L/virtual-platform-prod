@@ -2849,7 +2849,8 @@ public function export_wf_sup_fondo(Request $request)
               ->whereNotNull('economic_complements.review_date')
               ->where('economic_complements.review_date','<=', "2017-08-25 23:58:00")
               ->whereIn('economic_complements.affiliate_id', $afff)
-              ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(14,15) and is_enabled = false ) ")         
+              ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(14,15) and is_enabled = false ) ")
+              ->where('economic_complements.total','>',0)
               ->get(); 
   // dd($ecom);
   if(sizeof($ecom) > 0)
@@ -2917,6 +2918,7 @@ public function export_wf_sup_prestamos(Request $request)
               ->where('economic_complements.review_date','<=', "2017-08-25 23:58:00")
               ->whereIn('economic_complements.affiliate_id', $afff)
               ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(14,15) and is_enabled = false ) ")         
+              ->where('economic_complements.total','>',0)
               ->get(); 
   // dd($ecom);
   if(sizeof($ecom) > 0)
@@ -2983,7 +2985,8 @@ public function export_wf_sup(Request $request)
               ->whereNotNull('economic_complements.review_date')
               ->where('economic_complements.review_date','<=', "2017-08-25 23:58:00")
               ->whereIn('economic_complements.affiliate_id', $afff)
-              ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(14,15) and is_enabled = false ) ")         
+              ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(14,15) and is_enabled = false ) ")
+              ->where('economic_complements.total','>',0) 
               ->get(); 
   // dd($ecom);
   if(sizeof($ecom) > 0)
@@ -3049,7 +3052,8 @@ public function export_wf_sup(Request $request)
               ->whereNotNull('economic_complements.review_date')
               ->where('economic_complements.review_date','<=', "2017-08-25 23:58:00")
               ->whereIn('economic_complements.affiliate_id', $afff)
-              ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(14,15) and is_enabled = false ) ")         
+              ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(14,15) and is_enabled = false ) ")
+              ->where('economic_complements.total','>',0)
               ->get(); 
   // dd($ecom);
   if(sizeof($ecom) > 0)
