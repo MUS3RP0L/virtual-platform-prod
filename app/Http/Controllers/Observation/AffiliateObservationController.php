@@ -148,46 +148,26 @@ class AffiliateObservationController extends Controller
     }
     public function getDataObsertaions()
     { 
-      // return "lista";
-        // $afiliados = Affiliate::take(100)->get();
-        // $afiliados = DB::table('affiliates')
-        //                         ->leftJoin('affiliate_observations','affiliates.id','=','affiliate_observations.affiliate_id')
-                         
-        //                         ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
-        //                         ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
-        //                         ->orWhere('affiliate_observations.observation_type_id',1)
-        //                         ->orWhere('affiliate_observations.observation_type_id',2)
-        //                         ->orWhere('affiliate_observations.observation_type_id',3)
-        //                         ->orWhere('affiliate_observations.observation_type_id',4)
-        //                         ->orWhere('affiliate_observations.observation_type_id',5)
-        //                         ->orWhere('affiliate_observations.observation_type_id',6)
-        //                         ->orWhere('affiliate_observations.observation_type_id',7)
-        //                         ->orWhere('affiliate_observations.observation_type_id',8)
-        //                         ->orWhere('affiliate_observations.observation_type_id',9)
-        //                         ->orWhere('affiliate_observations.observation_type_id',10)
-        //                         ->distinct('affiliates.id')
-        //                         ->select(['affiliates.id','affiliates.identity_card','affiliates.registration','degrees.shortened','affiliates.first_name','affiliates.second_name','last_name','affiliates.mothers_last_name','affiliate_states.name']);
-                                // ->get();  
-
-        $afiliados = DB::table('v_observados')->get();
+    
+        $afiliados = DB::table('v_observados');
         
-        $a = array();
-        foreach ($afiliados as $afiliado) {
+        // $a = array();
+        // foreach ($afiliados as $afiliado) {
 
-          # code...
-          $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)
-                                                           ->where('eco_com_procedure_id','=','2')
-                                                           ->where('wf_current_state_id','=','2')
-                                                           ->where('workflow_id','<=','3')
-                                                           ->where('state','=','Edited')
-                                                           ->whereNotNull('review_date')
-                                                           ->first();
-          if($complementos){
-             array_push($a, $afiliado->id);
-          }
+        //   # code...
+        //   $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)
+        //                                                    ->where('eco_com_procedure_id','=','2')
+        //                                                    // ->where('wf_current_state_id','=','2')
+        //                                                    ->where('workflow_id','<=','3')
+        //                                                    // ->where('state','=','Edited')
+        //                                                    // ->whereNotNull('review_date')
+        //                                                    ->first();
+        //   if($complementos){
+        //      array_push($a, $afiliado->id);
+        //   }
          
-        }
-        $afiliados = DB::table('v_observados')->whereIn('id',$a);
+        // }
+        // $afiliados = DB::table('v_observados')->whereIn('id',$a);
         // return $afiliados;
         return Datatables::of($afiliados)
         // ->addColumn('degrees',function($afiliado){
