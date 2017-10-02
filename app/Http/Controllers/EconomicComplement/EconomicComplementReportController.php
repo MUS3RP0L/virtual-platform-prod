@@ -972,6 +972,7 @@ class EconomicComplementReportController extends Controller
     }
     public function print_edited_data(Request $request)
     {
+      $ids=explode(',',$request->ids_print);
       $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
       $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
       $title = "&nbsp;";
@@ -990,6 +991,7 @@ class EconomicComplementReportController extends Controller
                   ->where('wf_states.role_id',($rol->id))
                   ->where('economic_complements.eco_com_procedure_id','2')
                   ->where('economic_complements.user_id',Auth::user()->id)
+                  ->whereIn('economic_complements.id',$ids)
                   ->select('economic_complements.id')
                   ->get()
                   ->pluck('id');

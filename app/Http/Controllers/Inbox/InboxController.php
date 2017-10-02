@@ -91,7 +91,9 @@ class InboxController extends Controller
             ->where('economic_complements.user_id',Auth::user()->id)
             ->select('economic_complements.id','economic_complements.code')
             // ->take(4)
-            ->get();
+            ->get()->pluck('id');
+            $economic_complements=EconomicComplement::whereIn('id',$economic_complements)->get();
+
             $data=[];
             foreach ($economic_complements as $eco) {
                 $temp=[];
@@ -99,6 +101,7 @@ class InboxController extends Controller
                 $temp[]= $eco->id;
                 $temp[]= $eco->economic_complement_applicant->identity_card;
                 $temp[]= $eco->economic_complement_applicant->getFullName();
+                $temp[]= $eco->city->second_shortened ?? '';
                 $temp[]= $eco->code;
 
                     $data[] = $temp;
