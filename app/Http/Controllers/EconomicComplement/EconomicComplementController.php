@@ -1875,15 +1875,28 @@ class EconomicComplementController extends Controller
       $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
       $affiliate = Affiliate::where('id',$economic_complement->affiliate_id)->first();
       $eco_com_applicant = EconomicComplementApplicant::EconomicComplementIs($economic_complement->id)->first();
+      $data=[
+        'header1'=>$header1,
+        'header2'=>$header2,
+        'title'=>$title,
+        'date'=>$title,
+        'hour'=>$hour,
+        'affiliate'=>$affiliate,
+        'economic_complement'=>$economic_complement,
+        'eco_com_applicant'=>$eco_com_applicant,
+        'user' => Auth::user(),
+        'user_role' =>Util::getRol()->name,
+      ];
         switch ($type) {
             case 'vejez':
-                $view = \View::make('economic_complements.print.sworn_declaration1', compact('header1','header2','title','date','hour','affiliate','economic_complement','eco_com_applicant'))->render();
+                $view = \View::make('economic_complements.print.sworn_declaration1', $data)->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
             case 'viudedad':
                 $spouse = Spouse::where('affiliate_id',$affiliate->id)->first();
-                $view = \View::make('economic_complements.print.sworn_declaration2', compact('header1','header2','title','date','hour','affiliate','spouse','economic_complement','eco_com_applicant'))->render();
+                array_push($data, $spouse);
+                $view = \View::make('economic_complements.print.sworn_declaration2', $data)->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();

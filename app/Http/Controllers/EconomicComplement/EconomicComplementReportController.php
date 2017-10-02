@@ -1132,7 +1132,7 @@ class EconomicComplementReportController extends Controller
             'header2' => $header2,
             'title' => $title,
             'total' => number_format($economic_complement->total,2,'.',','),
-            'total_literal' => $total_literal,
+            'total_literal' => $total_literal ?? '',
         ];
         $second_data = [
             'sub_total_rent' => Util::formatMoney($economic_complement->sub_total_rent),
