@@ -748,7 +748,7 @@ class EconomicComplementController extends Controller
 
         $economic_complement_legal_guardian=$economic_complement->economic_complement_legal_guardian;
         $affi_observations = AffiliateObservation::where('affiliate_id',$affiliate->id)->get();
-        Log::info($affi_observations);
+        // Log::info($affi_observations);
         if (EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->first()) {
             $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->get()->last();
             if (EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->first()) {
@@ -932,6 +932,12 @@ class EconomicComplementController extends Controller
 
         $rent_month = EconomicComplementProcedure::find($economic_complement->eco_com_procedure_id);
 
+        $has_cancel = false;
+        if(Auth::user()->id == $economic_complement->user_id)
+        {
+            $has_cancel =true;            
+        }
+
         $data = [
 
         'affiliate' => $affiliate,
@@ -960,6 +966,7 @@ class EconomicComplementController extends Controller
         'wf_state_before' => $wf_state_before,
         'buttons_enabled' => $buttons_enabled,
         'rent_month' => $rent_month,
+        'has_cancel' => $has_cancel,
         ];
         // dd($eco_com_submitted_documents_ar);
 
