@@ -19,9 +19,14 @@
                     <a href="{!! url('inbox') !!}" class="btn btn-success btn-raised bg-orange" ><i class="fa fa-refresh fa-lg"></i></a>
           </div>
 
+          {!! Form::open(['method' => 'POST', 'route' => ['print_edited_data']]) !!}
+
           <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Revisados" style="margin: 0;">
-                    <a href="{!! route('print_edited_data') !!}" class="btn btn-primary btn-raised  bg-blue" ><i class="fa fa-print fa-lg"></i></a>
+            <button class="btn btn-primary btn-raised  bg-blue" ><i class="fa fa-print fa-lg"></i>
+            </button>
+            <input type="hidden" id="ids_print" name="ids_print">
           </div>
+          {!! Form::close() !!} 
     		</div>
     </div>
 @endsection
@@ -108,6 +113,7 @@
                     </th>
                     <th>ci</th>
                     <th>Nombre</th>
+                    <th>Regional</th>
                     <th>Codigo</th>
                 </tr>
             </thead>
@@ -211,8 +217,7 @@ $(document).ready(function (){
          }
       }
    });
-    
-   $('#frm-edited').on('submit', function(e){
+   $('#frm-edited').on('change', function(e){
       var form = this;
       var ids=[];
       table.$('input[type="checkbox"]').each(function(){
@@ -227,7 +232,7 @@ $(document).ready(function (){
          }
       });
       $('#ids').val(ids);
-
+      $('#ids_print').val(ids);
    });
 });
 </script>

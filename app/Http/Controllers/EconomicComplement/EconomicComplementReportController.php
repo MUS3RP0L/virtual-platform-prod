@@ -972,10 +972,15 @@ class EconomicComplementReportController extends Controller
     }
     public function print_edited_data(Request $request)
     {
+      $ids=explode(',',$request->ids_print);
+      // dd($ids[0]);
+      $semester=EconomicComplement::where('id','=',$ids[0])->first()->economic_complement_procedure->semester;
+      $year=carbon::parse(EconomicComplement::where('id','=',$ids[0])->first()->economic_complement_procedure->year)->year;
       $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
       $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+      $city=EconomicComplement::where('id','=',$ids[0])->first()->city->name;
       $title = "&nbsp;";
-      $title2 = "PLANILLA DE FIRMAS";
+      $title2 = "Planilla de Firmas ".$semester." Semestre ".$year."- Regional ".$city;
       // $title = "REPORTE DE BENEFICIARIOS DEL COMPLEMENTO ECONÓMICO";
       setlocale(LC_ALL, "es_ES.UTF-8");
       $date = Util::getDateEdit(date('Y-m-d'));
@@ -990,11 +995,13 @@ class EconomicComplementReportController extends Controller
                   ->where('wf_states.role_id',($rol->id))
                   ->where('economic_complements.eco_com_procedure_id','2')
                   ->where('economic_complements.user_id',Auth::user()->id)
+                  ->whereIn('economic_complements.id',$ids)
                   ->select('economic_complements.id')
                   ->get()
                   ->pluck('id');
       $economic_complements=EconomicComplement::whereIn('id',$economic_complements_array)->get();
-      return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user'))->setPaper('legal')->setOrientation('landscape')->stream('report_edited.pdf');
+      $total=Util::formatMoney(Util::totalSumEcoCom($economic_complements_array));
+      return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user','total'))->setPaper('legal')->setOrientation('landscape')->stream('report_edited.pdf');
     }
 
     public function print_total($eco_com_id)
@@ -1132,7 +1139,7 @@ class EconomicComplementReportController extends Controller
             'header2' => $header2,
             'title' => $title,
             'total' => number_format($economic_complement->total,2,'.',','),
-            'total_literal' => $total_literal,
+            'total_literal' => $total_literal ?? '',
         ];
         $second_data = [
             'sub_total_rent' => Util::formatMoney($economic_complement->sub_total_rent),

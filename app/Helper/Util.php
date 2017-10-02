@@ -686,4 +686,9 @@ class Util
     	return $rol_object;
 
     }
+    public static function totalSumEcoCom($ids_eco_com)
+    {
+    	$total=EconomicComplement::whereIn('id',$ids_eco_com)->sum('total');
+    	return $total;
+    }
 }
