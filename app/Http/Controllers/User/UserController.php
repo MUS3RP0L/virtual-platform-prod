@@ -349,10 +349,20 @@ class UserController extends Controller
     public function ChangeRol()
     {
         // return Util::getRol();
-        $roles = Auth::user()->roles;
+        $roles =  Auth::user()->roles;
+
+        // dd($roles);
+        $new_roles = array();
+        foreach ($roles as $role) {
+            # code...
+            if($role->id!=3)
+            {
+                array_push($new_roles, $role);
+            }
+        }
         // return $roles;
 
-        return view('auth.change')->with('roles',$roles);
+        return view('auth.change')->with('roles',$new_roles);
        
         
     }

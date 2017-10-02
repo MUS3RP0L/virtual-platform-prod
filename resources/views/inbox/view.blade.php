@@ -92,7 +92,7 @@
 <div class="col-md-6">
 	<div class="box box-success">
 		<div class="box-header with-border">
-			<h3 class="box-title">{{Auth::user()->roles->first()->action}}</h3>
+			<h3 class="box-title"> {{Util::getRol()->action}} </h3>
 		</div>
 		<div class="box-body">
 		{!! Form::open(['method' => 'POST', 'route' => ['inbox.store'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}
