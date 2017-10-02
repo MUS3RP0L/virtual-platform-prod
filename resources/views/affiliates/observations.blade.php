@@ -93,10 +93,12 @@ $(function() {
 
         ],
         initComplete: function(){
-            this.api().columns().every(function(){
+            this.api().columns('0,1,2,3,4').every(function(){
                 var column = this;
                 var input = document.createElement('input');
-
+                input.setAttribute('class','form-control');
+                input.setAttribute('placeholder','filtro');
+                // input.setAttribute('size','filtro');
                 $(input).appendTo($(column.footer()).empty()).on(
                     'change',function(){
                     
@@ -108,9 +110,7 @@ $(function() {
 
 });
 
-$(document).ready(function(){
-    $('input[type=text]').addClass('form-control');
-});
+
 </script>
 @endpush
 
