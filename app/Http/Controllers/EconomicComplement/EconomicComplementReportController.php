@@ -973,10 +973,14 @@ class EconomicComplementReportController extends Controller
     public function print_edited_data(Request $request)
     {
       $ids=explode(',',$request->ids_print);
+      // dd($ids[0]);
+      $semester=EconomicComplement::where('id','=',$ids[0])->first()->economic_complement_procedure->semester;
+      $year=carbon::parse(EconomicComplement::where('id','=',$ids[0])->first()->economic_complement_procedure->year)->year;
       $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
       $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+      $city=EconomicComplement::where('id','=',$ids[0])->first()->city->name;
       $title = "&nbsp;";
-      $title2 = "PLANILLA DE FIRMAS";
+      $title2 = "Planilla de Firmas ".$semester." Semestre ".$year."- Regional ".$city;
       // $title = "REPORTE DE BENEFICIARIOS DEL COMPLEMENTO ECONÓMICO";
       setlocale(LC_ALL, "es_ES.UTF-8");
       $date = Util::getDateEdit(date('Y-m-d'));

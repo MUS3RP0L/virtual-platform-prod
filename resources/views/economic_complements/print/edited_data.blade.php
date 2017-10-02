@@ -1,6 +1,6 @@
 @extends('globalprint.wkhtml')
 @section('title2')
-<center>{{ $title2 }}</center> 
+<center class="title">{{ $title2 }}</center> 
 @endsection
 @section('content')
   <style type="text/css">
@@ -18,6 +18,10 @@
     text-align: center
   }
   tr {page-break-inside: avoid; }
+  .title {
+  margin-bottom: 0px;
+  font-size: 0.9em;
+}
 </style>
       <div id="project">
         <table class="tablee">

@@ -132,7 +132,7 @@ class EconomicComplement extends Model
     }
     public function economic_complement_procedure()
     {
-        return $this->belongsTo(EconomicComplementProcedure::class);
+        return $this->belongsTo(EconomicComplementProcedure::class,'eco_com_procedure_id');
     }
     public function economic_complement_state()
     {
