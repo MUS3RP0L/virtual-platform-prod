@@ -5,6 +5,9 @@
   <title>PLATAFORMA VIRTUAL - MUSERPOL</title>
   
   <style>
+    html,body{
+      font-family: 'Arial', sans-serif;
+    }
     .qrCode{
       position: absolute;
       left: 80%;
