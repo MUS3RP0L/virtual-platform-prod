@@ -990,9 +990,9 @@ class EconomicComplementReportController extends Controller
       $user = Auth::user();
       $current_date = Carbon::now();
       $hour = Carbon::parse($current_date)->toTimeString();
-      $rol = Util::getRol();
+      $user_role = Util::getRol()->name;
       $economic_complements_array=EconomicComplement::where('economic_complements.state','Edited')->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
-                  ->where('wf_states.role_id',($rol->id))
+                  ->where('wf_states.role_id',(Util::getRol()->id))
                   ->where('economic_complements.eco_com_procedure_id','2')
                   ->where('economic_complements.user_id',Auth::user()->id)
                   ->whereIn('economic_complements.id',$ids)
@@ -1002,7 +1002,8 @@ class EconomicComplementReportController extends Controller
       $economic_complements=EconomicComplement::whereIn('id',$economic_complements_array)->get();
       $total=Util::formatMoney(Util::totalSumEcoCom($economic_complements_array));
       // 215.9 x 355.6
-      return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user','total'))->setOption('page-width','215')->setOption('page-height', '330')->setOrientation('landscape')->stream('report_edited.pdf');
+      // return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user','total'))->setOption('page-width','116')->setOption('page-height', '330')->setOrientation('landscape')->stream('report_edited.pdf');
+      return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user', 'user_role','total'))->setPaper('letter')->setOrientation('landscape')->stream('report_edited.pdf');
     }
 
     public function print_total($eco_com_id)
