@@ -34,15 +34,15 @@
               <div class="box-header with-border">
                     <h3 class="box-title"><span class="glyphicon glyphicon-search"></span> Búsqueda</h3>
                 </div>
+
                 <div class="box-body">
-                
                         <table class="table table-bordered" id="observation-table">
                                 <thead>
                                     <tr>
                                   
                                         <th> Nro. Carnet </th>
-                                        <th> Matricula </th>
-                                        <th> Grado </th>
+                                      {{--  <th> Matricula </th> --}}
+                                      {{--  <th> Grado </th> --}}
                                         <th> Nombres</th>
                                         <th> Apellidos</th>
                                      
@@ -52,12 +52,21 @@
                                       
                                     </tr>
                                 </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        {{-- <th></th> --}}
+                                        {{-- <th></th> --}}
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+
                         </table>
-                    
-                </div>  
-
-              
-
+                </div> 
             </div>
         </div>
 </div>
@@ -74,16 +83,33 @@ $(function() {
         columns: [
             
             { data: 'identity_card', name: 'identity_card' },
-            { data: 'registration', name: 'registration' },
-            { data: 'shortened', name: 'shortened' },
+            //{ data: 'registration', name: 'registration' },
+            //{ data: 'shortened', name: 'shortened' },
             { data: 'names', name: 'names' },
             { data: 'surnames', name: 'surnames' },
-            { data: 'state', name: 'state',orderable: false, searchable: false},
+            { data: 'state', name: 'state',orderable: false, searchable: true},
             { data: 'observation', name: 'observation' },
             { data: 'action', name: 'action' , orderable: false, searchable: false }
 
-        ]
+        ],
+        initComplete: function(){
+            this.api().columns().every(function(){
+                var column = this;
+                var input = document.createElement('input');
+
+                $(input).appendTo($(column.footer()).empty()).on(
+                    'change',function(){
+                    
+                        column.search($(this).val()).draw();
+                    });
+            });
+        }
     });
+
+});
+
+$(document).ready(function(){
+    $('input[type=text]').addClass('form-control');
 });
 </script>
 @endpush
