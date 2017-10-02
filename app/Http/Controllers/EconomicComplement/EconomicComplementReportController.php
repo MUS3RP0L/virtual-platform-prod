@@ -1001,7 +1001,8 @@ class EconomicComplementReportController extends Controller
                   ->pluck('id');
       $economic_complements=EconomicComplement::whereIn('id',$economic_complements_array)->get();
       $total=Util::formatMoney(Util::totalSumEcoCom($economic_complements_array));
-      return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user','total'))->setPaper('legal')->setOrientation('landscape')->stream('report_edited.pdf');
+      // 215.9 x 355.6
+      return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user','total'))->setOption('page-width','215')->setOption('page-height', '330')->setOrientation('landscape')->stream('report_edited.pdf');
     }
 
     public function print_total($eco_com_id)

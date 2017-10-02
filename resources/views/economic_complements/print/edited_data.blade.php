@@ -33,7 +33,7 @@
                <th style="padding: 3px; width: 30px" class="grand">GRADO</th>
                <th style="padding: 3px; width: 30px" class="grand">N° DE TRAMITE</th>
                <th style="padding: 3px; width: 20px" class="grand">LIQ. PAGABLE</th>
-               <th style="padding: 3px; width: 150px" class="grand">FIRMA</th>
+               <th style="padding: 3px; width: 110px" class="grand">FIRMA</th>
            </tr>
            <?php $x=10?>  
             @foreach($economic_complements as $index=>$item)
