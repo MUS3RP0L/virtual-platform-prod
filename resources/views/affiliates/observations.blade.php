@@ -34,7 +34,9 @@
               <div class="box-header with-border">
                     <h3 class="box-title"><span class="glyphicon glyphicon-search"></span> Búsqueda</h3>
                 </div>
-
+                <div id="tablaDetalle_wrapper">
+                    <div id="tablaDetalle_filter"></div>
+                </div>    
                 <div class="box-body">
                         <table class="table table-bordered" id="observation-table">
                                 <thead>
@@ -98,13 +100,28 @@ $(function() {
                 var input = document.createElement('input');
                 input.setAttribute('class','form-control');
                 input.setAttribute('placeholder','filtro');
-                // input.setAttribute('size','filtro');
+                input.setAttribute('size','10');
                 $(input).appendTo($(column.footer()).empty()).on(
                     'change',function(){
                     
                         column.search($(this).val()).draw();
                     });
             });
+
+
+            var div = $('#tablaDetalle_wrapper');
+              div.find("#tablaDetalle_filter").prepend(
+                "<label for='observacion'>Por tipo Observación:</label><select id='txtObservation' name='txtObservation' class='form-control' required><option>Seleccione</option><option value='Observación por Categoria'>Observación por Categoria</option><option value='Observación Falta de Requisitos'>Observación Falta de Requisitos</option></select>"
+                );
+              this.api().column(4).each(function() {
+                  var column = this;
+                  console.log(column.data());
+                  $('#txtObservation').on('change', function() {
+                      var val = $(this).val();
+                      column.search(val ? '^' + val + '$' : '', true, false)
+                          .draw();
+                  });
+              });
         }
     });
 

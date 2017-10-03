@@ -38,6 +38,18 @@
                                 <th class="text-center">Acción</th>
                             </tr>
                         </thead>
+                        <tfoot>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        
+                        </tfoot>
                     </table>
                 </div>
 			</div>
@@ -71,6 +83,7 @@
                     { data: 'status', bSortable: false },
                     { data: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
                 ]
+
             });
         });
 
