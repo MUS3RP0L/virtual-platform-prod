@@ -1,10 +1,10 @@
 @extends('app')
 @section('contentheader_title')
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-5">
             {!! Breadcrumbs::render('show_inbox') !!}
         </div>
-    		<div class="col-md-6 text-right">
+    		<div class="col-md-7 text-right">
     			
           <div class="btn-group"  data-toggle="tooltip" data-original-title="Exportar Informe Usuario" style="margin: 0;">
                     <a href="{!! url('export_excel_user') !!}" class="btn btn-success btn-raised bg-blue" ><i class="glyphicon glyphicon-save glyphicon-lg"></i></a>
@@ -19,14 +19,16 @@
                     <a href="{!! url('inbox') !!}" class="btn btn-success btn-raised bg-orange" ><i class="fa fa-refresh fa-lg"></i></a>
           </div>
 
+          @can('eco_com_qualification')
+          <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Revisados" style="margin: 0;">
           {!! Form::open(['method' => 'POST', 'route' => ['print_edited_data']]) !!}
 
-          <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Revisados" style="margin: 0;">
             <button class="btn btn-primary btn-raised  bg-blue" ><i class="fa fa-print fa-lg"></i>
             </button>
             <input type="hidden" id="ids_print" name="ids_print">
-          </div>
           {!! Form::close() !!} 
+          </div>
+          @endcan
     		</div>
     </div>
 @endsection

@@ -972,6 +972,23 @@ class EconomicComplementReportController extends Controller
     }
     public function print_edited_data(Request $request)
     {
+      $rules = [
+          'ids_print' =>'required',
+      ];
+
+      $messages = [
+          'ids_print.required' => 'Debe Seleccionar al menos un Trámite.',
+      ];
+
+      $validator = Validator::make($request->all(), $rules, $messages);
+
+      if ($validator->fails()) {
+          return redirect('inbox')
+          ->withErrors($validator)
+          ->withInput();
+      }else{
+
+
       $ids=explode(',',$request->ids_print);
       // dd($ids[0]);
       $semester=EconomicComplement::where('id','=',$ids[0])->first()->economic_complement_procedure->semester;
@@ -1004,6 +1021,7 @@ class EconomicComplementReportController extends Controller
       // 215.9 x 355.6
       // return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user','total'))->setOption('page-width','116')->setOption('page-height', '330')->setOrientation('landscape')->stream('report_edited.pdf');
       return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user', 'user_role','total'))->setPaper('letter')->setOrientation('landscape')->stream('report_edited.pdf');
+      }
     }
 
     public function print_total($eco_com_id)
