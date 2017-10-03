@@ -195,14 +195,22 @@
 	<td colspan="3"><b> </b>{!!$economic_complement->comment!!}</td>
 	</tr>
 	</table>
+	<br>
 	<table>
+		<tr>
+			<td class="padding-top">Elaborado por</td>
+			<td class="padding-top">Revisado por</td>
+			<td class="padding-top">Aprobado por</td>
+		</tr>
+	</table>
+	{{-- <table>
 	  <tr>
 	    <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>____________________________________________</th>
 	  </tr>
 	  <tr>
 	    <th class="info" style="border: 0px;text-align:center;"><b>Elaborado por {!! $user->getFullName() !!} <br> {!! $user->position !!} </b></th>        
 	  </tr>
-	</table>
+	</table> --}}
 
 </div>
 @endsection

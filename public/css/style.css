@@ -280,3 +280,8 @@ footer {
 .text-right{
   text-align: right;
 }
+.padding-top{
+  width: 33%;
+  padding-top:50px;
+  text-align:center;
+}
