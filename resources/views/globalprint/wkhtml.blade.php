@@ -77,7 +77,7 @@
 
         <div id="izq"><b>Fecha Emisi&#243n: </b> La Paz, {!! $date !!}-{!! $hour !!}</div>
         @if(isset($user))
-            <div id="der"><b>Usuario: </b> {!! $user->first_name !!} {!! $user->last_name !!} - {!! $user->getAllRolesToString() !!}</div>
+            <div id="der"><b>Usuario: </b> {!! $user->first_name !!} {!! $user->last_name !!} - {!! $user_role !!}</div>
        
         @endif
 

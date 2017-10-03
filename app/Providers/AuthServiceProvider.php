@@ -76,7 +76,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $gate->define('eco_com_review',function($user){
             // foreach ($user->roles as $role) {
-                if(Util::getRol()->id == 3){
+                if(Util::getRol()->id == 4){
                     return true;
                 }
             // }
@@ -85,7 +85,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $gate->define('eco_com_review_and_reception',function($user){
             // foreach ($user->roles as $role) {
-                if(Util::getRol()->id == 3 || Util::getRol()->id == 2 ){
+                if(Util::getRol()->id == 4 || Util::getRol()->id == 2 ){
                     return true;
                 }
             // }
