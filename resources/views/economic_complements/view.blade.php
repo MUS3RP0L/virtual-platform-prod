@@ -114,6 +114,7 @@
                             </div>
 
                             @can("eco_com_review_and_reception")
+                            @if($has_cancel)
                             <div class="col-md-2 text-right">
                                 <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                     <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-personal">
@@ -121,6 +122,7 @@
                                     </a>
                                 </div>
                             </div>
+                            @endif
                             @endcan
                         </div>
                     </div>
@@ -357,6 +359,7 @@
                             </div>
                         </div>
                         @can('eco_com_review_and_reception')
+                        @if($has_cancel)
                         {{--@can('showEdit', $economic_complement)--}}
                         <div class="col-md-4 text-right">
                             <span data-toggle="tooltip" data-placement="left" data-original-title="Editar">
@@ -365,6 +368,7 @@
                                 </a>
                             </span>
                         </div>
+                        @endif
                         @endcan
                     </div>
                 </div>
@@ -631,6 +635,7 @@
                             <h3 class="box-title"><span class="fa fa-shield"></span> Informacion del Apoderado</h3>
                         </div>
                         @can("eco_com_review_and_reception")
+                        @if($has_cancel)
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-guardian">&nbsp;&nbsp;
@@ -638,6 +643,7 @@
                                 </a>
                             </div>
                         </div>
+                        @endif
                         @endcan
 
 
@@ -771,6 +777,8 @@
                             <h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span> Requisitos Presentados</h3>
                         </div>
                         @can("eco_com_review_and_reception")
+
+                        @if($has_cancel)
                         {{--@can('showEdit', $economic_complement)--}}
                             <div class="col-md-2 text-right">
                                 <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
@@ -779,6 +787,7 @@
                                     </a>
                                 </div>
                             </div>
+                        @endif  
                         @endcan
                     </div>
                 </div>
@@ -835,12 +844,14 @@
                         </div>
                         <div class="col-md-4 text-right">
                             @can("eco_com_review_reception_calification")
+
+                            @if($has_cancel)
                             {{--@can('showEdit', $economic_complement)--}}
                             
                                 <span data-toggle="modal" data-target="#policeModal">
                                     <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
                                 </span>
-                           
+                            @endif
                             @endcan
                             @can("accounting")
                            
@@ -1090,31 +1101,33 @@
 
                     </div>
                         @can('eco_com_qualification')
-                            @if($economic_complement->total_rent > 0 )
-                                @if($economic_complement->old_eco_com)
-                                <div class="col-md-2">
-                                    <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir Formulario CE -1">
-                                        <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print-old">&nbsp;&nbsp;
-                                            <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
-                                        </a>
-                                   </div>
-                                </div>
+                            @if($has_cancel)
+                                @if($economic_complement->total_rent > 0 )
+                                    @if($economic_complement->old_eco_com)
+                                    <div class="col-md-2">
+                                        <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir Formulario CE -1">
+                                            <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print-old">&nbsp;&nbsp;
+                                                <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
+                                            </a>
+                                       </div>
+                                    </div>
+                                    @endif
+                                    <div class="col-md-2">
+                                        <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir {{ $economic_complement->old_eco_com ? 'Formulario CE - 2' : 'Formulario CE - 1' }}">
+                                            <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print">&nbsp;&nbsp;
+                                                <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
+                                            </a>
+                                        </div>
+                                    </div>
                                 @endif
                                 <div class="col-md-2">
-                                    <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir {{ $economic_complement->old_eco_com ? 'Formulario CE - 2' : 'Formulario CE - 1' }}">
-                                        <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print">&nbsp;&nbsp;
-                                            <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
+                                    <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                        <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals">&nbsp;&nbsp;
+                                            <span class="fa fa-lg fa-calculator" aria-hidden="true"></span>&nbsp;&nbsp;
                                         </a>
                                     </div>
                                 </div>
                             @endif
-                            <div class="col-md-2">
-                                <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals">&nbsp;&nbsp;
-                                        <span class="fa fa-lg fa-calculator" aria-hidden="true"></span>&nbsp;&nbsp;
-                                    </a>
-                                </div>
-                            </div>
                         @endcan
                 </div>
                 <div class="box-body">
@@ -1290,7 +1303,7 @@
                             <h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span> Documentos Presentados</h3>
                         </div>
                         @can("eco_com_review_and_reception")
-
+                        @if($has_cancel)
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-yellow-active" data-toggle="modal" data-target="#myModal-requirements-ar">&nbsp;&nbsp;
@@ -1298,6 +1311,7 @@
                                 </a>
                             </div>
                         </div>
+                        @endif 
                         @endcan
                     </div>
                 </div>
