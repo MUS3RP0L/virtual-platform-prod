@@ -65,6 +65,14 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
+        $gate->define('economic_complement-treasury',function($user){
+
+            if(Util::getRol()->module_id == 2 || Util::getRol()->module_id == 9)
+            {
+                return true;
+            }
+            return false;
+        });
         $gate->define('eco_com_reception',function($user){
             // foreach ($user->roles as $role) {
                 if(Util::getRol()->id == 2){

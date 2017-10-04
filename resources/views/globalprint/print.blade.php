@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>PLATAFORMA VIRTUAL - MUSERPOL</title>
-  <link rel="stylesheet" href="css/style.css" media="all" />
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}" media="all" />
 </head>
 <body>
   <header class="clearfix">

@@ -7,7 +7,7 @@
             <li {!! (Request::is('home') ? 'class=active' : '') !!}>
                 <a href="{!! url('home') !!}"><i class='fa fa-fw fa-tachometer' aria-hidden="true"></i>&nbsp; <span>Inicio</span></a>
             </li>
-            @if(Util::getRol()->module_id==2)
+            @can('economic_complement-treasury')
             <li {!! (Request::is('inbox') ? 'class=active' : '') !!}>
                 <a href="{!! url('inbox') !!}"><i class='fa fa-fw fa-inbox' aria-hidden="true"></i>&nbsp; <span>Mi Bandeja</span></a>
             </li>
