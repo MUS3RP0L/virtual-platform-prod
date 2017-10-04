@@ -3,54 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>PLATAFORMA VIRTUAL - MUSERPOL</title>
-
-  <style>
-    html,body{
-      font-family: 'Arial', sans-serif;
-    }
-    h4{
-      font-size: 1.2em;
-    }
-    .tableh {
-      height: 20px;
-      width: 100%;
-      border-top: 1px solid  #5D6975;
-      border-bottom: 1px solid  #5D6975;
-      border-collapse: collapse;
-      border-spacing: 0;
-      margin-bottom: 3px;
-    }
-    .qrCode{
-      position: absolute;
-      left: 80%;
-      bottom: 15%;
-    }
-    div#izq{
-        float:left;
-        font-size: 10px;
-    }
-    div#der{
-      float:right;
-      font-size: 10px;
-    }
-    #logo {
-      text-align: left;
-      margin-bottom: 5px;
-    }
-    #logo2 {
-      text-align: right;
-      margin-bottom: 5px;
-      margin-right: 15px;
-    }
-
-    #logo img {
-      width: 140px;
-    }
-
-    #logo2 img {
-      width: 65px;
-    }
-  </style>
+  <link rel="stylesheet" href="{{ asset('css/wkhtml.css') }}">
 </head>
 <body>
   <header class="clearfix">
@@ -74,35 +27,26 @@
         </th>
       </tr>
     </table>
-
-        <div id="izq"><b>Fecha Emisi&#243n: </b> La Paz, {!! $date !!}-{!! $hour !!}</div>
+        <div id="izq"><strong>Fecha de Emisi&#243n: </strong> La Paz, {!! $date !!} - {!! $hour !!}</div>
         @if(isset($user))
-            <div id="der"><b>Usuario: </b> {!! $user->first_name !!} {!! $user->last_name !!} - {!! $user_role !!}</div>
-       
+            <div id="der"><strong>Usuario: </strong>{!! $user->first_name !!} {!! $user->last_name !!} - {!! $user_role !!}</div>
         @endif
-
-    <h2>
-      <center><b>{{ $title }}</b></center>
+    <h2 class="title">
+      {{ $title }}
       @yield('title2')
     </h2>
-   
     @yield('content')
   </header>
-  <br>
-  <footer>
-    
-    {{-- <center>PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLIC&#205A - {{ $anio }}</center> --}}
 
-      <div align="right">
-        <table>
-          <tr>
-            <th class="info" style="border: 0px;text-align:right;width: 100% ">
+  {{-- <div class="qr-code"> --}}
+    {{-- <span>PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLIC&#205A - 2017</span> --}}
+      {{-- <div align="right"> --}}
                 @if(isset($eco_com_applicant))
-                    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(90)->generate(
+                    <img  class="qr-code" src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(80)->margin(0)->generate(
                     $title.'                                     '.
                     'Registro: Nº '.$eco_com_applicant->code.' || '.
                     $eco_com_applicant->getTitleNameFull().' || '.
-                    'Carnet de Identidad: '.$eco_com_applicant->identity_card.' '.$eco_com_applicant->city_identity_card->first_shortened.' || '.
+                    'Carnet de Identidad: '.$eco_com_applicant->identity_card.' '.($eco_com_applicant->city_identity_card->first_shortened ?? '').' || '.
                     'Edad del Afiliado: '.$eco_com_applicant->getHowOld().' || '.
                     'Numero de CUA/NUA: '.$eco_com_applicant->nua
                     )) !!} ">
@@ -111,7 +55,7 @@
                             <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(90)->generate(
                             $title.'                                     '.
                             $affiliate->getTitleNameFull().' || '.
-                            'Carnet de Identidad: '.$affiliate->identity_card.' '.$affiliate->city_identity_card->first_shortened.' || '.
+                            'Carnet de Identidad: '.$affiliate->identity_card.' '.($affiliate->city_identity_card->first_shortened ?? '').' || '.
                             'Edad del Afiliado: '.$affiliate->getHowOld().' || '.
                             'Numero de CUA/NUA: '.$affiliate->nua
                             )) !!} ">
@@ -132,10 +76,7 @@
                     $title.'                                     '
                     )) !!} ">
                 @endif
-            </th>
-          </tr>
-        </table>
-      </div>
-  </footer>
+                {{-- </div> --}}
+      {{-- </div> --}}
 </body>
 </html>
