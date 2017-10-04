@@ -199,8 +199,14 @@ $(document).ready(function (){
          'orderable':false,
          'className': 'dt-body-center',
          'render': function (data, type, full, meta){
+          console.log(full);
+            if (full==4){
+               return '<a href="'+data+'">'+data+'</a>';
+            }else{
+
             return '<input type="checkbox" name="id[]" value="' 
                 + $('<div/>').text(data).html() + '">';
+            }
          }
       }],
       'order': [1, 'asc']
