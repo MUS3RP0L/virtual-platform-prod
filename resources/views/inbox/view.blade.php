@@ -51,7 +51,7 @@
       @can('eco_com_approval')
       <div class="col-md-3">
         <span data-toggle="modal" data-target="#sendAllModal" >
-          <a href="#" class="btn btn-md btn-raised btn-success" data-toggle="tooltip" data-placement="top" title="Enviar todos los tramites" ><i class="fa  fa-2x fa-arrow-circle-o-right"></i></a>
+          <a href="#" class="btn btn-md btn-raised btn-success" data-toggle="tooltip" data-placement="top" title="Derivar todos los tramites" ><i class="fa  fa-2x fa-arrow-circle-o-right"></i></a>
         </span>
       </div>
       <!-- Modal -->
@@ -60,7 +60,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel"><strong>¿Esta seguro de enviar Todos los tramites?</strong></h4>
+              <h4 class="modal-title" id="myModalLabel"><strong>¿Esta seguro de derivar todos los trámites?</strong></h4>
             </div>
             <div class="row text-center">
               {!! Form::open(['method' => 'POST', 'route' => ['inbox_send_all'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}

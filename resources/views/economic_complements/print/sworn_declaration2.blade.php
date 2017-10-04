@@ -4,11 +4,6 @@
 Formulario Nº 2
 @endsection
 @section('content')
-<style>
-  body{
-    font-size: 10px;
-  }
-</style>
 <div class="title2"><strong class="code">Trámite: Nº {!! $economic_complement->code !!}</strong></div>
 <div id="project">
         {{--Información beneficiario--}}
