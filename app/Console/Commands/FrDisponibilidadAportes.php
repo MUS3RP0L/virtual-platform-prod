@@ -48,7 +48,8 @@ class FrDisponibilidadAportes extends Command
 
         $afiliados = DB::table('affiliates')->leftJoin('affiliate_records','affiliate_records.affiliate_id','=','affiliates.id')
                                             ->where('affiliate_records.affiliate_state_id','=',3)
-                                            ->where('affiliate_records.date','>','2014-01-01')
+                                            // ->where('affiliate_records.date','>','2014-01-01')
+                                            ->whereIn('affiliates.identity_card',['1790059','926639','973801','612789','3131418','2337957','1546432','649285','1043056','1036442','846634','2186184','717961','1288213','782912','2231236','847014','1260816','2040896','2331395','792791','1280877','10672493','1666993','625022','2819519-1H','1623048','1665214','619691','1550545','2049821','1658779','1270080','853190','611719','2073400','1018426','2722115','3168456','1656943','587751-1D','2280555','495098','1247520','472233','620349-1T','1271103','2163740','1254873','834652','1256382','2324761','1647434','2808330','7126952','434032','1255663','2059956','827763','1258184','2091731','2213810','2063870','972165','1048639','1951751','2323723','832270','850081','856328','634859','814723','2239041','381949','1782986','2346423','1520764','397186','1031683','792218','1269943','834747','2044351','1266104','328259','2331143','642413','8154391','1251468','587735','1667164','1274552','620443','612617'])
                                             ->distinct()
                                             ->select('affiliates.id','affiliate_records.date')
                                             ->get();    
@@ -86,7 +87,7 @@ class FrDisponibilidadAportes extends Command
             $fecha_d = DB::table('affiliate_records')
                         ->join('affiliates','affiliate_records.affiliate_id','=','affiliates.id')
                         ->where('affiliate_records.affiliate_state_id','=',3)
-                        ->where('affiliate_records.date','>','2014-01-01')
+                        // ->where('affiliate_records.date','>','2014-01-01')
                         ->where('affiliates.identity_card','=',$afiliado->identity_card)->distinct()->select('affiliate_records.date')->get();
 
   
@@ -174,7 +175,6 @@ class FrDisponibilidadAportes extends Command
 
         }
 
-
         Log::info(" el tamañno ". sizeof($rows) );
 
              Excel::create('informe Fondo de Retiro Aportes',function($excel)
@@ -197,7 +197,7 @@ class FrDisponibilidadAportes extends Command
 
                               });
 
-                    })->store('xls', storage_path('excel/exports'));
+              })->store('xls', storage_path('excel/exports'));
 
 
         $this->info("Finished XD");

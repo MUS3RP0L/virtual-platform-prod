@@ -29,16 +29,17 @@ class InboxController extends Controller
     public function index()
     {   
       
-        if(Util::getRol()->module_id ==2 )
+        if(Util::getRol()->module_id ==2 || Util::getRol()->module_id ==9 )
         {
             $sw_actual = WorkflowState::where('role_id',Util::getRol()->id)->first();
-        
-            $sequence = WorkflowSequence::where("workflow_id",1)
+            // dd($sw_actual);
+            $sequence = WorkflowSequence::where("workflow_id",'<=',3)
                                          ->where("wf_state_current_id",$sw_actual->id)
                                          ->where('action','Aprobar')
                                          ->first();
-        
+            // dd($sequence);
             $sw_siguiente = WorkflowState::where('id',$sequence->wf_state_next_id)->first();
+            // dd($sw_siguiente);
             $data = array('sw_actual' => $sw_actual, 'sw_siguiente' => $sw_siguiente );
             return view('inbox.view',$data);
         }
