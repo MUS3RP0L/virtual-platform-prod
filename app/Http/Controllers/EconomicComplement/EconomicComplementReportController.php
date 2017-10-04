@@ -1020,7 +1020,7 @@ class EconomicComplementReportController extends Controller
       $total=Util::formatMoney(Util::totalSumEcoCom($economic_complements_array));
       // 215.9 x 355.6
       // return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user','total'))->setOption('page-width','116')->setOption('page-height', '330')->setOrientation('landscape')->stream('report_edited.pdf');
-      return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user', 'user_role','total'))->setPaper('letter')->setOrientation('landscape')->stream('report_edited.pdf');
+      return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user', 'user_role','total'))->setPaper('letter')->setOrientation('landscape')->setOPtion('footer-center', 'Pagina [page] de [toPage]')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017')->stream('report_edited.pdf');
       }
     }
 

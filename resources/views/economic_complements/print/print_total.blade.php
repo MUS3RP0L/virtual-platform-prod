@@ -70,18 +70,14 @@
   	<tr>
   		<td><strong>TELÉFONO:</strong></td>
   		<td>
-  			@foreach(explode(',',$eco_com_applicant->phone_number) as $phone)
-  			{!! $phone !!}<br/>
-  			@endforeach
+        {!! explode(',',$eco_com_applicant->phone_number)[0] !!}<br/>
+      </td>
+      <td><strong>CELULAR:</strong></td>
+      <td>
+  			{!! explode(',',$eco_com_applicant->cell_phone_number)[0] !!}<br/>
   		</td>
-  		<td><strong>CELULAR:</strong></td>
-  		<td>
-  			@foreach(explode(',',$eco_com_applicant->cell_phone_number) as $phone)
-  			{!! $phone !!}<br/>
-  			@endforeach
-  		</td>
-      <td></td>
-      <td></td>
+      <td>Lugar de Nac.</td>
+      <td>{!! $eco_com_applicant->city_birth->second_shortened ?? '' !!}</td>
   	</tr>
   </table>
 

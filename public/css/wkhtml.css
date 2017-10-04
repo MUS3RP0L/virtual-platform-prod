@@ -1,0 +1,168 @@
+html,body{
+	font-weight: 100;
+	font-size: 11px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 8px;
+}
+
+.tableh {
+  height: 15px;
+  width: 100%;
+  border-top: 1px solid  #5D6975;
+  border-bottom: 1px solid  #5D6975;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 3px;
+}
+
+.tablet {
+  width: 100%;
+  border-spacing: 0;
+  margin-top: -5px;
+  margin-bottom: -10px;
+}
+
+table tr:nth-child(2n-1) td {
+  /*background: #eaeaea;*/
+}
+
+table th,
+table td {
+  text-align: center;
+  font-size: 0.99em;
+}
+
+table th {
+  padding: 3px 3px 1px 6px;
+  color: #000;
+  border: 1px solid #3c3c3c;
+  white-space: nowrap;
+  font-weight: normal;
+}
+
+table .service,
+table .desc {
+  text-align: left;
+}
+
+table td {
+  padding: 3px 6px 1px 6px;
+  text-align: left;
+  border: 1px solid #3c3c3c;
+}
+
+table td.service,
+table td.desc {
+  vertical-align: top;
+  font-size: 0.78em;
+}
+
+table td.unit,
+table td.qty,
+table td.total {
+  font-size: 1.2em;
+  text-align: right;
+  width: 50%;
+
+}
+
+table td.info {
+  font-size: 1.2em;
+}
+
+table td.cert {
+  font-size: 1.2em;
+  text-align: center;
+}
+
+table td.certitle {
+  font-weight: bold;
+  font-size: 0.8em;
+  text-align: center;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+}
+table td.certitle2 {
+  border-top: 0px;
+  border-bottom: 0px;
+}
+
+table td.grand {
+  background: #eaeaea;
+  font-weight: bold;
+}
+
+table th.grand {
+  background: #eaeaea;
+  text-align: center;
+}
+.title {
+  margin-top: 25px;
+  margin-bottom: 0;
+  font-size: 1.5em;
+  text-align: center
+}
+.title2 {
+  margin-bottom: 0px;
+  font-size: 0.9em;
+  text-align: right;
+}
+strong, .bold{
+	font-weight: bold;
+}
+.size-13{
+  font-size: 13px;
+}
+.size-12{
+  font-size: 12px;
+}
+.size-10{
+	font-size: 10px;
+}
+div#izq{
+    float:left;
+    font-size: 10px;
+}
+div#der{
+  float:right;
+  font-size: 10px;
+}
+#logo {
+  text-align: left;
+  margin-bottom: 5px;
+}
+#logo2 {
+  text-align: right;
+  margin-bottom: 5px;
+  margin-right: 15px;
+}
+
+#logo img {
+  width: 140px;
+}
+
+#logo2 img {
+  width: 65px;
+}
+.qr-code{
+  width: 100px;
+  height: auto;
+  margin:0; 
+  position: absolute;
+  right:0%;
+  top: 99%;
+}
+h4{
+  font-size:1.2em;
+  margin:0;
+}
+.code{
+ border: 1px solid #000;
+ padding:0px 5px; 
+}

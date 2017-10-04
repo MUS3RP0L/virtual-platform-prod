@@ -1894,6 +1894,8 @@ class EconomicComplementController extends Controller
       $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
       $title = "FORMULARIO DE DECLARACIÓN JURADA VOLUNTARIA";
       $date = Util::getDateEdit(date('Y-m-d'));
+      setlocale(LC_ALL, "es_ES.UTF-8");
+      $date = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
       $current_date = Carbon::now();
       $hour = Carbon::parse($current_date)->toTimeString();
       $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
@@ -1903,7 +1905,7 @@ class EconomicComplementController extends Controller
         'header1'=>$header1,
         'header2'=>$header2,
         'title'=>$title,
-        'date'=>$title,
+        'date'=>$date,
         'hour'=>$hour,
         'affiliate'=>$affiliate,
         'economic_complement'=>$economic_complement,
@@ -1911,19 +1913,24 @@ class EconomicComplementController extends Controller
         'user' => Auth::user(),
         'user_role' =>Util::getRol()->name,
       ];
+
         switch ($type) {
             case 'vejez':
-                $view = \View::make('economic_complements.print.sworn_declaration1', $data)->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
+                // $view = \View::make('economic_complements.print.sworn_declaration1', $data)->render();
+                // $pdf = \App::make('dompdf.wrapper');
+                // $pdf->loadHTML($view)->setPaper('legal');
+                // return $pdf->stream();
+
+                return \PDF::loadView('economic_complements.print.sworn_declaration1', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017')->stream('report_edited.pdf');
             case 'viudedad':
                 $spouse = Spouse::where('affiliate_id',$affiliate->id)->first();
                 array_push($data, $spouse);
-                $view = \View::make('economic_complements.print.sworn_declaration2', $data)->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
+                return \PDF::loadView('economic_complements.print.sworn_declaration2', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017')->stream('report_edited.pdf');
+
+                // $view = \View::make('economic_complements.print.sworn_declaration2', $data)->render();
+                // $pdf = \App::make('dompdf.wrapper');
+                // $pdf->loadHTML($view)->setPaper('legal');
+                // return $pdf->stream();
         }
 
     }
