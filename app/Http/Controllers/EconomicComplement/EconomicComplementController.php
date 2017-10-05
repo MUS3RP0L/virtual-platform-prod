@@ -2151,6 +2151,7 @@ class EconomicComplementController extends Controller
         $economic_complement = EconomicComplement::where('id',$request->id_complemento)->first();
 
         $economic_complement->eco_com_state_id = $request->state_id;
+        $economic_complement->number_check = $request->numero_cheque;
         $economic_complement->save();
 
         return back()->withInput();
