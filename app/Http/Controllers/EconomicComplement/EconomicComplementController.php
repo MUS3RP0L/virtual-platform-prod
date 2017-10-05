@@ -933,9 +933,19 @@ class EconomicComplementController extends Controller
         $rent_month = EconomicComplementProcedure::find($economic_complement->eco_com_procedure_id);
 
         $has_cancel = false;
-        if(Auth::user()->id == $economic_complement->user_id)
+        if(Auth::user()->id == $economic_complement->user_id || Util::getRol()->id == 2)
         {
             $has_cancel =true;            
+        }
+
+        $states = null;
+
+        $has_edit_state =false;
+        if($economic_complement->workflow_id != 1 && $economic_complement->wf_current_state_id = 9)
+        {
+            $has_edit_state =true;
+
+            $states = EconomicComplementState::where('eco_com_state_type_id',1)->get();
         }
 
         $data = [
@@ -967,6 +977,8 @@ class EconomicComplementController extends Controller
         'buttons_enabled' => $buttons_enabled,
         'rent_month' => $rent_month,
         'has_cancel' => $has_cancel,
+        'has_edit_state' => $has_edit_state,
+        'states' => $states,
         ];
         // dd($eco_com_submitted_documents_ar);
 
@@ -2108,6 +2120,16 @@ class EconomicComplementController extends Controller
 
         return back()->withInput();
 
+    }
+
+    public function change_state(Request $request)
+    {
+        $economic_complement = EconomicComplement::where('id',$request->id_complemento)->first();
+
+        $economic_complement->eco_com_state_id = $request->state_id;
+        $economic_complement->save();
+
+        return back()->withInput();
     }
 
     public function moreInfo(Request $request)
