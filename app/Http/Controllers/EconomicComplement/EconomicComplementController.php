@@ -933,9 +933,19 @@ class EconomicComplementController extends Controller
         $rent_month = EconomicComplementProcedure::find($economic_complement->eco_com_procedure_id);
 
         $has_cancel = false;
-        if(Auth::user()->id == $economic_complement->user_id)
+        if(Auth::user()->id == $economic_complement->user_id || Util::getRol()->id == 2)
         {
             $has_cancel =true;            
+        }
+
+        $states = null;
+
+        $has_edit_state =false;
+        if($economic_complement->workflow_id != 1 && $economic_complement->wf_current_state_id = 9)
+        {
+            $has_edit_state =true;
+
+            $states = EconomicComplementState::where('eco_com_state_type_id',1)->get();
         }
 
         $data = [
@@ -967,6 +977,8 @@ class EconomicComplementController extends Controller
         'buttons_enabled' => $buttons_enabled,
         'rent_month' => $rent_month,
         'has_cancel' => $has_cancel,
+        'has_edit_state' => $has_edit_state,
+        'states' => $states,
         ];
         // dd($eco_com_submitted_documents_ar);
 
@@ -1958,10 +1970,26 @@ class EconomicComplementController extends Controller
       if($economic_complement->economic_complement_modality->economic_complement_type->name=='Vejez'){
           $applicant_type="TITULAR";
       }
+      $data=[
+        'header1'=>$header1,
+        'header2'=>$header2,
+        'date'=>$date,
+        'hour'=>$hour,
+        'economic_complement'=>$economic_complement,
+        'eco_com_submitted_document'=>$eco_com_submitted_document,
+        'affiliate'=>$affiliate,
+        'eco_com_applicant'=>$eco_com_applicant,
+        'applicant_type'=>$applicant_type,
+        'user' => Auth::user(),
+        'user_role' =>Util::getRol()->name,
+      ];
 
         switch ($type) {
             case 'report':
                 $title= "RECEPCIÓN DE REQUISITOS";
+                array_push($data,$title);
+                return \PDF::loadView('economic_complements.print.reception_report', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017')->stream('report_edited.pdf');
+                
                 $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user', 'user_role','yearcomplement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
@@ -1969,13 +1997,21 @@ class EconomicComplementController extends Controller
 
             case 'inclusion':
                 $title= "";
+                array_push($data,$title);
+                return \PDF::loadView('economic_complements.print.inclusion_solicitude', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017')->stream('report_edited.pdf');
+                
                 $view = \View::make('economic_complements.print.inclusion_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type', 'user', 'user_role'))->render();
+
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
 
             case 'habitual':
                 $title= "";
+                array_push($data,$title);
+                return \PDF::loadView('economic_complements.print.habitual_solicitude', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017')->stream('report_edited.pdf');
+
+
                 $view = \View::make('economic_complements.print.habitual_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type', 'user', 'user_role'))->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
@@ -2108,6 +2144,16 @@ class EconomicComplementController extends Controller
 
         return back()->withInput();
 
+    }
+
+    public function change_state(Request $request)
+    {
+        $economic_complement = EconomicComplement::where('id',$request->id_complemento)->first();
+
+        $economic_complement->eco_com_state_id = $request->state_id;
+        $economic_complement->save();
+
+        return back()->withInput();
     }
 
     public function moreInfo(Request $request)

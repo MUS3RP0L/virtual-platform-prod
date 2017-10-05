@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="{{ asset('css/wkhtml.css') }}">
 </head>
 <body>
-  <header class="clearfix">
+  
     <table class="tableh">
       <tr>
         <th style="width: 25%;border: 0px;">
@@ -27,37 +27,47 @@
         </th>
       </tr>
     </table>
-        <div id="izq" class="size-10"><strong>Fecha de Emisi&#243n: </strong> La Paz, {!! $date !!} - {!! $hour !!}</div>
-        @if(isset($user))
-            <div id="der"><strong>Usuario: </strong>{!! $user->first_name !!} {!! $user->last_name !!} - {!! $user_role !!}</div>
-        @endif
+    <table >
+      <tr>
+        <td class="izq no-border size-11">
+          <strong>Fecha de Emisi&#243n: </strong> La Paz, {!! $date !!} - {!! $hour !!}    
+        </td>
+        <td class="der no-border size-11">
+          @if(isset($user))
+            <strong>Usuario: </strong>{!! $user->first_name !!} {!! $user->last_name !!} - {!! $user_role !!}
+          @endif
+        </td>
+      </tr>
+    </table>
     <h2 class="title">
-      {{ $title }}
+      {{ $title ?? ''}}
       @yield('title2')
     </h2>
     @yield('content')
-  </header>
 
   {{-- <div class="qr-code"> --}}
     {{-- <span>PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLIC&#205A - 2017</span> --}}
       {{-- <div align="right"> --}}
                 @if(isset($eco_com_applicant))
                     <img  class="qr-code" src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(80)->margin(0)->generate(
-                    $title.'                                     '.
-                    'Registro: Nº '.$eco_com_applicant->code.' || '.
-                    $eco_com_applicant->getTitleNameFull().' || '.
-                    'Carnet de Identidad: '.$eco_com_applicant->identity_card.' '.($eco_com_applicant->city_identity_card->first_shortened ?? '').' || '.
-                    'Edad del Afiliado: '.$eco_com_applicant->getHowOld().' || '.
-                    'Numero de CUA/NUA: '.$eco_com_applicant->nua
+                      ($title ?? '').' || '.
+                      'Trámite Nº: '.($economic_complement->code).' || '.
+                      $eco_com_applicant->getFullName().' || '.
+                      'Carnet de Identidad: '.$eco_com_applicant->identity_card.' '.($eco_com_applicant->city_identity_card->first_shortened ?? '').' || '.
+                      'Regional: '.($economic_complement->city->name ?? '') .' || '.
+                      'Fecha: '.($date ?? '') .' || '.
+                      $user->id
                     )) !!} ">
                     @else
                         @if(isset($affiliate))
                             <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(90)->generate(
-                            $title.'                                     '.
-                            $affiliate->getTitleNameFull().' || '.
-                            'Carnet de Identidad: '.$affiliate->identity_card.' '.($affiliate->city_identity_card->first_shortened ?? '').' || '.
-                            'Edad del Afiliado: '.$affiliate->getHowOld().' || '.
-                            'Numero de CUA/NUA: '.$affiliate->nua
+                      ($title ?? '').' || '.
+                      'Trámite Nº: '.($economic_complement->code).' || '.
+                      $eco_com_applicant->getFullName().' || '.
+                      'Carnet de Identidad: '.$eco_com_applicant->identity_card.' '.($eco_com_applicant->city_identity_card->first_shortened ?? '').' || '.
+                      'Regional: '.($economic_complement->city->name ?? '') .' || '.
+                      'Fecha: '.($date ?? '') .' || '.
+                      $user->id
                             )) !!} ">
                         @endif
                 @endif
