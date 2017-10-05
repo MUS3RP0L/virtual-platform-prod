@@ -2713,13 +2713,13 @@
                     <option value={{$st->id}}>{{$st->name}}</option>
                     @endforeach
                 </select>
-                <label data-bind="text sw_tesoreria"></label>
-                <div data-bind="visible: sw_tesoreria ">
-                    <label> Numero de Cheque</label><br>
+                <!-- <label data-bind="text select_tesoreria"></label>
+                <div data-bind="visible: sw_tesoreria "> -->
+                    <label> Numero de Checke</label><br>
                     <input type="number" name="numero_cheque" class="form-control" >
                     <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">    
                     
-                </div>
+                <!-- </div> -->
 
               </div>
               <div class="modal-footer">
