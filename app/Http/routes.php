@@ -218,7 +218,32 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('export_wf_rez_contabilidad', array('as'=>'export_wf_rez_contabilidad', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wf_rez_contabilidad'));
 	Route::post('export_wf_rez_normal', array('as'=>'export_wf_rez_normal', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wf_rez_normal'));
 	Route::post('export_wf_rez', array('as'=>'export_wf_rez', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_wf_rez'));
-
+	Route::get('print',function (){
+		$header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+		$header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+		$title = "FORMULARIO DE DECLARACIÓN JURADA VOLUNTARIA";
+		$date = Util::getDateEdit(date('Y-m-d'));
+		setlocale(LC_ALL, "es_ES.UTF-8");
+		$date = strftime("%e de %B de %Y",strtotime(\Carbon\Carbon::createFromFormat('d/m/Y',$date)));
+		$current_date = Carbon\Carbon::now();
+		$hour = Carbon\Carbon::parse($current_date)->toTimeString();
+		$economic_complement = \Muserpol\EconomicComplement::idIs(1932)->first();
+		$affiliate = \Muserpol\Affiliate::where('id',$economic_complement->affiliate_id)->first();
+		$eco_com_applicant = \Muserpol\EconomicComplementApplicant::EconomicComplementIs($economic_complement->id)->first();
+		$data=[
+		  'header1'=>$header1,
+		  'header2'=>$header2,
+		  'title'=>$title,
+		  'date'=>$date,
+		  'hour'=>$hour,
+		  'affiliate'=>$affiliate,
+		  'economic_complement'=>$economic_complement,
+		  'eco_com_applicant'=>$eco_com_applicant,
+		  'user' => Auth::user(),
+		  'user_role' =>Util::getRol()->name,
+		];
+		return \View::make('economic_complements.print.sworn_declaration1',$data)->render();
+	});
 });
 
 define('ACCESS', env('ACCESS_PASS'));

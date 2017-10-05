@@ -187,6 +187,7 @@ $(document).ready(function (){
 
 });
 $(document).ready(function (){   
+  var n=4;
    var table = $('#edited').DataTable({
     "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
        ajax: {
@@ -199,14 +200,10 @@ $(document).ready(function (){
          'orderable':false,
          'className': 'dt-body-center',
          'render': function (data, type, full, meta){
-          console.log(full);
-            if (full==4){
-               return '<a href="'+data+'">'+data+'</a>';
-            }else{
 
             return '<input type="checkbox" name="id[]" value="' 
                 + $('<div/>').text(data).html() + '">';
-            }
+            
          }
       }],
       'order': [1, 'asc']
