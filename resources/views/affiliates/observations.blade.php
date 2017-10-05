@@ -66,8 +66,8 @@
                                                             @foreach($gestion as $gest)
                                                                 <option value="{{$gest['id']}}">{{$gest['year']}}/{{$gest['semester']}}</option>
                                                             @endforeach
-                                                            <span class="help-block">Seleccione Gestión-Semestre</span>
                                                         </select>
+                                                        <span class="help-block">Seleccione Gestión/Semestre</span>
                                                     </div>
                                                     </div>
                                                 </div>
@@ -77,9 +77,9 @@
                         </form>
                     </div>
 
-                        <table class="table table-bordered" id="observation-table">
+                        <table class="table table-bordered table-hover" id="observation-table">
                                 <thead>
-                                    <tr>
+                                    <tr class="success">
                                   
                                         <th> Nro. Carnet </th>
                                         <th> Matricula </th> 
