@@ -31,81 +31,11 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box box-warning">
-                <div class="box-header with-border">
+                {{--<div class="box-header with-border">
                     <h3 class="box-title"><span class="glyphicon glyphicon-search"></span> Búsqueda</h3>
-                </div>
+                </div>--}}
                 <div class="box-body">
-                    <div class="row">
-                        <form method="POST" id="search-form" role="form" class="form-horizontal">
-                            <div class="col-md-11">
-                                <div class="row"><br>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            {!! Form::label('first_name', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                                {!! Form::text('first_name', '', ['class'=> 'form-control']) !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            {!! Form::label('second_name', 'Segundo Nombre', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                                {!! Form::text('second_name', '', ['class'=> 'form-control']) !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            {!! Form::label('identity_card', 'Número Carnet', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                                {!! Form::text('num_identity_card', '', ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row"><br>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                                {!! Form::text('last_name', '', ['class'=> 'form-control']) !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            {!! Form::label('mothers_last_name', 'Apellido Materno', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                                {!! Form::text('mothers_last_name', '', ['class'=> 'form-control']) !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            {!! Form::label('registration', 'Número Matrícula', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-7">
-                                                {!! Form::text('registration', '', ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="row text-center">
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <button type="reset" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Limpiar">&nbsp;<span class="glyphicon glyphicon-erase"></span>&nbsp;</button>
-                                            &nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Buscar">&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                            </div>
-                        </form>
-                    </div>
-
+                    
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table table-bordered table-hover" id="affiliates-table">
@@ -122,6 +52,19 @@
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -338,7 +281,7 @@
         </div>
     </div>
 
-@endsection
+
 
 @push('scripts')
     <script>
@@ -378,7 +321,7 @@
         });
 
         var oTable = $('#affiliates-table').DataTable({
-            "dom": '<"top">t<"bottom"p>',
+            
             processing: true,
             serverSide: true,
             pageLength: 8,
@@ -397,15 +340,29 @@
             },
             columns: [
                 { data: 'id'},
-                { data: 'identity_card'},
-                { data: 'registration', bSortable: false },
-                { data: 'degree', bSortable: false },
-                { data: 'names', bSortable: false },
-                { data: 'last_name', bSortable: false },
-                { data: 'mothers_last_name', bSortable: false },
-                { data: 'state', bSortable: false },
-                { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
-            ]
+                { data: 'identity_card', searchable: true},
+                { data: 'registration', searchable: true },
+                { data: 'degree', searchable: true },
+                { data: 'names', searchable: true },
+                { data: 'last_name', searchable: true },
+                { data: 'mothers_last_name', searchable: true },
+                { data: 'state', searchable: true },
+                { data: 'action', name: 'action', orderable: false, searchable: false, sClass: 'text-center' }
+            ],
+            initComplete: function(){
+            this.api().columns('0,1,2,3,4,5,6,7').every(function(){
+                var column = this;
+                var input = document.createElement('input');
+                input.setAttribute('class','form-control');
+                input.setAttribute('placeholder','filtro');
+                input.setAttribute('size','10');
+                $(input).appendTo($(column.footer()).empty()).on(
+                    'change',function(){
+                        column.search($(this).val()).draw();
+                    });
+            });
+
+        }
         });
 
         $('#search-form').on('submit', function(e) {
@@ -415,3 +372,4 @@
 
     </script>
 @endpush
+@endsection

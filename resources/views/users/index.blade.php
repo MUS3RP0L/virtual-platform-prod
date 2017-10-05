@@ -38,6 +38,18 @@
                                 <th class="text-center">Acción</th>
                             </tr>
                         </thead>
+                        <tfoot>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        
+                        </tfoot>
                     </table>
                 </div>
 			</div>
@@ -54,23 +66,39 @@
         $(function() {
             $('#users-table').DataTable({
                 "dom": '<"top">t<"bottom"p>',
+                "order": [[ 0, "desc" ]],
                 processing: true,
                 serverSide: true,
-                pageLength: 50,
+                pageLength: 10,
                 autoWidth: false,
                 ajax: '{!! route('get_user') !!}',
                 columns: [
-                    { data: 'username' },
-                    { data: 'name', bSortable: false },
-                    { data: 'phone', bSortable: false },
-                    { data: 'city', bSortable: false },
-                    { data: 'module', bSortable: false },
-                    { data: 'role', bSortable: false },
-                    { data: 'position', bSortable: false },
-                    { data: 'status', bSortable: false },
-                    { data: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
-                ]
-            });
+                    { data: 'username',searchable: true },
+                    { data: 'name', bSortable: false, searchable: true },
+                    { data: 'phone', bSortable: false, searchable: true },
+                    { data: 'city', bSortable: false, searchable: true },
+                    { data: 'module', bSortable: false, searchable: true },
+                    { data: 'role', bSortable: false, searchable: true },
+                    { data: 'position', bSortable: false, searchable: true },
+                    { data: 'status', bSortable: false, searchable: true },
+                    { data: 'action', orderable: false, searchable: true, searchable: false, bSortable: false, sClass: 'text-center' }
+                ],
+                initComplete: function(){
+                    this.api().columns('0,1,2,3,4,5,6,7').every(function(){
+                        var column = this;
+                        var input = document.createElement('input');
+                        input.setAttribute('class','form-control');
+                        input.setAttribute('placeholder','filtro');
+                        input.setAttribute('size','5');
+                        $(input).appendTo($(column.footer()).empty()).on(
+                                    'change',function(){
+                                        var val = $(this).val();
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });                                       
+                    });
+                    }
+
+                });
         });
 
     </script>

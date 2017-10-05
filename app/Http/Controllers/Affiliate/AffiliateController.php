@@ -46,11 +46,8 @@ class AffiliateController extends Controller
 
     public function Data(Request $request)
     {
-        $affiliates = Affiliate::select(['affiliates.id', 'affiliates.identity_card', 
-            'affiliates.registration', 'affiliates.last_name', 'affiliates.mothers_last_name',
-            'affiliates.first_name', 'affiliates.second_name',  'affiliates.affiliate_state_id', 
-            'affiliates.degree_id', 'affiliates.city_identity_card_id'])->leftJoin('spouses','affiliates.id','=','spouses.affiliate_id');
-        
+        $affiliates = DB::table('v_afiliados');
+
         if ($request->has('last_name'))
         {
             $last_name = strtoupper(trim($request->get('last_name')));
@@ -106,13 +103,7 @@ class AffiliateController extends Controller
         }
 
         return Datatables::of($affiliates)
-        ->addColumn('id', function($affiliate){ return $affiliate->id;})
-        ->addColumn('identity_card', function($affiliate){ return $affiliate->city_identity_card_id ? $affiliate->identity_card . ' ' . $affiliate->city_identity_card->first_shortened : $affiliate->identity_card; })
-        ->addColumn('degree', function ($affiliate) { return $affiliate->degree_id ? $affiliate->degree->shortened : ''; })
-        ->editColumn('last_name', function ($affiliate) { return Util::ucw($affiliate->last_name); })
-        ->editColumn('mothers_last_name', function ($affiliate) { return Util::ucw($affiliate->mothers_last_name); })
-        ->addColumn('names', function ($affiliate) { return Util::ucw($affiliate->first_name) .' '. Util::ucw($affiliate->second_name); })
-        ->addColumn('state', function ($affiliate) { return $affiliate->affiliate_state->name; })
+        
         ->addColumn('action', function ($affiliate) { return
             '<div class="btn-group" style="margin:-3px 0;">
                 <a href="affiliate/'.$affiliate->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
@@ -127,7 +118,7 @@ class AffiliateController extends Controller
         foreach ($cities as $item) {
             $cities_list[$item->id] = $item->name;
         }
-
+            
         $cities_list_short = ['' => ''];
         foreach ($cities as $item) {
             $cities_list_short[$item->id] = $item->first_shortened;
@@ -174,6 +165,7 @@ class AffiliateController extends Controller
         $gender_list = ['' => '', 'C' => 'CASADO(A)', 'S' => 'SOLTERO(A)', 'V' => 'VIUDO(A)', 'D' => 'DIVORCIADO(A)'];
 
         return [
+            'cities' => $cities,
             'cities_list' => $cities_list,
             'cities_list_short' => $cities_list_short,
             'affiliate_states_list' => $affiliate_states_list,
