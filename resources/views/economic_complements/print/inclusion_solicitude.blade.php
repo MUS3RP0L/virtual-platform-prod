@@ -1,4 +1,4 @@
-@extends('globalprint.print')
+@extends('globalprint.wkhtml')
 
 @section('formnumber')
 Formulario Nº 3
@@ -6,16 +6,16 @@ Formulario Nº 3
 
 @section('content')
 
-<div class="title2"><b>Registro: Nº {!! $economic_complement->code !!} </div>
+<div class="title2"><strong>Trámite Nº: {!! $economic_complement->code !!}</strong> </div>
 <div id="project">
- <b>Señor (a) </b><br />
- <b>DIRECTOR (A) GENERAL EJECUTIVO</b><br />
- <b>MUTUAL DE SERVICIOS AL POLICIA</b><br />
+ <strong>Señor (a) </strong><br />
+ <strong>DIRECTOR (A) GENERAL EJECUTIVO</strong><br />
+ <strong>MUTUAL DE SERVICIOS AL POLICIA</strong><br />
  Presente.-<br />
- <p align="justify"><b>REF: {!! $applicant_type !!} SOLICITA NUEVA INCLUSIÓN {!! strtoupper($economic_complement->semester) !!} SEMESTRE COMPLEMENTO ECONÓMICO DE LA GESTIÓN {!! Util::getYear($economic_complement->reception_date) !!}</b></p>
+ <p align="justify"><strong>REF: {!! $applicant_type !!} SOLICITA NUEVA INCLUSIÓN {!! strtoupper($economic_complement->semester) !!} SEMESTRE COMPLEMENTO ECONÓMICO DE LA GESTIÓN {!! Util::getYear($economic_complement->reception_date) !!}</strong></p>
 
  <p>Distinguido (a) Director (a): </p>
- <p align="justify">La presente tiene por objeto solicitar a su autoridad instruir por la unidad correspondiente <b>LA INCLUSIÓN COMO NUEVO BENEFICIARIO PARA EL PAGO DEL BENEFICIO DEL COMPLEMENTO ECONÓMICO DEL {!! strtoupper($economic_complement->semester) !!} SEMESTRE DE LA GESTIÓN {!! Util::getYear($economic_complement->reception_date) !!}.</b> </p><br />
+ <p align="justify">La presente tiene por objeto solicitar a su autoridad instruir por la unidad correspondiente <strong>LA INCLUSIÓN COMO NUEVO BENEFICIARIO PARA EL PAGO DEL BENEFICIO DEL COMPLEMENTO ECONÓMICO DEL {!! strtoupper($economic_complement->semester) !!} SEMESTRE DE LA GESTIÓN {!! Util::getYear($economic_complement->reception_date) !!}.</strong> </p><br />
  <p>Para tal efecto, adjunto folder con los requisitos exigidos de acuerdo al siguiente detalle: </p>
 
  <table>
@@ -32,11 +32,11 @@ Formulario Nº 3
                 <td>{!! $item->economic_complement_requirement->name !!}</td>
                 @if ($item->status == 1)
                     <td class="info" style='text-align:center;'>
-                      <img class="circle" src="img/check.png" style="width:70%" alt="icon">
+                      <img class="circle" src="{{ asset('img/check.png') }}" >
                     </td>
                 @else
                   <td class="info" style='text-align:center;'>
-                    <img class="circle" src="img/uncheck.png" style="width:60%" alt="icon">
+                    <img class="circle" src="{{ asset('img/uncheck.png') }}" >
                   
                   </td>
                 @endif
@@ -50,8 +50,8 @@ Formulario Nº 3
       </tr>
       <tr>
         <th class="info" style="border: 0px;text-align:center;">
-        <b>{!! $eco_com_applicant->getTitleNameFull() !!}
-        <br />C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened !!} <br /> Telefono. {!! $eco_com_applicant->getPhone() !!}</b></th>
+        <strong>{!! $eco_com_applicant->getTitleNameFull() !!}
+        <br />C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened !!} <br /> Telefono. {!! $eco_com_applicant->getPhone() !!}</strong></th>
       </tr>
     </table>
 
