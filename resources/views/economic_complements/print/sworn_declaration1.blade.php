@@ -1,12 +1,6 @@
 @extends('globalprint.wkhtml')
 
 @section('content')
-<style>
-  body{
-    font-weight: 100;
-    font-size: 12px;
-  }
-</style>
 
 <div class="title2"><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
 <div id="project">

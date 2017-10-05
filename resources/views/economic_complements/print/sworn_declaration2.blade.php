@@ -4,11 +4,6 @@
 Formulario Nº 2
 @endsection
 @section('content')
-  <style>
-    body{
-      font-size: 10px;
-    }
-  </style>
 <div class="title2"><strong class="code">Trámite: Nº {!! $economic_complement->code !!}</strong></div>
 <div id="project">
         {{--Información beneficiario--}}
@@ -89,7 +84,7 @@ Formulario Nº 2
     </tr>
     <tr>
       <td>6</td>
-      <td style="text-align:justify;font-size:0.9em;">Estoy consciente de que existe la probabilidad de ser excluido (a) por salario, por percibir una prestación por vejez <strong>IGUAL O SUPERIOR</strong> al haber básico más categoría que perciban los miembros del servicio activo de la Policía Boliviana en el grado correspondiente, tal como lo señala en el Decreto Supremo N° 1446, Artículo 17, Parágrafo I y el Reglamento del Beneficio del Complemento Económico.</td>
+      <td style="text-align:justify;font-size:0.9em;">Estoy consciente de que existe la probabilidad de ser excluido (a) por salario, por percibir una prestación por vejez <strong>}IGUAL O SUPERIOR</strong> al haber básico más categoría que perciban los miembros del servicio activo de la Policía Boliviana en el grado correspondiente, tal como lo señala en el Decreto Supremo N° 1446, Artículo 17, Parágrafo I y el Reglamento del Beneficio del Complemento Económico.</td>
     </tr>
     <tr>
       <td>7</td>

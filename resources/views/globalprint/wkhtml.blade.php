@@ -27,10 +27,18 @@
         </th>
       </tr>
     </table>
-        <div id="izq" class="size-10"><strong>Fecha de Emisi&#243n: </strong> La Paz, {!! $date !!} - {!! $hour !!}</div>
-        @if(isset($user))
-            <div id="der"><strong>Usuario: </strong>{!! $user->first_name !!} {!! $user->last_name !!} - {!! $user_role !!}</div>
-        @endif
+    <table >
+      <tr>
+        <td class="izq no-border">
+          <strong>Fecha de Emisi&#243n: </strong> La Paz, {!! $date !!} - {!! $hour !!}    
+        </td>
+        <td class="der no-border">
+          @if(isset($user))
+            <strong>Usuario: </strong>{!! $user->first_name !!} {!! $user->last_name !!} - {!! $user_role !!}
+          @endif
+        </td>
+      </tr>
+    </table>
     <h2 class="title">
       {{ $title }}
       @yield('title2')
