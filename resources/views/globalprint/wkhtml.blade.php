@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="{{ asset('css/wkhtml.css') }}">
 </head>
 <body>
-  <header class="clearfix">
+  
     <table class="tableh">
       <tr>
         <th style="width: 25%;border: 0px;">
@@ -44,7 +44,6 @@
       @yield('title2')
     </h2>
     @yield('content')
-  </header>
 
   {{-- <div class="qr-code"> --}}
     {{-- <span>PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLIC&#205A - 2017</span> --}}
