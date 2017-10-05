@@ -71,10 +71,14 @@
 <table>
           <tr>
               <th class="info" style="border: 0px;text-align:center; width:60%"><p>&nbsp;</p><br>----------------------------------------------------
+                <strong>
                 <br>
-                {!! $eco_com_applicant->getTitleNameFull() !!}<br>C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened ?? ''!!}</span>
+                {!! $eco_com_applicant->getTitleNameFull() !!}
+                <br>
+                C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened ?? ''!!}
+                </strong>
               </th>
-              <th class="info" style="border: 1px solid  #3c3c3c!IMPORTANT;text-align:center;width: 30%;"><p>&nbsp;</p><br><br><br><br></th>
+              <th class="info" style="border: 1px solid  #3c3c3c!IMPORTANT;text-align:center;width: 22%;"><p>&nbsp;</p><br><br><br><br></th>
           </tr>
           <tr>
             <th class="info" style="border: 0px;text-align:center;" ><span class="size-11">

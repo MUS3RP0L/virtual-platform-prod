@@ -9,8 +9,8 @@
 }
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 html,body{
-	font-weight: 100;
-	font-size: 14px;
+  font-weight: 100;
+  font-size: 11px;
   font-family: sans-serif;
 }
 table {
@@ -127,7 +127,7 @@ table th.grand {
   text-align: right;
 }
 strong, .bold{
-	font-weight: bold;
+  font-weight: bold;
 }
 .size-13{
   font-size: 13px;
@@ -139,7 +139,7 @@ strong, .bold{
   font-size: 10px;
 }
 .size-11{
-	font-size: 11px;
+  font-size: 11px;
 }
 .izq{
   text-align:left;
@@ -173,7 +173,7 @@ strong, .bold{
   top: 99%;
 }
 h4{
-  font-size:15px;
+  font-size:12px;
   margin:0;
 }
 .code{
