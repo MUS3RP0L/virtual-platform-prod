@@ -1,6 +1,7 @@
 html,body{
 	font-weight: 100;
 	font-size: 11px;
+  font-family: 'Arial';
 }
 table {
   width: 100%;
