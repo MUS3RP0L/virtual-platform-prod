@@ -8,8 +8,9 @@ use Muserpol\Http\Requests;
 use Muserpol\Http\Controllers\Controller;
 use Muserpol\AffiliateObservation;
 use Muserpol\Affiliate;
-use Muserpol\ObservationType;
 use Muserpol\EconomicComplement;
+use Muserpol\ObservationType;
+use Muserpol\EconomicComplementProcedure;
 use Carbon\Carbon;
 use Util;
 
@@ -147,42 +148,67 @@ class AffiliateObservationController extends Controller
 
     public function lista_observados()
     {
-
-      return view('affiliates.observations');
+      $typeObs = ObservationType::all();
+      $gestion = DB::table('eco_com_procedures')->orderBy('year','ASC')->get();
+      $gs = array();
+      $g1 = array();
+      foreach ($gestion as $g) {
+        $g1=substr($g->year, 0, 4);
+        if($g->semester == 'Primer')
+          $y = $g1.'1';
+        else
+          $y = $g1.'2';
+        array_push($gs,array('id'=>$y,'year'=>$g1,'semester' => $g->semester));
+      }
+      
+      return view('affiliates.observations',['typeObs'=>$typeObs,'gestion' => $gs]);
+      //return view('affiliates.observations');
     }
-    public function getDataObsertaions()
+    public function getDataObsertaions(Request $request)
     { 
-    
-        $afiliados = DB::table('v_observados');
-        
-        // $a = array();
-        // foreach ($afiliados as $afiliado) {
+          if($request->observation == -1 && $request->year == -1)
+          $afiliados = DB::table('v_observados');
+          elseif($request->observation != -1 && $request->year == -1)  
+          $afiliados = DB::table('v_observados')->where('observation_type_id','=',$request->observation);
+          elseif($request->observation != -1 && $request->year != -1)
+          {
+            $year = substr($request->year, 0, -1);
+            $sem = substr($request->year, -1);
+           
+            if($sem == 1)
+              $semestre = 'Primer';
+            elseif($sem == 2)
+              $semestre = 'Segundo';
 
-        //   # code...
-        //   $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)
-        //                                                    ->where('eco_com_procedure_id','=','2')
-        //                                                    // ->where('wf_current_state_id','=','2')
-        //                                                    ->where('workflow_id','<=','3')
-        //                                                    // ->where('state','=','Edited')
-        //                                                    // ->whereNotNull('review_date')
-        //                                                    ->first();
-        //   if($complementos){
-        //      array_push($a, $afiliado->id);
-        //   }
-         
-        // }
-        // $afiliados = DB::table('v_observados')->whereIn('id',$a);
-        // return $afiliados;
+            $afiliados = DB::table('v_observados')
+            ->where('observation_type_id','=',$request->observation)
+            ->where('year','=',$year)
+            ->where('semester','=',$semestre);
+          }
+          elseif($request->observation == -1 && $request->year != -1)
+          {
+            $year = substr($request->year, 0, -1);
+            $sem = substr($request->year, -1);
+           
+            if($sem == 1)
+              $semestre = 'Primer';
+            elseif($sem == 2)
+              $semestre = 'Segundo';
+
+            $afiliados = DB::table('v_observados')
+            ->where('year','=',$year)
+            ->where('semester','=',$semestre);
+          }
+            
         return Datatables::of($afiliados)
-        // ->addColumn('degrees',function($afiliado){
-        //   return $afiliado->degree_id?$afiliado->degree->shortened:'';
-        // })
+       
         ->addColumn('action', function ($afiliado) {
                 return '<div class="btn-group" style="margin:-3px 0;">
                 <a href="affiliate/'.$afiliado->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
             </div>';
 
-            })->make(true);
+            })
+        ->make(true);
     }
 
   }

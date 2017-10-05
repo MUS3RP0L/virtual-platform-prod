@@ -27,6 +27,7 @@
 @endsection
 
 @section('main-content')
+
 <div class="row">
         <div class="col-md-12">
             <div class="box box-warning">
@@ -38,13 +39,51 @@
                     <div id="tablaDetalle_filter"></div>
                 </div>    
                 <div class="box-body">
+                    <div class="row">    
+                        <form method="POST" id="search-form" role="form" class="form-horizontal">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                    {!! Form::label('type', 'Tipo de Observación', ['class' => 'col-md-4 control-label']) !!}
+                                                    <div class="col-md-6">
+                                                       <select class="form-control" id="observation" name="observation">
+                                                                <option value="-1">Todo los Tipos</option>
+                                                            <?php foreach ($typeObs as $Obs) { ?>
+                                                                <option value="<?php echo $Obs->id; ?>"><?php echo $Obs->name?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <span class="help-block">Seleccione tipo de observación</span>
+                                                    </div>
+                                                    </div>                                                    
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                    {!! Form::label('year','Gestión/Semestre', ['class'=>'col-md-4 control-label']) !!}
+                                                    <div class="col-md-6">
+                                                        <select class=" form-control" id="year" name="year">
+                                                            <option value="-1"> Toda las Gestiones</option>
+                                                            @foreach($gestion as $gest)
+                                                                <option value="{{$gest['id']}}">{{$gest['year']}}/{{$gest['semester']}}</option>
+                                                            @endforeach
+                                                            <span class="help-block">Seleccione Gestión-Semestre</span>
+                                                        </select>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                
+                                    </div>            
+                                </div>
+                        </form>
+                    </div>
+
                         <table class="table table-bordered" id="observation-table">
                                 <thead>
                                     <tr>
                                   
                                         <th> Nro. Carnet </th>
-                                      {{--  <th> Matricula </th> --}}
-                                      {{--  <th> Grado </th> --}}
+                                        <th> Matricula </th> 
+                                        <th> Grado </th> 
                                         <th> Nombres</th>
                                         <th> Apellidos</th>
                                      
@@ -57,8 +96,8 @@
                                 <tfoot>
                                     <tr>
                                         <th></th>
-                                        {{-- <th></th> --}}
-                                        {{-- <th></th> --}}
+                                        <th></th> 
+                                        <th></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -73,29 +112,37 @@
         </div>
 </div>
    
-
-
 @push('scripts')
 <script>
-$(function() {
-    $('#observation-table').DataTable({
-        processing: true,   
-        serverSide: true,
-        ajax: '{!! route('getdataobservations') !!}',
-        columns: [
+
+var oTable = $('#observation-table').DataTable({
+    
+    processing: true,
+    serverSide: true,
+    ajax: {
+            
+            url: '{!! route('getdataobservations') !!}',
+            data: function(d){
+                d.observation =  $('select[name=observation]').val();
+                d.year = $('select[name=year]').val();
+                d.semester = $('select[name=semester]').val();
+            }
+    },
+
+    columns: [
             
             { data: 'identity_card', name: 'identity_card' },
-            //{ data: 'registration', name: 'registration' },
-            //{ data: 'shortened', name: 'shortened' },
+            { data: 'registration', name: 'registration' },
+            { data: 'shortened', name: 'shortened' },
             { data: 'names', name: 'names' },
             { data: 'surnames', name: 'surnames' },
             { data: 'state', name: 'state',orderable: false, searchable: true},
-            { data: 'observation', name: 'observation' },
+            { data: 'observation', name: 'observation',searchable: true },
             { data: 'action', name: 'action' , orderable: false, searchable: false }
 
         ],
         initComplete: function(){
-            this.api().columns('0,1,2,3,4').every(function(){
+            this.api().columns('0,1,2,3,4,5,6').every(function(){
                 var column = this;
                 var input = document.createElement('input');
                 input.setAttribute('class','form-control');
@@ -103,29 +150,18 @@ $(function() {
                 input.setAttribute('size','10');
                 $(input).appendTo($(column.footer()).empty()).on(
                     'change',function(){
-                    
                         column.search($(this).val()).draw();
                     });
             });
 
-
-            var div = $('#tablaDetalle_wrapper');
-              div.find("#tablaDetalle_filter").prepend(
-                "<label for='observacion'>Por tipo Observación:</label><select id='txtObservation' name='txtObservation' class='form-control' required><option>Seleccione</option><option value='Observación por Categoria'>Observación por Categoria</option><option value='Observación Falta de Requisitos'>Observación Falta de Requisitos</option></select>"
-                );
-              this.api().column(4).each(function() {
-                  var column = this;
-                  console.log(column.data());
-                  $('#txtObservation').on('change', function() {
-                      var val = $(this).val();
-                      column.search(val ? '^' + val + '$' : '', true, false)
-                          .draw();
-                  });
-              });
         }
-    });
-
 });
+
+$('#search-form').on('change',function(e){
+    oTable.draw();
+    e.preventDefault();
+});
+
 
 
 </script>
