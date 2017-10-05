@@ -1,6 +1,6 @@
 @extends('globalprint.wkhtml')
 @section('title2')
-<center class="title">{{ $title2 }}</center> 
+<h2 class="title" style="font-size: 16px; margin-bottom: 5px;">{!! $title2 !!}</h2>
 @endsection
 @section('content')
   <style type="text/css">
