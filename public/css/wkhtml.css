@@ -1,6 +1,7 @@
 html,body{
 	font-weight: 100;
 	font-size: 11px;
+  font-family: 'Arial';
 }
 table {
   width: 100%;
@@ -33,7 +34,7 @@ table tr:nth-child(2n-1) td {
 table th,
 table td {
   text-align: center;
-  font-size: 0.99em;
+  font-size: 12px;
 }
 
 table th {
@@ -58,30 +59,30 @@ table td {
 table td.service,
 table td.desc {
   vertical-align: top;
-  font-size: 0.78em;
+  font-size: 12px;
 }
 
 table td.unit,
 table td.qty,
 table td.total {
-  font-size: 1.2em;
+  font-size: 19px;
   text-align: right;
   width: 50%;
 
 }
 
 table td.info {
-  font-size: 1.2em;
+  font-size: 19px;
 }
 
 table td.cert {
-  font-size: 1.2em;
+  font-size: 19px;
   text-align: center;
 }
 
 table td.certitle {
   font-weight: bold;
-  font-size: 0.8em;
+  font-size: 12px;
   text-align: center;
   border-top: 0px;
   border-left: 0px;
@@ -105,12 +106,12 @@ table th.grand {
 .title {
   margin-top: 25px;
   margin-bottom: 0;
-  font-size: 1.5em;
+  font-size: 16px;
   text-align: center
 }
 .title2 {
   margin-bottom: 0px;
-  font-size: 0.9em;
+  font-size: 14px;
   text-align: right;
 }
 strong, .bold{
@@ -159,7 +160,7 @@ div#der{
   top: 99%;
 }
 h4{
-  font-size:1.2em;
+  font-size:19px;
   margin:0;
 }
 .code{

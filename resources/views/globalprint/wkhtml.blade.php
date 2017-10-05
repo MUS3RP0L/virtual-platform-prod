@@ -27,7 +27,7 @@
         </th>
       </tr>
     </table>
-        <div id="izq"><strong>Fecha de Emisi&#243n: </strong> La Paz, {!! $date !!} - {!! $hour !!}</div>
+        <div id="izq" class="size-10"><strong>Fecha de Emisi&#243n: </strong> La Paz, {!! $date !!} - {!! $hour !!}</div>
         @if(isset($user))
             <div id="der"><strong>Usuario: </strong>{!! $user->first_name !!} {!! $user->last_name !!} - {!! $user_role !!}</div>
         @endif

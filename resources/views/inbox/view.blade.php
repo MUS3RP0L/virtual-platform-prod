@@ -18,11 +18,9 @@
           <div class="btn-group"  data-toggle="tooltip" data-original-title="Actualizar" style="margin: 0;">
                     <a href="{!! url('inbox') !!}" class="btn btn-success btn-raised bg-orange" ><i class="fa fa-refresh fa-lg"></i></a>
           </div>
-
           @can('eco_com_qualification')
-          <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Revisados" style="margin: 0;">
+          <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Planilla de los Trámites seleccinados" style="margin: 0;">
           {!! Form::open(['method' => 'POST', 'route' => ['print_edited_data']]) !!}
-
             <button class="btn btn-primary btn-raised  bg-blue" ><i class="fa fa-print fa-lg"></i>
             </button>
             <input type="hidden" id="ids_print" name="ids_print">
@@ -51,7 +49,7 @@
       @can('eco_com_approval')
       <div class="col-md-3">
         <span data-toggle="modal" data-target="#sendAllModal" >
-          <a href="#" class="btn btn-md btn-raised btn-success" data-toggle="tooltip" data-placement="top" title="Enviar todos los tramites" ><i class="fa  fa-2x fa-arrow-circle-o-right"></i></a>
+          <a href="#" class="btn btn-md btn-raised btn-success" data-toggle="tooltip" data-placement="top" title="Derivar todos los tramites" ><i class="fa  fa-2x fa-arrow-circle-o-right"></i></a>
         </span>
       </div>
       <!-- Modal -->
@@ -60,7 +58,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel"><strong>¿Esta seguro de enviar Todos los tramites?</strong></h4>
+              <h4 class="modal-title" id="myModalLabel"><strong>¿Esta seguro de derivar todos los trámites?</strong></h4>
             </div>
             <div class="row text-center">
               {!! Form::open(['method' => 'POST', 'route' => ['inbox_send_all'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}
@@ -85,11 +83,11 @@
   		<table id="received" class="table table-bordered table-hover">
   		   <thead>
   		      <tr>
-  		         {{-- <th>id</th> --}}
-               <th>Ci</th>
-               <th>Nombre</th>
-  		         <th>Número</th>
-  		         <th>Opciones</th>
+               <th>CI</th>
+               <th>Nombre Beneficiario</th>
+  		         <th>Reg</th>
+               <th>Código</th>
+  		         {{-- <th>Opciones</th> --}}
   		      </tr>
   		   </thead>
   		</table>
@@ -113,10 +111,10 @@
                             </label>
                         </div>
                     </th>
-                    <th>ci</th>
-                    <th>Nombre</th>
-                    <th>Regional</th>
-                    <th>Codigo</th>
+                    <th>CI</th>
+                    <th>Nombre Beneficiario</th>
+                    <th>Reg</th>
+                    <th>Código</th>
                 </tr>
             </thead>
 		</table>
@@ -167,8 +165,9 @@ $(document).ready(function (){
         columns: [
             { data: 'ci', name:'ci'},
             { data: 'name',name: 'name'},
+            { data: 'city',name: 'city'},
             { data: 'code',name:'code'},
-            { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
+            // { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
         ],
         initComplete: function () {
             this.api().columns().every(function () {
@@ -187,24 +186,60 @@ $(document).ready(function (){
 
 });
 $(document).ready(function (){   
-   var table = $('#edited').DataTable({
+  var table = $('#edited').DataTable({
     "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
-       ajax: {
+        "lengthMenu": [[15, 25, 50,100, -1], [15, 25, 50,100, "Todos"]],
+      ajax: {
             url: '{!! route('edited_data') !!}',
         },
-        "lengthMenu": [[15, 25, 50,100, -1], [15, 25, 50,100, "Todos"]],
-      'columnDefs': [{
-         'targets': 0,
-         'searchable':false,
-         'orderable':false,
-         'className': 'dt-body-center',
-         'render': function (data, type, full, meta){
-            return '<input type="checkbox" name="id[]" value="' 
-                + $('<div/>').text(data).html() + '">';
-         }
-      }],
-      'order': [1, 'asc']
-   });
+     "columns": [
+        { "data": "id",
+          // "render":function (data, type, row, meta) {
+          //   if(type === 'display'){
+          //     data = '<input type="checkbox" name="id[]" value="'+data+'">'; 
+          //   }
+            
+          //   return data;
+          // } 
+        }, 
+        { "data": "ci" }, 
+        { 
+           "data": "name",
+           // "render": function(data, type, row, meta){
+           //    if(type === 'display'){
+           //        data = '<a href="' + data + '">' + data + '</a>';
+           //    }
+              
+           //    return data;
+           // }
+        },
+        { "data":"city" },
+        { "data":"code" },
+
+     ],
+      'order': [1, 'desc']
+  });
+
+   // var table = $('#edited').DataTable({
+   //  "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
+   //     ajax: {
+   //          url: '{!! route('edited_data') !!}',
+   //      },
+   //      "lengthMenu": [[15, 25, 50,100, -1], [15, 25, 50,100, "Todos"]],
+   //    'columnDefs': [{
+   //       'targets': 0,
+   //       'searchable':false,
+   //       'orderable':false,
+   //       'className': 'dt-body-center',
+   //       'render': function (data, type, full, meta){
+
+   //          return '<input type="checkbox" name="id[]" value="' 
+   //              + $('<div/>').text(data).html() + '">';
+            
+   //       }
+   //    }],
+   //    'order': [1, 'asc']
+   // });
 
    $('#editedCheckboxAll').on('click', function(){
       var rows = table.rows({ 'search': 'applied' }).nodes();
