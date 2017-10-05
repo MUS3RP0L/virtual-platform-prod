@@ -61,7 +61,7 @@ Formulario Nº 2
       <td>{!! $eco_com_applicant->city_birth->second_shortened ?? '' !!}</td>
     </tr>
   </table>
-  <p align="justify">Yo, <strong>{!! $eco_com_applicant->getTitleNameFull() ?? '' !!}</strong> boliviano (a) de nacimiento con Cédula de Identidad <strong>N° {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->shortened ?? ''!!} </strong> .
+  <p align="justify">Yo, <strong>{!! $eco_com_applicant->getTitleNameFull() ?? '' !!}</strong> boliviano (a) de nacimiento con Cédula de Identidad <strong>  N° {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->shortened ?? ''!!} </strong> .
     con estado civil <strong>{!! $eco_com_applicant->getCivilStatus() ?? '' !!}</strong> y con residencia actualmente en el Departamento de <strong>{!! $economic_complement->city->name !!}</strong>.; mayor de edad,
     y hábil por derecho; consiente de la responsabilidad que asumo ante la Mutual de Servicios al Policía – MUSERPOL,
     de manera voluntaria y sin que medie ningún tipo de presión, mediante la presente, <strong>DECLARO LO SIGUIENTE:</strong>

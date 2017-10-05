@@ -1,7 +1,18 @@
+@font-face {
+  font-family: 'ariall';
+  src: url('../fonts/roboto/Roboto-Medium.eot'); /* IE9 Compat Modes */
+  src: url('../fonts/roboto/Roboto-Medium.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/roboto/Roboto-Medium.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../fonts/roboto/Roboto-Medium.woff') format('woff'), /* Pretty Modern Browsers */
+       url('../fonts/roboto/Roboto-Medium.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/roboto/Roboto-Medium.svg#svgFontName') format('svg'); /* Legacy iOS */
+}
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 html,body{
 	font-weight: 100;
 	font-size: 11px;
-  font-family: 'Arial';
+
+  font-family: sans-serif;
 }
 table {
   width: 100%;
