@@ -29,10 +29,10 @@
     </table>
     <table >
       <tr>
-        <td class="izq no-border">
+        <td class="izq no-border size-11">
           <strong>Fecha de Emisi&#243n: </strong> La Paz, {!! $date !!} - {!! $hour !!}    
         </td>
-        <td class="der no-border">
+        <td class="der no-border size-11">
           @if(isset($user))
             <strong>Usuario: </strong>{!! $user->first_name !!} {!! $user->last_name !!} - {!! $user_role !!}
           @endif
