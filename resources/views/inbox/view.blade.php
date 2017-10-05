@@ -44,7 +44,7 @@
 	<div class="box box-success">
 		<div class="box-header with-border">
       <div class="col-md-9">
-          <h3 class="box-title">Recibidos</h3>
+          <h3 class="box-title">Trámites recibidos</h3>
       </div>
       @can('eco_com_approval')
       <div class="col-md-3">
@@ -84,9 +84,9 @@
   		   <thead>
   		      <tr>
                <th>CI</th>
-               <th>Nombre Beneficiario</th>
+               <th>Nombre de beneficiario</th>
   		         <th>Reg</th>
-               <th>Código</th>
+               <th>Tŕamite</th>
   		         {{-- <th>Opciones</th> --}}
   		      </tr>
   		   </thead>
@@ -112,9 +112,9 @@
                         </div>
                     </th>
                     <th>CI</th>
-                    <th>Nombre Beneficiario</th>
+                    <th>Nombre de beneficiario</th>
                     <th>Reg</th>
-                    <th>Código</th>
+                    <th>Tŕamite</th>
                 </tr>
             </thead>
 		</table>
