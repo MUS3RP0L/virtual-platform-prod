@@ -63,16 +63,25 @@ class InboxController extends Controller
             ->where('wf_states.role_id',($rol->id))
             ->where('economic_complements.eco_com_procedure_id','2')
             ->select('economic_complements.id','economic_complements.code')
-
-            ->get();
+            ->get()
+            ->pluck('id');
+        $economic_complements=EconomicComplement::whereIn('id',$economic_complements)->get();
         return Datatables::of($economic_complements)
                 ->addColumn('ci',function ($economic_complement)
                 {
-                    return $economic_complement->economic_complement_applicant->identity_card;
+                    return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->economic_complement_applicant->identity_card.'</a>';
                 })
                 ->addColumn('name',function ($economic_complement)
                 {
-                    return $economic_complement->economic_complement_applicant->getFullName();
+                    return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->economic_complement_applicant->getFullName().'</a>';
+                })
+                ->addColumn('city',function ($economic_complement)
+                {
+                    return $economic_complement->city->second_shortened ?? '';
+                })
+                ->addColumn('code',function ($economic_complement)
+                {
+                    return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->code.'</a>';
                 })
                 ->addColumn('action', function ($economic_complement) { return  '
                     <div class="btn-group" style="margin:-3px 0;">
@@ -95,7 +104,7 @@ class InboxController extends Controller
             ->get()->pluck('id');
             $economic_complements=EconomicComplement::whereIn('id',$economic_complements)->get();
 
-            $data=[];
+            /*$data=[];
             foreach ($economic_complements as $eco) {
                 $temp=[];
                 // $temp[]= new stdClass;
@@ -108,23 +117,36 @@ class InboxController extends Controller
                     $data[] = $temp;
 
             }
-            return response()->json(["data"=>$data]);
-        // return  $economic_complements;
+            return response()->json(["data"=>$data]);*/
+        
         return Datatables::of($economic_complements)
-                // ->addColumn('action', function ($economic_complement) {
-                //     return '<div class="checkbox">
+                ->editColumn('id', function ($economic_complement) {
+                    return '
+                            <input type="checkbox" class="checkBoxClass" value="'.$economic_complement->id.'" name="id[]"><span class="checkbox-material"><span class="check"></span></span> ';
+                })
+                // ->editColumn('id', function ($economic_complement) {
+                //     return '
+                //         <div class="checkbox">
                 //         <label>
-                //             <input type="checkbox" class="checkBoxClass" value="'.$economic_complement->id.'" name="edited[]"><span class="checkbox-material"><span class="check"></span></span> 
+                //             <input type="checkbox" class="checkBoxClass" value="'.$economic_complement->id.'" name="id[]"><span class="checkbox-material"><span class="check"></span></span> 
                 //         </label>
                 //         </div>';
                 // })
+                ->addColumn('city',function ($economic_complement)
+                {
+                    return $economic_complement->city->second_shortened ?? '';
+                })
                 ->addColumn('ci',function ($economic_complement)
                 {
-                    return $economic_complement->economic_complement_applicant->identity_card;
+                    return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->economic_complement_applicant->identity_card.'</a>';
                 })
                 ->addColumn('name',function ($economic_complement)
                 {
-                    return $economic_complement->economic_complement_applicant->getFullName();
+                    return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->economic_complement_applicant->getFullName().'</a>';
+                })
+                ->addColumn('code',function ($economic_complement)
+                {
+                    return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->code.'</a>';
                 })
                 ->make(true);
     }
