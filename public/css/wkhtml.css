@@ -183,3 +183,7 @@ h4{
 .no-border{
   border:0;
 }
+.circle{
+  width:10px;
+  height: 10px;
+}

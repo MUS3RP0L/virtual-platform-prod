@@ -40,7 +40,7 @@
       </tr>
     </table>
     <h2 class="title">
-      {{ $title }}
+      {{ $title ?? ''}}
       @yield('title2')
     </h2>
     @yield('content')
@@ -50,21 +50,24 @@
       {{-- <div align="right"> --}}
                 @if(isset($eco_com_applicant))
                     <img  class="qr-code" src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(80)->margin(0)->generate(
-                    $title.'                                     '.
-                    'Registro: Nº '.$eco_com_applicant->code.' || '.
-                    $eco_com_applicant->getTitleNameFull().' || '.
-                    'Carnet de Identidad: '.$eco_com_applicant->identity_card.' '.($eco_com_applicant->city_identity_card->first_shortened ?? '').' || '.
-                    'Edad del Afiliado: '.$eco_com_applicant->getHowOld().' || '.
-                    'Numero de CUA/NUA: '.$eco_com_applicant->nua
+                      ($title ?? '').' || '.
+                      'Trámite Nº: '.($economic_complement->code).' || '.
+                      $eco_com_applicant->getFullName().' || '.
+                      'Carnet de Identidad: '.$eco_com_applicant->identity_card.' '.($eco_com_applicant->city_identity_card->first_shortened ?? '').' || '.
+                      'Regional: '.($economic_complement->city->name ?? '') .' || '.
+                      'Fecha: '.($date ?? '') .' || '.
+                      $user->id
                     )) !!} ">
                     @else
                         @if(isset($affiliate))
                             <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(90)->generate(
-                            $title.'                                     '.
-                            $affiliate->getTitleNameFull().' || '.
-                            'Carnet de Identidad: '.$affiliate->identity_card.' '.($affiliate->city_identity_card->first_shortened ?? '').' || '.
-                            'Edad del Afiliado: '.$affiliate->getHowOld().' || '.
-                            'Numero de CUA/NUA: '.$affiliate->nua
+                      ($title ?? '').' || '.
+                      'Trámite Nº: '.($economic_complement->code).' || '.
+                      $eco_com_applicant->getFullName().' || '.
+                      'Carnet de Identidad: '.$eco_com_applicant->identity_card.' '.($eco_com_applicant->city_identity_card->first_shortened ?? '').' || '.
+                      'Regional: '.($economic_complement->city->name ?? '') .' || '.
+                      'Fecha: '.($date ?? '') .' || '.
+                      $user->id
                             )) !!} ">
                         @endif
                 @endif
