@@ -115,6 +115,8 @@ table th.grand {
   text-align: center;
 }
 .title {
+  width: 100%;
+  display: block;
   margin-top: 25px;
   margin-bottom: 0;
   font-size: 16px;
