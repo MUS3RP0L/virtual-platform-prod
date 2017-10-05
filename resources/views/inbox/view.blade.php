@@ -18,14 +18,12 @@
           <div class="btn-group"  data-toggle="tooltip" data-original-title="Actualizar" style="margin: 0;">
                     <a href="{!! url('inbox') !!}" class="btn btn-success btn-raised bg-orange" ><i class="fa fa-refresh fa-lg"></i></a>
           </div>
-
           @can('eco_com_qualification')
-          <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Revisados" style="margin: 0;">
+          <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Planilla de los Trámites seleccinados" style="margin: 0;">
           {!! Form::open(['method' => 'POST', 'route' => ['print_edited_data']]) !!}
-
             <button class="btn btn-primary btn-raised  bg-blue" ><i class="fa fa-print fa-lg"></i>
             </button>
-            <input type="text" id="ids_print" name="ids_print">
+            <input type="hidden" id="ids_print" name="ids_print">
           {!! Form::close() !!} 
           </div>
           @endcan
@@ -89,7 +87,7 @@
                <th>Nombre Beneficiario</th>
   		         <th>Reg</th>
                <th>Código</th>
-  		         <th>Opciones</th>
+  		         {{-- <th>Opciones</th> --}}
   		      </tr>
   		   </thead>
   		</table>
@@ -121,13 +119,13 @@
             </thead>
 		</table>
     <button type="button"  data-target="#modal-confirm"  data-toggle="modal"  class="btn btn-primary btn btn-success btn-raised">Enviar</button>
-    <input type="text" id="ids" name="ids">
+    <input type="hidden" id="ids" name="ids">
 
         <div id="modal-confirm" class="modal fade modal-info" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                 <input type="text" name="_token" value="{{ csrf_token() }}">  
+                 <input type="hidden" name="_token" value="{{ csrf_token() }}">  
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Enviar tramite</h4>
               </div>
@@ -169,7 +167,7 @@ $(document).ready(function (){
             { data: 'name',name: 'name'},
             { data: 'city',name: 'city'},
             { data: 'code',name:'code'},
-            { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
+            // { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
         ],
         initComplete: function () {
             this.api().columns().every(function () {

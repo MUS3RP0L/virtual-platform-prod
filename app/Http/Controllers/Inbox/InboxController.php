@@ -82,10 +82,10 @@ class InboxController extends Controller
                 {
                     return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->code.'</a>';
                 })
-                ->addColumn('action', function ($economic_complement) { return  '
+                /*->addColumn('action', function ($economic_complement) { return  '
                     <div class="btn-group" style="margin:-3px 0;">
                         <a href="economic_complement/'.$economic_complement->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
-                    </div>';})
+                    </div>';})*/
                 ->make(true);
     }
     public function DataEdited()
