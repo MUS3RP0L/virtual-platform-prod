@@ -10,7 +10,7 @@
       text-align: right;
     }
 </style>
-<div class="title2"><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
+<div class="title2"><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
    <div id="project">  
   {{--Información derechohabiente--}}
   <table class="table" style="width:100%;">

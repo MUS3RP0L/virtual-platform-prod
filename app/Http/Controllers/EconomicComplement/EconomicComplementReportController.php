@@ -1042,6 +1042,8 @@ class EconomicComplementReportController extends Controller
         $eco_com_applicant = $economic_complement->economic_complement_applicant;
         $economic_complement_legal_guardian = $economic_complement->economic_complement_legal_guardian;
         $eco_tot_frac = $economic_complement->aps_total_cc + $economic_complement->aps_total_fsa + $economic_complement->aps_total_fs;
+        $doc_number = $economic_complement->economic_complement_modality->economic_complement_type->id;
+
         if ($economic_complement->old_eco_com) {
             $old_eco_com=json_decode($economic_complement->old_eco_com);
             $old_eco_com_total_frac = $old_eco_com->aps_total_cc + $old_eco_com->aps_total_fsa + $old_eco_com->aps_total_fs;
@@ -1057,8 +1059,9 @@ class EconomicComplementReportController extends Controller
             $old_eco_com_city = $city->name;
         }
         $total_literal= Util::convertir($economic_complement->total);
-
+        
         $data = [
+            'doc_number'=>$doc_number,
             'affiliate' => $affiliate,
             'economic_complement' => $economic_complement,
             'eco_com_applicant' => $eco_com_applicant,
@@ -1120,6 +1123,7 @@ class EconomicComplementReportController extends Controller
         $eco_com_applicant = $economic_complement->economic_complement_applicant;
         $economic_complement_legal_guardian = $economic_complement->economic_complement_legal_guardian;
         $eco_tot_frac = $economic_complement->aps_total_cc + $economic_complement->aps_total_fsa + $economic_complement->aps_total_fs;
+        $doc_number = $economic_complement->economic_complement_modality->economic_complement_type->id;
         
         if ($economic_complement->old_eco_com) {
             $old_eco_com=json_decode($economic_complement->old_eco_com);
@@ -1136,9 +1140,10 @@ class EconomicComplementReportController extends Controller
             $city=\Muserpol\City::where('id',$old_eco_com->city_id)->first();
             $old_eco_com_city = $city->name;
             $old_eco_com_reception_date = Util::getDateShort($old_eco_com->reception_date);
+            $doc_number = \Muserpol\EconomicComplementModality::where('id',$old_eco_com->eco_com_modality_id)->first()->economic_complement_type->id;
         }
-
         $data = [
+            'doc_number'=>$doc_number,
             'affiliate' => $affiliate,
             'economic_complement' => $economic_complement,
             'eco_com_applicant' => $eco_com_applicant,
