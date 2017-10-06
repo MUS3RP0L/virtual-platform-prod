@@ -164,14 +164,9 @@ class Affiliate extends Model
         return Util::getDateShort($this->date_entry);
     }
 
-    public function getHowOld()
+    public function getAge()
     {
-        if ($this->date_death) {
-            return Util::getHowOldF($this->birth_date, $this->date_death) . " AÑOS";
-        }
-        else{
-            return Carbon::parse($this->birth_date)->age . " AÑOS";
-        }
+        return Carbon::parse($this->birth_date)->age;
     }
 
     public function getGender()

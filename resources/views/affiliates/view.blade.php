@@ -252,7 +252,7 @@
                                                 <strong>Edad:</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $affiliate->getHowOld() !!}
+                                                {!! $affiliate->getAge() !!}
                                             </div>
                                         </div>
                                     </td>

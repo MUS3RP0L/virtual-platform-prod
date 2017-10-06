@@ -19,7 +19,7 @@
     <tr>
       <td><strong>C.I.:</strong></td><td nowrap>{!! $eco_com_applicant->identity_card !!} {{$eco_com_applicant->city_identity_card->first_shortened ?? ''}}</td>
       <td><strong>FECHA NAC:</strong></td><td> {!! $eco_com_applicant->getShortBirthDate() !!}</td>
-      <td><strong>EDAD:</strong></td><td>{!! $eco_com_applicant->getHowOld() !!}</td>
+      <td><strong>EDAD:</strong></td><td>{!! $eco_com_applicant->getAge() !!}</td>
     </tr>
     <tr>
       <td><strong>TELÉFONO:</strong></td>

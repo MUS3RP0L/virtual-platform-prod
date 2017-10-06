@@ -277,7 +277,7 @@
                                                     <strong>Edad:</strong>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    {!! $affiliate->getHowOld() !!}
+                                                    {!! $affiliate->getAge() !!}
                                                 </div>
                                             </div>
                                         </td>
@@ -550,7 +550,7 @@
                                                 <strong>Edad</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $eco_com_applicant->getHowOld() !!}
+                                                {!! $eco_com_applicant->getAge() !!}
                                             </div>
                                         </div>
                                     </td>
