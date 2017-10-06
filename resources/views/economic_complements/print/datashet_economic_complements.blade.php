@@ -43,7 +43,7 @@
         </td>
       </tr>
       <tr>
-          <td>FECHA NACIMIENTO:</td><td> {!! $affiliate->getShortBirthDate() !!}</td><td>EDAD:</td><td>{!! $affiliate->getHowOld() !!}</td>
+          <td>FECHA NACIMIENTO:</td><td> {!! $affiliate->getShortBirthDate() !!}</td><td>EDAD:</td><td>{!! $affiliate->getAge()!!}  AÑOS</td>
       </tr>
     </table>
   @endif
@@ -68,7 +68,7 @@
       </tr>
       @endif
       <tr>
-          <td>FECHA NACIMIENTO:</td><td> {!! $eco_com_applicant->getShortBirthDate() !!}</td><td>EDAD:</td><td>{!! $eco_com_applicant->getHowOld() !!}</td>
+          <td>FECHA NACIMIENTO:</td><td> {!! $eco_com_applicant->getShortBirthDate() !!}</td><td>EDAD:</td><td>{!! $eco_com_applicant->getAge() !!} AÑOS</td>
       </tr>
       <tr>
         <td>TELÉFONO:</td>

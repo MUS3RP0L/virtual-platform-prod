@@ -99,24 +99,9 @@ class EconomicComplementApplicant extends Model
         return Util::getDateShort($this->birth_date);
     }
 
-    public function getHowOld()
+    public function getAge()
     {
-        if ($this->date_death) {
-            return Util::getHowOldF($this->birth_date, $this->date_death) . " AÑOS";
-        }
-        else{
-            return Carbon::parse($this->birth_date)->age . " AÑOS";
-        }
-    }
-
-    public function getHowOldInt()
-    {
-        if ($this->date_death) {
-            return Util::getHowOldF($this->birth_date, $this->date_death);
-        }
-        else{
-            return Carbon::parse($this->birth_date)->age;
-        }
+        return Carbon::parse($this->birth_date)->age;
     }
 
     public function getTittleName()

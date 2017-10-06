@@ -47,7 +47,7 @@
           </tr>
           <tr>
             <th class="service" style="width: 25%;"><h5><b>EDAD</b></h5></th>
-            <td class="info" style="width: 75%;"><h5>{!! $affiliate->getHowOld() !!}</h5></td>
+            <td class="info" style="width: 75%;"><h5>{!! $affiliate->getAge() !!} AÑOS</h5></td>
           </tr>
           <tr>
             <th class="service" style="width: 25%;"><h5><b>DIRECCIÓN DOMICILIO</b></h5></th>
@@ -143,7 +143,7 @@
       $title.' || '.
       'Nombre del Afiliado: '.$affiliate->getFullNametoPrint().' || '.
       'Carnet de Identidad: '.$affiliate->identity_card.' || '.
-      'Edad del Afiliado: '.$affiliate->getHowOld().' || '.
+      'Edad del Afiliado: '.$affiliate->getAge().' || '.
       'Numero de Affiliado-AFP: '.$affiliate->nua.' || '.
       'Matricula: '.$affiliate->registration.' || '.
       'Estado: '.$affiliate->affiliate_state->name

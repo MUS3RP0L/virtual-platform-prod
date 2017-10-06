@@ -1302,7 +1302,7 @@ class EconomicComplementController extends Controller
                             'age_eco_com_applicant.max' => 'El Huerfano no puede cobrar debido a que tiene mas de 25 anios'
                         ];
 
-                        $age = ['age_eco_com_applicant' => $eco_com_applicant->getHowOldInt()];
+                        $age = ['age_eco_com_applicant' => $eco_com_applicant->getAge()];
 
                         $validator = Validator::make($age, $rules, $messages);
 
