@@ -2110,7 +2110,7 @@ class EconomicComplementController extends Controller
                 
                 case 2: //complemento
                     
-                    $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
+                      $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
                     $complemento->amount_replacement = $request->amount_amortization;
                     $complemento->save();
                     break;
@@ -2150,10 +2150,24 @@ class EconomicComplementController extends Controller
     {
         $economic_complement = EconomicComplement::where('id',$request->id_complemento)->first();
 
+        $older = DB::table('eco_com_states')->where('id',$economic_complement->eco_com_state_id)->first();
+        // dd($economic_complement);
+        // $older = $economic_complement->economic_complement_state()->name;
+        
+
         $economic_complement->eco_com_state_id = $request->state_id;
         $economic_complement->number_check = $request->numero_cheque;
         $economic_complement->save();
 
+        $new = DB::table('eco_com_states')->where('id',$economic_complement->eco_com_state_id)->first();
+        $wf_record=new WorkflowRecord;
+        $wf_record->user_id=Auth::user()->id;
+        $wf_record->date=Carbon::now();
+        $wf_record->eco_com_id=$request->id_complemento;
+        $wf_record->wf_state_id=$economic_complement->wf_current_state_id;
+        $wf_record->record_type_id=1;
+        $wf_record->message="El usuario ".Util::getFullNameuser()." cambio de estado de ".$older->name." a ".$new->name ."  fecha ".Carbon::now().".";
+        $wf_record->save();
         return back()->withInput();
     }
 
