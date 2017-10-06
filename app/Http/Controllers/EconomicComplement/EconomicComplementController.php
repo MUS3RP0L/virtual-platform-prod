@@ -1913,7 +1913,9 @@ class EconomicComplementController extends Controller
       $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
       $affiliate = Affiliate::where('id',$economic_complement->affiliate_id)->first();
       $eco_com_applicant = EconomicComplementApplicant::EconomicComplementIs($economic_complement->id)->first();
+      $doc_number = $economic_complement->economic_complement_modality->economic_complement_type->id;
       $data=[
+        'doc_number'=>$doc_number,
         'header1'=>$header1,
         'header2'=>$header2,
         'title'=>$title,
