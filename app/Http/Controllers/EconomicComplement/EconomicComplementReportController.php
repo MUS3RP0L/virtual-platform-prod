@@ -1098,10 +1098,11 @@ class EconomicComplementReportController extends Controller
             'user_role' =>Util::getRol()->name
         ];
         $data = array_merge($data, $second_data);
-        $view = \View::make('economic_complements.print.print_total',$data )->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view)->setPaper('legal');
-        return $pdf->stream();
+        return \PDF::loadView('economic_complements.print.print_total', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017')->stream('print_total.pdf');
+        // $view = \View::make('economic_complements.print.print_total',$data )->render();
+        // $pdf = \App::make('dompdf.wrapper');
+        // $pdf->loadHTML($view)->setPaper('legal');
+        // return $pdf->stream();
     }
     public function print_total_old($eco_com_id)
     {
@@ -1178,9 +1179,10 @@ class EconomicComplementReportController extends Controller
             'user_role' =>Util::getRol()->name
         ];
         $data = array_merge($data, $second_data);
-        $view = \View::make('economic_complements.print.print_total_old',$data )->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view)->setPaper('legal');
-        return $pdf->stream();
+        return \PDF::loadView('economic_complements.print.print_total_old', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017')->stream('print_total.pdf');
+        // $view = \View::make('economic_complements.print.print_total_old',$data )->render();
+        // $pdf = \App::make('dompdf.wrapper');
+        // $pdf->loadHTML($view)->setPaper('legal');
+        // return $pdf->stream();
     }
 }

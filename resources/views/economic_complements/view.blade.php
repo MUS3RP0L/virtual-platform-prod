@@ -1179,7 +1179,7 @@
                                     <tbody>
                                         <tr class="danger">
                                            <td style="width: 70%">Prestación por Invalidéz</td>
-                                            <td style="text-align: right">{!! $economic_complement->aps_disability !!}</td>
+                                            <td style="text-align: right">{!! Util::formatMoney($economic_complement->aps_disability) !!}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1218,19 +1218,19 @@
                                             <td style="text-align: right">{!! $salary_reference !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Antigüedad(Según Categoría)</td>
+                                            <td style="width: 70%">Antigüedad (Según Categoría)</td>
                                             <td style="text-align: right">{!! $seniority !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Salario Cotizable(Salario del Activo + Antigüedad)</td>
+                                            <td style="width: 70%">Salario Cotizable (Salario del Activo + Antigüedad)</td>
                                             <td style="text-align: right">{!! $salary_quotable !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Diferencia(Salario Activo y Renta Pasivo)</td>
+                                            <td style="width: 70%">Diferencia (Salario Activo y Renta Pasivo)</td>
                                             <td style="text-align: right">{!! $difference !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Total Semestre(Diferencia * 6 meses)</td>
+                                            <td style="width: 70%">Total Semestre (Diferencia * 6 meses)</td>
                                             <td style="text-align: right">{!! $total_amount_semester !!}</td>
                                         </tr>
                                         <tr>
@@ -1254,15 +1254,15 @@
                                     <tbody>
                                         <tr>
                                             <td style="width: 70%">Cuentas por cobrar </td>
-                                            <td  style="text-align: right">{!! $economic_complement->amount_accounting !!}</td>
+                                            <td  style="text-align: right">{!! Util::formatMoney($economic_complement->amount_accounting) !!}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 70%">Mora por prestamos</td>
-                                            <td  style="text-align: right">{!! $economic_complement->amount_loan !!}</td>
+                                            <td  style="text-align: right">{!! Util::formatMoney($economic_complement->amount_loan) !!}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 70%">Reposición de fondos</td>
-                                            <td  style="text-align: right">{!! $economic_complement->amount_replacement !!}</td>
+                                            <td  style="text-align: right">{!! Util::formatMoney($economic_complement->amount_replacement) !!}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -3033,6 +3033,10 @@ $(document).ready(function() {
         function parseCurrency(mount) {
             return (isNaN(mount) || mount !='')  ? parseFloat(mount.toString().replace(/,/g,'')):0;
         }
+        Number.prototype.formatMoney = function(c, d, t){
+        var n = this, c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
+           return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+         };
 
         $('.aps').keyup(function (event) {
             var aps_total_fsa=parseCurrency($("#aps_total_fsa").val());
@@ -3076,7 +3080,7 @@ $(document).ready(function() {
         var amount_replacement = {{ $economic_complement->amount_replacement ??  0}};
         var total = {{ $economic_complement->total ?? 0 }};
         var temp_total = total + amount_loan + amount_accounting + amount_replacement;
-        $('#tempTotal').text(temp_total.toFixed(2));
+        $('#tempTotal').text(temp_total.formatMoney(2,',','.'));
         @endif
 
         //for category

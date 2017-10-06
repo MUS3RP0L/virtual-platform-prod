@@ -30,14 +30,15 @@
         <table class="tablee">
           <thead>
           <tr>
-               <th style="padding: 3px; width: 10px" class="number">N°</th>
-               <th style="padding: 3px; width: 50px" class="grand">DOC. IDENTIDAD</th>
-               <th style="padding: 3px; width: 100px" class="grand">NOMBRES Y APELLIDOS</th>
-               <th style="padding: 3px; width: 20px" class="grand">TIPO RENTA</th>
-               <th style="padding: 3px; width: 30px" class="grand">GRADO</th>
-               <th style="padding: 3px; width: 30px" class="grand">N° DE TRAMITE</th>
-               <th style="padding: 3px; width: 20px" class="grand">LIQ. PAGABLE</th>
-               <th style="padding: 3px; width: 100px" class="grand">FIRMA</th>
+               <th style="padding: 3px; width: 10px" class="number grand bold">N°</th>
+               <th style="padding: 3px; width: 50px" class="grand bold">C.I.</th>
+               <th style="padding: 3px; width: 100px" class="grand bold">NOMBRES Y APELLIDOS</th>
+               <th style="padding: 3px; width: 20px" class="grand bold">TIPO DE RENTA</th>
+               <th style="padding: 3px; width: 30px" class="grand bold">GRADO</th>
+               <th style="padding: 3px; width: 20px" class="grand bold">CAT.</th>
+               <th style="padding: 3px; width: 30px" class="grand bold">N° DE TRAMITE</th>
+               <th style="padding: 3px; width: 20px" class="grand bold">LIQ. PAGABLE</th>
+               <th style="padding: 3px; width: 100px" class="grand bold">FIRMA</th>
            </tr>
           </thead>
             @foreach($economic_complements as $index=>$item)
@@ -47,21 +48,27 @@
                 <td style="padding-left:10px; padding-top:20px; padding-bottom:18px;  ">{!! $item->economic_complement_applicant->getFullName() ?? '' !!}</td>
                 <td style="padding-left:10px; padding-top:20px; padding-bottom:18px; ">{!! strtoupper($item->economic_complement_modality->economic_complement_type->name) ?? '' !!}</td>
                 <td style="padding-left:10px; padding-top:20px; padding-bottom:18px; " >{!! $item->degree->shortened ?? '' !!}</td>
+                <td style="padding-left:10px; padding-top:20px; padding-bottom:18px; " >{!! $item->category->name ?? '' !!}</td>
                 <td style="padding-left:10px; padding-top:20px; padding-bottom:18px;   text-align: center;">{!! $item->code !!}</td>
                 <td style="padding-right:10px; padding-top:20px; padding-bottom:18px;   text-align: right;">Bs. {!! Util::formatMoney($item->total) !!} </td>
                 <td></td>
             </tr>
             @endforeach
             <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td style="text-align: center; font-weight: bold; padding-left:10px; padding-top:20px; padding-bottom:18px;">TOTAL</td>
-              <td style="text-align: center">Bs. {!! $total !!}</td>
+              <td colspan="6"></td>
+              <td style="text-align: center; font-weight: bold; padding-left:10px; padding-top:20px; padding-bottom:18px;" class="size-12">TOTAL</td>
+              <td style="text-align: center" class="size-12"><strong>Bs. {!! $total !!}</strong></td>
               <td></td>
             </tr>
+        </table>
+        <br><br>
+        <br>
+        <table>
+          <tr>
+            <td class="padding-top"><strong>Elaborado y Revisado por:</strong></td>
+            <td class="padding-top"><strong>Aprobado por:</strong></td>
+            <td class="padding-top"><strong>Aprobado por:</strong></td>
+          </tr>
         </table>
     </div>
 @endsection

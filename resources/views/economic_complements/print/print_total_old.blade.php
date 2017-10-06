@@ -1,4 +1,4 @@
-@extends('globalprint.print')
+@extends('globalprint.wkhtml')
 @section('subtitle')
 @if($economic_complement->old_eco_com)
 	{{-- <center><b>(TRÁMITE ANTERIOR)</b></center> --}}
@@ -9,27 +9,9 @@
     .number{
       text-align: right;
     }
-    .info_title{
-      font-size: 17px;
-    }
-    strong{
-      font-weight: 600;
-      opacity: .85;
-    }
-    .title3{
-      font-size: 1.1em;
-      text-align: right;
-      margin-right: 15px;
-      text-decoration: underline;
-    }
 </style>
+	<div class="title2"><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
    <div id="project">
-   	<div class="title3">
-   	      <strong>
-   	        Tramite N°: {!! $economic_complement->code !!}
-   	      </strong>  
-   	</div>
-   	<br>
 			  {{--Información beneficiario--}}
   @if($economic_complement->economic_complement_modality->economic_complement_type->id > 1)
   <table class="table" style="width:100%;">
@@ -78,7 +60,7 @@
   		<td>
   			{{ explode(',',$eco_com_applicant->cell_phone_number)[0] }}
   		</td>
-      <td>Lugar de Nac.</td>
+      <td><strong>Lugar de Nac.</strong></td>
       <td>{!! $eco_com_applicant->city_birth->second_shortened ?? '' !!}</td>
   	</tr>
   </table>
@@ -140,7 +122,7 @@
 		    <td><b>BOLETA TOTAL</b></td><td class="number"><b>{{$old_eco_com->total_rent}}</b></td><td></td>
 		  </tr>
 		  <tr>
-		    <td>RENTA O PENSIÓN PASIVO NETO<</td><td class="number">{{Util::formatMoney($old_eco_com->total_rent_calc)}}</td><td></td>
+		    <td>RENTA O PENSIÓN PASIVO NETO</td><td class="number">{{Util::formatMoney($old_eco_com->total_rent_calc)}}</td><td></td>
 		  </tr>
 		  <tr>
 		    <td>REFERENTE SALARIO DEL ACTIVO</td><td class="number">{{Util::formatMoney($old_eco_com->salary_reference)}}</td><td></td>
@@ -194,9 +176,9 @@
 	<br>
 	<table>
 		<tr>
-			<td class="padding-top">Elaborado por</td>
-			<td class="padding-top">Revisado por</td>
-			<td class="padding-top">Aprobado por</td>
+			<td class="padding-top">Elaborado y Revisado por:</td>
+			<td class="padding-top">Aprobado por:</td>
+			<td class="padding-top">Aprobado por:</td>
 		</tr>
 	</table>
 	{{-- <table>

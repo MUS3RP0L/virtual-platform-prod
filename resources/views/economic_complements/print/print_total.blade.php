@@ -1,7 +1,7 @@
-@extends('globalprint.print')
+@extends('globalprint.wkhtml')
 @section('subtitle')
 @if($economic_complement->old_eco_com)
-  {{-- <center><b>(RECALIFICACION)</b></center> --}}
+  {{-- <center><strong>(RECALIFICACION)</strong></center> --}}
 	@endif
 @endsection
 @section('content')
@@ -9,27 +9,9 @@
     .number{
       text-align: right;
     }
-    .info_title{
-      font-size: 17px;
-    }
-    strong{
-      font-weight: 600;
-      opacity: .85;
-    }
-    .title3{
-      font-size: 1.1em;
-      text-align: right;
-      margin-right: 15px;
-      text-decoration: underline;
-    }
 </style>
+<div class="title2"><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
    <div id="project">
-    <div class="title3">
-          <strong>
-            Tramite N°: {!! $economic_complement->code !!}
-          </strong>  
-    </div>
-    <br>
   		  {{--Información beneficiario--}}
   @if($economic_complement->economic_complement_modality->economic_complement_type->id > 1)
   <table class="table" style="width:100%;">
@@ -76,7 +58,7 @@
       <td>
   			{!! explode(',',$eco_com_applicant->cell_phone_number)[0] !!}<br/>
   		</td>
-      <td>Lugar de Nac.</td>
+      <td><strong>Lugar de Nac.</strong></td>
       <td>{!! $eco_com_applicant->city_birth->second_shortened ?? '' !!}</td>
   	</tr>
   </table>
@@ -109,7 +91,7 @@
   </tr>
   <tr>
   	<td><strong>CATEGORÍA:</strong></td><td>{!! $economic_complement->category->getPercentage() !!}</td>
-    <td><strong>SEMESTRE:</strong></td><td>{!! $economic_complement->semester !!}</td>
+    <td><strong>SEMESTRE:</strong></td><td>{!! $economic_complement->getSemester() !!}</td>
   </tr>
   <tr>
     <td><strong>REGIONAL:</strong></td>  	
@@ -132,14 +114,19 @@
     <td colspan="3"></td>
   </tr>
   <tr>
-    <td class="grand service" rowspan="2"><b>DETALLE</b></td>
-    <td class="grand service" colspan="2"><b style="text-align: center">MONTO CALCULADO</b></td>
+    <td class="grand service" rowspan="2"><strong>DETALLE</strong></td>
+    <td class="grand service" colspan="2"><b style="text-align: center">MONTO CALCULADO</strong></td>
   </tr>
   <tr>
-    <td class="grand service"><b>A FAVOR</b></td><td class="grand service"><b>DESCUENTO</b></td>
+    <td class="grand service"><strong>A FAVOR</strong></td><td class="grand service"><strong>DESCUENTO</strong></td>
   </tr>
+    @if($economic_complement->aps_disability > 0)
+    <tr>
+        <td><strong>PRESTACIÓN POR INVALIDÉZ</strong></td><td class="number"><strong>{{ $economic_complement->aps_disability }}</strong></td><td></td>
+    </tr>
+    @endif
   <tr>
-    <td><b>BOLETA TOTAL</b></td><td class="number"><b>{{$total_rent}}</b></td><td></td>
+    <td><strong>BOLETA TOTAL</strong></td><td class="number"><strong>{{$total_rent}}</strong></td><td></td>
   </tr>
   <tr>
     <td>RENTA O PENSIÓN PASIVO NETO</td><td class="number">{{$total_rent_calc}}</td><td></td>
@@ -178,7 +165,7 @@
   </tr>
   @endif
   <tr>
-  <td class="grand service"><b>TOTAL COMPLEMENTO ECONÓMICO EN BS.</b></td><td class="number"><b>{{$total}}</b></td><td></td>
+  <td class="grand service"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BS.</strong></td><td class="number"><strong>{{$total}}</strong></td><td></td>
   </tr>
   @if($economic_complement->old_eco_com)
   <tr>
@@ -198,7 +185,7 @@
   </tr>
   @else
     <tr>
-      <td colspan="3"><strong>Son: </strong> {{ $total_literal }}</td>
+      <td colspan="3"><strong>Son: </strong> {{ $total_literal }} Bolivianos</td>
     </tr>
   @endif
 </table>
@@ -207,25 +194,16 @@
 	<td colspan="3" class="grand service">NOTA</td>
 	</tr>  
 	<tr>
-	<td colspan="3"><b> </b>{!!$economic_complement->comment!!}</td>
+	<td colspan="3"><strong> </strong>{!!$economic_complement->comment!!}</td>
 	</tr>
 	</table>
   <br>
   <table>
     <tr>
-      <td class="padding-top">Elaborado por</td>
-      <td class="padding-top">Revisado por</td>
-      <td class="padding-top">Aprobado por</td>
+      <td class="padding-top"><strong>Elaborado y Revisado por:</strong></td>
+      <td class="padding-top"><strong>Aprobado por:</strong></td>
+      <td class="padding-top"><strong>Aprobado por:</strong></td>
     </tr>
   </table>
-	{{-- <table>
-	  <tr>
-	    <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>____________________________________________</th>
-	  </tr>
-	  <tr>
-	    <th class="info" style="border: 0px;text-align:center;"><b>Elaborado por {!! $user->getFullName() !!} <br> {{ $user->position }}</b></th>        
-	  </tr>
-	</table> --}}
-
 </div>
 @endsection

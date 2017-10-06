@@ -34,7 +34,7 @@
         </td>
         <td class="der no-border size-11">
           @if(isset($user))
-            <strong>Usuario: </strong>{!! $user->first_name !!} {!! $user->last_name !!} - {!! $user_role !!}
+            <strong>Usuario: </strong>{!! $user->username !!} - {!! $user_role !!}
           @endif
         </td>
       </tr>
