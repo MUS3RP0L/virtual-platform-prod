@@ -550,7 +550,7 @@
                                                 <strong>Edad</strong>
                                             </div>
                                             <div class="col-md-6">
-                                                {!! $eco_com_applicant->getAge() !!}
+                                                {!! $eco_com_applicant->getAge() !!} AÑOS
                                             </div>
                                         </div>
                                     </td>
