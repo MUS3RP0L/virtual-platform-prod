@@ -634,7 +634,7 @@
                             <h3 class="box-title"><span class="fa fa-shield"></span> Informacion del Apoderado</h3>
                         </div>
                         @can("eco_com_review_and_reception")
-                        <!-- @if($has_cancel) -->
+                      
                         <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-guardian">&nbsp;&nbsp;
@@ -642,7 +642,8 @@
                                 </a>
                             </div>
                         </div>
-                        <!-- @endif -->
+                 
+
                         @endcan
 
 
@@ -984,7 +985,7 @@
                                 </tr>
                                 @endcan
 
-                                @can("treasury")
+                                @if($economic_complement->number_check)
                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
@@ -997,7 +998,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @endcan
+                                @endif
 
                             </table>
                         </div>
@@ -1103,7 +1104,7 @@
 
                     </div>
                         @can('eco_com_qualification')
-                            <!-- @if($has_cancel)} -->
+                            
                                 @if($economic_complement->total_rent > 0 )
                                     @if($economic_complement->old_eco_com)
                                     <div class="col-md-2">
@@ -1129,7 +1130,7 @@
                                         </a>
                                     </div>
                                 </div>
-                            <!-- @endif -->
+                           
                         @endcan
                 </div>
                 <div class="box-body">
