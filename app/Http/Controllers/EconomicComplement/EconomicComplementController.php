@@ -1970,7 +1970,10 @@ class EconomicComplementController extends Controller
       if($economic_complement->economic_complement_modality->economic_complement_type->name=='Vejez'){
           $applicant_type="TITULAR";
       }
+      $doc_number = $economic_complement->economic_complement_modality->economic_complement_type->id;
+
       $data=[
+        'doc_number'=>$doc_number,
         'header1'=>$header1,
         'header2'=>$header2,
         'date'=>$date,
