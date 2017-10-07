@@ -117,6 +117,13 @@
                     <th>Tŕamite</th>
                 </tr>
             </thead>
+            <tfoot>
+              <th></th>
+              <th>CI</th>
+              <th>Nombre de beneficiario</th>
+              <th>Reg</th>
+              <th>Tŕamite</th>
+            </tfoot>
 		</table>
     <button type="button"  data-target="#modal-confirm"  data-toggle="modal"  class="btn btn-primary btn btn-success btn-raised">Enviar</button>
     <input type="hidden" id="ids" name="ids">
@@ -185,7 +192,13 @@ $(document).ready(function (){
 
 
 });
-$(document).ready(function (){   
+$(document).ready(function (){ 
+  $('#edited tfoot th').each( function (index) {
+    if (index > 0) {
+      var title = $(this).text();
+      $(this).html( '<input size=auto type="text" placeholder="Search '+title+'" />');
+    }
+  });
   var table = $('#edited').DataTable({
     "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
         "lengthMenu": [[15, 25, 50,100, -1], [15, 25, 50,100, "Todos"]],
@@ -217,8 +230,18 @@ $(document).ready(function (){
         { "data":"code" },
 
      ],
-      'order': [1, 'desc']
+      'order': [1, 'desc'],
   });
+
+  table.columns().every( function () {
+    var that = this;
+    $( 'input', this.footer() ).on( 'keyup change', function () {
+      if ( that.search() !== this.value ) {
+        that.search( this.value ).draw();
+      }
+    });
+  });
+  
 
    // var table = $('#edited').DataTable({
    //  "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
