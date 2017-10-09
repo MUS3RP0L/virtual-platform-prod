@@ -2669,7 +2669,7 @@
                     @endcan
 
                     @can("treasury")
-                    <label>Numero de Checke :</label> <input type="number" required  name="number_check" class="form-control">
+                    <label>Numero de Cheque :</label> <input type="number" required  name="number_check" class="form-control">
                     @endcan
 
                 </div>
@@ -2736,7 +2736,7 @@
                 <label data-bind="value: listaEstados">  aa</label>
                 <!-- <label data-bind="value: sw_tesoreria"> aa</label> -->
                 <div data-bind="visible: sw_tesoreria ">
-                    <label> Numero de Checke</label><br>
+                    <label> Numero de Cheque</label><br>
                     <input type="number" name="numero_cheque" class="form-control" >
                     <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">    
                     
