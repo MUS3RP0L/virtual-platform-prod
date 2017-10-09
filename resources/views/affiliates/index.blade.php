@@ -377,7 +377,7 @@
                 input.setAttribute('class','inputSearch');
                 input.setAttribute('size','10');
                 $(input).appendTo($(column.footer()).empty()).on(
-                    'change',function(){
+                    'keyup change',function(){
                         column.search($(this).val()).draw();
                     });
             });

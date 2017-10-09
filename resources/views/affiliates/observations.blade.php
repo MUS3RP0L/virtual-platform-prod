@@ -165,7 +165,7 @@ var oTable = $('#observation-table').DataTable({
                 //input.setAttribute('placeholder','filtro');
                 input.setAttribute('size','10');
                 $(input).appendTo($(column.footer()).empty()).on(
-                    'change',function(){
+                    'keyup change',function(){
                         column.search($(this).val()).draw();
                     });
             });
