@@ -28,6 +28,18 @@
 
 @section('main-content')
 
+<style type="text/css">
+.inputUsuario
+{
+    background-image: url('img/search.png');
+    background-position: 0px left;
+    background-repeat: no-repeat;
+    padding:0 0 0 20px;
+    border: 0px;
+      
+}
+</style>
+
     <div class="row">
         <div class="col-md-12">
             <div class="box box-warning">
@@ -39,7 +51,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table table-bordered table-hover" id="affiliates-table">
-                                <thead>
+                                <thead style="display:table-row-group;">
                                     <tr class="success">
                                         <th>ID</th>
                                         <th>Núm. Carnet</th>
@@ -52,7 +64,7 @@
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
-                                <tfoot>
+                                <tfoot  style="display: table-header-group;">
                                     <tr>
                                         <th></th>
                                         <th></th>
@@ -322,10 +334,17 @@
 
         var oTable = $('#affiliates-table').DataTable({
             
+            dom: "<'row'<'col-xs-12'<'col-xs-6'l>>t>"+
+            "<'row'<'col-xs-12't>>"+
+            "<'row'<'col-xs-12'<'col-xs-6'i><'col-xs-6'p>>>",
+
             processing: true,
             serverSide: true,
             pageLength: 8,
             autoWidth: false,
+            
+
+
             ajax: {
                 url: '{!! route('get_affiliate') !!}',
                 data: function (d) {
@@ -353,13 +372,25 @@
             this.api().columns('0,1,2,3,4,5,6,7').every(function(){
                 var column = this;
                 var input = document.createElement('input');
-                input.setAttribute('class','form-control');
-                input.setAttribute('placeholder','filtro');
+                //var spa = document.createElement('span');
+                //var i = document.createElement('i');
+                //var div = document.createElement('div');
+                //spa.setAttribute('class','icon');
+                //i.setAttribute('class','fa fa-search');
+                //input.setAttribute('class','form-control');
+                input.setAttribute('class','inputUsuario');
+
+                //input.setAttribute('placeholder','filtro');
                 input.setAttribute('size','10');
                 $(input).appendTo($(column.footer()).empty()).on(
                     'change',function(){
                         column.search($(this).val()).draw();
                     });
+                //$(spa).appendTo(div);
+                //$(i).appendTo(spa);
+                //$(input).appendTo(div);
+                //$(div).appendTo().on(input);
+                
             });
 
         }
@@ -369,6 +400,7 @@
             oTable.draw();
             e.preventDefault();
         });
+
 
     </script>
 @endpush

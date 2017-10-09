@@ -686,6 +686,10 @@ class AffiliateController extends Controller
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
+
+             //Inclumplimiento de requisitos de inclusión
+             case '6':
+                Session::flash('message', 'Se tiene registrado la observación respectiva');
             
             //Falta de requisitos habitual inclusión
             case '7':
@@ -721,7 +725,19 @@ class AffiliateController extends Controller
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
 
-                            
+            //General complemento económico
+            //case '11':
+            #code
+
+            //Observación por pago a domicilio
+            //case '12':
+            #code
+
+            //Interrupción reposición de fondos
+            //case '13':
+            #code
+
+
             //Inconsistencia por categoría
             case '14':
 
@@ -729,6 +745,7 @@ class AffiliateController extends Controller
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
+            
             //Inconsistencia por grado    
             case '15':
             
@@ -737,16 +754,8 @@ class AffiliateController extends Controller
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream(); 
 
-            //nota por concurrencia
-            case '16':
-                $view = \View::make('affiliates.print.notice_of_concurrence', $data)->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();
-
-
             //Salario por concurrencia
-            case '17':
+            case '16':
                 $nextSemester = $eco_com_applicant->semester == 'Primer' ? 'Segundo' : 'Primer'; 
                 $nextYear = $eco_com_applicant->semester == 'Segundo' ? Util::getYear($eco_com_applicant->year) : $eco_com_applicant->year;
                 array_push($data, $nextSemester);
@@ -758,7 +767,7 @@ class AffiliateController extends Controller
             
             //Calificación correcta
             
-            case '18':
+            case '17':
                 $nextSemester = $eco_com_applicant->semester == 'Primer' ? 'Segundo' : 'Primer'; 
                 $nextYear = $eco_com_applicant->semester == 'Segundo' ? Util::getYear($eco_com_applicant->year) : $eco_com_applicant->year;
                 array_push($data, $nextSemester);
@@ -766,8 +775,23 @@ class AffiliateController extends Controller
                 $view = \View::make('affiliates.print.correct_grading', $data)->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();      
+                return $pdf->stream();
 
+            //Solicitud fuera de plazo (90 dias) incuplimiento de requisitos
+            //case '18':
+            #code    
+
+            //Solicitud presentada fuera de plazo (120 dias) Amortización de deuda
+            //case '19':
+            #code 
+
+            //nota por concurrencia
+            /*case '20':
+                $view = \View::make('affiliates.print.notice_of_concurrence', $data)->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view)->setPaper('legal');
+                return $pdf->stream();        
+            */    
         }
     }
 
