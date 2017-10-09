@@ -27,6 +27,7 @@
     border-top: 0px;
     border-right: 0px;
     border-left: 0px;
+    width: 100%;
       
 }
 </style>
@@ -103,7 +104,7 @@
                         var input = document.createElement('input');
                         input.setAttribute('class','inputSearch');
                         //input.setAttribute('placeholder','filtro');
-                        input.setAttribute('size','5');
+                        //input.setAttribute('size','5');
                         $(input).appendTo($(column.footer()).empty()).on(
                                     'keyup change',function(){
                                         var val = $(this).val();
