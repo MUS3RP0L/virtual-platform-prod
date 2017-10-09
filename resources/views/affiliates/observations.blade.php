@@ -78,7 +78,7 @@
                     </div>
 
                         <table class="table table-bordered table-hover" id="observation-table">
-                                <thead>
+                                <thead style="display:table-row-group;">
                                     <tr class="success">
                                   
                                         <th> Nro. Carnet </th>
@@ -93,7 +93,7 @@
                                       
                                     </tr>
                                 </thead>
-                                <tfoot>
+                                <tfoot style="display: table-header-group;">
                                     <tr>
                                         <th></th>
                                         <th></th> 
@@ -116,7 +116,9 @@
 <script>
 
 var oTable = $('#observation-table').DataTable({
-    
+    dom: "<'row'<'col-xs-12'<'col-xs-6'l>>t>"+
+            "<'row'<'col-xs-12't>>"+
+            "<'row'<'col-xs-12'<'col-xs-6'i><'col-xs-6'p>>>",
     processing: true,
     serverSide: true,
     ajax: {
