@@ -109,7 +109,7 @@
                 }));
             @else
                 self.requirements = ko.observableArray(ko.utils.arrayMap(requirements, function(document) {
-                return { id: document.id, name: document.shortened, status: false };
+                return { id: document.id, name: document.shortened, status: true };
                 }));
             @endif
 

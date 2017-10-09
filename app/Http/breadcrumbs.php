@@ -92,7 +92,7 @@
     // Create Economic Complement
     Breadcrumbs::register('create_economic_complement', function($breadcrumbs, $affiliate) {
         $breadcrumbs->parent('economic_complements');
-        $breadcrumbs->push('Nuevo ' . $affiliate->type_ecocom);
+        $breadcrumbs->push('Nuevo ' . $affiliate->get_eco_com_reception_type());
     });
     // Show Economic Complement
     Breadcrumbs::register('show_economic_complement', function($breadcrumbs, $economic_complement) {
