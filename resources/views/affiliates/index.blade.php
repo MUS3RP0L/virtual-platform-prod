@@ -29,13 +29,15 @@
 @section('main-content')
 
 <style type="text/css">
-.inputUsuario
+.inputSearch
 {
-    background-image: url('img/search.png');
+    background-image: url('img/searching.png');
     background-position: 0px left;
     background-repeat: no-repeat;
     padding:0 0 0 20px;
-    border: 0px;
+    border-top: 0px;
+    border-right: 0px;
+    border-left: 0px;
       
 }
 </style>
@@ -372,25 +374,12 @@
             this.api().columns('0,1,2,3,4,5,6,7').every(function(){
                 var column = this;
                 var input = document.createElement('input');
-                //var spa = document.createElement('span');
-                //var i = document.createElement('i');
-                //var div = document.createElement('div');
-                //spa.setAttribute('class','icon');
-                //i.setAttribute('class','fa fa-search');
-                //input.setAttribute('class','form-control');
-                input.setAttribute('class','inputUsuario');
-
-                //input.setAttribute('placeholder','filtro');
+                input.setAttribute('class','inputSearch');
                 input.setAttribute('size','10');
                 $(input).appendTo($(column.footer()).empty()).on(
                     'change',function(){
                         column.search($(this).val()).draw();
                     });
-                //$(spa).appendTo(div);
-                //$(i).appendTo(spa);
-                //$(input).appendTo(div);
-                //$(div).appendTo().on(input);
-                
             });
 
         }
