@@ -91,7 +91,9 @@
                                 </div>
                         </form>
                     </div>
-
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-body">    
                         <table class="table table-bordered table-hover" id="observation-table">
                                 <thead style="display:table-row-group;">
                                     <tr class="success">
@@ -122,11 +124,14 @@
                                 </tfoot>
 
                         </table>
+                        </div>
+                    </div>
+                    </div>
                 </div> 
             </div>
         </div>
 </div>
-   
+@endsection   
 @push('scripts')
 <script>
 
@@ -136,6 +141,7 @@ var oTable = $('#observation-table').DataTable({
             "<'row'<'col-xs-12'<'col-xs-6'i><'col-xs-6'p>>>",
     processing: true,
     serverSide: true,
+    autoWidth: false,
     ajax: {
             
             url: '{!! route('getdataobservations') !!}',
@@ -184,4 +190,3 @@ $('#search-form').on('change',function(e){
 </script>
 @endpush
 
-@endsection
