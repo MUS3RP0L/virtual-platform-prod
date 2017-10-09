@@ -1,13 +1,4 @@
-@font-face {
-  font-family: 'ariall';
-  src: url('../fonts/helvetica/HelveticaNeueLTStd-Md.eot'); /* IE9 Compat Modes */
-  src: url('../fonts/helvetica/HelveticaNeueLTStd-Md.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('../fonts/helvetica/HelveticaNeueLTStd-Md.woff2') format('woff2'), /* Super Modern Browsers */
-       url('../fonts/helvetica/HelveticaNeueLTStd-Md.woff') format('woff'), /* Pretty Modern Browsers */
-       url('../fonts/helvetica/HelveticaNeueLTStd-Md.ttf')  format('truetype'), /* Safari, Android, iOS */
-       url('../fonts/helvetica/HelveticaNeueLTStd-Md.svg#svgFontName') format('svg'); /* Legacy iOS */
-}
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 html,body{
   font-weight: 100;
   font-size: 11px;
@@ -170,13 +161,14 @@ strong, .bold{
   margin:0; 
   position: absolute;
   right:0%;
-  top: 99%;
+  top: 100%;
 }
 h4{
   font-size:12px;
   margin:0;
 }
 .code{
+ margin:0;
  border: 1px solid #000;
  padding:0px 5px; 
 }
@@ -186,4 +178,9 @@ h4{
 .circle{
   width:10px;
   height: 10px;
+}
+.padding-top{
+  width: 33%;
+  padding-top:70px;
+  text-align:center;
 }

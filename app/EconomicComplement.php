@@ -167,6 +167,10 @@ class EconomicComplement extends Model
             return Util::getDateShort($this->review_date);
         }
     }
+    public function getSemester()
+    {
+        return $this->semester == 'Primer'? 'Primero': 'Segundo';
+    }
     public function stateOf()
     {
         $role=Util::getRol();

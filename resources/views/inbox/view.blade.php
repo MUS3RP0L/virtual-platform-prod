@@ -38,6 +38,10 @@
     input[type="checkbox"]{
         transform: scale(1.5);
     }
+    .form-group {
+        padding-bottom: 0px;
+        margin: 0 0 0 0;
+    }
 </style>
 <div class="row">
 <div class="col-md-6">
@@ -90,6 +94,18 @@
   		         {{-- <th>Opciones</th> --}}
   		      </tr>
   		   </thead>
+        <tfoot>
+          <th style="max-width: 100px;"><input type="text" class="form-control" style="width:100%" placeholder="Buscar por CI"></th>
+          <th>
+            <div class="form-group col-md-12">
+              
+            <input type="text" class="form-control" style="width:100%" placeholder="Buscar por Nombre del Beneficiaro">
+            </div>
+          </th>
+          <th style="max-width: 60px;"><input type="text" class="form-control" style="width:100%" placeholder="Reg."></th>
+          <th style="max-width: 60px;"><input type="text" class="form-control" style="width:100%" placeholder="Nro de tramite"></th>
+          {{-- <th>Opciones</th> --}}
+        </tfoot>
   		</table>
   </div>
 	</div>
@@ -117,6 +133,13 @@
                     <th>Tŕamite</th>
                 </tr>
             </thead>
+            <tfoot>
+              <th></th>
+              <th style="max-width: 100px;">CI</th>
+              <th style="max-width: 150px;">Nombre de beneficiario</th>
+              <th style="max-width: 70px;">Reg</th>
+              <th style="max-width: 60px;">Tŕamite</th>
+            </tfoot>
 		</table>
     <button type="button"  data-target="#modal-confirm"  data-toggle="modal"  class="btn btn-primary btn btn-success btn-raised">Enviar</button>
     <input type="hidden" id="ids" name="ids">
@@ -152,6 +175,7 @@
 @push('scripts')
 <script>
 $(document).ready(function (){
+
     var oTable = $('#received').DataTable({
         
         "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
@@ -168,24 +192,50 @@ $(document).ready(function (){
             { data: 'city',name: 'city'},
             { data: 'code',name:'code'},
             // { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
-        ],
-        initComplete: function () {
-            this.api().columns().every(function () {
-                var column = this;
-                var input = document.createElement('input');
-                $(input).appendTo($(column.footer()).empty())
-                .on('change', function () {
-                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
-
-                    column.search(val ? val : '', true, false).draw();
-                });
-            });
-        }
+        ]
         });
+    // $('#received tfoot th').each( function (index) {
+    //   var title = $(this).text();
+  //     <label class="control-label" for="inputDefault">Default input</label>
+  // <input type="text" class="form-control" id="inputDefault">
+      // var divp=$('<div>').addClass('form-group col-md-12');
+      // var label=$('<label>').addClass('control-label').html('Buscar por '+title+" ").attr('for', 'filter_re_'+index);;
+      // var i=$('<i>').addClass('fa fa-search');
+      // var input=$('<input>').addClass('form-control col-md-12').attr('id', 'filter_re_'+index).attr('placeholder','Buscar por '+title);
+      // divp.append(label);
+      // label.append(i);
+      // divp.append(input);
+      // $(this).html(input);
+  // });
 
+    oTable.columns().every( function () {
+      var that = this;
+      $( 'input', this.footer() ).on( 'keyup change', function () {
+        if ( that.search() !== this.value ) {
+          that.search( this.value ).draw();
+        }
+      });
+    });
 
 });
-$(document).ready(function (){   
+$(document).ready(function (){ 
+  $('#edited tfoot th').each( function (index) {
+    if (index > 0) {
+      var title = $(this).text();
+      var divp=$('<div>').addClass('col-md-12').css({
+        margin: '0px',
+        padding: '0px',
+      }).css('padding-right','15px').css('padding-left','15px');
+      // var label=$('<label>').addClass('control-label').html('Buscar por '+title+" ").attr('for', 'filter_ed_'+index);;
+      // var i=$('<i>').addClass('fa fa-search');
+      var input=$('<input>').addClass('form-control').attr('placeholder',''+title).css('width', '100%');;
+      // divp.append(label);
+      // label.append(i);
+      divp.append(input);
+      $(this).html(divp);
+    }
+  });
+
   var table = $('#edited').DataTable({
     "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
         "lengthMenu": [[15, 25, 50,100, -1], [15, 25, 50,100, "Todos"]],
@@ -217,8 +267,18 @@ $(document).ready(function (){
         { "data":"code" },
 
      ],
-      'order': [1, 'desc']
+      'order': [1, 'desc'],
   });
+
+  table.columns().every( function () {
+    var that = this;
+    $( 'input', this.footer() ).on( 'keyup change', function () {
+      if ( that.search() !== this.value ) {
+        that.search( this.value ).draw();
+      }
+    });
+  });
+  
 
    // var table = $('#edited').DataTable({
    //  "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",

@@ -1,4 +1,4 @@
-@extends('globalprint.print')
+@extends('globalprint.wkhtml')
 @section('subtitle')
 @if($economic_complement->old_eco_com)
 	{{-- <center><b>(TRÁMITE ANTERIOR)</b></center> --}}
@@ -9,56 +9,13 @@
     .number{
       text-align: right;
     }
-    .info_title{
-      font-size: 17px;
-    }
-    strong{
-      font-weight: 600;
-      opacity: .85;
-    }
-    .title3{
-      font-size: 1.1em;
-      text-align: right;
-      margin-right: 15px;
-      text-decoration: underline;
-    }
 </style>
+	<div class="title2"><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
    <div id="project">
-   	<div class="title3">
-   	      <strong>
-   	        Tramite N°: {!! $economic_complement->code !!}
-   	      </strong>  
-   	</div>
-   	<br>
-			  {{--Información beneficiario--}}
-  @if($economic_complement->economic_complement_modality->economic_complement_type->id > 1)
-  <table class="table" style="width:100%;">
-  	<tr>
-  		<td colspan="6" class="grand info_title">
-  			INFORMACIÓN DEL AFILIADO 
-  			@if($economic_complement->economic_complement_modality->economic_complement_type->id > 1)
-  			- CAUSAHABIENTE
-  			@endif
-  		</td>
-  	</tr>
-  	<tr>
-  		<td colspan="1"><strong>NOMBRE:</strong></td><td colspan="5" nowrap>{!! $affiliate->getFullNamePrintTotal() !!}</td>
-  	</tr>
-  	<tr>
-  		<td><strong>C.I.:</strong></td><td nowrap>  {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card->first_shortened ?? '' !!}</td>
-      <td><strong>FECHA NAC:</strong></td><td> {!! $affiliate->getShortBirthDate() !!}</td>
-      <td><strong>EDAD:</strong></td><td>{!! $affiliate->getAge() !!} AÑOS</td>
-  	</tr>
-  </table>
-  @endif
-  {{--Información derechohabiente--}}
   <table class="table" style="width:100%;">
   	<tr>
   		<td colspan="6" class="grand info_title">
   			INFORMACIÓN DEL BENECIFIARIO
-  			@if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1)
-  			- DERECHOHABIENTE
-  			@endif
   		</td>
   	</tr>
   	<tr>
@@ -78,7 +35,7 @@
   		<td>
   			{{ explode(',',$eco_com_applicant->cell_phone_number)[0] }}
   		</td>
-      <td>Lugar de Nac.</td>
+      <td><strong>LUGAR DE NAC.</strong></td>
       <td>{!! $eco_com_applicant->city_birth->second_shortened ?? '' !!}</td>
   	</tr>
   </table>
@@ -98,39 +55,30 @@
 	@if($economic_complement->old_eco_com)
 		<table>
 		  <tr>
-		    <td colspan="4" class="grand info_title">INFORMACIÓN DEL TRÁMITE</td>
+		    <td colspan="6" class="grand info_title">INFORMACIÓN DEL TRÁMITE</td>
 		  </tr>
 		  <tr>
-		    <td><strong>TIPO DE PRESTACIÓN: </strong></td><td>{{ $old_eco_com_modality_name }}</td>
 		    <td><strong>MODALIDAD: </strong></td><td>{{ $old_eco_com_modality }}</td>
-		  </tr>
-		  <tr>
 		    <td><strong>GRADO:</strong></td><td>{!! $old_eco_com_degree !!}</td>
-		    <td><strong>GESTIÓN:</strong></td><td> {!! $old_eco_com_year!!}</td>
-		  </tr>
-		  <tr>
 		  	<td><strong>CATEGORÍA:</strong></td><td>{!! $old_eco_com_category !!}</td>
+		  <tr>
+		  </tr>
+		    <td><strong>REGIONAL:</strong></td><td>{!! $old_eco_com_city !!}</td>  	
+		    <td><strong>GESTIÓN:</strong></td><td> {!! $old_eco_com_year!!}</td>
 		    <td><strong>SEMESTRE:</strong></td><td>{!! $old_eco_com->semester !!}</td>
 		  </tr>
 		  <tr>
-		    <td><strong>REGIONAL:</strong></td>  	
-		    <td>{!! $old_eco_com_city !!}</td>  	
-		    <td><strong>ENTE GESTOR:</strong></td>
-		    <td>{!! $affiliate->pension_entity->name ?? '' !!}</td>
-		  </tr>
-		  <tr>
-		    <td><strong>TIPO DE TRÁMITE: </strong></td>  	
-		    <td>{!! $old_eco_com->reception_type !!}</td>  	
-		    <td><strong>FECHA DE RECEPCIÓN:</strong></td>
-		    <td>{!! $old_eco_com_reception_date!!}</td>
+		    <td><strong>ENTE GESTOR:</strong></td><td>{!! $affiliate->pension_entity->name ?? '' !!}</td>
+		    <td><strong>TIPO DE TRÁMITE: </strong></td><td>{!! $old_eco_com->reception_type !!}</td>  	
+		    <td><strong>FECHA DE RECEPCIÓN:</strong></td><td>{!! $old_eco_com_reception_date!!}</td>
 		  </tr>
 		</table>
 		<table>
 		  <tr>
-		    <td colspan="3" class="grand info_title" ><strong>CÁLCULO DE TOTAL PAGADO</strong></td>
+		    <td colspan="3" class="grand info_title" ><strong>CÁLCULO DEL COMPLEMENTO ECONÓMICO</strong></td>
 		  </tr>
 		  <tr>
-		    <td class="grand service" rowspan="2"><b>DETALLE</b></td>
+		    <td class="grand service" rowspan="2" style="vertical-align: middle;"><b>DETALLE</b></td>
 		    <td class="grand service" colspan="2"><b style="text-align: center">MONTO CALCULADO</b></td>
 		  </tr>
 		  <tr>
@@ -140,7 +88,7 @@
 		    <td><b>BOLETA TOTAL</b></td><td class="number"><b>{{$old_eco_com->total_rent}}</b></td><td></td>
 		  </tr>
 		  <tr>
-		    <td>RENTA O PENSIÓN PASIVO NETO<</td><td class="number">{{Util::formatMoney($old_eco_com->total_rent_calc)}}</td><td></td>
+		    <td>RENTA O PENSIÓN PASIVO NETO</td><td class="number">{{Util::formatMoney($old_eco_com->total_rent_calc)}}</td><td></td>
 		  </tr>
 		  <tr>
 		    <td>REFERENTE SALARIO DEL ACTIVO</td><td class="number">{{Util::formatMoney($old_eco_com->salary_reference)}}</td><td></td>
@@ -179,7 +127,7 @@
 		  <td class="grand service"><b>TOTAL COMPLEMENTO ECONÓMICO EN BS.</b></td><td class="number"><b>{{ Util::formatMoney($old_eco_com->total)}}</b></td><td></td>
 		  </tr>
 		  <tr>
-		  	<td colspan="3"><strong>Son: </strong>{!! $total_literal !!}</td>
+		  	<td colspan="3"><strong>Son: </strong>{!! $total_literal !!} Bolivianos</td>
 		  </tr>
 		</table>
 	@endif
@@ -194,9 +142,9 @@
 	<br>
 	<table>
 		<tr>
-			<td class="padding-top">Elaborado por</td>
-			<td class="padding-top">Revisado por</td>
-			<td class="padding-top">Aprobado por</td>
+			<td class="padding-top">Elaborado y Revisado por:</td>
+			<td class="padding-top">Aprobado por:</td>
+			<td class="padding-top">Aprobado por:</td>
 		</tr>
 	</table>
 	{{-- <table>

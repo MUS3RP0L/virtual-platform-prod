@@ -2,11 +2,11 @@
 
 @section('content')
 
-<div class="title2"><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
+<div class="title2"><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
 <div id="project">
   <table class="table" style="width:100%;">
     <tr>
-      <td colspan="6" class="grand info_title">
+      <td colspan="7" class="grand info_title">
         INFORMACIÓN DEL BENECIFIARIO
         @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1)
         - DERECHOHABIENTE
@@ -14,10 +14,13 @@
       </td>
     </tr>
     <tr >
-      <td colspan="1"><strong>NOMBRE:</strong></td><td colspan="5" nowrap>{!! $eco_com_applicant->getFullName() !!}</td>
+      <td colspan="1"><strong>NOMBRE:</strong></td>
+      <td colspan="2" nowrap>{!! $eco_com_applicant->getFullName() !!}</td>
+      <td><strong>GRADO:</strong></td><td>{!! $economic_complement->degree->shortened ?? '' !!}</td>
+      <td><strong>CATEGORÍA:</strong></td><td>{!! $economic_complement->category->getPercentage() !!}</td>
     </tr>
     <tr>
-      <td><strong>C.I.:</strong></td><td nowrap>{!! $eco_com_applicant->identity_card !!} {{$eco_com_applicant->city_identity_card->first_shortened ?? ''}}</td>
+      <td><strong>C.I.:</strong></td><td nowrap colspan="2">{!! $eco_com_applicant->identity_card !!} {{$eco_com_applicant->city_identity_card->first_shortened ?? ''}}</td>
       <td><strong>FECHA NAC:</strong></td><td> {!! $eco_com_applicant->getShortBirthDate() !!}</td>
       <td><strong>EDAD:</strong></td><td>{!! $eco_com_applicant->getAge() !!} AÑOS</td>
     </tr>
@@ -31,7 +34,7 @@
         {{ explode(',',$eco_com_applicant->cell_phone_number)[0] }}
       </td>
       <td><strong>Lugar de Nac.</strong></td>
-      <td>{!! $eco_com_applicant->city_birth->second_shortened ?? '' !!}</td>
+      <td colspan="2">{!! $eco_com_applicant->city_birth->name ?? '' !!}</td>
     </tr>
   </table>
   <p align="justify"> Yo, <strong>{!! $eco_com_applicant->getTitleNameFull() !!}</strong> boliviano (a) de nacimiento con Cédula de Identidad <strong>N° {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened !!}</strong> .
