@@ -280,18 +280,18 @@ class DashboardController extends Controller
            // ->select('economic_complements.id as id_base' ,'economic_complements.code as codigo')
             ->get();
 
-           // Log::info("revisados : ".$revisados->count());
+           Log::info("revisados : ".$revisados->count());
              $semestre = DB::table('eco_com_procedures')->orderBy('id','DESC')->first();
 
            $norevisados = EconomicComplement::where('economic_complements.workflow_id','<=','3')
            ->where('eco_com_procedure_id','=','2')
            ->where('economic_complements.wf_current_state_id','2')//
            ->where('economic_complements.state','Received')
-           ->where('created_at','<=','2017-08-25 23:59')
+           // ->where('created_at','<=','2017-08-25 23:59')
            ->get();
            
            // dd($norevisados->count());
-           // Log::info("no revisados".$norevisados->count());
+           Log::info("no revisados".$norevisados->count());
            $valid_array=array();
             array_push($valid_array, array('Revisados','No Revisados'));
             $n= $revisados->count()-$norevisados->count();

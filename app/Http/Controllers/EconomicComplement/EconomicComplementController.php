@@ -2132,7 +2132,8 @@ class EconomicComplementController extends Controller
     public function retroceso_de_tramite(Request $request)
     {
         $economic_complement = EconomicComplement::where('id',$request->id_complemento)->first();
-
+        $old_wf = DB::table('wf_states')->where('id',$economic_complement->wf_current_state_id)->first();
+        dd($old_wf);
         $sequence = WorkflowSequence::where("workflow_id",$economic_complement->workflow_id)
                                      ->where("wf_state_current_id",$economic_complement->wf_current_state_id)
                                      ->where('action','Denegar')
@@ -2141,6 +2142,16 @@ class EconomicComplementController extends Controller
         $economic_complement->wf_current_state_id = $sequence->wf_state_next_id;
         $economic_complement->state= 'Received';
         $economic_complement->save();
+
+        $wf_record=new WorkflowRecord;
+        $wf_record->user_id=Auth::user()->id;
+        $wf_record->date=Carbon::now();
+        $wf_record->eco_com_id=$request->id_complemento;
+        $wf_record->wf_state_id=$economic_complement->wf_current_state_id;
+        $wf_record->record_type_id=1;
+        $wf_record->message="El usuario ".Util::getFullNameuser()." devolvio el tramite a  ".$older->name." a ".$new->name ."  fecha ".Carbon::now().".";
+        $wf_record->save();
+
 
         return back()->withInput();
 

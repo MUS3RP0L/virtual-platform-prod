@@ -2670,17 +2670,18 @@
     <form  action="{{url('retroceso_de_tramite')}}" method="POST">
             
         
-        <div id="back-modal" class="modal fade modal-warning" tabindex="-1" role="dialog">
+        <div id="back-modal" class="modal fade modal-default" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
                  <input type="hidden" name="_token" value="{{ csrf_token() }}">  
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Retroceso de Tramite</h4>
+                <h4 class="modal-title"><strong class=""> Retroceso de Tramite</strong></h4>
               </div>
               <div class="modal-body">
               
                     Esta seguro de enviar el tramite de <strong> {{$economic_complement->wf_state->name }}</strong>  a  <strong>{{ $wf_state_before->name }} ?</strong>
+                    <textarea class="form-control" name="nota" placeholder=" Nota"></textarea>
                 <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">    
               </div>
               <div class="modal-footer">
@@ -2709,13 +2710,14 @@
               </div>
               <div class="modal-body">
                 <label> Tipo de Pago</label><br>
-                <select class="form-control" name ="state_id" data-bind="value: select_tesoreria" >
+                <select class="form-control" name ="state_id" data-bind="options: lista" >
                     @foreach($states as $st)
                     <option value={{$st->id}}>{{$st->name}}</option>
                     @endforeach
                 </select>
-                <!-- <label data-bind="text select_tesoreria"></label>
-                <div data-bind="visible: sw_tesoreria "> -->
+                <label data-bind="value: listaEstados">  aa</label>
+                <!-- <label data-bind="value: sw_tesoreria"> aa</label> -->
+                <div data-bind="visible: sw_tesoreria ">
                     <label> Numero de Checke</label><br>
                     <input type="number" name="numero_cheque" class="form-control" >
                     <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">    
@@ -2785,7 +2787,7 @@ $(document).ready(function() {
                         });
                     }, error:function(err){
 
-                        console.log("Aqui va mi error.-.--------------------------");
+                        console.log("Aqui va mi error.-.--------------------------")    ;
                         console.log(err);
                     }
                 });
@@ -2880,11 +2882,9 @@ $(document).ready(function() {
         @endif
         self.concurrenceCheck = ko.observable({{ ($economic_complement->aps_disability > 0 ) ? true:false }});
         self.select_tesoreria = ko.observable();
-        console.log('self.select_tesoreria');
+        // console.log('self.select_tesoreria');
         self.sw_tesoreria = self.select_tesoreria==3?true:false;
     };
-
- 
 
 
     // ko.applyBindings();
