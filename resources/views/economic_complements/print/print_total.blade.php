@@ -36,7 +36,7 @@
       <td>
   			{!! explode(',',$eco_com_applicant->cell_phone_number)[0] !!}<br/>
   		</td>
-      <td><strong>Lugar de Nac.</strong></td>
+      <td><strong>LUGAR DE NAC.</strong></td>
       <td>{!! $eco_com_applicant->city_birth->second_shortened ?? '' !!}</td>
   	</tr>
   </table>
@@ -77,10 +77,10 @@
 </table>
 <table>
   <tr>
-    <td colspan="3" class="grand info_title" ><strong>CÁLCULO DE TOTAL</strong></td>
+    <td colspan="3" class="grand info_title" ><strong>CÁLCULO DEL COMPLEMENTO ECONÓMICO</strong></td>
   </tr>
   <tr>
-    <td class="grand service" rowspan="2"><strong>DETALLE</strong></td>
+    <td class="grand service" rowspan="2" style="vertical-align: middle;"><strong>DETALLE</strong></td>
     <td class="grand service" colspan="2"><b style="text-align: center">MONTO CALCULADO</strong></td>
   </tr>
   <tr>
