@@ -90,6 +90,13 @@
   		         {{-- <th>Opciones</th> --}}
   		      </tr>
   		   </thead>
+        <tfoot>
+          <th>CI</th>
+          <th>Nombre de beneficiario</th>
+          <th>Reg</th>
+          <th>Tŕamite</th>
+          {{-- <th>Opciones</th> --}}
+        </tfoot>
   		</table>
   </div>
 	</div>
@@ -159,6 +166,19 @@
 @push('scripts')
 <script>
 $(document).ready(function (){
+    $('#received tfoot th').each( function (index) {
+      var title = $(this).text();
+  //     <label class="control-label" for="inputDefault">Default input</label>
+  // <input type="text" class="form-control" id="inputDefault">
+      var divp=$('<div>').addClass('form-group col-md-12');
+      // var label=$('<label>').addClass('control-label').html('Buscar por '+title+" ").attr('for', 'filter_re_'+index);;
+      var i=$('<i>').addClass('fa fa-search');
+      var input=$('<input>').addClass('form-control col-md-12').attr('id', 'filter_re_'+index).attr('placeholder','Buscar por '+title);
+      // divp.append(label);
+      // label.append(i);
+      divp.append(input);
+      $(this).html(divp);
+  });
     var oTable = $('#received').DataTable({
         
         "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
@@ -190,15 +210,33 @@ $(document).ready(function (){
         }
         });
 
+    oTable.columns().every( function () {
+    var that = this;
+    $( 'input', this.footer() ).on( 'keyup change', function () {
+      if ( that.search() !== this.value ) {
+        that.search( this.value ).draw();
+      }
+    });
+  });
 
 });
 $(document).ready(function (){ 
   $('#edited tfoot th').each( function (index) {
     if (index > 0) {
       var title = $(this).text();
-      $(this).html( '<input size=auto type="text" placeholder="Search '+title+'" />');
+  //     <label class="control-label" for="inputDefault">Default input</label>
+  // <input type="text" class="form-control" id="inputDefault">
+      var divp=$('<div>').addClass('form-group col-md-12');
+      // var label=$('<label>').addClass('control-label').html('Buscar por '+title+" ").attr('for', 'filter_ed_'+index);;
+      var i=$('<i>').addClass('fa fa-search');
+      var input=$('<input>').addClass('form-control col-md-12').attr('id', 'filter_ed_'+index).attr('placeholder','Buscar por '+title);
+      // divp.append(label);
+      // label.append(i);
+      divp.append(input);
+      $(this).html(divp);
     }
   });
+
   var table = $('#edited').DataTable({
     "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
         "lengthMenu": [[15, 25, 50,100, -1], [15, 25, 50,100, "Todos"]],
