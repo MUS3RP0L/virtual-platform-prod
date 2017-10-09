@@ -1,5 +1,18 @@
 @extends('app')
 @section('contentheader_title')
+<style>
+    .my-alert {
+      padding: 8px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .my-alert-info {
+      background-color: #d9edf7;
+      border-color: #bce8f1;
+      color: #31708f;
+    }
+</style>
 <div class="row">
 	<div class="col-md-6">
 		{!! Breadcrumbs::render('show_economic_complement', $economic_complement) !!}
@@ -52,6 +65,11 @@
                 <a href="#" class="btn btn-sm btn-raised btn-lg bg-blue"  data-toggle="tooltip"  data-placement="top" data-original-title="Historial"><i class="fa fa-lg fa-clock-o"></i></a>
             </span>
         </div>
+        @if($economic_complement->state == 'Edited')
+            <span class="my-alert my-alert-info">
+                El usuario(a) <strong>{!! $economic_complement->user->getFullName() ?? '' !!} </strong> tiene el trámite.
+            </span>
+        @endif
         <div class="pull-right">
 
             @if($buttons_enabled)
