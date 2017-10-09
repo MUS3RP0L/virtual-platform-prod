@@ -8,13 +8,13 @@
   }
 </style>
 
-<div class="title2"><strong class="code">Trámite: Nº {!! $economic_complement->code !!}</strong></div>
+<div class="title2"><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite: Nº {!! $economic_complement->code !!}</strong></div>
 <div id="project">
         {{--Información beneficiario--}}
   @if($economic_complement->economic_complement_modality->economic_complement_type->id > 1)
   <table class="table" style="width:100%;">
     <tr>
-      <td colspan="6" class="grand info_title">
+      <td colspan="8" class="grand info_title">
         INFORMACIÓN DEL AFILIADO 
         @if($economic_complement->economic_complement_modality->economic_complement_type->id > 1)
         - CAUSAHABIENTE
@@ -22,10 +22,12 @@
       </td>
     </tr>
     <tr>
-      <td colspan="1"><strong>NOMBRE:</strong></td><td colspan="5" nowrap>{!! $affiliate->getFullNamePrintTotal() !!}</td>
+      <td colspan="1"><strong>NOMBRE:</strong></td><td colspan="2" nowrap>{!! $affiliate->getFullNamePrintTotal() !!}</td>
+      <td><strong>GRADO:</strong></td><td>{!! $economic_complement->degree->shortened ?? '' !!}</td>
+      <td><strong>CATEGORÍA:</strong></td><td>{!! $economic_complement->category->getPercentage() !!}</td>
     </tr>
     <tr>
-      <td><strong>C.I.:</strong></td><td nowrap>  {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card->first_shortened ?? '' !!}</td><td><strong>FECHA NAC:</strong></td><td> {!! $affiliate->getShortBirthDate() !!}</td><td><strong>EDAD:</strong></td><td>{!! $affiliate->getAge() !!} AÑOS</td>
+      <td><strong>C.I.:</strong></td><td nowrap colspan="2">  {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card->first_shortened ?? '' !!}</td><td><strong>FECHA NAC:</strong></td><td> {!! $affiliate->getShortBirthDate() !!}</td><td><strong>EDAD:</strong></td><td>{!! $affiliate->getAge() !!} AÑOS</td>
     </tr>
   </table>
   @endif
