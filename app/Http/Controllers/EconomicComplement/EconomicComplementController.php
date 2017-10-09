@@ -398,11 +398,13 @@ class EconomicComplementController extends Controller
             $economic_complement = new EconomicComplement;
             $eco_com_type = false;
             $eco_com_modality = false;
+            $eco_com_modality_type_id = false;
             $economic_complement->semester =  Util::getSemester(Carbon::now());
             $economic_complement->year = Carbon::now()->year;
         }else{
             $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->name;
             $eco_com_modality = $economic_complement->economic_complement_modality->name;
+            $eco_com_modality_type_id = $economic_complement->economic_complement_modality->economic_complement_type->id;
         }
 
         $last_year = Carbon::now()->subYear()->year;
@@ -445,6 +447,7 @@ class EconomicComplementController extends Controller
             'eco_com_type' => $eco_com_type,
             'eco_com_modality' => $eco_com_modality,
             'economic_complement' => $economic_complement,
+            'eco_com_modality_type_id' => $eco_com_modality_type_id,
             'reception_types' => $reception_types,
             'eco_com_reception_type' => $eco_com_reception_type
         ];
