@@ -143,6 +143,20 @@
 		</table>
     @if($sw_actual)
     <button type="button"  data-target="#modal-confirm"  data-toggle="modal"  class="btn btn-primary btn btn-success btn-raised">Enviar</button>
+    
+    
+    <div class="btn-group">
+      <button type="button" class="btn btn-raised btn-success"  data-target="#modal-confirm"  data-toggle="modal" ><i class="fa fa-send" ></i> <strong data-bind="text: texto.nombre"></strong></button>
+      <button type="button" class="btn btn-raised btn-success dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+     
+      <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuencias">
+        <li ><a href="#" data-bind="text: nombre, click: $root.secuenciaSeleccionada"></a></li>
+      </ul>
+    </div>
+    <input type="text" name="id_sequence" data-bind="value: texto.id">
     <input type="hidden" id="ids" name="ids">
 
         <div id="modal-confirm" class="modal fade modal-info" tabindex="-1" role="dialog">
@@ -155,7 +169,7 @@
               </div>
               <div class="modal-body">
               
-                    Esta seguro de enviar los tramites de <strong> {{ $sw_actual->name }}</strong>  a  <strong> {{ $sw_siguiente->name}}</strong> ?
+                    Esta seguro de enviar los tramites de <strong> {{ $sw_actual->name }}</strong>  a  <strong data-bind="text: texto.nombre"> </strong> ?
                   
               </div>
               <div class="modal-footer">
@@ -338,7 +352,50 @@ $(document).ready(function (){
       $('#ids').val(ids);
       $('#ids_print').val(ids);
    });
+
+
+    function Secuencia(id,nombre)
+    {
+      var self = this;
+      self.id = ko.observable(id);
+      self.nombre = ko.observable(nombre);
+    }
+
+    function SecuenciaViewModel()
+    {
+        var self = this;
+
+        self.listaSecuencias = ko.observableArray([new Secuencia(1,'opcion 1'), new Secuencia(2,'opcion 2')]);
+
+        self.texto = new Secuencia(3,'hola');
+        // self.texto = ko.observable();
+
+        // self.caption = ko.computed(function(i){
+        //     return self.listaSecuencias()[i].nombre;
+        // },self);
+        console.log(self.texto);
+
+        // self.caption = ko.observable("jjajaja");
+
+        self.secuenciaSeleccionada = function(secuencia)
+        {
+
+          // self.texto.nombre = secuencia.nombre;
+           // self.caption(1);
+           self.texto.nombre(secuencia.nombre());
+           self.texto.id(secuencia.id());
+          console.log(secuencia.nombre());
+          // self.seats.remove(seat)
+          // self.listaSecuencias.remove(secuencia);
+        }
+    }
+
+    ko.applyBindings(new SecuenciaViewModel());
+
 });
+
+
+
 </script>
 @endpush
 @endsection
