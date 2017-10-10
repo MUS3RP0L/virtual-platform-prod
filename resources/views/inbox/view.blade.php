@@ -48,6 +48,9 @@
     .form-control {
       font-family: "FontAwesome"
     }
+    .padding-lr{
+      padding: 0px 0px 0px 5px !important;
+    }
 </style>
 <div class="row">
 <div class="col-md-6">
@@ -92,15 +95,18 @@
     <div class="box-body">
   		<table id="received" class="table table-bordered table-hover">
           <tfoot>
-            <th style="max-width: 100px;"><input type="text" class="form-control" style="width:100%" placeholder="&#xf002;"></th>
-            <th>
-              <div class="form-group col-md-12">
+            <th class="padding-lr" style="max-width: 100px;"><input type="text" class="form-control" style="width:100%" placeholder="&#xf002;"></th>
+            <th class="padding-lr">
+              <div class="form-group">
                 
               <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
               </div>
             </th>
-            <th style="max-width: 60px;"><input type="text" class="form-control" style="width:100%" placeholder="&#xf002;"></th>
-            <th style="max-width: 60px;"><input type="text" class="form-control" style="width:100%" placeholder="&#xf002;"></th>
+            <th class="padding-lr" style="max-width: 60px;">
+              
+              <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
+            </th>
+            <th class="padding-lr" style="max-width: 60px;"><input type="text" class="form-control" style="width:100%" placeholder="&#xf002;"></th>
             {{-- <th>Opciones</th> --}}
           </tfoot>
   		   <thead>
@@ -127,22 +133,22 @@
 		<table id="edited" style="width:100%" class="table table-bordered table-hover">
       <tfoot>
               <th></th>
-              <th>
+              <th class="padding-lr">
                 <div class="form-group col-md-12">
                   <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
                 </div>
               </th>
-              <th>
+              <th class="padding-lr">
                 <div class="form-group col-md-12">
                   <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
                 </div>
               </th>
-              <th>
+              <th class="padding-lr">
                 <div class="form-group col-md-12">
                   <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
                 </div>
               </th>
-              <th>
+              <th class="padding-lr">
                 <div class="form-group col-md-12">
                   <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
                 </div>
