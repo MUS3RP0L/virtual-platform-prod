@@ -141,6 +141,7 @@
               <th style="max-width: 60px;">Tŕamite</th>
             </tfoot>
 		</table>
+    @if($sw_actual)
     <button type="button"  data-target="#modal-confirm"  data-toggle="modal"  class="btn btn-primary btn btn-success btn-raised">Enviar</button>
     <input type="hidden" id="ids" name="ids">
 
@@ -164,7 +165,13 @@
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-
+    @else
+    <br>
+    <div class="alert alert-primary alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <strong> Fin del Tramite!</strong> ultimo punto del flujo del tramite.
+    </div>  
+    @endif
     {!! Form::close() !!}
 		</div>
 	</div>
