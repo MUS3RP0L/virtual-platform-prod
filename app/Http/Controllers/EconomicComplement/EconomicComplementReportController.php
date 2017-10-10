@@ -995,9 +995,8 @@ class EconomicComplementReportController extends Controller
       $year=carbon::parse(EconomicComplement::where('id','=',$ids[0])->first()->economic_complement_procedure->year)->year;
       $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
       $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-      $city=EconomicComplement::where('id','=',$ids[0])->first()->city->name;
+      
       $title = "&nbsp;";
-      $title2 = "Planilla de Firmas ".$semester." Semestre ".$year."- Regional ".$city;
       // $title = "REPORTE DE BENEFICIARIOS DEL COMPLEMENTO ECONÓMICO";
       setlocale(LC_ALL, "es_ES.UTF-8");
       $date = Util::getDateEdit(date('Y-m-d'));
@@ -1016,10 +1015,25 @@ class EconomicComplementReportController extends Controller
                   ->select('economic_complements.id')
                   ->get()
                   ->pluck('id');
-      $economic_complements=EconomicComplement::whereIn('id',$economic_complements_array)->get();
-      $total=Util::formatMoney(Util::totalSumEcoCom($economic_complements_array));
-      // 215.9 x 355.6
-      // return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user','total'))->setOption('page-width','116')->setOption('page-height', '330')->setOrientation('landscape')->stream('report_edited.pdf');
+
+      $pages=[];
+      foreach (\Muserpol\City::all() as $city) {
+        $economic_complements=EconomicComplement::whereIn('id',$economic_complements_array)->where('city_id','=',$city->id)->get();
+        $economic_complements_temp_array=EconomicComplement::whereIn('id',$economic_complements_array)->where('city_id','=',$city->id)->get()->pluck('id');
+        $total=Util::formatMoney(Util::totalSumEcoCom($economic_complements_temp_array));
+        $title2 = "Planilla de Firmas ".$semester." Semestre ".$year."- Regional ".$city->name;
+        if ($total) {
+        $pages[] = \View::make('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user', 'user_role','total'))->render();
+        }
+      }
+      $pdf = \App::make('snappy.pdf.wrapper');
+
+      $pdf->setPaper('letter')->setOrientation('landscape')->setOPtion('footer-center', 'Pagina [page] de [toPage]')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017');
+      $file_name=storage_path().'/snappy/planillas/'.'planilla_'.Auth::user()->username.'_'.date("Y-m-d_H:i:s").'.pdf';
+      $pdf->generateFromHtml($pages,$file_name, [], true);
+      return response()->download($file_name);
+
+      
       return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user', 'user_role','total'))->setPaper('letter')->setOrientation('landscape')->setOPtion('footer-center', 'Pagina [page] de [toPage]')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017')->stream('report_edited.pdf');
       }
     }

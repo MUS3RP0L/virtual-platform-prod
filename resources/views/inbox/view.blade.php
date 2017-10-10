@@ -86,7 +86,7 @@
     <div class="box-body">
   		<table id="received" class="table table-bordered table-hover">
   		   <thead>
-  		      <tr>
+  		      <tr class="success">
                <th>CI</th>
                <th>Nombre de beneficiario</th>
   		         <th>Reg</th>
@@ -119,7 +119,7 @@
 		{!! Form::open(['method' => 'POST', 'route' => ['inbox.store'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}
 		<table id="edited" style="width:100%" class="table table-bordered table-hover">
             <thead>
-                <tr>
+                <tr class="success">
                     <th>
                         <div class="checkboxx">
                             <label>
@@ -178,7 +178,7 @@ $(document).ready(function (){
 
     var oTable = $('#received').DataTable({
         
-        "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
+        "dom":"<'row'<'col-sm-6'l><'col-sm-6'>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
         // processing: true,
         // serverSide: true,
         "lengthMenu": [[15, 25, 50,100, -1], [15, 25, 50,100, "Todos"]],
@@ -237,7 +237,7 @@ $(document).ready(function (){
   });
 
   var table = $('#edited').DataTable({
-    "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
+    "dom":"<'row'<'col-sm-6'l><'col-sm-6'>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
         "lengthMenu": [[15, 25, 50,100, -1], [15, 25, 50,100, "Todos"]],
       ajax: {
             url: '{!! route('edited_data') !!}',
