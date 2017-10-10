@@ -38,6 +38,7 @@
     border-top: 0px;
     border-right: 0px;
     border-left: 0px;
+    width: 100%;
       
 }
 </style>
@@ -375,9 +376,9 @@
                 var column = this;
                 var input = document.createElement('input');
                 input.setAttribute('class','inputSearch');
-                input.setAttribute('size','10');
+                //input.setAttribute('size','10');
                 $(input).appendTo($(column.footer()).empty()).on(
-                    'change',function(){
+                    'keyup change',function(){
                         column.search($(this).val()).draw();
                     });
             });

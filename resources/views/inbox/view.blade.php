@@ -42,6 +42,15 @@
         padding-bottom: 0px;
         margin: 0 0 0 0;
     }
+    thead, tfoot {
+        display: table-header-group;
+    }
+    .form-control {
+      font-family: "FontAwesome"
+    }
+    .padding-lr{
+      padding: 0px 0px 0px 5px !important;
+    }
 </style>
 <div class="row">
 <div class="col-md-6">
@@ -85,8 +94,23 @@
 		</div>
     <div class="box-body">
   		<table id="received" class="table table-bordered table-hover">
+          <tfoot>
+            <th class="padding-lr" style="max-width: 100px;"><input type="text" class="form-control" style="width:100%" placeholder="&#xf002;"></th>
+            <th class="padding-lr">
+              <div class="form-group">
+                
+              <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
+              </div>
+            </th>
+            <th class="padding-lr" style="max-width: 60px;">
+              
+              <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
+            </th>
+            <th class="padding-lr" style="max-width: 60px;"><input type="text" class="form-control" style="width:100%" placeholder="&#xf002;"></th>
+            {{-- <th>Opciones</th> --}}
+          </tfoot>
   		   <thead>
-  		      <tr>
+  		      <tr class="success">
                <th>CI</th>
                <th>Nombre de beneficiario</th>
   		         <th>Reg</th>
@@ -94,18 +118,7 @@
   		         {{-- <th>Opciones</th> --}}
   		      </tr>
   		   </thead>
-        <tfoot>
-          <th style="max-width: 100px;"><input type="text" class="form-control" style="width:100%" placeholder="Buscar por CI"></th>
-          <th>
-            <div class="form-group col-md-12">
-              
-            <input type="text" class="form-control" style="width:100%" placeholder="Buscar por Nombre del Beneficiaro">
-            </div>
-          </th>
-          <th style="max-width: 60px;"><input type="text" class="form-control" style="width:100%" placeholder="Reg."></th>
-          <th style="max-width: 60px;"><input type="text" class="form-control" style="width:100%" placeholder="Nro de tramite"></th>
-          {{-- <th>Opciones</th> --}}
-        </tfoot>
+        
   		</table>
   </div>
 	</div>
@@ -118,8 +131,31 @@
 		<div class="box-body">
 		{!! Form::open(['method' => 'POST', 'route' => ['inbox.store'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}
 		<table id="edited" style="width:100%" class="table table-bordered table-hover">
+      <tfoot>
+              <th></th>
+              <th class="padding-lr">
+                <div class="form-group col-md-12">
+                  <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
+                </div>
+              </th>
+              <th class="padding-lr">
+                <div class="form-group col-md-12">
+                  <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
+                </div>
+              </th>
+              <th class="padding-lr">
+                <div class="form-group col-md-12">
+                  <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
+                </div>
+              </th>
+              <th class="padding-lr">
+                <div class="form-group col-md-12">
+                  <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
+                </div>
+              </th>
+            </tfoot>
             <thead>
-                <tr>
+                <tr class="success">
                     <th>
                         <div class="checkboxx">
                             <label>
@@ -133,13 +169,7 @@
                     <th>Tŕamite</th>
                 </tr>
             </thead>
-            <tfoot>
-              <th></th>
-              <th style="max-width: 100px;">CI</th>
-              <th style="max-width: 150px;">Nombre de beneficiario</th>
-              <th style="max-width: 70px;">Reg</th>
-              <th style="max-width: 60px;">Tŕamite</th>
-            </tfoot>
+            
 		</table>
     @if($sw_actual)
     <button type="button"  data-target="#modal-confirm"  data-toggle="modal"  class="btn btn-primary btn btn-success btn-raised">Enviar</button>
@@ -199,7 +229,7 @@ $(document).ready(function (){
 
     var oTable = $('#received').DataTable({
         
-        "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
+        "dom":"<'row'<'col-sm-6'l><'col-sm-6'>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
         // processing: true,
         // serverSide: true,
         "lengthMenu": [[15, 25, 50,100, -1], [15, 25, 50,100, "Todos"]],
@@ -213,7 +243,8 @@ $(document).ready(function (){
             { data: 'city',name: 'city'},
             { data: 'code',name:'code'},
             // { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
-        ]
+        ],
+       'order': [3, 'asc'],
         });
     // $('#received tfoot th').each( function (index) {
     //   var title = $(this).text();
@@ -240,31 +271,32 @@ $(document).ready(function (){
 
 });
 $(document).ready(function (){ 
-  $('#edited tfoot th').each( function (index) {
-    if (index > 0) {
-      var title = $(this).text();
-      var divp=$('<div>').addClass('col-md-12').css({
-        margin: '0px',
-        padding: '0px',
-      }).css('padding-right','15px').css('padding-left','15px');
-      // var label=$('<label>').addClass('control-label').html('Buscar por '+title+" ").attr('for', 'filter_ed_'+index);;
-      // var i=$('<i>').addClass('fa fa-search');
-      var input=$('<input>').addClass('form-control').attr('placeholder',''+title).css('width', '100%');;
-      // divp.append(label);
-      // label.append(i);
-      divp.append(input);
-      $(this).html(divp);
-    }
-  });
+  // $('#edited tfoot th').each( function (index) {
+  //   if (index > 0) {
+  //     var title = $(this).text();
+  //     var divp=$('<div>').addClass('col-md-12').css({
+  //       margin: '0px',
+  //       padding: '0px',
+  //     }).css('padding-right','15px').css('padding-left','15px');
+  //     // var label=$('<label>').addClass('control-label').html('Buscar por '+title+" ").attr('for', 'filter_ed_'+index);;
+  //     // var i=$('<i>').addClass('fa fa-search');
+  //     var input=$('<input>').addClass('form-control').attr('placeholder','&#xf002;').css('width', '100%').css('font-family', 'FontAwesome');
+  //     // divp.append(label);
+  //     // label.append(i);
+  //     divp.append(input);
+  //     $(this).html(divp);
+  //   }
+  // });
 
   var table = $('#edited').DataTable({
-    "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
+    "dom":"<'row'<'col-sm-6'l><'col-sm-6'>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
         "lengthMenu": [[15, 25, 50,100, -1], [15, 25, 50,100, "Todos"]],
       ajax: {
             url: '{!! route('edited_data') !!}',
         },
      "columns": [
         { "data": "id",
+          bSortable: false 
           // "render":function (data, type, row, meta) {
           //   if(type === 'display'){
           //     data = '<input type="checkbox" name="id[]" value="'+data+'">'; 
@@ -273,7 +305,7 @@ $(document).ready(function (){
           //   return data;
           // } 
         }, 
-        { "data": "ci" }, 
+        { "data": "ci"}, 
         { 
            "data": "name",
            // "render": function(data, type, row, meta){
@@ -288,7 +320,7 @@ $(document).ready(function (){
         { "data":"code" },
 
      ],
-      'order': [1, 'desc'],
+      'order': [4, 'asc'],
   });
 
   table.columns().every( function () {
@@ -391,6 +423,7 @@ $(document).ready(function (){
     }
 
     ko.applyBindings(new SecuenciaViewModel());
+
 
 });
 

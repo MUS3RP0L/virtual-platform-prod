@@ -38,6 +38,7 @@
     border-top: 0px;
     border-right: 0px;
     border-left: 0px;
+    width: 100%;
       
 }
 </style>
@@ -90,7 +91,9 @@
                                 </div>
                         </form>
                     </div>
-
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-body">    
                         <table class="table table-bordered table-hover" id="observation-table">
                                 <thead style="display:table-row-group;">
                                     <tr class="success">
@@ -121,11 +124,14 @@
                                 </tfoot>
 
                         </table>
+                        </div>
+                    </div>
+                    </div>
                 </div> 
             </div>
         </div>
 </div>
-   
+@endsection   
 @push('scripts')
 <script>
 
@@ -135,6 +141,7 @@ var oTable = $('#observation-table').DataTable({
             "<'row'<'col-xs-12'<'col-xs-6'i><'col-xs-6'p>>>",
     processing: true,
     serverSide: true,
+    autoWidth: false,
     ajax: {
             
             url: '{!! route('getdataobservations') !!}',
@@ -163,9 +170,9 @@ var oTable = $('#observation-table').DataTable({
                 var input = document.createElement('input');
                 input.setAttribute('class','inputSearch');
                 //input.setAttribute('placeholder','filtro');
-                input.setAttribute('size','10');
+                //input.setAttribute('size','10');
                 $(input).appendTo($(column.footer()).empty()).on(
-                    'change',function(){
+                    'keyup change',function(){
                         column.search($(this).val()).draw();
                     });
             });
@@ -183,4 +190,3 @@ $('#search-form').on('change',function(e){
 </script>
 @endpush
 
-@endsection
