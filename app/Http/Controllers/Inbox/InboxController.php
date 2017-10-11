@@ -11,14 +11,15 @@ use Muserpol\Affiliate;
 use Muserpol\WorkflowSequence;
 use Muserpol\WorkflowState;
 use Muserpol\EconomicComplement;
-use Datatables;
+// use Datatables;
+use Yajra\Datatables\Facades\Datatables;
 use Util;
 use Auth;
 use Validator;
 use Session;
 use stdClass;
 use Log;
-
+use DB;
 class InboxController extends Controller
 {
     /**
@@ -67,30 +68,34 @@ class InboxController extends Controller
         $rol = Util::getRol();
         Log::info("rol actual".$rol);
         $state_id = 16;
-        $economic_complements=EconomicComplement::where('economic_complements.state','Received')->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
-            // ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
+        $economic_complements=DB::table('economic_complements')
+            ->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
+            ->where('economic_complements.state','Received')
             ->where('wf_states.role_id',($rol->id))
             ->where('economic_complements.eco_com_procedure_id','2')
-            ->select('economic_complements.id','economic_complements.code')
-            ->get()
-            ->pluck('id');
-        $economic_complements=EconomicComplement::whereIn('id',$economic_complements)->get();
-        return Datatables::of($economic_complements)
+            ->leftJoin('eco_com_applicants','economic_complements.id', '=', 'eco_com_applicants.economic_complement_id')
+            ->leftJoin('cities','economic_complements.city_id', '=', 'cities.id')
+            ->select(DB::raw("economic_complements.workflow_id, economic_complements.id, eco_com_applicants.identity_card as ci, trim(regexp_replace(CONCAT(eco_com_applicants.first_name,' ',eco_com_applicants.second_name,' ',eco_com_applicants.last_name,' ',eco_com_applicants.mothers_last_name,' ',eco_com_applicants.surname_husband),'( )+' , ' ', 'g')) as name ,cities.second_shortened as city, economic_complements.code "))
+            ->orderBy('economic_complements.code', 'asc')
+            ;
+
+        return Datatables::queryBuilder($economic_complements)
+
                 ->addColumn('workflow_id',function ($economic_complement)
                 {
                     return $economic_complement->workflow_id;
                 })
                 ->addColumn('ci',function ($economic_complement)
                 {
-                    return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->economic_complement_applicant->identity_card.'</a>';
+                    return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->ci.'</a>';
                 })
                 ->addColumn('name',function ($economic_complement)
                 {
-                    return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->economic_complement_applicant->getFullName().'</a>';
+                    return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->name.'</a>';
                 })
                 ->addColumn('city',function ($economic_complement)
                 {
-                    return $economic_complement->city->second_shortened ?? '';
+                    return $economic_complement->city;
                 })
                 ->addColumn('code',function ($economic_complement)
                 {
@@ -104,68 +109,51 @@ class InboxController extends Controller
     }
     public function DataEdited()
     {
-        // $user_role_id=Auth::user()->roles()->first();
+        
         $rol = Util::getRol();
-        //id de tramites en proceso
-        $state_id = 16;
-        $economic_complements=EconomicComplement::where('economic_complements.state','Edited')->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
+         $economic_complements=DB::table('economic_complements')
+            ->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
+            ->where('economic_complements.state','Edited')
             ->where('wf_states.role_id',($rol->id))
             ->where('economic_complements.eco_com_procedure_id','2')
             ->where('economic_complements.user_id',Auth::user()->id)
-            ->select('economic_complements.id','economic_complements.code')
-            // ->take(4)
-            ->get()->pluck('id');
-            $economic_complements=EconomicComplement::whereIn('id',$economic_complements)->get();
+            ->leftJoin('eco_com_applicants','economic_complements.id', '=', 'eco_com_applicants.economic_complement_id')
+            ->leftJoin('cities','economic_complements.city_id', '=', 'cities.id')
+            ->select(DB::raw("economic_complements.workflow_id, economic_complements.id, eco_com_applicants.identity_card as ci, trim(regexp_replace(CONCAT(eco_com_applicants.first_name,' ',eco_com_applicants.second_name,' ',eco_com_applicants.last_name,' ',eco_com_applicants.mothers_last_name,' ',eco_com_applicants.surname_husband),'( )+' , ' ', 'g')) as name ,cities.second_shortened as city, economic_complements.code "))
+            ->orderBy('economic_complements.code', 'asc')
+            ;
 
-            /*$data=[];
-            foreach ($economic_complements as $eco) {
-                $temp=[];
-                // $temp[]= new stdClass;
-                $temp[]= $eco->id;
-                $temp[]= $eco->economic_complement_applicant->identity_card;
-                $temp[]= $eco->economic_complement_applicant->getFullName();
-                $temp[]= $eco->city->second_shortened ?? '';
-                $temp[]= $eco->code;
+            return Datatables::queryBuilder($economic_complements)
+          
+                    ->addColumn('workflow_id',function ($economic_complement)
+                    {
+                        return $economic_complement->workflow_id;
+                    })
+                    ->editColumn('id', function ($economic_complement) {
+                        return '<input type="checkbox" class="checkBoxClass" value="'.$economic_complement->id.'" name="id[]"><span class="checkbox-material"><span class="check"></span></span> ';
+                    })
+                    ->addColumn('ci',function ($economic_complement)
+                    {
+                        return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->ci.'</a>';
+                    })
+                    ->addColumn('name',function ($economic_complement)
+                    {
+                        return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->name.'</a>';
+                    })
+                    ->addColumn('city',function ($economic_complement)
+                    {
+                        return $economic_complement->city;
+                    })
+                    ->addColumn('code',function ($economic_complement)
+                    {
+                        return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->code.'</a>';
+                    })
+                    /*->addColumn('action', function ($economic_complement) { return  '
+                        <div class="btn-group" style="margin:-3px 0;">
+                            <a href="economic_complement/'.$economic_complement->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
+                        </div>';})*/
+                    ->make(true);
 
-                    $data[] = $temp;
-
-            }
-            return response()->json(["data"=>$data]);*/
-        
-        return Datatables::of($economic_complements)
-                ->addColumn('workflow_id',function ($economic_complement)
-                {
-                    return $economic_complement->workflow_id;
-                })
-                ->editColumn('id', function ($economic_complement) {
-                    return '
-                            <input type="checkbox" class="checkBoxClass" value="'.$economic_complement->id.'" name="id[]"><span class="checkbox-material"><span class="check"></span></span> ';
-                })
-                // ->editColumn('id', function ($economic_complement) {
-                //     return '
-                //         <div class="checkbox">
-                //         <label>
-                //             <input type="checkbox" class="checkBoxClass" value="'.$economic_complement->id.'" name="id[]"><span class="checkbox-material"><span class="check"></span></span> 
-                //         </label>
-                //         </div>';
-                // })
-                ->addColumn('city',function ($economic_complement)
-                {
-                    return $economic_complement->city->second_shortened ?? '';
-                })
-                ->addColumn('ci',function ($economic_complement)
-                {
-                    return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->economic_complement_applicant->identity_card.'</a>';
-                })
-                ->addColumn('name',function ($economic_complement)
-                {
-                    return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->economic_complement_applicant->getFullName().'</a>';
-                })
-                ->addColumn('code',function ($economic_complement)
-                {
-                    return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->code.'</a>';
-                })
-                ->make(true);
     }
     public function send_all()
     {
