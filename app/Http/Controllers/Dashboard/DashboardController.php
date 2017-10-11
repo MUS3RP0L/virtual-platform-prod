@@ -269,7 +269,7 @@ class DashboardController extends Controller
 		$sum_last_semesters_data_reverse=array_reverse($sum_last_semesters_data, true);
 			
 	   	 $revisados=EconomicComplement::where('economic_complements.workflow_id','<=','3')
-            ->where('economic_complements.wf_current_state_id','2')//
+            ->where('economic_complements.wf_current_state_id','3')//
             ->where('economic_complements.state','Edited')
             ->where('economic_complements.eco_com_procedure_id','2')
             ->whereNotNull('review_date')
@@ -285,7 +285,7 @@ class DashboardController extends Controller
 
            $norevisados = EconomicComplement::where('economic_complements.workflow_id','<=','3')
            ->where('eco_com_procedure_id','=','2')
-           ->where('economic_complements.wf_current_state_id','2')//
+           ->where('economic_complements.wf_current_state_id','3')//
            ->where('economic_complements.state','Received')
            // ->where('created_at','<=','2017-08-25 23:59')
            ->get();
