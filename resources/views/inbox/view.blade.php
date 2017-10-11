@@ -62,7 +62,7 @@
       @can('eco_com_approval')
       <div class="col-md-3">
         <span data-toggle="modal" data-target="#sendAllModal" >
-          <a href="#" class="btn btn-md btn-raised btn-success" data-toggle="tooltip" data-placement="top" title="Derivar todos los tramites" ><i class="fa  fa-2x fa-arrow-circle-o-right"></i></a>
+          <a href="#" class="btn btn-md btn-raised btn-success" data-toggle="tooltip" data-placement="top" title="Derivar todos los tramites" ><i class="fa fa-arrow-right"></i></a>
         </span>
       </div>
       <!-- Modal -->
@@ -132,9 +132,10 @@
 			<h3 class="box-title"> {{Util::getRol()->action}} </h3>
 		</div>
 		<div class="box-body">
-     
         
-         <select data-bind=" options: listaWorksflows , value: id, optionsText: 'nombre'" id='select-edited'></select> 
+  
+        
+         <select data-bind=" options: listaWorkflows ,optionsValue: 'id', optionsText: 'nombre',value: workflowSelected " id='select-edited'></select> 
         
        
 
@@ -183,11 +184,10 @@
             
 		</table>
     @if($sw_actual)
-    <button type="button"  data-target="#modal-confirm"  data-toggle="modal"  class="btn btn-primary btn btn-success btn-raised">Enviar</button>
-    
+  
     
     <div class="btn-group">
-      <button type="button" class="btn btn-raised btn-success"  data-target="#modal-confirm"  data-toggle="modal" ><i class="fa fa-send" ></i> <strong data-bind="text: texto.nombre"></strong></button>
+      <button type="button" class="btn btn-raised btn-success"  data-target="#modal-confirm"  data-toggle="modal" ><i class="fa fa-send" ></i> <strong data-bind="text: secuenciaActual.nombre"></strong></button>
       <button type="button" class="btn btn-raised btn-success dropdown-toggle" data-toggle="dropdown">
         <span class="caret"></span>
         <span class="sr-only">Toggle Dropdown</span>
@@ -197,8 +197,8 @@
         <li ><a href="#" data-bind="text: nombre, click: $root.secuenciaSeleccionada"></a></li>
       </ul>
     </div>
-    <input type="text" name="id_sequence" data-bind="value: texto.id">
-    <input type="hidden" id="ids" name="ids">
+    <input type="text" name="wf_state_next_id" data-bind="value: secuenciaActual.id">
+    <input type="text" id="ids" name="ids">
 
         <div id="modal-confirm" class="modal fade modal-info" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
@@ -210,7 +210,7 @@
               </div>
               <div class="modal-body">
               
-                    Esta seguro de enviar los tramites de <strong> {{ $sw_actual->name }}</strong>  a  <strong data-bind="text: texto.nombre"> </strong> ?
+                    Esta seguro de enviar los tramites de <strong> {{ $sw_actual->name }}</strong>  a  <strong data-bind="text: secuenciaActual.nombre"> </strong> ?
                   
               </div>
               <div class="modal-footer">
@@ -388,6 +388,7 @@ $(document).ready(function (){
       }
    });
    $('#frm-edited').on('change', function(e){
+    console.log('sdasd');
       var form = this;
       var ids=[];
       table.$('input[type="checkbox"]').each(function(){
@@ -412,11 +413,12 @@ $(document).ready(function (){
       self.nombre = ko.observable(nombre);
     }
 
-    function Secuencia(id,nombre)
+    function Secuencia(id,nombre,workflow_id)
     {
       var self = this;
       self.id = ko.observable(id);
       self.nombre = ko.observable(nombre);
+      self.workflow_id = ko.observable(workflow_id);
     }
 
   
@@ -426,42 +428,68 @@ $(document).ready(function (){
         var self = this;
 
         var workflowsList = <?php echo json_encode($wfs); ?>;
-        console.log(workflowsList);
-        console.log('size '+workflowsList.length);
-        
-        self.listaWorksflows = ko.observableArray();
+        // console.log(workflowsList);
+        // console.log('size '+workflowsList.length);
+        self.listaWorkflows = ko.observableArray();
+        self.listaSecuencias = ko.observableArray();
         
         for (var i in workflowsList) {
-          self.listaWorksflows.push(new Workflow(workflowsList[i].id,workflowsList[i].name));
-          console.log(workflowsList[i].id); 
+          self.listaWorkflows.push(new Workflow(workflowsList[i].id,workflowsList[i].name));
+          console.log(self.listaWorkflows()); 
         }
 
 
+        self.workflowSelected = ko.observable();
+        self.workflowSelected.subscribe(function(workflow_id) {
+        
+          self.listaSecuencias.removeAll();
+          for(var i in secuencias)
+          {
+            if(secuencias[i].workflow_id == workflow_id)
+            {
+              self.listaSecuencias.push(new Secuencia(secuencias[i].id,secuencias[i].name,secuencias[i].workflow_id));
+            }
+          } 
+          self.secuenciaActual.nombre(self.listaSecuencias()[0].nombre());
+          self.secuenciaActual.id(self.listaSecuencias()[0].id());
+          self.secuenciaActual.workflow_id(self.listaSecuencias()[0].workflow_id());
+          
+          console.log(self.secuenciaActual.workflow_id());
+
+          console.log(workflow_id);
+
+        }, self); 
+        // self.workflowSelected = ko.computed(function());
         
 
-        self.listaSecuencias = ko.observableArray([new Secuencia(1,'opcion 1'), new Secuencia(2,'opcion 2')]);
+        var secuencias = <?php echo json_encode($secuencias);?>;
+        // console.log(secuencias);
 
-        self.texto = new Secuencia(3,'hola');
-        // self.texto = ko.observable();
+        for(var i in secuencias)
+        {
+          console.log(secuencias[i]);
+          self.listaSecuencias.push(new Secuencia(secuencias[i].id,secuencias[i].name,secuencias[i].workflow_id));
+        }
 
-        // self.caption = ko.computed(function(i){
-        //     return self.listaSecuencias()[i].nombre;
-        // },self);
-        console.log(self.texto);
 
-        // self.caption = ko.observable("jjajaja");
+        // self.listaSecuencias = ko.observableArray([new Secuencia(1,'opcion 1'), new Secuencia(2,'opcion 2')]);
+
+        self.secuenciaActual = new Secuencia(secuencias[0].id,secuencias[0].name,secuencias[0].workflow_id);
+    
+        console.log(self.secuenciaActual);
 
         self.secuenciaSeleccionada = function(secuencia)
         {
 
-          // self.texto.nombre = secuencia.nombre;
-           // self.caption(1);
-           self.texto.nombre(secuencia.nombre());
-           self.texto.id(secuencia.id());
-          console.log(secuencia.nombre());
-          // self.seats.remove(seat)
-          // self.listaSecuencias.remove(secuencia);
+          self.secuenciaActual.nombre(secuencia.nombre());
+          self.secuenciaActual.id(secuencia.id());
+          self.secuenciaActual.workflow_id(secuencia.workflow_id());
+          
+          console.log(secuencia.nombre()+" workflow_id "+secuencia.workflow_id());
+         
         }
+
+       
     }
 
     ko.applyBindings(new SecuenciaViewModel());
