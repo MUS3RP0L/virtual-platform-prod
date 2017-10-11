@@ -48,7 +48,8 @@ class InboxController extends Controller
             }
             
             $workflow_ids = Util::getRol()->module->workflows->pluck('name', 'id');
-            $data = array('sw_actual' => $sw_actual, 'sw_siguiente' => $sw_siguiente, 'workflow_ids'=> $workflow_ids );
+            $workflow_ids2  = Util::getRol()->module->workflows;
+            $data = array('sw_actual' => $sw_actual, 'sw_siguiente' => $sw_siguiente, 'workflow_ids'=> $workflow_ids ,'wfs'=>$workflow_ids2 );
             return view('inbox.view',$data);
         }
         else

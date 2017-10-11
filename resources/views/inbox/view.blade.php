@@ -132,7 +132,12 @@
 			<h3 class="box-title"> {{Util::getRol()->action}} </h3>
 		</div>
 		<div class="box-body">
-        {!! Form::select('select-edited', $workflow_ids, null, ['id'=>'select-edited']); !!}
+     
+        
+         <select data-bind=" options: listaWorksflows , value: id, optionsText: 'nombre'" id='select-edited'></select> 
+        
+       
+
 		{!! Form::open(['method' => 'POST', 'route' => ['inbox.store'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}
 		<table id="edited" style="width:100%" class="table table-bordered table-hover">
       <tfoot>
@@ -400,6 +405,12 @@ $(document).ready(function (){
       $('#ids_print').val(ids);
    });
 
+    function Workflow(id,nombre)
+    {
+      var self = this;
+      self.id = ko.observable(id);
+      self.nombre = ko.observable(nombre);
+    }
 
     function Secuencia(id,nombre)
     {
@@ -408,9 +419,25 @@ $(document).ready(function (){
       self.nombre = ko.observable(nombre);
     }
 
+  
+
     function SecuenciaViewModel()
     {
         var self = this;
+
+        var workflowsList = <?php echo json_encode($wfs); ?>;
+        console.log(workflowsList);
+        console.log('size '+workflowsList.length);
+        
+        self.listaWorksflows = ko.observableArray();
+        
+        for (var i in workflowsList) {
+          self.listaWorksflows.push(new Workflow(workflowsList[i].id,workflowsList[i].name));
+          console.log(workflowsList[i].id); 
+        }
+
+
+        
 
         self.listaSecuencias = ko.observableArray([new Secuencia(1,'opcion 1'), new Secuencia(2,'opcion 2')]);
 
