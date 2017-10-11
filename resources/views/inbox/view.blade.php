@@ -93,8 +93,10 @@
 
 		</div>
     <div class="box-body">
+      {!! Form::select('select-received', $workflow_ids, null, ['id'=>'select-received']); !!}
   		<table id="received" class="table table-bordered table-hover">
           <tfoot>
+            <th></th>
             <th class="padding-lr" style="max-width: 100px;"><input type="text" class="form-control" style="width:100%" placeholder="&#xf002;"></th>
             <th class="padding-lr">
               <div class="form-group">
@@ -111,6 +113,7 @@
           </tfoot>
   		   <thead>
   		      <tr class="success">
+              <th></th>
                <th>CI</th>
                <th>Nombre de beneficiario</th>
   		         <th>Reg</th>
@@ -129,9 +132,11 @@
 			<h3 class="box-title"> {{Util::getRol()->action}} </h3>
 		</div>
 		<div class="box-body">
+        {!! Form::select('select-edited', $workflow_ids, null, ['id'=>'select-edited']); !!}
 		{!! Form::open(['method' => 'POST', 'route' => ['inbox.store'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}
 		<table id="edited" style="width:100%" class="table table-bordered table-hover">
       <tfoot>
+              <th></th>
               <th></th>
               <th class="padding-lr">
                 <div class="form-group col-md-12">
@@ -156,6 +161,7 @@
             </tfoot>
             <thead>
                 <tr class="success">
+                    <th></th>
                     <th>
                         <div class="checkboxx">
                             <label>
@@ -238,6 +244,7 @@ $(document).ready(function (){
             url: '{!! route('received_data') !!}',
         },
         columns: [
+            { data: 'workflow_id', name:'workflow_id', "visible": false,"searchable": true},
             { data: 'ci', name:'ci'},
             { data: 'name',name: 'name'},
             { data: 'city',name: 'city'},
@@ -245,6 +252,7 @@ $(document).ready(function (){
             // { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
         ],
        'order': [3, 'asc'],
+
         });
     // $('#received tfoot th').each( function (index) {
     //   var title = $(this).text();
@@ -267,6 +275,10 @@ $(document).ready(function (){
           that.search( this.value ).draw();
         }
       });
+    });
+    
+    $('#select-received').on('change', function(){
+       oTable.columns(0).search(this.value).draw();   
     });
 
 });
@@ -295,6 +307,7 @@ $(document).ready(function (){
             url: '{!! route('edited_data') !!}',
         },
      "columns": [
+        { "data": 'workflow_id', "name":'workflow_id', "visible": false,"searchable": true},
         { "data": "id",
           bSortable: false 
           // "render":function (data, type, row, meta) {
@@ -331,7 +344,9 @@ $(document).ready(function (){
       }
     });
   });
-  
+  $('#select-edited').on('change', function(){
+       table.columns(0).search(this.value).draw();   
+    });
 
    // var table = $('#edited').DataTable({
    //  "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",

@@ -28,7 +28,7 @@ class InboxController extends Controller
      */
     public function index()
     {   
-      
+     
         if(Util::getRol()->module_id ==2 || Util::getRol()->module_id ==9 )
         {
             
@@ -47,7 +47,8 @@ class InboxController extends Controller
                 $sw_siguiente = null;
             }
             
-            $data = array('sw_actual' => $sw_actual, 'sw_siguiente' => $sw_siguiente );
+            $workflow_ids = Util::getRol()->module->workflows->pluck('name', 'id');
+            $data = array('sw_actual' => $sw_actual, 'sw_siguiente' => $sw_siguiente, 'workflow_ids'=> $workflow_ids );
             return view('inbox.view',$data);
         }
         else
@@ -74,6 +75,10 @@ class InboxController extends Controller
             ->pluck('id');
         $economic_complements=EconomicComplement::whereIn('id',$economic_complements)->get();
         return Datatables::of($economic_complements)
+                ->addColumn('workflow_id',function ($economic_complement)
+                {
+                    return $economic_complement->workflow_id;
+                })
                 ->addColumn('ci',function ($economic_complement)
                 {
                     return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->economic_complement_applicant->identity_card.'</a>';
@@ -127,6 +132,10 @@ class InboxController extends Controller
             return response()->json(["data"=>$data]);*/
         
         return Datatables::of($economic_complements)
+                ->addColumn('workflow_id',function ($economic_complement)
+                {
+                    return $economic_complement->workflow_id;
+                })
                 ->editColumn('id', function ($economic_complement) {
                     return '
                             <input type="checkbox" class="checkBoxClass" value="'.$economic_complement->id.'" name="id[]"><span class="checkbox-material"><span class="check"></span></span> ';
