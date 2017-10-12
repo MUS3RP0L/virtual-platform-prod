@@ -148,7 +148,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('change_state','EconomicComplement\EconomicComplementController@change_state');
 
 
-	
+	Route::post('export_senasir', array('as'=>'export_senasir', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_senasir'));
 	
 		
 	// Economic Complement Record

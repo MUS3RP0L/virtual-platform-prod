@@ -3618,7 +3618,45 @@ public function export_wfamort_total_contabilidad(Request $request) // EXPORTAR 
 
 
 
+  public function export_senasir(Request $request)
+  {
+    global $year, $semester,$applicants;
+    $year = $request->year;
+    $semester = $request->semester ;
+    Excel::create('Senasir_'.date("Y-m-d H:i:s"), function($excel) {
+        global $year,$semester, $applicants;
+        $applicants=EconomicComplement::leftJoin('eco_com_procedures','economic_complements.eco_com_procedure_id','=','eco_com_procedures.id')
+          ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+          ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
+          ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+          ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
+          ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
+          ->leftJoin('cities','economic_complements.city_id','=','cities.id')
+          ->where('pension_entities.id', '=',5)
+          ->where('eco_com_types.id', '=',2)
+          ->whereyear('eco_com_procedures.year', '=', $year)
+          ->where('eco_com_procedures.semester', '=', $semester)
+          ->select(DB::raw("trim(regexp_replace(CONCAT(eco_com_applicants.first_name,' ',eco_com_applicants.second_name,' ',eco_com_applicants.last_name,' ',eco_com_applicants.mothers_last_name,' ',eco_com_applicants.surname_husband),'( )+' , ' ', 'g')) as nombre_derechohabiente,
+            eco_com_applicants.identity_card as ci_derechohabiente,
+            trim(regexp_replace(CONCAT(affiliates.first_name,' ',affiliates.second_name,' ',affiliates.last_name,' ',affiliates.mothers_last_name,' ',affiliates.surname_husband),'( )+' , ' ', 'g')) as nombre_causahabiente,
+            affiliates.identity_card as ci_causahabiente,
+            affiliates.birth_date as fecha_nac_causahabiente, 
+            cities.name as regional,
+            economic_complements.code as nro_tramite
+            "))
+          ->get();
+        $excel->sheet('Derechohabientes',function($sheet){
+            global $applicants;
+            $sheet->fromArray($applicants);
+            $sheet->cells('A1:G1', function($cells) {
+              $cells->setBackground('#058A37');
+              $cells->setFontColor('#ffffff');  
+              $cells->setFontWeight('bold');
+            });
+        });
+    })->export('xlsx');
 
-
-
+    Session::flash('message', "Importación Exitosa");
+    return redirect('economic_complement'); 
+  }
 }
