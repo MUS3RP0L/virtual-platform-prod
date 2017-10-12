@@ -52,6 +52,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\ImportSismuReintegro::class,
         \Muserpol\Console\Commands\ImportRezagados::class,
         \Muserpol\Console\Commands\ImportBaseWageSismuNormal::class,
+        \Muserpol\Console\Commands\ImportDaf::class,
 
         
     ];
