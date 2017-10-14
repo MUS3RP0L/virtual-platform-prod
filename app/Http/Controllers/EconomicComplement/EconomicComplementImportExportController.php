@@ -1981,15 +1981,8 @@ public static function import_from_bank(Request $request)
       if(Auth::check())
       {
 
- 
         global $rows ;
 
-        // $revisados=EconomicComplement::where('economic_complements.workflow_id','=','1')
-        //     ->where('economic_complements.wf_current_state_id','2')
-        //     ->where('economic_complements.state','Edited')
-        //     ->where('economic_complements.eco_com_procedure_id','2')
-        //     ->whereNotNull('review_date')
-        //     ->get();  
         $todos =  $norevisados = EconomicComplement::where('eco_com_procedure_id','=','2')->get();
         $ids = array();
         foreach ($todos as $complemento) {
@@ -2007,49 +2000,19 @@ public static function import_from_bank(Request $request)
               }
         }
 
-        // $c =  DB::table("economic_complements")->where('eco_com_procedure_id','=','2')
-        //                                        ->where('state','!=','Edited')
-        //                                        // ->whereNull('review_date')
-        //                                        ->get();
 
-
-        //  dd(sizeof($ids)); 
-        //  exit();
-           
-        // $afiliados = DB::table('v_observados')->get();
-        
-        // $a = array();
-
-        // foreach ($afiliados as $afiliado) {
-
-        //   # code...
-        //   $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)
-        //                                                    ->where('eco_com_procedure_id','=','2')
-        //                                                    ->where('state','!=','Edited')
-        //                                                    ->whereNull('review_date')
-
-        //                                                    ->first();
-        //   if($complementos){
-        //      array_push($a, $afiliado->id);
-        //   }
-         
-        // }
-
-        // $afiliados = DB::table('affiliates')->whereIn('id',$ids)->get();
         $complementos = EconomicComplement::whereIn('id',$ids)->get();
 
         $rows =array();
         array_push($rows, array("ID",
                                 "Numero de Tramite",
                                 "Fecha de Recepcion",
-                                "Titular CI",
-                                "Titular Ext",
-                                "Titular Nombres",
-                                "Titular Apellidos",
                                 "Beneficiario CI",
                                 "Beneficiario Ext",
-                                "Beneficiario Nombres",
-                                "Beneficiario Apellidos",
+                                "Beneficiario Primer Nombre",
+                                "Beneficiario Segundo Nombre",
+                                "Beneficiario Apellido Paterno",
+                                "Beneficiario Apellido Materno",
                                 "Regional",
                                 "Tipo de Tramite",
                                 "Categoria",
@@ -2079,25 +2042,8 @@ public static function import_from_bank(Request $request)
             Log::info($observacion->observationType->name);
             $obs = $obs." | ".$observacion->observationType->name;
           }
-          // $complemento = EconomicComplement::where('affiliate_id',$afi->id)
-          //                                                  ->where('eco_com_procedure_id','=','2')
-          //                                                  ->where('state','!=','Edited')
-          //                                                  ->whereNull('review_date')
-
-          //                                                  ->first();
-
-          // Log::info($afi->id.": ".sizeof($observaciones));
-          
-          // $eco_com_state = EconomicComplementState::where('id',$complemento->eco_com_state_id)->first();
-          
-          // $estado = "";
-        
-          // if($eco_com_state)
-          // {
-          //   $estado = $eco_com_state->name;
-          // }
+    
           $base_wage = DB::table("base_wages")->where("id",$complemento->base_wage_id)->first(); 
-          // $afiliado = Affiliate::where("id",$complemento->affiliate_id)->first();;
           
           $sueldo_base ="";
           if($base_wage)
@@ -2112,14 +2058,14 @@ public static function import_from_bank(Request $request)
           array_push($rows, array($complemento->id,
                                   $complemento->code,
                                   $complemento->reception_date,
-                                  $complemento->affiliate->identity_card,
-                                  $complemento->affiliate->city_identity_card->second_shortened,
-                                  $complemento->affiliate->first_name.' '.$complemento->affiliate->second_name,
-                                  $complemento->affiliate->last_name.' '.$complemento->affiliate->mothers_last_name,
                                   $aplicant->identity_card,
                                   $aplicant->city_identity_card->second_shortened,
-                                  $aplicant->first_name.' '.$complemento->affiliate->second_name,
-                                  $aplicant->last_name.' '.$complemento->affiliate->mothers_last_name,
+                                  $aplicant->first_name,
+                                  $aplicant->second_name,
+                                  $aplicant->last_name,
+                                  $aplicant->mothers_last_name,
+                                  $aplicant->surname_husband,
+
                                   $complemento->city->name,
                                   $complemento->economic_complement_modality->shortened,
                                   $complemento->category->name,
@@ -2159,7 +2105,6 @@ public static function import_from_bank(Request $request)
               });
          })->download('xls');
 
-        
       }
     }
 

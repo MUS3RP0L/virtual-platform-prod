@@ -40,16 +40,27 @@ class InboxController extends Controller
                 $sequence = WorkflowSequence::where("workflow_id",'<=',3)
                                          ->where("wf_state_current_id",$sw_actual->id)
                                          ->where('action','Aprobar')
-                                         ->first();
-     
-                $sw_siguiente = WorkflowState::where('id',$sequence->wf_state_next_id)->first();
+                                         ->get();
+                // return $sw_actual;
+                // return $sequence;
+
+                $secuencias = array();
+                foreach ($sequence as $s) {
+                                # code...
+                    $wf = WorkflowState::where('id',$s->wf_state_next_id)->first();
+                    Log::info($wf);
+                    $wf_nexts = array('id'=>$wf->id,'name'=>$wf->name,'workflow_id'=>$s->workflow_id);
+                    array_push($secuencias, $wf_nexts);
+                }            
+                // $sw_siguiente = WorkflowState::where('id',$sequence->wf_state_next_id)->first();
             }else
             {
                 $sw_siguiente = null;
             }
             
             $workflow_ids = Util::getRol()->module->workflows->pluck('name', 'id');
-            $data = array('sw_actual' => $sw_actual, 'sw_siguiente' => $sw_siguiente, 'workflow_ids'=> $workflow_ids );
+            $workflow_ids2  = Util::getRol()->module->workflows;
+            $data = array('sw_actual' => $sw_actual, 'secuencias' => $secuencias, 'workflow_ids'=> $workflow_ids ,'wfs'=>$workflow_ids2 );
             return view('inbox.view',$data);
         }
         else
@@ -215,8 +226,8 @@ class InboxController extends Controller
             // }
             foreach (explode(',',$request->ids) as $key) {
                 $e=EconomicComplement::find($key);
-                $wfsq=WorkflowSequence::where('wf_state_current_id',$e->wf_current_state_id)->where('action','Aprobar')->first();
-                $e->wf_current_state_id=$wfsq->wf_state_next_id;
+                // $wfsq=WorkflowSequence::where('wf_state_current_id',$e->wf_current_state_id)->where('action','Aprobar')->first();
+                $e->wf_current_state_id=$request->wf_state_next_id;
                 $e->state='Received';
                 $e->save();
             }
