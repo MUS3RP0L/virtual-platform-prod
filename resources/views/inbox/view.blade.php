@@ -132,12 +132,8 @@
 			<h3 class="box-title"> {{Util::getRol()->action}} </h3>
 		</div>
 		<div class="box-body">
-        
-  
-        
+
          <select data-bind=" options: listaWorkflows ,optionsValue: 'id', optionsText: 'nombre',value: workflowSelected " id='select-edited'></select> 
-        
-       
 
 		{!! Form::open(['method' => 'POST', 'route' => ['inbox.store'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}
 		<table id="edited" style="width:100%" class="table table-bordered table-hover">
@@ -197,7 +193,7 @@
         <li ><a href="#" data-bind="text: nombre, click: $root.secuenciaSeleccionada"></a></li>
       </ul>
     </div>
-    <input type="text" name="wf_state_next_id" data-bind="value: secuenciaActual.id">
+    <input type="hidden" name="wf_state_next_id" data-bind="value: secuenciaActual.id">
     <input type="text" id="ids" name="ids">
 
         <div id="modal-confirm" class="modal fade modal-info" tabindex="-1" role="dialog">
@@ -388,7 +384,7 @@ $(document).ready(function (){
       }
    });
    $('#frm-edited').on('change', function(e){
-    console.log('sdasd');
+    // console.log('sdasd'); 
       var form = this;
       var ids=[];
       table.$('input[type="checkbox"]').each(function(){
@@ -405,6 +401,19 @@ $(document).ready(function (){
       $('#ids').val(ids);
       $('#ids_print').val(ids);
    });
+
+    table.$('input[type="checkbox"]').each(function(){
+          console.log('itera');
+         // if(!$.contains(document, this)){
+         //    if(this.checked){
+         //       ids.push(this.value);
+         //    }
+         // }else{
+         //    if(this.checked){
+         //       ids.push(this.value);
+         //    }
+         // }
+      });
 
     function Workflow(id,nombre)
     {
@@ -428,6 +437,7 @@ $(document).ready(function (){
         var self = this;
 
         var workflowsList = <?php echo json_encode($wfs); ?>;
+        var secuencias = <?php echo json_encode($secuencias);?>;
         // console.log(workflowsList);
         // console.log('size '+workflowsList.length);
         self.listaWorkflows = ko.observableArray();
@@ -460,10 +470,10 @@ $(document).ready(function (){
 
         }, self); 
         // self.workflowSelected = ko.computed(function());
-        
+        console.log('hasta aqui ok XD');
 
-        var secuencias = <?php echo json_encode($secuencias);?>;
-        // console.log(secuencias);
+        
+        console.log(secuencias);
 
         for(var i in secuencias)
         {

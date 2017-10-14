@@ -643,7 +643,8 @@ class EconomicComplementController extends Controller
         } catch (Exception $e) {
             $state =null;
         }
-        // $state_actual = $economic_complement->wf_current_state_id;
+        $state_actual = $economic_complement->wf_current_state_id;
+
         // dd($state_actual);
         // dd($economic_complement->workflow_id);
         $sequence = WorkflowSequence::where("workflow_id",$economic_complement->workflow_id)
@@ -674,7 +675,7 @@ class EconomicComplementController extends Controller
             $wf_state_before = null;
         }
 
-        if($wf_state_before && $economic_complement->state=='Edited')
+        if($wf_state_before && $economic_complement->state=='Received' && $economic_complement->user_id = Auth::user()->id)
         {
             $wf_state_before = null;
         }
