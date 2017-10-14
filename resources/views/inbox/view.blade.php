@@ -194,7 +194,7 @@
       </ul>
     </div>
     <input type="hidden" name="wf_state_next_id" data-bind="value: secuenciaActual.id">
-    <input type="text" id="ids" name="ids">
+    <input type="hidden" id="ids" name="ids">
 
         <div id="modal-confirm" class="modal fade modal-info" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
@@ -415,6 +415,8 @@ $(document).ready(function (){
          // }
       });
 
+
+
     function Workflow(id,nombre)
     {
       var self = this;
@@ -504,7 +506,7 @@ $(document).ready(function (){
 
     ko.applyBindings(new SecuenciaViewModel());
 
-
+    
 });
 
 
