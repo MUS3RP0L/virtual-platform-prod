@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use Maatwebsite\Excel\Facades\Excel;
 use Muserpol\Affiliate;
 use Carbon\Carbon;
+use Log;
+
 class ImportBirthDate extends Command
 {
     /**
@@ -57,7 +59,10 @@ class ImportBirthDate extends Command
                                  ini_set('max_input_time', '-1');
                                  set_time_limit('-1');
                                  $ci = $result->car;
-                                 $birth_date = Carbon::createFromFormat('dmY',$result->nac)->toDateString();
+                                 $birth_date = null;
+                                 if ($result->nac) {   
+                                    $birth_date = Carbon::createFromFormat('dmY',$result->nac)->toDateString();
+                                 }
                                  $afi = Affiliate::whereRaw("split_part(ltrim(trim(identity_card),'0'), '-',1) ='".ltrim(trim($ci),'0')."'")->first();
                                  if ($afi) {
                                     if ($afi->birth_date) {
