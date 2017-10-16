@@ -41,7 +41,7 @@ class ImportBirthDate extends Command
      */
     public function handle()
     {
-        global $Progress, $aficount,$afincount,$affiliate_no, $affiliate_yes, $affiliate_diff, $exist, $diff, $same,$update, $existd, $diffd, $samed,$updated;
+        global $Progress, $aficount,$afincount,$affiliate_no, $affiliate_yes, $affiliate_diff, $exist, $diff, $same,$update, $existd, $diffd, $samed,$updated, $econo, $ecoyes;
              $password = $this->ask('Enter the password');
              if ($password == ACCESS) {
                  $FolderName = $this->ask('Enter the name of the folder you want to import');
@@ -53,7 +53,7 @@ class ImportBirthDate extends Command
                      $Progress->setFormat("%current%/%max% [%bar%] %percent:3s%%");
                      Excel::batch('public/file_to_import/' . $FolderName . '/', function($rows, $file) {
                          $rows->each(function($result) {
-                                 global $Progress,$aficount, $afincount, $affiliate_no, $affiliate_yes, $affiliate_diff, $exist, $diff,$same, $update,$existd, $diffd, $samed,$updated;;
+                                 global $Progress,$aficount, $afincount, $affiliate_no, $affiliate_yes, $affiliate_diff, $exist, $diff,$same, $update,$existd, $diffd, $samed,$updated, $econo, $ecoyes;
                                  ini_set('memory_limit', '-1');
                                  ini_set('max_execution_time', '-1');
                                  ini_set('max_input_time', '-1');
@@ -68,36 +68,42 @@ class ImportBirthDate extends Command
                                  }
                                  $afi = Affiliate::whereRaw("split_part(ltrim(trim(identity_card),'0'), '-',1) ='".ltrim(trim($ci),'0')."'")->first();
                                  if ($afi) {
-                                    if ($afi->birth_date) {
-                                        $exist++;
-                                        if ($afi->birth_date <> $birth_date) {
-                                            $diff++;
-                                            $affiliate_diff[]= array(
-                                                'id' => $afi->id,
-                                                'affi_fecha_nac'=>$afi->birth_date,
-                                                'fecha_nac'=>$birth_date,
-                                            );
+                                    if (!$afi->economic_complements()->where('eco_com_procedure_id','=',2)->first()) {
+                                        if ($afi->birth_date) {
+                                            $exist++;
+                                            if ($afi->birth_date <> $birth_date) {
+                                                $diff++;
+                                                $affiliate_diff[]= array(
+                                                    'id' => $afi->id,
+                                                    'affi_fecha_nac'=>$afi->birth_date,
+                                                    'fecha_nac'=>$birth_date,
+                                                );
+                                                $update++;
+                                                $affiliate_yes[]= array(
+                                                    'id' => $afi->id,
+                                                    'fecha_nac'=>$birth_date,
+                                                    'fecha_nac_ori'=>$result->nac,
+                                                );
+                                                $afi->birth_date = $birth_date;
+                                                $afi->save();
+                                            }else{
+                                                $same++;
+                                            }
+                                        }else{
                                             $update++;
+                                            $afi->birth_date = $birth_date;
+                                            $afi->save();
                                             $affiliate_yes[]= array(
                                                 'id' => $afi->id,
                                                 'fecha_nac'=>$birth_date,
                                                 'fecha_nac_ori'=>$result->nac,
                                             );
-                                            $afi->birth_date = $birth_date;
-                                            $afi->save();
-                                        }else{
-                                            $same++;
                                         }
+                                        $econo++;
                                     }else{
-                                        $update++;
-                                        $afi->birth_date = $birth_date;
-                                        $afi->save();
-                                        $affiliate_yes[]= array(
-                                            'id' => $afi->id,
-                                            'fecha_nac'=>$birth_date,
-                                            'fecha_nac_ori'=>$result->nac,
-                                        );
+                                        $ecoyes++;
                                     }
+
                                     if ($afi->date_entry) {
                                         $existd++;
                                         if ($afi->date_entry <> $date_entry) {
@@ -190,6 +196,9 @@ class ImportBirthDate extends Command
                             Affiliates with same date entry ".($samed ?? 0)."\n
                          Not Found ". ($afincount ?? 0)." affiliates\n
                          Actualizaciones y/o Inserciones: ". ($updated ?? 0)."\n
+                         *******************************\n
+                         Afiliados con Tramites $ecoyes \n
+                         Afiliados sin Tramites $econo \n
                      Execution time $execution_time [minutes].\n");
                  }
             }else {
