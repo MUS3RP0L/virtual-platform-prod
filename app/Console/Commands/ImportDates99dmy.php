@@ -8,14 +8,15 @@ use Muserpol\Affiliate;
 use Carbon\Carbon;
 use Log;
 
-class ImportBirthDate extends Command
+
+class ImportDates99dmy extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'import:dates';
+    protected $signature = 'import:dates_99';
 
     /**
      * The console command description.
@@ -41,7 +42,7 @@ class ImportBirthDate extends Command
      */
     public function handle()
     {
-        global $Progress, $aficount,$afincount,$affiliate_no, $affiliate_yes, $affiliate_diff, $exist, $diff, $same,$update, $existd, $diffd, $samed,$updated, $econo, $ecoyes;
+        global $Progress, $aficount,$afincount,$affiliate_no, $affiliate_yes, $affiliate_diff,$affiliate_yesd, $affiliate_diffd, $exist, $diff, $same,$update, $existd, $diffd, $samed,$updated, $econo, $ecoyes;
              $password = $this->ask('Enter the password');
              if ($password == ACCESS) {
                  $FolderName = $this->ask('Enter the name of the folder you want to import');
@@ -53,7 +54,7 @@ class ImportBirthDate extends Command
                      $Progress->setFormat("%current%/%max% [%bar%] %percent:3s%%");
                      Excel::batch('public/file_to_import/' . $FolderName . '/', function($rows, $file) {
                          $rows->each(function($result) {
-                                 global $Progress,$aficount, $afincount, $affiliate_no, $affiliate_yes, $affiliate_diff, $exist, $diff,$same, $update,$existd, $diffd, $samed,$updated, $econo, $ecoyes;
+                                 global $Progress,$aficount, $afincount, $affiliate_no, $affiliate_yes, $affiliate_diff,$affiliate_yesd, $affiliate_diffd, $exist, $diff,$same, $update,$existd, $diffd, $samed,$updated, $econo, $ecoyes;
                                  ini_set('memory_limit', '-1');
                                  ini_set('max_execution_time', '-1');
                                  ini_set('max_input_time', '-1');
@@ -62,79 +63,82 @@ class ImportBirthDate extends Command
                                  $birth_date = null;
                                  $date_entry = null;
                                  if ($result->nac) {   
-                                    $birth_date = Carbon::createFromFormat('dmY',$result->nac)->toDateString();
+                                    $birth_date = Carbon::createFromFormat('dmY',$result->nac)->addYears(1900)->toDateString();
                                  }
                                  if ($result->ing) {   
-                                    $date_entry = Carbon::createFromFormat('dmY',$result->ing)->toDateString();
+                                    $date_entry = Carbon::createFromFormat('dmY',$result->ing)->addYears(1900)->toDateString();
                                  }
-                                 $afi = Affiliate::whereRaw("ltrim(trim(identity_card),'0') ='".ltrim(trim($ci),'0')."'")->first();
-                                 // $afi = Affiliate::whereRaw("split_part(ltrim(trim(identity_card),'0'), '-',1) ='".ltrim(trim($ci),'0')."'")->first();
-                                 if ($afi) {
+                                 // $afi = Affiliate::whereRaw("ltrim(trim(identity_card),'0') ='".ltrim(trim($ci),'0')."'")->first();
+                                 $afi = Affiliate::whereRaw("split_part(ltrim(trim(identity_card),'0'), '-',1) ='".explode('-',ltrim(trim($ci),'0'))[0]."'")->first();
+                                 if ($afi ) {
                                     if (!$afi->economic_complements()->where('eco_com_procedure_id','=',2)->first()) {
-                                        if ($afi->birth_date) {
-                                            $exist++;
-                                            if ($afi->birth_date <> $birth_date) {
-                                                $diff++;
-                                                $affiliate_diff[]= array(
-                                                    'id' => $afi->id,
-                                                    'affi_fecha_nac'=>$afi->birth_date,
-                                                    'fecha_nac'=>$birth_date,
-                                                );
+                                        if ($birth_date) {
+                                            if ($afi->birth_date) {
+                                                $exist++;
+                                                if ($afi->birth_date <> $birth_date) {
+                                                    $diff++;
+                                                    $affiliate_diff[]= array(
+                                                        'id' => $afi->id,
+                                                        'affi_fecha_nac'=>$afi->birth_date,
+                                                        'fecha_nac'=>$birth_date,
+                                                    );
+                                                    $update++;
+                                                    $affiliate_yes[]= array(
+                                                        'id' => $afi->id,
+                                                        'fecha_nac'=>$birth_date,
+                                                        'fecha_nac_ori'=>$result->nac,
+                                                    );
+                                                    $afi->birth_date = $birth_date;
+                                                    $afi->save();
+                                                }else{
+                                                    $same++;
+                                                }
+                                            }else{
                                                 $update++;
+                                                $afi->birth_date = $birth_date;
+                                                $afi->save();
                                                 $affiliate_yes[]= array(
                                                     'id' => $afi->id,
                                                     'fecha_nac'=>$birth_date,
                                                     'fecha_nac_ori'=>$result->nac,
                                                 );
-                                                $afi->birth_date = $birth_date;
-                                                $afi->save();
-                                            }else{
-                                                $same++;
                                             }
-                                        }else{
-                                            $update++;
-                                            $afi->birth_date = $birth_date;
-                                            $afi->save();
-                                            $affiliate_yes[]= array(
-                                                'id' => $afi->id,
-                                                'fecha_nac'=>$birth_date,
-                                                'fecha_nac_ori'=>$result->nac,
-                                            );
                                         }
                                         $econo++;
                                     }else{
                                         $ecoyes++;
                                     }
-
-                                    if ($afi->date_entry) {
-                                        $existd++;
-                                        if ($afi->date_entry <> $date_entry) {
-                                            $diffd++;
-                                            $affiliate_diffd[]= array(
-                                                'id' => $afi->id,
-                                                'affi_fecha_ing'=>$afi->date_entry,
-                                                'fecha_ing'=>$date_entry,
-                                            );
+                                    if ($date_entry) {
+                                        if ($afi->date_entry) {
+                                            $existd++;
+                                            if ($afi->date_entry <> $date_entry) {
+                                                $diffd++;
+                                                $affiliate_diffd[]= array(
+                                                    'id' => $afi->id,
+                                                    'affi_fecha_ing'=>$afi->date_entry,
+                                                    'fecha_ing'=>$date_entry,
+                                                );
+                                                $updated++;
+                                                $affiliate_yesd[]= array(
+                                                    'id' => $afi->id,
+                                                    'fecha_ing'=>$date_entry,
+                                                    'fecha_ing_ori'=>$result->ing,
+                                                );
+                                                $afi->date_entry = $date_entry;
+                                                $afi->save();
+                                            }else{
+                                                $samed++;
+                                            }
+                                        }else{
                                             $updated++;
+                                            $afi->date_entry = $date_entry;
+                                            $afi->save();
                                             $affiliate_yesd[]= array(
                                                 'id' => $afi->id,
                                                 'fecha_ing'=>$date_entry,
                                                 'fecha_ing_ori'=>$result->ing,
                                             );
-                                            $afi->date_entry = $date_entry;
-                                            $afi->save();
-                                        }else{
-                                            $samed++;
                                         }
-                                    }else{
-                                        $updated++;
-                                        $afi->date_entry = $date_entry;
-                                        $afi->save();
-                                        $affiliate_yesd[]= array(
-                                            'id' => $afi->id,
-                                            'fecha_ing'=>$date_entry,
-                                            'fecha_ing_ori'=>$result->ing,
-                                        );
                                     }
                                     $aficount++;
                                  }else{
