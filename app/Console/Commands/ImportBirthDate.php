@@ -74,14 +74,14 @@ class ImportBirthDate extends Command
                                                 'affi_fecha_nac'=>$afi->birth_date,
                                                 'fecha_nac'=>$birth_date,
                                             );
-                                            // $update++;
-                                            // $affiliate_yes[]= array(
-                                            //     'id' => $afi->id,
-                                            //     'fecha_nac'=>$birth_date,
-                                            //     'fecha_nac_ori'=>$result->nac,
-                                            // );
-                                            // $afi->birth_date = $birth_date;
-                                            // $afi->save();
+                                            $update++;
+                                            $affiliate_yes[]= array(
+                                                'id' => $afi->id,
+                                                'fecha_nac'=>$birth_date,
+                                                'fecha_nac_ori'=>$result->nac,
+                                            );
+                                            $afi->birth_date = $birth_date;
+                                            $afi->save();
                                         }else{
                                             $same++;
                                         }
