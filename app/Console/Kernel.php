@@ -54,6 +54,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\ImportBaseWageSismuNormal::class,
         \Muserpol\Console\Commands\ImportDaf::class,
         \Muserpol\Console\Commands\ImportBirthDate::class,
+        \Muserpol\Console\Commands\ImportDates99dmy::class,
 
         
     ];
