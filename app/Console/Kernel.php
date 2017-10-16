@@ -55,6 +55,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\ImportDaf::class,
         \Muserpol\Console\Commands\ImportBirthDate::class,
         \Muserpol\Console\Commands\ImportDates99dmy::class,
+        \Muserpol\Console\Commands\ImportDates99ymd::class,
 
         
     ];
