@@ -60,13 +60,15 @@ class ImportBirthDate extends Command
                                  set_time_limit('-1');
                                  $ci = $result->car;
                                  $birth_date = null;
+                                 $date_entry = null;
                                  if ($result->nac) {   
                                     $birth_date = Carbon::createFromFormat('dmY',$result->nac)->toDateString();
                                  }
                                  if ($result->nac) {   
                                     $date_entry = Carbon::createFromFormat('dmY',$result->ing)->toDateString();
                                  }
-                                 $afi = Affiliate::whereRaw("split_part(ltrim(trim(identity_card),'0'), '-',1) ='".ltrim(trim($ci),'0')."'")->first();
+                                 $afi = Affiliate::whereRaw("ltrim(trim(identity_card),'0') ='".ltrim(trim($ci),'0')."'")->first();
+                                 // $afi = Affiliate::whereRaw("split_part(ltrim(trim(identity_card),'0'), '-',1) ='".ltrim(trim($ci),'0')."'")->first();
                                  if ($afi) {
                                     if (!$afi->economic_complements()->where('eco_com_procedure_id','=',2)->first()) {
                                         if ($afi->birth_date) {
@@ -144,6 +146,7 @@ class ImportBirthDate extends Command
                                          'paterno'=>$result->pat,
                                          'materno'=>$result->mat,
                                          'fecha_nac'=>$birth_date,
+                                         'fecha_ing'=>$date_entry,
                                      );
                                  }
                                  $Progress->advance();
