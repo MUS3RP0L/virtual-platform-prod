@@ -650,10 +650,11 @@ class EconomicComplementController extends Controller
         $sequence = WorkflowSequence::where("workflow_id",$economic_complement->workflow_id)
                                      ->where("wf_state_current_id",$economic_complement->wf_current_state_id)
                                      ->where('action','Denegar')
-                                     ->first();
-        // dd($sequence);
+                                     ->get();
+        // return $sequence;
         
-        $sw_actual = WorkflowState::where('role_id',Util::getRol()->id)->first();
+        // $sw_actual = WorkflowState::where('role_id',Util::getRol()->id)->first();
+        $sw_actual = WorkflowState::where('id',$economic_complement->wf_current_state_id)->first();
 
         $buttons_enabled=false;
         
@@ -665,22 +666,37 @@ class EconomicComplementController extends Controller
             }
         }
     
-
+        
 
         if($sequence)
-        {
-            $wf_state_before = WorkflowState::where('id',$sequence->wf_state_next_id)->first(); 
+        {   
+
+            $wf_state_before = array();
+            foreach ($sequence as $s) {
+
+                # code...
+                $wf = WorkflowState::where('id',$s->wf_state_next_id)->first();
+
+                $wf_before = array('id'=>$wf->id,'name'=>$wf->name);
+                array_push($wf_state_before, $wf_before);
+            }
+            // $wf_state_before = WorkflowState::where('id',$sequence->wf_state_next_id)->first(); 
         }else
         {
             $wf_state_before = null;
         }
-
+        // return $wf_state_before;
         if($wf_state_before && $economic_complement->state=='Received' && $economic_complement->user_id = Auth::user()->id)
         {
             $wf_state_before = null;
         }
                                      
-        // dd($sequence);
+        $has_checked = null;
+
+        if($economic_complement->wf_state->role_id == Util::getRol()->id && $economic_complement->state == "Received")
+        {
+            $has_checked = true;   
+        }
 
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
@@ -937,7 +953,7 @@ class EconomicComplementController extends Controller
         $rent_month = EconomicComplementProcedure::find($economic_complement->eco_com_procedure_id);
 
         $has_cancel = false;
-        if(Auth::user()->id == $economic_complement->user_id || Util::getRol()->id == 2)
+        if(Auth::user()->id == $economic_complement->user_id && $economic_complement->wf_state->role_id == Util::getRol()->id && $economic_complement->state=='Edited')
         {
             $has_cancel =true;            
         }
@@ -982,6 +998,7 @@ class EconomicComplementController extends Controller
         'rent_month' => $rent_month,
         'has_cancel' => $has_cancel,
         'has_edit_state' => $has_edit_state,
+        'has_checked' =>$has_checked,
         'states' => $states,
         ];
         // dd($eco_com_submitted_documents_ar);
@@ -2173,12 +2190,12 @@ class EconomicComplementController extends Controller
         $economic_complement = EconomicComplement::where('id',$request->id_complemento)->first();
         $old_wf = DB::table('wf_states')->where('id',$economic_complement->wf_current_state_id)->first();
         // dd($old_wf);
-        $sequence = WorkflowSequence::where("workflow_id",$economic_complement->workflow_id)
-                                     ->where("wf_state_current_id",$economic_complement->wf_current_state_id)
-                                     ->where('action','Denegar')
-                                     ->first();
+        // $sequence = WorkflowSequence::where("workflow_id",$economic_complement->workflow_id)
+        //                              ->where("wf_state_current_id",$economic_complement->wf_current_state_id)
+        //                              ->where('action','Denegar')
+        //                              ->first();
         // $wf_state_before = WorkflowState::where('id',$sequence->wf_state_next_id)->first(); 
-        $economic_complement->wf_current_state_id = $sequence->wf_state_next_id;
+        $economic_complement->wf_current_state_id = $request->wf_state_id;
         $economic_complement->state= 'Received';
         $economic_complement->save();
 
