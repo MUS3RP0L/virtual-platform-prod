@@ -73,7 +73,8 @@
         <div class="pull-right">
 
             @if($buttons_enabled)
-            
+                    
+                @if($has_cancel)    
                     @if($wf_state_before)
                   
                     <span data-toggle="tooltip" data-placement="top" data-original-title="Devolución de Tramite" style="margin:0px;">
@@ -91,6 +92,7 @@
                     </span>
 
                     @endif
+                @endif    
             <!-- <div class="btn-group">
                 <span data-toggle="tooltip" data-placement="top" data-original-title="ver" style="margin:0px;">
                     <a href="" data-target="#myModal-review-user" class="btn btn-sm btn-raised btn-{{ $economic_complement->stateOf() ? 'info' : 'warning'}} dropdown-toggle enabled" data-toggle="modal"> <strong>{{ $economic_complement->stateOf() ? "Revisado":"No revisado"}}</strong></a>
@@ -99,7 +101,7 @@
             
            
                 
-                    @if($economic_complement->state == "Edited")
+            
                         @if($has_cancel)
                             <div class="btn-group">
                                 <span data-toggle="tooltip" data-placement="top" data-original-title="Cancelar" style="margin:0px;">
@@ -107,13 +109,13 @@
                                 </span>
                             </div>
                         @endif
-                    @else
-                    <div class="btn-group">
-                        <span data-toggle="tooltip" data-placement="top" data-original-title="Confirmar" style="margin:0px;">
-                            <a href="" data-target="#myModal-confirm" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal">&nbsp;<span class="glyphicon glyphicon-ok"></span>&nbsp;</a>
-                        </span>
-                    </div>
-                    @endif
+                        @if($has_checked)
+                        <div class="btn-group">
+                            <span data-toggle="tooltip" data-placement="top" data-original-title="Confirmar" style="margin:0px;">
+                                <a href="" data-target="#myModal-confirm" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal">&nbsp;<span class="glyphicon glyphicon-ok"></span>&nbsp;</a>
+                            </span>
+                        </div>
+                        @endif
             @endif
           
 
