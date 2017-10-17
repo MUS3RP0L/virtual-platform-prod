@@ -691,7 +691,12 @@ class EconomicComplementController extends Controller
             $wf_state_before = null;
         }
                                      
-        // dd($sequence);
+        $has_checked = null;
+
+        if($economic_complement->wf_state->role_id == Util::getRol()->id && $economic_complement->state == "Received")
+        {
+            $has_checked = true;   
+        }
 
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
@@ -948,7 +953,7 @@ class EconomicComplementController extends Controller
         $rent_month = EconomicComplementProcedure::find($economic_complement->eco_com_procedure_id);
 
         $has_cancel = false;
-        if(Auth::user()->id == $economic_complement->user_id || Util::getRol()->id == 2)
+        if(Auth::user()->id == $economic_complement->user_id && $economic_complement->wf_state->role_id == Util::getRol()->id && $economic_complement->state=='Edited')
         {
             $has_cancel =true;            
         }
@@ -993,6 +998,7 @@ class EconomicComplementController extends Controller
         'rent_month' => $rent_month,
         'has_cancel' => $has_cancel,
         'has_edit_state' => $has_edit_state,
+        'has_checked' =>$has_checked,
         'states' => $states,
         ];
         // dd($eco_com_submitted_documents_ar);
