@@ -39,23 +39,22 @@
       <td><strong>LUGAR DE NAC.</strong></td>
       <td>{!! $eco_com_applicant->city_birth->second_shortened ?? '' !!}</td>
   	</tr>
-  </table>
+  
 
   {{--Información apoderado--}}  
 @if($economic_complement->has_legal_guardian)
-    <table>
+      <tr><td colspan="6"></td></tr>
       <tr>
-        <td colspan="4" class="grand info_title">INFORMACIÓN DEL APODERADO</td>
+        <td colspan="6" class="grand info_title">INFORMACIÓN DEL APODERADO</td>
       </tr>
       <tr>
-        <td><strong>NOMBRE:</strong></td><td nowrap>{!! $economic_complement_legal_guardian->getFullName() !!}</td>
+        <td><strong>NOMBRE:</strong></td><td nowrap colspan="3">{!! $economic_complement_legal_guardian->getFullName() !!}</td>
         <td><strong>C.I.:</strong></td><td nowrap>{!! $economic_complement_legal_guardian->identity_card !!} {!! $economic_complement_legal_guardian->city_identity_card->first_shortened ?? '' !!}</td>
       </tr>
-    </table>
 @endif
 
 {{--Información del trámite--}}
-<table>
+  <tr><td colspan="6"></td></tr>
   <tr>
     <td colspan="6" class="grand info_title">INFORMACIÓN DEL TRÁMITE</td>
   </tr>
@@ -159,8 +158,7 @@
       <td colspan="3"><strong>Son: </strong> {{ $total_literal }} Bolivianos</td>
     </tr>
   @endif
-</table>
-	<table>
+  <tr><td colspan="6"></td></tr>
 	<tr>
 	<td colspan="3" class="grand service info_title">NOTA</td>
 	</tr>  
