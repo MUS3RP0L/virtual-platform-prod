@@ -80,7 +80,7 @@
     <td colspan="3" class="grand info_title" ><strong>CÁLCULO DEL COMPLEMENTO ECONÓMICO</strong></td>
   </tr>
   <tr>
-    <td class="grand service" rowspan="2" style="vertical-align: middle;"><strong>DETALLE</strong></td>
+    <td class="grand service info_title" rowspan="2" style="vertical-align: middle;"><strong>DETALLE</strong></td>
     <td class="grand service" colspan="2"><b style="text-align: center">MONTO CALCULADO</strong></td>
   </tr>
   <tr>
@@ -90,7 +90,7 @@
     <td><strong>BOLETA TOTAL</strong></td><td class="number"><strong>{{$total_rent}}</strong></td><td></td>
   </tr>
   <tr>
-    <td>RENTA O PENSIÓN PASIVO NETO</td><td class="number">{{$total_rent_calc}}</td><td></td>
+    <td>RENTA O PENSIÓN (PASIVO NETO)</td><td class="number">{{$total_rent_calc}}</td><td></td>
   </tr>
   <tr>
     <td>REFERENTE SALARIO DEL ACTIVO</td><td class="number">{{$salary_reference}}</td><td></td>
@@ -110,6 +110,9 @@
   <tr>
     <td>FACTOR DE COMPLEMENTACIÓN</td><td class="number">{{ $factor_complement }} %</td><td></td>
   </tr>
+  <tr>
+  <td class="grand service info_title"><strong>TOTAL LIQUIDO A PAGAR EN BS.</strong></td><td class="number"><strong>{{$total}}</strong></td><td></td>
+  </tr>
   @if($economic_complement->amount_loan)
   <tr>
     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MORA POR PRÉSTAMOS</td><td></td><td class="number" >{{Util::formatMoney($economic_complement->amount_loan)}}</td>
@@ -126,7 +129,7 @@
   </tr>
   @endif
   <tr>
-  <td class="grand service"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BS.</strong></td><td class="number"><strong>{{$total}}</strong></td><td></td>
+  <td class="grand service info_title"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BS.</strong></td><td class="number"><strong>{{$total}}</strong></td><td></td>
   </tr>
   @if($economic_complement->old_eco_com)
   <tr>

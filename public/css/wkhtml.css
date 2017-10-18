@@ -181,6 +181,9 @@ h4{
 }
 .padding-top{
   width: 33%;
-  padding-top:70px;
+  padding-top:100px;
   text-align:center;
+}
+.info_title{
+  text-align: center;
 }
