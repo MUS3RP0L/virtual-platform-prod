@@ -140,7 +140,7 @@ class InboxController extends Controller
                         return $economic_complement->workflow_id;
                     })
                     ->editColumn('id', function ($economic_complement) {
-                        return '<input type="checkbox" class="checkBoxClass" value="'.$economic_complement->id.'" name="id[]"><span class="checkbox-material"><span class="check"></span></span> ';
+                        return '<input type="checkbox" class="checkBoxClass check" value="'.$economic_complement->id.'" name="id[]" onclick="cli()"> ';
                     })
                     ->addColumn('ci',function ($economic_complement)
                     {

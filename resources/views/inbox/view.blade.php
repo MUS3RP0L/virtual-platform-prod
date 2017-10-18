@@ -232,6 +232,7 @@
 
 @push('scripts')
 <script>
+
 $(document).ready(function (){
 
     var oTable = $('#received').DataTable({
@@ -283,6 +284,26 @@ $(document).ready(function (){
     });
 
 });
+var table;
+function cli() {
+   var ids=[];
+    table.$('input[type="checkbox"]').each(function(){
+      console.log("hola");
+       if(!$.contains(document, this)){
+          if(this.checked){
+             ids.push(this.value);
+          }
+       }else{
+          if(this.checked){
+             ids.push(this.value);
+          }
+       }
+    });
+    $('#ids').val(ids);
+    $('#ids_print').val(ids);
+ }
+
+
 $(document).ready(function (){ 
   // $('#edited tfoot th').each( function (index) {
   //   if (index > 0) {
@@ -301,7 +322,7 @@ $(document).ready(function (){
   //   }
   // });
 
-  var table = $('#edited').DataTable({
+  table = $('#edited').DataTable({
     "dom":"<'row'<'col-sm-6'l><'col-sm-6'>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
         "lengthMenu": [[15, 25, 50,100, -1], [15, 25, 50,100, "Todos"]],
       ajax: {
@@ -336,6 +357,7 @@ $(document).ready(function (){
      ],
       'order': [4, 'asc'],
   });
+
 
   table.columns().every( function () {
     var that = this;
@@ -383,39 +405,24 @@ $(document).ready(function (){
          }
       }
    });
-   $('#frm-edited').on('change', function(e){
-    // console.log('sdasd'); 
-      var form = this;
-      var ids=[];
-      table.$('input[type="checkbox"]').each(function(){
-         if(!$.contains(document, this)){
-            if(this.checked){
-               ids.push(this.value);
-            }
-         }else{
-            if(this.checked){
-               ids.push(this.value);
-            }
-         }
-      });
-      $('#ids').val(ids);
-      $('#ids_print').val(ids);
-   });
-
-    table.$('input[type="checkbox"]').each(function(){
-          console.log('itera');
-         // if(!$.contains(document, this)){
-         //    if(this.checked){
-         //       ids.push(this.value);
-         //    }
-         // }else{
-         //    if(this.checked){
-         //       ids.push(this.value);
-         //    }
-         // }
-      });
-
-
+   // $("input").on('click', function(e){
+   //  console.log('sdasd'); 
+   //    var form = this;
+   //    var ids=[];
+   //    table.$('input[type="checkbox"]').each(function(){
+   //       if(!$.contains(document, this)){
+   //          if(this.checked){
+   //             ids.push(this.value);
+   //          }
+   //       }else{
+   //          if(this.checked){
+   //             ids.push(this.value);
+   //          }
+   //       }
+   //    });
+   //    $('#ids').val(ids);
+   //    $('#ids_print').val(ids);
+   // });
 
     function Workflow(id,nombre)
     {
