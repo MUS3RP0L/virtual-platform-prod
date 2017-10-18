@@ -28,6 +28,7 @@
                     &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
                 </a>
             </div>
+            
         @endif
             @if($economic_complement->reception_type == "Inclusion")
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción Inclusiones" style="margin:0px;">
@@ -1284,16 +1285,16 @@
                                 <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
                                     <tbody>
                                         <tr>
-                                            <td style="width: 70%">Cuentas por cobrar </td>
-                                            <td  style="text-align: right">{!! Util::formatMoney($economic_complement->amount_accounting) !!}</td>
+                                            <td style="width: 70%" class="bg-danger" >Cuentas por cobrar </td>
+                                            <td  style="text-align: right" class="bg-danger">{!! Util::formatMoney($economic_complement->amount_accounting) !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Mora por prestamos</td>
-                                            <td  style="text-align: right">{!! Util::formatMoney($economic_complement->amount_loan) !!}</td>
+                                            <td style="width: 70%" class="bg-danger" >Mora por prestamos</td>
+                                            <td  style="text-align: right" class="bg-danger" >{!! Util::formatMoney($economic_complement->amount_loan) !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Reposición de fondos</td>
-                                            <td  style="text-align: right">{!! Util::formatMoney($economic_complement->amount_replacement) !!}</td>
+                                            <td style="width: 70%" class="bg-danger" >Reposición de fondos</td>
+                                            <td  style="text-align: right" class="bg-danger" >{!! Util::formatMoney($economic_complement->amount_replacement) !!}</td>
                                         </tr>
                                     </tbody>
                                 </table>
