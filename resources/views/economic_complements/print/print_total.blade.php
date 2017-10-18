@@ -77,11 +77,11 @@
 </table>
 <table>
   <tr>
-    <td colspan="3" class="grand info_title" ><strong>CÁLCULO DEL COMPLEMENTO ECONÓMICO</strong></td>
+    <td colspan="3" class="grand service info_title" ><strong>CÁLCULO DEL COMPLEMENTO ECONÓMICO</strong></td>
   </tr>
   <tr>
     <td class="grand service info_title" rowspan="2" style="vertical-align: middle;"><strong>DETALLE</strong></td>
-    <td class="grand service" colspan="2"><b style="text-align: center">MONTO CALCULADO</strong></td>
+    <td class="grand service info_title" colspan="2"><b style="text-align: center">MONTO CALCULADO</strong></td>
   </tr>
   <tr>
     <td class="grand service"><strong>A FAVOR</strong></td><td class="grand service"><strong>DESCUENTO</strong></td>
@@ -110,26 +110,33 @@
   <tr>
     <td>FACTOR DE COMPLEMENTACIÓN</td><td class="number">{{ $factor_complement }} %</td><td></td>
   </tr>
+  @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 )
   <tr>
-  <td class="grand service info_title"><strong>TOTAL LIQUIDO A PAGAR EN BS.</strong></td><td class="number"><strong>{{$total}}</strong></td><td></td>
+  <td class="grand service text-left"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BS.</strong></td><td class="number"><strong>{{$temp_total}}</strong></td><td></td>
   </tr>
+  @endif
   @if($economic_complement->amount_loan)
   <tr>
-    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MORA POR PRÉSTAMOS</td><td></td><td class="number" >{{Util::formatMoney($economic_complement->amount_loan)}}</td>
+    <td>&nbsp;&nbsp; – MORA POR PRÉSTAMOS</td><td></td><td class="number" >{{Util::formatMoney($economic_complement->amount_loan)}}</td>
   </tr>
   @endif
   @if($economic_complement->amount_accounting)
   <tr>
-    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MONTO POR CONTABILIDAD</td><td></td><td class="number" >{{Util::formatMoney($economic_complement->amount_accounting)}}</td>
+    <td>&nbsp;&nbsp; – MONTO POR CONTABILIDAD</td><td></td><td class="number" >{{Util::formatMoney($economic_complement->amount_accounting)}}</td>
   </tr>
   @endif
   @if($economic_complement->amount_replacement)
   <tr>
-    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MONTO POR REPOSICION DE FONDOS</td><td></td><td class="number" >{{Util::formatMoney($economic_complement->amount_replacement)}}</td>
+    <td>&nbsp;&nbsp; – MONTO POR REPOSICION DE FONDOS</td><td></td><td class="number" >{{Util::formatMoney($economic_complement->amount_replacement)}}</td>
   </tr>
   @endif
   <tr>
-  <td class="grand service info_title"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BS.</strong></td><td class="number"><strong>{{$total}}</strong></td><td></td>
+
+  @if(!$economic_complement->old_eco_com)
+  <td class="grand service text-left"><strong>TOTAL LIQUIDO A PAGAR EN BS.</strong></td><td class="number"><strong>{{$total}}</strong></td><td></td>
+  @else
+  <td class="grand service text-left"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BS.</strong></td><td class="number"><strong>{{$total}}</strong></td><td></td>
+  @endif
   </tr>
   @if($economic_complement->old_eco_com)
   <tr>
@@ -155,7 +162,7 @@
 </table>
 	<table>
 	<tr>
-	<td colspan="3" class="grand service">NOTA</td>
+	<td colspan="3" class="grand service info_title">NOTA</td>
 	</tr>  
 	<tr>
 	<td colspan="3"><strong> </strong>{!!$economic_complement->comment!!}</td>
