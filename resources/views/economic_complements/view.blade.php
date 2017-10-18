@@ -28,7 +28,6 @@
                     &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
                 </a>
             </div>
-            
         @endif
             @if($economic_complement->reception_type == "Inclusion")
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción Inclusiones" style="margin:0px;">
@@ -2921,7 +2920,7 @@ $(document).ready(function() {
         self.sw_tesoreria = self.select_tesoreria==3?true:false;
     };
 
-    @if(isset($wf_state_before))
+    @if(isset($wf_state_before) && $has_cancel==true)
     console.log("existe la variable");
     function Secuencia(id,nombre)
     {
