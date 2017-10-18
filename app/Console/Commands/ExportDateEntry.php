@@ -40,7 +40,7 @@ class ExportDateEntry extends Command
      */
     public function handle()
     {
-        global $affiliates;
+        global $affiliates, $affiliates_1;
         $aff=Affiliate::whereNull('date_entry')->get();
         foreach ($aff as $key => $afi) {
             $affiliates[]= array(
@@ -52,15 +52,31 @@ class ExportDateEntry extends Command
                 'materno'=>$afi->mothers_last_name,
                 'apellido_casada'=>$afi->surname_husband,
                 'fecha_nac'=>$afi->birth_date,
+            );
+        }
+        $aff1=Affiliate::whereNull('birth_date')->get();
+        foreach ($aff1 as $key => $afi) {
+            $affiliates_1[]= array(
+                'id' => $afi->id,
+                'ci'=>$afi->identity_card,
+                'p_nombre'=>$afi->first_name,
+                's_nombre'=>$afi->second_name,
+                'paterno'=>$afi->last_name,
+                'materno'=>$afi->mothers_last_name,
+                'apellido_casada'=>$afi->surname_husband,
                 'fecha_ing'=>$afi->date_entry,
             );
         }
-        Excel::create('Reporte de afiliados sin fecha de ingreso '.date("Y-m-d H:i:s"),function($excel)
+        Excel::create('Reporte de afiliados sin fechas '.date("Y-m-d H:i:s"),function($excel)
         {
-            global $affiliates;
-            $excel->sheet('afiliados',function($sheet){
+            global $affiliates,$affiliates_1;
+            $excel->sheet('afiliados sin fecha ing',function($sheet){
                 global $affiliates;
                 $sheet->fromArray($affiliates);
+            });
+            $excel->sheet('afiliados sin fecha nac',function($sheet){
+                global $affiliates_1;
+                $sheet->fromArray($affiliates_1);
             });
         })->store('xls', storage_path('excel/exports'));
     }
