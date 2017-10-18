@@ -108,23 +108,28 @@
 		  <tr>
 		    <td>FACTOR DE COMPLEMENTACIÓN</td><td class="number">{{ Util::formatMoney($old_eco_com->complementary_factor) }} %</td><td></td>
 		  </tr>
+		  @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 )
+		  <tr>
+		  <td class="grand service text-left"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BS.</strong></td><td class="number"><strong>{{$temp_total}}</strong></td><td></td>
+		  </tr>
+		  @endif
 		  @if($old_eco_com->amount_loan)
 		  <tr>
-		    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MORA POR PRÉSTAMOS</td><td></td><td class="number" >{{Util::formatMoney($old_eco_com->amount_loan)}}</td>
+		    <td>&nbsp;&nbsp; – MORA POR PRÉSTAMOS</td><td></td><td class="number" >{{Util::formatMoney($old_eco_com->amount_loan)}}</td>
 		  </tr>
 		  @endif
 		  @if($old_eco_com->amount_accounting)
 		  <tr>
-		    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MONTO POR CONTABILIDAD</td><td></td><td class="number" >{{Util::formatMoney($old_eco_com->amount_accounting)}}</td>
+		    <td>&nbsp;&nbsp; – MONTO POR CONTABILIDAD</td><td></td><td class="number" >{{Util::formatMoney($old_eco_com->amount_accounting)}}</td>
 		  </tr>
 		  @endif
 		  @if($old_eco_com->amount_replacement)
 		  <tr>
-		    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MONTO POR REPOSICION DE FONDOS</td><td></td><td class="number" >{{Util::formatMoney($old_eco_com->amount_replacement)}}</td>
+		    <td>&nbsp;&nbsp; – MONTO POR REPOSICION DE FONDOS</td><td></td><td class="number" >{{Util::formatMoney($old_eco_com->amount_replacement)}}</td>
 		  </tr>
 		  @endif
 		  <tr>
-		  <td class="grand service"><b>TOTAL COMPLEMENTO ECONÓMICO EN BS.</b></td><td class="number"><b>{{ Util::formatMoney($old_eco_com->total)}}</b></td><td></td>
+		  <td class="grand service text-left"><b>TOTAL COMPLEMENTO ECONÓMICO EN BS.</b></td><td class="number"><b>{{ Util::formatMoney($old_eco_com->total)}}</b></td><td></td>
 		  </tr>
 		  <tr>
 		  	<td colspan="3"><strong>Son: </strong>{!! $total_literal !!} Bolivianos</td>
@@ -142,9 +147,9 @@
 	<br>
 	<table>
 		<tr>
-			<td class="padding-top">Elaborado y Revisado por:</td>
-			<td class="padding-top">Aprobado por:</td>
-			<td class="padding-top">Aprobado por:</td>
+			<td class="padding-top"><strong>Elaborado y Revisado por:</strong></td>
+			<td class="padding-top"><strong>Aprobado por:</strong></td>
+			<td class="padding-top"><strong>Aprobado por:</strong></td>
 		</tr>
 	</table>
 	{{-- <table>

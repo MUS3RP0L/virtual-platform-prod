@@ -48,7 +48,7 @@ table th {
 
 table .service,
 table .desc {
-  text-align: left;
+  text-align: center;
 }
 
 table td {
@@ -181,9 +181,12 @@ h4{
 }
 .padding-top{
   width: 33%;
-  padding-top:100px;
+  padding-top:95px;
   text-align:center;
 }
-.info_title{
+table .info_title{
   text-align: center;
+}
+table .text-left{
+  text-align: left;
 }

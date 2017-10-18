@@ -1073,7 +1073,10 @@ class EconomicComplementReportController extends Controller
             $old_eco_com_city = $city->name;
         }
         $total_literal= Util::convertir($economic_complement->total);
-        
+        $temp_total=null;
+        if ($economic_complement->amount_loan || $economic_complement->amount_accounting || $economic_complement->amount_replacement) {
+          $temp_total=$economic_complement->total +  ($economic_complement->amount_loan ?? 0) + ($economic_complement->amount_accounting ?? 0) + ($economic_complement->amount_replacement ?? 0);
+        }
         $data = [
             'doc_number'=>$doc_number,
             'affiliate' => $affiliate,
@@ -1095,7 +1098,6 @@ class EconomicComplementReportController extends Controller
             'header1' => $header1,
             'header2' => $header2,
             'title' => $title,
-            'total' => number_format($economic_complement->total,2,'.',','),
             'total_literal' => $total_literal,
         ];
         $second_data = [
@@ -1111,6 +1113,7 @@ class EconomicComplementReportController extends Controller
             'total_amount_semester' => Util::formatMoney($economic_complement->difference*6),
             'complementary_factor' => $economic_complement->complementary_factor,
             'total' => Util::formatMoney($economic_complement->total),
+            'temp_total' => Util::formatMoney($temp_total),
             'user' => Auth::user(),
             'user_role' =>Util::getRol()->name
         ];
@@ -1156,6 +1159,10 @@ class EconomicComplementReportController extends Controller
             $old_eco_com_reception_date = Util::getDateShort($old_eco_com->reception_date);
             $doc_number = \Muserpol\EconomicComplementModality::where('id',$old_eco_com->eco_com_modality_id)->first()->economic_complement_type->id;
         }
+        $temp_total=null;
+        if ($old_eco_com->amount_loan || $old_eco_com->amount_accounting || $old_eco_com->amount_replacement) {
+          $temp_total=$old_eco_com->total +  ($old_eco_com->amount_loan ?? 0) + ($old_eco_com->amount_accounting ?? 0) + ($old_eco_com->amount_replacement ?? 0);
+        }
         $data = [
             'doc_number'=>$doc_number,
             'affiliate' => $affiliate,
@@ -1178,7 +1185,6 @@ class EconomicComplementReportController extends Controller
             'header1' => $header1,
             'header2' => $header2,
             'title' => $title,
-            'total' => number_format($economic_complement->total,2,'.',','),
             'total_literal' => $total_literal ?? '',
         ];
         $second_data = [
@@ -1194,6 +1200,7 @@ class EconomicComplementReportController extends Controller
             'total_amount_semester' => Util::formatMoney($economic_complement->difference*6),
             'complementary_factor' => $economic_complement->complementary_factor,
             'total' => Util::formatMoney($economic_complement->total),
+            'temp_total' => Util::formatMoney($temp_total),
             'user' => Auth::user(),
             'user_role' =>Util::getRol()->name
         ];
