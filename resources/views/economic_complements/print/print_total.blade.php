@@ -43,7 +43,7 @@
 
   {{--Información apoderado--}}  
 @if($economic_complement->has_legal_guardian)
-      <tr><td colspan="6"></td></tr>
+      <tr><td class="no-border" colspan="6"></td></tr>
       <tr>
         <td colspan="6" class="grand info_title">INFORMACIÓN DEL APODERADO</td>
       </tr>
@@ -54,7 +54,7 @@
 @endif
 
 {{--Información del trámite--}}
-  <tr><td colspan="6"></td></tr>
+  <tr><td class="no-border" colspan="6"></td></tr>
   <tr>
     <td colspan="6" class="grand info_title">INFORMACIÓN DEL TRÁMITE</td>
   </tr>
@@ -142,9 +142,6 @@
     <td>TOTAL COMP. ECO. PAGADO</td>
     <td></td><td class="number">{!! Util::formatMoney($old_eco_com->total) !!}</td>
   </tr>
-  <tr>
-    <td colspan="3"></td>
-  </tr>
   <tr style="font-size: 1.1em">
     <td  class="grand service">TOTAL REEMBOLSO</td>
     <td class="number"><strong>{!! Util::formatMoney($economic_complement->total_repay) !!}</strong></td>
@@ -158,7 +155,7 @@
       <td colspan="3"><strong>Son: </strong> {{ $total_literal }} Bolivianos</td>
     </tr>
   @endif
-  <tr><td colspan="6"></td></tr>
+  <tr><td class="no-border" colspan="6"></td></tr>
 	<tr>
 	<td colspan="3" class="grand service info_title">NOTA</td>
 	</tr>  
@@ -166,7 +163,6 @@
 	<td colspan="3"><strong> </strong>{!!$economic_complement->comment!!}</td>
 	</tr>
 	</table>
-  <br>
   <table>
     <tr>
       <td class="padding-top"><strong>Elaborado y Revisado por:</strong></td>
