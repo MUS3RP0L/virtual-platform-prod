@@ -1211,4 +1211,44 @@ class EconomicComplementReportController extends Controller
         // $pdf->loadHTML($view)->setPaper('legal');
         // return $pdf->stream();
     }
+    public function print_eco_com_backrest($eco_com_id)
+    {
+      $economic_complement = EconomicComplement::where('id',$eco_com_id)->first();
+      if ($economic_complement) {
+        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+        $date = Util::getDateEdit(date('Y-m-d'));
+        setlocale(LC_ALL, "es_ES.UTF-8");
+        $date = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
+        $current_date = Carbon::now();
+        $hour = Carbon::parse($current_date)->toTimeString();
+        $title = ($economic_complement->old_eco_com == null) ? "FORMULARIO CE - 1" : "FORMULARIO CE - 2";
+        $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+        $eco_com_applicant = $economic_complement->economic_complement_applicant;
+        $economic_complement_legal_guardian = $economic_complement->economic_complement_legal_guardian;
+        $eco_tot_frac = $economic_complement->aps_total_cc + $economic_complement->aps_total_fsa + $economic_complement->aps_total_fs;
+        $doc_number = $economic_complement->economic_complement_modality->economic_complement_type->id;
+        $total_literal= Util::convertir($economic_complement->total);
+        $data = [
+            'doc_number'=>$doc_number,
+            'affiliate' => $affiliate,
+            'economic_complement' => $economic_complement,
+            'eco_com_applicant' => $eco_com_applicant,
+            'economic_complement_legal_guardian' => $economic_complement_legal_guardian, 
+            'date' => $date,
+            'hour' => $hour,
+            'header1' => $header1,
+            'header2' => $header2,
+            'title' => $title,
+        ];
+        $second_data = [
+            'total' => Util::formatMoney($economic_complement->total),
+            'total_literal' => $total_literal,
+            'user' => Auth::user(),
+            'user_role' =>Util::getRol()->name
+        ];
+        $data = array_merge($data, $second_data);
+        return \PDF::loadView('economic_complements.print.print_total_backrest', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017')->stream('print_total.pdf');
+      }
+    }
 }

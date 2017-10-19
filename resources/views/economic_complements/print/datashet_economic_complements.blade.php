@@ -51,7 +51,7 @@
     <table class="table" style="width:100%;">
       <tr>
           <td colspan="4" class="grand service">
-              INFORMACIÓN BENECIFIARIO
+              INFORMACIÓN BENEFICIARIO
               @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1)
                - DERECHOHABIENTE
               @endif

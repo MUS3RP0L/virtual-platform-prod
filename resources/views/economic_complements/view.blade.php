@@ -45,7 +45,11 @@
             @endif
         @endcan
         
-      
+        @can('eco_com_qualification')
+            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir comprobante de respaldo" style="margin:0px;">
+                <a href="#" class="btn btn-sm btn-raised btn-success" onclick="printTrigger('iFramePdfBackrest');"><i class="fa fa-file"></i></a>
+            </div>
+        @endcan
         @if($has_amortization)
        
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Amortización" style="margin:0px;">
@@ -1390,6 +1394,9 @@
     </div>
 <!-- modals -->
     <div class="modal fade" tabindex="-1" >
+        @if($economic_complement->total> 0)
+            <iframe src="{!! url('print_eco_com_backrest/' . $economic_complement->id) !!}" id="iFramePdfBackrest"></iframe>
+        @endif
 
         @if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
             <iframe src="{!! url('print_sworn_declaration/' . $economic_complement->id . '/viudedad') !!}" id="iFramePdf"></iframe>
