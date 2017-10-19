@@ -1284,16 +1284,16 @@
                                 <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
                                     <tbody>
                                         <tr>
-                                            <td style="width: 70%">Cuentas por cobrar </td>
-                                            <td  style="text-align: right">{!! Util::formatMoney($economic_complement->amount_accounting) !!}</td>
+                                            <td style="width: 70%" class="bg-danger" >Cuentas por cobrar </td>
+                                            <td  style="text-align: right" class="bg-danger">{!! Util::formatMoney($economic_complement->amount_accounting) !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Mora por prestamos</td>
-                                            <td  style="text-align: right">{!! Util::formatMoney($economic_complement->amount_loan) !!}</td>
+                                            <td style="width: 70%" class="bg-danger" >Mora por prestamos</td>
+                                            <td  style="text-align: right" class="bg-danger" >{!! Util::formatMoney($economic_complement->amount_loan) !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Reposición de fondos</td>
-                                            <td  style="text-align: right">{!! Util::formatMoney($economic_complement->amount_replacement) !!}</td>
+                                            <td style="width: 70%" class="bg-danger" >Reposición de fondos</td>
+                                            <td  style="text-align: right" class="bg-danger" >{!! Util::formatMoney($economic_complement->amount_replacement) !!}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -2920,7 +2920,7 @@ $(document).ready(function() {
         self.sw_tesoreria = self.select_tesoreria==3?true:false;
     };
 
-    @if(isset($wf_state_before))
+    @if(isset($wf_state_before) && $has_cancel==true)
     console.log("existe la variable");
     function Secuencia(id,nombre)
     {
