@@ -112,6 +112,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('print_sworn_declaration/{economic_complement_id}/{type}', 'EconomicComplement\EconomicComplementController@print_sworn_declaration');
 	Route::get('print_eco_com_reports/{economic_complement_id}/{type}', 'EconomicComplement\EconomicComplementController@print_eco_com_reports');
 
+	Route::get('print_eco_com_backrest/{economic_complement_id}', 'EconomicComplement\EconomicComplementReportController@print_eco_com_backrest');
+
 	// Economic Complement Report
 	Route::resource('report_complement', 'EconomicComplement\EconomicComplementReportController');
 	Route::post('report_generator', array('as'=>'report_generator', 'uses'=> 'EconomicComplement\EconomicComplementReportController@report_generator'));

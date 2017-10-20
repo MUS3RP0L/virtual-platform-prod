@@ -19,6 +19,8 @@ use Muserpol\Contribution;
 use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementApplicant;
 use Muserpol\EconomicComplementProcedure;
+use Muserpol\WorkflowState;
+
 use Log;
 
 class DashboardController extends Controller
@@ -298,7 +300,62 @@ class DashboardController extends Controller
             array_push($valid_array, array($revisados->count(),$norevisados->count()));	
 
            // Log::info($valid_array);
+            
+            $wf_states_bar_labels=[];
+            $wf_states_bar_datas_1=[];
+            $wf_states_bar_datas_2=[];
+            $wf_states_bars=DB::table('economic_complements')
+            ->leftjoin('eco_com_states', 'economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
+            ->leftjoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+            ->leftjoin('wf_states', 'economic_complements.wf_current_state_id',  '=', 'wf_states.id')
+            ->select(DB::raw("sum(case when economic_complements.state = 'Edited' then 1 else 0 end) as edited,  sum(case when economic_complements.state  = 'Received' then 1 else 0 end) as received, wf_states.name"))
+            ->where( 'eco_com_procedures.id', '=', 2)
+            ->groupBy('wf_states.name')
+            ->get();
+            foreach ($wf_states_bars as $item) {
+            	$wf_states_bar_labels[]= str_replace('Complemento Económico', '', $item->name);
+            	$wf_states_bar_datas_1[]= $item->edited;
+            	$wf_states_bar_datas_2[]= $item->received;
+            }
+            $wf_states_bar= array($wf_states_bar_labels, $wf_states_bar_datas_1,$wf_states_bar_datas_2);
 
+            $eco_com_states_pie_labels=[];
+            $eco_com_states_pie_datas=[];
+            $eco_com_states_pie=DB::table('economic_complements')
+            ->leftjoin('eco_com_states', 'economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
+            ->leftjoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+            ->leftjoin('eco_com_state_types', 'eco_com_states.eco_com_state_type_id', '=', 'eco_com_state_types.id')
+            ->select(DB::raw("count(*) as quantity, eco_com_state_types.name"))
+            ->where( 'eco_com_procedures.id', '=', 2)
+            ->groupBy('eco_com_state_types.name')
+            ->get();
+            foreach ($eco_com_states_pie as $item) {
+            	$eco_com_states_pie_labels[]= $item->name;
+            	$eco_com_states_pie_datas[]= $item->quantity;
+            }
+            $eco_com_states_pie= array($eco_com_states_pie_labels, $eco_com_states_pie_datas);$eco_com_states_pie_labels=[];
+
+            $eco_com_observations_pie_labels=[];
+            $eco_com_observations_pie_datas=[];
+            $eco_com_observations_pie=DB::table('affiliates')
+            ->leftjoin('economic_complements', 'affiliates.id', '=', 'economic_complements.affiliate_id')
+            ->leftjoin('affiliate_observations', 'affiliates.id', '=', 'affiliate_observations.affiliate_id')
+            ->leftjoin('observation_types', 'affiliate_observations.observation_type_id', '=', 'observation_types.id')
+            ->leftjoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+            ->where('eco_com_procedures.id', '=', 2)
+            // ->where('affiliate_observations.is_enabled', '=', false)
+            ->select(DB::raw("count(*) as quantity, observation_types.name"))
+            ->groupBy('observation_types.name')
+            ->get();
+            foreach ($eco_com_observations_pie as $item) {
+            	if (!$item->name) {
+            		$eco_com_observations_pie_labels[]= 'Sin Observaciones';
+            	}else{
+            		$eco_com_observations_pie_labels[]= $item->name ;
+            	}
+            	$eco_com_observations_pie_datas[]= $item->quantity;
+            }
+            $eco_com_observations_pie= array($eco_com_observations_pie_labels, $eco_com_observations_pie_datas);
 		$data = [
 			/*'activities' => $activities,
 			'totalAfiServ' => $totalAfiServ,
@@ -318,7 +375,10 @@ class DashboardController extends Controller
 			'last_semesters'=>array(array_keys($last_semesters_data_reverse),array_values($last_semesters_data_reverse)),
 			'sum_last_semesters'=>array(array_keys($sum_last_semesters_data_reverse),array_values($sum_last_semesters_data_reverse)),
 			'last_economic_complement'=>$last_economic_complement,
-			'last_year'=>$last_year	
+			'last_year'=>$last_year,
+			'wf_states_bar'=>$wf_states_bar,
+			'eco_com_states_pie'=>$eco_com_states_pie,
+			'eco_com_observations_pie'=>$eco_com_observations_pie,
 
 		];
 

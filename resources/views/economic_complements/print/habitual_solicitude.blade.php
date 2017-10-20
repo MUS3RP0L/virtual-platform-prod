@@ -19,7 +19,7 @@ Formulario Nº 4
  <table class="table" style="width:100%;">
      <tr>
        <td colspan="6" class="grand info_title">
-         INFORMACIÓN DEL BENECIFIARIO
+         INFORMACIÓN DEL BENEFICIARIO
        </td>
      </tr>
      <tr >

@@ -37,6 +37,17 @@
 	<div class="col-md-4">
 		@include('dashboard.valid')
 	</div>	
+	<div class="col-md-4">
+		 @include('dashboard.eco_com_states')
+	</div>
+	<div class="col-md-4">
+		 @include('dashboard.eco_com_observations')
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		 @include('dashboard.wf_states')
+	</div>
 </div>
 @endcan
 @can('manage')
