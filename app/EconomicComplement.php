@@ -169,7 +169,7 @@ class EconomicComplement extends Model
     }
     public function getSemester()
     {
-        return $this->semester == 'Primer'? 'Primero': 'Segundo';
+        return $this->semester == 'Primer'? '1er': '2do';
     }
     public function stateOf()
     {
@@ -403,8 +403,9 @@ class EconomicComplement extends Model
             if ($economic_complement->old_eco_com) {
                 $old_total=json_decode($economic_complement->old_eco_com)->total;
                 // dd($total." ".$old_total);
-                $economic_complement->total_repay = floatval($total) - floatval($old_total);
+                $economic_complement->total_repay =  floatval($total) - (floatval($old_total) + (floatval(json_decode($economic_complement->old_eco_com)->amount_loan) + floatval(json_decode($economic_complement->old_eco_com)->amount_replacement) + floatval(json_decode($economic_complement->old_eco_com)->amount_accounting)));
             }
+            // dd($economic_complement->total_repay);
             $economic_complement->save();
         }else{
             return redirect('economic_complement/'.$economic_complement->id)

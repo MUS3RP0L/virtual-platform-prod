@@ -1071,11 +1071,15 @@ class EconomicComplementReportController extends Controller
             $old_eco_com_category = $category->name;
             $city=\Muserpol\City::where('id',$old_eco_com->city_id)->first();
             $old_eco_com_city = $city->name;
+
         }
         $total_literal= Util::convertir($economic_complement->total);
         $temp_total=null;
         if ($economic_complement->amount_loan || $economic_complement->amount_accounting || $economic_complement->amount_replacement) {
           $temp_total=$economic_complement->total +  ($economic_complement->amount_loan ?? 0) + ($economic_complement->amount_accounting ?? 0) + ($economic_complement->amount_replacement ?? 0);
+        }
+        if ($economic_complement->old_eco_com && ($old_eco_com->amount_loan || $old_eco_com->amount_accounting || $old_eco_com->amount_replacement)) {
+          $old_eco_com_total_calificate=$old_eco_com->total +  ($old_eco_com->amount_loan ?? 0) + ($old_eco_com->amount_accounting ?? 0) + ($old_eco_com->amount_replacement ?? 0);
         }
         $data = [
             'doc_number'=>$doc_number,
@@ -1099,6 +1103,7 @@ class EconomicComplementReportController extends Controller
             'header2' => $header2,
             'title' => $title,
             'total_literal' => $total_literal,
+            'old_eco_com_total_calificate' => $old_eco_com_total_calificate ?? null,
         ];
         $second_data = [
             'sub_total_rent' => Util::formatMoney($economic_complement->sub_total_rent),

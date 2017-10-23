@@ -62,12 +62,45 @@
                 </div>
                 {!! Form::label('message', 'Mensaje:', []) !!}
                 <textarea name="message" id="message_edit" cols="50" rows="10" required="required" class="form-control"></textarea>
+                {!! Form::label('is_enabled', 'Habilitado', ['']) !!}
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="is_enabled" id="is_enabled">
+                        </label>
+                    </div>
+                </div>
                 {!! Form::hidden('affiliate_id', $affiliate->id,['id'=>'affiliate_id_edit']) !!}
                 {!! Form::hidden('observation_id','',['id'=>'observation_id_edit']) !!}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-warning" data-dismiss="modal">Cancelar</button>
-                {!! Form::submit('Guardar Observacion!',['class'=>"btn btn-primary"]) !!}
+                <div class="text-center">
+                    <a href="#" data-dismiss="modal" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
+                    &nbsp;&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
+                </div>
+            </div>
+                {!! Form::close() !!}
+        </div>
+    </div>
+</div>
+<!-- Delete Observation Modal -->
+<div class="modal fade" id="observationDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            {!! Form::open(['method' => 'POST', 'route' => ['observation_delete'], 'class' => 'form-horizontal']) !!}
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Esta seguro de Eliminar la observación?</h4>
+            </div>
+            <div class="modal-body">
+                {!! Form::token() !!}
+                {!! Form::hidden('affiliate_id', $affiliate->id,['id'=>'affiliate_id_delete']) !!}
+                {!! Form::hidden('observation_id','',['id'=>'observation_id_delete']) !!}
+                <div class="text-center">
+                    <a href="#" data-dismiss="modal" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
+                    &nbsp;&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
+                </div>
             </div>
                 {!! Form::close() !!}
         </div>
@@ -108,9 +141,17 @@
             $.get('/observation/'+$(this).data('id'), function(data) {
                 $('#observation_type_id_edit').val(data.observation_type_id);
                 $('#message_edit').val(data.message);
+                $('#message_edit').val(data.message);
                 $('#affiliate_id').val(data.affiliate_id);
+                $('#is_enabled').attr('checked', data.is_enabled);
                 $('#observation_id_edit').val(data.id);
-                console.log(data)
+            });
+            event.preventDefault();
+        });
+        // delete observations
+        $(document).on('click', '.deleteObservation', function(event) {
+            $.get('/observation/'+$(this).data('id'), function(data) {
+                $('#observation_id_delete').val(data.id);
             });
             event.preventDefault();
         });
