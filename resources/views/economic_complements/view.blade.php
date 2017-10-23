@@ -2703,7 +2703,7 @@
         </div><!-- /.modal -->
 
     </form>
-    @if($wf_state_before)
+    @if($has_cancel && $wf_state_before)
     <form  action="{{url('retroceso_de_tramite')}}" method="POST">
             
         
@@ -3088,7 +3088,8 @@ $(document).ready(function() {
             columns: [
                 { data: 'date' },
                 { data: 'message', bSortable: false }
-            ]
+            ],
+            
         });
 
     });
