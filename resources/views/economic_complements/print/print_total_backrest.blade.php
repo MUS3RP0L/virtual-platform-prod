@@ -66,7 +66,7 @@
   <tr>
     <td><strong>REGIONAL:</strong></td><td>{!! $economic_complement->city->name !!}</td>  	
     <td><strong>GESTIÓN:</strong></td><td> {!! $economic_complement->getYear() !!}</td>
-    <td><strong>SEMESTRE:</strong></td><td>{!! $economic_complement->getSemester() !!}</td>
+    <td><strong>SEMESTRE:</strong></td><td>{!! $economic_complement->getSemester() !!}/{!! $economic_complement->getYear() !!}</td>
   </tr>
   <tr>
     <td><strong>ENTE GESTOR:</strong></td><td>{!! $affiliate->pension_entity->name ?? '' !!}</td>

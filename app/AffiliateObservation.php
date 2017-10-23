@@ -3,9 +3,12 @@
 namespace Muserpol;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class AffiliateObservation extends Model
 {
+	use SoftDeletes;
 	protected $table = 'affiliate_observations';
 	protected $fillable = [
 

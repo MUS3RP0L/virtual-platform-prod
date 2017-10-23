@@ -23,11 +23,21 @@
 					@else
 					{!! Form::textarea('message', null, ['class'=>'form-control']) !!}
 				@endif
+				{!! Form::label('is_enabled', 'Habilitado', ['']) !!}
+				<div class="form-group">
+				    <div class="checkbox">
+				        <label><input type="checkbox" name="is_enabled">
+				        </label>
+				    </div>
+				</div>
 				{!! Form::hidden('affiliate_id', $affiliate->id) !!}
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-warning" data-dismiss="modal">Cancelar</button>
-						{!! Form::submit('Guardar Observacion!',['class'=>"btn btn-primary"]) !!}
+				<div class="text-center">
+					<a href="#" data-dismiss="modal" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
+					&nbsp;&nbsp;&nbsp;
+					<button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;&nbsp;&nbsp;</button>
+				</div>
 			</div>
 						{!! Form::close() !!}
 		</div>

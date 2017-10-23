@@ -174,6 +174,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('get_observations',['as'=>'get_observations','uses'=>'Observation\AffiliateObservationController@showOfAffiliate']);
 	Route::get('observation/deleteOb/{id}',['as'=>'deleteOb','uses'=>'Observation\AffiliateObservationController@deleteOb']);
 	Route::post('observation/update',['as'=>'updateObservation','uses'=>'Observation\AffiliateObservationController@update']);
+	Route::post('observation_delete',['as'=>'observation_delete','uses'=>'Observation\AffiliateObservationController@delete']);
 
 	//Routes for inbox
 	Route::resource('inbox', 'Inbox\InboxController');
