@@ -300,7 +300,14 @@ class EconomicComplementController extends Controller
                     // Log::info(json_encode($state));
                     if($state)
                     {
-                        return $state->name;
+                        if($state->id == 1|| $state->id == 2|| $state->id == 3)
+                        {
+                            return '<span style="background-color: #FFFF00">'.$state->name.'</span>';
+                        }else
+                        {
+                            
+                            return $state->name;
+                        }
                     }
                     else
                     {
@@ -967,6 +974,10 @@ class EconomicComplementController extends Controller
 
             $states = EconomicComplementState::where('eco_com_state_type_id',1)->get();
         }
+
+        Log::info("has_cancel= ".json_encode($has_cancel));
+        Log::info("wf_state_before=" .json_encode($wf_state_before));
+
 
         $data = [
 
