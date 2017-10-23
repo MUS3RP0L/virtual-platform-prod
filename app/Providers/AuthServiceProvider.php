@@ -75,7 +75,7 @@ class AuthServiceProvider extends ServiceProvider
         });
         $gate->define('eco_com_reception',function($user){
             // foreach ($user->roles as $role) {
-                if(Util::getRol()->id == 2){
+                if(Util::getRol()->id == 2 || Util::getRol()->id == 22 || Util::getRol()->id == 23 || Util::getRol()->id == 24 || Util::getRol()->id == 25 || Util::getRol()->id == 26 || Util::getRol()->id == 27 ){
                     return true;
                 }
             // }
@@ -93,7 +93,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $gate->define('eco_com_review_and_reception',function($user){
             // foreach ($user->roles as $role) {
-                if(Util::getRol()->id == 4 || Util::getRol()->id == 2 ){
+                if(Util::getRol()->id == 4 || Util::getRol()->id == 2 || Util::getRol()->id == 22 || Util::getRol()->id == 23 || Util::getRol()->id == 24 || Util::getRol()->id == 25 || Util::getRol()->id == 26 || Util::getRol()->id == 27){
                     return true;
                 }
             // }
@@ -101,7 +101,7 @@ class AuthServiceProvider extends ServiceProvider
         });
         $gate->define('eco_com_review_reception_calification',function($user){
             // foreach ($user->roles as $role) {
-                if(Util::getRol()->id == 3 || Util::getRol()->id == 2 || Util::getRol()->id == 4 ){
+                if(Util::getRol()->id == 3 || Util::getRol()->id == 2 || Util::getRol()->id == 4 || Util::getRol()->id == 22 || Util::getRol()->id == 23 || Util::getRol()->id == 24 || Util::getRol()->id == 25 || Util::getRol()->id == 26 || Util::getRol()->id == 27){
                     return true;
                 }
             // }
@@ -110,7 +110,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $gate->define('eco_com_review_reception_calification_contabilidad',function($user){
             // foreach ($user->roles as $role) {
-                if(Util::getRol()->id == 3 || Util::getRol()->id == 2 || Util::getRol()->id == 4 || Util::getRol()->id == 7 ||  Util::getRol()->id ==16 ){
+                if(Util::getRol()->id == 3 || Util::getRol()->id == 2 || Util::getRol()->id == 4 || Util::getRol()->id == 7 ||  Util::getRol()->id ==16 || Util::getRol()->id == 22 || Util::getRol()->id == 23 || Util::getRol()->id == 24 || Util::getRol()->id == 25 || Util::getRol()->id == 26 || Util::getRol()->id == 27 ){
                     return true;
                 }
             // }
@@ -188,7 +188,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $gate->define('observate', function($user){
             // foreach ($user->roles as $role) {
-                if(Util::getRol()->id == 2 || Util::getRol()->id == 3 || Util::getRol()->id == 4 || Util::getRol()->id == 7 || Util::getRol()->id == 16 || Util::getRol()->id == 17){
+                if(Util::getRol()->id == 2 || Util::getRol()->id == 3 || Util::getRol()->id == 4 || Util::getRol()->id == 7 || Util::getRol()->id == 16 || Util::getRol()->id == 17 || Util::getRol()->id == 22 || Util::getRol()->id == 23 || Util::getRol()->id == 24 || Util::getRol()->id == 25 || Util::getRol()->id == 26 || Util::getRol()->id == 27){
                     return true;
                 }
             // }
