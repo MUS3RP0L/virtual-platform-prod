@@ -2703,12 +2703,8 @@
         </div><!-- /.modal -->
 
     </form>
-<<<<<<< HEAD
 
     @if($wf_state_before && $has_cancel)
-=======
-    @if($has_cancel && $wf_state_before)
->>>>>>> 40953883e0687dda8af1ff5551f9b0c94437309b
     <form  action="{{url('retroceso_de_tramite')}}" method="POST">
             
         
