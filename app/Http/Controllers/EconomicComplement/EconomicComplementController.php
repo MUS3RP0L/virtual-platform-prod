@@ -300,7 +300,14 @@ class EconomicComplementController extends Controller
                     // Log::info(json_encode($state));
                     if($state)
                     {
-                        return $state->name;
+                        if($state->id == 1|| $state->id == 2|| $state->id == 3)
+                        {
+                            return '<span style="background-color: #FFFF00">'.$state->name.'</span>';
+                        }else
+                        {
+                            
+                            return $state->name;
+                        }
                     }
                     else
                     {
@@ -565,64 +572,93 @@ class EconomicComplementController extends Controller
 
         public function store(Request $request)
         {
-            $data = self::getViewModel();
 
-            $affiliate = Affiliate::idIs($request->affiliate_id)->first();
-
-            $eco_com_pro = EconomicComplementProcedure::where('year','=',Util::datePickYear(Carbon::now()->year))->where('semester','=',Util::getCurrentSemester())->first();
-
-            $economic_complement = EconomicComplement::affiliateIs($affiliate->id)
-            ->whereYear('year', '=', Carbon::now()->year)
-            ->where('semester', '=', Util::getSemester(Carbon::now()))->first();
-
-            $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
-
-            if (!$economic_complement) {
-                $economic_complement = new EconomicComplement;
-                if ($last_economic_complement = EconomicComplement::whereYear('year', '=', Carbon::now()->year)
-                    ->where('semester', '=', Util::getSemester(Carbon::now()))
-                    ->whereNull('deleted_at')->orderBy('id', 'desc')->first()) {
-                        $number_code = Util::separateCode($last_economic_complement->code);
-                        $code = $number_code + 1;
-                }else{
-                        $code = 1;
-                }
-
-                $sem='';
-                if(Util::getSemester(Carbon::now())=='Primer'){
-                    $sem='P';
-                }else{
-                    $sem='S';
-                }
-
-                $economic_complement->user_id = Auth::user()->id;
-                $economic_complement->affiliate_id = $affiliate->id;
-                $economic_complement->eco_com_modality_id = $eco_com_modality->id;
-                $economic_complement->eco_com_procedure_id = $eco_com_pro->id;
-                $economic_complement->workflow_id = 3;
-                $economic_complement->wf_current_state_id = 1;
-                $economic_complement->eco_com_state_id = 16;
-                $economic_complement->city_id = trim($request->city);
-                $economic_complement->category_id = $affiliate->category_id;
-                $economic_complement->degree_id = $affiliate->degree_id;
-                $economic_complement->reception_date = date('Y-m-d');
-                $economic_complement->state = 'Edited';
-
-                $economic_complement->year = Util::datePickYear(Carbon::now()->year, Util::getSemester(Carbon::now()));
-                $economic_complement->semester = Util::getSemester(Carbon::now());
-                if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }else{
-                    $economic_complement->has_legal_guardian = false;
-                }
-                $economic_complement->code = $code ."/". $sem . "/" . Carbon::now()->year;
-
-                $economic_complement->reception_type = $request->reception_type;
-                // $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
-                // $economic_complement->base_wage_id = $base_wage->id;
-                // $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)->whereYear('year', '=', Carbon::now()->year)->where('semester', '=', Util::getSemester(Carbon::now()))->first();
-                // $economic_complement->complementary_factor_id = $complementary_factor->id;
-                $economic_complement->save();
+            $wf = WorkflowState::where('role_id','=',Util::getRol()->id)->first();
+            // dd($wf);
+            $can_create =false;
+            switch ($wf->role_id) {
+                
+                case 2:
+                case 22:
+                case 23:
+                case 24:
+                case 25:
+                case 26:
+                case 27:
+                    # code...
+                    $can_create = true;
+                    break;
+                
             }
-            return $this->save($request, $economic_complement);
+            if($can_create)
+            {
+                
+                $data = self::getViewModel();
+
+                $affiliate = Affiliate::idIs($request->affiliate_id)->first();
+
+                $eco_com_pro = EconomicComplementProcedure::where('year','=',Util::datePickYear(Carbon::now()->year))->where('semester','=',Util::getCurrentSemester())->first();
+
+                $economic_complement = EconomicComplement::affiliateIs($affiliate->id)
+                ->whereYear('year', '=', Carbon::now()->year)
+                ->where('semester', '=', Util::getSemester(Carbon::now()))->first();
+
+                $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
+
+                if (!$economic_complement) {
+                    $economic_complement = new EconomicComplement;
+                    if ($last_economic_complement = EconomicComplement::whereYear('year', '=', Carbon::now()->year)
+                        ->where('semester', '=', Util::getSemester(Carbon::now()))
+                        ->whereNull('deleted_at')->orderBy('id', 'desc')->first()) {
+                            $number_code = Util::separateCode($last_economic_complement->code);
+                            $code = $number_code + 1;
+                    }else{
+                            $code = 1;
+                    }
+
+                    $sem='';
+                    if(Util::getSemester(Carbon::now())=='Primer'){
+                        $sem='P';
+                    }else{
+                        $sem='S';
+                    }
+
+                    $economic_complement->user_id = Auth::user()->id;
+                    $economic_complement->affiliate_id = $affiliate->id;
+                    $economic_complement->eco_com_modality_id = $eco_com_modality->id;
+                    $economic_complement->eco_com_procedure_id = $eco_com_pro->id;
+                    $economic_complement->workflow_id = 3;
+                    $economic_complement->wf_current_state_id = $wf->id;
+                    $economic_complement->eco_com_state_id = 16;
+                    $economic_complement->city_id = trim($request->city);
+                    $economic_complement->category_id = $affiliate->category_id;
+                    $economic_complement->degree_id = $affiliate->degree_id;
+                    $economic_complement->reception_date = date('Y-m-d');
+                    $economic_complement->state = 'Edited';
+
+                    $economic_complement->year = Util::datePickYear(Carbon::now()->year, Util::getSemester(Carbon::now()));
+                    $economic_complement->semester = Util::getSemester(Carbon::now());
+                    if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }else{
+                        $economic_complement->has_legal_guardian = false;
+                    }
+                    $economic_complement->code = $code ."/". $sem . "/" . Carbon::now()->year;
+
+                    $economic_complement->reception_type = $request->reception_type;
+                    // $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
+                    // $economic_complement->base_wage_id = $base_wage->id;
+                    // $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)->whereYear('year', '=', Carbon::now()->year)->where('semester', '=', Util::getSemester(Carbon::now()))->first();
+                    // $economic_complement->complementary_factor_id = $complementary_factor->id;
+                    $economic_complement->save();
+                }
+                return $this->save($request, $economic_complement);
+
+            }
+            else{
+
+                $request->session()->flash('error', 'No se pudo crear el Tramite por no es del area de Recepción');
+
+                return back()->withInput();
+            }
     }
 
     /**
@@ -967,6 +1003,10 @@ class EconomicComplementController extends Controller
 
             $states = EconomicComplementState::where('eco_com_state_type_id',1)->get();
         }
+
+        Log::info("has_cancel= ".json_encode($has_cancel));
+        Log::info("wf_state_before=" .json_encode($wf_state_before));
+
 
         $data = [
 

@@ -2703,7 +2703,10 @@
         </div><!-- /.modal -->
 
     </form>
-    @if($wf_state_before)
+
+
+    @if($wf_state_before && $has_cancel)
+
     <form  action="{{url('retroceso_de_tramite')}}" method="POST">
             
         
@@ -2943,8 +2946,6 @@ $(document).ready(function() {
         var secuencias = {!! json_encode($wf_state_before) !!};
         console.log(secuencias);
 
-
-
         self.listaSecuencias = ko.observableArray();
 
         for(var i in secuencias)
@@ -2966,10 +2967,7 @@ $(document).ready(function() {
           console.log(secuencia.nombre()+" id "+secuencia.id());
          
         }
-        self.actual = function()
-        {
-            console.log("hola");
-        }
+        
 
     }
 
@@ -3088,7 +3086,8 @@ $(document).ready(function() {
             columns: [
                 { data: 'date' },
                 { data: 'message', bSortable: false }
-            ]
+            ],
+            
         });
 
     });
