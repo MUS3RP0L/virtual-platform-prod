@@ -2704,7 +2704,9 @@
 
     </form>
 
+
     @if($wf_state_before && $has_cancel)
+
     <form  action="{{url('retroceso_de_tramite')}}" method="POST">
             
         
