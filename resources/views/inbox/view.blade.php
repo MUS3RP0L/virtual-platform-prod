@@ -133,7 +133,7 @@
 		</div>
 		<div class="box-body">
 
-         <select data-bind=" options: listaWorkflows ,optionsValue: 'id', optionsText: 'nombre',value: workflowSelected " id='select-edited'></select> 
+         <select data-bind=" options: listaWorkflows ,optionsValue: 'id', optionsText: 'nombre',value: workflowSelected" id='select-edited'></select> 
 
 		{!! Form::open(['method' => 'POST', 'route' => ['inbox.store'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}
 		<table id="edited" style="width:100%" class="table table-bordered table-hover">
@@ -181,41 +181,43 @@
 		</table>
     @if($sw_actual)
   
-    
-    <div class="btn-group">
-      <button type="button" class="btn btn-raised btn-success"  data-target="#modal-confirm"  data-toggle="modal" ><i class="fa fa-send" ></i> <strong data-bind="text: secuenciaActual.nombre"></strong></button>
-      <button type="button" class="btn btn-raised btn-success dropdown-toggle" data-toggle="dropdown">
-        <span class="caret"></span>
-        <span class="sr-only">Toggle Dropdown</span>
-      </button>
-     
-      <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuencias">
-        <li ><a href="#" data-bind="text: nombre, click: $root.secuenciaSeleccionada"></a></li>
-      </ul>
-    </div>
-    <input type="hidden" name="wf_state_next_id" data-bind="value: secuenciaActual.id">
-    <input type="hidden" id="ids" name="ids">
+  
+      
+      <div class="btn-group">
+        <button type="button" class="btn btn-raised btn-success"  data-target="#modal-confirm"  data-toggle="modal" ><i class="fa fa-send" ></i> <strong data-bind="text: secuenciaActual.nombre"></strong></button>
+        <button type="button" class="btn btn-raised btn-success dropdown-toggle" data-toggle="dropdown">
+          <span class="caret"></span>
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+       
+        <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuencias">
+          <li ><a href="#" data-bind="text: nombre, click: $root.secuenciaSeleccionada"></a></li>
+        </ul>
+      </div>
+      <input type="hidden" name="wf_state_next_id" data-bind="value: secuenciaActual.id">
+      <input type="hidden" id="ids" name="ids">
 
-        <div id="modal-confirm" class="modal fade modal-info" tabindex="-1" role="dialog">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                 <input type="hidden" name="_token" value="{{ csrf_token() }}">  
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Enviar tramite</h4>
-              </div>
-              <div class="modal-body">
-              
-                    Esta seguro de enviar los tramites de <strong> {{ $sw_actual->name }}</strong>  a  <strong data-bind="text: secuenciaActual.nombre"> </strong> ?
-                  
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-raised" data-dismiss="modal"> No</button>
-                <button type="submit" class="btn btn-raised" >Si </button>
-              </div>
-            </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+          <div id="modal-confirm" class="modal fade modal-info" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                   <input type="hidden" name="_token" value="{{ csrf_token() }}">  
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">Enviar tramite</h4>
+                </div>
+                <div class="modal-body">
+                
+                      Esta seguro de enviar los tramites de <strong> {{ $sw_actual->name }}</strong>  a  <strong data-bind="text: secuenciaActual.nombre"> </strong> ?
+                    
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-raised" data-dismiss="modal"> No</button>
+                  <button type="submit" class="btn btn-raised" >Si </button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
+    
     @else
     <br>
     <div class="alert alert-primary alert-dismissible" role="alert">
@@ -439,7 +441,8 @@ $(document).ready(function (){
       self.workflow_id = ko.observable(workflow_id);
     }
 
-  
+   @if($sw_actual)
+    
 
     function SecuenciaViewModel()
     {
@@ -490,7 +493,6 @@ $(document).ready(function (){
           self.listaSecuencias.push(new Secuencia(secuencias[i].id,secuencias[i].name,secuencias[i].workflow_id));
         }
 
-
         // self.listaSecuencias = ko.observableArray([new Secuencia(1,'opcion 1'), new Secuencia(2,'opcion 2')]);
 
         self.secuenciaActual = new Secuencia(secuencias[0].id,secuencias[0].name,secuencias[0].workflow_id);
@@ -499,6 +501,7 @@ $(document).ready(function (){
 
         self.secuenciaSeleccionada = function(secuencia)
         {
+
 
           self.secuenciaActual.nombre(secuencia.nombre());
           self.secuenciaActual.id(secuencia.id());
@@ -512,8 +515,30 @@ $(document).ready(function (){
     }
 
     ko.applyBindings(new SecuenciaViewModel());
+    @else
+    function SecuenciaViewModel()
+    {
+        var self = this;
 
-    
+        var workflowsList = <?php echo json_encode($wfs); ?>;
+        var secuencias = <?php echo json_encode($secuencias);?>;
+        // console.log(workflowsList);
+        // console.log('size '+workflowsList.length);
+        self.listaWorkflows = ko.observableArray();
+        self.listaSecuencias = ko.observableArray();
+        
+        for (var i in workflowsList) {
+          self.listaWorkflows.push(new Workflow(workflowsList[i].id,workflowsList[i].name));
+          console.log(self.listaWorkflows()); 
+        }
+
+        self.workflowSelected = ko.observable();
+
+      }
+
+      ko.applyBindings(new SecuenciaViewModel);
+
+    @endif
 });
 
 

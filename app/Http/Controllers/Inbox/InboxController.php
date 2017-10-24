@@ -34,7 +34,7 @@ class InboxController extends Controller
         {
             
             $sw_actual = WorkflowState::where('role_id',Util::getRol()->id)->first();
-         
+            $secuencias = array();
             if($sw_actual)
             {
                 $sequence = WorkflowSequence::where("workflow_id",'<=',3)
@@ -44,7 +44,7 @@ class InboxController extends Controller
                 // return $sw_actual;
                 // return $sequence;
 
-                $secuencias = array();
+                
                 foreach ($sequence as $s) {
                                 # code...
                     $wf = WorkflowState::where('id',$s->wf_state_next_id)->first();
@@ -61,6 +61,8 @@ class InboxController extends Controller
             $workflow_ids = Util::getRol()->module->workflows->pluck('name', 'id');
             $workflow_ids2  = Util::getRol()->module->workflows;
             $data = array('sw_actual' => $sw_actual, 'secuencias' => $secuencias, 'workflow_ids'=> $workflow_ids ,'wfs'=>$workflow_ids2 );
+
+            // return $data;
             return view('inbox.view',$data);
         }
         else
