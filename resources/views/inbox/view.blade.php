@@ -470,6 +470,7 @@ $(document).ready(function (){
           self.listaWorkflows.push(new Workflow(workflowsList[i].id,workflowsList[i].name));
           
         }
+        console.log(self.listaWorkflows());
      
         self.secuenciaIsVisible = ko.observable(true);
         self.messageVisible =ko.observable(false);
@@ -478,30 +479,30 @@ $(document).ready(function (){
 
         /*haciendo correr algoritmo por primera vez */
 
-          for(var i in secuencias)
-          {
-            if(secuencias[i].workflow_id == workflowsList[0].id)
-            {
-              self.listaSecuencias.push(new Secuencia(secuencias[i].id,secuencias[i].name,secuencias[i].workflow_id));
+          // for(var i in secuencias)
+          // {
+          //   if(secuencias[i].workflow_id == workflowsList[0].id)
+          //   {
+          //     self.listaSecuencias.push(new Secuencia(secuencias[i].id,secuencias[i].name,secuencias[i].workflow_id));
 
-            }
-          } 
-          console.log('size'+self.listaSecuencias().length)
-          if(self.listaSecuencias().length > 0)
-          {
-              self.secuenciaActual.nombre(self.listaSecuencias()[0].nombre());
-              self.secuenciaActual.id(self.listaSecuencias()[0].id());
-              self.secuenciaActual.workflow_id(self.listaSecuencias()[0].workflow_id());
+          //   }
+          // } 
+          // console.log('size'+self.listaSecuencias().length)
+          // if(self.listaSecuencias().length > 0)
+          // {
+          //     self.secuenciaActual.nombre(self.listaSecuencias()[0].nombre());
+          //     self.secuenciaActual.id(self.listaSecuencias()[0].id());
+          //     self.secuenciaActual.workflow_id(self.listaSecuencias()[0].workflow_id());
               
-              console.log(self.secuenciaActual.workflow_id());
-              self.secuenciaIsVisible(true);
-              self.messageVisible(false);
-          }
-          else
-          {
-              self.secuenciaIsVisible(false);
-              self.messageVisible(true);
-          }
+          //     console.log(self.secuenciaActual.workflow_id());
+          //     self.secuenciaIsVisible(true);
+          //     self.messageVisible(false);
+          // }
+          // else
+          // {
+          //     self.secuenciaIsVisible(false);
+          //     self.messageVisible(true);
+          // }
 
         /********/
 
