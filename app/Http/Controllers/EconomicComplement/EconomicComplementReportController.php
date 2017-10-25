@@ -88,7 +88,8 @@ class EconomicComplementReportController extends Controller
    }
 
    public function report_generator(Request $request)
-   {
+   {  
+    // return $request->all();
            if($request->has('type')) {
                switch ($request->type) {
                    case '1':
@@ -97,7 +98,8 @@ class EconomicComplementReportController extends Controller
                            $title = "REPORTE DIARIO DE TRÁMITES DEL COMPLEMENTO ECONÓMICO ".$request->get('from')." AL ".$request->get('to');
                            $date = Util::getDateEdit(date('Y-m-d'));
                            $type = "user"; 
-                           $user = Auth::user();                          
+                           $user = Auth::user();   
+                           $user_role = Util::getRol()->name;                       
                            $current_date = Carbon::now();
                            $anio = Util::getYear($request->from);
                            $hour = Carbon::parse($current_date)->toTimeString();                           
@@ -125,7 +127,7 @@ class EconomicComplementReportController extends Controller
 
                            if ($eco_complements) {
                                
-                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','anio','user','eco_complements'))->setPaper('letter')->setOrientation('landscape')->stream('report_by_user.pdf');
+                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','anio','user','eco_complements','user_role'))->setPaper('letter')->setOrientation('landscape')->stream('report_by_user.pdf');
 
                                /*$view = \View::make('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','anio','user','eco_complements'))->render();
                                $pdf = \App::make('dompdf.wrapper');
@@ -146,6 +148,7 @@ class EconomicComplementReportController extends Controller
                            $date = Util::getDateEdit(date('Y-m-d'));
                            $type = "user";
                            $user = Auth::user();
+                           $user_role = Util::getRol()->name;
                            $anio = $request->year;
                            $current_date = Carbon::now();
                            $hour = Carbon::parse($current_date)->toTimeString();
@@ -174,7 +177,7 @@ class EconomicComplementReportController extends Controller
                                            ->get();
                                            //dd($regional);                                           
                            if ($beneficiary_eco_complements) {                              
-                             return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user'))->setPaper('letter')->setOrientation('landscape')->stream('report_beneficiary.pdf');
+                             return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user','user_role'))->setPaper('letter')->setOrientation('landscape')->stream('report_beneficiary.pdf');
 
                              /*$view = \View::make('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user'))->render();
                                 $pdf = \App::make('dompdf.wrapper');
@@ -629,6 +632,7 @@ class EconomicComplementReportController extends Controller
                                   $title = "REPORTE EXLUIDOS POR SALARIO";
                                   $date = Util::getDateEdit(date('Y-m-d'));                                 
                                   $user = Auth::user();
+                                  $user_role = Util::getRol()->name;
                                   $anio = $request->year;
                                   $current_date = Carbon::now();
                                   $hour = Carbon::parse($current_date)->toTimeString();
@@ -655,7 +659,7 @@ class EconomicComplementReportController extends Controller
                                                    ->orderBy('economic_complements.id','ASC')
                                                    ->get();                                           
                                   if ($excluded_by_salary) {                             
-                                      $view = \View::make('economic_complements.print.report_excluded_by_salary', compact('header1','header2','title','date','hour','excluded_by_salary','anio'))->render();
+                                      $view = \View::make('economic_complements.print.report_excluded_by_salary', compact('header1','header2','title','date','hour','excluded_by_salary','anio','user_role'))->render();
                                       $pdf = \App::make('dompdf.wrapper');
                                       $pdf->loadHTML($view)->setPaper('letter','landscape');
                                       return $pdf->stream();
