@@ -104,7 +104,9 @@
   </table>
   <p align="justify">En mérito de los datos registrados en forma precedente, el interesado aprueba y ratifica su tenor de manera íntegra, quien en señal de conformidad en forma expresa y voluntaria firma el presente documento en la ciudad de La Paz, {!! $date !!}.</p>
   <table>
+            
           <tr>
+              <th class="no-border"> <img src="http://chart.apis.google.com/chart?cht=qr&chs=110x110&chl=<?php echo (($title ?? '').' || '.'Trámite Nº: '.($economic_complement->code).' || '.$eco_com_applicant->getFullName().' || '.'Carnet de Identidad: '.$eco_com_applicant->identity_card.' '.($eco_com_applicant->city_identity_card->first_shortened ?? '').' || '.'Regional: '.($economic_complement->city->name ?? '') .' || '.'Fecha: '.($date ?? '') .' || '.$user->id); ?>&chld=L|0"></th>
               <th class="info" style="border: 0px;text-align:center; width:60%"><p>&nbsp;</p><br>----------------------------------------------------
                 <strong>
                 <br>
@@ -113,15 +115,10 @@
                 C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened ?? ''!!}
                 </strong>
               </th>
-              <th class="info" style="border: 1px solid  #3c3c3c!IMPORTANT;text-align:center;width: 22%;"><p>&nbsp;</p><br><br><br><br></th>
+              <th class="no-border"> <div class="info" style="border: 1px solid  #3c3c3c!IMPORTANT;text-align:center;width: 150px;"><p>&nbsp;</p><br><br><br><br></div><br><span class="info" style="border: 0px;text-align:center;">Huella Digital Pulgar Derecho</span></th>
+
           </tr>
-          <tr>
-            <th class="info" style="border: 0px;text-align:center;" ><span class="size-11">
-              </th>
-             
-            <th class="info" style="border: 0px;text-align:center;">Huella Digital Pulgar Derecho</th>
-            <th class="info" style="border: 0px;text-align:center;width: 10%;"></th>
-          </tr>
+        
 </table>
   <p align="justify"><strong class="size-10">Nota.- El presente documento tiene carácter de DECLARACIÓN JURADA, por lo que en caso de evidenciarse la falsedad de este, se procederá con las acciones legales pertinentes. </strong></p>
 </div>
