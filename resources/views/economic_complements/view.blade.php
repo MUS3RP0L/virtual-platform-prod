@@ -1181,15 +1181,15 @@
                                 <tbody>
                                     <tr>
                                         <td style="width: 70%">Fracción de Saldo Acumulada</td>
-                                        <td style="text-align: right">{{ $economic_complement->aps_total_fsa}} </td>
+                                        <td style="text-align: right">{{ Util::formatMoney($economic_complement->aps_total_fsa)}} </td>
                                     </tr>
                                     <tr>
                                         <td style="width: 70%">Fracción de Pensión CCM o Pago de CCM</td>
-                                        <td style="text-align: right">{{ $economic_complement->aps_total_cc}} </td>
+                                        <td style="text-align: right">{{ Util::formatMoney($economic_complement->aps_total_cc)}} </td>
                                     </tr>
                                     <tr>
                                         <td style="width: 70%">Fracion Solidaria de Vejéz</td>
-                                        <td style="text-align: right">{{ $economic_complement->aps_total_fs}} </td>
+                                        <td style="text-align: right">{{ Util::formatMoney($economic_complement->aps_total_fs)}} </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1197,7 +1197,7 @@
                                 <tbody>
                                     <tr>
                                         <td style="width: 70%">Total</td>
-                                        <td  style="text-align: right" > {{ $economic_complement->getTotalFractions() }} </td>
+                                        <td  style="text-align: right" > {{ Util::formatMoney($economic_complement->getTotalFractions()) }} </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1261,7 +1261,7 @@
                                             <td style="text-align: right">{!! $salary_quotable !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%">Diferencia (Salario Activo y Renta Pasivo)</td>
+                                            <td style="width: 70%">Diferencia (Salario Activo - Renta Pasivo)</td>
                                             <td style="text-align: right">{!! $difference !!}</td>
                                         </tr>
                                         <tr>
@@ -1288,15 +1288,15 @@
                                 <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
                                     <tbody>
                                         <tr>
-                                            <td style="width: 70%" class="bg-danger" >Cuentas por cobrar </td>
+                                            <td style="width: 70%" class="bg-danger" >Amortización por cuentas por cobrar</td>
                                             <td  style="text-align: right" class="bg-danger">{!! Util::formatMoney($economic_complement->amount_accounting) !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%" class="bg-danger" >Mora por prestamos</td>
+                                            <td style="width: 70%" class="bg-danger" >Amortización por prestamos en mora</td>
                                             <td  style="text-align: right" class="bg-danger" >{!! Util::formatMoney($economic_complement->amount_loan) !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%" class="bg-danger" >Reposición de fondos</td>
+                                            <td style="width: 70%" class="bg-danger" >Amortización por reposición de fondos</td>
                                             <td  style="text-align: right" class="bg-danger" >{!! Util::formatMoney($economic_complement->amount_replacement) !!}</td>
                                         </tr>
                                     </tbody>

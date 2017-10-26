@@ -293,6 +293,7 @@ class EconomicComplementController extends Controller
         ->editColumn('gestion',function($economic_complement){ return $economic_complement->getYear() .' '.$economic_complement->semester;})
         ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
         ->editColumn('wf_state', function ($economic_complement) { return $economic_complement->wf_state->name; })
+        ->editColumn('total', function ($economic_complement){return Util::formatMoney($economic_complement->total);})
         ->editColumn('state', function ($economic_complement) {
             try {
                     // Log::info("id complemento: ". $economic_complement->id);
