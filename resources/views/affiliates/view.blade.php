@@ -115,6 +115,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                               
                                 <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
@@ -207,8 +208,28 @@
                                 @endif
                             </table>
                         </div>
+
+
+
                         <div class="col-md-6">
                             <table class="table" style="width:100%;">
+
+                                <tr>
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Fecha de Vencimiento CI:</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                @if($affiliate->is_duedate_undefined)
+                                                    INDEFINIDO
+                                                @else
+                                                    {!! $affiliate->getShortDueDate() !!}
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">

@@ -63,6 +63,12 @@ class EconomicComplementApplicant extends Model
     {
         return Util::getDateEdit($this->birth_date);
     }
+
+    public function getEditDueDate()
+    {
+        return Util::getDateEdit($this->due_date);
+    }
+    
     public function getTitleNameFull()
     {
         return $this->last_name . ' ' . $this->mothers_last_name . ' ' . $this->surname_husband . ' ' . $this->first_name . ' ' . $this->second_name;

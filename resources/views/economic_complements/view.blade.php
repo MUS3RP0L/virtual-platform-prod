@@ -1651,6 +1651,25 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                        {!! Form::label('due_date', 'Fecha de Vencimiento del CI', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <input data-bind ="enable: activo" type="text" id="due_date_mask" class="form-control" name="due_date" value="{!! $eco_com_applicant->getEditDueDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                    <div class="col-md-6">
+                                        <div class="togglebutton">
+                                            <label>
+                                                <input type="checkbox" name="is_duedate_undefined"  data-bind="checked: isDateUndifined, click: inputVisible()"> Indefinida
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
                                         {!! Form::text('last_name', $eco_com_applicant->last_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
@@ -1775,6 +1794,9 @@
                                         </div>
                                     </div>
                                 @endif
+
+                                
+
                                 
                                 {{-- <div class="form-group">
                                         {!! Form::label('nua', 'CUA/NUA', ['class' => 'col-md-5 control-label']) !!}
@@ -2800,7 +2822,8 @@ $(document).ready(function() {
 	$(document).ready(function(){
 		$('.combobox').combobox();
 	    $('[data-toggle="tooltip"]').tooltip();
-		$("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+        $("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+		$("#due_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
 		$("#date_death_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
     $("#date_death_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
 
@@ -2924,6 +2947,13 @@ $(document).ready(function() {
         @else
             self.selected = ko.observable(false);
         @endif
+
+        self.isDateUndifined = ko.observable({{$eco_com_applicant->is_duedate_undefined}});
+        self.activo = ko.observable({{!$eco_com_applicant->is_duedate_undefined}});
+        self.inputVisible = function(){
+            self.activo(!self.isDateUndifined());  
+        };
+
         self.concurrenceCheck = ko.observable({{ ($economic_complement->aps_disability > 0 ) ? true:false }});
         self.select_tesoreria = ko.observable();
         // console.log('self.select_tesoreria');

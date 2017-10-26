@@ -1252,6 +1252,14 @@ class EconomicComplementController extends Controller
                     $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number_applicant));
                     $eco_com_applicant->date_death = Util::datePick($request->date_death);
                     $eco_com_applicant->reason_death = trim($request->reason_death);
+                    if($request->has('is_duedate_undefined'))
+                    {
+                        $eco_com_applicant->is_duedate_undefined= $request->is_duedate_undefined;
+                    }
+                    else
+                    {
+                        $eco_com_applicant->due_date = $request->due_date;
+                    }
                     $eco_com_applicant->death_certificate_number = trim($request->death_certificate_number);
                 }else{
                     $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));

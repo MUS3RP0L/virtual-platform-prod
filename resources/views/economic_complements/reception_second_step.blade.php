@@ -59,6 +59,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="col-md-12">
+                        
                                             {!! Form::label('identity_card', 'Carnet de Identidad', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-5">
                                             {!! Form::text('identity_card', $eco_com_applicant->identity_card, ['class'=> 'form-control','required']) !!}
