@@ -35,25 +35,14 @@
   		<td>
   			{{ explode(',',$eco_com_applicant->cell_phone_number)[0] }}
   		</td>
-      <td><strong>LUGAR DE NAC.</strong></td>
+      <td><strong>LUGAR DE NAC.:</strong></td>
       <td>{!! $eco_com_applicant->city_birth->second_shortened ?? '' !!}</td>
   	</tr>
-  </table>
+	<tr><td class="no-border" colspan="6"></td></tr>
 
   {{--Información apoderado--}}  
-@if($economic_complement->has_legal_guardian)
-    <table>
-      <tr>
-        <td colspan="4" class="grand info_title">INFORMACIÓN DEL APODERADO</td>
-      </tr>
-      <tr>
-        <td><strong>NOMBRE:</strong></td><td nowrap>{!! $economic_complement_legal_guardian->getFullName() !!}</td>
-        <td><strong>C.I.:</strong></td><td nowrap>{!! $economic_complement_legal_guardian->identity_card !!} {!! $economic_complement_legal_guardian->city_identity_card->first_shortened ?? '' !!}</td>
-      </tr>
-    </table>
-@endif
+
 	@if($economic_complement->old_eco_com)
-		<table>
 		  <tr>
 		    <td colspan="6" class="grand info_title">INFORMACIÓN DEL TRÁMITE</td>
 		  </tr>
@@ -69,10 +58,21 @@
 		  </tr>
 		  <tr>
 		    <td><strong>ENTE GESTOR:</strong></td><td>{!! $affiliate->pension_entity->name ?? '' !!}</td>
-		    <td><strong>TIPO DE TRÁMITE: </strong></td><td>{!! $old_eco_com->reception_type !!}</td>  	
+		    <td><strong>TIPO DE TRÁMITE: </strong></td><td>{!! strtoupper($old_eco_com->reception_type) !!}</td>  	
 		    <td><strong>FECHA DE RECEPCIÓN:</strong></td><td>{!! $old_eco_com_reception_date!!}</td>
 		  </tr>
-		</table>
+		
+		@if($economic_complement->has_legal_guardian)
+		    <tr><td class="no-border" colspan="6"></td></tr>
+		      <tr>
+		        <td colspan="6" 	 class="grand info_title">INFORMACIÓN DEL APODERADO</td>
+		      </tr>
+		      <tr>
+		        <td><strong>NOMBRE:</strong></td><td nowrap colspan="3">{!! $economic_complement_legal_guardian->getFullName() !!}</td>
+		        <td><strong>C.I.:</strong></td><td nowrap>{!! $economic_complement_legal_guardian->identity_card !!} {!! $economic_complement_legal_guardian->city_identity_card->first_shortened ?? '' !!}</td>
+		      </tr>
+		    </table>
+		@endif
 		<table>
 		  <tr>
 		    <td colspan="3" class="grand info_title" ><strong>CÁLCULO DEL COMPLEMENTO ECONÓMICO</strong></td>
@@ -85,7 +85,7 @@
 		    <td class="grand service"><b>A FAVOR</b></td><td class="grand service"><b>DESCUENTO</b></td>
 		  </tr>
 		  <tr>
-		    <td><b>BOLETA TOTAL</b></td><td class="number"><b>{{$old_eco_com->total_rent}}</b></td><td></td>
+		    <td><b>BOLETA TOTAL</b></td><td class="number"><b>{{Util::formatMoney($old_eco_com->total_rent)}}</b></td><td></td>
 		  </tr>
 		  <tr>
 		    <td>RENTA O PENSIÓN PASIVO NETO</td><td class="number">{{Util::formatMoney($old_eco_com->total_rent_calc)}}</td><td></td>
@@ -110,29 +110,33 @@
 		  </tr>
 		  @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 )
 		  <tr>
-		  <td class="grand service text-left"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BS.</strong></td><td class="number"><strong>{{$temp_total}}</strong></td><td></td>
+		  <td class="grand service text-left"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BS. (CALIFICADO)</strong></td><td class="number"><strong>{{$temp_total}}</strong></td><td></td>
 		  </tr>
 		  @endif
 		  @if($old_eco_com->amount_loan)
 		  <tr>
-		    <td>&nbsp;&nbsp; – MORA POR PRÉSTAMOS</td><td></td><td class="number" >{{Util::formatMoney($old_eco_com->amount_loan)}}</td>
+		    <td> – AMORTIZACIÓN POR PRESTAMOS EN MORA</td><td></td><td class="number" >{{Util::formatMoney($old_eco_com->amount_loan)}}</td>
 		  </tr>
 		  @endif
 		  @if($old_eco_com->amount_accounting)
 		  <tr>
-		    <td>&nbsp;&nbsp; – MONTO POR CONTABILIDAD</td><td></td><td class="number" >{{Util::formatMoney($old_eco_com->amount_accounting)}}</td>
+		    <td> – AMORTIZACIÓN POR CUENTAS POR COBRAR</td><td></td><td class="number" >{{Util::formatMoney($old_eco_com->amount_accounting)}}</td>
 		  </tr>
 		  @endif
 		  @if($old_eco_com->amount_replacement)
 		  <tr>
-		    <td>&nbsp;&nbsp; – MONTO POR REPOSICION DE FONDOS</td><td></td><td class="number" >{{Util::formatMoney($old_eco_com->amount_replacement)}}</td>
+		    <td> – AMORTIZACIÓN POR REPOSICIÓN DE FONDOS</td><td></td><td class="number" >{{Util::formatMoney($old_eco_com->amount_replacement)}}</td>
 		  </tr>
 		  @endif
 		  <tr>
-		  <td class="grand service text-left"><b>TOTAL COMPLEMENTO ECONÓMICO EN BS.</b></td><td class="number"><b>{{ Util::formatMoney($old_eco_com->total)}}</b></td><td></td>
+		  @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 )
+		  <td class="grand service text-left"><strong>TOTAL LIQUIDO A PAGAR EN BS.</strong></td><td class="number"><strong>{{ Util::formatMoney($old_eco_com->total) }}</strong></td><td></td>
+		  @else
+		  <td class="grand service text-left"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BS.</strong></td><td class="number"><strong>{{ Util::formatMoney($old_eco_com->total) }}</strong></td><td></td>
+		  @endif
 		  </tr>
 		  <tr>
-		  	<td colspan="3"><strong>Son: </strong>{!! $total_literal !!} Bolivianos</td>
+		  	<td colspan="3"><strong>Son: </strong>{!! $total_literal !!} BOLIVIANOS</td>
 		  </tr>
 		</table>
 	@endif

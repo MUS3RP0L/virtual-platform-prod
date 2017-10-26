@@ -64,6 +64,7 @@ class AffiliateObservationController extends Controller
         $observation->affiliate_id=$request->affiliate_id;
         $observation->date=Carbon::now();
         $observation->observation_type_id=$request->observation_type_id;
+        $observation->is_enabled=($request->is_enabled == 'on');
         $observation->message=$request->message;
         $observation->save();
         Session::flash('affiliate_id',$observation->affiliate_id);
@@ -85,9 +86,9 @@ class AffiliateObservationController extends Controller
       $observation=AffiliateObservation::find($id);
       return $observation;
     }
-    public function deleteOb($id)
+    public function delete(Request $request)
     {
-      $observation=AffiliateObservation::find($id);
+      $observation=AffiliateObservation::find($request->observation_id);
       $observation->delete();
       return back();
     }
@@ -123,13 +124,13 @@ class AffiliateObservationController extends Controller
           return '<i class="fa fa-square-o fa-2x"></>';
         })
         ->addColumn('action', function ($observation) {
+
           return
             '<div class="btn-group" style="margin:-3px 0;">
             <button type="button" class="btn btn-danger btn-raised btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="caret"></span></button>
             <ul class="dropdown-menu">
-                <li><a href="/print_observations/'.$observation->affiliate_id.'/'.$observation->observation_type_id.'"><i class="glyphicon glyphicon-print"></i> Imprimir</a></li>
-                <li><a data-id="'.$observation->id.'" class="editObservation" href="#" role="button" data-toggle="modal" data-target="#observationEditModal" ><i class="fa fa-pencil" ></i> Editar</a></li>
-                <li><a href="/observation/deleteOb/' .$observation->id. '">' .$observation->observation_type. '<i class="fa fa-times-circle"></i> Eliminar</a></li>
+                <li><a href="/print_observations/'.$observation->affiliate_id.'/'.$observation->observation_type_id.'"><i class="glyphicon glyphicon-print"></i> Imprimir</a></li>'.
+                ((Util::getRol()->module_id == ObservationType::find($observation->observation_type_id)->module_id) ? '<li><a data-id="'.$observation->id.'" class="editObservation" href="#" role="button" data-toggle="modal" data-target="#observationEditModal" ><i class="fa fa-pencil" ></i> Editar</a></li><li><a data-toggle="modal" data-target="#observationDeleteModal" data-id="'.$observation->id.'" class="deleteObservation" href="#">' .$observation->observation_type. '<i class="fa fa-times-circle"></i> Eliminar</a></li>':'').'
               </ul>
             </div>';})
         ->make(true);
@@ -141,6 +142,7 @@ class AffiliateObservationController extends Controller
       $affiliateObservation->affiliate_id=$request->affiliate_id;
       $affiliateObservation->date=Carbon::now();
       $affiliateObservation->observation_type_id=$request->observation_type_id;
+      $affiliateObservation->is_enabled=($request->is_enabled == 'on');
       $affiliateObservation->message=$request->message;
       $affiliateObservation->save();
       return redirect('affiliate/'.$request->affiliate_id);

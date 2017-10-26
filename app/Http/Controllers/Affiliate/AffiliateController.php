@@ -326,7 +326,7 @@ class AffiliateController extends Controller
             $status_documents = false;
             $last_ecocom = null;
         }
-
+        $paid_states=DB::table('paid_affiliates')->where('affiliate_id', '=',$affiliate->id)->get();
         $data = [
             'affiliate' => $affiliate,
             'affiliate_address' => $affiliate_address,
@@ -342,6 +342,7 @@ class AffiliateController extends Controller
             'status_documents' => $status_documents,
             'observations_types' => $observation_types_list,
             'affi_observations' => $affi_observations,
+            'paid_states' =>$paid_states,
 
             // 'total_gain' => $total_gain,
             // 'total_public_security_bonus' => $total_public_security_bonus,

@@ -685,4 +685,11 @@ class Util
     	$total=EconomicComplement::whereIn('id',$ids_eco_com)->sum('total');
     	return $total;
     }
+    public static function removeSpaces($text)
+    {
+    	$re = '/\s+/';
+    	$subst = ' ';
+    	$result = preg_replace($re, $subst, $text);
+    	return $result;
+    }
 }

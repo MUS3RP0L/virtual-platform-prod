@@ -11,6 +11,17 @@
     .nav-tabs-custom > .nav-tabs > li.active {
         border:none;
     }
+    .my-alert {
+      padding: 8px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .my-alert-info {
+      background-color: #d9edf7;
+      border-color: #bce8f1;
+      color: #31708f;
+    }
 </style>
     <div class="row">
         <div class="col-md-6">
@@ -42,6 +53,21 @@
                     <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
+        @endcan
+        @can('retirement_fund')
+            @foreach($paid_states as $paid_state)
+                <span class="my-alert my-alert-info">
+                    El afiliado ya fue pagado por <strong> 
+                        @if($paid_state->type == 'F')
+                            Fondo de Retiro
+                        @elseif($paid_state->type == 'C')
+                            Cuota Mortuoria
+                        @else
+                            Auxilio Mortuorio
+                        @endif
+                    </strong>
+                </span>&nbsp;
+            @endforeach
         @endcan
         @can('eco_com_reception')
             @if($has_current_eco_com=="edit")

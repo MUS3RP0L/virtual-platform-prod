@@ -57,6 +57,11 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\ImportDates99dmy::class,
         \Muserpol\Console\Commands\ImportDates99ymd::class,
         \Muserpol\Console\Commands\ExportDateEntry::class,
+        \Muserpol\Console\Commands\ExportRentDiff::class,
+        \Muserpol\Console\Commands\CityBirthEcoComApplicants::class,
+        \Muserpol\Console\Commands\PaidChangeAffiliateFondo::class,
+        \Muserpol\Console\Commands\PaidChangeAffiliateAux::class,
+        \Muserpol\Console\Commands\PaidChangeAffiliateCuo::class,
 
         
     ];
