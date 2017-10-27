@@ -98,7 +98,7 @@
     <td>SALARIO COTIZABLE (SALARIO DEL ACTIVO + ANTIGÜEDAD)</td><td class="number">{{$salary_quotable}}</td><td></td>
   </tr>
   <tr>
-    <td>DIFERENCIA (SALARIO ACTIVO Y RENTA PASIVO)</td><td class="number">{{$difference}}</td><td></td>
+    <td>DIFERENCIA (SALARIO ACTIVO - RENTA PASIVO)</td><td class="number">{{$difference}}</td><td></td>
   </tr>
   <tr>
     <td>TOTAL SEMESTRE (DIFERENCIA SE MULTIPLICA POR 6 MESES)</td><td class="number">{{$total_amount_semester}}</td><td></td>

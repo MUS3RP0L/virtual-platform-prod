@@ -1288,15 +1288,15 @@
                                 <table class="table table-bordered table-hover table-striped" style="width:100%;font-size: 14px">
                                     <tbody>
                                         <tr>
-                                            <td style="width: 70%" class="bg-danger" >Amortización por cuentas por cobrar</td>
+                                            <td style="width: 70%" class="bg-danger" >Amortización por Cuentas por Cobrar</td>
                                             <td  style="text-align: right" class="bg-danger">{!! Util::formatMoney($economic_complement->amount_accounting) !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%" class="bg-danger" >Amortización por prestamos en mora</td>
+                                            <td style="width: 70%" class="bg-danger" >Amortización por Prestamos en Mora</td>
                                             <td  style="text-align: right" class="bg-danger" >{!! Util::formatMoney($economic_complement->amount_loan) !!}</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%" class="bg-danger" >Amortización por reposición de fondos</td>
+                                            <td style="width: 70%" class="bg-danger" >Amortización por Reposición de Fondos</td>
                                             <td  style="text-align: right" class="bg-danger" >{!! Util::formatMoney($economic_complement->amount_replacement) !!}</td>
                                         </tr>
                                     </tbody>
