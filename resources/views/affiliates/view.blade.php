@@ -1687,7 +1687,16 @@
                 { data: 'state', bSortable: false },
                 { data: 'total', bSortable: false },
                 { data: 'action',name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center'},
-            ]
+            ],
+            "aoColumnDefs": [ {
+                  "aTargets": [4,5],
+                  "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                    if ( oData.eco_com_state_id == 1 || oData.eco_com_state_id == 2 || oData.eco_com_state_id == 3 ) {
+                      $(nTd).css('background', 'rgba(93, 193, 0,.5)')
+                    }
+                  }
+                } ]
+
         });
 
         //for observations
