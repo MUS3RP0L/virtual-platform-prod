@@ -62,6 +62,9 @@ Route::group(['middleware' => 'auth'], function() {
 	// Affiliate category
 	Route::get('get_category', array('as'=>'get_category', 'uses'=>'Affiliate\AffiliateController@getCategory'));
 
+	//affiliate history print
+	Route::get('history_print/{affiliate_id}','Affiliate\AffiliateController@history_print');
+	
 	// Spouses
 	Route::resource('spouse', 'Affiliate\SpouseController');
 

@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Muserpol\Helper\Util;
 
 use Muserpol\Affiliate;
+use Muserpol\AffiliateRecord;
 use Muserpol\AffiliateAddress;
 use Muserpol\AffiliateState;
 use Muserpol\Category;
@@ -826,5 +827,34 @@ class AffiliateController extends Controller
         }
         return "error";
     }
+    public function history_print($affiliate_id)
+    {
+        
+        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+        $header2 = "UNIDAD DE OTORGACIÓN DE FONDO DE RETIRO POLICIAL, CUOTA Y AUXILIO MORTUORIO";
+        $date = Util::getDateEdit(date('Y-m-d'));
+        setlocale(LC_ALL, "es_ES.UTF-8");
+        $date = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
+        $current_date = Carbon::now();
+        $hour = Carbon::parse($current_date)->toTimeString();
+        $title = "HISTORIAL POLICIAL";
 
+        $affiliate = Affiliate::where('id', '=', $affiliate_id)->first();
+        $affiliate_records = AffiliateRecord::where('affiliate_id', '=', $affiliate_id)->orderBy('date', 'asc')->get();
+        $data = [
+            'date' => $date,
+            'hour' => $hour,
+            'header1' => $header1,
+            'header2' => $header2,
+            'title' => $title,
+        ];
+        $second_data = [
+            'affiliate' => $affiliate,
+            'affiliate_records' => $affiliate_records,
+            'user' => Auth::user(),
+            'user_role' =>Util::getRol()->name
+        ];
+        $data = array_merge($data, $second_data);
+        return \PDF::loadView('affiliates.print.history', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017')->setOption('footer-right', 'Pagina [page] de [toPage]')->stream('affiliate_history.pdf');
+    }
 }

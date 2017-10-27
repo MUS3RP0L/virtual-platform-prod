@@ -99,6 +99,10 @@ class Contribution extends Model
                     ->whereMonth('contributions.month_year', '=', $month)
                     ->whereYear('contributions.month_year', '=', $year);
     }
+    public function breakdown()
+    {
+        return $this->belongsTo(Breakdown::class);
+    }
 }
 
 Contribution::updating(function($contribution)

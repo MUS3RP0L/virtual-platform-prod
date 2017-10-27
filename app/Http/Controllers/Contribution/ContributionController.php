@@ -128,7 +128,7 @@ class ContributionController extends Controller
                 ->editColumn('retirement_fund', function ($contribution) { return Util::formatMoney($contribution->retirement_fund); })
                 ->editColumn('mortuary_quota', function ($contribution) { return Util::formatMoney($contribution->mortuary_quota); })
                 ->editColumn('total', function ($contribution) { return Util::formatMoney($contribution->total); })
-                ->editColumn('breakdown_id',function ($contribution) { return $contribution->breakdown_id; })
+                ->editColumn('breakdown_id',function ($contribution) { return '<span data-toggle="tooltip" data-placement="top" title="'.($contribution->breakdown->name ?? '').'">'.$contribution->breakdown_id.'</span>'; })
                 ->make(true);
     }
 
