@@ -1599,14 +1599,13 @@
         </div>
     </div>
     <div class="modal fade" tabindex="-1" >
-        <iframe src="{!! url('affiliate/'.$affiliate->id.'\history_print/') !!}" id="historyPdf" ></iframe>
+        <iframe src="{!! url('history_print/' . $affiliate->id ) !!}" id="historyPdf"></iframe>
     </div>
 @endsection
 
 @push('scripts')
-
     <script type="text/javascript">
-
+        
         function printTrigger(elementId) {
             var getMyFrame = document.getElementById(elementId);
             getMyFrame.focus();

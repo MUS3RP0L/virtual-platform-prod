@@ -22,23 +22,23 @@
           </td>
         </tr>
         <tr >
-          <td colspan="1"><strong>NOMBRE:</strong></td><td colspan="5" nowrap>{!! $affiliate->getFullName() !!}</td>
+          <td colspan="1"><strong>NOMBRE:</strong></td><td colspan="5" nowrap>{!! $affiliate->getFullNamePrintTotal() !!}</td>
         </tr>
         <tr>
           <td><strong>C.I.:</strong></td><td nowrap>{!! $affiliate->identity_card !!} {{$affiliate->city_identity_card->first_shortened ?? ''}}</td>
-          <td><strong>GÉNERO</strong></td><td>{!! $affiliate->getGender() !!}</td>
-          <td><strong>FECHA NAC:</strong></td><td> {!! $affiliate->getShortBirthDate() !!}</td>
+          <td><strong>GÉNERO:</strong></td><td>{!! $affiliate->getGender() !!}</td>
+          <td><strong>FECHA DE NAC.:</strong></td><td> {!! $affiliate->getShortBirthDate() !!}</td>
         </tr>
         <tr>
           <td><strong>EDAD:</strong></td><td>{!! $affiliate->getAge() !!} AÑOS</td>
           <td><strong>LUGAR DE NAC.:</strong></td><td>{!! $affiliate->city_birth->second_shortened ?? '' !!}</td>
-          <td><strong>ESTADO CIVIL</strong></td><td>{!! $affiliate->getCivilStatus() !!}</td>
+          <td><strong>ESTADO CIVIL:</strong></td><td>{!! $affiliate->getCivilStatus() !!}</td>
         </tr>
         <tr>
           <td><strong>TELÉFONO:</strong></td>
           <td>{!! explode(',',$affiliate->phone_number)[0] !!}</td>
           <td><strong>CELULAR:</strong></td><td>{!! explode(',',$affiliate->cell_phone_number)[0] !!}</td>
-          <td><strong>NUA/CUA</strong></td><td>{!! $affiliate->nua !!}</td>
+          <td><strong>NUA/CUA:</strong></td><td>{!! $affiliate->nua !!}</td>
         </tr>
       {{-- /affiliate--}}
       </table>
@@ -87,5 +87,8 @@
         </tbody>
       {{-- /I nformación Policial Actual--}}
       </table>
+      <p>
+        <strong>NOTA:</strong> El historial del afiliado es una información proporcionada por COMANDO.
+      </p>
   </div>
 @endsection
