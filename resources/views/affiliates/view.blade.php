@@ -715,6 +715,8 @@
                             {{-- <span data-toggle="modal" data-target="#policeModal">
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa-pencil"></i></a>
                             </span> --}}
+                            
+                            <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Imprimir Historial" onclick="printTrigger('historyPdf');"><i aria-hidden="true" class="fa fa-lg fa-print"></i></a>
                             <span data-toggle="modal" data-target="#myModal-record">
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Ver Historial"><i aria-hidden="true" class="fa fa-lg fa-clock-o"></i></a>
                             </span>
@@ -1595,6 +1597,9 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="modal fade" tabindex="-1" >
+        <iframe src="{!! url('affiliate/'.$affiliate->id.'\history_print/') !!}" id="historyPdf" ></iframe>
     </div>
 @endsection
 
