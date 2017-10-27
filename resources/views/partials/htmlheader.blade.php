@@ -15,4 +15,5 @@
     {!! Html::style('bower_components/bootstrap-combobox/css/bootstrap-combobox.css') !!}
     {!! Html::style('bower_components/datePicker/css/bootstrap-datepicker3.css') !!}
     {!! Html::style('vendor/selectize/dist/css/selectize.css') !!}
+    {!! Html::style('css/print.css') !!}
 </head>

@@ -88,7 +88,7 @@
       {{-- /I nformación Policial Actual--}}
       </table>
       <p>
-        <strong>NOTA:</strong> El historial del afiliado es una información proporcionada por COMANDO.
+        <strong>NOTA:</strong> El historial del afiliado es una información proporcionada por COMANDO GENERAL - POLICIA BOLIVIANA.
       </p>
   </div>
 @endsection
