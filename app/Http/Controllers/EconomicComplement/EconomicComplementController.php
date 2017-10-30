@@ -298,24 +298,7 @@ class EconomicComplementController extends Controller
             try {
                     // Log::info("id complemento: ". $economic_complement->id);
                     $state = DB::table('eco_com_states')->where('id','=',$economic_complement->eco_com_state_id)->first();
-                    // Log::info(json_encode($state));
-                    if($state)
-                    {
-                        if($state->id == 1|| $state->id == 2|| $state->id == 3)
-                        {
-                            return '<span style="background-color: #FFFF00">'.$state->name.'</span>';
-                        }else
-                        {
-                            
-                            return $state->name;
-                        }
-                    }
-                    else
-                    {
-                        // Log::info("vacio XD");
-                        return "";
-                    }
-                    // return  $state->name;
+                    return $state->name ?? '';
             } catch (Exception $e) {
                  Log::info(json_encode("Error: en Datatables check  function Data_by_affiliate  in EconomicComplementController "));
                 return '';
