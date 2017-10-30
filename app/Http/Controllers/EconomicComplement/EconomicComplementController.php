@@ -1092,12 +1092,13 @@ class EconomicComplementController extends Controller
 
     public function update(Request $request, $economic_complement)
     {   
-        // Log::info("id".$economic_complements->id);
+        // Log::info("id".$economic_complements->id);    
         return $this->save($request, $economic_complement);
     }
 
     public function save($request, $economic_complement = false)
-    {
+    {   
+
         switch ($request->step) {
 
             case 'first':
@@ -1164,6 +1165,8 @@ class EconomicComplementController extends Controller
                     $eco_com_applicant->civil_status = $affiliate->civil_status;
                     $eco_com_applicant->phone_number = $affiliate->phone_number;
                     $eco_com_applicant->cell_phone_number = $affiliate->cell_phone_number;
+                    $eco_com_applicant->due_date = $affiliate->due_date;
+                    $eco_com_applicant->is_duedate_undefined = $affiliate->is_duedate_undefined;
 
                     break;
 
@@ -1248,19 +1251,20 @@ class EconomicComplementController extends Controller
                 $eco_com_applicant->birth_date = Util::datePick($request->birth_date);
                 $eco_com_applicant->civil_status = $request->civil_status;
                 $eco_com_applicant->city_birth_id = $request->city_birth_id <> "" ? $request->city_birth_id : null;
+                if($request->has('is_duedate_undefined'))
+                {
+                    $eco_com_applicant->is_duedate_undefined= $request->is_duedate_undefined;
+                }
+                else
+                {
+                    $eco_com_applicant->due_date = $request->due_date;
+                    $eco_com_applicant->is_duedate_undefined= false;
+                }
                 if ($request->applicant == 'update') {
                     $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number_applicant));
                     $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number_applicant));
                     $eco_com_applicant->date_death = Util::datePick($request->date_death);
                     $eco_com_applicant->reason_death = trim($request->reason_death);
-                    if($request->has('is_duedate_undefined'))
-                    {
-                        $eco_com_applicant->is_duedate_undefined= $request->is_duedate_undefined;
-                    }
-                    else
-                    {
-                        $eco_com_applicant->due_date = $request->due_date;
-                    }
                     $eco_com_applicant->death_certificate_number = trim($request->death_certificate_number);
                 }else{
                     $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
@@ -1355,6 +1359,17 @@ class EconomicComplementController extends Controller
                             $spouse->death_certificate_number = trim($request->death_certificate_number);
                             $spouse->civil_status = $request->civil_status;
                             $spouse->city_birth_id = $request->city_birth_id <> "" ? $request->city_birth_id : null;
+
+                            if($request->has('is_duedate_undefined'))
+                            {
+                                $spouse->is_duedate_undefined= $request->is_duedate_undefined;
+                            }
+                            else
+                            {
+                                $spouse->due_date = $request->due_date;
+                                $spouse->is_duedate_undefined= false;
+                            }
+
                             $spouse->save();
                         }
 

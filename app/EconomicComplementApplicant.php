@@ -104,6 +104,10 @@ class EconomicComplementApplicant extends Model
     {
         return Util::getDateShort($this->birth_date);
     }
+    public function getShortDueDate()
+    {
+        return Util::getDateShort($this->due_date);
+    }
 
     public function getAge()
     {

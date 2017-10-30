@@ -449,6 +449,15 @@ class AffiliateController extends Controller
                         $affiliate->reason_death = null;
                         $affiliate->death_certificate_number = null;
                     }
+                    if($request->has('is_duedate_undefined'))
+                    {
+                        $affiliate->is_duedate_undefined= $request->is_duedate_undefined;
+                    }
+                    else
+                    {
+                        $affiliate->is_duedate_undefined= false;
+                        $affiliate->due_date = $request->due_date;
+                    }
                     $affiliate->save();
                     $message = "Información Afiliado actualizado con éxito";
                     if ($request->typeEco == "economic_complement") {
@@ -488,6 +497,7 @@ class AffiliateController extends Controller
                         else
                         {
                             $affiliate->due_date = $request->due_date;
+                            $affiliate->is_duedate_undefined= false;
                         }
                    
                         $affiliate->save();
