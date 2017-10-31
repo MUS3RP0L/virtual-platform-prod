@@ -80,7 +80,7 @@ class ContributionController extends Controller
             'last_contribution' => $last_contribution,
             'total_retirement_fund' => $total_retirement_fund,
             'total_mortuary_quota' => $total_mortuary_quota,
-            'total' => '',//$total,
+            'total' => $total ?? '',
             'beginning_balance' => '', //Util::formatMoney($sln),
             'total_balance' => '',//Util::formatMoney($saldo_acu),
 

@@ -408,6 +408,7 @@ $(document).ready(function (){
    $('#editedCheckboxAll').on('click', function(){
       var rows = table.rows({ 'search': 'applied' }).nodes();
       $('input[type="checkbox"]', rows).prop('checked', this.checked);
+      cli();
    });
 
    $('#edited tbody').on('change', 'input[type="checkbox"]', function(){
