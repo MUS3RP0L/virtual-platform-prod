@@ -39,6 +39,24 @@
                     </div>
                 </div>
                 <div class="col-md-6">
+                     <div class="form-group">
+                            {!! Form::label('due_date', 'Fecha de Vencimiento del CI', ['class' => 'col-md-5 control-label']) !!}
+                            <div class="col-md-7">
+                                <div class="input-group">
+                                    <input data-bind ="enable: activolg" type="text" id="due_date_lg_mask" class="form-control" name="due_date_lg" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </div>
+                                </div>
+                                <div class="togglebutton">
+                                    <label>
+                                        <input type="checkbox" name="is_duedate_undefinedlg"  data-bind="checked: isDateUndifinedlg, click: inputVisiblelg()"> Indefinida
+                                    </label>
+                                </div>
+                            </div>
+                        
+                       
+                    </div>
                     <div class="form-group">
                             {!! Form::label('first_name_lg', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
                         <div class="col-md-6">
@@ -114,3 +132,4 @@
             </div>
         </div>
     </div>
+

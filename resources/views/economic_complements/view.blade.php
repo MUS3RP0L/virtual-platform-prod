@@ -777,6 +777,22 @@
                                     <td style="border-top:0px;;">
                                         <div class="row">
                                             <div class="col-md-6">
+                                                <strong>Fecha de Vencimiento CI</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                @if($economic_complement_legal_guardian->is_duedate_undefined)
+                                                    INDEFINIDO
+                                                @else
+                                                 {!! $economic_complement_legal_guardian->getShortDueDate() !!}
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
                                                 <strong>Primer Nombre</strong>
                                             </div>
                                             <div class="col-md-6">

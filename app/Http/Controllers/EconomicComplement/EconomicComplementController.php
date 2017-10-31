@@ -1427,6 +1427,17 @@ class EconomicComplementController extends Controller
                                  $eco_com_legal_guardian->surname_husband = $request->surname_husband_lg;
                                  $eco_com_legal_guardian->phone_number =trim(implode(",", $request->phone_number_lg));
                                  $eco_com_legal_guardian->cell_phone_number =trim(implode(",", $request->cell_phone_number_lg));
+
+                                if($request->has('is_duedate_undefinedlg'))
+                                {
+                                    $eco_com_legal_guardian->is_duedate_undefined= $request->is_duedate_undefinedlg;
+                                }
+                                else
+                                {
+                                    $eco_com_legal_guardian->due_date = $request->due_date_lg;
+                                    $eco_com_legal_guardian->is_duedate_undefined= false;
+                                }
+
                                  $eco_com_legal_guardian->save();
                              }
                          }
