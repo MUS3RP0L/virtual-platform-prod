@@ -12,11 +12,11 @@
 			</a>
 		</div>
 
-		<div class="col-md-2 ">
+		{{-- <div class="col-md-2 ">
 			<a href="" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
 				&nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
 			</a>
-		</div>
+		</div> --}}
 
 	</div>
 

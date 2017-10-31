@@ -62,6 +62,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\PaidChangeAffiliateFondo::class,
         \Muserpol\Console\Commands\PaidChangeAffiliateAux::class,
         \Muserpol\Console\Commands\PaidChangeAffiliateCuo::class,
+        \Muserpol\Console\Commands\ImportPayroll2017::class,
 
         
     ];
