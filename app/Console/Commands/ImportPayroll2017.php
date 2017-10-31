@@ -10,6 +10,8 @@ use Muserpol\Unit;
 use Muserpol\Hierarchy;
 use Muserpol\Degree;
 use Muserpol\Category;
+use Muserpol\Contribution;
+use Muserpol\ContributionRate;
 
 use Util;
 
@@ -66,7 +68,7 @@ class ImportPayroll2017 extends Command
                                  ini_set('max_execution_time', '-1');
                                  ini_set('max_input_time', '-1');
                                  set_time_limit('-1');
-                                 /* affiliate info */
+
                                  $ci=$result->car;
                                  $first_name=$result->nom ? trim($result->nom) : null;
                                  $second_name=$result->nom2 ? trim($result->nom2) : null;
@@ -81,25 +83,38 @@ class ImportPayroll2017 extends Command
                                  $item = $result->item ? trim($result->item) : null;
                                  $nua = $result->nua ? trim($result->nua) : null;
 
-                                 /* /affiliate info */
 
-                                 /* contribution */
                                  $month = $result->mes ? intval($result->mes) : 0;
                                  $year = $result->a_o ? intval($result->a_o)+2000: 0;
                                  $month_year = Carbon::createFromDate($year, $month, 1)->toDateString();
-                                 /* /contribution */
 
-                                 /* police info*/
 
-                                 $breakdown_id = Breakdown::where('code', '=', $result->desg)->first()->id ?? 10;
-                                 $unit_id = $result->uni ? Unit::where('breakdown_id','=', $breakdown_id)->where('code', '=', trim($result->uni))->first()->id : null;
+                                 if (is_null($result->desg)) {$result->desg = 0;}
+                                 $breakdown_id = Breakdown::select('id')->where('code', $result->desg)->first()->id;
+
+                                 if ($breakdown_id == 1) {
+                                     $unit_id = Unit::select('id')->where('breakdown_id', 1)->where('code', '20190')->first()->id;
+                                 }
+                                 elseif ($breakdown_id == 2) {
+                                     $unit_id = Unit::select('id')->where('breakdown_id', 2)->where('code', '20190')->first()->id;
+                                 }
+                                 elseif ($breakdown_id == 3) {
+                                     $unit_id = Unit::select('id')->where('breakdown_id', 3)->where('code', '20190')->first()->id;
+                                 }
+                                 else{
+                                     if (Unit::select('id')->where('breakdown_id', $breakdown_id)->where('code', $result->uni)->first()) {
+                                         $unit_id = Unit::select('id')->where('breakdown_id', $breakdown_id)->where('code', $result->uni)->first()->id;
+                                     }else {
+                                         $unit_id = Unit::select('id')->where('code', $result->uni)->first()->id;
+                                     }
+                                 }
+                                 if ($result->niv == '04' && $result->gra == '15'){$result->niv = '03';}
                                  $hierarchy_id = $result->niv ? Hierarchy::where('code','=', $result->niv)->first()->id ?? null : null;
                                  $degree_id = $result->gra ? Degree::where('code','=', trim($result->gra))->where('hierarchy_id', '=', $hierarchy_id)->first()->id : null;
                                  $category_id = Category::where('percentage', Util::CalcCategory(Util::decimal($result->cat),Util::decimal($result->sue)))->first()->id;
 
-                                 /* /police info*/
-
                                  $afi = Affiliate::whereRaw("ltrim(trim(identity_card),'0') ='".ltrim(trim($ci),'0')."'")->first();
+
                                  if ($afi) {
                                      $aficount++;
                                  }else{
@@ -108,6 +123,7 @@ class ImportPayroll2017 extends Command
 
                                  if (!$afi) {
                                      $afi=new Affiliate;
+                                     $afi->identity_card = ltrim(trim($ci),'0');
                                  }
 
                                  $afi->change_date = $month_year;
@@ -132,30 +148,29 @@ class ImportPayroll2017 extends Command
                                  $afi->degree_id = $degree_id;
                                  $afi->category_id = $category_id;
                                  $afi->user_id = 1;
-                                 $afi->last_name = $last_name;
-                                 $afi->mothers_last_name = $mothers_last_name;
-                                 $afi->surname_husband = $surname_husband;
-                                 $afi->first_name = $first_name;
-                                 $afi->second_name = $second_name;
+                                 $afi->last_name = Util::replaceCharacter($last_name);
+                                 $afi->mothers_last_name = Util::replaceCharacter($mothers_last_name);
+                                 $afi->surname_husband = Util::replaceCharacter($surname_husband);
+                                 $afi->first_name = Util::replaceCharacter($first_name);
+                                 $afi->second_name = Util::replaceCharacter($second_name);
                                  $afi->civil_status = $civil_status;
+                                 $afi->gender = $gender;
                                  $afi->item = $item;
                                  $afi->afp = Util::getAfp(trim($result->afp));
                                  $afi->birth_date = $birth_date;
                                  $afi->date_entry = $date_entry;
                                  $afi->nua = $nua;
                                  $afi->registration = null;
-                                 // $afi->save();
+                                 $afi->save();
 
                                  if (Util::decimal($result->sue)<> 0) {
 
                                      $contribution = Contribution::where('month_year', '=', $month_year)
                                                                  ->where('affiliate_id', '=', $afi->id)->first();
                                      if (!$contribution) {
-
                                          $contribution = new Contribution;
                                          $contribution->user_id = 1;
                                          $contribution->type = 'Planilla';
-
                                          $contribution->affiliate_id = $afi->id;
                                          $contribution->month_year = $month_year;
                                          $contribution->unit_id = $unit_id;
@@ -190,6 +205,9 @@ class ImportPayroll2017 extends Command
                                          $contribution->total = Util::decimal($result->mus);
 
                                          $contribution_rate = ContributionRate::where('month_year', '=', $month_year)->first();
+                                         if (!$contribution_rate) {
+                                             $this->error("no hay contribution rate");
+                                         }
                                          $percentage = round(($contribution->total / $contribution->quotable) * 100, 1);
 
                                          if ($percentage == $contribution_rate->retirement_fund + $contribution_rate->mortuary_quota) {
@@ -200,13 +218,9 @@ class ImportPayroll2017 extends Command
                                              exit();
                                          }
                                          $contribution->save();
-                                         $NewContri ++;
+                                         //$NewContri ++;
                                      }
                                  }
-                                 dd($afi);
-
-
-
                                  // $afi = Affiliate::whereRaw("split_part(ltrim(trim(identity_card),'0'), '-',1) ='".explode('-',ltrim(trim($ci),'0'))[0]."'")->first();
                                  $Progress->advance();
                          });
