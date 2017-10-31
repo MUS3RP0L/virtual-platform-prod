@@ -1952,6 +1952,17 @@ class EconomicComplementController extends Controller
             $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
               $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
               if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
+              if($request->is_duedate_undefinedlg){
+
+                $eco_com_legal_guardian->is_duedate_undefined =true;
+                
+              }else
+              {
+
+                $eco_com_legal_guardian->due_date =$request->due_date_lg;
+                $eco_com_legal_guardian->is_duedate_undefined =false;
+
+              }
               $eco_com_legal_guardian->last_name = $request->last_name_lg;
               $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
               $eco_com_legal_guardian->first_name = $request->first_name_lg;

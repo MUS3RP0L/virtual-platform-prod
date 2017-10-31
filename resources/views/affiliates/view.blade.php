@@ -471,7 +471,7 @@
                             <h3 class="box-title">
                                 <i class="fa fa-{{$affiliate->gender=='M'?'female':'male'  }}"></i> Información de Conyuge</h3>
                         </div>
-                        @if($info_spouse)
+                       {{--  @if($info_spouse)
                             @can("eco_com_review_and_reception")
                             <div class="col-md-2 text-right">
                                 <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
@@ -481,7 +481,7 @@
                                 </div>
                             </div>
                             @endcan
-                        @endif
+                        @endif --}}
                     </div>
                 </div>
                 <div class="box-body">
@@ -580,6 +580,18 @@
                             </div>
                             <div class="col-md-6">
                                 <table class="table" style="width:100%;">
+                                    <tr>
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <strong>Fecha de Vencimiento CI:</strong>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    {!! $spouse->getShortDueDate() !!}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
