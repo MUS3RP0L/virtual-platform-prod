@@ -272,6 +272,22 @@
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                             <div class="row">
                                                 <div class="col-md-6">
+                                                    <strong>Fecha de Vencimiento CI:</strong>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    @if($affiliate->is_duedate_undefined)
+                                                        INDEFINIDO
+                                                    @else
+                                                    {!! $affiliate->getShortDueDate() !!}
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                            <div class="row">
+                                                <div class="col-md-6">
                                                     <strong>Género:</strong>
                                                 </div>
                                                 <div class="col-md-6">
@@ -518,6 +534,22 @@
                                     <td style="border-top:0px;;">
                                         <div class="row">
                                             <div class="col-md-6">
+                                                <strong>Fecha de Vencimiento CI</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                @if($eco_com_applicant->is_duedate_undefined)
+                                                    INDEFINIDO
+                                                @else
+                                                 {!! $eco_com_applicant->getShortDueDate() !!}
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
                                                 <strong>Género</strong>
                                             </div>
                                             <div class="col-md-6">
@@ -741,6 +773,22 @@
                         </div>
                         <div class="col-md-6">
                             <table class="table" style="width:100%;">
+                                <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Fecha de Vencimiento CI</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                @if($economic_complement_legal_guardian->is_duedate_undefined)
+                                                    INDEFINIDO
+                                                @else
+                                                 {!! $economic_complement_legal_guardian->getShortDueDate() !!}
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
@@ -1478,6 +1526,27 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
+                                        {!! Form::label('due_date', 'Fecha de Vencimiento CI', ['class' => 'col-md-5 control-label','required']) !!}
+                                    <div class="col-md-7">
+
+                                        <div class="input-group">
+                                            <input type="text" data-bind="enable: affiliate_activo" id="due_date_affiliate_mask" required class="form-control" name="due_date" value="{!! $affiliate->getEditDueDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </div>
+
+                                        </div>
+                                 
+                                        <div class="togglebutton">
+                                            <label>
+                                                <input type="checkbox" name="is_duedate_undefined"  data-bind="checked: is_affiliate_duedate_undefined, click: inputAffiliateVisible()"> Indefinida
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
                                             {!! Form::label('gender', 'Género', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
                                         {!! Form::select('gender', ['M'=>'Masculino','F'=>'Femenino'] ,$affiliate->gender, ['class' => 'combobox form-control','required']) !!}
@@ -1651,6 +1720,25 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                        {!! Form::label('due_date', 'Fecha de Vencimiento del CI', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <input data-bind ="enable: activo" type="text" id="due_date_mask" class="form-control" name="due_date" value="{!! $eco_com_applicant->getEditDueDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                    <div class="col-md-6">
+                                        <div class="togglebutton">
+                                            <label>
+                                                <input type="checkbox" name="is_duedate_undefined"  data-bind="checked: isDateUndifined, click: inputVisible()"> Indefinida
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
                                         {!! Form::text('last_name', $eco_com_applicant->last_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
@@ -1775,6 +1863,9 @@
                                         </div>
                                     </div>
                                 @endif
+
+                                
+
                                 
                                 {{-- <div class="form-group">
                                         {!! Form::label('nua', 'CUA/NUA', ['class' => 'col-md-5 control-label']) !!}
@@ -2800,7 +2891,9 @@ $(document).ready(function() {
 	$(document).ready(function(){
 		$('.combobox').combobox();
 	    $('[data-toggle="tooltip"]').tooltip();
-		$("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+        $("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+        $("#due_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+		$("#due_date_affiliate_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
 		$("#date_death_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
     $("#date_death_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
 
@@ -2924,6 +3017,24 @@ $(document).ready(function() {
         @else
             self.selected = ko.observable(false);
         @endif
+
+        //affiliate
+        self.is_affiliate_duedate_undefined = ko.observable({{ $affiliate->is_duedate_undefined}});
+        self.affiliate_activo = ko.observable({{ !$affiliate->is_duedate_undefined }});
+        self.inputAffiliateVisible = function(){
+            // console.log("Ingreso a la funcion hdp");
+        self.affiliate_activo(!self.is_affiliate_duedate_undefined());
+            // console.log(self.affiliate_activo());
+
+        };
+
+        //apllicant
+        self.isDateUndifined = ko.observable({{$eco_com_applicant->is_duedate_undefined}});
+        self.activo = ko.observable({{!$eco_com_applicant->is_duedate_undefined}});
+        self.inputVisible = function(){
+            self.activo(!self.isDateUndifined());  
+        };
+
         self.concurrenceCheck = ko.observable({{ ($economic_complement->aps_disability > 0 ) ? true:false }});
         self.select_tesoreria = ko.observable();
         // console.log('self.select_tesoreria');

@@ -450,6 +450,15 @@ class AffiliateController extends Controller
                         $affiliate->reason_death = null;
                         $affiliate->death_certificate_number = null;
                     }
+                    if($request->has('is_duedate_undefined'))
+                    {
+                        $affiliate->is_duedate_undefined= $request->is_duedate_undefined;
+                    }
+                    else
+                    {
+                        $affiliate->is_duedate_undefined= false;
+                        $affiliate->due_date = $request->due_date;
+                    }
                     $affiliate->save();
                     $message = "Información Afiliado actualizado con éxito";
                     if ($request->typeEco == "economic_complement") {
@@ -482,6 +491,16 @@ class AffiliateController extends Controller
                         $affiliate->phone_number = trim(implode(",", $request->phone_number));
                         $affiliate->cell_phone_number = trim(implode(",", $request->cell_phone_number));
                         $affiliate->registration = Util::CalcRegistration($affiliate->birth_date, $affiliate->last_name, $affiliate->mothers_last_name, $affiliate->first_name, $affiliate->gender);
+                        if($request->has('is_duedate_undefined'))
+                        {
+                            $affiliate->is_duedate_undefined= $request->is_duedate_undefined;
+                        }
+                        else
+                        {
+                            $affiliate->due_date = $request->due_date;
+                            $affiliate->is_duedate_undefined= false;
+                        }
+                   
                         $affiliate->save();
                         $message = "Información Afiliado creado con éxito";
                     }else{

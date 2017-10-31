@@ -153,7 +153,10 @@ class Affiliate extends Model
     {
         return Util::getDateShort($this->birth_date);
     }
-
+    public function getShortDueDate()
+    {
+        return Util::getDateShort($this->due_date);
+    }
     public function getShortDateDeath()
     {
         return Util::getDateShort($this->date_death);
@@ -246,6 +249,10 @@ class Affiliate extends Model
     public function getEditBirthDate()
     {
         return Util::getDateEdit($this->birth_date);
+    }
+    public function getEditDueDate()
+    {
+        return Util::getDateEdit($this->due_date);
     }
     public function getEditDateEntry()
     {

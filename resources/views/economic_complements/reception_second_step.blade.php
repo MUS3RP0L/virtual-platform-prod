@@ -59,6 +59,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="col-md-12">
+                        
                                             {!! Form::label('identity_card', 'Carnet de Identidad', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-5">
                                             {!! Form::text('identity_card', $eco_com_applicant->identity_card, ['class'=> 'form-control','required']) !!}
@@ -67,6 +68,7 @@
                                             {!! Form::select('city_identity_card_id', $cities_list_short, $eco_com_applicant->city_identity_card_id, ['class' => 'col-md-2 combobox form-control','required']) !!}
                                     </div>
                                 </div>
+                                
                                 <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
@@ -106,6 +108,23 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <div class="form-group">
+                                        {!! Form::label('due_date', 'Fecha de Vencimiento del CI', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <input data-bind ="enable: activo" type="text" id="due_date_mask" class="form-control" name="due_date" value="{!! $eco_com_applicant->getEditDueDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </div>
+                                            </div>
+                                            <div class="togglebutton">
+                                            
+                                            <label>
+                                                <input type="checkbox" name="is_duedate_undefined"  data-bind="checked: isDateUndifined, click: inputVisible()"> Indefinida
+                                            </label>
+                                        </div>
+                                        </div>
+                                </div>
                                 <div class="form-group">
                                     {!! Form::label('gender', 'Género', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
@@ -244,10 +263,34 @@
             $('[data-toggle="tooltip"]').tooltip();
             $("#birth_date_affi_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("#birth_date_appli_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+            $("#due_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("#phone_number_guardian").inputmask();
             $("#cell_phone_number_guardian").inputmask();
             $("input[name='phone_number[]']").inputmask();
             $("input[name='cell_phone_number[]']").inputmask();
+            $("#due_date_lg_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+
+
+
+            var selectedlModel = function() {        
+                var self = this;
+                self.isDateUndifined = ko.observable({{$eco_com_applicant->is_duedate_undefined}});
+                self.activo = ko.observable({{!$eco_com_applicant->is_du20edate_undefined}});
+                self.inputVisible = function(){
+                    self.activo(!self.isDateUndifined());  
+                };
+
+                 var self = this;
+                self.isDateUndifinedlg = ko.observable({{$eco_com_legal_guardian->is_duedate_undefined}});
+                self.activolg = ko.observable({{!$eco_com_legal_guardian->is_du20edate_undefined}});
+                self.inputVisiblelg = function(){
+                    self.activolg(!self.isDateUndifinedlg());  
+                };
+            };
+
+            ko.applyBindings(selectedlModel());
+
+
         });
 
          //for phone numbers
