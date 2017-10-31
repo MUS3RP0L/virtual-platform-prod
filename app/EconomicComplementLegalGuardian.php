@@ -3,6 +3,7 @@
 namespace Muserpol;
 
 use Illuminate\Database\Eloquent\Model;
+use Muserpol\Helper\Util;
 
 class EconomicComplementLegalGuardian extends Model
 {
@@ -68,5 +69,9 @@ class EconomicComplementLegalGuardian extends Model
     public function getTittleName()
     {
         return Util::ucw($this->first_name) . ' ' . Util::ucw($this->second_name)  . ' ' . Util::ucw($this->last_name) . ' ' . Util::ucw($this->mothers_last_name) . ' ' . Util::ucw($this->surname_husband);
+    }
+    public function getShortDueDate()
+    {
+        return Util::getDateShort($this->due_date);
     }
 }

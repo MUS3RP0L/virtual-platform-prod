@@ -109,6 +109,7 @@
                                     </div>
                                         {!! Form::select('city_identity_card_id', $cities_list_short,'', ['class' => 'col-md-2 combobox form-control', 'required']) !!}
                                 </div>
+                                
                                 <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
@@ -215,6 +216,25 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
+                                        {!! Form::label('due_date', 'Fecha de Vencimiento del CI', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                <input data-bind ="enable: activo" type="text" id="due_date_mask" class="form-control" name="due_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                    <div class="col-md-5">
+                                        <div class="togglebutton">
+                                            <label>
+                                                <input type="checkbox" name="is_duedate_undefined"  data-bind="checked: isDateUndifined, click: inputVisible()"> Indefinida
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                         {!! Form::label('gender', 'Género', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
                                         {!! Form::select('gender', [''=>'','M'=>'Masculino','F'=>'Femenino'] , '', ['class' => 'combobox form-control','required']) !!}
@@ -303,6 +323,7 @@
 
         $(document).ready(function(){
             $("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+            $("#due_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $('.combobox').combobox();
             $('[data-toggle="tooltip"]').tooltip();
             $("#phone_number").inputmask();
@@ -333,6 +354,20 @@
                    $(this).parent().parent().remove();
                    event.preventDefault();
                });
+
+            var selectedlModel = function() {        
+                var self = this;
+                self.isDateUndifined = ko.observable(false);
+                self.activo = ko.observable(true);
+                self.inputVisible = function(){
+                    self.activo(!self.isDateUndifined());  
+                };
+
+            };
+             ko.applyBindings(selectedlModel());
+   
+
+
         });
 
         var oTable = $('#affiliates-table').DataTable({
