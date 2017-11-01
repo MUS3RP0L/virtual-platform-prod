@@ -91,7 +91,10 @@ class Spouse extends Model
             return date("d", strtotime($this->date_death))." ".$meses[date("n", strtotime($this->date_death))-1]. " ".date("Y", strtotime($this->date_death));
         }
     }
-
+    public function getShortDueDate()
+    {
+        return Util::getDateShort($this->due_date);
+    }
     public function getFullName()
     {
         return $this->last_name . ' ' . $this->mothers_last_name. ' ' . $this->first_name. ' ' .$this->second_name;

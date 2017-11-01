@@ -279,13 +279,14 @@
                 self.inputVisible = function(){
                     self.activo(!self.isDateUndifined());  
                 };
-
+                @if($economic_complement->has_legal_guardian)
                  var self = this;
                 self.isDateUndifinedlg = ko.observable({{$eco_com_legal_guardian->is_duedate_undefined}});
                 self.activolg = ko.observable({{!$eco_com_legal_guardian->is_du20edate_undefined}});
                 self.inputVisiblelg = function(){
                     self.activolg(!self.isDateUndifinedlg());  
                 };
+                @endif
             };
 
             ko.applyBindings(selectedlModel());
