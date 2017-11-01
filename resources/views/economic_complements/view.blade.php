@@ -1719,25 +1719,7 @@
                                             {!! Form::select('city_identity_card_id', $cities_list_short, $eco_com_applicant->city_identity_card_id, ['class' => 'col-md-2 combobox form-control', 'required']) !!}
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                        {!! Form::label('due_date', 'Fecha de Vencimiento del CI', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-6">
-                                            <div class="input-group">
-                                                <input data-bind ="enable: activo" type="text" id="due_date_mask" class="form-control" name="due_date" value="{!! $eco_com_applicant->getEditDueDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
-                                                <div class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    
-                                    <div class="col-md-6">
-                                        <div class="togglebutton">
-                                            <label>
-                                                <input type="checkbox" name="is_duedate_undefined"  data-bind="checked: isDateUndifined, click: inputVisible()"> Indefinida
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                                 <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
@@ -1821,6 +1803,25 @@
 								</div>
                             </div>
                             <div class="col-md-6">
+                                <div class="form-group">
+                                        {!! Form::label('due_date', 'Fecha de Vencimiento del CI', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <input data-bind ="enable: activo" type="text" id="due_date_mask" class="form-control" name="due_date" value="{!! $eco_com_applicant->getEditDueDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                    <div class="col-md-6">
+                                        <div class="togglebutton">
+                                            <label>
+                                                <input type="checkbox" name="is_duedate_undefined"  data-bind="checked: isDateUndifined, click: inputVisible()"> Indefinida
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                         {!! Form::label('gender', 'Género', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
@@ -3038,8 +3039,8 @@ $(document).ready(function() {
         @endif
 
         //affiliate
-        self.is_affiliate_duedate_undefined = ko.observable({{ $affiliate->is_duedate_undefined}});
-        self.affiliate_activo = ko.observable({{ !$affiliate->is_duedate_undefined }});
+        self.is_affiliate_duedate_undefined = ko.observable({{ json_encode($affiliate->is_duedate_undefined)}});
+        self.affiliate_activo = ko.observable(!{{json_encode($affiliate->is_duedate_undefined) }});
         self.inputAffiliateVisible = function(){
             // console.log("Ingreso a la funcion hdp");
         self.affiliate_activo(!self.is_affiliate_duedate_undefined());
@@ -3048,8 +3049,8 @@ $(document).ready(function() {
         };
 
         //apllicant
-        self.isDateUndifined = ko.observable({{$eco_com_applicant->is_duedate_undefined}});
-        self.activo = ko.observable({{!$eco_com_applicant->is_duedate_undefined}});
+        self.isDateUndifined = ko.observable({{json_encode($eco_com_applicant->is_duedate_undefined)}});
+        self.activo = ko.observable(!{{json_encode($eco_com_applicant->is_duedate_undefined)}});
         self.inputVisible = function(){
             self.activo(!self.isDateUndifined());  
         };
@@ -3059,10 +3060,11 @@ $(document).ready(function() {
         // console.log('self.select_tesoreria');
         self.sw_tesoreria = self.select_tesoreria==3?true:false;
 
+         //legal guardian   
          @if($economic_complement->has_legal_guardian)
             var self = this;
-            self.isDateUndifinedlg = ko.observable({{$economic_complement_legal_guardian->is_duedate_undefined}});
-            self.activolg = ko.observable({{!$economic_complement_legal_guardian->is_du20edate_undefined}});
+            self.isDateUndifinedlg = ko.observable({{json_encode($economic_complement_legal_guardian->is_duedate_undefined)}});
+            self.activolg = ko.observable(!{{json_encode($economic_complement_legal_guardian->is_du20edate_undefined)}});
             self.inputVisiblelg = function(){
                 self.activolg(!self.isDateUndifinedlg());  
             };

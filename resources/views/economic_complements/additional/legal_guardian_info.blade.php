@@ -43,7 +43,7 @@
                             {!! Form::label('due_date', 'Fecha de Vencimiento del CI', ['class' => 'col-md-5 control-label']) !!}
                             <div class="col-md-7">
                                 <div class="input-group">
-                                    <input data-bind ="enable: activolg" type="text" id="due_date_lg_mask" class="form-control" name="due_date_lg" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                    <input data-bind ="enable: activolg" type="text" id="due_date_lg_mask" class="form-control" value="{{$eco_com_legal_guardian->getEditDueDate()}}" name="due_date_lg" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                     <div class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </div>
