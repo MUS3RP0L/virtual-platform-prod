@@ -385,12 +385,13 @@ class EconomicComplementController extends Controller
         ->whereYear('year', '=', Carbon::now()->year)
         ->where('semester', '=', Util::getSemester(Carbon::now()))->first();
         //dd($economic_complement);
+        $eco_com_procedure=EconomicComplementProcedure::where('semester', 'like', Util::getOriginalSemester())->where('year', '=', Util::datePickYear(Carbon::now()->year))->first();
         if (!$economic_complement) {
             $economic_complement = new EconomicComplement;
             $eco_com_type = false;
             $eco_com_modality = false;
             $eco_com_modality_type_id = false;
-            $economic_complement->semester =  Util::getSemester(Carbon::now());
+            $economic_complement->semester =  $eco_com_procedure->semester;
             $economic_complement->year = Carbon::now()->year;
         }else{
             $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->name;
@@ -578,21 +579,20 @@ class EconomicComplementController extends Controller
             {
                 
                 $data = self::getViewModel();
-
+                $semester = $request->semester;
                 $affiliate = Affiliate::idIs($request->affiliate_id)->first();
 
-                $eco_com_pro = EconomicComplementProcedure::where('year','=',Util::datePickYear(Carbon::now()->year))->where('semester','=',Util::getCurrentSemester())->first();
+                $eco_com_pro = EconomicComplementProcedure::where('year','=',Util::datePickYear(Carbon::now()->year))->where('semester','=',$semester)->first();
 
                 $economic_complement = EconomicComplement::affiliateIs($affiliate->id)
                 ->whereYear('year', '=', Carbon::now()->year)
                 ->where('semester', '=', Util::getSemester(Carbon::now()))->first();
 
                 $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
-
                 if (!$economic_complement) {
                     $economic_complement = new EconomicComplement;
                     if ($last_economic_complement = EconomicComplement::whereYear('year', '=', Carbon::now()->year)
-                        ->where('semester', '=', Util::getSemester(Carbon::now()))
+                        ->where('semester', '=', $semester)
                         ->whereNull('deleted_at')->orderBy('id', 'desc')->first()) {
                             $number_code = Util::separateCode($last_economic_complement->code);
                             $code = $number_code + 1;
@@ -600,12 +600,7 @@ class EconomicComplementController extends Controller
                             $code = 1;
                     }
 
-                    $sem='';
-                    if(Util::getSemester(Carbon::now())=='Primer'){
-                        $sem='P';
-                    }else{
-                        $sem='S';
-                    }
+                    $sem = ($semester == 'Primer') ? 'P' : 'S';
 
                     $economic_complement->user_id = Auth::user()->id;
                     $economic_complement->affiliate_id = $affiliate->id;
@@ -621,7 +616,7 @@ class EconomicComplementController extends Controller
                     $economic_complement->state = 'Edited';
 
                     $economic_complement->year = Util::datePickYear(Carbon::now()->year, Util::getSemester(Carbon::now()));
-                    $economic_complement->semester = Util::getSemester(Carbon::now());
+                    $economic_complement->semester = $semester;
                     if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }else{
                         $economic_complement->has_legal_guardian = false;
                     }
