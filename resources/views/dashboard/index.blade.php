@@ -49,6 +49,11 @@
 		 @include('dashboard.wf_states')
 	</div>
 </div>
+<div class="row">
+	<div class="col-md-4">
+		 @include('dashboard.pension_entitites')
+	</div>
+</div>
 @endcan
 @can('manage')
 {{--
