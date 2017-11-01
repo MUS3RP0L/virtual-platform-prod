@@ -127,7 +127,6 @@ class InboxController extends Controller
             ->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
             ->where('economic_complements.state','Edited')
             ->where('wf_states.role_id',($rol->id))
-            ->where('economic_complements.eco_com_procedure_id','2')
             ->where('economic_complements.user_id',Auth::user()->id)
             ->leftJoin('eco_com_applicants','economic_complements.id', '=', 'eco_com_applicants.economic_complement_id')
             ->leftJoin('cities','economic_complements.city_id', '=', 'cities.id')
@@ -172,7 +171,6 @@ class InboxController extends Controller
         $rol = Util::getRol();
         $ids=EconomicComplement::where('economic_complements.state','Received')->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
             ->where('wf_states.role_id',($rol->id))
-            ->where('economic_complements.eco_com_procedure_id','2')
             ->select('economic_complements.id','economic_complements.code')
             ->get()
             ->pluck('id')
