@@ -74,4 +74,8 @@ class EconomicComplementLegalGuardian extends Model
     {
         return Util::getDateShort($this->due_date);
     }
+    public function getEditDueDate()
+    {
+        return Util::getDateEdit($this->due_date);
+    }
 }

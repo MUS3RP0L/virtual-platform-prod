@@ -2015,6 +2015,24 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
+                                        {!! Form::label('due_date', 'Fecha de Vencimiento del CI', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                <input data-bind ="enable: activolg" type="text" id="due_date_lg_mask" class="form-control" name="due_date_lg" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask  value="{{$economic_complement_legal_guardian->getEditDueDate()}}">
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </div>
+                                            </div>
+                                            <div class="togglebutton">
+                                                <label>
+                                                    <input type="checkbox" name="is_duedate_undefinedlg"  data-bind="checked: isDateUndifinedlg, click: inputVisiblelg()"> Indefinida
+                                                </label>
+                                            </div>
+                                        </div>
+                                    
+                                   
+                                </div>
+                                <div class="form-group">
                                         {!! Form::label('first_name_lg', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
                                         {!! Form::text('first_name_lg', $economic_complement_legal_guardian->first_name, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
@@ -2893,6 +2911,7 @@ $(document).ready(function() {
 	    $('[data-toggle="tooltip"]').tooltip();
         $("#birth_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
         $("#due_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+        $("#due_date_lg_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
 		$("#due_date_affiliate_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
 		$("#date_death_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
     $("#date_death_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
@@ -3039,6 +3058,15 @@ $(document).ready(function() {
         self.select_tesoreria = ko.observable();
         // console.log('self.select_tesoreria');
         self.sw_tesoreria = self.select_tesoreria==3?true:false;
+
+         @if($economic_complement->has_legal_guardian)
+            var self = this;
+            self.isDateUndifinedlg = ko.observable({{$economic_complement_legal_guardian->is_duedate_undefined}});
+            self.activolg = ko.observable({{!$economic_complement_legal_guardian->is_du20edate_undefined}});
+            self.inputVisiblelg = function(){
+                self.activolg(!self.isDateUndifinedlg());  
+            };
+         @endif
     };
 
     @if(isset($wf_state_before) && $has_cancel==true)
