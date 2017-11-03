@@ -445,7 +445,6 @@ class EconomicComplementController extends Controller
         ];
 
         $data = array_merge($data, $getViewModel);
-
         return view('economic_complements.reception_first_step', $data);
     }
 
@@ -496,7 +495,6 @@ class EconomicComplementController extends Controller
     'gender_list' => $gender_list
 
     ];
-
     $data = array_merge($data, self::getViewModel());
 
     return view('economic_complements.reception_second_step', $data);
@@ -983,8 +981,8 @@ class EconomicComplementController extends Controller
             $states = EconomicComplementState::where('eco_com_state_type_id',1)->get();
         }
 
-        Log::info("has_cancel= ".json_encode($has_cancel));
-        Log::info("wf_state_before=" .json_encode($wf_state_before));
+        // Log::info("has_cancel= ".json_encode($has_cancel));
+        // Log::info("wf_state_before=" .json_encode($wf_state_before));
 
 
         $data = [
@@ -1137,17 +1135,19 @@ class EconomicComplementController extends Controller
                     $eco_com_applicant->second_name = $affiliate->second_name;
                     $eco_com_applicant->surname_husband = $affiliate->surname_husband;
                     $eco_com_applicant->birth_date = $affiliate->birth_date;
+                    $eco_com_applicant->due_date = $affiliate->due_date;
+                    $eco_com_applicant->is_duedate_undefined = $affiliate->is_duedate_undefined;
                     $eco_com_applicant->nua = $affiliate->nua;
                     $eco_com_applicant->gender = $affiliate->gender;
                     $eco_com_applicant->civil_status = $affiliate->civil_status;
                     $eco_com_applicant->phone_number = $affiliate->phone_number;
                     $eco_com_applicant->cell_phone_number = $affiliate->cell_phone_number;
-
                     break;
 
                     case '2':
                     $spouse = Spouse::affiliateidIs($request->affiliate_id)->first();
                     if ($spouse) {
+
                         $eco_com_applicant->identity_card = $spouse->identity_card;
                         $eco_com_applicant->city_identity_card_id = $spouse->city_identity_card_id;
                         $eco_com_applicant->last_name = $spouse->last_name;
@@ -1156,6 +1156,9 @@ class EconomicComplementController extends Controller
                         $eco_com_applicant->second_name = $spouse->second_name;
                         $eco_com_applicant->surname_husband = $spouse->surname_husband;
                         $eco_com_applicant->birth_date = $spouse->birth_date;
+                        // $eco_com_applicant->due_date = $spouse->due_date;
+                        // $eco_com_applicant->is_duedate_undefined = $spouse->is_duedate_undefined;
+
                     }
                     $eco_com_applicant->nua = $affiliate->nua;
                     if ($affiliate->gender == 'M') { $eco_com_applicant->gender = 'F'; }else{ $eco_com_applicant->gender = 'M'; }
@@ -1226,12 +1229,15 @@ class EconomicComplementController extends Controller
                 $eco_com_applicant->birth_date = Util::datePick($request->birth_date);
                 $eco_com_applicant->civil_status = $request->civil_status;
                 $eco_com_applicant->city_birth_id = $request->city_birth_id <> "" ? $request->city_birth_id : null;
+                $eco_com_applicant->due_date = Util::datePick($request->due_date);
+                $eco_com_applicant->is_duedate_undefined = !$request->is_duedate_undefined?false:true;
                 if ($request->applicant == 'update') {
                     $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number_applicant));
                     $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number_applicant));
                     $eco_com_applicant->date_death = Util::datePick($request->date_death);
                     $eco_com_applicant->reason_death = trim($request->reason_death);
                     $eco_com_applicant->death_certificate_number = trim($request->death_certificate_number);
+                    
                 }else{
                     $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
                     $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number));
@@ -1382,6 +1388,8 @@ class EconomicComplementController extends Controller
                                  $eco_com_legal_guardian->surname_husband = $request->surname_husband_lg;
                                  $eco_com_legal_guardian->phone_number =trim(implode(",", $request->phone_number_lg));
                                  $eco_com_legal_guardian->cell_phone_number =trim(implode(",", $request->cell_phone_number_lg));
+                                 $eco_com_legal_guardian->due_date = Util::datePick($request->due_date_lg);
+                                 $eco_com_legal_guardian->is_duedate_undefined = !$request->is_duedate_undefinedlg?false:true;
                                  $eco_com_legal_guardian->save();
                              }
                          }
@@ -1913,17 +1921,11 @@ class EconomicComplementController extends Controller
             $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
               $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
               if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
-              if($request->is_duedate_undefinedlg){
-
-                $eco_com_legal_guardian->is_duedate_undefined =true;
-                
-              }else
-              {
-
+             
                 $eco_com_legal_guardian->due_date =$request->due_date_lg;
-                $eco_com_legal_guardian->is_duedate_undefined =false;
+                $eco_com_legal_guardian->is_duedate_undefined =!$request->is_duedate_undefinedlg?false:true;
 
-              }
+            
               $eco_com_legal_guardian->last_name = $request->last_name_lg;
               $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
               $eco_com_legal_guardian->first_name = $request->first_name_lg;

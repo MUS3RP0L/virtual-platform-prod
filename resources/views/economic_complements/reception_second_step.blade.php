@@ -57,12 +57,12 @@
                                 <div class="form-group">
                                     <div class="col-md-12">
                         
-                                            {!! Form::label('identity_card', 'Carnet de Identidad', ['class' => 'col-md-5 control-label']) !!}
+                                          {!! Form::label('identity_card', 'Carnet de Identidad', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-5">
-                                            {!! Form::text('identity_card', $eco_com_applicant->identity_card, ['class'=> 'form-control','required']) !!}
+                                          {!! Form::text('identity_card', $eco_com_applicant->identity_card, ['class'=> 'form-control','required']) !!}
                                             <span class="help-block">Número de CI</span>
                                         </div>
-                                            {!! Form::select('city_identity_card_id', $cities_list_short, $eco_com_applicant->city_identity_card_id, ['class' => 'col-md-2 combobox form-control','required']) !!}
+                                          {!! Form::select('city_identity_card_id', $cities_list_short, $eco_com_applicant->city_identity_card_id, ['class' => 'col-md-2 combobox form-control','required']) !!}
                                     </div>
                                 </div>
                                 
@@ -271,15 +271,16 @@
 
             var selectedlModel = function() {        
                 var self = this;
-                self.isDateUndifined = ko.observable({{$eco_com_applicant->is_duedate_undefined}});
-                self.activo = ko.observable({{!$eco_com_applicant->is_du20edate_undefined}});
+                self.isDateUndifined = ko.observable({{json_encode($eco_com_applicant->is_duedate_undefined)}});
+                self.activo = ko.observable(!{{json_encode($eco_com_applicant->is_duedate_undefined)}});
+                console.log(self.isDateUndifined());
                 self.inputVisible = function(){
                     self.activo(!self.isDateUndifined());  
                 };
                 @if($economic_complement->has_legal_guardian)
                  var self = this;
-                self.isDateUndifinedlg = ko.observable({{$eco_com_legal_guardian->is_duedate_undefined}});
-                self.activolg = ko.observable({{!$eco_com_legal_guardian->is_du20edate_undefined}});
+                self.isDateUndifinedlg = ko.observable({{json_encode($eco_com_legal_guardian->is_duedate_undefined)}});
+                self.activolg = ko.observable(!{{json_encode($eco_com_legal_guardian->is_du20edate_undefined)}});
                 self.inputVisiblelg = function(){
                     self.activolg(!self.isDateUndifinedlg());  
                 };
