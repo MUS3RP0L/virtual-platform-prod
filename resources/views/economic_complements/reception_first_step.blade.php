@@ -96,7 +96,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <div class="col-md-8 col-md-offset-3">
                                         <div class="checkbox">
@@ -104,6 +104,31 @@
                                                 {!! Form::checkbox('legal_guardian', true, $economic_complement->has_legal_guardian) !!} &nbsp;&nbsp; Apoderado
                                             </label>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-8 col-md-offset-3">
+                                        {!! Form::label('aps_total_cc_label', 'Factor de Cotizacion', ['class' => 'col-md-8 control-label']) !!}
+                                        <input type="number" name="aps_total_cc" class="form-control " data-bind="value: cc ">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-8 col-md-offset-3">
+                                        {!! Form::label('aps_total_fsa_label', 'Factor de Solidario Acumulado', ['class' => 'col-md-8 control-label']) !!}
+                                        <input type="number" name="aps_total_cc" class="form-control" data-bind="value: fsa">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-8 col-md-offset-3">
+                                        {!! Form::label('aps_total_fs_label', 'Factor de Solidario', ['class' => 'col-md-8 control-label']) !!}
+                                        <input type="number" name="aps_total_cc" class="form-control" data-bind="value: fs">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-8 col-md-offset-3">
+                                        {!! Form::label('Total: ', 'Total: ', ['class' => 'col-md-8 control-label']) !!}
+                                        <strong data-bind="text: total"> </strong>
                                     </div>
                                 </div>
                             </div>
@@ -145,7 +170,29 @@
             	})
             })
 
+            function APS()
+            {
+                self = this;
+                self.cc = ko.observable({{$economic_complement->aps_total_cc}});
+                self.fsa = ko.observable({{$economic_complement->aps_total_fsa}});
+                self.fs = ko.observable({{$economic_complement->aps_total_fs}});
+
+                console.log('cc= '+self.cc());
+                console.log('fsa= '+self.fsa());
+                console.log('fs= '+self.fs());
+                self.total = ko.computed(function(){
+
+                    return (parseFloat(self.cc()) + parseFloat(self.fsa()) + parseFloat(self.fs())).toFixed(2);
+
+                });
+
+                console.log(self.total());
+            }
+
+             ko.applyBindings(APS());
+
+
         });
 
-    </script>
+    </script>   
 @endpush

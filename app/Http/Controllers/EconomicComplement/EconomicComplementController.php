@@ -384,8 +384,13 @@ class EconomicComplementController extends Controller
         $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
         ->whereYear('year', '=', Carbon::now()->year)
         ->where('semester', '=', Util::getSemester(Carbon::now()))->first();
-        //dd($economic_complement);
+        // dd(Util::getOriginalSemester());
         $eco_com_procedure=EconomicComplementProcedure::where('semester', 'like', Util::getOriginalSemester())->where('year', '=', Util::datePickYear(Carbon::now()->year))->first();
+        // dd($eco_com_procedure);
+        // dd($economic_complement);
+        $last_complement = EconomicComplement::where('affiliate_id',$affiliate_id)->orderBy('reception_date','DESC')->first();
+
+        // return $last_complement;
         if (!$economic_complement) {
             $economic_complement = new EconomicComplement;
             $eco_com_type = false;
@@ -393,6 +398,12 @@ class EconomicComplementController extends Controller
             $eco_com_modality_type_id = false;
             $economic_complement->semester =  $eco_com_procedure->semester;
             $economic_complement->year = Carbon::now()->year;
+            $economic_complement->aps_total_cc = $last_complement->aps_total_cc;
+            $economic_complement->aps_total_fsa = $last_complement->aps_total_fsa;
+            $economic_complement->aps_total_fs = $last_complement->aps_total_fs;
+            $economic_complement->total_rent = $last_complement->total_rent;
+
+          
         }else{
             $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->name;
             $eco_com_modality = $economic_complement->economic_complement_modality->name;
