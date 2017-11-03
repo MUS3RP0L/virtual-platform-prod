@@ -912,7 +912,7 @@ class EconomicComplementController extends Controller
         // Log::info("has observatop ".json_encode($hasObservation));
         $hasAmortization = false;
         switch (Util::getRol()->module_id) {
-            case 8:
+            case 9:
             case 6:
            
                 if($hasObservation)
