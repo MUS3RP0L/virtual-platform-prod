@@ -353,6 +353,10 @@ class Util
 			}
         }
 	}
+	public static function getOriginalSemester()
+	{
+		return (Carbon::now()->month <= 6) ? 'Primer' : 'Segundo';
+	}
 
 	public static function getfullmonthYear($date)
 	{
