@@ -18,11 +18,8 @@
 @section('main-content')
 
     <div class="row">
-        <div class="col-md-6">
-            @include('affiliates.simple_info')
-        </div>
-        <div class="col-md-6">
-            @include('economic_complements.additional.general_info')
+        <div class="col-md-12">
+            @include('affiliates.affiliate_and_eco_info')
         </div>
     </div>
 
@@ -75,6 +72,13 @@
                                     <div class="col-md-8">
                                         {!! Form::select('reception_type',  $reception_types, $economic_complement->reception_type ?? $eco_com_reception_type , ['class' => 'form-control', 'required', 'id'=>'reception_type' ]) !!}
                                         <span class="help-block">Seleccione el tipo de recepción</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::label('semester', 'Semestre:', ['class' => 'col-md-4 control-label']) !!}
+                                    <div class="col-md-8">
+                                        {!! Form::select('semester',  ['Primer'=>'Primer', 'Segundo'=>'Segundo'], $economic_complement->semester ?? 'Segundo' , ['class' => 'form-control combobox', 'required' ]) !!}
+                                        <span class="help-block">Seleccione el semestre</span>
                                     </div>
                                 </div>
                                 <div class="form-group">

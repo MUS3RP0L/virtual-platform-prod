@@ -18,11 +18,8 @@
 @section('main-content')
 
     <div class="row">
-        <div class="col-md-6">
-            @include('affiliates.simple_info')
-        </div>
-        <div class="col-md-6">
-            @include('economic_complements.additional.general_info')
+        <div class="col-md-12">
+            @include('affiliates.affiliate_and_eco_info')
         </div>
     </div>
 

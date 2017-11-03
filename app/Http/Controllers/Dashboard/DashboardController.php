@@ -356,6 +356,23 @@ class DashboardController extends Controller
             	$eco_com_observations_pie_datas[]= $item->quantity;
             }
             $eco_com_observations_pie= array($eco_com_observations_pie_labels, $eco_com_observations_pie_datas);
+
+            $pension_entities_pie_labels=[];
+            $pension_entities_pie_datas=[];
+            $pension_entities_pie=DB::table('economic_complements')
+            ->leftjoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+            ->leftjoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+            ->leftjoin('pension_entities',  'affiliates.pension_entity_id', '=', 'pension_entities.id')
+            ->where('eco_com_procedures.id', '=', 2)
+            ->select(DB::raw("count(*) as quantity, pension_entities.type"))
+            ->groupBy('pension_entities.type')
+            ->get();
+            foreach ($pension_entities_pie as $item) {
+            	$pension_entities_pie_labels[]= $item->type;
+            	$pension_entities_pie_datas[]= $item->quantity;
+            }
+            $pension_entities_pie= array($pension_entities_pie_labels, $pension_entities_pie_datas);
+
 		$data = [
 			/*'activities' => $activities,
 			'totalAfiServ' => $totalAfiServ,
@@ -379,6 +396,7 @@ class DashboardController extends Controller
 			'wf_states_bar'=>$wf_states_bar,
 			'eco_com_states_pie'=>$eco_com_states_pie,
 			'eco_com_observations_pie'=>$eco_com_observations_pie,
+			'pension_entities_pie'=>$pension_entities_pie,
 
 		];
 
