@@ -384,8 +384,13 @@ class EconomicComplementController extends Controller
         $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
         ->whereYear('year', '=', Carbon::now()->year)
         ->where('semester', '=', Util::getSemester(Carbon::now()))->first();
-        //dd($economic_complement);
+        // dd(Util::getOriginalSemester());
         $eco_com_procedure=EconomicComplementProcedure::where('semester', 'like', Util::getOriginalSemester())->where('year', '=', Util::datePickYear(Carbon::now()->year))->first();
+        // dd($eco_com_procedure);
+        // dd($economic_complement);
+        $last_complement = EconomicComplement::where('affiliate_id',$affiliate_id)->orderBy('reception_date','DESC')->first();
+
+        // return $last_complement;
         if (!$economic_complement) {
             $economic_complement = new EconomicComplement;
             $eco_com_type = false;
@@ -393,6 +398,12 @@ class EconomicComplementController extends Controller
             $eco_com_modality_type_id = false;
             $economic_complement->semester =  $eco_com_procedure->semester;
             $economic_complement->year = Carbon::now()->year;
+            $economic_complement->aps_total_cc = $last_complement->aps_total_cc ?? null;
+            $economic_complement->aps_total_fsa = $last_complement->aps_total_fsa ?? null;
+            $economic_complement->aps_total_fs = $last_complement->aps_total_fs ?? null;
+            $economic_complement->total_rent = $last_complement->total_rent ?? null;
+
+          
         }else{
             $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->name;
             $eco_com_modality = $economic_complement->economic_complement_modality->name;
@@ -907,7 +918,7 @@ class EconomicComplementController extends Controller
         // Log::info("has observatop ".json_encode($hasObservation));
         $hasAmortization = false;
         switch (Util::getRol()->module_id) {
-            case 8:
+            case 9:
             case 6:
            
                 if($hasObservation)
@@ -1160,6 +1171,8 @@ class EconomicComplementController extends Controller
                         // $eco_com_applicant->is_duedate_undefined = $spouse->is_duedate_undefined;
 
                     }
+                    
+
                     $eco_com_applicant->nua = $affiliate->nua;
                     if ($affiliate->gender == 'M') { $eco_com_applicant->gender = 'F'; }else{ $eco_com_applicant->gender = 'M'; }
                     $eco_com_applicant->civil_status = 'V';
@@ -1168,8 +1181,14 @@ class EconomicComplementController extends Controller
 
                     break;
                 }
+
                 $eco_com_applicant->save();
                 $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
+                
+                $economic_complement->aps_total_cc = $request->aps_total_cc;
+                $economic_complement->aps_total_fsa = $request->aps_total_fsa;
+                $economic_complement->aps_total_fs = $request->aps_total_fs;
+
                 $economic_complement->eco_com_modality_id=$eco_com_modality->id;
                 $economic_complement->city_id = trim($request->city);
                 if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }else{
