@@ -1171,6 +1171,10 @@ class EconomicComplementController extends Controller
                         // $eco_com_applicant->is_duedate_undefined = $spouse->is_duedate_undefined;
 
                     }
+                    $economic_complement->aps_total_cc = $request->aps_total_cc;
+                    $economic_complement->aps_total_fsa = $request->aps_total_fsa;
+                    $economic_complement->aps_total_fs = $request->aps_total_fs;
+
                     $eco_com_applicant->nua = $affiliate->nua;
                     if ($affiliate->gender == 'M') { $eco_com_applicant->gender = 'F'; }else{ $eco_com_applicant->gender = 'M'; }
                     $eco_com_applicant->civil_status = 'V';

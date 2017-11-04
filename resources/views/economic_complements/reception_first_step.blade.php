@@ -49,6 +49,7 @@
                         <div class="row">
                             <div class="col-md-3 col-md-offset-1">
                                 <div class="form-group">
+
                                     <div class="radio radio-primary">
                                         <label style="font-size: 18px">
                                             {!! Form::radio('eco_com_type', '1', ($eco_com_modality_type_id == '1'), ['required' => 'required', (($eco_com_modality_type_id == 2 || $eco_com_modality_type_id == 3) ? 'disabled':'' )]) !!} Vejez
@@ -64,6 +65,12 @@
                                             {!! Form::radio('eco_com_type', '3', ($eco_com_modality_type_id == '3'))  !!} Orfandad
                                         </label>
                                     </div><br>
+                                    <hr>
+                                    <div class="checkbox">
+                                            <label>
+                                                {!! Form::checkbox('legal_guardian', true, $economic_complement->has_legal_guardian) !!} &nbsp;&nbsp; Apoderado
+                                            </label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -97,38 +104,39 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
+                                
                                 <div class="form-group">
                                     <div class="col-md-8 col-md-offset-3">
-                                        <div class="checkbox">
-                                            <label>
-                                                {!! Form::checkbox('legal_guardian', true, $economic_complement->has_legal_guardian) !!} &nbsp;&nbsp; Apoderado
-                                            </label>
-                                        </div>
+                                        {!! Form::label('aps_total_cc_label', 'Fracción Cotizacion', []) !!}
+                                        <input type="number" name="aps_total_cc" class="form-control " data-bind="value: cc ,valueAllowUnset:0 ">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-8 col-md-offset-3">
-                                        {!! Form::label('aps_total_cc_label', 'Factor de Cotizacion', ['class' => 'col-md-8 control-label']) !!}
-                                        <input type="number" name="aps_total_cc" class="form-control " data-bind="value: cc ">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-8 col-md-offset-3">
-                                        {!! Form::label('aps_total_fsa_label', 'Factor de Solidario Acumulado', ['class' => 'col-md-8 control-label']) !!}
-                                        <input type="number" name="aps_total_cc" class="form-control" data-bind="value: fsa">
+                                        {!! Form::label('aps_total_fsa_label', 'Fracción Solidario Acumulado', []) !!}
+                                        <input type="number" name="aps_total_fsa" class="form-control" data-bind="value: fsa">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="col-md-8 col-md-offset-3">
-                                        {!! Form::label('aps_total_fs_label', 'Factor de Solidario', ['class' => 'col-md-8 control-label']) !!}
-                                        <input type="number" name="aps_total_cc" class="form-control" data-bind="value: fs">
+                                        {!! Form::label('aps_total_fs_label', 'Fracción Solidario', []) !!}
+                                        <input type="number" name="aps_total_fs" class="form-control" data-bind="value: fs">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="col-md-8 col-md-offset-3">
-                                        {!! Form::label('Total: ', 'Total: ', ['class' => 'col-md-8 control-label']) !!}
-                                        <strong data-bind="text: total"> </strong>
+                                     <div class="col-md-8 col-md-offset-3">
+                                     <strong data-bind="text: total"> </strong>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                     <div class="col-md-8 col-md-offset-3">
+
+                                        
+                                        
+                                         <div class="callout callout-warning">
+                                            <strong>Renta Boleta: {{$economic_complement->total_rent}} </strong>
+                                         </div>
                                     </div>
                                 </div>
                             </div>
@@ -182,7 +190,22 @@
                 console.log('fs= '+self.fs());
                 self.total = ko.computed(function(){
 
-                    return (parseFloat(self.cc()) + parseFloat(self.fsa()) + parseFloat(self.fs())).toFixed(2);
+
+
+                        if(isNaN(self.cc()) || self.cc() =='' )
+                        {
+                            self.cc(0);
+                        }
+                        if(isNaN(self.fsa()) || self.fsa() =='' )
+                        {
+                            self.fsa(0);
+                        }
+                        if(isNaN(self.fs()) || self.fs() =='' )
+                        {
+                            self.fs(0);
+                        }
+
+                    return "Total: "+(parseFloat(self.cc()) + parseFloat(self.fsa()) + parseFloat(self.fs())).toFixed(2);
 
                 });
 
