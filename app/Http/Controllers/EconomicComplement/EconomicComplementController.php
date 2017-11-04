@@ -398,10 +398,10 @@ class EconomicComplementController extends Controller
             $eco_com_modality_type_id = false;
             $economic_complement->semester =  $eco_com_procedure->semester;
             $economic_complement->year = Carbon::now()->year;
-            $economic_complement->aps_total_cc = $last_complement->aps_total_cc;
-            $economic_complement->aps_total_fsa = $last_complement->aps_total_fsa;
-            $economic_complement->aps_total_fs = $last_complement->aps_total_fs;
-            $economic_complement->total_rent = $last_complement->total_rent;
+            $economic_complement->aps_total_cc = $last_complement->aps_total_cc ?? null;
+            $economic_complement->aps_total_fsa = $last_complement->aps_total_fsa ?? null;
+            $economic_complement->aps_total_fs = $last_complement->aps_total_fs ?? null;
+            $economic_complement->total_rent = $last_complement->total_rent ?? null;
 
           
         }else{
@@ -1171,9 +1171,7 @@ class EconomicComplementController extends Controller
                         // $eco_com_applicant->is_duedate_undefined = $spouse->is_duedate_undefined;
 
                     }
-                    $economic_complement->aps_total_cc = $request->aps_total_cc;
-                    $economic_complement->aps_total_fsa = $request->aps_total_fsa;
-                    $economic_complement->aps_total_fs = $request->aps_total_fs;
+                    
 
                     $eco_com_applicant->nua = $affiliate->nua;
                     if ($affiliate->gender == 'M') { $eco_com_applicant->gender = 'F'; }else{ $eco_com_applicant->gender = 'M'; }
@@ -1183,8 +1181,14 @@ class EconomicComplementController extends Controller
 
                     break;
                 }
+
                 $eco_com_applicant->save();
                 $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
+                
+                $economic_complement->aps_total_cc = $request->aps_total_cc;
+                $economic_complement->aps_total_fsa = $request->aps_total_fsa;
+                $economic_complement->aps_total_fs = $request->aps_total_fs;
+
                 $economic_complement->eco_com_modality_id=$eco_com_modality->id;
                 $economic_complement->city_id = trim($request->city);
                 if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }else{
