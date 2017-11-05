@@ -137,7 +137,7 @@
                 <div class="box box-success box-solid">
                     <div class="box-header with-border">
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-8">
                                 <a href="/affiliate/{{ $economic_complement->affiliate_id  }}" data-toggle="tooltip" data-placement="top" title="Volver al afiliado">
                                     <h3 class="box-title"><i class="fa fa-{{$affiliate->gender=='M'?'male':'female'  }}"></i> Información Personal
                                     @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1)
@@ -146,7 +146,13 @@
                                     </h3>
                                 </a>
                             </div>
-
+                            <div class="col-md-2 text-right">
+                                <div data-toggle="tooltip" data-placement="left" data-original-title="Historial de deudas">
+                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#debtsModal">
+                                        <span class="fa fa-lg fa-balance-scale" aria-hidden="true"></span>
+                                    </a>
+                                </div>
+                            </div>
                             @can("eco_com_review_and_reception")
                             
                             <div class="col-md-2 text-right">
@@ -408,9 +414,18 @@
                             <div class="box-tools pull-right">
                             </div>
                         </div>
+                        @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id == 1)
+                            <div class="col-md-2 text-right">
+                                <div data-toggle="tooltip" data-placement="left" data-original-title="Historial de deudas">
+                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#debtsModal">
+                                        <span class="fa fa-lg fa-balance-scale" aria-hidden="true"></span>
+                                    </a>
+                                </div>
+                            </div>
+                         @endif
                         @can('eco_com_review_and_reception')
                         
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-2 text-right">
                             <span data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-applicant">&nbsp;&nbsp;
                                     <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
@@ -1358,7 +1373,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                @if($total_repay)
+                                @if($total_repay > 0)
                                 <table class="table table-bordered table-hover " style="width:100%;font-size: 14px">
                                     <tbody>
                                         <tr class="warning">
@@ -2660,6 +2675,42 @@
                     </div>
                 </div>
     </div>
+    
+    <div id="debtsModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Historial de Deudas de {{ $affiliate->getFullNamePrintTotal() }}</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-hover" id="debts-table" width="100%">
+                        <thead>
+                            <tr class="success">
+                                {{-- <th>Tipo de Observación</th> --}}
+                                <th>Nro. de Trámite</th>
+                                <th>Prestamos</th>
+                                <th>Rep. de Fondos</th>
+                                <th>Cuentas por Cobrar</th>
+                                {{-- <th>Saldo</th> --}}
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                
+                            </tr>
+                        </tfoot>
+                    </table>
+                    GOLLALLLAL
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="recordEcoModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -3355,6 +3406,50 @@ $(document).ready(function() {
                     $('#category').val(data.id);
                 }
             });
+        });
+    });
+    $(document).ready(function() {
+        $('#debts-table').DataTable({
+            "dom": '<"top">t<"bottom"p>',
+            // "order": [[ 0, "desc" ]],
+            processing: true,
+            serverSide: true,
+            pageLength: 12,
+            bFilter: false,
+            ajax: {
+                url: '{!! route('get_debts_record') !!}',
+                data: function (d) {
+                    d.id = {{ $affiliate->id }};
+                }
+            },
+            columns: [
+                // { data: 'observation_type', bSortable: false },
+                { data: 'code', bSortable: false },
+                { data: 'amount_loan', bSortable: false },
+                { data: 'amount_replacement', bSortable: false },
+                { data: 'amount_accounting', bSortable: false },
+                // { data: 'balance', bSortable: false },
+            ],
+            "footerCallback": function ( row, data, start, end, display ) {
+                var api = this.api(), data;
+                var intVal = function (i) {
+                    return typeof i === 'string' ? i.replace(/[\$,]/g, '')*1 : typeof i === 'number' ? i : 0;
+                };
+                var one = api.column(1).data().reduce( function (a, b) {
+                    return (intVal(a) + intVal(b)).toFixed(2);
+                }, 0 );
+                var two = api.column(2).data().reduce( function (a, b) {
+                    return (intVal(a) + intVal(b)).toFixed(2);
+                }, 0 );
+
+                var three = api.column(3).data().reduce( function (a, b) {
+                    return (intVal(a) + intVal(b)).toFixed(2);
+                }, 0 );
+                $(api.column(0).footer()).html('Total');
+                $(api.column(1).footer()).html(one);
+                $(api.column(2).footer()).html(two);
+                $(api.column(3).footer()).html(three);
+            },
         });
     });
 </script>

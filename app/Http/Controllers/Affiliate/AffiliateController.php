@@ -876,4 +876,31 @@ class AffiliateController extends Controller
         $data = array_merge($data, $second_data);
         return \PDF::loadView('affiliates.print.history', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017')->setOption('footer-right', 'Pagina [page] de [toPage]')->stream('affiliate_history.pdf');
     }
+    public function get_debts_record(Request $request)
+    {
+        $affiliate = Affiliate::where('id','=', $request->id)->first();
+
+
+        $loan = $affiliate->economic_complements()->sum('amount_loan');
+        $replacement = $affiliate->economic_complements()->sum('amount_replacement');
+        $accounting = $affiliate->economic_complements()->sum('amount_accounting');
+
+        // $debts = $affiliate->debts()->orderBy('created_at')->get( );
+        $economic_complements = $affiliate->economic_complements()->select('id', 'code','amount_loan', 'amount_replacement', 'amount_accounting');
+        
+        return Datatables::of($economic_complements)
+            ->editColumn('amount_loan',function ($economic_complement)
+            {
+                return $economic_complement->amount_loan;
+            })
+            ->editColumn('amount_replacement',function ($economic_complement)
+            {
+                return $economic_complement->amount_replacement;
+            })
+            ->editColumn('amount_accounting',function ($economic_complement)
+            {
+                return $economic_complement->amount_accounting;
+            })
+            ->make(true);
+    }
 }
