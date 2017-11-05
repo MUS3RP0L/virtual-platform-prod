@@ -70,31 +70,47 @@
             @endforeach
         @endcan
         @can('eco_com_reception')
-            @if($has_current_eco_com=="edit")
+            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento  Económico" style="margin: 0;">
+                <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
+                <ul class="dropdown-menu">
+                    @if($has_first_eco_com == 'edit')
+                    <li  data-toggle="tooltip" data-placement="left" title="1er Semestre"><a href="{!! url('economic_complement/'.$first_economic_complement->id) !!}" class="text-center">&nbsp;&nbsp;<i class="fa fa-eye"></i>Ver 1er Semestre&nbsp;&nbsp;</a></li>
+                    @else
+                        <li><a href="{!! url('economic_complement_reception_first_step/' . $affiliate->id) !!}"  class="text-center">&nbsp;&nbsp;<i class="glyphicon glyphicon-plus"></i>Crear 1er Semestre&nbsp;&nbsp;</a></li>
+                    @endif
+                    <li role="separator" class="divider"></li>
+                    @if($has_second_eco_com == 'edit')
+                    <li  data-toggle="tooltip" data-placement="left" title="2do Semestre"><a href="{!! url('economic_complement/'.$second_economic_complement->id) !!}" class="text-center">&nbsp;&nbsp;<i class="fa fa-eye"></i>Ver 2er Semestre&nbsp;&nbsp;</a></li>
+                    @else
+                        <li><a href="{!! url('economic_complement_reception_first_step/' . $affiliate->id.'/second') !!}"  class="text-center">&nbsp;&nbsp;<i class="glyphicon glyphicon-plus"></i>Crear 2do Semestre&nbsp;&nbsp;</a></li>
+                    @endif
+                </ul>
+            </div>
+            {{-- @if($has_first_eco_com=="edit")
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento  Económico" style="margin: 0;">
                     <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{!! url('economic_complement/'.$current_economic_complement->id) !!}" class="text-center"><i class="fa fa-eye"></i>Ver</a></li>
+                        <li  data-toggle="tooltip" data-placement="left" title="1er Semestre"><a href="{!! url('economic_complement/'.$eco_com_current_procedure_first->id) !!}" class="text-center"><i class="fa fa-eye"></i>Ver 1er Semestre</a></li>
                     </ul>
                 </div>
             @endif
-            @if($has_current_eco_com=="create")
+            @if($has_second_eco_com=="create")
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento  Económico" style="margin: 0;">
                     <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
                     <ul class="dropdown-menu">
                         <li><a href="{!! url('economic_complement_reception_first_step/' . $affiliate->id) !!}"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                     </ul>
                 </div>
-            @endif
+            @endif --}}
         @endcan
-        @can('manage')
+        {{-- @can('manage')
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Cuota Auxilio" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-heartbeat fa-lg"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="#"  class="text-center"><i class="glyphicon glyphicon-plus"></i>Crear</a></li>
                 </ul>
             </div>
-        @endcan
+        @endcan --}}
             <!-- button of Observations -->
             @can('eco_com_review_and_reception')
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">

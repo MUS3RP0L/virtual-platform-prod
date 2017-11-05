@@ -102,6 +102,11 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('economic_complement_reception_first_step/{affiliate_id}','EconomicComplement\EconomicComplementController@ReceptionFirstStep');
 	Route::get('economic_complement_reception_second_step/{economic_complement_id}','EconomicComplement\EconomicComplementController@ReceptionSecondStep');
 	Route::get('economic_complement_reception_third_step/{economic_complement_id}','EconomicComplement\EconomicComplementController@ReceptionThirdStep');
+	//second semester
+	Route::get('economic_complement_reception_first_step/{affiliate_id}/second','EconomicComplement\EconomicComplementController@ReceptionFirstStepSecond');
+	Route::get('economic_complement_reception_second_step/{economic_complement_id}/second','EconomicComplement\EconomicComplementController@ReceptionSecondStepSecond');
+	Route::get('economic_complement_reception_third_step/{economic_complement_id}/second','EconomicComplement\EconomicComplementController@ReceptionThirdStepSecond');
+	
 	Route::get('get_economic_complement', array('as'=>'get_economic_complement', 'uses'=>'EconomicComplement\EconomicComplementController@Data'));
 	Route::get('get_economic_complement_by_affiliate', array('as'=>'get_economic_complement_by_affiliate', 'uses'=>'EconomicComplement\EconomicComplementController@Data_by_affiliate'));
 	Route::get('get_economic_complement_type/{id}', array('as'=>'get_economic_complement_type', 'uses'=>'EconomicComplement\EconomicComplementController@getEconomicComplementType'));

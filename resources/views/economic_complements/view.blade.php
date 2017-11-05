@@ -60,7 +60,12 @@
         @endif
         @can("eco_com_review_and_reception")
         <div class="btn-group">
-            <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm btn-raised btn-lg bg-orange"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar Tramite"><i aria-hidden="true" class="fa fa-refresh"></i></a>
+            @if($economic_complement->semester == 'Primer')
+                <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm btn-raised btn-lg bg-orange"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar Tramite"><i aria-hidden="true" class="fa fa-refresh"></i></a>
+            @else
+                <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id.'/second') !!}" class="btn btn-sm btn-raised btn-lg bg-orange"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar Tramite"><i aria-hidden="true" class="fa fa-refresh"></i></a>
+            @endif
+
         </div>
         @endcan
        
@@ -2705,7 +2710,6 @@
                             </tr>
                         </tfoot>
                     </table>
-                    GOLLALLLAL
                 </div>
             </div>
         </div>

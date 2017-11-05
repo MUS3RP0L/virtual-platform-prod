@@ -276,18 +276,32 @@ class AffiliateController extends Controller
         }
 
         $year = Util::getYear(Carbon::now());
-        $semester = Util::getCurrentSemester();
-        $eco_com_current_procedure = EconomicComplementProcedure::whereYear('year', '=',$year)
-        ->where('semester',$semester)
+        // $semester = Util::getCurrentSemester();
+        $semester = Util::getOriginalSemester();
+        $eco_com_current_procedure_first = EconomicComplementProcedure::whereYear('year', '=',$year)
+        ->where('semester','Primer')
         ->first();
-        if ($eco_com_current_procedure) {
-            $current_economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)
-            ->where('eco_com_procedure_id', $eco_com_current_procedure->id)
+        $eco_com_current_procedure_second = EconomicComplementProcedure::whereYear('year', '=',$year)
+        ->where('semester','Segundo')
+        ->first();
+        if ($eco_com_current_procedure_first) {
+            $first_economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)
+            ->where('eco_com_procedure_id', $eco_com_current_procedure_first->id)
             ->first();
-            $has_current_eco_com = $current_economic_complement ? "edit" : "create";
+            $has_first_eco_com = $first_economic_complement ? "edit" : "create";
+
         } else {
-            $current_economic_complement='';
-            $has_current_eco_com = "disabled";
+            $eco_com_current_procedure_first='';
+            $has_first_eco_com = "disabled";
+        }
+        if ($eco_com_current_procedure_second) {
+            $second_economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)
+            ->where('eco_com_procedure_id', $eco_com_current_procedure_second->id)
+            ->first();
+            $has_second_eco_com = $second_economic_complement ? "edit" : "create";
+        }else{
+            $eco_com_current_procedure_secondd='';
+            $has_second_eco_com = "disabled";
         }
 
         $affi_observations = AffiliateObservation::where('affiliate_id',$affiliate->id)->first();
@@ -336,8 +350,10 @@ class AffiliateController extends Controller
             'gender_list_s' => $gender_list_s,
             'info_address' => $info_address,
             'info_spouse' => $info_spouse,
-            'current_economic_complement' => $current_economic_complement,
-            'has_current_eco_com' => $has_current_eco_com,
+            'first_economic_complement' => $first_economic_complement,
+            'second_economic_complement' => $second_economic_complement,
+            'has_first_eco_com' => $has_first_eco_com,
+            'has_second_eco_com' => $has_second_eco_com,
             'last_ecocom' => $last_ecocom,
             'eco_com_submitted_documents' => $eco_com_submitted_documents,
             'status_documents' => $status_documents,

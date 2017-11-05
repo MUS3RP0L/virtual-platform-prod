@@ -84,7 +84,7 @@
                                 <div class="form-group">
                                     {!! Form::label('semester', 'Semestre:', ['class' => 'col-md-4 control-label']) !!}
                                     <div class="col-md-8">
-                                        {!! Form::select('semester',  ['Primer'=>'Primer', 'Segundo'=>'Segundo'], $economic_complement->semester ?? 'Segundo' , ['class' => 'form-control combobox', 'required' ]) !!}
+                                        {!! Form::select('semester',  ['Primer'=>'Primer', 'Segundo'=>'Segundo'], $economic_complement->semester ?? null , ['class' => 'form-control combobox', 'required' ]) !!}
                                         <span class="help-block">Seleccione el semestre</span>
                                     </div>
                                 </div>
