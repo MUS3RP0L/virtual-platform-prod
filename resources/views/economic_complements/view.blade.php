@@ -903,14 +903,16 @@
                                 <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Requisito</th>
                                             <th>Fecha de Presentación</th>
                                             <th class="text-center">Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($eco_com_submitted_documents as $item)
+                                        @foreach ($eco_com_submitted_documents as $index => $item)
                                             <tr>
+                                                <td>{!! $index+1 !!}</td>
                                                 <td>{!! $item->economic_complement_requirement->shortened !!}</td>
                                                 <td>{!! Util::getDateShort($item->reception_date) !!}</td>
                                                 <td>
@@ -1431,14 +1433,16 @@
                                 <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Nombre de Requisito</th>
                                             <th>Fecha</th>
                                             <th class="text-center">Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($eco_com_submitted_documents_ar as $item)
+                                        @foreach ($eco_com_submitted_documents_ar as $index => $item)
                                             <tr>
+                                                <td>{!! $index+1 !!}</td>
                                                 <td>{!! $item->economic_complement_requirement->shortened !!}</td>
                                                 <td>{!! Util::getDateShort($item->reception_date) !!}</td>
                                                 <td>
@@ -2354,12 +2358,14 @@
                                 <table class="table table-bordered table-hover" style="font-size: 16px">
                                     <thead>
                                         <tr class="success">
+                                            <th class="text-center">#</th>
                                             <th class="text-center">Requisitos</th>
                                             <th class="text-center">Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody data-bind="foreach: requirements">
                                         <tr>
+                                            <td data-bind='text: $index()+1'></td>
                                             <td data-bind='text: name'></td>
                                             <td>
                                                 <div class="row text-center">
@@ -2408,12 +2414,14 @@
                                 <table class="table table-bordered table-hover" style="font-size: 16px">
                                     <thead>
                                         <tr class="success">
+                                            <th class="text-center">#</th>
                                             <th class="text-center">Requisitos</th>
                                             <th class="text-center">Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody data-bind="foreach: requirements_ar">
                                         <tr>
+                                            <td data-bind='text: $index()+1'></td>
                                             <td data-bind='text: name'></td>
                                             <td>
                                                 <div class="row text-center">
