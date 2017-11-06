@@ -148,7 +148,7 @@
                                 <div class="form-group">
                                             {!! Form::label('city_birth_id', 'Lugar de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('city_birth_id', $cities_list, $affiliate->city_birth_id, ['class' => 'combobox form-control']) !!}
+                                        {!! Form::select('city_birth_id', $cities_list, $affiliate->city_birth_id, ['class' => 'combobox form-control', 'required']) !!}
                                         <span class="help-block">Seleccione Departamento</span>
                                     </div>
                                 </div>
