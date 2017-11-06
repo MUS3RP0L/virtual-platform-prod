@@ -84,7 +84,7 @@
                                         <span class="help-block">Escriba el Apellido Materno</span>
                                     </div>
                                 </div>
-                                @if ($eco_com_applicant->gender == 'F')
+                                
                                     <div class="form-group">
                                             {!! Form::label('surname_husband', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-6">
@@ -92,7 +92,7 @@
                                             <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
                                         </div>
                                     </div>
-                                @endif
+                                
                                 <div class="form-group">
                                         {!! Form::label('first_name', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
