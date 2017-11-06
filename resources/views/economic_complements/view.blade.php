@@ -2739,7 +2739,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="statusDocumentsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    {{-- <div class="modal fade" id="statusDocumentsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -2784,7 +2784,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="modal fade" id="myModal-review-user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -2956,7 +2956,7 @@
 //for modal of status submitted documents
 $(document).ready(function() {
    @if($status_eco_com_submitted_documents_ar)
-        $('#statusDocumentsModal').modal('show');
+        // $('#statusDocumentsModal').modal('show');
    @endif
 });
 
