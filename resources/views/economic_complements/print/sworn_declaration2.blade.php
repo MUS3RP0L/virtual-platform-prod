@@ -82,7 +82,7 @@
     </tr>
     <tr>
       <td>4</td>
-      <td style="text-align:justify;">No tengo sentencia condenatoria ejecutoriada por delitos cometidos contra la MUSEPOL y/o MUSERPOL.</td>
+      <td style="text-align:justify;">Mi causahabiente y mi persona no tienen sentencia condenatoria ejecutoriada por delitos cometidos contra la MUSEPOL y/o MUSERPOL.</td>
     </tr>
     <tr>
       <td>5</td>
