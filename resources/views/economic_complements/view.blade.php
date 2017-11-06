@@ -24,31 +24,35 @@
          @if( $economic_complement->reception_type == 'Inclusion' )
 
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Declaración Jurada" style="margin:0px;">
-                <a href="" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
-                    &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                </a>
+                @if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
+                    <a href="" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printJS({printable:'{!! url('print_sworn_declaration/' . $economic_complement->id . '/viudedad') !!}', type:'pdf', showModal:true})">
+                        &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                    </a> 
+                @else
+                    <a href="" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printJS({printable:'{!! url('print_sworn_declaration/' . $economic_complement->id . '/vejez') !!}', type:'pdf', showModal:true})">
+                        &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                    </a> 
+                @endif
             </div>
         @endif
             @if($economic_complement->reception_type == "Inclusion")
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción Inclusiones" style="margin:0px;">
-                    <a href="" class="btn btn-sm btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReportInclusion');" >
-                        &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                    </a>
+                    <a href="#" class="btn btn-sm btn-raised btn-info dropdown-toggle enabled" onclick="printJS({printable:'{!! url('print_eco_com_reports/' . $economic_complement->id . '/inclusion') !!}', type:'pdf', showModal:true})">&nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;</a>
                 </div>
             @endif
             @if($economic_complement->reception_type == "Habitual")
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción Habituales" style="margin:0px;">
-                    <a href="" class="btn btn-sm btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReportHabitual');" >
-                        &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                    </a>
+                    <a href="#" class="btn btn-sm btn-raised btn-info dropdown-toggle enabled" onclick="printJS({printable:'{!! url("print_eco_com_reports/".$economic_complement->id."/habitual") !!}', type:'pdf', showModal:true})">&nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;</a>
                 </div>
             @endif
         @endcan
         
         @can('eco_com_qualification')
-            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir comprobante de respaldo" style="margin:0px;">
-                <a href="#" class="btn btn-sm btn-raised btn-success" onclick="printTrigger('iFramePdfBackrest');"><i class="fa fa-file"></i></a>
-            </div>
+            @if($economic_complement->total> 0)
+                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir comprobante de respaldo" style="margin:0px;">
+                    <a href="#" class="btn btn-sm btn-raised btn-success" onclick="printJS({printable:'{!! url('print_eco_com_backrest/' . $economic_complement->id) !!}', type:'pdf', showModal:true})"><i class="fa fa-file"></i></a>
+                </div>
+            @endif
         @endcan
         @if($has_amortization)
        
@@ -1462,18 +1466,18 @@
     </div>
 <!-- modals -->
     <div class="modal fade" tabindex="-1" >
-        @if($economic_complement->total> 0)
+        {{-- @if($economic_complement->total> 0)
             <iframe src="{!! url('print_eco_com_backrest/' . $economic_complement->id) !!}" id="iFramePdfBackrest"></iframe>
-        @endif
+        @endif --}}
 
-        @if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
+        {{-- @if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
             <iframe src="{!! url('print_sworn_declaration/' . $economic_complement->id . '/viudedad') !!}" id="iFramePdf"></iframe>
         @else
             <iframe src="{!! url('print_sworn_declaration/' . $economic_complement->id . '/vejez') !!}" id="iFramePdf"></iframe>
         @endif
 
         <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/inclusion') !!}" id="iFramePdfReportInclusion" ></iframe>
-        <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/habitual') !!}" id="iFramePdfReportHabitual" ></iframe>
+        <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/habitual') !!}" id="iFramePdfReportHabitual" ></iframe> --}}
     </div>
     <div id="myModal-personal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
