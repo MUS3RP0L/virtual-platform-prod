@@ -445,6 +445,7 @@ class EconomicComplementController extends Controller
             }
         }
         $reception_types =  array('Inclusion' => 'Inclusion', 'Habitual' => 'Habitual');
+        $semesters =  array('Primer' => 'Primer');
         $data = [
             'affiliate' => $affiliate,
             'eco_com_type' => $eco_com_type,
@@ -452,6 +453,8 @@ class EconomicComplementController extends Controller
             'economic_complement' => $economic_complement,
             'eco_com_modality_type_id' => $eco_com_modality_type_id,
             'reception_types' => $reception_types,
+            'semesters' => $semesters,
+            'last_complement' => $last_complement,
             'eco_com_reception_type' => $eco_com_reception_type
         ];
 
@@ -597,17 +600,12 @@ class EconomicComplementController extends Controller
         }else{
             $affiliate->type_ecocom = 'Inclusión';
         }
-        if (Util::getCurrentSemester() == 'Primer') {
-            $last_semester_first = 'Segundo';
-            $last_semester_second = 'Primer';
-            $last_year_first = Carbon::now()->year - 1;
-            $last_year_second = $last_year_first;
-        }else{
+
             $last_semester_first = 'Primer';
-            $last_semester_second = 'Segundo';
             $last_year_first = Carbon::now()->year ;
             $last_year_second = $last_year_first -1;
-        }
+            $last_semester_second = 'Segundo';
+        
         $eco_com_reception_type = 'Inclusion';
         $last_procedure_second = EconomicComplementProcedure::whereYear('year', '=', $last_year_second)->where('semester','like',$last_semester_second)->first();
         if (sizeof($last_procedure_second)>0) {
@@ -622,6 +620,7 @@ class EconomicComplementController extends Controller
             }
         }
         $reception_types =  array('Inclusion' => 'Inclusion', 'Habitual' => 'Habitual');
+        $semesters =  array('Segundo' => 'Segundo');
         $data = [
             'affiliate' => $affiliate,
             'eco_com_type' => $eco_com_type,
@@ -629,6 +628,8 @@ class EconomicComplementController extends Controller
             'economic_complement' => $economic_complement,
             'eco_com_modality_type_id' => $eco_com_modality_type_id,
             'reception_types' => $reception_types,
+            'semesters' => $semesters,
+            'last_complement' => $last_complement,
             'eco_com_reception_type' => $eco_com_reception_type
         ];
 
@@ -790,7 +791,11 @@ class EconomicComplementController extends Controller
                     $economic_complement->affiliate_id = $affiliate->id;
                     $economic_complement->eco_com_modality_id = $eco_com_modality->id;
                     $economic_complement->eco_com_procedure_id = $eco_com_pro->id;
-                    $economic_complement->workflow_id = 3;
+                    if ($request->semester == 'Primer') {                
+                        $economic_complement->workflow_id = 3;
+                    }else{
+                        $economic_complement->workflow_id = 1;
+                    }
                     $economic_complement->wf_current_state_id = $wf->id;
                     $economic_complement->eco_com_state_id = 16;
                     $economic_complement->city_id = trim($request->city);
@@ -2317,7 +2322,7 @@ class EconomicComplementController extends Controller
     }
     public function receptionType($affiliate_id, $new_modality_id)
     {
-        if (Util::getCurrentSemester() == 'Primer') {
+        if (Util::getOriginalSemester() == 'Primer') {
             $last_semester_first = 'Segundo';
             $last_semester_second = 'Primer';
             $last_year_first = Carbon::now()->year - 1;

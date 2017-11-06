@@ -84,7 +84,7 @@
                                 <div class="form-group">
                                     {!! Form::label('semester', 'Semestre:', ['class' => 'col-md-4 control-label']) !!}
                                     <div class="col-md-8">
-                                        {!! Form::select('semester',  ['Primer'=>'Primer', 'Segundo'=>'Segundo'], $economic_complement->semester ?? null , ['class' => 'form-control combobox', 'required' ]) !!}
+                                        {!! Form::select('semester',  $semesters, $economic_complement->semester ?? null , ['class' => 'form-control combobox', 'required' ]) !!}
                                         <span class="help-block">Seleccione el semestre</span>
                                     </div>
                                 </div>
@@ -104,35 +104,42 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
+                                @if($last_complement->aps_disability > 0)
+                                <div class="col-md-12">
+                                    <div class="callout callout-danger">
+                                        <strong>Concurrencia - Prestación por Invalidéz:</strong> {{ Util::formatMoney($last_complement->aps_disability) }}
+                                    </div>
+                                </div>
+                                @endif
                                 <div data-bind="visible: isApsVisible">
                                     
                                     <div class="form-group">
-                                        <div class="col-md-8 col-md-offset-3">
+                                        <div class="col-md-8">
                                             {!! Form::label('aps_total_fsa_label', 'Fracción de Saldo Acumulado', []) !!}
                                             <input type="number" step="0.01" name="aps_total_fsa" class="form-control" data-bind="value: fsa">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <div class="col-md-8 col-md-offset-3">
+                                        <div class="col-md-8">
                                             {!! Form::label('aps_total_cc_label', 'Fracción de Cotización', []) !!}
                                             <input type="number" step="0.01" name="aps_total_cc" class="form-control " data-bind="value: cc ,valueAllowUnset:0 ">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <div class="col-md-8 col-md-offset-3">
+                                        <div class="col-md-8">
                                             {!! Form::label('aps_total_fs_label', 'Fracción Solidario', []) !!}
                                             <input type="number"  step="0.01" name="aps_total_fs" class="form-control" data-bind="value: fs">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                         <div class="col-md-8 col-md-offset-3">
+                                         <div class="col-md-8">
                                          <strong data-bind="text: total"> </strong>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                         <div class="col-md-8 col-md-offset-3">
+                                         <div class="col-md-8">
 
                                             
                                             

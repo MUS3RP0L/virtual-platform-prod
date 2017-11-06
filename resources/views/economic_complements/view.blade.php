@@ -2387,7 +2387,7 @@
             </div>
         </div>
     </div>
-    @if($economic_complement->reception_type == 'Habitual')
+    @if($economic_complement->reception_type == 'Habitual' && $last_ecocom)
     <div id="myModal-requirements-ar" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
