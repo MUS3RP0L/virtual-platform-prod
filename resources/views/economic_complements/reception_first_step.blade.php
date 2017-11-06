@@ -106,11 +106,13 @@
                             </div>
                             <div class="col-md-4">
                                 @if(isset($last_complement->aps_disability))
-                                <div class="col-md-12">
-                                    <div class="callout callout-danger">
-                                        <strong>Concurrencia - Prestación por Invalidéz:</strong> {{ Util::formatMoney($last_complement->aps_disability) }}
+                                    @if($last_complement->aps_disability > 0)
+                                    <div class="col-md-12">
+                                        <div class="callout callout-danger">
+                                            <strong>Concurrencia - Prestación por Invalidéz:</strong> {{ Util::formatMoney($last_complement->aps_disability) }}
+                                        </div>
                                     </div>
-                                </div>
+                                    @endif
                                 @endif
                                 <div data-bind="visible: isApsVisible">
                                     
