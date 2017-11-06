@@ -130,7 +130,7 @@
 
                                     <div class="form-group">
 
-                                        <div class="col-md-8 col-md-offset-3">
+                                        <div class="col-md-8">
                                             {!! Form::label('aps_total_fs_label', 'Fracción Solidaria', []) !!}
 
                                             <input type="number"  step="0.01" name="aps_total_fs" class="form-control" data-bind="value: fs">
