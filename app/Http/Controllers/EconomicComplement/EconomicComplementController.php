@@ -454,6 +454,7 @@ class EconomicComplementController extends Controller
             'eco_com_modality_type_id' => $eco_com_modality_type_id,
             'reception_types' => $reception_types,
             'semesters' => $semesters,
+            'last_complement' => $last_complement,
             'eco_com_reception_type' => $eco_com_reception_type
         ];
 
@@ -628,6 +629,7 @@ class EconomicComplementController extends Controller
             'eco_com_modality_type_id' => $eco_com_modality_type_id,
             'reception_types' => $reception_types,
             'semesters' => $semesters,
+            'last_complement' => $last_complement,
             'eco_com_reception_type' => $eco_com_reception_type
         ];
 
