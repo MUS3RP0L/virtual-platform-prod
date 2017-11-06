@@ -70,7 +70,7 @@
   <table>
     <tr>
       <td>1</td>
-      <td style="text-align:justify;">No percibo una renta y/o pensión de jubilación por Riesgo Común y/o Profesional e Invalidez Común y/o Profesional o Muerte, por lo cual, la renta o pensión en curso de pago que percibo por parte de las Administradoras del Fondo de Pensiones (AFP’S), Aseguradoras o en su caso del SENASIR es una <strong>PRESTACIÓN POR VIUDEDAD DERIVADA DE VEJEZ DEL CAUSAHABIENTE</strong>, en aplicación del Artículo N° 17, Parágrafo I del Decreto Supremo N° 1446 de fecha 19 de diciembre de 2012.</td>
+      <td style="text-align:justify;">No percibo una pensión de jubilación por Riesgo Común y/o Profesional e Invalidez Común y/o Profesional o Muerte, por lo cual, la pensión en curso de pago que percibo por parte de las Administradoras del Fondo de Pensiones (AFP’S), Aseguradoras o del Sistema de Reparto corresponde a una <strong>PRESTACIÓN POR VIUDEDAD DERIVADA DE VEJEZ DEL CAUSAHABIENTE.</strong> Sin embargo, puedo acceder al beneficio cumpliendo lo establecido por el <strong>D.S. 3231 de 28 de junio de 2017, que modifica el Artículo Nº 17, Parágrafo I del Decreto Supremo Nº 1446 de 19 de diciembre de 2012.</strong></td>
     </tr>
     <tr>
       <td>2</td>
