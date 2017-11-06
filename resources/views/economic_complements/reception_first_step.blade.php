@@ -52,12 +52,15 @@
 
                                     <div class="radio radio-primary">
                                         <label style="font-size: 18px">
-                                            {!! Form::radio('eco_com_type', '1', ($eco_com_modality_type_id == '1'), ['required' => 'required', (($eco_com_modality_type_id == 2 || $eco_com_modality_type_id == 3) ? 'disabled':'' )]) !!} Vejez
+                                            {!! Form::radio('eco_com_type', '1', ($eco_com_modality_type_id == '1'), ['required' => 'required']) !!} Vejez
+                                            {{-- {!! Form::radio('eco_com_type', '1', ($eco_com_modality_type_id == '1'), ['required' => 'required', (($eco_com_modality_type_id == 2 || $eco_com_modality_type_id == 3) ? 'disabled':'' )]) !!} Vejez --}}
+                                            
                                         </label>
                                     </div><br>
                                     <div class="radio radio-primary">
                                         <label style="font-size: 18px">
-                                            {!! Form::radio('eco_com_type', '2', ($eco_com_modality_type_id == '2'), [($eco_com_modality_type_id == 3) ? 'disabled':'' ]) !!} Viudedad
+                                            {!! Form::radio('eco_com_type', '2', ($eco_com_modality_type_id == '2'), []) !!} Viudedad
+                                            {{-- {!! Form::radio('eco_com_type', '2', ($eco_com_modality_type_id == '2'), [($eco_com_modality_type_id == 3) ? 'disabled':'' ]) !!} Viudedad --}}
                                         </label>
                                     </div><br>
                                     <div class="radio radio-primary">
