@@ -102,7 +102,7 @@
                                 <div class="form-group">
                                     {!! Form::label('reception_type', 'Tipo de Recepción', ['class' => 'col-md-4 control-label']) !!}
                                     <div class="col-md-8">
-                                        {!! Form::select('reception_type',  $reception_types, $economic_complement->reception_type ?? $eco_com_reception_type , ['class' => 'form-control', 'required', 'id'=>'reception_type' ]) !!}
+                                        {!! Form::select('reception_type',  $reception_types, $economic_complement->reception_type ?? $eco_com_reception_type , ['class' => 'combobox form-control', 'required', 'id'=>'reception_type' ]) !!}
                                         <span class="help-block">Seleccione el tipo de recepción</span>
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@
                                 <div class="form-group">
                                     {!! Form::label('city', 'Ciudad', ['class' => 'col-md-4 control-label']) !!}
                                     <div class="col-md-8">
-                                        {!! Form::select('city', $cities_list, $economic_complement->city_id, ['class' => 'combobox form-control', 'required' ]) !!}
+                                        {!! Form::select('city', $cities_list, $economic_complement->city_id ?? $last_complement->city_id ?? null, ['class' => 'combobox form-control', 'required' ]) !!}
                                         <span class="help-block">Seleccione el departamento</span>
                                     </div>
                                 </div>
