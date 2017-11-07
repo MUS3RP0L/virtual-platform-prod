@@ -49,7 +49,7 @@
                         <div class="row">
                             <div class="col-md-3 col-md-offset-1">
                                 <div class="form-group">
-
+                                    @if($eco_com_modality_type_id)
                                     <div class="radio radio-primary">
                                         <label style="font-size: 18px">
                                             {!! Form::radio('eco_com_type', '1', ($eco_com_modality_type_id == '1'), ['required' => 'required']) !!} Vejez
@@ -67,7 +67,29 @@
                                         <label style="font-size: 18px">
                                             {!! Form::radio('eco_com_type', '3', ($eco_com_modality_type_id == '3'))  !!} Orfandad
                                         </label>
-                                    </div><br>
+                                    </div>
+                                    @else
+                                        <div class="radio radio-primary">
+                                            <label style="font-size: 18px">
+                                                {!! Form::radio('eco_com_type', '1', (($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == '1'), ['required' => 'required']) !!} Vejez
+                                                {{-- {!! Form::radio('eco_com_type', '1', ($last_complement->economic_complement_modality->economic_complement_type->id == '1'), ['required' => 'required', (($last_complement->economic_complement_modality->economic_complement_type->id == 2 || $last_complement->economic_complement_modality->economic_complement_type->id == 3) ? 'disabled':'' )]) !!} Vejez --}}
+                                                
+                                            </label>
+                                        </div><br>
+                                        <div class="radio radio-primary">
+                                            <label style="font-size: 18px">
+                                                {!! Form::radio('eco_com_type', '2', (($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == '2'), []) !!} Viudedad
+                                                {{-- {!! Form::radio('eco_com_type', '2', ($last_complement->economic_complement_modality->economic_complement_type->id == '2'), [($last_complement->economic_complement_modality->economic_complement_type->id == 3) ? 'disabled':'' ]) !!} Viudedad --}}
+                                            </label>
+                                        </div><br>
+                                        <div class="radio radio-primary">
+                                            <label style="font-size: 18px">
+                                                {!! Form::radio('eco_com_type', '3', (($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == '3'))  !!} Orfandad
+                                            </label>
+                                        </div>
+                                    @endif
+
+                                    <br>
                                     <hr>
                                     <div class="checkbox">
                                             <label>
