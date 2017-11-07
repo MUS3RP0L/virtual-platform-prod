@@ -129,7 +129,7 @@
                                 <div class="form-group">
                                     {!! Form::label('gender', 'Género', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('gender', ['M'=>'Masculino','F'=>'Femenino'] ,null, ['class' => 'combobox form-control','required']) !!}
+                                        {!! Form::select('gender', ['M'=>'Masculino','F'=>'Femenino'] ,'F', ['class' => 'combobox form-control','required']) !!}
                                         <span class="help-block">Seleccione Género</span>
                                     </div>
                                 </div>
