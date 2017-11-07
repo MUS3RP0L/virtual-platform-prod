@@ -2224,6 +2224,8 @@ class EconomicComplementController extends Controller
       $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
       $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
       $date = Util::getDateEdit(date('Y-m-d'));
+      setlocale(LC_ALL, "es_ES.UTF-8");
+      $date = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
       $current_date = Carbon::now();
       $user = Auth::user();
       $user_role = Util::getRol()->name;

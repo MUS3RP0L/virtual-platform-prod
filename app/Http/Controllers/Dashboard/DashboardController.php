@@ -54,9 +54,11 @@ class DashboardController extends Controller
 	public function showIndex()
 	{
 		//get last economonomic complement and last year
-		$last_economic_complement=EconomicComplementProcedure::whereyear('year','=',Carbon::now()->year)->where('semester','like',Util::getCurrentSemester())->first()->economic_complements->last();
+		$current_eco_com_procedure=EconomicComplementProcedure::whereyear('year','=',Carbon::now()->year)->where('semester','like',Util::getOriginalSemester())->first();
+
+		$last_economic_complement=$current_eco_com_procedure->economic_complements->last();
 		$last_year=Carbon::parse($last_economic_complement->year)->year;
-		
+
 		/*	$AfiServ = DB::table('affiliates')
 										->select(DB::raw('count(*) as totalafis'))
 										->where('affiliates.affiliate_state_id', '=', 1)
@@ -273,7 +275,7 @@ class DashboardController extends Controller
 	   	 $revisados=EconomicComplement::where('economic_complements.workflow_id','<=','3')
             ->whereIn('economic_complements.wf_current_state_id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14])//
             ->where('economic_complements.state','Edited')
-            ->where('economic_complements.eco_com_procedure_id','2')
+            ->where('economic_complements.eco_com_procedure_id',$current_eco_com_procedure->id)
            // ->whereNotNull('review_date')
             //->where('created_at','<=','2017-08-25 23:59')
             // ->where('economic_complements.user_id',Auth::user()->id)
@@ -286,7 +288,7 @@ class DashboardController extends Controller
              $semestre = DB::table('eco_com_procedures')->orderBy('id','DESC')->first();
 
            $norevisados = EconomicComplement::where('economic_complements.workflow_id','<=','3')
-           ->where('eco_com_procedure_id','=','2')
+           ->where('eco_com_procedure_id','=',$current_eco_com_procedure->id)
            ->whereIn('economic_complements.wf_current_state_id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14])//
            ->where('economic_complements.state','Received')
            // ->where('created_at','<=','2017-08-25 23:59')
@@ -309,7 +311,7 @@ class DashboardController extends Controller
             ->leftjoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
             ->leftjoin('wf_states', 'economic_complements.wf_current_state_id',  '=', 'wf_states.id')
             ->select(DB::raw("sum(case when economic_complements.state = 'Edited' then 1 else 0 end) as edited,  sum(case when economic_complements.state  = 'Received' then 1 else 0 end) as received, wf_states.name"))
-            ->where( 'eco_com_procedures.id', '=', 2)
+            ->where( 'eco_com_procedures.id', '=', $current_eco_com_procedure->id)
             ->groupBy('wf_states.name')
             ->get();
             foreach ($wf_states_bars as $item) {
@@ -326,7 +328,7 @@ class DashboardController extends Controller
             ->leftjoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
             ->leftjoin('eco_com_state_types', 'eco_com_states.eco_com_state_type_id', '=', 'eco_com_state_types.id')
             ->select(DB::raw("count(*) as quantity, eco_com_state_types.name"))
-            ->where( 'eco_com_procedures.id', '=', 2)
+            ->where( 'eco_com_procedures.id', '=', $current_eco_com_procedure->id)
             ->groupBy('eco_com_state_types.name')
             ->get();
             foreach ($eco_com_states_pie as $item) {
@@ -342,7 +344,8 @@ class DashboardController extends Controller
             ->leftjoin('affiliate_observations', 'affiliates.id', '=', 'affiliate_observations.affiliate_id')
             ->leftjoin('observation_types', 'affiliate_observations.observation_type_id', '=', 'observation_types.id')
             ->leftjoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
-            ->where('eco_com_procedures.id', '=', 2)
+             ->where('eco_com_procedures.year', '=', Util::datePickYear($last_year))
+
             // ->where('affiliate_observations.is_enabled', '=', false)
             ->select(DB::raw("count(*) as quantity, observation_types.name"))
             ->groupBy('observation_types.name')
@@ -363,7 +366,7 @@ class DashboardController extends Controller
             ->leftjoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
             ->leftjoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
             ->leftjoin('pension_entities',  'affiliates.pension_entity_id', '=', 'pension_entities.id')
-            ->where('eco_com_procedures.id', '=', 2)
+            ->where('eco_com_procedures.id', '=', $current_eco_com_procedure->id)
             ->select(DB::raw("count(*) as quantity, pension_entities.type"))
             ->groupBy('pension_entities.type')
             ->get();
@@ -372,7 +375,6 @@ class DashboardController extends Controller
             	$pension_entities_pie_datas[]= $item->quantity;
             }
             $pension_entities_pie= array($pension_entities_pie_labels, $pension_entities_pie_datas);
-
 		$data = [
 			/*'activities' => $activities,
 			'totalAfiServ' => $totalAfiServ,

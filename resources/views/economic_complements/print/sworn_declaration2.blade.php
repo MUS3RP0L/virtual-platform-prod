@@ -102,7 +102,7 @@
       <td style="text-align:justify;">De presentarse una tercera persona que acredite igual o mayor derecho para acceder al Beneficio del Complemento Económico por mi causahabiente, estoy de acuerdo en que la Mutual de Servicios al Policía no se hace responsable por la suspensión del mencionado Beneficio y estoy de acuerdo a realizar devolución de montos cobrados.</td>
     </tr>
   </table>
-  <p align="justify">En mérito de los datos registrados en forma precedente, el interesado aprueba y ratifica su tenor de manera íntegra, quien en señal de conformidad en forma expresa y voluntaria firma el presente documento en la ciudad de La Paz, {!! $date !!}.</p>
+  <p align="justify">En mérito de los datos registrados en forma precedente, el interesado aprueba y ratifica su tenor de manera íntegra, quien en señal de conformidad en forma expresa y voluntaria firma el presente documento en la ciudad de {!! $user->city->name ?? 'La Paz' !!}, {!! $date !!}.</p>
   <table>
             
           <tr>

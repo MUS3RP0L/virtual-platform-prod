@@ -69,7 +69,7 @@
       <td style="text-align:justify">Estoy de acuerdo en proceder con la devolución de montos cobrados indebidamente en caso de producirse alguna inconsistencia a causa del contenido de la documentación presentada, información proporcionada por entidades externas, error del sistema u otros que se presenten.</td>
     </tr>
   </table>
-<p align="justify">En mérito de los datos registrados en forma precedente, el interesado aprueba y ratifica su tenor de manera íntegra, quien en señal de conformidad en forma expresa y voluntaria firma el presente documento en la ciudad de La Paz, {!! $date !!}.</p>
+<p align="justify">En mérito de los datos registrados en forma precedente, el interesado aprueba y ratifica su tenor de manera íntegra, quien en señal de conformidad en forma expresa y voluntaria firma el presente documento en la ciudad de {{ $user->city->name ?? 'La Paz' }}, {!! $date !!}.</p>
 <br>
 <table>
             
