@@ -427,6 +427,10 @@ class Affiliate extends Model
             return $lastAporte->gest;
         }
     }
+    public function debts()
+    {
+        return $this->hasOne(Debt::class);
+    }
     public function get_eco_com_reception_type()
     {
         $affiliate_id=$this->id;

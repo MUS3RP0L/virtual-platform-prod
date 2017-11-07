@@ -25,6 +25,7 @@
                             <th>Ciudad</th>
                             <th>Modalidad</th>
                             <th>Tipo de Recepción</th>
+                            <th>Flujo</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,7 +38,8 @@
                             <td>{!! $economic_complement->semester !!}</td>
                             <td>{!! $economic_complement->city ? $economic_complement->city->name : '-' !!}</td>
                             <td>{!! $eco_com_type . " - " . $eco_com_modality !!}</td>
-                            <td>{{ $economic_complement->reception_type ?? '-'  }}</td>
+                            <td>{!! $economic_complement->reception_type ?? '-' !!}</td>
+                            <td>{!! $economic_complement->workflow->name ?? '-' !!}</td>
                         </tr>
                     </tbody>
                 </table>

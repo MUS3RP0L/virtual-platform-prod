@@ -52,12 +52,15 @@
 
                                     <div class="radio radio-primary">
                                         <label style="font-size: 18px">
-                                            {!! Form::radio('eco_com_type', '1', ($eco_com_modality_type_id == '1'), ['required' => 'required', (($eco_com_modality_type_id == 2 || $eco_com_modality_type_id == 3) ? 'disabled':'' )]) !!} Vejez
+                                            {!! Form::radio('eco_com_type', '1', ($eco_com_modality_type_id == '1'), ['required' => 'required']) !!} Vejez
+                                            {{-- {!! Form::radio('eco_com_type', '1', ($eco_com_modality_type_id == '1'), ['required' => 'required', (($eco_com_modality_type_id == 2 || $eco_com_modality_type_id == 3) ? 'disabled':'' )]) !!} Vejez --}}
+                                            
                                         </label>
                                     </div><br>
                                     <div class="radio radio-primary">
                                         <label style="font-size: 18px">
-                                            {!! Form::radio('eco_com_type', '2', ($eco_com_modality_type_id == '2'), [($eco_com_modality_type_id == 3) ? 'disabled':'' ]) !!} Viudedad
+                                            {!! Form::radio('eco_com_type', '2', ($eco_com_modality_type_id == '2'), []) !!} Viudedad
+                                            {{-- {!! Form::radio('eco_com_type', '2', ($eco_com_modality_type_id == '2'), [($eco_com_modality_type_id == 3) ? 'disabled':'' ]) !!} Viudedad --}}
                                         </label>
                                     </div><br>
                                     <div class="radio radio-primary">
@@ -84,14 +87,15 @@
                                 <div class="form-group">
                                     {!! Form::label('semester', 'Semestre:', ['class' => 'col-md-4 control-label']) !!}
                                     <div class="col-md-8">
-                                        {!! Form::select('semester',  ['Primer'=>'Primer', 'Segundo'=>'Segundo'], $economic_complement->semester ?? 'Segundo' , ['class' => 'form-control combobox', 'required' ]) !!}
+                                        {!! Form::select('semester',  $semesters, $economic_complement->semester ?? null , ['class' => 'form-control combobox', 'required' ]) !!}
                                         <span class="help-block">Seleccione el semestre</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     {!! Form::label('pension_entity', 'Ente Gestor', ['class' => 'col-md-4 control-label']) !!}
                                     <div class="col-md-8">
-                                        {!! Form::select('pension_entity', $pension_entities_list, $affiliate->pension_entity_id, ['class' => 'combobox form-control', 'required' ]) !!}
+
+                                        {!! Form::select('pension_entity', $pension_entities_list, $affiliate->pension_entity_id, ['class' => 'combobox form-control', 'required' , 'data-bind' => 'value: enteSelected' ]) !!}
                                         <span class="help-block">Seleccione el ente gestor</span>
                                     </div>
                                 </div>
@@ -104,39 +108,53 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                
-                                <div class="form-group">
-                                    <div class="col-md-8 col-md-offset-3">
-                                        {!! Form::label('aps_total_cc_label', 'Fracción Cotizacion', []) !!}
-                                        <input type="number" name="aps_total_cc" class="form-control " data-bind="value: cc ,valueAllowUnset:0 ">
+                                @if(isset($last_complement->aps_disability))
+                                    @if($last_complement->aps_disability > 0)
+                                    <div class="col-md-12">
+                                        <div class="callout callout-danger">
+                                            <strong>Concurrencia - Prestación por Invalidéz:</strong> {{ Util::formatMoney($last_complement->aps_disability) }}
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-8 col-md-offset-3">
-                                        {!! Form::label('aps_total_fsa_label', 'Fracción Solidario Acumulado', []) !!}
-                                        <input type="number" name="aps_total_fsa" class="form-control" data-bind="value: fsa">
+                                    @endif
+                                @endif
+                                <div data-bind="visible: isApsVisible">
+                                    
+                                    <div class="form-group">
+                                        <div class="col-md-8">
+                                            {!! Form::label('aps_total_fsa_label', 'Fracción de Saldo Acumulado', []) !!}
+                                            <input type="number" step="0.01" name="aps_total_fsa" class="form-control" data-bind="value: fsa">
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <div class="col-md-8 col-md-offset-3">
-                                        {!! Form::label('aps_total_fs_label', 'Fracción Solidario', []) !!}
-                                        <input type="number" name="aps_total_fs" class="form-control" data-bind="value: fs">
+                                    <div class="form-group">
+                                        <div class="col-md-8">
+                                            {!! Form::label('aps_total_cc_label', 'Fracción de Cotización', []) !!}
+                                            <input type="number" step="0.01" name="aps_total_cc" class="form-control " data-bind="value: cc ,valueAllowUnset:0 ">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                     <div class="col-md-8 col-md-offset-3">
-                                     <strong data-bind="text: total"> </strong>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                     <div class="col-md-8 col-md-offset-3">
 
-                                        
-                                        
-                                         <div class="callout callout-warning">
-                                            <strong>Renta Boleta: {{$economic_complement->total_rent}} </strong>
-                                         </div>
+                                    <div class="form-group">
+
+                                        <div class="col-md-8">
+                                            {!! Form::label('aps_total_fs_label', 'Fracción Solidaria', []) !!}
+
+                                            <input type="number"  step="0.01" name="aps_total_fs" class="form-control" data-bind="value: fs">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                         <div class="col-md-8">
+                                         <strong data-bind="text: total"> </strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                         <div class="col-md-8">
+
+                                            
+                                            
+                                             <div class="callout callout-warning">
+                                                <strong>Renta Boleta: {{$economic_complement->total_rent}} </strong>
+                                             </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -180,14 +198,29 @@
 
             function APS()
             {
+
                 self = this;
                 self.cc = ko.observable({{$economic_complement->aps_total_cc}});
                 self.fsa = ko.observable({{$economic_complement->aps_total_fsa}});
                 self.fs = ko.observable({{$economic_complement->aps_total_fs}});
 
-                console.log('cc= '+self.cc());
-                console.log('fsa= '+self.fsa());
-                console.log('fs= '+self.fs());
+                self.enteSelected = ko.observable({{$affiliate->pension_entity_id}});
+                self.isApsVisible = ko.observable(true);
+                self.enteSelected.subscribe(function(id_value){
+
+                    if(id_value == '5')
+                    {
+                        self.isApsVisible(false);
+                    }else{
+                        self.isApsVisible(true);
+                    }
+                    console.log("id "+id_value+" "+self.isApsVisible());
+                    
+
+                });
+                // console.log('cc= '+self.cc());
+                // console.log('fsa= '+self.fsa());
+                // console.log('fs= '+self.fs());
                 self.total = ko.computed(function(){
 
 

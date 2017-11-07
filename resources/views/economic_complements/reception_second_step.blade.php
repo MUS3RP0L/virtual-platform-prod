@@ -22,7 +22,11 @@
         <div class="col-md-12">
             <div class="form-group">
                 <ul class="nav nav-pills" style="display:flex;justify-content:center;">
+                    @if($economic_complement->semester == 'Primer')
                     <li><a href="{!! url('economic_complement_reception_first_step/' . $economic_complement->affiliate_id) !!}"><span class="badge">1</span> Tipo de Proceso</a></li>
+                    @else
+                    <li><a href="{!! url('economic_complement_reception_first_step/' . $economic_complement->affiliate_id.'/second') !!}"><span class="badge">1</span> Tipo de Proceso</a></li>
+                    @endif
                     <li class="active"><a href="#"><span class="badge">2</span> Beneficiario</a></li>
                     <li><a href="#"><span class="badge">3</span> Requisitos</a></li>
                 </ul>
@@ -80,7 +84,7 @@
                                         <span class="help-block">Escriba el Apellido Materno</span>
                                     </div>
                                 </div>
-                                @if ($eco_com_applicant->gender == 'F')
+                                
                                     <div class="form-group">
                                             {!! Form::label('surname_husband', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-6">
@@ -88,7 +92,7 @@
                                             <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
                                         </div>
                                     </div>
-                                @endif
+                                
                                 <div class="form-group">
                                         {!! Form::label('first_name', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
@@ -144,7 +148,7 @@
                                 <div class="form-group">
                                             {!! Form::label('city_birth_id', 'Lugar de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('city_birth_id', $cities_list, $affiliate->city_birth_id, ['class' => 'combobox form-control']) !!}
+                                        {!! Form::select('city_birth_id', $cities_list, $affiliate->city_birth_id, ['class' => 'combobox form-control', 'required']) !!}
                                         <span class="help-block">Seleccione Departamento</span>
                                     </div>
                                 </div>
@@ -152,7 +156,7 @@
                                     <div class="form-group">
                                         {!! Form::label('city_birth_id', 'Lugar de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-7">
-                                            {!! Form::select('city_birth_id', $cities_list, $eco_com_applicant->city_birth_id, ['class' => 'combobox form-control']) !!}
+                                            {!! Form::select('city_birth_id', $cities_list, $eco_com_applicant->city_birth_id, ['class' => 'combobox form-control', 'required']) !!}
                                             <span class="help-block">Seleccione Departamento</span>
                                         </div>
                                     </div>
@@ -160,7 +164,7 @@
                                 <div class="form-group">
                                         {!! Form::label('nua', 'CUA/NUA', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-6">
-                                        {!! Form::text('nua', $eco_com_applicant->nua, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        {!! Form::number('nua', $eco_com_applicant->nua, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                         <span class="help-block">Escriba el CUA/NUA</span>
                                     </div>
                                 </div>
@@ -240,7 +244,11 @@
             <div class="row text-center">
                 <div class="form-group">
                     <div class="col-md-12">
+                        @if($economic_complement->semester == 'Primer')
                         <a href="{!! url('economic_complement_reception_first_step/' . $economic_complement->affiliate_id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Volver">&nbsp;<span class="fa fa-undo"></span>&nbsp;</a>
+                        @else
+                        <a href="{!! url('economic_complement_reception_first_step/' . $economic_complement->affiliate_id.'/second') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Volver">&nbsp;<span class="fa fa-arrow-left"></span>&nbsp;</a>
+                        @endif
                         &nbsp;&nbsp;&nbsp;
                         <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Siguiente">&nbsp;<i class="fa fa-arrow-right"></i>&nbsp;</button>
                     </div>

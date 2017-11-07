@@ -24,31 +24,35 @@
          @if( $economic_complement->reception_type == 'Inclusion' )
 
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Declaración Jurada" style="margin:0px;">
-                <a href="" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdf');" >
-                    &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                </a>
+                @if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
+                    <a href="" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printJS({printable:'{!! url('print_sworn_declaration/' . $economic_complement->id . '/viudedad') !!}', type:'pdf', showModal:true})">
+                        &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                    </a> 
+                @else
+                    <a href="" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printJS({printable:'{!! url('print_sworn_declaration/' . $economic_complement->id . '/vejez') !!}', type:'pdf', showModal:true})">
+                        &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                    </a> 
+                @endif
             </div>
         @endif
             @if($economic_complement->reception_type == "Inclusion")
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción Inclusiones" style="margin:0px;">
-                    <a href="" class="btn btn-sm btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReportInclusion');" >
-                        &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                    </a>
+                    <a href="#" class="btn btn-sm btn-raised btn-info dropdown-toggle enabled" onclick="printJS({printable:'{!! url('print_eco_com_reports/' . $economic_complement->id . '/inclusion') !!}', type:'pdf', showModal:true})">&nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;</a>
                 </div>
             @endif
             @if($economic_complement->reception_type == "Habitual")
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Reporte Recepción Habituales" style="margin:0px;">
-                    <a href="" class="btn btn-sm btn-raised btn-info dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printTrigger('iFramePdfReportHabitual');" >
-                        &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                    </a>
+                    <a href="#" class="btn btn-sm btn-raised btn-info dropdown-toggle enabled" onclick="printJS({printable:'{!! url("print_eco_com_reports/".$economic_complement->id."/habitual") !!}', type:'pdf', showModal:true})">&nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;</a>
                 </div>
             @endif
         @endcan
         
         @can('eco_com_qualification')
-            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir comprobante de respaldo" style="margin:0px;">
-                <a href="#" class="btn btn-sm btn-raised btn-success" onclick="printTrigger('iFramePdfBackrest');"><i class="fa fa-file"></i></a>
-            </div>
+            @if($economic_complement->total> 0)
+                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir comprobante de respaldo" style="margin:0px;">
+                    <a href="#" class="btn btn-sm btn-raised btn-success" onclick="printJS({printable:'{!! url('print_eco_com_backrest/' . $economic_complement->id) !!}', type:'pdf', showModal:true})"><i class="fa fa-file"></i></a>
+                </div>
+            @endif
         @endcan
         @if($has_amortization)
        
@@ -60,7 +64,12 @@
         @endif
         @can("eco_com_review_and_reception")
         <div class="btn-group">
-            <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm btn-raised btn-lg bg-orange"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar Tramite"><i aria-hidden="true" class="fa fa-refresh"></i></a>
+            @if($economic_complement->semester == 'Primer')
+                <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id) !!}" class="btn btn-sm btn-raised btn-lg bg-orange"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar Tramite"><i aria-hidden="true" class="fa fa-refresh"></i></a>
+            @else
+                <a href="{!! url('economic_complement_reception_first_step/'.$affiliate->id.'/second') !!}" class="btn btn-sm btn-raised btn-lg bg-orange"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar Tramite"><i aria-hidden="true" class="fa fa-refresh"></i></a>
+            @endif
+
         </div>
         @endcan
        
@@ -137,7 +146,7 @@
                 <div class="box box-success box-solid">
                     <div class="box-header with-border">
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-8">
                                 <a href="/affiliate/{{ $economic_complement->affiliate_id  }}" data-toggle="tooltip" data-placement="top" title="Volver al afiliado">
                                     <h3 class="box-title"><i class="fa fa-{{$affiliate->gender=='M'?'male':'female'  }}"></i> Información Personal
                                     @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1)
@@ -146,7 +155,13 @@
                                     </h3>
                                 </a>
                             </div>
-
+                            <div class="col-md-2 text-right">
+                                <div data-toggle="tooltip" data-placement="left" data-original-title="Historial de deudas">
+                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#debtsModal">
+                                        <span class="fa fa-lg fa-balance-scale" aria-hidden="true"></span>
+                                    </a>
+                                </div>
+                            </div>
                             @can("eco_com_review_and_reception")
                             
                             <div class="col-md-2 text-right">
@@ -408,9 +423,18 @@
                             <div class="box-tools pull-right">
                             </div>
                         </div>
+                        @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id == 1)
+                            <div class="col-md-2 text-right">
+                                <div data-toggle="tooltip" data-placement="left" data-original-title="Historial de deudas">
+                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#debtsModal">
+                                        <span class="fa fa-lg fa-balance-scale" aria-hidden="true"></span>
+                                    </a>
+                                </div>
+                            </div>
+                         @endif
                         @can('eco_com_review_and_reception')
                         
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-2 text-right">
                             <span data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-applicant">&nbsp;&nbsp;
                                     <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
@@ -879,14 +903,16 @@
                                 <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Requisito</th>
                                             <th>Fecha de Presentación</th>
                                             <th class="text-center">Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($eco_com_submitted_documents as $item)
+                                        @foreach ($eco_com_submitted_documents as $index => $item)
                                             <tr>
+                                                <td>{!! $index+1 !!}</td>
                                                 <td>{!! $item->economic_complement_requirement->shortened !!}</td>
                                                 <td>{!! Util::getDateShort($item->reception_date) !!}</td>
                                                 <td>
@@ -1358,7 +1384,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                @if($total_repay)
+                                @if($total_repay > 0)
                                 <table class="table table-bordered table-hover " style="width:100%;font-size: 14px">
                                     <tbody>
                                         <tr class="warning">
@@ -1407,14 +1433,16 @@
                                 <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Nombre de Requisito</th>
                                             <th>Fecha</th>
                                             <th class="text-center">Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($eco_com_submitted_documents_ar as $item)
+                                        @foreach ($eco_com_submitted_documents_ar as $index => $item)
                                             <tr>
+                                                <td>{!! $index+1 !!}</td>
                                                 <td>{!! $item->economic_complement_requirement->shortened !!}</td>
                                                 <td>{!! Util::getDateShort($item->reception_date) !!}</td>
                                                 <td>
@@ -1442,18 +1470,18 @@
     </div>
 <!-- modals -->
     <div class="modal fade" tabindex="-1" >
-        @if($economic_complement->total> 0)
+        {{-- @if($economic_complement->total> 0)
             <iframe src="{!! url('print_eco_com_backrest/' . $economic_complement->id) !!}" id="iFramePdfBackrest"></iframe>
-        @endif
+        @endif --}}
 
-        @if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
+        {{-- @if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
             <iframe src="{!! url('print_sworn_declaration/' . $economic_complement->id . '/viudedad') !!}" id="iFramePdf"></iframe>
         @else
             <iframe src="{!! url('print_sworn_declaration/' . $economic_complement->id . '/vejez') !!}" id="iFramePdf"></iframe>
         @endif
 
         <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/inclusion') !!}" id="iFramePdfReportInclusion" ></iframe>
-        <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/habitual') !!}" id="iFramePdfReportHabitual" ></iframe>
+        <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/habitual') !!}" id="iFramePdfReportHabitual" ></iframe> --}}
     </div>
     <div id="myModal-personal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
@@ -2330,12 +2358,14 @@
                                 <table class="table table-bordered table-hover" style="font-size: 16px">
                                     <thead>
                                         <tr class="success">
+                                            <th class="text-center">#</th>
                                             <th class="text-center">Requisitos</th>
                                             <th class="text-center">Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody data-bind="foreach: requirements">
                                         <tr>
+                                            <td data-bind='text: $index()+1'></td>
                                             <td data-bind='text: name'></td>
                                             <td>
                                                 <div class="row text-center">
@@ -2367,7 +2397,7 @@
             </div>
         </div>
     </div>
-    @if($economic_complement->reception_type == 'Habitual')
+    @if($economic_complement->reception_type == 'Habitual' && $last_ecocom)
     <div id="myModal-requirements-ar" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -2384,12 +2414,14 @@
                                 <table class="table table-bordered table-hover" style="font-size: 16px">
                                     <thead>
                                         <tr class="success">
+                                            <th class="text-center">#</th>
                                             <th class="text-center">Requisitos</th>
                                             <th class="text-center">Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody data-bind="foreach: requirements_ar">
                                         <tr>
+                                            <td data-bind='text: $index()+1'></td>
                                             <td data-bind='text: name'></td>
                                             <td>
                                                 <div class="row text-center">
@@ -2660,6 +2692,41 @@
                     </div>
                 </div>
     </div>
+    
+    <div id="debtsModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Historial de Deudas de {{ $affiliate->getFullNamePrintTotal() }}</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-hover" id="debts-table" width="100%">
+                        <thead>
+                            <tr class="success">
+                                {{-- <th>Tipo de Observación</th> --}}
+                                <th>Nro. de Trámite</th>
+                                <th>Prestamos</th>
+                                <th>Rep. de Fondos</th>
+                                <th>Cuentas por Cobrar</th>
+                                {{-- <th>Saldo</th> --}}
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="recordEcoModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -2680,7 +2747,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="statusDocumentsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    {{-- <div class="modal fade" id="statusDocumentsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -2725,7 +2792,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="modal fade" id="myModal-review-user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -2897,7 +2964,7 @@
 //for modal of status submitted documents
 $(document).ready(function() {
    @if($status_eco_com_submitted_documents_ar)
-        $('#statusDocumentsModal').modal('show');
+        // $('#statusDocumentsModal').modal('show');
    @endif
 });
 
@@ -3355,6 +3422,50 @@ $(document).ready(function() {
                     $('#category').val(data.id);
                 }
             });
+        });
+    });
+    $(document).ready(function() {
+        $('#debts-table').DataTable({
+            "dom": '<"top">t<"bottom"p>',
+            // "order": [[ 0, "desc" ]],
+            processing: true,
+            serverSide: true,
+            pageLength: 12,
+            bFilter: false,
+            ajax: {
+                url: '{!! route('get_debts_record') !!}',
+                data: function (d) {
+                    d.id = {{ $affiliate->id }};
+                }
+            },
+            columns: [
+                // { data: 'observation_type', bSortable: false },
+                { data: 'code', bSortable: false },
+                { data: 'amount_loan', bSortable: false },
+                { data: 'amount_replacement', bSortable: false },
+                { data: 'amount_accounting', bSortable: false },
+                // { data: 'balance', bSortable: false },
+            ],
+            "footerCallback": function ( row, data, start, end, display ) {
+                var api = this.api(), data;
+                var intVal = function (i) {
+                    return typeof i === 'string' ? i.replace(/[\$,]/g, '')*1 : typeof i === 'number' ? i : 0;
+                };
+                var one = api.column(1).data().reduce( function (a, b) {
+                    return (intVal(a) + intVal(b)).toFixed(2);
+                }, 0 );
+                var two = api.column(2).data().reduce( function (a, b) {
+                    return (intVal(a) + intVal(b)).toFixed(2);
+                }, 0 );
+
+                var three = api.column(3).data().reduce( function (a, b) {
+                    return (intVal(a) + intVal(b)).toFixed(2);
+                }, 0 );
+                $(api.column(0).footer()).html('Total');
+                $(api.column(1).footer()).html(one);
+                $(api.column(2).footer()).html(two);
+                $(api.column(3).footer()).html(three);
+            },
         });
     });
 </script>

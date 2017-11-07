@@ -27,8 +27,13 @@
         <div class="col-md-12">
             <div class="form-group">
                 <ul class="nav nav-pills" style="display:flex;justify-content:center;">
+                    @if($economic_complement->semester == 'Primer')
                     <li><a href="{!! url('economic_complement_reception_first_step/' . $economic_complement->affiliate_id) !!}"><span class="badge">1</span> Tipo de Proceso</a></li>
                     <li><a href="{!! url('economic_complement_reception_second_step/' . $economic_complement->id) !!}"><span class="badge">2</span> Beneficiario</a></li>
+                    @else
+                    <li><a href="{!! url('economic_complement_reception_first_step/' . $economic_complement->affiliate_id.'/second') !!}"><span class="badge">1</span> Tipo de Proceso</a></li>
+                    <li><a href="{!! url('economic_complement_reception_second_step/' . $economic_complement->id.'/second') !!}"><span class="badge">2</span> Beneficiario</a></li>
+                    @endif
                     <li class="active"><a href="#"><span class="badge">3</span> Requisitos</a></li>
                 </ul>
             </div>
@@ -74,7 +79,11 @@
                         <div class="row text-center">
                             <div class="form-group">
                                 <div class="col-md-12">
+                                    @if($economic_complement->semester == 'Primer')
                                     <a href="{!! url('economic_complement_reception_second_step/' . $economic_complement->id) !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Volver">&nbsp;<span class="fa fa-undo"></span>&nbsp;</a>
+                                    @else
+                                    <a href="{!! url('economic_complement_reception_second_step/' . $economic_complement->id.'/second') !!}" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Volver">&nbsp;<span class="fa fa-arrow-left"></span>&nbsp;</a>
+                                    @endif
                                     &nbsp;&nbsp;&nbsp;
                                     <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
                                 </div>
