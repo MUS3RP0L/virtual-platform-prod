@@ -288,7 +288,7 @@ class EconomicComplementController extends Controller
 
     public function Data_by_affiliate(Request $request)
     {
-        $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'wf_current_state_id','eco_com_state_id', 'code', 'reception_date', 'total','year','semester'])->orderBy('year','desc');
+        $economic_complements = EconomicComplement::where('affiliate_id', $request["id"])->select(['id', 'affiliate_id', 'eco_com_modality_id', 'wf_current_state_id','eco_com_state_id', 'code', 'reception_date', 'total','year','semester'])->orderBy(DB::raw("substr(substr(code,position('/' in code)+1,length(code)),length(substr(code,position('/' in code)+1,length(code)))-4, length(substr(code,position('/' in code)+1,length(code))))"),'desc')->orderBy(DB::raw("substr(code,position('/' in code)+1,length(code))"), 'desc');
         return Datatables::of($economic_complements)
         ->editColumn('gestion',function($economic_complement){ return $economic_complement->getYear() .' '.$economic_complement->semester;})
         ->editColumn('created_at', function ($economic_complement) { return $economic_complement->getCreationDate(); })
@@ -571,8 +571,12 @@ class EconomicComplementController extends Controller
         ->whereYear('year', '=', Carbon::now()->year)
         ->where('semester', '=', 'Segundo')->first();
         $eco_com_procedure=EconomicComplementProcedure::where('semester', 'like', 'Segundo')->where('year', '=', Util::datePickYear(Carbon::now()->year))->first();
-        $last_complement = EconomicComplement::where('affiliate_id',$affiliate_id)->orderBy('reception_date','DESC')->first();
-
+        $eco_com_procedure_one=EconomicComplementProcedure::where('semester', 'like', 'Primer')->where('year', '=', Util::datePickYear(Carbon::now()->year))->first();
+        $eco_com_procedure_second=EconomicComplementProcedure::where('semester', 'like', 'Segundo')->where('year', '=', Util::datePickYear(Carbon::now()->year - 1))->first();
+        $last_complement = EconomicComplement::where('affiliate_id',$affiliate_id)->where('eco_com_procedure_id', '=', $eco_com_procedure_second->id)->first();
+        if (EconomicComplement::where('affiliate_id',$affiliate_id)->where('eco_com_procedure_id', '=', $eco_com_procedure_one->id)->first()) {
+            $last_complement = EconomicComplement::where('affiliate_id',$affiliate_id)->where('eco_com_procedure_id', '=', $eco_com_procedure_one->id)->first();
+        }
         // return $last_complement;
         if (!$economic_complement) {
             $economic_complement = new EconomicComplement;
