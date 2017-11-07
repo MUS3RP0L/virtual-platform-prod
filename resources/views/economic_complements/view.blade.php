@@ -3138,7 +3138,7 @@ $(document).ready(function() {
          @endif
     };
 
-    @if(isset($wf_state_before) && $has_cancel==true)
+    @if(isset($wf_state_before) && $has_cancel==true && sizeof($wf_state_before) > 0)
     console.log("existe la variable");
     function Secuencia(id,nombre)
     {
