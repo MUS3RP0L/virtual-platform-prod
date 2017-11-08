@@ -81,7 +81,7 @@ class ImportDaf extends Command
                                 $ecom->wf_current_state_id = 12;
                                 $ecom->state = 'Received';
                                 $ecom->save();
-                                  $aficount2++;
+                                  $aficount1++;
                                   $this->info($result->ci); 
                             }else
                             {

@@ -129,7 +129,7 @@
                                 <div class="form-group">
                                     {!! Form::label('gender', 'Género', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('gender', ['M'=>'Masculino','F'=>'Femenino'] ,'F', ['class' => 'combobox form-control','required']) !!}
+                                        {!! Form::select('gender', [''=>'','M'=>'Masculino','F'=>'Femenino'] ,  $eco_com_applicant->gender ?? null, ['class' => 'combobox form-control','required']) !!}
                                         <span class="help-block">Seleccione Género</span>
                                     </div>
                                 </div>
@@ -148,7 +148,7 @@
                                 <div class="form-group">
                                             {!! Form::label('city_birth_id', 'Lugar de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('city_birth_id', $cities_list, $affiliate->city_birth_id, ['class' => 'combobox form-control', 'required']) !!}
+                                        {!! Form::select('city_birth_id', $cities_list, $eco_com_applicant->city_birth_id ?? $affiliate->city_birth_id ?? null, ['class' => 'combobox form-control', 'required']) !!}
                                         <span class="help-block">Seleccione Departamento</span>
                                     </div>
                                 </div>
@@ -156,7 +156,7 @@
                                     <div class="form-group">
                                         {!! Form::label('city_birth_id', 'Lugar de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-7">
-                                            {!! Form::select('city_birth_id', $cities_list, $eco_com_applicant->city_birth_id, ['class' => 'combobox form-control', 'required']) !!}
+                                            {!! Form::select('city_birth_id', $cities_list, $eco_com_applicant->city_birth_id ?? null, ['class' => 'combobox form-control', 'required']) !!}
                                             <span class="help-block">Seleccione Departamento</span>
                                         </div>
                                     </div>
