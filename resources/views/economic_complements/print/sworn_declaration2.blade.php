@@ -27,7 +27,7 @@
       <td><strong>CATEGORÍA:</strong></td><td>{!! $economic_complement->category->getPercentage() !!}</td>
     </tr>
     <tr>
-      <td><strong>C.I.:</strong></td><td nowrap colspan="2">  {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card->first_shortened ?? '' !!}</td><td><strong>FECHA NAC:</strong></td><td> {!! $affiliate->getShortBirthDate() !!}</td><td><strong>EDAD:</strong></td><td>{!! $affiliate->getAge() !!} AÑOS</td>
+      <td><strong>C.I.:</strong></td><td nowrap colspan="2">  {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card->first_shortened ?? '' !!}</td><td><strong>FECHA DE NAC.:</strong></td><td> {!! $affiliate->getShortBirthDate() !!}</td><td><strong>EDAD:</strong></td><td>{!! $affiliate->getAge() !!} AÑOS</td>
     </tr>
   </table>
   @endif

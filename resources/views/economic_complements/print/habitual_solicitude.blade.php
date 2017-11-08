@@ -8,7 +8,7 @@ Formulario Nº 4
 <div id="project">
  <strong>Señor (a) </strong><br />
  <strong>DIRECTOR (A) GENERAL EJECUTIVO</strong><br />
- <strong>MUTUAL DE SERVICIOS AL POLICIA</strong><br />
+ <strong>MUTUAL DE SERVICIOS AL POLICÍA</strong><br />
  Presente.-<br /><br />
  <p><strong>REF: SOLICITUD PAGO COMPLEMENTO ECONÓMICO {!! strtoupper($economic_complement->semester) !!} SEMESTRE DE LA GESTIÓN {!! Util::getYear($economic_complement->reception_date) !!} COMO BENEFICIARIO HABITUAL</strong></p><br />
 
@@ -27,7 +27,7 @@ Formulario Nº 4
      </tr>
      <tr>
        <td><strong>C.I.:</strong></td><td nowrap>{!! $eco_com_applicant->identity_card !!} {{$eco_com_applicant->city_identity_card->first_shortened ?? ''}}</td>
-       <td><strong>FECHA NAC:</strong></td><td> {!! $eco_com_applicant->getShortBirthDate() !!}</td>
+       <td><strong>FECHA DE NAC.:</strong></td><td> {!! $eco_com_applicant->getShortBirthDate() !!}</td>
        <td><strong>EDAD:</strong></td><td>{!! $eco_com_applicant->getAge() !!} AÑOS</td>
      </tr>
      <tr>
@@ -75,7 +75,7 @@ Formulario Nº 4
             @foreach($eco_com_submitted_document as $i=>$item)
             <tr>
                 <td><center>{!! $i+1 !!}</center></td>
-                <td>{!! $item->economic_complement_requirement->name !!}</td>
+                <td>{!! $item->economic_complement_requirement->name !!}.</td>
                 @if ($item->status == 1)
                     <td class="info" style='text-align:center;'>
                       <img class="circle" src="{{ asset('img/check.png') }}" >
@@ -90,13 +90,14 @@ Formulario Nº 4
             @endforeach
 </table>
  <p>Sin otro particular me despido de usted muy atentamente. </p>
- <br><br><br>
  <table>
   <tr>
-    <th class="info" style="border: 0px;text-align:center;"><br>
+    <th class="no-border" style="width:33%">&nbsp;</th>
+    <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>
       ----------------------------------------------------------------------<br>
-      <strong>{!! $eco_com_applicant->getFullName() ?? '' !!}<br />C.I. {!! $eco_com_applicant->identity_card !!} {!! isset($eco_com_applicant->city_identity_card->first_shortened) ?  $eco_com_applicant->city_identity_card->first_shortened.'.' : '' !!} <br /> Teléfono: {!! $eco_com_applicant->getPhone() !!}</strong>
+      <strong>{!! $eco_com_applicant->getFullName() ?? '' !!}<br />C.I.: {!! $eco_com_applicant->identity_card !!} {!! isset($eco_com_applicant->city_identity_card->first_shortened) ?  $eco_com_applicant->city_identity_card->first_shortened.'.' : '' !!} <br /> Teléfono: {!! $eco_com_applicant->getPhone() !!}</strong>
     </th>
+    <th class="no-border"> <div class="info" style="border: 1px solid  #3c3c3c!IMPORTANT;text-align:center;width: 150px;"><p>&nbsp;</p><br><br><br><br></div><br><span class="info" style="border: 0px;text-align:center;">Huella Digital Pulgar Derecho</span></th>
   </tr>
 </table>
 

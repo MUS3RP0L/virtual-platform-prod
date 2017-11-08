@@ -458,19 +458,22 @@ class DashboardController extends Controller
 			->orderBy('first_name','asc')
 			->take(3)
 			->get(array('id', 'identity_card', 'first_name', 'last_name'))->toArray();
-		$eco_com_applicant = EconomicComplementApplicant::where('identity_card','like', $query)
-			->leftJoin('economic_complements','economic_complements.id','=','eco_com_applicants.economic_complement_id')
+		$spouse = Spouse::where('identity_card','like', $query)
+			// ->leftJoin('economic_complements','economic_complements.id','=','eco_com_applicants.economic_complement_id')
 			->orderBy('first_name','asc')
 			->take(3)
-			->get(array('eco_com_applicants.id','economic_complements.affiliate_id','eco_com_applicants.identity_card', 'eco_com_applicants.first_name', 'eco_com_applicants.last_name'))->toArray();
+			->get(array('spouses.affiliate_id','spouses.identity_card', 'spouses.first_name', 'spouses.last_name'))->toArray();	
 
 		$affiliates = $this->appendURLaffiliate($affiliates, 'affiliate');
 		$affiliates = $this->appendValue($affiliates, 'affiliate', 'class');
 
-		$eco_com_applicant  = $this->appendURLspouse($eco_com_applicant, 'affiliate');
-		$eco_com_applicant = $this->appendValue($eco_com_applicant, 'affiliate', 'class');
+		// $eco_com_applicant  = $this->appendURLaffiliate($eco_com_applicant, 'affiliate');
+		// $eco_com_applicant = $this->appendValue($eco_com_applicant, 'eco_com_applicant', 'class');
 
-		$data = array_merge($affiliates,$eco_com_applicant);
+		$spouse  = $this->appendURLspouse($spouse, 'affiliate');
+		$spouse = $this->appendValue($spouse, 'spouse', 'class');
+
+		$data = array_merge($affiliates,$spouse);
 
 		return response()->json(array(
 			'data'=>$data
