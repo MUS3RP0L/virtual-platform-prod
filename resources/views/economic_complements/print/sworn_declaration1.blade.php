@@ -33,7 +33,7 @@
       <td>
         {{ explode(',',$eco_com_applicant->cell_phone_number)[0] }}
       </td>
-      <td><strong>Lugar de Nac.</strong></td>
+      <td><strong>LUGAR DE NAC.:</strong></td>
       <td colspan="2">{!! $eco_com_applicant->city_birth->name ?? '' !!}</td>
     </tr>
   </table>
