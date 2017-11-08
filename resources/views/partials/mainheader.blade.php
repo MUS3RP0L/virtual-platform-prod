@@ -25,6 +25,9 @@
         line-height: 18px;
         color: #fff;
     }
+    .selectize-dropdown{
+        color: #3c3c3c;
+    }
     .selectize-input,
     .selectize-control.single .selectize-input.input-active {
         display: inline-block;
@@ -91,23 +94,28 @@
     }
     ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
         color:    #fff;
-        opacity: 0.8
+        opacity: 0.8;
+        font-weight: lighter;
     }
     :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
        color:    #fff;
        opacity:  0.8;
+        font-weight: lighter;
     }
     ::-moz-placeholder { /* Mozilla Firefox 19+ */
        color:    #fff;
        opacity:  0.8;
+        font-weight: lighter;
     }
     :-ms-input-placeholder { /* Internet Explorer 10-11 */
        opacity:  0.8;
        color:    #fff;
+        font-weight: lighter;
     }
     ::-ms-input-placeholder { /* Microsoft Edge */
        opacity:  0.8;
        color:    #fff;
+        font-weight: lighter;
     }
 </style>
 <header class="main-header">
