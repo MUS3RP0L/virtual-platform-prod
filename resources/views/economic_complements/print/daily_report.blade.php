@@ -17,12 +17,19 @@
     .number{
       text-align: center
     }
+    thead{display: table-header-group;}
+    tfoot {display: table-row-group;}
+    tr {page-break-inside: avoid; }
+    td{
+      font-size: 9px;
+    }
   </style>
       <div id="project">
         <table class="tablee">
+          <thead>
            <tr>
-              <th class="number"><h4>N°</h4></th>
-              <th class="grand"><h4>REGION</h4></th>
+              <th class="grand number"><h4>N°</h4></th>
+              <th class="grand"><h4>REGIONAL</h4></th>
               <th class="grand"><h4>CI</h4></th>
               <th class="grand"><h4>NOMBRES Y APELLIDOS</h4></th>
               <th class="grand"><h4>GRADO</h4></th>
@@ -31,24 +38,23 @@
               <th class="grand"><h4>GESTOR</h4></th>
               <th class="grand"><h4>TIPO</h4></th>
               <th class="grand"><h4>TELF/CEL</h4></th>
-              <th class="grand"><h4>CODIGO</h4></th>
+              <th class="grand"><h4>N° TRÁMITE</h4></th>
            </tr>
-           <?php $i=1;?>
-            @foreach($eco_complements as $item)
+          </thead>
+            @foreach($eco_complements as $index=>$item)
             <tr>
-              <td ><h4>{!! $i !!}</h4></td>
-              <td ><h4>{!! $item->city !!}</h4></td>
-              <td ><h4>{!! $item->identity_card !!} {!! $item->exp !!}</h4></td>
-              <td ><h4>{!! $item->full_name !!}</h4></td>
-              <td ><h4>{!! $item->shortened !!}</h4></td>
-              <td ><h4>{!! $item->name !!}</h4></td>
-              <td ><h4>{!! Util::getDateEdit($item->reception_date) !!}</h4></td>
-              <td ><h4>{!! $item->pension_entity !!}</h4></td>
-              <td ><h4>{!! (Util::getType1($item->affiliate_id) > 1) ? 'HABITUAL' : 'INCLUSION' !!}</h4></td>
-              <td ><h4>{!! ($item->cell_phone_number) ? $item->cell_phone_number : $item->phone_number !!}</h4></td>
-              <td ><h4>{!! $item->code !!}</h4></td>
+              <td>{!! $index+1 !!}</td>
+              <td>{!! $item->city!!}</td>
+              <td>{!! $item->identity_card !!} {!! $item->exp !!}</td>
+              <td>{!! $item->full_name !!}</td>
+              <td>{!! $item->shortened !!}</td>
+              <td>{!! $item->name !!}</td>
+              <td>{!! Util::getDateEdit($item->reception_date) !!}</td>
+              <td>{!! $item->pension_entity !!}</td>
+              <td>{!! $item->reception_type !!}</td>
+              <td>{!! ($item->cell_phone_number) ? explode(',',$item->cell_phone_number)[0] : explode(',',$item->phone_number)[0] !!}</td>
+              <td>{!! $item->code !!}</td>
             </tr>
-            <?php $i++;?>
             @endforeach
         </table>
     </div>
