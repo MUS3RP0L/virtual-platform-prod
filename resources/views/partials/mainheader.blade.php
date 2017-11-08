@@ -15,7 +15,7 @@
             <ul class="nav navbar-nav">
                 <li>
                     <div class="form-group" style="padding-bottom:0px;padding-top:4px;padding-right:12px;">
-                        <select id="searchbox" name="q" class="form-control" style="width: 200px; top: 34px; visibility: visible;"></select>
+                        <select id="searchbox" placeholder="Buscar Afiliado..." name="q" class="form-control" style="width: 200px; top: 34px; visibility: visible;"></select>
                     </div>
                 </li>
 

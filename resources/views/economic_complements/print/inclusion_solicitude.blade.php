@@ -39,7 +39,7 @@ Formulario Nº 3
         <td>
           {!! explode(',',$eco_com_applicant->cell_phone_number)[0] !!}<br/>
         </td>
-        <td><strong>Lugar de Nac.</strong></td>
+        <td><strong>LUGAR DE NAC.:</strong></td>
         <td>{!! $eco_com_applicant->city_birth->second_shortened ?? '' !!}</td>
       </tr>
     </table>
@@ -50,18 +50,18 @@ Formulario Nº 3
       <td colspan="6" class="grand info_title">INFORMACIÓN DEL TRÁMITE</td>
     </tr>
     <tr>
-      <td><strong>MODALIDAD: </strong></td><td>{{ $economic_complement->economic_complement_modality->shortened ?? '' }}</td>
+      <td><strong>TIPO DE PRESTACIÓN:</strong></td><td>{{ $economic_complement->economic_complement_modality->shortened ?? '' }}</td>
       <td><strong>GRADO:</strong></td><td>{!! $economic_complement->degree->shortened ?? '' !!}</td>
       <td><strong>CATEGORÍA:</strong></td><td>{!! $economic_complement->category->getPercentage() !!}</td>
     </tr>
     <tr>
       <td><strong>REGIONAL:</strong></td><td>{!! $economic_complement->city->name !!}</td>    
       <td><strong>GESTIÓN:</strong></td><td> {!! $economic_complement->getYear() !!}</td>
-      <td><strong>SEMESTRE:</strong></td><td>{!! $economic_complement->getSemester() !!}</td>
+      <td><strong>SEMESTRE:</strong></td><td>{!! $economic_complement->getSemester()!!}/{!! $economic_complement->getYear() !!}</td>
     </tr>
     <tr>
       <td><strong>ENTE GESTOR:</strong></td><td>{!! $affiliate->pension_entity->name ?? '' !!}</td>
-      <td><strong>TIPO DE TRÁMITE: </strong></td><td>{!! $economic_complement->reception_type !!}</td>    
+      <td><strong>TIPO DE TRÁMITE: </strong></td><td>{!! strtoupper($economic_complement->reception_type) !!}</td>    
       <td><strong>FECHA DE RECEPCIÓN:</strong></td><td>{!! $economic_complement->getReceptionDate() !!}</td>
     </tr>
   </table>
@@ -97,7 +97,7 @@ Formulario Nº 3
       <tr>
           <th class="info" style="border: 0px;text-align:center;"><br>
             ----------------------------------------------------------------------<br>
-            <strong>{!! $eco_com_applicant->getFullName() ?? '' !!}<br />C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened ?? '' !!} <br /> Telefono. {!! $eco_com_applicant->getPhone() !!}</strong>
+            <strong>{!! $eco_com_applicant->getFullName() ?? '' !!}<br />C.I. {!! $eco_com_applicant->identity_card !!} {!! isset($eco_com_applicant->city_identity_card->first_shortened) ? $eco_com_applicant->city_identity_card->first_shortened.'.' : '' !!} <br /> Teléfono: {!! $eco_com_applicant->getPhone() !!}</strong>
           </th>
       </tr>
     </table>
