@@ -121,9 +121,9 @@
        color:    #fff;
         font-weight: lighter;
     }
-    .form-control  {
-      font-family: "FontAwesome"
-    }
+    /*.selectize-input  {
+      font-family: "FontAwesome", sans-serif;
+    }*/
     .selectize-input>input::-webkit-input-placeholder {
       -moz-transition: ease-in 0.3s;
       -o-transition: ease-in 0.3s;
@@ -158,7 +158,8 @@
             <ul class="nav navbar-nav">
                 <li>
                     <div class="form-group" style="padding-bottom:0px;padding-top:4px;padding-right:12px;">
-                        <select id="searchbox" placeholder="&#xf002; Buscar Afiliado..." name="q" class="searchbox form-control" style="width: 200px; top: 34px; visibility: visible;"></select>
+                        <select id="searchbox" placeholder="Buscar Afiliado..." name="q" class="searchbox form-control" style="width: 200px; top: 34px; visibility: visible;"></select>
+                        {{-- <select id="searchbox" placeholder="&#xf002; Buscar Afiliado..." name="q" class="searchbox form-control" style="width: 200px; top: 34px; visibility: visible;"></select> --}}
                     </div>
                 </li>
 
