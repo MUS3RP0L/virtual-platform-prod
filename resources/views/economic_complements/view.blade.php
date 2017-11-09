@@ -145,33 +145,22 @@
             @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1)
                 <div class="box box-success box-solid">
                     <div class="box-header with-border">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <a href="/affiliate/{{ $economic_complement->affiliate_id  }}" data-toggle="tooltip" data-placement="top" title="Volver al afiliado">
-                                    <h3 class="box-title"><i class="fa fa-{{$affiliate->gender=='M'?'male':'female'  }}"></i> Información Personal
-                                    @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1)
-                                        - Causahabiente
-                                    @endif
-                                    </h3>
+                        <a href="/affiliate/{{ $economic_complement->affiliate_id  }}" data-toggle="tooltip" data-placement="top" title="Volver al afiliado">
+                            <h3 class="box-title"><i class="fa fa-{{$affiliate->gender=='M'?'male':'female'  }}"></i> Información Personal {!! ($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1) ? '- Causahabiente' :'' !!}
+                            </h3>
+                        </a>
+                        <div class="box-tools pull-right">
+                            <span data-toggle="tooltip" data-placement="top" data-original-title="Historial de deudas">
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#debtsModal">
+                                    <span class="fa fa-lg fa-balance-scale" aria-hidden="true"></span>
                                 </a>
-                            </div>
-                            <div class="col-md-2 text-right">
-                                <div data-toggle="tooltip" data-placement="left" data-original-title="Historial de deudas">
-                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#debtsModal">
-                                        <span class="fa fa-lg fa-balance-scale" aria-hidden="true"></span>
-                                    </a>
-                                </div>
-                            </div>
+                            </span>
                             @can("eco_com_review_and_reception")
-                            
-                            <div class="col-md-2 text-right">
-                                <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-personal">
-                                        <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
-                                    </a>
-                                </div>
-                            </div>
-                           
+                            <span data-toggle="tooltip" data-placement="top" data-original-title="Editar">
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-personal">
+                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
+                                </a>
+                            </span>
                             @endcan
                         </div>
                     </div>
@@ -411,37 +400,24 @@
             @endif
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <a href="/affiliate/{{ $economic_complement->affiliate_id  }}" data-toggle="tooltip" data-placement="top" title="Volver al afiliado">
-                            <h3 class="box-title"><span class="fa fa-user-plus"></span> Información del Beneficiario
-                            @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1)
-                            - Derechohabiente
-                            @endif
-                            </h3>
-                            </a>
-                            <div class="box-tools pull-right">
-                            </div>
-                        </div>
+                    <a href="/affiliate/{{ $economic_complement->affiliate_id  }}" data-toggle="tooltip" data-placement="top" title="Volver al afiliado">
+                    <h3 class="box-title"><span class="fa fa-user-plus"></span> Información del Beneficiario {!! ($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1) ? '- - Derechohabiente' :''  !!}
+                    </h3>
+                    </a>
+                    <div class="box-tools pull-right">
                         @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id == 1)
-                            <div class="col-md-2 text-right">
-                                <div data-toggle="tooltip" data-placement="left" data-original-title="Historial de deudas">
-                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#debtsModal">
-                                        <span class="fa fa-lg fa-balance-scale" aria-hidden="true"></span>
-                                    </a>
-                                </div>
-                            </div>
-                         @endif
-                        @can('eco_com_review_and_reception')
-                        
-                        <div class="col-md-2 text-right">
-                            <span data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-applicant">&nbsp;&nbsp;
-                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                            <span data-toggle="tooltip" data-placement="left" data-original-title="Historial de deudas">
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#debtsModal">
+                                    <i class="fa fa-lg fa-balance-scale" aria-hidden="true"></i>
                                 </a>
                             </span>
-                        </div>
-                       
+                        @endif
+                        @can('eco_com_review_and_reception')
+                            <span data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-applicant">
+                                    <i class="fa fa-lg fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </span>
                         @endcan
                     </div>
                 </div>
@@ -719,24 +695,15 @@
             @if($economic_complement->has_legal_guardian)
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <h3 class="box-title"><span class="fa fa-shield"></span> Informacion del Apoderado</h3>
-                        </div>
+                    <h3 class="box-title"><span class="fa fa-shield"></span> Informacion del Apoderado</h3>
+                        <div class="box-tools pull-right">
                         @can("eco_com_review_and_reception")
-                      
-                        <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-guardian">&nbsp;&nbsp;
                                     <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
                                 </a>
                             </div>
-                        </div>
-                 
-
                         @endcan
-
-
                     </div>
                 </div>
                 <div class="box-body">
@@ -878,22 +845,15 @@
             <!-- Requisitos Presentados -->
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span> Requisitos Presentados</h3>
-                        </div>
-               
-                        @can("eco_com_review_and_reception")
-
-                            <div class="col-md-2 text-right">
-                                <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-requirements">&nbsp;&nbsp;
-                                        <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
-                                    </a>
-                                </div>
+                    <h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span> Requisitos Presentados</h3>
+                    <div class="box-tools pull-right">
+                    @can("eco_com_review_and_reception")
+                        <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-requirements">&nbsp;&nbsp;
+                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                                </a>
                             </div>
-                
-                        @endcan
+                    @endcan
                     </div>
                 </div>
                 <div class="box-body">
@@ -945,33 +905,23 @@
             <!-- información del Trámite -->
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h3 class="box-title"><span class="glyphicon glyphicon-info-sign"></span> Información del Trámite</h3>
-                        </div>
-                        <div class="col-md-4 text-right">
-                            @can("eco_com_review_reception_calification")
-
-                                    <span data-toggle="modal" data-target="#policeModal">
-                                        <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
-                                    </span>
-
-                            @endcan
-
-                            @can("treasury")
-                                <span data-toggle="modal" data-target="#change-state-modal">
-                                    <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="glyphicon glyphicon-lg glyphicon glyphicon-transfer"></i></a>
-                                </span>
-                            @endcan
-
-                            @can("accounting")
-                           
-                                <span data-toggle="modal" data-target="#addMoreInfo">
-                                    <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Adicionar Información"><i class="fa fa-lg fa fa-plus"></i></a>
-                                </span>
-                          
-                            @endcan
-                        </div>
+                    <h3 class="box-title"><span class="glyphicon glyphicon-info-sign"></span> Información del Trámite</h3>
+                    <div class="box-tools pull-right">
+                        @can("eco_com_review_reception_calification")
+                            <span data-toggle="modal" data-target="#policeModal">
+                                <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
+                            </span>
+                        @endcan
+                        @can("treasury")
+                            <span data-toggle="modal" data-target="#change-state-modal">
+                                <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="glyphicon glyphicon-lg glyphicon glyphicon-transfer"></i></a>
+                            </span>
+                        @endcan
+                        @can("accounting")
+                            <span data-toggle="modal" data-target="#addMoreInfo">
+                                <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Adicionar Información"><i class="fa fa-lg fa fa-plus"></i></a>
+                            </span>
+                        @endcan
                     </div>
                 </div>
                 <div class="box-body">
@@ -1206,40 +1156,32 @@
             <!-- calculo total -->
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
-                    <div class="col-md-{{ $economic_complement->old_eco_com ? '6':($economic_complement->total_rent > 0 ? '8':'10') }}">
-
-                        <h3 class="box-title"><span class="fa fa-money"></span> Cálculo del Complemento Económico</h3>
-
-                    </div>
+                    <h3 class="box-title"><span class="fa fa-money"></span> Cálculo del Complemento Económico</h3>
+                    <div class="box-tools pull-right">
                         @can('eco_com_qualification')
-                            
-                                @if($economic_complement->total_rent > 0 )
-                                    @if($economic_complement->old_eco_com)
-                                    <div class="col-md-2">
-                                        <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir Formulario CE -1">
-                                            <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print-old">&nbsp;&nbsp;
-                                                <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
-                                            </a>
-                                       </div>
-                                    </div>
-                                    @endif
-                                    <div class="col-md-2">
-                                        <div data-toggle="tooltip" data-placement="left" data-original-title="Imprimir {{ $economic_complement->old_eco_com ? 'Formulario CE - 2' : 'Formulario CE - 1' }}">
-                                            <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print">&nbsp;&nbsp;
-                                                <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
-                                            </a>
-                                        </div>
-                                    </div>
-                                @endif
-                                <div class="col-md-2">
-                                    <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                        <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals">&nbsp;&nbsp;
-                                            <span class="fa fa-lg fa-calculator" aria-hidden="true"></span>&nbsp;&nbsp;
-                                        </a>
-                                    </div>
-                                </div>
-                           
+                        @if($economic_complement->total_rent > 0 )
+                        @if($economic_complement->old_eco_com)
+
+                        <span data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Formulario CE -1">
+                            <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print-old">&nbsp;&nbsp;
+                                <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
+                            </a>
+                        </span>
+                        @endif
+                        <span data-toggle="tooltip" data-placement="top" data-original-title="Imprimir {{ $economic_complement->old_eco_com ? 'Formulario CE - 2' : 'Formulario CE - 1' }}">
+                            <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals-print">&nbsp;&nbsp;
+                                <span class="fa fa-lg fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
+                            </a>
+                        </span>
+                        @endif
+                        <span data-toggle="tooltip" data-placement="top" data-original-title="Editar">
+                            <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-totals">&nbsp;&nbsp;
+                                <span class="fa fa-lg fa-calculator" aria-hidden="true"></span>&nbsp;&nbsp;
+                            </a>
+                        </span>
+
                         @endcan
+                    </div>
                 </div>
                 <div class="box-body">
                     <div class="row">
@@ -1409,21 +1351,15 @@
             <!-- documentos presentados -->
             <div class="box box-warning box-solid">
                 <div class="box-header with-border">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span> Documentos Presentados</h3>
-                        </div>
-                        @can("eco_com_review_and_reception")
-                        
-                        <div class="col-md-2 text-right">
-                            <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                <a href="" class="btn btn-sm bg-yellow-active" data-toggle="modal" data-target="#myModal-requirements-ar">&nbsp;&nbsp;
-                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
-                                </a>
-                            </div>
-                        </div>
-                       
-                        @endcan
+                    <h3 class="box-title"><span class="glyphicon glyphicon-inbox"></span> Documentos Presentados</h3>
+                    <div class="box-tools pull-right">
+                    @can("eco_com_review_and_reception")
+                        <span data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                            <a href="" class="btn btn-sm bg-yellow-active" data-toggle="modal" data-target="#myModal-requirements-ar">&nbsp;&nbsp;
+                                <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                            </a>
+                        </span>
+                    @endcan
                     </div>
                 </div>
                 <div class="box-body">

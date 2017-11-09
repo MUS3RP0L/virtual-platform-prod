@@ -1,17 +1,12 @@
 <div class="box box-danger box-solid">
     <div class="box-header with-border">
-        <div class="row">
-            <div class="col-md-10">
-                <h3 class="box-title"><span class="glyphicon glyphicon-eye-open"></span> Observaciones</h3>
-            </div>
+        <h3 class="box-title"><span class="glyphicon glyphicon-eye-open"></span> Observaciones</h3>
+            <div class="box-tools pull-right">
             @can("eco_com_review_reception_calification_contabilidad")
-            
-                <div class="col-md-2 text-right">
-                    <div data-toggle="tooltip" data-placement="left" data-original-title="Añadir">
-                        <a href="" class="btn btn-sm bg-red" data-toggle="modal" data-target="#observationModal">
+                <div data-toggle="tooltip" data-placement="left" data-original-title="Añadir">
+                        <a href="" class="btn btn-sm bg-red btn-raised" data-toggle="modal" data-target="#observationModal">
                             <span class="fa fa-lg fa-plus" aria-hidden="true"></span>
                         </a>
-                    </div>
                 </div>
             @endcan
         </div>

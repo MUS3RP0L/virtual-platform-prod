@@ -6,12 +6,12 @@
         </div>
     		<div class="col-md-7 text-right">
     			
-          <div class="btn-group"  data-toggle="tooltip" data-original-title="Exportar Informe Usuario" style="margin: 0;">
+          {{-- <div class="btn-group"  data-toggle="tooltip" data-original-title="Exportar Informe Usuario" style="margin: 0;">
                     <a href="{!! url('export_excel_user') !!}" class="btn btn-success btn-raised bg-blue" ><i class="glyphicon glyphicon-save glyphicon-lg"></i></a>
           </div>
           <div class="btn-group"  data-toggle="tooltip" data-original-title="Exportar Informe Todos" style="margin: 0;">
                     <a href="{!! url('export_excel') !!}" class="btn btn-success btn-raised bg-green" ><i class="glyphicon glyphicon-save glyphicon-lg"></i></a>
-          </div>
+          </div> --}}
           <!-- <div class="btn-group"  data-toggle="tooltip" data-original-title="Exportar Complementos" style="margin: 0;">
                     <a href="{!! url('export_excel_general') !!}" class="btn btn-success btn-raised bg-red" > <i class="glyphicon glyphicon-import glyphicon-lg"></i> </a>
           </div> -->
@@ -56,8 +56,13 @@
 <div class="col-md-6">
 	<div class="box box-success">
 		<div class="box-header with-border">
-      <div class="col-md-9">
-          <h3 class="box-title">Trámites recibidos</h3>
+      <h3 class="box-title">Trámites recibidos</h3>
+      <div class="box-tools pull-right">
+        <div data-bind="foreach: listaWorkflowsReceived">
+          <span data-toggle="tooltip" data-placement="top" data-bind="attr: {title: nombre}">
+            <a data-bind="attr: {'data-id': id},css:color, style:{fontWeight:'bold'},style:{fontWeight: 'bold'}"  href="#" class="btn-received btn btn-sm btn-raised "><i data-bind="text: quantityStyle, style:{fontWeight: 'bold'}" class="fa fa-file-text-o"></i></a>
+          </span>
+        </div> 
       </div>
       @can('eco_com_approval')
       <div class="col-md-3">
@@ -93,7 +98,7 @@
 
 		</div>
     <div class="box-body">
-      {!! Form::select('select-received', $workflow_ids, null, ['id'=>'select-received']); !!}
+      {{-- {!! Form::select('select-received', $workflow_ids, null, ['id'=>'select-received']); !!} --}}
   		<table id="received" class="table table-bordered table-hover">
           <tfoot>
             <th></th>
@@ -130,10 +135,18 @@
 	<div class="box box-success">
 		<div class="box-header with-border">
 			<h3 class="box-title"> {{Util::getRol()->action}} </h3>
+      <div class="box-tools pull-right">
+        <div data-bind="foreach: listaWorkflows">
+
+          <span data-toggle="tooltip" data-placement="top" data-bind="attr: {title: nombre}">
+            <a data-bind="attr: {'data-id': id},css:color, click:$parent.wf_click,style:{fontWeight: 'bold'}"  href="#" class="btn-edited btn btn-sm btn-raised"><i data-bind="text: quantityStyle, style:{fontWeight: 'bold'}" class="fa fa-file-text-o"></i></a>
+          </span>
+        </div> 
+      </div>
 		</div>
 		<div class="box-body">
 
-         <select data-bind=" options: listaWorkflows ,optionsValue: 'id', optionsText: 'nombre',value: workflowSelected" id='select-edited'></select> 
+         {{-- <select data-bind=" options: listaWorkflows ,optionsValue: 'id', optionsText: 'nombre',value: workflowSelected" id='select-edited'></select>  --}}
 
 		{!! Form::open(['method' => 'POST', 'route' => ['inbox.store'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}
 		<table id="edited" style="width:100%" class="table table-bordered table-hover">
@@ -292,8 +305,8 @@ $(document).ready(function (){
       });
     });
     
-    $('#select-received').on('change', function(){
-       oTable.columns(0).search(this.value).draw();   
+    $(document).on('click','.btn-received', function(){
+       oTable.columns(0).search($(this).data('id')).draw();   
     });
 
 });
@@ -380,9 +393,14 @@ $(document).ready(function (){
       }
     });
   });
-  $('#select-edited').on('change', function(){
-       table.columns(0).search(this.value).draw();   
-    });
+  // $('#select-edited').on('change', function(){
+  //      table.columns(0).search(this.value).draw();   
+  //   });
+  $(document).on('click', '.btn-edited', function(event) {
+    table.columns(0).search($(this).data('id')).draw();   
+    event.preventDefault();
+  });
+
 
    // var table = $('#edited').DataTable({
    //  "dom":"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12't>><'row'<'col-sm-5'i>><'row'<'bottom'p>>",
@@ -438,11 +456,17 @@ $(document).ready(function (){
    //    $('#ids_print').val(ids);
    // });
 
-    function Workflow(id,nombre)
+    function Workflow(id,nombre, quantity, color)
     {
       var self = this;
       self.id = ko.observable(id);
       self.nombre = ko.observable(nombre);
+      self.quantity = ko.observable(quantity);
+      self.quantityStyle = ko.computed(function(){
+        return  ' '+self.quantity()+' ';
+      });
+
+      self.color = ko.observable(color);
     }
 
     function Secuencia(id,nombre,workflow_id)
@@ -461,15 +485,19 @@ $(document).ready(function (){
         var self = this;
 
         var workflowsList = {!! json_encode($wfs); !!};
+        var workflowsListReceived = {!! json_encode($wf_received); !!};
         var secuencias = {!! json_encode($secuencias); !!} ;
      
        
         self.listaWorkflows = ko.observableArray();
+        self.listaWorkflowsReceived = ko.observableArray();
         self.listaSecuencias = ko.observableArray();
         
         for (var i in workflowsList) {
-          self.listaWorkflows.push(new Workflow(workflowsList[i].id,workflowsList[i].name));
-          
+          self.listaWorkflows.push(new Workflow(workflowsList[i].id,workflowsList[i].name,workflowsList[i].quantity,workflowsList[i].color));
+        }
+        for (var i in workflowsListReceived) {
+          self.listaWorkflowsReceived.push(new Workflow(workflowsListReceived[i].id,workflowsListReceived[i].name,workflowsListReceived[i].quantity,workflowsListReceived[i].color));
         }
         console.log(self.listaWorkflows());
      
@@ -507,9 +535,49 @@ $(document).ready(function (){
 
         /********/
 
-          
+        // self.wf_click = ko.observable();  
 
-            
+        self.wf_click = function(data, event){
+          workflow_id=data.id();
+        
+          self.listaSecuencias.removeAll();
+          for(var i in secuencias)
+          {
+            if(secuencias[i].workflow_id == workflow_id)
+            {
+              self.listaSecuencias.push(new Secuencia(secuencias[i].id,secuencias[i].name,secuencias[i].workflow_id));
+
+            }
+          } 
+          console.log('size'+self.listaSecuencias().length)
+          if(self.listaSecuencias().length > 0)
+          {
+              self.secuenciaActual.nombre(self.listaSecuencias()[0].nombre());
+              self.secuenciaActual.id(self.listaSecuencias()[0].id());
+              self.secuenciaActual.workflow_id(self.listaSecuencias()[0].workflow_id());
+              
+              console.log(self.secuenciaActual.workflow_id());
+              self.secuenciaIsVisible(true);
+              self.messageVisible(false);
+          }
+          else
+          {
+              self.secuenciaIsVisible(false);
+              self.messageVisible(true);
+          }
+
+          console.log(self.messageVisible());
+          console.log(workflow_id);
+
+          for (var i in workflowsList) {
+              if(workflowsList[i].id==workflow_id )
+              {
+
+                self.workflowSelectedName(workflowsList[i].name);
+              }  
+          }
+          console.log('--------------');
+        };
 
 
 
