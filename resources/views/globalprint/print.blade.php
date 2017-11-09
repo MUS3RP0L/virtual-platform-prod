@@ -56,7 +56,7 @@
         PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICÍA - 2017
       </td>
       <td class="no-border text-right">
-        @if($title != 'NOTIFICACIÓN')
+        {{-- @if($title != 'NOTIFICACIÓN')
         <img width="90px" src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->generate(
                       $title.' || '.
                       'Trámite Nº: '.($economic_complement->code).' || '.
@@ -74,7 +74,7 @@
                       'Fecha: '.($date ?? '') .' || '.
                       $user->id
                       )) !!} ">
-        @endif
+        @endif --}}
       </td>
     </table> 
   </footer>

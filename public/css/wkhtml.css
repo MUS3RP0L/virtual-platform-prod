@@ -190,3 +190,9 @@ table .info_title{
 table .text-left{
   text-align: left;
 }
+.padding-lr-10{
+  padding: 0px 10px;
+}
+.padding-lr-5{
+  padding: 0px 5px;
+}
