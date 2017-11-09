@@ -952,6 +952,10 @@
                         <div class="col-md-4 text-right">
                             @can("eco_com_review_reception_calification")
 
+                                    <span data-toggle="modal" data-target="#spouseModal">
+                                        <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Pago a Viuda por unica vez"><i class="fa fa-lg fa fa-female"></i></a>
+                                    </span>
+                                    
                                     <span data-toggle="modal" data-target="#policeModal">
                                         <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
                                     </span>
@@ -2882,6 +2886,126 @@
     </form>
 
 
+    <div id="spouseModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    {!! Form::open(['url' => 'saveSpouse', 'method' => 'post']) !!}
+                    <h4 class="modal-title">Pago a viuda Por unica vez </h4>
+                      <div class="togglebutton">
+                          <label>
+                            <input type="checkbox" data-bind="checked: is_paid_spouse" name="is_paid_spouse"> 
+                          </label>
+                      </div> 
+                    
+                </div>
+                <div class="modal-body">
+
+                  
+                    <input type="hidden" name="complement_id" value="{{$economic_complement->id}}">
+                   
+                    <div class="row"  data-bind="visible: is_paid_spouse">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <br>
+                                        {!! Form::label('first_name', 'Primer Nombre', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('first_name', $spouse?$spouse->first_name:null, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()', 'data-bind' => 'attr: {required: is_paid_spouse}' ]) !!}
+                                        <span class="help-block">Escriba el Primer Nombre</span>
+                                    </div><br>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('second_name', 'Segundo Nombre', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('second_name', $spouse?$spouse->second_name:null, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Segundo Nombre</span>
+                                    </div><br>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('last_name', $spouse?$spouse->last_name:null, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Apellido Paterno</span>
+                                    </div><br>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('mothers_last_name', 'Apellido Materno', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('mothers_last_name', $spouse?$spouse->mothers_last_name:null, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el  Apellido Materno</span>
+                                    </div><br>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('surname_husband', 'Apellido de Esposo', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::text('surname_husband', $spouse?$spouse->surname_husband:null, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                        <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
+                                    </div><br>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <br>
+                                        {!! Form::label('identity_card', ' Carnet de Identidad', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-5">
+                                        {!! Form::text('identity_card', $spouse?$spouse->identity_card:null, ['class'=> 'form-control', 'data-bind' => 'attr: {required: is_paid_spouse']) !!}
+                                        <span class="help-block">Escriba el Carnet de Identidad</span>
+                                    </div>
+                                    {!! Form::select('city_identity_card_id', $cities_list_short, $spouse?$spouse->city_identity_card_id:null, ['class' => 'col-md-2 combobox form-control','data-bind' => 'attr: {required: is_paid_spouse}']) !!}
+
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('birth_date', 'Fecha Nacimiento', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <input type="text" id="birth_date_spouse_mask" class="form-control" name="birth_date" value="{!! $spouse?$spouse->getEditBirthDate():null !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask data-bind="attr: {required: is_paid_spouse}" >
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        {!! Form::label('city_birth', 'Lugar Nacimiento', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-7">
+                                            {!! Form::select('city_birth_id', $cities_list, $spouse?$spouse->city_birth_id:null, ['class' => 'combobox form-control', 'data-bind' => 'attr: {required: is_paid_spouse}']) !!}
+                                            <span class="help-block">Seleccione Departamento</span>
+                                        </div><br>
+                                </div>
+                                <div class="form-group">
+                                            {!! Form::label('civil_status', 'Estado Civil', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::select('civil_status', $gender_list_s, $spouse?$spouse->civil_status:null, ['class' => 'combobox form-control', 'data-bind' => 'attr: {required: is_paid_spouse}','name'=>'civil_status']) !!}
+                                        <span class="help-block">Seleccione el Estado Civil</span>
+                                    </div><br>
+                                </div>
+                               
+                            </div>
+                            
+                        </div>
+                            <div class="row text-center">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <br>
+                                
+                                        <a href="{!! url('economic_complement/'.$economic_complement->id) !!}" data-target="#" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;</button>
+                                    </div>
+                                </div>
+                            </div>
+                    {!! Form::close() !!}
+                </div>    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
     @if($wf_state_before && $has_cancel)
 
     <form  action="{{url('retroceso_de_tramite')}}" method="POST">
@@ -3136,6 +3260,10 @@ $(document).ready(function() {
                 self.activolg(!self.isDateUndifinedlg());  
             };
          @endif
+
+        self.is_paid_spouse = ko.observable({{json_encode($economic_complement->is_paid_spouse)}});
+        console.log('pinche var');
+        console.log(self.is_paid_spouse());
     };
 
     @if(isset($wf_state_before) && $has_cancel==true && sizeof($wf_state_before) > 0)
@@ -3310,6 +3438,9 @@ $(document).ready(function() {
         $("#dignity_pension").inputmask();
         $("#aps_disability").inputmask();
         $('#total_frac').inputmask();
+
+         $("#birth_date_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+
         $('#myModal-totals').on('show.bs.modal',function () {
             var total=0;
             var aps_total_fs =  document.getElementById('aps_total_fs');
