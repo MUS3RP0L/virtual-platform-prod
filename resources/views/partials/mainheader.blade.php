@@ -92,6 +92,10 @@
     .selectize-control.searchbox.loading::before {
         opacity: 0.4;
     }
+    .selectize-dropdown>.selectize-dropdown-content> .optgroup>.active {
+        color: #fff;
+        background-color: rgba(0, 150, 136, 0.8);
+    }
     ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
         color:    #fff;
         opacity: 0.8;
@@ -117,6 +121,25 @@
        color:    #fff;
         font-weight: lighter;
     }
+    .form-control  {
+      font-family: "FontAwesome"
+    }
+    .selectize-input>input::-webkit-input-placeholder {
+      -moz-transition: ease-in 0.3s;
+      -o-transition: ease-in 0.3s;
+      -webkit-transition: ease-in 0.3s;
+      transition: ease-in 0.5s;
+      transform-origin: 0 50%;
+      font-weight: normal;
+    }
+
+    .selectize-input>input:focus::-webkit-input-placeholder{
+      -moz-transform: translateX(70%);
+      -ms-transform: translateX(70%);
+      -webkit-transform: translateX(70%);
+      transform: translateX(70%);
+      opacity: 0;
+    }
 </style>
 <header class="main-header">
 
@@ -135,7 +158,7 @@
             <ul class="nav navbar-nav">
                 <li>
                     <div class="form-group" style="padding-bottom:0px;padding-top:4px;padding-right:12px;">
-                        <select id="searchbox" placeholder="Buscar Afiliado..." name="q" class="searchbox form-control" style="width: 200px; top: 34px; visibility: visible;"></select>
+                        <select id="searchbox" placeholder="&#xf002; Buscar Afiliado..." name="q" class="searchbox form-control" style="width: 200px; top: 34px; visibility: visible;"></select>
                     </div>
                 </li>
 
