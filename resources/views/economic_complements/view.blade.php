@@ -92,14 +92,14 @@
                   
                     <span data-toggle="tooltip" data-placement="top" data-original-title="Devolución de Tramite" style="margin:0px;">
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-raised btn-warning dropdown-toggle enabled"  data-target="#back-modal"  data-toggle="modal" ><i class="fa fa-arrow-left" ></i> <strong data-bind="text: secuenciaActual.nombre" ></strong></button>
+                      <button type="button" class="btn btn-sm btn-raised btn-warning dropdown-toggle enabled" ><i class="fa fa-arrow-left" ></i> 
                       <button type="button" class="btn btn-sm btn-raised btn-warning dropdown-toggle dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                       </button>
                      
                       <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuencias">
-                        <li ><a href="#" data-bind="text: nombre, click: secuenciaSeleccionada"></a></li>
+                        <li ><a href="#" data-target="#back-modal"  data-toggle="modal"   data-bind="text: nombre, click: secuenciaSeleccionada"></a></li>
                       </ul>
                     </div>
                     </span>

@@ -39,7 +39,22 @@
 					<button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;&nbsp;&nbsp;</button>
 				</div>
 			</div>
-						{!! Form::close() !!}
+				{!! Form::close() !!}
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	
+
+		function ViewModelObservation()
+		{
+			self = this;
+			self.selectedViuda = ko.observation();
+			self.selectedViuda.suscribe(function(observation_id){
+				console.log(" observation tipe "+observation_id);
+			});
+
+		}
+		
+	
+</script>

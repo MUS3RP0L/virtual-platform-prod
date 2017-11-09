@@ -219,7 +219,7 @@
                                         {!! Form::label('due_date', 'Fecha de Vencimiento del CI', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-7">
                                             <div class="input-group">
-                                                <input data-bind ="enable: activo" type="text" id="due_date_mask" class="form-control" name="due_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                                <input data-bind ="enable: activo" type="text" id="due_date_mask" class="form-control" name="due_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required>
                                                 <div class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </div>
