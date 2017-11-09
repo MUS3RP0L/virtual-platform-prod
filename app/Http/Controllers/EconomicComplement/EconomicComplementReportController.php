@@ -73,7 +73,8 @@ class EconomicComplementReportController extends Controller
            $year_list[Util::getYear($item->year)] = Util::getYear($item->year);
        }
 
-       $report_type = ['' => '', '1' => 'Reporte de recepción por usuario', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Reporte de doble percepción', '5' => 'Resumen de habituales', '6' => 'Resumen de inclusiones', '7' => 'Reporte por Intervalo de fechas','8' => 'Reporte Subsanados','9' => 'Reporte en Excel','10' => 'Reporte de excluidos por salario'];
+       $report_type = ['' => '', '1' => 'Reporte de recepción por usuario', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '5' => 'Resumen de habituales', '6' => 'Resumen de inclusiones', '7' => 'Reporte por Intervalo de fechas','8' => 'Reporte Subsanados','9' => 'Reporte en Excel','10' => 'Reporte de excluidos por salario'];
+       // $report_type = ['' => '', '1' => 'Reporte de recepción por usuario', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Reporte de doble percepción', '5' => 'Resumen de habituales', '6' => 'Resumen de inclusiones', '7' => 'Reporte por Intervalo de fechas','8' => 'Reporte Subsanados','9' => 'Reporte en Excel','10' => 'Reporte de excluidos por salario'];
        foreach ($report_type as $key => $item) {
            $report_type_list[$key] = $item;
        }
@@ -157,7 +158,7 @@ class EconomicComplementReportController extends Controller
                            $regional = ($request->city == 'Todo') ? '%%' : $request->city;
                            $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
                            $beneficiary_eco_complements = DB::table('eco_com_applicants')
-                                           ->select(DB::raw("economic_complements.id, economic_complements.code,economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.first_shortened as exp, concat_ws(' ', NULLIF(eco_com_applicants.last_name,null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null), NULLIF(eco_com_applicants.first_name, null), NULLIF(eco_com_applicants.second_name, null)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username,eco_com_applicants.phone_number,eco_com_applicants.cell_phone_number"))
+                                           ->select(DB::raw("economic_complements.id, economic_complements.code,economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,economic_complements.reception_type,cities.second_shortened as city,eco_com_applicants.identity_card,cities1.first_shortened as exp, trim(regexp_replace(CONCAT(eco_com_applicants.first_name,' ',eco_com_applicants.second_name,' ',eco_com_applicants.last_name,' ',eco_com_applicants.mothers_last_name,' ',eco_com_applicants.surname_husband),'( )+' , ' ', 'g')) full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username,eco_com_applicants.phone_number,eco_com_applicants.cell_phone_number"))
                                            ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                                            ->leftJoin('users','economic_complements.user_id','=','users.id')
                                            ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
@@ -179,7 +180,7 @@ class EconomicComplementReportController extends Controller
                                            ->get();
                                            //dd($regional);                                           
                            if ($beneficiary_eco_complements) {                              
-                             return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user','user_role'))->setPaper('letter')->setOrientation('landscape')->stream('report_beneficiary.pdf');
+                             return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user','user_role'))->setPaper('letter')->setOrientation('landscape')->setOption('footer-right', 'Pagina [page] de [toPage]')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE LA MUSERPOL - 2017')->stream('report_beneficiary.pdf');
 
                              /*$view = \View::make('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user'))->render();
                                 $pdf = \App::make('dompdf.wrapper');
@@ -453,7 +454,7 @@ class EconomicComplementReportController extends Controller
                            $from = Util::datePick($request->get('from'));
                            $to = Util::datePick($request->get('to'));                          
                            $eco_complements = DB::table('eco_com_applicants')
-                                           ->select(DB::raw("economic_complements.id,economic_complements.code,economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.first_shortened as exp, concat_ws(' ', NULLIF(eco_com_applicants.last_name,null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null), NULLIF(eco_com_applicants.first_name, null), NULLIF(eco_com_applicants.second_name, null)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name as pension_entity,users.username,eco_com_applicants.phone_number,eco_com_applicants.cell_phone_number"))
+                                           ->select(DB::raw("economic_complements.id,economic_complements.code,economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,economic_complements.reception_type,cities.second_shortened as city,eco_com_applicants.identity_card,cities1.first_shortened as exp, concat_ws(' ', NULLIF(eco_com_applicants.last_name,null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null), NULLIF(eco_com_applicants.first_name, null), NULLIF(eco_com_applicants.second_name, null)) full_name, degrees.shortened,eco_com_types.name,pension_entities.name as pension_entity,users.username,eco_com_applicants.phone_number,eco_com_applicants.cell_phone_number"))
                                            ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                                            ->leftJoin('users','economic_complements.user_id','=','users.id')
                                            ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
@@ -472,7 +473,7 @@ class EconomicComplementReportController extends Controller
                                            ->get();
                            if ($eco_complements) {
                                
-                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','eco_complements','anio','user'))->setPaper('letter')->setOrientation('landscape')->stream('report_by_user.pdf');
+                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','eco_complements','anio','user'))->setPaper('letter')->setOrientation('landscape')->setOption('footer-right', 'Pagina [page] de [toPage]')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE LA MUSERPOL - 2017')->stream('report_by_user.pdf');
                            } else {
                                $message = "No existen registros para visualizar";
                                Session::flash('message', $message);
