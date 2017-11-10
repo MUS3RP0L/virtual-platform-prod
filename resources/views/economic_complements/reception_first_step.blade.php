@@ -71,15 +71,15 @@
                                     @else
                                         <div class="radio radio-primary">
                                             <label style="font-size: 18px">
-                                                {!! Form::radio('eco_com_type', '1', (($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == '1'), ['required' => 'required']) !!} Vejez
-                                                {{-- {!! Form::radio('eco_com_type', '1', ($last_complement->economic_complement_modality->economic_complement_type->id == '1'), ['required' => 'required', (($last_complement->economic_complement_modality->economic_complement_type->id == 2 || $last_complement->economic_complement_modality->economic_complement_type->id == 3) ? 'disabled':'' )]) !!} Vejez --}}
+                                                {{-- {!! Form::radio('eco_com_type', '1', (($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == '1'), ['required' => 'required']) !!} Vejez --}}
+                                                {!! Form::radio('eco_com_type', '1', (($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == '1'), ['required' => 'required', ((($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == 2 || ($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == 3) ? 'disabled':'' )]) !!} Vejez
                                                 
                                             </label>
                                         </div><br>
                                         <div class="radio radio-primary">
                                             <label style="font-size: 18px">
-                                                {!! Form::radio('eco_com_type', '2', (($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == '2'), []) !!} Viudedad
-                                                {{-- {!! Form::radio('eco_com_type', '2', ($last_complement->economic_complement_modality->economic_complement_type->id == '2'), [($last_complement->economic_complement_modality->economic_complement_type->id == 3) ? 'disabled':'' ]) !!} Viudedad --}}
+                                                {{-- {!! Form::radio('eco_com_type', '2', (($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == '2'), []) !!} Viudedad --}}
+                                                {!! Form::radio('eco_com_type', '2', (($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == '2'), [(($last_complement->economic_complement_modality->economic_complement_type->id ?? 0 ) == 3) ? 'disabled':'' ]) !!} Viudedad
                                             </label>
                                         </div><br>
                                         <div class="radio radio-primary">
