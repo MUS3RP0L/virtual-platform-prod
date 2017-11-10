@@ -158,7 +158,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('retroceso_de_tramite','EconomicComplement\EconomicComplementController@retroceso_de_tramite');
 	Route::post('moreInfo','EconomicComplement\EconomicComplementController@moreInfo');
 	Route::post('change_state','EconomicComplement\EconomicComplementController@change_state');
-
+	Route::post('saveSpouse','EconomicComplement\EconomicComplementController@saveSpouse');
 
 	Route::post('export_senasir', array('as'=>'export_senasir', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_senasir'));
 	

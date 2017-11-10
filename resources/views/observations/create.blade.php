@@ -43,18 +43,3 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-	
-
-		function ViewModelObservation()
-		{
-			self = this;
-			self.selectedViuda = ko.observation();
-			self.selectedViuda.suscribe(function(observation_id){
-				console.log(" observation tipe "+observation_id);
-			});
-
-		}
-		
-	
-</script>

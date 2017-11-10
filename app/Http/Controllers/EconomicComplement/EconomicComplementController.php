@@ -1174,10 +1174,22 @@ class EconomicComplementController extends Controller
 
             $states = EconomicComplementState::where('eco_com_state_type_id',1)->get();
         }
+        //datos para el spouse
+
+        $spouse = Spouse::where('affiliate_id',$economic_complement->affiliate_id)->first();
+
+        if ($affiliate->gender == 'M') {
+            $gender_list = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
+            $gender_list_s = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
+
+        }elseif ($affiliate->gender == 'F') {
+            $gender_list = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
+            $gender_list_s = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
+
+        }
 
         // Log::info("has_cancel= ".json_encode($has_cancel));
         // Log::info("wf_state_before=" .json_encode($wf_state_before));
-
 
         $data = [
 
@@ -1211,6 +1223,9 @@ class EconomicComplementController extends Controller
         'has_edit_state' => $has_edit_state,
         'has_checked' =>$has_checked,
         'states' => $states,
+        'spouse' => $spouse,
+        'gender_list' =>$gender_list,
+        'gender_list_s' => $gender_list_s,
         ];
         // dd($eco_com_submitted_documents_ar);
 
@@ -2513,6 +2528,49 @@ class EconomicComplementController extends Controller
         $economic_complement->save();
 
         return back()->withInput();
+
+    }
+    public function saveSpouse(Request $request)
+    {
+            // return $request->all();
+
+            $economic_complement = EconomicComplement::where('id',$request->complement_id)->first();
+
+            if($request->has('is_paid_spouse'))
+            {
+
+                $spouse = Spouse::where('affiliate_id',$economic_complement->affiliate_id)->first();
+
+                if (!$spouse) { $spouse = new Spouse; }
+
+                $spouse->user_id = Auth::user()->id;
+                $spouse->affiliate_id = $economic_complement->affiliate_id;
+                $spouse->identity_card = trim($request->identity_card);
+                $spouse->city_identity_card_id = $request->city_identity_card_id;
+                $spouse->last_name = trim($request->last_name);
+                $spouse->mothers_last_name = trim($request->mothers_last_name);
+                $spouse->surname_husband = trim($request->surname_husband);
+                $spouse->first_name = trim($request->first_name);
+                $spouse->second_name = trim($request->second_name);
+                $spouse->birth_date = Util::datePick($request->birth_date);
+                $spouse->city_birth_id = $request->city_birth_id;
+                $spouse->civil_status = trim($request->civil_status);
+                $spouse->registration=0;
+     
+                $spouse->save();
+
+                $message = "Información de Conyuge actualizado con éxito";
+
+                Session::flash('message', $message);
+            }else
+            {
+
+            }
+
+            $economic_complement->is_paid_spouse =$request->has('is_paid_spouse')?true:false;
+            $economic_complement->save();
+
+            return redirect('economic_complement/'.$economic_complement->id);
 
     }
 }
