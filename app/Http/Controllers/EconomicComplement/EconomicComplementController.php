@@ -1191,7 +1191,6 @@ class EconomicComplementController extends Controller
         // Log::info("has_cancel= ".json_encode($has_cancel));
         // Log::info("wf_state_before=" .json_encode($wf_state_before));
 
-
         $data = [
 
         'affiliate' => $affiliate,
@@ -2533,6 +2532,8 @@ class EconomicComplementController extends Controller
     }
     public function saveSpouse(Request $request)
     {
+            // return $request->all();
+
             $economic_complement = EconomicComplement::where('id',$request->complement_id)->first();
 
             if($request->has('is_paid_spouse'))
@@ -2545,17 +2546,17 @@ class EconomicComplementController extends Controller
                 $spouse->user_id = Auth::user()->id;
                 $spouse->affiliate_id = $economic_complement->affiliate_id;
                 $spouse->identity_card = trim($request->identity_card);
-                if ($request->city_identity_card_id) { $spouse->city_identity_card_id = $request->city_identity_card_id; } else { $spouse->city_identity_card_id = null; }
+                $spouse->city_identity_card_id = $request->city_identity_card_id;
                 $spouse->last_name = trim($request->last_name);
                 $spouse->mothers_last_name = trim($request->mothers_last_name);
                 $spouse->surname_husband = trim($request->surname_husband);
                 $spouse->first_name = trim($request->first_name);
                 $spouse->second_name = trim($request->second_name);
                 $spouse->birth_date = Util::datePick($request->birth_date);
-                if ($request->city_birth_id) { $spouse->city_birth_id = $request->city_birth_id; } else { $spouse->city_birth_id = null; }
+                $spouse->city_birth_id = $request->city_birth_id;
                 $spouse->civil_status = trim($request->civil_status);
-                return $spouse;
                 $spouse->registration=0;
+     
                 $spouse->save();
 
                 $message = "Información de Conyuge actualizado con éxito";
@@ -2567,9 +2568,9 @@ class EconomicComplementController extends Controller
             }
 
             $economic_complement->is_paid_spouse =$request->has('is_paid_spouse')?true:false;
-            // $economic_complement->save();
+            $economic_complement->save();
 
-            return back()->withInput();
+            return redirect('economic_complement/'.$economic_complement->id);
 
     }
 }
