@@ -22,11 +22,11 @@
 		  		<td><h3> {!! $economic_complement->semester !!}</h3></td>
 		  	</tr>
 		  	<tr>
-		  		<th class="grand service"><h4><b>GESTION</b></h4></th>
+		  		<th class="grand service"><h4><b>GESTIÓN</b></h4></th>
 		  		<td><h3>{!! $yearcomplement->year !!}</h3></td>
 		  	</tr>
 		  	<tr>
-		  		<th class="grand service"><h4><b>FECHA DE RECEPCION</h4></b></th>
+		  		<th class="grand service"><h4><b>FECHA DE RECEPCIÓN</h4></b></th>
 		  		<td ><h3> {!! $economic_complement->reception_date !!}</h3></td>
 		  	</tr>
 		  	</table>
@@ -80,7 +80,7 @@
 	                <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>-------------------------------------------</th>
 	            </tr>
 	            <tr>
-	              <th class="info" style="border: 0px;text-align:center;"><b>{!! $eco_com_applicant->getTitleNameFull() !!}<br />C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened !!} <br /> Telefono. {!! $eco_com_applicant->getPhone() !!}</b></th>        
+	              <th class="info" style="border: 0px;text-align:center;"><b>{!! $eco_com_applicant->getTitleNameFull() !!}<br />C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened !!} <br /> Teléfono: {!! $eco_com_applicant->getPhone() !!}</b></th>        
 	            </tr>
 	  </table>
 	</div>

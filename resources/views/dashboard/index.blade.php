@@ -53,6 +53,9 @@
 	<div class="col-md-4">
 		 @include('dashboard.pension_entitites')
 	</div>
+	<div class="col-md-4">
+		 @include('dashboard.reception_type')
+	</div>
 </div>
 @endcan
 @can('manage')

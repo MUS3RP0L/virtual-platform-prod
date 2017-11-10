@@ -36,7 +36,7 @@
       <td>
   			{!! explode(',',$eco_com_applicant->cell_phone_number)[0] !!}<br/>
   		</td>
-      <td><strong>LUGAR DE NAC.</strong></td>
+      <td><strong>LUGAR DE NAC.:</strong></td>
       <td>{!! $eco_com_applicant->city_birth->second_shortened ?? '' !!}</td>
   	</tr>
   

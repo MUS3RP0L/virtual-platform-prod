@@ -60,7 +60,71 @@ class InboxController extends Controller
             
             $workflow_ids = Util::getRol()->module->workflows->pluck('name', 'id');
             $workflow_ids2  = Util::getRol()->module->workflows;
-            $data = array('sw_actual' => $sw_actual, 'secuencias' => $secuencias, 'workflow_ids'=> $workflow_ids ,'wfs'=>$workflow_ids2 );
+            $workflow_ids_edited  = Util::getRol()->module->workflows;
+            $wfss=[];
+            foreach ($workflow_ids2 as $key => $value) {
+                $q_economic_complements=EconomicComplement::leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
+                   ->where('economic_complements.state','Edited')
+                   ->where('economic_complements.workflow_id',$value->id)
+                   ->where('wf_states.role_id',(Util::getRol()->id))
+                   ->where('economic_complements.user_id',Auth::user()->id)
+                   ->get()->count();
+                   $data = new stdClass;
+                   // $data->quantity = $value->name.' ('.$q_economic_complements.')';
+                   $data->quantity = $q_economic_complements;
+                   $data->id = $value->id;
+                   $data->module_id = $value->module_id;
+                   $data->name = $value->shortened;
+                   switch ($value->id) {
+                       case '1':
+                           $data->color = 'btn-success';
+                           break;
+                       case '2':
+                           $data->color = 'btn-warning';
+                           break;
+                       case '3':
+                           $data->color = 'btn-info';
+                           break;
+                       default:
+                           $data->color = 'btn-default';
+                           break;
+                   }
+                   $wfss[]=$data;
+            }
+            $workflow_ids_received  = Util::getRol()->module->workflows;
+            $wf_received=[];
+            foreach ($workflow_ids_received as $key => $value) {
+                $q_economic_complements=EconomicComplement::leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
+                   ->where('economic_complements.state','Received')
+                   ->where('wf_states.role_id',(Util::getRol()->id))
+                   ->where('economic_complements.workflow_id',$value->id)
+                   ->leftJoin('eco_com_applicants','economic_complements.id', '=', 'eco_com_applicants.economic_complement_id')
+                   ->get()->count()
+                   ;
+
+                   $data = new stdClass;
+                   // $data->quantity = $value->name.' ('.$q_economic_complements.')';
+                   $data->quantity = $q_economic_complements;
+                   $data->id = $value->id;
+                   $data->module_id = $value->module_id;
+                   $data->name = $value->shortened;
+                   switch ($value->id) {
+                       case '1':
+                           $data->color = 'btn-success';
+                           break;
+                       case '2':
+                           $data->color = 'btn-warning';
+                           break;
+                       case '3':
+                           $data->color = 'btn-info';
+                           break;
+                       default:
+                           $data->color = 'btn-default';
+                           break;
+                   }
+                   $wf_received[]=$data;
+            }
+            $data = array('sw_actual' => $sw_actual, 'secuencias' => $secuencias, 'workflow_ids'=> $workflow_ids ,'wfs'=>$wfss, 'wf_received'=>$wf_received );
 
             // return $data;
             return view('inbox.view',$data);
@@ -84,7 +148,6 @@ class InboxController extends Controller
             ->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
             ->where('economic_complements.state','Received')
             ->where('wf_states.role_id',($rol->id))
-            ->where('economic_complements.eco_com_procedure_id','2')
             ->leftJoin('eco_com_applicants','economic_complements.id', '=', 'eco_com_applicants.economic_complement_id')
             ->leftJoin('cities','economic_complements.city_id', '=', 'cities.id')
             ->select(DB::raw("economic_complements.workflow_id, economic_complements.id, eco_com_applicants.identity_card as ci, trim(regexp_replace(CONCAT(eco_com_applicants.first_name,' ',eco_com_applicants.second_name,' ',eco_com_applicants.last_name,' ',eco_com_applicants.mothers_last_name,' ',eco_com_applicants.surname_husband),'( )+' , ' ', 'g')) as name ,cities.second_shortened as city, economic_complements.code "))

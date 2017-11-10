@@ -27,7 +27,7 @@
       <td><strong>CATEGORÍA:</strong></td><td>{!! $economic_complement->category->getPercentage() !!}</td>
     </tr>
     <tr>
-      <td><strong>C.I.:</strong></td><td nowrap colspan="2">  {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card->first_shortened ?? '' !!}</td><td><strong>FECHA NAC:</strong></td><td> {!! $affiliate->getShortBirthDate() !!}</td><td><strong>EDAD:</strong></td><td>{!! $affiliate->getAge() !!} AÑOS</td>
+      <td><strong>C.I.:</strong></td><td nowrap colspan="2">  {!! $affiliate->identity_card !!} {!! $affiliate->city_identity_card->first_shortened ?? '' !!}</td><td><strong>FECHA DE NAC.:</strong></td><td> {!! $affiliate->getShortBirthDate() !!}</td><td><strong>EDAD:</strong></td><td>{!! $affiliate->getAge() !!} AÑOS</td>
     </tr>
   </table>
   @endif
@@ -58,7 +58,7 @@
       <td>
         {!! explode(',',$eco_com_applicant->cell_phone_number)[0] !!}<br/>
       </td>
-      <td><strong>Lugar de Nac.</strong></td>
+      <td><strong>LUGAR DE NAC.:</strong></td>
       <td>{!! $eco_com_applicant->city_birth->second_shortened ?? '' !!}</td>
     </tr>
   </table>

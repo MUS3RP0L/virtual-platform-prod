@@ -2220,11 +2220,11 @@ class EconomicComplementController extends Controller
                 // $pdf->loadHTML($view)->setPaper('legal');
                 // return $pdf->stream();
 
-                return \PDF::loadView('economic_complements.print.sworn_declaration1', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017')->stream('report_edited.pdf');
+                return \PDF::loadView('economic_complements.print.sworn_declaration1', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_edited.pdf');
             case 'viudedad':
                 $spouse = Spouse::where('affiliate_id',$affiliate->id)->first();
                 array_push($data, $spouse);
-                return \PDF::loadView('economic_complements.print.sworn_declaration2', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017')->stream('report_edited.pdf');
+                return \PDF::loadView('economic_complements.print.sworn_declaration2', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_edited.pdf');
 
                 // $view = \View::make('economic_complements.print.sworn_declaration2', $data)->render();
                 // $pdf = \App::make('dompdf.wrapper');
@@ -2280,7 +2280,7 @@ class EconomicComplementController extends Controller
             case 'report':
                 $title= "RECEPCIÓN DE REQUISITOS";
                 array_push($data,$title);
-                return \PDF::loadView('economic_complements.print.reception_report', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017')->stream('report_edited.pdf');
+                return \PDF::loadView('economic_complements.print.reception_report', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_edited.pdf');
                 
                 $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user', 'user_role','yearcomplement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
@@ -2290,7 +2290,7 @@ class EconomicComplementController extends Controller
             case 'inclusion':
                 $title= "";
                 array_push($data,$title);
-                return \PDF::loadView('economic_complements.print.inclusion_solicitude', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017')->stream('report_edited.pdf');
+                return \PDF::loadView('economic_complements.print.inclusion_solicitude', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_edited.pdf');
                 
                 $view = \View::make('economic_complements.print.inclusion_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type', 'user', 'user_role'))->render();
 
@@ -2301,7 +2301,7 @@ class EconomicComplementController extends Controller
             case 'habitual':
                 $title= "";
                 array_push($data,$title);
-                return \PDF::loadView('economic_complements.print.habitual_solicitude', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICIA - 2017')->stream('report_edited.pdf');
+                return \PDF::loadView('economic_complements.print.habitual_solicitude', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_edited.pdf');
 
 
                 $view = \View::make('economic_complements.print.habitual_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type', 'user', 'user_role'))->render();

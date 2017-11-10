@@ -8,12 +8,12 @@ Formulario Nº 3
 <div id="project">
  <strong>Señor (a) </strong><br />
  <strong>DIRECTOR (A) GENERAL EJECUTIVO</strong><br />
- <strong>MUTUAL DE SERVICIOS AL POLICIA</strong><br />
+ <strong>MUTUAL DE SERVICIOS AL POLICÍA</strong><br />
  Presente.-<br />
  <p align="justify"><strong>REF: {!! $applicant_type !!} SOLICITA NUEVA INCLUSIÓN {!! strtoupper($economic_complement->semester) !!} SEMESTRE COMPLEMENTO ECONÓMICO DE LA GESTIÓN {!! Util::getYear($economic_complement->reception_date) !!}</strong></p>
 
  <p>Distinguido (a) Director (a): </p>
- <p align="justify">La presente tiene por objeto solicitar a su autoridad instruir por la unidad correspondiente <strong>LA INCLUSIÓN COMO NUEVO BENEFICIARIO PARA EL PAGO DEL BENEFICIO DEL COMPLEMENTO ECONÓMICO DEL {!! strtoupper($economic_complement->semester) !!} SEMESTRE DE LA GESTIÓN {!! Util::getYear($economic_complement->reception_date) !!}.</strong> </p>
+ <p align="justify">La presente tiene por objeto solicitar a su autoridad instruir por la unidad correspondiente <strong>&nbsp;&nbsp;LA INCLUSIÓN COMO NUEVO BENEFICIARIO PARA EL PAGO DEL BENEFICIO DEL COMPLEMENTO ECONÓMICO DEL {!! strtoupper($economic_complement->semester) !!} SEMESTRE DE LA GESTIÓN {!! Util::getYear($economic_complement->reception_date) !!}.</strong> </p>
  <p>Para tal efecto, adjunto folder con los requisitos exigidos de acuerdo al siguiente detalle: </p>
   <div class="title2"><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
   <table class="table" style="width:100%;">
@@ -27,7 +27,7 @@ Formulario Nº 3
       </tr>
       <tr>
         <td><strong>C.I.:</strong></td><td nowrap>{!! $eco_com_applicant->identity_card !!} {{$eco_com_applicant->city_identity_card->first_shortened ?? ''}}</td>
-        <td><strong>FECHA NAC:</strong></td><td> {!! $eco_com_applicant->getShortBirthDate() !!}</td>
+        <td><strong>FECHA DE NAC.:</strong></td><td> {!! $eco_com_applicant->getShortBirthDate() !!}</td>
         <td><strong>EDAD:</strong></td><td>{!! $eco_com_applicant->getAge() !!} AÑOS</td>
       </tr>
       <tr>
@@ -39,7 +39,7 @@ Formulario Nº 3
         <td>
           {!! explode(',',$eco_com_applicant->cell_phone_number)[0] !!}<br/>
         </td>
-        <td><strong>Lugar de Nac.</strong></td>
+        <td><strong>LUGAR DE NAC.:</strong></td>
         <td>{!! $eco_com_applicant->city_birth->second_shortened ?? '' !!}</td>
       </tr>
     </table>
@@ -50,18 +50,18 @@ Formulario Nº 3
       <td colspan="6" class="grand info_title">INFORMACIÓN DEL TRÁMITE</td>
     </tr>
     <tr>
-      <td><strong>MODALIDAD: </strong></td><td>{{ $economic_complement->economic_complement_modality->shortened ?? '' }}</td>
+      <td><strong>TIPO DE PRESTACIÓN:</strong></td><td>{{ $economic_complement->economic_complement_modality->shortened ?? '' }}</td>
       <td><strong>GRADO:</strong></td><td>{!! $economic_complement->degree->shortened ?? '' !!}</td>
       <td><strong>CATEGORÍA:</strong></td><td>{!! $economic_complement->category->getPercentage() !!}</td>
     </tr>
     <tr>
       <td><strong>REGIONAL:</strong></td><td>{!! $economic_complement->city->name !!}</td>    
       <td><strong>GESTIÓN:</strong></td><td> {!! $economic_complement->getYear() !!}</td>
-      <td><strong>SEMESTRE:</strong></td><td>{!! $economic_complement->getSemester() !!}</td>
+      <td><strong>SEMESTRE:</strong></td><td>{!! $economic_complement->getSemester()!!}/{!! $economic_complement->getYear() !!}</td>
     </tr>
     <tr>
       <td><strong>ENTE GESTOR:</strong></td><td>{!! $affiliate->pension_entity->name ?? '' !!}</td>
-      <td><strong>TIPO DE TRÁMITE: </strong></td><td>{!! $economic_complement->reception_type !!}</td>    
+      <td><strong>TIPO DE TRÁMITE: </strong></td><td>{!! strtoupper($economic_complement->reception_type) !!}</td>    
       <td><strong>FECHA DE RECEPCIÓN:</strong></td><td>{!! $economic_complement->getReceptionDate() !!}</td>
     </tr>
   </table>
@@ -69,15 +69,14 @@ Formulario Nº 3
  <table>
            <tr>
               <th class="grand bold">N°</th>
-              <th class="grand bold">REQUISITO</th>
+              <th class="grand bold">REQUISITOS</th>
               <th class="grand bold">ESTADO</th>
 
             </tr>
-            <?php $i=1;?>
             @foreach($eco_com_submitted_document as $i=>$item)
             <tr>
                 <td><center>{!! $i+1 !!}</center></td>
-                <td>{!! $item->economic_complement_requirement->name !!}</td>
+                <td>{!! $item->economic_complement_requirement->name !!}.</td>
                 @if ($item->status == 1)
                     <td class="info" style='text-align:center;'>
                       <img class="circle" src="{{ asset('img/check.png') }}" >
@@ -91,14 +90,15 @@ Formulario Nº 3
             </tr>
             @endforeach
     </table>
-    <p>Sin otro particular me despido de usted muy atentamente. </p>
-    <br><br><br>
+    <p>Sin otro particular me despido de usted musy atentamente. </p>
     <table>
       <tr>
+          <th class="no-border" style="width:33%"></th>
           <th class="info" style="border: 0px;text-align:center;"><br>
             ----------------------------------------------------------------------<br>
-            <strong>{!! $eco_com_applicant->getFullName() ?? '' !!}<br />C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened ?? '' !!} <br /> Telefono. {!! $eco_com_applicant->getPhone() !!}</strong>
+            <strong>{!! $eco_com_applicant->getFullName() ?? '' !!}<br />C.I.: {!! $eco_com_applicant->identity_card !!} {!! isset($eco_com_applicant->city_identity_card->first_shortened) ? $eco_com_applicant->city_identity_card->first_shortened.'.' : '' !!} <br /> Teléfono: {!! $eco_com_applicant->getPhone() !!}</strong>
           </th>
+          <th class="no-border"> <div class="info" style="border: 1px solid  #3c3c3c!IMPORTANT;text-align:center;width: 150px;"><p>&nbsp;</p><br><br><br><br></div><br><span class="info" style="border: 0px;text-align:center;">Huella Digital Pulgar Derecho</span></th>
       </tr>
     </table>
 

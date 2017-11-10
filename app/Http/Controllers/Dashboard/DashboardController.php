@@ -375,6 +375,21 @@ class DashboardController extends Controller
             	$pension_entities_pie_datas[]= $item->quantity;
             }
             $pension_entities_pie= array($pension_entities_pie_labels, $pension_entities_pie_datas);
+
+            $reception_type_pie_labels=[];
+            $reception_type_pie_datas=[];
+            $reception_type_pie=DB::table('economic_complements')
+            ->leftjoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+            ->where('eco_com_procedures.id', '=', $current_eco_com_procedure->id)
+            ->select(DB::raw("count(*) as quantity, economic_complements.reception_type"))
+            ->groupBy('economic_complements.reception_type')
+            ->get();
+            foreach ($reception_type_pie as $item) {
+            	$reception_type_pie_labels[]= $item->reception_type;
+            	$reception_type_pie_datas[]= $item->quantity;
+            }
+            $reception_type_pie= array($reception_type_pie_labels, $reception_type_pie_datas);
+
 		$data = [
 			/*'activities' => $activities,
 			'totalAfiServ' => $totalAfiServ,
@@ -399,6 +414,7 @@ class DashboardController extends Controller
 			'eco_com_states_pie'=>$eco_com_states_pie,
 			'eco_com_observations_pie'=>$eco_com_observations_pie,
 			'pension_entities_pie'=>$pension_entities_pie,
+			'reception_type_pie'=>$reception_type_pie,
 
 		];
 
@@ -458,19 +474,22 @@ class DashboardController extends Controller
 			->orderBy('first_name','asc')
 			->take(3)
 			->get(array('id', 'identity_card', 'first_name', 'last_name'))->toArray();
-		$eco_com_applicant = EconomicComplementApplicant::where('identity_card','like', $query)
-			->leftJoin('economic_complements','economic_complements.id','=','eco_com_applicants.economic_complement_id')
+		$spouse = Spouse::where('identity_card','like', $query)
+			// ->leftJoin('economic_complements','economic_complements.id','=','eco_com_applicants.economic_complement_id')
 			->orderBy('first_name','asc')
 			->take(3)
-			->get(array('eco_com_applicants.id','economic_complements.affiliate_id','eco_com_applicants.identity_card', 'eco_com_applicants.first_name', 'eco_com_applicants.last_name'))->toArray();
+			->get(array('spouses.affiliate_id','spouses.identity_card', 'spouses.first_name', 'spouses.last_name'))->toArray();	
 
 		$affiliates = $this->appendURLaffiliate($affiliates, 'affiliate');
 		$affiliates = $this->appendValue($affiliates, 'affiliate', 'class');
 
-		$eco_com_applicant  = $this->appendURLspouse($eco_com_applicant, 'affiliate');
-		$eco_com_applicant = $this->appendValue($eco_com_applicant, 'affiliate', 'class');
+		// $eco_com_applicant  = $this->appendURLaffiliate($eco_com_applicant, 'affiliate');
+		// $eco_com_applicant = $this->appendValue($eco_com_applicant, 'eco_com_applicant', 'class');
 
-		$data = array_merge($affiliates,$eco_com_applicant);
+		$spouse  = $this->appendURLspouse($spouse, 'affiliate');
+		$spouse = $this->appendValue($spouse, 'spouse', 'class');
+
+		$data = array_merge($affiliates,$spouse);
 
 		return response()->json(array(
 			'data'=>$data
