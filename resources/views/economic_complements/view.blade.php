@@ -401,7 +401,7 @@
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <a href="/affiliate/{{ $economic_complement->affiliate_id  }}" data-toggle="tooltip" data-placement="top" title="Volver al afiliado">
-                    <h3 class="box-title"><span class="fa fa-user-plus"></span> Información del Beneficiario {!! ($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1) ? '- - Derechohabiente' :''  !!}
+                    <h3 class="box-title"><span class="fa fa-user-plus"></span> Información del Beneficiario {!! ($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id > 1) ? '- Derechohabiente' :''  !!}
                     </h3>
                     </a>
                     <div class="box-tools pull-right">

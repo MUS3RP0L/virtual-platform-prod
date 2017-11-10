@@ -45,7 +45,7 @@
     thead, tfoot {
         display: table-header-group;
     }
-    .form-control {
+    .search-icon {
       font-family: "FontAwesome"
     }
     .padding-lr{
@@ -102,18 +102,18 @@
   		<table id="received" class="table table-bordered table-hover">
           <tfoot>
             <th></th>
-            <th class="padding-lr" style="max-width: 100px;"><input type="text" class="form-control" style="width:100%" placeholder="&#xf002;"></th>
+            <th class="padding-lr" style="max-width: 100px;"><input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;"></th>
             <th class="padding-lr">
               <div class="form-group">
                 
-              <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
+              <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
               </div>
             </th>
             <th class="padding-lr" style="max-width: 60px;">
               
-              <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
+              <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
             </th>
-            <th class="padding-lr" style="max-width: 60px;"><input type="text" class="form-control" style="width:100%" placeholder="&#xf002;"></th>
+            <th class="padding-lr" style="max-width: 60px;"><input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;"></th>
             {{-- <th>Opciones</th> --}}
           </tfoot>
   		   <thead>
@@ -155,22 +155,22 @@
               <th></th>
               <th class="padding-lr">
                 <div class="form-group col-md-12">
-                  <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
+                  <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
                 </div>
               </th>
               <th class="padding-lr">
                 <div class="form-group col-md-12">
-                  <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
+                  <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
                 </div>
               </th>
               <th class="padding-lr">
                 <div class="form-group col-md-12">
-                  <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
+                  <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
                 </div>
               </th>
               <th class="padding-lr">
                 <div class="form-group col-md-12">
-                  <input type="text" class="form-control" style="width:100%" placeholder="&#xf002;">
+                  <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
                 </div>
               </th>
             </tfoot>
@@ -463,7 +463,7 @@ $(document).ready(function (){
       self.nombre = ko.observable(nombre);
       self.quantity = ko.observable(quantity);
       self.quantityStyle = ko.computed(function(){
-        return  ' '+self.quantity()+' ';
+        return  '  '+self.quantity();
       });
 
       self.color = ko.observable(color);

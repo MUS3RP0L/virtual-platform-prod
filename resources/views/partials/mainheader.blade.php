@@ -46,6 +46,7 @@
         border-radius: 3px;
         box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
         box-sizing: border-box;
+        
     }
     .selectize-control.multi .selectize-input.has-items {
         padding: 5px 8px 2px;
@@ -56,7 +57,7 @@
         min-height: 0 !important;
         padding: 0 5px; 
         margin: 0 1px !important;
-        line-height: inherit !important;
+        line-height: 40px !important;
         text-indent: 0 !important;
         background: none !important;
         border: 0 none !important;
