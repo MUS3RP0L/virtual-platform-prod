@@ -31,7 +31,6 @@ class SpouseController extends Controller
 
     public function save($request, $id = false)
     {
-        dd($request->all());
         $rules = [
             'identity_card' => 'required',
             'city_identity_card_id' => 'required',
