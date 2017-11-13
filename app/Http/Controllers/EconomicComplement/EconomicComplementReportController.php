@@ -73,7 +73,18 @@ class EconomicComplementReportController extends Controller
            $year_list[Util::getYear($item->year)] = Util::getYear($item->year);
        }
 
-       $report_type = ['' => '', '1' => 'Reporte de recepción por usuario', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '5' => 'Resumen de habituales', '6' => 'Resumen de inclusiones', '7' => 'Reporte por Intervalo de fechas','8' => 'Reporte Subsanados','9' => 'Reporte en Excel','10' => 'Reporte de excluidos por salario'];
+       $report_type =
+        ['' => '',
+          '1' => 'Reporte de recepción por usuario', 
+          '2' => 'Reporte de beneficiarios',
+          '3' => 'Reporte de apoderados',
+          // '5' => 'Resumen de habituales',
+          // '6' => 'Resumen de inclusiones',
+          '7' => 'Reporte por Intervalo de fechas',
+          // '8' => 'Reporte Subsanados',
+          // '9' => 'Reporte en Excel',
+          '10' => 'Reporte de excluidos por salario'
+        ];
        // $report_type = ['' => '', '1' => 'Reporte de recepción por usuario', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Reporte de doble percepción', '5' => 'Resumen de habituales', '6' => 'Resumen de inclusiones', '7' => 'Reporte por Intervalo de fechas','8' => 'Reporte Subsanados','9' => 'Reporte en Excel','10' => 'Reporte de excluidos por salario'];
        foreach ($report_type as $key => $item) {
            $report_type_list[$key] = $item;
