@@ -205,3 +205,17 @@ table .text-left{
 .padding-lr-5{
   padding: 0px 5px;
 }
+hr.cut-line { 
+  border-top: 1px dashed #8c8b8b; 
+} 
+hr.cut-line:after { 
+  content: '\002702'; 
+  display: inline-block; 
+  position: relative; 
+  top: -12px; 
+  left: 40px; 
+  padding: 0 3px; 
+  background: transparent; 
+  color: #8c8b8b; 
+  font-size: 18px; 
+}

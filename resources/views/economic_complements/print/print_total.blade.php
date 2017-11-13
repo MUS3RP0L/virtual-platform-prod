@@ -13,7 +13,7 @@
       font-size:10px;
     }
 </style>
-<div class="title2"><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
+<div class="title2"><strong class="code">{!! $title_inline !!}</strong><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
   <div id="project">
     @include('economic_complements.info.applicant_info',['eco_com_applicant'=>$eco_com_applicant])
 
@@ -102,12 +102,11 @@
           <td colspan="3"><strong>Son: </strong> {{ $total_literal }} BOLIVIANOS</td>
         </tr>
         @endif
-        <tr><td class="no-border" colspan="6"></td></tr>
+        </table>
+        <table>
         <tr>
-          <td colspan="3" class="grand service info_title">NOTA</td>
-        </tr>  
-        <tr>
-          <td colspan="3"><strong> </strong>{!!$economic_complement->comment!!}</td>
+          <td style="width:30px;" class="grand service text-left">NOTA:</td>
+          <td ><strong> </strong>{!!$economic_complement->comment!!}</td>
         </tr>
       </table>
       <table>
@@ -118,9 +117,9 @@
         </tr>
       </table>
   </div>
+  <hr class="cut-line">
 {{-- backrest --}}
-<h1 class="title">COMPLEMENTO ECONÓMICO</h1>
-<div class="title2"><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
+<div class="title2"><strong class="code">COMPLEMENTO ECONÓMICO</strong><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
 <div id="project">  
   @include('economic_complements.info.applicant_info',['eco_com_applicant'=>$eco_com_applicant])
 
