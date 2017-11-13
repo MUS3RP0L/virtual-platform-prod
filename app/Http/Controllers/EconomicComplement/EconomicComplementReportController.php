@@ -75,15 +75,15 @@ class EconomicComplementReportController extends Controller
 
        $report_type =
         ['' => '',
-          '1' => 'Reporte de recepción por usuario', 
-          '2' => 'Reporte de beneficiarios',
-          '3' => 'Reporte de apoderados',
+          '1' => 'Reporte de Recepción por Usuario', 
+          // '2' => 'Reporte de beneficiarios',
+          // '3' => 'Reporte de apoderados',
           // '5' => 'Resumen de habituales',
           // '6' => 'Resumen de inclusiones',
-          '7' => 'Reporte por Intervalo de fechas',
+          // '7' => 'Reporte por Intervalo de fechas',
           // '8' => 'Reporte Subsanados',
           // '9' => 'Reporte en Excel',
-          '10' => 'Reporte de excluidos por salario'
+          // '10' => 'Reporte de excluidos por salario'
         ];
        // $report_type = ['' => '', '1' => 'Reporte de recepción por usuario', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Reporte de doble percepción', '5' => 'Resumen de habituales', '6' => 'Resumen de inclusiones', '7' => 'Reporte por Intervalo de fechas','8' => 'Reporte Subsanados','9' => 'Reporte en Excel','10' => 'Reporte de excluidos por salario'];
        foreach ($report_type as $key => $item) {
