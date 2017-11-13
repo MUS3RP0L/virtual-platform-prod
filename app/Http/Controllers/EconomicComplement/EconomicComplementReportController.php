@@ -1277,4 +1277,40 @@ class EconomicComplementReportController extends Controller
         return \PDF::loadView('economic_complements.print.print_total_backrest', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('print_total.pdf');
       }
     }
+    public function invalid_cell_phone()
+    {
+      $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+      $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+      $date = Util::getDateEdit(date('Y-m-d'));
+      setlocale(LC_ALL, "es_ES.UTF-8");
+      $date = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
+      $current_date = Carbon::now();
+      $hour = Carbon::parse($current_date)->toTimeString();
+      $title="Reporte de Beneficiarios con Teléfonos/Celulares incorrectos";
+      $economic_complements=EconomicComplement::leftJoin('eco_com_applicants','economic_complements.id', '=','eco_com_applicants.economic_complement_id')
+      ->where('economic_complements.eco_com_procedure_id', 6)
+      ->where(function($query){
+          $query->whereRaw("(eco_com_applicants.cell_phone_number ~ '_' or eco_com_applicants.phone_number ~ '_')");
+          $query->orWhereRaw("(eco_com_applicants.phone_number like  '' and eco_com_applicants.cell_phone_number like  '')");
+      })
+      ->select(['economic_complements.id'])
+      ->orderBy('economic_complements.id')
+      ->get()
+      ->pluck('id');
+      $economic_complements=EconomicComplement::whereIn('id',$economic_complements)->get();
+      $data = [
+          'economic_complements' => $economic_complements,
+          'date' => $date,
+          'hour' => $hour,
+          'header1' => $header1,
+          'header2' => $header2,
+          'title' => $title,
+      ];
+      $second_data = [
+          'user' => Auth::user(),
+          'user_role' =>Util::getRol()->name
+      ];
+      $data = array_merge($data, $second_data);
+      return \PDF::loadView('economic_complements.reports.invalid_cell_phone', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_invalid_cell_phone.pdf');
+    }
 }

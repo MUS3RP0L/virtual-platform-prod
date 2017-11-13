@@ -122,7 +122,6 @@
 <h1 class="title">COMPLEMENTO ECONÓMICO</h1>
 <div class="title2"><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
 <div id="project">  
-  {{--Información derechohabiente--}}
   @include('economic_complements.info.applicant_info',['eco_com_applicant'=>$eco_com_applicant])
 
   @if($economic_complement->has_legal_guardian)
@@ -133,13 +132,11 @@
 
   <table>
     <tr>
-      <td colspan="3" class="grand service info_title" ><strong>COMPLEMENTO ECONÓMICO</strong></td>
+      <td class="grand service text-left"><strong>TOTAL LIQUIDO A PAGAR EN BS.</strong></td><td class="number" rowspan="2"><strong class="size-16">{{$total}}</strong></td>
     </tr>
     <tr>
-      <td class="grand service text-left"><strong>TOTAL LIQUIDO A PAGAR EN BS.</strong></td><td class="number"><strong>{{$total}}</strong></td>
-    </tr>
-    <tr>
-      <td colspan="3"><strong>Son: </strong> {{ $total_literal }} Bolivianos</td>
+      <td><strong>Son: </strong> {{ $total_literal }} Bolivianos</td>
+      
     </tr>
   </table>
 </div>
