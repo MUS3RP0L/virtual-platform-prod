@@ -197,17 +197,18 @@
     
     <div data-bind="visible: secuenciaIsVisible, if: secuenciaIsVisible ">
       
-      
-      <div class="btn-group">
-        <button type="button" class="btn btn-raised btn-success"  data-target="#modal-confirm"  data-toggle="modal" ><i class="fa fa-send" ></i> <strong data-bind="text: secuenciaActual.nombre"></strong></button>
-        <button type="button" class="btn btn-raised btn-success dropdown-toggle" data-toggle="dropdown">
-          <span class="caret"></span>
-          <span class="sr-only">Toggle Dropdown</span>
-        </button>
-       
-        <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuencias">
-          <li ><a href="#" data-bind="text: nombre, click: $root.secuenciaSeleccionada"></a></li>
-        </ul>
+      <div data-bind="visible: once">
+        <div class="btn-group">
+          <button type="button" class="btn btn-raised btn-success"  data-target="#modal-confirm"  data-toggle="modal" ><i class="fa fa-send" ></i> <strong data-bind="text: secuenciaActual.nombre"></strong></button>
+          <button type="button" class="btn btn-raised btn-success dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+         
+          <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuencias">
+            <li ><a href="#" data-bind="text: nombre, click: $root.secuenciaSeleccionada"></a></li>
+          </ul>
+        </div>
       </div>
       <input type="hidden" name="wf_state_next_id" data-bind="value: secuenciaActual.id">
       <input type="hidden" id="ids" name="ids">
@@ -484,10 +485,12 @@ $(document).ready(function (){
     {
         var self = this;
 
+
         var workflowsList = {!! json_encode($wfs); !!};
         var workflowsListReceived = {!! json_encode($wf_received); !!};
         var secuencias = {!! json_encode($secuencias); !!} ;
      
+        self.once = ko.observable(false);
        
         self.listaWorkflows = ko.observableArray();
         self.listaWorkflowsReceived = ko.observableArray();
@@ -538,6 +541,7 @@ $(document).ready(function (){
         // self.wf_click = ko.observable();  
 
         self.wf_click = function(data, event){
+
           workflow_id=data.id();
         
           self.listaSecuencias.removeAll();
@@ -576,6 +580,8 @@ $(document).ready(function (){
                 self.workflowSelectedName(workflowsList[i].name);
               }  
           }
+          self.once(true);
+
           console.log('--------------');
         };
 
