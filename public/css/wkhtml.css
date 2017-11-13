@@ -120,6 +120,15 @@ table th.grand {
 strong, .bold{
   font-weight: bold;
 }
+.size-16{
+  font-size: 16px;
+}
+.size-15{
+  font-size: 15px;
+}
+.size-14{
+  font-size: 14px;
+}
 .size-13{
   font-size: 13px;
 }
