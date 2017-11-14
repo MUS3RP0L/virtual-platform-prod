@@ -277,7 +277,7 @@ $(document).ready(function (){
             { data: 'ci', name:'ci'},
             { data: 'name',name: 'name'},
             { data: 'city',name: 'city'},
-            { data: 'code',name:'code'},
+            { data: 'code',name:'code',"sType": "code" },
             // { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
         ],
        'order': [3, 'asc'],
@@ -379,13 +379,30 @@ $(document).ready(function (){
            // }
         },
         { "data":"city" },
-        { "data":"code" },
+        { "data":"code","sType": "code" },
 
      ],
       'order': [4, 'asc'],
   });
-
-
+   function reg(s){
+    var regex = /<(.*?)>/g;
+    var str = s;
+    var subst = '';
+    var result = str.replace(regex, subst);
+    return result;
+  }
+  
+  jQuery.fn.dataTableExt.oSort["code-desc"] = function (x, y) {
+      function getMins(str){
+          return parseInt(reg(str).split('/')[0]);
+      };
+      return getMins(x) - getMins(y);
+  };
+  
+  jQuery.fn.dataTableExt.oSort["code-asc"] = function (x, y) {
+      return jQuery.fn.dataTableExt.oSort["code-desc"](y, x);
+  }
+  
   table.columns().every( function () {
     var that = this;
     $( 'input', this.footer() ).on( 'keyup change', function () {

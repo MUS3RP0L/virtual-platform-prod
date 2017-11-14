@@ -166,7 +166,7 @@
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <span class="hidden-xs"><i class="fa fa-user fa-fw fa-lg"></i></span>
+                        <span class=""><i class="fa fa-user fa-fw fa-lg"></i></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li class="user-header">
