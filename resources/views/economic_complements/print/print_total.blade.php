@@ -117,9 +117,43 @@
         </tr>
       </table>
   </div>
-  <hr class="cut-line">
+  <br>
+  <div class="hr-line"></div>
 {{-- backrest --}}
-<div class="title2"><strong class="code">COMPLEMENTO ECONÓMICO</strong><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
+<table class="tableh">
+  <tr>
+    <th style="width: 25%;border: 0px;">
+      <div id="logo">
+        <img src="{{ asset('img/logo.jpg') }}" >
+      </div>
+    </th>
+    <th style="width: 50%;border: 0px">
+      <h4><b>MUTUAL DE SERVICIOS AL POLICÍA<br>
+        {!! $header1 !!}<br>{!! $header2 !!}
+        @yield('title')
+      </b></h4>
+    </th>
+    <th style="width: 25%;border: 0px">
+      <div id="logo2">
+        <img src="{{ asset('img/escudo.jpg') }}" >
+      </div>
+    </th>
+  </tr>
+</table>
+<table >
+  <tr>
+    <td class="izq no-border size-10">
+      <strong>Fecha de Emisi&#243n: </strong> {!! $date !!} - {!! $hour !!}    
+    </td>
+    <td class="der no-border size-10">
+      @if(isset($user))
+        <strong>Usuario: </strong>{!! $user->username !!} - {!! $user_role !!}
+      @endif
+    </td>
+  </tr>
+</table>
+
+<div class="title2 size-12"><strong class="code">COMPLEMENTO ECONÓMICO</strong><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
 <div id="project">  
   @include('economic_complements.info.applicant_info',['eco_com_applicant'=>$eco_com_applicant])
 
