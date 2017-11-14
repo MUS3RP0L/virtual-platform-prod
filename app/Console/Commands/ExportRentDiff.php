@@ -40,13 +40,19 @@ class ExportRentDiff extends Command
     {
         $count=0;
         $diff=0;
-        $eco_coms=EconomicComplement::where('eco_com_procedure_id','=', 2)->get();  
+        $eco_coms=EconomicComplement::where('eco_com_procedure_id','=', 6)->leftJoin('affiliates', 'economic_complements.affiliate_id','=', 'affiliates.id')
+        ->whereIn('affiliates.pension_entity_id',[1,2,3,4])->select('economic_complements.id')->get()->pluck('id')
+        ;  
+        $eco_coms=EconomicComplement::whereIn('id',$eco_coms)->get();
+        
         foreach ($eco_coms as $index => $eco) {
-            $eco_old=$eco->affiliate->economic_complements()->where('eco_com_procedure_id', '=',1)->first();
+            $eco_old=$eco->affiliate->economic_complements()->where('eco_com_procedure_id', '=',2)->whereRaw('economic_complements.aps_disability is null')->first();
             if ($eco_old) {
                 $count++;
-                if ($eco_old->total_rent <> $eco->total_rent) {
+                $s=floatval($eco->aps_total_cc) + floatval($eco->aps_total_fs) + floatval($eco->aps_total_fsa);
+                if (floatval($eco_old->total_rent).'' <>  floatval($s).'') {
                     $diff++;
+                    // dd($eco->id,floatval($eco_old->total_rent).'', floatval($s).'');
                 }
             }
         }

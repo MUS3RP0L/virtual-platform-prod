@@ -143,6 +143,9 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('economic_complement/print_total/{ecomomic_complement_id}','EconomicComplement\EconomicComplementReportController@print_total');
 	Route::get('economic_complement/print_total_old/{ecomomic_complement_id}','EconomicComplement\EconomicComplementReportController@print_total_old');
 	Route::post('print_edited_data', array('as'=>'print_edited_data', 'uses'=> 'EconomicComplement\EconomicComplementReportController@print_edited_data'));
+	Route::get('invalid_cell_phone',array('as' =>'invalid_cell_phone' ,'uses'=> 'EconomicComplement\EconomicComplementReportController@invalid_cell_phone'));
+
+
 	//david
 	Route::get('export_excel','EconomicComplement\EconomicComplementImportExportController@export_excel');
 	Route::get('export_excel_user','EconomicComplement\EconomicComplementImportExportController@export_excel_user');

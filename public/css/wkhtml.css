@@ -8,7 +8,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 
 .tableh {
@@ -120,6 +120,15 @@ table th.grand {
 strong, .bold{
   font-weight: bold;
 }
+.size-16{
+  font-size: 16px;
+}
+.size-15{
+  font-size: 15px;
+}
+.size-14{
+  font-size: 14px;
+}
 .size-13{
   font-size: 13px;
 }
@@ -195,4 +204,32 @@ table .text-left{
 }
 .padding-lr-5{
   padding: 0px 5px;
+}
+hr.cut-line { 
+  border-top: 1px dashed #8c8b8b; 
+} 
+// hr.cut-line:after { 
+//   content: '\002702'; 
+//   display: inline-block; 
+//   position: relative; 
+//   top: -12px; 
+//   left: 40px; 
+//   padding: 0 3px; 
+//   background: transparent; 
+//   color: #8c8b8b; 
+//   font-size: 18px; 
+// }
+.hr-line{
+  width: 100%;
+  border-top: 1px dashed #8c8b8b;
+}
+.hr-line:after { 
+  content: '\002702'; 
+  display: inline-block; 
+  position: relative; 
+  top: -13.5px; 
+  left: 0px; 
+  background: transparent; 
+  color: #8c8b8b; 
+  font-size: 18px; 
 }

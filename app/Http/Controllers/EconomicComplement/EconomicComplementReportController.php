@@ -73,7 +73,18 @@ class EconomicComplementReportController extends Controller
            $year_list[Util::getYear($item->year)] = Util::getYear($item->year);
        }
 
-       $report_type = ['' => '', '1' => 'Reporte de recepción por usuario', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '5' => 'Resumen de habituales', '6' => 'Resumen de inclusiones', '7' => 'Reporte por Intervalo de fechas','8' => 'Reporte Subsanados','9' => 'Reporte en Excel','10' => 'Reporte de excluidos por salario'];
+       $report_type =
+        ['' => '',
+          '1' => 'Reporte de Recepción por Usuario', 
+          // '2' => 'Reporte de beneficiarios',
+          // '3' => 'Reporte de apoderados',
+          // '5' => 'Resumen de habituales',
+          // '6' => 'Resumen de inclusiones',
+          // '7' => 'Reporte por Intervalo de fechas',
+          // '8' => 'Reporte Subsanados',
+          // '9' => 'Reporte en Excel',
+          // '10' => 'Reporte de excluidos por salario'
+        ];
        // $report_type = ['' => '', '1' => 'Reporte de recepción por usuario', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Reporte de doble percepción', '5' => 'Resumen de habituales', '6' => 'Resumen de inclusiones', '7' => 'Reporte por Intervalo de fechas','8' => 'Reporte Subsanados','9' => 'Reporte en Excel','10' => 'Reporte de excluidos por salario'];
        foreach ($report_type as $key => $item) {
            $report_type_list[$key] = $item;
@@ -130,7 +141,7 @@ class EconomicComplementReportController extends Controller
 
                            if ($eco_complements) {
                                
-                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','anio','user','eco_complements','user_role'))->setPaper('letter')->setOption('encoding', 'utf-8')->setOrientation('landscape')->setOption('footer-right', 'Pagina [page] de [toPage]')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE LA MUSERPOL - 2017')->stream('report_by_user.pdf');
+                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','anio','user','eco_complements','user_role'))->setPaper('letter')->setOption('encoding', 'utf-8')->setOrientation('landscape')->setOption('footer-right', 'Pagina [page] de [toPage]')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_by_user.pdf');
 
                                /*$view = \View::make('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','anio','user','eco_complements'))->render();
                                $pdf = \App::make('dompdf.wrapper');
@@ -180,7 +191,7 @@ class EconomicComplementReportController extends Controller
                                            ->get();
                                            //dd($regional);                                           
                            if ($beneficiary_eco_complements) {                              
-                             return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user','user_role'))->setPaper('letter')->setOrientation('landscape')->setOption('footer-right', 'Pagina [page] de [toPage]')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE LA MUSERPOL - 2017')->stream('report_beneficiary.pdf');
+                             return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user','user_role'))->setPaper('letter')->setOrientation('landscape')->setOption('footer-right', 'Pagina [page] de [toPage]')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_beneficiary.pdf');
 
                              /*$view = \View::make('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user'))->render();
                                 $pdf = \App::make('dompdf.wrapper');
@@ -473,7 +484,7 @@ class EconomicComplementReportController extends Controller
                                            ->get();
                            if ($eco_complements) {
                                
-                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','eco_complements','anio','user'))->setPaper('letter')->setOrientation('landscape')->setOption('footer-right', 'Pagina [page] de [toPage]')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE LA MUSERPOL - 2017')->stream('report_by_user.pdf');
+                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','eco_complements','anio','user'))->setPaper('letter')->setOrientation('landscape')->setOption('footer-right', 'Pagina [page] de [toPage]')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_by_user.pdf');
                            } else {
                                $message = "No existen registros para visualizar";
                                Session::flash('message', $message);
@@ -1035,13 +1046,13 @@ class EconomicComplementReportController extends Controller
       }
       $pdf = \App::make('snappy.pdf.wrapper');
 
-      $pdf->setPaper('letter')->setOrientation('landscape')->setOPtion('footer-center', 'Pagina [page] de [toPage]')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE LA MUSERPOL - 2017');
+      $pdf->setPaper('letter')->setOrientation('landscape')->setOPtion('footer-center', 'Pagina [page] de [toPage]')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017');
       $file_name=storage_path().'/snappy/planillas/'.'planilla_'.Auth::user()->username.'_'.date("Y-m-d_H:i:s").'.pdf';
       $pdf->generateFromHtml($pages,$file_name, [], true);
       return response()->download($file_name);
 
       
-      return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user', 'user_role','total'))->setPaper('letter')->setOrientation('landscape')->setOPtion('footer-center', 'Pagina [page] de [toPage]')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE LA MUSERPOL - 2017')->stream('report_edited.pdf');
+      return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user', 'user_role','total'))->setPaper('letter')->setOrientation('landscape')->setOPtion('footer-center', 'Pagina [page] de [toPage]')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_edited.pdf');
       }
     }
 
@@ -1057,8 +1068,8 @@ class EconomicComplementReportController extends Controller
 
         $economic_complement = EconomicComplement::where('id',$eco_com_id)->first();
 
-        $title = ($economic_complement->old_eco_com == null) ? "FORMULARIO CE - 1" : "FORMULARIO CE - 2";
-
+        $title = null;
+        $title_inline=($economic_complement->old_eco_com == null) ? "FORMULARIO CE - 1" : "FORMULARIO CE - 2";
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
         $eco_com_applicant = $economic_complement->economic_complement_applicant;
         $economic_complement_legal_guardian = $economic_complement->economic_complement_legal_guardian;
@@ -1109,6 +1120,7 @@ class EconomicComplementReportController extends Controller
             'header1' => $header1,
             'header2' => $header2,
             'title' => $title,
+            'title_inline' => $title_inline,
             'total_literal' => $total_literal,
             'old_eco_com_total_calificate' => $old_eco_com_total_calificate ?? null,
         ];
@@ -1130,7 +1142,10 @@ class EconomicComplementReportController extends Controller
             'user_role' =>Util::getRol()->name
         ];
         $data = array_merge($data, $second_data);
-        return \PDF::loadView('economic_complements.print.print_total', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE LA MUSERPOL - 2017')->stream('print_total.pdf');
+        return \PDF::loadView('economic_complements.print.print_total', $data)->setOption('page-width', '215.9')->setOption('page-height', '330')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('print_total.pdf');
+
+        // ->setOption('page-width', '215.9')->setOption('page-height', '330')
+
         // $view = \View::make('economic_complements.print.print_total',$data )->render();
         // $pdf = \App::make('dompdf.wrapper');
         // $pdf->loadHTML($view)->setPaper('legal');
@@ -1217,7 +1232,7 @@ class EconomicComplementReportController extends Controller
             'user_role' =>Util::getRol()->name
         ];
         $data = array_merge($data, $second_data);
-        return \PDF::loadView('economic_complements.print.print_total_old', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE LA MUSERPOL - 2017')->stream('print_total.pdf');
+        return \PDF::loadView('economic_complements.print.print_total_old', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('print_total.pdf');
         // $view = \View::make('economic_complements.print.print_total_old',$data )->render();
         // $pdf = \App::make('dompdf.wrapper');
         // $pdf->loadHTML($view)->setPaper('legal');
@@ -1260,7 +1275,43 @@ class EconomicComplementReportController extends Controller
             'user_role' =>Util::getRol()->name
         ];
         $data = array_merge($data, $second_data);
-        return \PDF::loadView('economic_complements.print.print_total_backrest', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUTUAL DE LA MUSERPOL - 2017')->stream('print_total.pdf');
+        return \PDF::loadView('economic_complements.print.print_total_backrest', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('print_total.pdf');
       }
+    }
+    public function invalid_cell_phone()
+    {
+      $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+      $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+      $date = Util::getDateEdit(date('Y-m-d'));
+      setlocale(LC_ALL, "es_ES.UTF-8");
+      $date = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
+      $current_date = Carbon::now();
+      $hour = Carbon::parse($current_date)->toTimeString();
+      $title="Reporte de Beneficiarios con Teléfonos/Celulares incorrectos";
+      $economic_complements=EconomicComplement::leftJoin('eco_com_applicants','economic_complements.id', '=','eco_com_applicants.economic_complement_id')
+      ->where('economic_complements.eco_com_procedure_id', 6)
+      ->where(function($query){
+          $query->whereRaw("(eco_com_applicants.cell_phone_number ~ '_' or eco_com_applicants.phone_number ~ '_')");
+          $query->orWhereRaw("(eco_com_applicants.phone_number like  '' and eco_com_applicants.cell_phone_number like  '')");
+      })
+      ->select(['economic_complements.id'])
+      ->orderBy('economic_complements.id')
+      ->get()
+      ->pluck('id');
+      $economic_complements=EconomicComplement::whereIn('id',$economic_complements)->get();
+      $data = [
+          'economic_complements' => $economic_complements,
+          'date' => $date,
+          'hour' => $hour,
+          'header1' => $header1,
+          'header2' => $header2,
+          'title' => $title,
+      ];
+      $second_data = [
+          'user' => Auth::user(),
+          'user_role' =>Util::getRol()->name
+      ];
+      $data = array_merge($data, $second_data);
+      return \PDF::loadView('economic_complements.reports.invalid_cell_phone', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_invalid_cell_phone.pdf');
     }
 }

@@ -86,6 +86,13 @@
                             </div>
                         </a>
                     </li>
+                    <li>
+                        <a href="{!! url('invalid_cell_phone') !!}">
+                            <div class="menu">
+                                <label class="control-sidebar-subheading"><i class="fa fa-phone"></i> Teléfonos incorrectos</label>
+                            </div>
+                        </a>
+                    </li>
                 @endcan
             </ul>
         </div>
