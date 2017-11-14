@@ -36,7 +36,7 @@
                     <li>
                         <a href="{{ url('complementary_factor') }}">
                             <div class="menu">
-                                <label class="control-sidebar-subheading"><i class="fa fa-percent"></i> Factor de Complemantación</label>
+                                <label class="control-sidebar-subheading"><i class="fa fa-percent"></i> Factor de Complementación</label>
                             </div>
                         </a>
                     </li>
