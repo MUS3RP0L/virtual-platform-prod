@@ -227,8 +227,8 @@ hr.cut-line {
   content: '\002702'; 
   display: inline-block; 
   position: relative; 
-  top: -13.5px; 
-  left: 0px; 
+  top: -12px; 
+  left: -5px; 
   background: transparent; 
   color: #8c8b8b; 
   font-size: 18px; 
