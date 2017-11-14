@@ -39,10 +39,12 @@
         </td>
       </tr>
     </table>
+    @if($title)
     <h2 class="title">
       {{ $title ?? ''}}
       @yield('title2')
     </h2>
+    @endif
     @yield('content')
 
   {{-- <div class="qr-code"> --}}

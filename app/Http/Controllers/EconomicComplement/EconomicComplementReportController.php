@@ -1068,8 +1068,8 @@ class EconomicComplementReportController extends Controller
 
         $economic_complement = EconomicComplement::where('id',$eco_com_id)->first();
 
-        $title = ($economic_complement->old_eco_com == null) ? "FORMULARIO CE - 1" : "FORMULARIO CE - 2";
-
+        $title = null;
+        $title_inline=($economic_complement->old_eco_com == null) ? "FORMULARIO CE - 1" : "FORMULARIO CE - 2";
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
         $eco_com_applicant = $economic_complement->economic_complement_applicant;
         $economic_complement_legal_guardian = $economic_complement->economic_complement_legal_guardian;
@@ -1120,6 +1120,7 @@ class EconomicComplementReportController extends Controller
             'header1' => $header1,
             'header2' => $header2,
             'title' => $title,
+            'title_inline' => $title_inline,
             'total_literal' => $total_literal,
             'old_eco_com_total_calificate' => $old_eco_com_total_calificate ?? null,
         ];
