@@ -39,7 +39,7 @@
         </td>
       </tr>
     </table>
-    @if($title)
+    @if(isset($title))
     <h2 class="title">
       {{ $title ?? ''}}
       @yield('title2')
