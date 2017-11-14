@@ -196,6 +196,9 @@
                 <li>
                     <a href="#" data-toggle="control-sidebar"><i class="fa fa-cog fa-fw fa-lg"></i></a>
                 </li>
+                <li  data-toggle="tooltip" data-placement="bottom" title="Ayuda">
+                    <a href="http://support.muserpol.gob.bo:8082" target="_blank"><i class="fa fa-question-circle-o fa-lg"></i></a>
+                </li>
             </ul>
         </div>
     </nav>
