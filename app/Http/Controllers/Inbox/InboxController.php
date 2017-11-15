@@ -146,13 +146,13 @@ class InboxController extends Controller
         $state_id = 16;
         $economic_complements=DB::table('economic_complements')
             ->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
-            ->leftJoin('affiliate_observations','affiliate_observations.affiliate_id','=','economic_complements.affiliate_id')
+            ->leftJoin('v_observados','v_observados.id','=','economic_complements.affiliate_id')
             ->where('economic_complements.state','Received')
             ->where('wf_states.role_id',($rol->id))
             ->leftJoin('eco_com_applicants','economic_complements.id', '=', 'eco_com_applicants.economic_complement_id')
             ->leftJoin('cities','economic_complements.city_id', '=', 'cities.id')
 
-            ->select(DB::raw("DISTINCT ON (economic_complements.id) economic_complements.id"),'economic_complements.affiliate_id','eco_com_applicants.identity_card as ci',DB::raw("trim(regexp_replace(CONCAT(eco_com_applicants.first_name,' ',eco_com_applicants.second_name,' ',eco_com_applicants.last_name,' ',eco_com_applicants.mothers_last_name,' ',eco_com_applicants.surname_husband),'( )+' , ' ', 'g')) as name"),'cities.second_shortened as city','economic_complements.code','affiliate_observations','economic_complements.workflow_id')
+            ->select(DB::raw("DISTINCT ON (economic_complements.id) economic_complements.id"),'economic_complements.affiliate_id','eco_com_applicants.identity_card as ci',DB::raw("trim(regexp_replace(CONCAT(eco_com_applicants.first_name,' ',eco_com_applicants.second_name,' ',eco_com_applicants.last_name,' ',eco_com_applicants.mothers_last_name,' ',eco_com_applicants.surname_husband),'( )+' , ' ', 'g')) as name"),'cities.second_shortened as city','economic_complements.code','v_observados','economic_complements.workflow_id')
             // ->select(DB::raw("DISTINCT ON (economic_complements.id) economic_complements.id, economic_complements.affiliate_id,economic_complements.workflow_id, eco_com_applicants.identity_card as ci, trim(regexp_replace(CONCAT(eco_com_applicants.first_name,' ',eco_com_applicants.second_name,' ',eco_com_applicants.last_name,' ',eco_com_applicants.mothers_last_name,' ',eco_com_applicants.surname_husband),'( )+' , ' ', 'g')) as name ,cities.second_shortened as city, economic_complements.code"))
             ->orderBy('economic_complements.id', 'asc');
 
@@ -179,7 +179,7 @@ class InboxController extends Controller
                 ->addColumn('code',function ($economic_complement)
                 {
                     //$observation =DB::table('affiliate_observations')->where('affiliate_id',$economic_complement->affiliate_id)->first();
-                    $icon = $economic_complement->affiliate_observations?'<span class="badge bg-yellow" data-toggle="tooltip" data-placement="top" title="Trámite Observado"><i class="fa fa-warning"></span></i>':'';
+                    $icon = $economic_complement->v_observados?'<span class="badge bg-yellow" data-toggle="tooltip" data-placement="top" title="Trámite Observado"><i class="fa fa-warning"></span></i>':'';
                     return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->code.'</a> '.$icon;
                 })
                 /*->addColumn('action', function ($economic_complement) { return  '
@@ -194,15 +194,15 @@ class InboxController extends Controller
         $rol = Util::getRol();
          $economic_complements=DB::table('economic_complements')
             ->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
-            ->leftJoin('affiliate_observations','affiliate_observations.affiliate_id','=','economic_complements.affiliate_id')
+            ->leftJoin('v_observados','v_observados.id','=','economic_complements.affiliate_id')
             ->where('economic_complements.state','Edited')
             ->where('wf_states.role_id',($rol->id))
             ->where('economic_complements.user_id',Auth::user()->id)
             ->leftJoin('eco_com_applicants','economic_complements.id', '=', 'eco_com_applicants.economic_complement_id')
             ->leftJoin('cities','economic_complements.city_id', '=', 'cities.id')
-            ->select(DB::raw("DISTINCT ON (economic_complements.id) economic_complements.id"),'economic_complements.affiliate_id','eco_com_applicants.identity_card as ci',DB::raw("trim(regexp_replace(CONCAT(eco_com_applicants.first_name,' ',eco_com_applicants.second_name,' ',eco_com_applicants.last_name,' ',eco_com_applicants.mothers_last_name,' ',eco_com_applicants.surname_husband),'( )+' , ' ', 'g')) as name"),'cities.second_shortened as city','economic_complements.code','affiliate_observations','economic_complements.workflow_id')
+            ->select(DB::raw("DISTINCT ON (economic_complements.id) economic_complements.id"),'economic_complements.affiliate_id','eco_com_applicants.identity_card as ci',DB::raw("trim(regexp_replace(CONCAT(eco_com_applicants.first_name,' ',eco_com_applicants.second_name,' ',eco_com_applicants.last_name,' ',eco_com_applicants.mothers_last_name,' ',eco_com_applicants.surname_husband),'( )+' , ' ', 'g')) as name"),'cities.second_shortened as city','economic_complements.code','v_observados','economic_complements.workflow_id')
             ->orderBy('economic_complements.id', 'asc');
-            // ->select(DB::raw("economic_complements.affiliate_id,economic_complements.workflow_id, economic_complements.id, eco_com_applicants.identity_card as ci, trim(regexp_replace(CONCAT(eco_com_applicants.first_name,' ',eco_com_applicants.second_name,' ',eco_com_applicants.last_name,' ',eco_com_applicants.mothers_last_name,' ',eco_com_applicants.surname_husband),'( )+' , ' ', 'g')) as name ,cities.second_shortened as city, economic_complements.code,affiliate_observations.id as observation"))
+            // ->select(DB::raw("economic_complements.affiliate_id,economic_complements.workflow_id, economic_complements.id, eco_com_applicants.identity_card as ci, trim(regexp_replace(CONCAT(eco_com_applicants.first_name,' ',eco_com_applicants.second_name,' ',eco_com_applicants.last_name,' ',eco_com_applicants.mothers_last_name,' ',eco_com_applicants.surname_husband),'( )+' , ' ', 'g')) as name ,cities.second_shortened as city, economic_complements.code,v_observados.id as observation"))
             // ->orderBy('economic_complements.code', 'asc')
             // ;
 
@@ -229,8 +229,8 @@ class InboxController extends Controller
                     })
                     ->addColumn('code',function ($economic_complement)
                     {
-                        // $observation =DB::table('affiliate_observations')->where('affiliate_id',$economic_complement->affiliate_id)->first();
-                        $icon = $economic_complement->affiliate_observations?'<span class="badge bg-yellow" data-toggle="tooltip" data-placement="top" title="Trámite Observado"><i class="fa fa-warning"></span></i>':'';
+                        // $observation =DB::table('v_observados')->where('affiliate_id',$economic_complement->affiliate_id)->first();
+                        $icon = $economic_complement->v_observados?'<span class="badge bg-yellow" data-toggle="tooltip" data-placement="top" title="Trámite Observado"><i class="fa fa-warning"></span></i>':'';
                         return '<a href="'.url('economic_complement', $economic_complement->id).'">'.$economic_complement->code.'</a> '.$icon;
                     })
                     /*->addColumn('action', function ($economic_complement) { return  '
