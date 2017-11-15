@@ -6,6 +6,8 @@ use Muserpol\EconomicComplement;
 use Auth;
 use DB;
 use Session;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class Util
 {
@@ -695,5 +697,14 @@ class Util
     	$subst = ' ';
     	$result = preg_replace($re, $subst, $text);
     	return $result;
+    }
+    public static function excel($file_name, $sheet_name, $data)
+    {	
+
+    	return Excel::create($file_name, function($excel) use($data, $sheet_name) {
+    		$excel->sheet($sheet_name, function($sheet) use($data) {
+    			$sheet->fromArray($data);
+    		});
+    	})->export('xls');  
     }
 }

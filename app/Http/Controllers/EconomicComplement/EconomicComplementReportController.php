@@ -16,6 +16,7 @@ use Muserpol\Helper\Util;
 use Maatwebsite\Excel\Facades\Excel;
 
 use Muserpol\EconomicComplement;
+use Muserpol\EconomicComplementProcedure;
 use Muserpol\EconomicComplementState;
 use Muserpol\EconomicComplementStateType;
 use Muserpol\EconomicComplementType;
@@ -38,7 +39,12 @@ use DB;
 
 class EconomicComplementReportController extends Controller
 {
-
+    public static function reports_lists(){
+        return $reports_list = [
+        '' => '',
+        '1' => 'Trámites con Pensión Solidaria de Vejez',
+      ];
+    }
     public function index()
     {
         return view('economic_complements.print.report_generator', self::getViewModel());
@@ -1314,4 +1320,57 @@ class EconomicComplementReportController extends Controller
       $data = array_merge($data, $second_data);
       return \PDF::loadView('economic_complements.reports.invalid_cell_phone', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_invalid_cell_phone.pdf');
     }
+  public function menu()
+  {
+
+    $years=[];
+    $eco_com_pro_years = EconomicComplementProcedure::all()->pluck('year');
+    foreach ($eco_com_pro_years as $key => $value) {
+      $years[]=array(Util::getYear($value) => Util::getYear($value));
+    }
+    $current_year = carbon::now()->year;
+    $semesters = EconomicComplementProcedure::orderBy('semester')->get()->pluck('semester', 'semester');
+    $current_semester = Util::getOriginalSemester();
+    $reports_list=self::reports_lists();
+    
+    // self::reports_list = $reports_list;
+    return view('economic_complements.reports.menu', compact('years','current_year', 'current_semester', 'semesters', 'reports_list'));
+  }
+  public function generateTable(Request $request)
+  {
+    $data;
+    $type = $request->type;
+    $year = $request->year;
+    $semester = $request->semester;
+    $eco_com_procedure_id = EconomicComplementProcedure::whereYear('year','=',Util::getYear($year))->where('semester','like',$semester)->first();
+    if (!$eco_com_procedure_id) {
+      return 'error';
+    }
+    $eco_com_procedure_id=$eco_com_procedure_id->id;
+    $name = self::reports_lists()[$type];
+    switch ($type) {
+      case 1:
+        //tramites con fracion solidaria
+
+        $columns = ',economic_complements.aps_total_fs as fraccion_solidaria';
+
+        $file_name = $name.' '.date("Y-m-d H:i:s");
+        $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+        ->ecocominfo()
+        ->applicantinfo()
+        ->affiliateinfo()
+        ->where('aps_total_fs','>',0)
+        ->select(DB::raw(EconomicComplement::basic_info_colums()."".$columns.""))
+        ->get();
+        $data = $economic_complements;
+        Util::excel($file_name, 'hoja', $data);
+        break;
+      
+      default:
+        
+        break;
+    }
+    return "hola";
+    // return Datatables::of($economic_complements)->make(true);
+  }
 }
