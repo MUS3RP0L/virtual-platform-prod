@@ -1495,11 +1495,11 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                        {!! Form::label('due_date', 'Fecha de Vencimiento CI', ['class' => 'col-md-5 control-label','required']) !!}
+                                        {!! Form::label('due_date', 'Fecha de Vencimiento CI', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
 
                                         <div class="input-group">
-                                            <input type="text" data-bind="enable: affiliate_activo" id="due_date_affiliate_mask" required class="form-control" name="due_date" value="{!! $affiliate->getEditDueDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                            <input type="text" data-bind="enable: affiliate_activo" id="due_date_affiliate_mask"  class="form-control" name="due_date" value="{!! $affiliate->getEditDueDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                             <div class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </div>
