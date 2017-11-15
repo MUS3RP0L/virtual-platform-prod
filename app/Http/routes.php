@@ -165,7 +165,9 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::post('export_senasir', array('as'=>'export_senasir', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_senasir'));
 	
-		
+	Route::get('reports',array('as' => 'reports' ,'uses' => 'EconomicComplement\EconomicComplementReportController@menu'));
+	Route::post('reports',array('as' => 'reports' ,'uses' => 'EconomicComplement\EconomicComplementReportController@generateTable'));
+
 	// Economic Complement Record
 	Route::get('get_economic_complement_record/{ecomomic_complement_id}', array('as'=>'get_economic_complement_record', 'uses'=>'EconomicComplement\EconomicComplementController@get_record'));
 	//Payrolls

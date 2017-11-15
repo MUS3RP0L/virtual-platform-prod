@@ -93,6 +93,13 @@
                             </div>
                         </a>
                     </li>
+                    <li>
+                        <a href="{!! url('reports') !!}">
+                            <div class="menu">
+                                <label class="control-sidebar-subheading"><i class="fa fa-file"></i> Reportes</label>
+                            </div>
+                        </a>
+                    </li>
                 @endcan
             </ul>
         </div>
