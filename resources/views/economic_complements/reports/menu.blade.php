@@ -59,23 +59,6 @@
 @endsection
 
 @push('scripts')
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://unpkg.com/vue"></script>
-<script>
-    var vm = new Vue({
-    
-        el: "#table-vue",
-        mounted(){
-            axios.get('/received_data').then(function (response) {
-                console.log(response)
-                // body...
-            })
-            .catch(function (error) {
-                console.log(error)
-            })
-        }
-    })
-</script>
 <script>
     $(document).ready(function() {
         $('.combobox').combobox();
