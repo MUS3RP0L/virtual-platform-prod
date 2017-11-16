@@ -71,14 +71,14 @@
                                     @else
                                         <div class="radio radio-primary">
                                             <label style="font-size: 18px">
-                                                {{-- {!! Form::radio('eco_com_type', '1', (($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == '1'), ['required' => 'required']) !!} Vejez --}}
+                                                f
                                                 {!! Form::radio('eco_com_type', '1', (($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == '1'), ['required' => 'required', ((($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == 2 || ($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == 3) ? 'disabled':'' )]) !!} Vejez
                                                 
                                             </label>
                                         </div><br>
                                         <div class="radio radio-primary">
                                             <label style="font-size: 18px">
-                                                {{-- {!! Form::radio('eco_com_type', '2', (($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == '2'), []) !!} Viudedad --}}
+                                           
                                                 {!! Form::radio('eco_com_type', '2', (($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == '2'), [(($last_complement->economic_complement_modality->economic_complement_type->id ?? 0 ) == 3) ? 'disabled':'' ]) !!} Viudedad
                                             </label>
                                         </div><br>
@@ -93,8 +93,26 @@
                                     <hr>
                                     <div class="checkbox">
                                             <label>
-                                                {!! Form::checkbox('legal_guardian', true, $economic_complement->has_legal_guardian) !!} &nbsp;&nbsp; Apoderado
+                                                {!! Form::checkbox('legal_guardian', true, $economic_complement->has_legal_guardian?true:$economic_complement->has_legal_guardian_s?true:false,['data-bind' => 'checked: has_legal_guardian']) !!} &nbsp;&nbsp; Apoderado
                                             </label>
+                                            <div data-bind="visible: has_legal_guardian" >
+                                                
+                                                    <div class="radio radio-primary">
+                                                        <label style="font-size: 18px">
+                                                           
+                                                            {!! Form::radio('legal_guardian_sc', '1', NULL, ['data-bind' => 'attr: {required: has_legal_guardian}']) !!} Apoderado Solicitante y Cobrador
+                                                   
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio radio-primary">
+                                                        <label style="font-size: 18px">
+                                                        
+                                                            {!! Form::radio('legal_guardian_sc', '0', NULL, ['data-bind' => 'attr: {required: has_legal_guardian}']) !!} Apoderado Solicitante
+                                                            
+                                                        </label>
+                                                    </div>
+                                                
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -240,9 +258,7 @@
                     
 
                 });
-                // console.log('cc= '+self.cc());
-                // console.log('fsa= '+self.fsa());
-                // console.log('fs= '+self.fs());
+
                 self.total = ko.computed(function(){
 
 
@@ -264,7 +280,19 @@
 
                 });
 
-                console.log(self.total());
+                //apoderado solicitante cobrador
+                self.has_legal_guardian = ko.observable();
+
+                //self.checkGuardian = ko.observable();
+
+                self.has_legal_guardian.subscribe(function(){
+
+
+                    console.log('cechus y anita');
+
+                });
+
+                //console.log(self.total());
             }
 
              ko.applyBindings(APS());
