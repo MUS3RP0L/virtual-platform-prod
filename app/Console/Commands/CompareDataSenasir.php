@@ -65,7 +65,7 @@ class CompareDataSenasir extends Command
                         set_time_limit('-1');
                         $ci = trim(Util::removeSpaces(trim($result->carnet)).((trim(Util::removeSpaces($result->num_com)) !='') ? '-'.$result->num_com: ''));
                         if ($result->renta == 'TITULAR') {
-                            $afi=Affiliate::where('identity_card','=',$ci)->first();
+                            $afi=Affiliate::whereRaw("split_part(ltrim(trim(identity_card),'0'), '-',1) ='".explode('-',ltrim(trim($ci),'0'))[0]."'")->first();
                             if ($afi) {
                                 $aficount++;
                                 # code...
@@ -100,10 +100,11 @@ class CompareDataSenasir extends Command
                                     }
                                 }
                             }else{
+                                $this->info($ci);
                                 $afincount++;
                             }
                         }else if($result->renta == 'DERECHOHABIENTE'){
-                            $app=EconomicComplementApplicant::where('identity_card','=',$ci)->first();
+                            $app=EconomicComplementApplicant::whereRaw("split_part(ltrim(trim(identity_card),'0'), '-',1) ='".explode('-',ltrim(trim($ci),'0'))[0]."'")->first();
                             if ($app) {
                                 $aficount++;
                                 $eco = $app->economic_complement->affiliate->economic_complements()->where('eco_com_procedure_id','=',6)->first();
@@ -139,6 +140,7 @@ class CompareDataSenasir extends Command
                                 }
                             }else{
                                 $afincount++;
+                                $this->info($ci);
                             }
 
                         }
