@@ -1326,7 +1326,8 @@ class EconomicComplementReportController extends Controller
   {
 
     $years=[];
-    $eco_com_pro_years = EconomicComplementProcedure::all()->pluck('year');
+    $eco_com_pro_years = EconomicComplementProcedure::select('year')->distinct('year')->orderBy('year','desc')->get()->pluck('year','year');
+    
     foreach ($eco_com_pro_years as $key => $value) {
       $years[]=array(Util::getYear($value) => Util::getYear($value));
     }
