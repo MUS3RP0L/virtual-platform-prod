@@ -43,6 +43,8 @@ class EconomicComplementReportController extends Controller
         return $reports_list = [
         '' => '',
         '1' => 'Trámites con Pensión Solidaria de Vejez',
+        '2' => 'Trámites Inclusiones',
+        '3' => 'Trámites habituales',
       ];
     }
     public function index()
@@ -142,7 +144,7 @@ class EconomicComplementReportController extends Controller
                                            ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
                                            ->whereDate('reception_date','>=', $from)->whereDate('reception_date','<=', $to)                                         
                                            ->where('economic_complements.user_id', '=', Auth::user()->id)                                          
-                                           ->orderBy('economic_complements.reception_date','ASC')
+                                           ->orderBy('economic_complements.id','ASC')
                                            ->get();
 
                            if ($eco_complements) {
@@ -1360,6 +1362,38 @@ class EconomicComplementReportController extends Controller
         ->applicantinfo()
         ->affiliateinfo()
         ->where('aps_total_fs','>',0)
+        ->select(DB::raw(EconomicComplement::basic_info_colums()."".$columns.""))
+        ->get();
+        $data = $economic_complements;
+        Util::excel($file_name, 'hoja', $data);
+        break;
+        case 2:
+        //tipos de recepcion inclusion 
+
+        $columns = ',economic_complements.reception_type as tipo_de_recepcion';
+
+        $file_name = $name.' '.date("Y-m-d H:i:s");
+        $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+        ->ecocominfo()
+        ->applicantinfo()
+        ->affiliateinfo()
+        ->where('economic_complements.reception_type', '=', 'Inclusion')
+        ->select(DB::raw(EconomicComplement::basic_info_colums()."".$columns.""))
+        ->get();
+        $data = $economic_complements;
+        Util::excel($file_name, 'hoja', $data);
+        break;
+        case 3:
+        //tipos de recepcion Habitual 
+
+        $columns = ',economic_complements.reception_type as tipo_de_recepcion';
+
+        $file_name = $name.' '.date("Y-m-d H:i:s");
+        $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+        ->ecocominfo()
+        ->applicantinfo()
+        ->affiliateinfo()
+        ->where('economic_complements.reception_type', '=', 'Habitual')
         ->select(DB::raw(EconomicComplement::basic_info_colums()."".$columns.""))
         ->get();
         $data = $economic_complements;

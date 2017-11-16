@@ -63,6 +63,8 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\PaidChangeAffiliateAux::class,
         \Muserpol\Console\Commands\PaidChangeAffiliateCuo::class,
         \Muserpol\Console\Commands\ImportPayroll2017::class,
+        \Muserpol\Console\Commands\CompareDataSenasir::class,
+        \Muserpol\Console\Commands\CompareDataAPS::class,
 
         
     ];
