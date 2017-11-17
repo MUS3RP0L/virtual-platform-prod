@@ -16,7 +16,7 @@
                     <i class="glyphicon glyphicon-hdd"></i>
                 </span>
                 @endif
-                @if($role->module->id==2)
+                @if($role->module->id==2 || $role->module->id==8 )
                 <span class="info-box-icon bg-aqua">
                     <i class="fa fa-fw fa-puzzle-piece fa-lg"></i>
                 </span>
@@ -27,7 +27,33 @@
                 </span>
                 
                 @endif
-               
+
+                @if($role->module->id==6 || $role->module->id==9)
+                <span class="info-box-icon bg-green">
+                    <i class="fa fa-fw fa-money "></i>
+                </span>
+                
+                @endif
+                @if($role->module->id==4 ||$role->module->id==5 )
+                <span class="info-box-icon bg-green">
+                    <i class="fa fa-fw fa-heartbeat "></i>
+                </span>
+                
+                @endif
+
+                @if($role->module->id==7)
+                <span class="info-box-icon bg-green">
+                    <i class="fa  fa-balance-scale "></i>
+                </span>
+                
+                @endif
+                @if($role->module->id==10)
+                <span class="info-box-icon bg-green">
+                    <i class="fa  fa-map "></i>
+                </span>
+                
+                @endif
+                
                
 
             <div class="info-box-content">
@@ -39,11 +65,19 @@
                 @if($role->module->id==1)   
                 <button type="submit" class="btn btn-block btn-raised btn-danger"><i class="glyphicon glyphicon-share-alt"></i>  {{$role->name}}</a>
                 @endif 
-                @if($role->module->id==2)
+                @if($role->module->id==2 || $role->module->id==8 )
                 <button type="submit" class="btn btn-block btn-raised btn-info"><i class="glyphicon glyphicon-share-alt"></i>  {{$role->name}}</a>
                 @endif     
                 @if($role->module->id==3)
                 <button type="submit" class="btn btn-block btn-raised btn-warning"><i class="glyphicon glyphicon-share-alt"></i>  {{$role->name}}</a>
+                
+                @endif
+                @if($role->module->id==6 || $role->module->id==9)
+                <button type="submit" class="btn btn-block btn-raised btn-success"><i class="glyphicon glyphicon-share-alt"></i>  {{$role->name}}</a>
+                
+                @endif
+                @if($role->module->id==4 ||$role->module->id==5 ||$role->module->id==7 ||$role->module->id==10 )
+                <button type="submit" class="btn btn-block btn-raised btn-success"><i class="glyphicon glyphicon-share-alt"></i>  {{$role->name}}</a>
                 
                 @endif
 
