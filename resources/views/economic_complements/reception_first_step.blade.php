@@ -71,7 +71,6 @@
                                     @else
                                         <div class="radio radio-primary">
                                             <label style="font-size: 18px">
-                                                f
                                                 {!! Form::radio('eco_com_type', '1', (($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == '1'), ['required' => 'required', ((($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == 2 || ($last_complement->economic_complement_modality->economic_complement_type->id ?? 0) == 3) ? 'disabled':'' )]) !!} Vejez
                                                 
                                             </label>
@@ -93,21 +92,21 @@
                                     <hr>
                                     <div class="checkbox">
                                             <label>
-                                                {!! Form::checkbox('legal_guardian', true, $economic_complement->has_legal_guardian?true:$economic_complement->has_legal_guardian_s?true:false,['data-bind' => 'checked: has_legal_guardian']) !!} &nbsp;&nbsp; Apoderado
+                                                {!! Form::checkbox('legal_guardian', true, null,['data-bind' => 'checked: has_legal_guardian']) !!} &nbsp;&nbsp; Apoderado
                                             </label>
                                             <div data-bind="visible: has_legal_guardian" >
                                                 
                                                     <div class="radio radio-primary">
                                                         <label style="font-size: 18px">
                                                            
-                                                            {!! Form::radio('legal_guardian_sc', '1', NULL, ['data-bind' => 'attr: {required: has_legal_guardian}']) !!} Apoderado Solicitante y Cobrador
+                                                            {!! Form::radio('legal_guardian_sc', '1', $economic_complement->has_legal_guardian_s?false:true, ['data-bind' => 'attr: {required: has_legal_guardian}']) !!} Apoderado Solicitante y Cobrador
                                                    
                                                         </label>
                                                     </div>
                                                     <div class="radio radio-primary">
                                                         <label style="font-size: 18px">
                                                         
-                                                            {!! Form::radio('legal_guardian_sc', '0', NULL, ['data-bind' => 'attr: {required: has_legal_guardian}']) !!} Apoderado Solicitante
+                                                            {!! Form::radio('legal_guardian_sc', '0', $economic_complement->has_legal_guardian_s?true:false, ['data-bind' => 'attr: {required: has_legal_guardian}']) !!} Apoderado Solicitante
                                                             
                                                         </label>
                                                     </div>
@@ -281,7 +280,7 @@
                 });
 
                 //apoderado solicitante cobrador
-                self.has_legal_guardian = ko.observable();
+                self.has_legal_guardian = ko.observable({{json_encode($economic_complement->has_legal_guardian?true:false)}});
 
                 //self.checkGuardian = ko.observable();
 

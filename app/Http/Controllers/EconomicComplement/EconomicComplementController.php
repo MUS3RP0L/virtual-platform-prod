@@ -745,7 +745,7 @@ class EconomicComplementController extends Controller
 
         public function store(Request $request)
         {
-            return $request->all();
+            //return $request->all();
             $wf = WorkflowState::where('role_id','=',Util::getRol()->id)->first();
             // dd($wf);
             $can_create =false;
@@ -1398,8 +1398,9 @@ class EconomicComplementController extends Controller
                 $economic_complement->eco_com_modality_id=$eco_com_modality->id;
                 $economic_complement->city_id = trim($request->city);
                
-                $economic_complement->has_legal_guardian =$request->has('has_legal_guardian')?true:false;
-
+                $economic_complement->has_legal_guardian =$request->has('legal_guardian')?true:false;
+              //  Log::info("--------------");
+                //Log::info($economic_complement->has_legal_guardian);
                 if($request->has('legal_guardian_sc'))
                 {
                     $economic_complement->has_legal_guardian_s = $request->legal_guardian_sc =='1'?true:false;
