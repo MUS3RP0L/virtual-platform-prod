@@ -745,7 +745,7 @@ class EconomicComplementController extends Controller
 
         public function store(Request $request)
         {
-
+            //return $request->all();
             $wf = WorkflowState::where('role_id','=',Util::getRol()->id)->first();
             // dd($wf);
             $can_create =false;
@@ -809,9 +809,13 @@ class EconomicComplementController extends Controller
 
                     $economic_complement->year = Util::datePickYear(Carbon::now()->year, Util::getSemester(Carbon::now()));
                     $economic_complement->semester = $semester;
-                    if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }else{
-                        $economic_complement->has_legal_guardian = false;
+                    
+                    $economic_complement->has_legal_guardian =$request->has('has_legal_guardian')?true:false;
+                    if($request->has('legal_guardian_sc'))
+                    {
+                        $economic_complement->has_legal_guardian_s = $request->legal_guardian_sc =='1'?true:false;
                     }
+                    
                     $economic_complement->code = $code ."/". $sem . "/" . Carbon::now()->year;
 
                     $economic_complement->reception_type = $request->reception_type;
@@ -1393,9 +1397,16 @@ class EconomicComplementController extends Controller
 
                 $economic_complement->eco_com_modality_id=$eco_com_modality->id;
                 $economic_complement->city_id = trim($request->city);
-                if ($request->legal_guardian) { $economic_complement->has_legal_guardian = true; }else{
-                    $economic_complement->has_legal_guardian = false;
+               
+                $economic_complement->has_legal_guardian =$request->has('legal_guardian')?true:false;
+              //  Log::info("--------------");
+                //Log::info($economic_complement->has_legal_guardian);
+                if($request->has('legal_guardian_sc'))
+                {
+                    $economic_complement->has_legal_guardian_s = $request->legal_guardian_sc =='1'?true:false;
                 }
+                    
+          
                 $economic_complement->state="Edited";
                 $economic_complement->reception_type = $request->reception_type;
                 $economic_complement->save();

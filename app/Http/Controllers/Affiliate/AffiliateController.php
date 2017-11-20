@@ -473,7 +473,7 @@ class AffiliateController extends Controller
                     else
                     {
                         $affiliate->is_duedate_undefined= false;
-                        $affiliate->due_date = $request->due_date;
+                        $affiliate->due_date = $request->due_date?$request->due_date:null;
                     }
                     $affiliate->save();
                     $message = "Información Afiliado actualizado con éxito";
@@ -513,7 +513,7 @@ class AffiliateController extends Controller
                         }
                         else
                         {
-                            $affiliate->due_date = $request->due_date;
+                            $affiliate->due_date = $request->due_date?$request->due_date:null;
                             $affiliate->is_duedate_undefined= false;
                         }
                    
