@@ -1404,8 +1404,8 @@ class EconomicComplementController extends Controller
                 if($request->has('legal_guardian_sc'))
                 {   
                     $v = $request->legal_guardian_sc =='1'?true:false;
-                     Log::info("legal_guardian_sc: ".$request->legal_guardian_sc);
-                     Log::info("v: ".$v);
+                     // Log::info("legal_guardian_sc: ".$request->legal_guardian_sc);
+                     // Log::info("v: ".$v);
                     $economic_complement->has_legal_guardian_s = $request->legal_guardian_sc !='1'?true:false;
                 }
                 else
