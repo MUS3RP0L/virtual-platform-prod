@@ -752,6 +752,7 @@ class EconomicComplementController extends Controller
             switch ($wf->role_id) {
                 
                 case 2:
+                case 4:
                 case 22:
                 case 23:
                 case 24:
@@ -830,7 +831,7 @@ class EconomicComplementController extends Controller
             }
             else{
 
-                $request->session()->flash('error', 'No se pudo crear el Tramite por no es del area de Recepción');
+                Session::flash('message', 'No se pudo crear el Tramite por no es del area de Recepción');
 
                 return back()->withInput();
             }
@@ -1584,7 +1585,7 @@ class EconomicComplementController extends Controller
                         ];
 
                         $messages = [
-                            'age_eco_com_applicant.max' => 'El Huerfano no puede cobrar debido a que tiene mas de 25 anios'
+                            'age_eco_com_applicant.max' => 'El Huerfano no puede cobrar debido a que tiene mas de 25 años'
                         ];
 
                         $age = ['age_eco_com_applicant' => $eco_com_applicant->getAge()];
