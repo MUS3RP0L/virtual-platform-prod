@@ -14,7 +14,7 @@ class LegalGuardianS extends Migration
     {
         //
         Schema::table('economic_complements', function (Blueprint $table) {
-             $table->boolean('has_legal_guardian_sc')->default(0);//estaHabilitado
+             $table->boolean('has_legal_guardian_s')->default(0);//estaHabilitado
    
         });
     }

@@ -695,7 +695,7 @@
             @if($economic_complement->has_legal_guardian)
             <div class="box box-success box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><span class="fa fa-shield"></span> Informacion del Apoderado</h3>
+                    <h3 class="box-title"><span class="fa fa-shield"></span> Informacion del Apoderado</h3> <span class="label label-warning">{{$economic_complement->has_legal_guardian_s?'Solicitante':'Solicitante Cobrador'}}</span>
                         <div class="box-tools pull-right">
                         @can("eco_com_review_and_reception")
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
