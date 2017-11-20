@@ -707,4 +707,12 @@ class Util
     		});
     	})->export('xls');  
     }
+    public static function excelSave($file_name, $sheet_name, $data, $folder_out)
+    {	
+    	Excel::create($file_name, function($excel) use($data, $sheet_name) {
+    		$excel->sheet($sheet_name, function($sheet) use($data) {
+    			$sheet->fromArray($data);
+    		});
+    	})->store('xls', storage_path($folder_out));
+    }
 }

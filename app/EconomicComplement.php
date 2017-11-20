@@ -415,7 +415,7 @@ class EconomicComplement extends Model
     }
     public static function basic_info_colums()
     {
-        return "row_number() OVER () AS NRO, economic_complements.code as CODIGO_TRAMITE, eco_com_applicants.identity_card as ci, city_applicant_identity_card.first_shortened as ext, eco_com_applicants.first_name as primer_nombre, eco_com_applicants.second_name as segundo_nombre, eco_com_applicants.last_name as apellido_paterno, eco_com_applicants.mothers_last_name as apellido_materno, eco_com_applicants.surname_husband as apellido_de_casado, cities.name as regional, degrees.name as grado, categories.name as categoria, eco_com_modalities.shortened as tipo_de_prestacion, pension_entities.name as ente_gestor";
+        return "row_number() OVER () AS NRO, economic_complements.code as CODIGO_TRAMITE, eco_com_applicants.identity_card as ci, city_applicant_identity_card.first_shortened as ext, eco_com_applicants.first_name as primer_nombre, eco_com_applicants.second_name as segundo_nombre, eco_com_applicants.last_name as apellido_paterno, eco_com_applicants.mothers_last_name as apellido_materno, eco_com_applicants.surname_husband as apellido_de_casado, eco_com_applicants.birth_date as fecha_nac, cities.name as regional, degrees.name as grado, categories.name as categoria, eco_com_modalities.shortened as tipo_de_prestacion, pension_entities.name as ente_gestor";
     }
     public function scopeEcocominfo($query)
     {
