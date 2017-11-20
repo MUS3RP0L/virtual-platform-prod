@@ -745,7 +745,6 @@ class EconomicComplementController extends Controller
 
         public function store(Request $request)
         {
-            //return $request->all();
             $wf = WorkflowState::where('role_id','=',Util::getRol()->id)->first();
             // dd($wf);
             $can_create =false;
@@ -814,12 +813,12 @@ class EconomicComplementController extends Controller
                     $economic_complement->has_legal_guardian =$request->has('has_legal_guardian')?true:false;
                     if($request->has('legal_guardian_sc'))
                     {
-                        $economic_complement->has_legal_guardian_s = $request->legal_guardian_sc =='1'?true:false;
+                        $economic_complement->has_legal_guardian_s = $request->legal_guardian_sc !='1'?true:false;
                     }
                     
                     $economic_complement->code = $code ."/". $sem . "/" . Carbon::now()->year;
 
-                    $economic_complement->reception_type = $request->reception_type;
+                    $economic_complement->reception_type = $request->reception_type; 
                     // $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
                     // $economic_complement->base_wage_id = $base_wage->id;
                     // $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)->whereYear('year', '=', Carbon::now()->year)->where('semester', '=', Util::getSemester(Carbon::now()))->first();
@@ -1400,12 +1399,23 @@ class EconomicComplementController extends Controller
                 $economic_complement->city_id = trim($request->city);
                
                 $economic_complement->has_legal_guardian =$request->has('legal_guardian')?true:false;
-              //  Log::info("--------------");
+              
                 //Log::info($economic_complement->has_legal_guardian);
                 if($request->has('legal_guardian_sc'))
-                {
-                    $economic_complement->has_legal_guardian_s = $request->legal_guardian_sc =='1'?true:false;
+                {   
+                    $v = $request->legal_guardian_sc =='1'?true:false;
+                     // Log::info("legal_guardian_sc: ".$request->legal_guardian_sc);
+                     // Log::info("v: ".$v);
+                    $economic_complement->has_legal_guardian_s = $request->legal_guardian_sc !='1'?true:false;
                 }
+                else
+                {
+                     Log::info("NO tiene legal_guardian_sc");
+
+                }
+                     Log::info("complemento: ".$economic_complement->id);
+
+
                     
           
                 $economic_complement->state="Edited";
