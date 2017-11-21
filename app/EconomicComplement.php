@@ -435,6 +435,15 @@ class EconomicComplement extends Model
         return $query->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
             ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id');
     }
+    public function scopeEcocomstates($query)
+    {
+        return $query->leftJoin('eco_com_states','economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
+            ->leftJoin('eco_com_state_types','eco_com_states.eco_com_state_type_id', '=', 'eco_com_state_types.id');
+    }
+    public function scopeWfstates($query)
+    {
+        return $query->leftJoin('wf_states', 'economic_complements.wf_current_state_id', '=', 'wf_states.id');
+    }
 }
 
 EconomicComplement::created(function($ecomplement)

@@ -1959,9 +1959,15 @@ class EconomicComplementController extends Controller
             break;
 
           case 'rent':
-          $rules = [
+          // dd($request->sub_total_rent);
+            $rules = [
+                'sub_total_rent' => 'min:1|number_comma_dot|not_zero',
             ];
             $messages = [
+                'sub_total_rent.min' => 'Debe de ingresar un monto mayor a 1 en la renta.',
+                'sub_total_rent.not_zero' => 'Debe ingresar un monto mayor a 0.',
+                'sub_total_rent.number_comma_dot' => 'Verifique que el monto ingresado este correcto.',
+                
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()){
