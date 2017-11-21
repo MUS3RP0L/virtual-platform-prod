@@ -43,8 +43,9 @@ class EconomicComplementReportController extends Controller
         return $reports_list = [
         '' => '',
         '1' => 'Trámites con Pensión Solidaria de Vejez',
-        '2' => 'Trámites Inclusiones',
-        '3' => 'Trámites habituales',
+        '2' => 'Todos los Trámites',
+        // '2' => 'Trámites Inclusiones',
+        // '3' => 'Trámites habituales',
       ];
     }
     public function index()
@@ -1368,38 +1369,52 @@ class EconomicComplementReportController extends Controller
         $data = $economic_complements;
         Util::excel($file_name, 'hoja', $data);
         break;
-        case 2:
-        //tipos de recepcion inclusion 
+        case '2':
+          $columns = ', pension_entities.type as tipo_de_ente_gestor, economic_complements.reception_type as tipo_de_recepcion, eco_com_states.name as estado, wf_states.name as ubicacion';
+          $file_name = $name.' '.date("Y-m-d H:i:s");
+          $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+          ->ecocominfo()
+          ->applicantinfo()
+          ->affiliateinfo()
+          ->ecocomstates()
+          ->wfstates()
+          ->select(DB::raw(EconomicComplement::basic_info_colums()."".$columns.""))
+          ->get();
+          $data = $economic_complements;
+          Util::excel($file_name, 'hoja', $data);
+          break;
+        // case 2:
+        // //tipos de recepcion inclusion 
 
-        $columns = ',economic_complements.reception_type as tipo_de_recepcion';
+        // $columns = ',economic_complements.reception_type as tipo_de_recepcion';
 
-        $file_name = $name.' '.date("Y-m-d H:i:s");
-        $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
-        ->ecocominfo()
-        ->applicantinfo()
-        ->affiliateinfo()
-        ->where('economic_complements.reception_type', '=', 'Inclusion')
-        ->select(DB::raw(EconomicComplement::basic_info_colums()."".$columns.""))
-        ->get();
-        $data = $economic_complements;
-        Util::excel($file_name, 'hoja', $data);
-        break;
-        case 3:
-        //tipos de recepcion Habitual 
+        // $file_name = $name.' '.date("Y-m-d H:i:s");
+        // $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+        // ->ecocominfo()
+        // ->applicantinfo()
+        // ->affiliateinfo()
+        // ->where('economic_complements.reception_type', '=', 'Inclusion')
+        // ->select(DB::raw(EconomicComplement::basic_info_colums()."".$columns.""))
+        // ->get();
+        // $data = $economic_complements;
+        // Util::excel($file_name, 'hoja', $data);
+        // break;
+        // case 3:
+        // //tipos de recepcion Habitual 
 
-        $columns = ',economic_complements.reception_type as tipo_de_recepcion';
+        // $columns = ',economic_complements.reception_type as tipo_de_recepcion';
 
-        $file_name = $name.' '.date("Y-m-d H:i:s");
-        $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
-        ->ecocominfo()
-        ->applicantinfo()
-        ->affiliateinfo()
-        ->where('economic_complements.reception_type', '=', 'Habitual')
-        ->select(DB::raw(EconomicComplement::basic_info_colums()."".$columns.""))
-        ->get();
-        $data = $economic_complements;
-        Util::excel($file_name, 'hoja', $data);
-        break;
+        // $file_name = $name.' '.date("Y-m-d H:i:s");
+        // $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+        // ->ecocominfo()
+        // ->applicantinfo()
+        // ->affiliateinfo()
+        // ->where('economic_complements.reception_type', '=', 'Habitual')
+        // ->select(DB::raw(EconomicComplement::basic_info_colums()."".$columns.""))
+        // ->get();
+        // $data = $economic_complements;
+        // Util::excel($file_name, 'hoja', $data);
+        // break;
       
       default:
         
