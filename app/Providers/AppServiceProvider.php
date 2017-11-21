@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
             return !($value=="0.00" || $value=='0' || $value=='');
         });
         Validator::extend('number_comma_dot', function($attribute, $value, $parameters, $validator) {
-            return preg_match("/^[\d,.]+$/", $value);
+            return  preg_match('/(?=.)^\$?(([1-9][0-9]{0,2}(,[0-9]{3})*)|0)?(\.[0-9]{1,2})?$/', $value);
         });
     }
 
