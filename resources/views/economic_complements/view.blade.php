@@ -1981,6 +1981,15 @@
                                         <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
                                     </div>
                                 </div>
+                                @if($economic_complement->has_legal_guardian && $economic_complement->has_legal_guardian_s==false)
+                                <div class="form-group">
+                                    {!! Form::label('boleta_cechus_y_anita', 'Boleta habilitación del cobro', ['class' => 'col-md-5 control-label']); !!}
+                                        <div class="col-md-6">
+                                        {!! Form::select('month_id',$months,$economic_complement->month_id,['class' => 'col-md-5 combobox form-control']) !!}
+                                        </div>
+                                   
+                                </div>
+                                @endif
 
                             </div>
                             <div class="col-md-6">

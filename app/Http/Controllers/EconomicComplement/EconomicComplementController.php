@@ -39,6 +39,7 @@ use Muserpol\Category;
 use Muserpol\WorkflowRecord;
 use Muserpol\WorkflowSequence;
 use Muserpol\WorkflowState;
+use Muserpol\Month;
 
 use Muserpol\ObservationType;
 use Muserpol\AffiliateObservation;
@@ -353,6 +354,7 @@ class EconomicComplementController extends Controller
         foreach ($semestre as $item) {
             $semester_list[$item]=$item;
         }
+        $months = Month::all()->pluck('name','id');
 
         // $moduleObservation=Auth::user()->roles()->first()->module->id;
         // $observations_types = $moduleObservation == 1 ? ObservationType::all() : ObservationType::where('module_id',$moduleObservation)->get();
@@ -371,7 +373,7 @@ class EconomicComplementController extends Controller
             'cities_list' => $cities_list,
             'cities_list_short' => $cities_list_short,
             'observations_types' => $observation_types_list,
-            
+            'months' => $months,
         ];
     }
 
@@ -1191,7 +1193,6 @@ class EconomicComplementController extends Controller
             $gender_list_s = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
 
         }
-
         // Log::info("has_cancel= ".json_encode($has_cancel));
         // Log::info("wf_state_before=" .json_encode($wf_state_before));
 
@@ -1403,10 +1404,14 @@ class EconomicComplementController extends Controller
                 //Log::info($economic_complement->has_legal_guardian);
                 if($request->has('legal_guardian_sc'))
                 {   
-                    $v = $request->legal_guardian_sc =='1'?true:false;
+                   //$v = $request->legal_guardian_sc =='1'?true:false;
                      // Log::info("legal_guardian_sc: ".$request->legal_guardian_sc);
                      // Log::info("v: ".$v);
+
                     $economic_complement->has_legal_guardian_s = $request->legal_guardian_sc !='1'?true:false;
+                    // if(!$economic_complement->has_legal_guardian_s){
+                    //     $economic_complements->month_id = $request->month_id;
+                    // }
                 }
                 else
                 {
@@ -2172,14 +2177,32 @@ class EconomicComplementController extends Controller
             }
         break;
         case 'legal_guardian':
+            //return $request->all();
             $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
               $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
               if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
              
-                $eco_com_legal_guardian->due_date =$request->due_date_lg;
-                $eco_com_legal_guardian->is_duedate_undefined =!$request->is_duedate_undefinedlg?false:true;
+              
 
-            
+              $eco_com_legal_guardian->is_duedate_undefined =!$request->is_duedate_undefinedlg?false:true;
+              if(!$eco_com_legal_guardian->is_duedate_undefined)
+              {
+                 if($request->due_date_lg!='')
+                 {
+                    $eco_com_legal_guardian->due_date =$request->due_date_lg;
+                 }else{
+                    $eco_com_legal_guardian->due_date = null;
+                 }
+                 
+              }
+
+
+              // if($request->month_id!='')
+              // {
+                $economic_complement->month_id = $request->month_id==''?null:$request->month_id;
+                $economic_complement->save();
+              // }
+              
               $eco_com_legal_guardian->last_name = $request->last_name_lg;
               $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
               $eco_com_legal_guardian->first_name = $request->first_name_lg;
@@ -2187,6 +2210,7 @@ class EconomicComplementController extends Controller
               $eco_com_legal_guardian->surname_husband = $request->surname_husband_lg;
               $eco_com_legal_guardian->phone_number =trim(implode(",", $request->phone_number_lg));
               $eco_com_legal_guardian->cell_phone_number =trim(implode(",", $request->cell_phone_number_lg));
+              //return $eco_com_legal_guardian;
               $eco_com_legal_guardian->save();
               return redirect('economic_complement/'.$economic_complement->id);
           break;
