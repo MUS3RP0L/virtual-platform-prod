@@ -101,11 +101,11 @@ class CompareDataAPS extends Command
                                     }
                                 }else{
                                     if (
-                                        Util::removeSpaces($app->last_name) != Util::removeSpaces($result->pa_derechohabiente) ||
-                                        Util::removeSpaces($app->mothers_last_name) != Util::removeSpaces($result->sa_derechohabiente) ||
-                                        Util::removeSpaces($app->first_name) != Util::removeSpaces($result->pn_derechohabiente) ||
-                                        Util::removeSpaces($app->second_name) != Util::removeSpaces($result->sn_derechohabiente) ||
-                                        $app->birth_date != Carbon::createFromFormat('Ymd',$result->fnac_derechohabiente)->toDateString()
+                                        (Util::removeSpaces($app->last_name) != Util::removeSpaces($result->pa_derechohabiente) ||
+                                                                                Util::removeSpaces($app->mothers_last_name) != Util::removeSpaces($result->sa_derechohabiente) ||
+                                                                                Util::removeSpaces($app->first_name) != Util::removeSpaces($result->pn_derechohabiente) ||
+                                                                                Util::removeSpaces($app->second_name) != Util::removeSpaces($result->sn_derechohabiente) ||
+                                                                                $app->birth_date != Carbon::createFromFormat('Ymd',$result->fnac_derechohabiente)->toDateString() ) && $result->fnac_derechohabiente
                                      ) {
                                         $tit_distint++;
                                         
@@ -121,7 +121,7 @@ class CompareDataAPS extends Command
                                             'materno' => $app->mothers_last_name,
                                             'aps_materno' => $result->sa_derechohabiente,
                                             'fecha_nac' => $app->birth_date,
-                                            'aps_fecha_nac' => Carbon::createFromFormat('Ymd',$result->fnac_derechohabiente)->toDateString(),
+                                            'aps_fecha_nac' => $result->fnac_derechohabiente ? Carbon::createFromFormat('Ymd',$result->fnac_derechohabiente)->toDateString() : '',
                                             'code' => $eco->code,
                                             'id' => $eco->id,
                                         );
