@@ -93,7 +93,7 @@ class CompareDataAPS extends Command
                                             'materno' => $app->mothers_last_name,
                                             'aps_materno' => $result->sa_titular,
                                             'fecha_nac' => $app->birth_date,
-                                            'aps_fecha_nac' => $result->fnac_titular,
+                                            'aps_fecha_nac' => Carbon::createFromFormat('Ymd',$result->fnac_titular)->toDateString(),
                                             'code' => $eco->code,
                                             'id' => $eco->id,
                                         );
@@ -121,7 +121,7 @@ class CompareDataAPS extends Command
                                             'materno' => $app->mothers_last_name,
                                             'aps_materno' => $result->sa_derechohabiente,
                                             'fecha_nac' => $app->birth_date,
-                                            'aps_fecha_nac' => $result->fnac_derechohabiente,
+                                            'aps_fecha_nac' => Carbon::createFromFormat('Ymd',$result->fnac_derechohabiente)->toDateString(),
                                             'code' => $eco->code,
                                             'id' => $eco->id,
                                         );
