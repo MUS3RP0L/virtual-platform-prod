@@ -75,7 +75,7 @@ class CompareDataAPS extends Command
                                     if (
                                         Util::removeSpaces($app->last_name) != Util::removeSpaces($result->pa_titular) ||
                                         Util::removeSpaces($app->mothers_last_name) != Util::removeSpaces($result->sa_titular) ||
-                                        Util::removeSpaces($app->first_name) != Util::removeSpaces($result->pn_tiutlar) ||
+                                        Util::removeSpaces($app->first_name) != Util::removeSpaces($result->pn_titular) ||
                                         Util::removeSpaces($app->second_name) != Util::removeSpaces($result->sn_titular) ||
                                         $app->birth_date != Carbon::createFromFormat('Ymd',$result->fnac_titular)->toDateString()
                                      ) {
@@ -89,7 +89,7 @@ class CompareDataAPS extends Command
                                             'paterno' => $app->last_name,
                                             'materno' => $app->mothers_last_name,
                                             'fecha_nac' => $app->birth_date,
-                                            'aps_p_nombre' => $result->pn_tiutlar,
+                                            'aps_p_nombre' => $result->pn_titular,
                                             'aps_s_nombre' => $result->sn_titular,
                                             'aps_paterno' => $result->pa_titular,
                                             'aps_materno' => $result->sa_titular,
