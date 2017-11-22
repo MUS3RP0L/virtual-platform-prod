@@ -1196,6 +1196,25 @@ class EconomicComplementController extends Controller
         // Log::info("has_cancel= ".json_encode($has_cancel));
         // Log::info("wf_state_before=" .json_encode($wf_state_before));
 
+        $amount_amortization=0;
+        switch (Util::getRol()->module_id) {
+            case 9:
+                # code...
+                $amount_amortization = $economic_complement->amount_accounting;
+                break;
+            case 6:
+                # code...
+                $amount_amortization = $economic_complement->amount_loan;
+                break;
+            case 2:
+                # code...
+                $amount_amortization = $economic_complement->amount_replacement;
+                break;
+        
+            
+        }
+
+
         $data = [
 
         'affiliate' => $affiliate,
@@ -1221,6 +1240,7 @@ class EconomicComplementController extends Controller
         'state' => $state,
         'status_eco_com_submitted_documents_ar'=>$status_eco_com_submitted_documents_ar,
         'has_amortization' => $hasAmortization,
+        'amount_amortization' => $amount_amortization,
         'wf_state_before' => $wf_state_before,
         'buttons_enabled' => $buttons_enabled,
         'rent_month' => $rent_month,
@@ -2490,6 +2510,8 @@ class EconomicComplementController extends Controller
                     break;
                 
             }
+            Session::flash('message', 'Se guardo la Amortización.');
+            
             if ($complemento->total_rent > 0 ) {   
                 EconomicComplement::calculate($complemento,$complemento->total_rent, $complemento->sub_total_rent, $complemento->reimbursement, $complemento->dignity_pension, $complemento->aps_total_fsa, $complemento->aps_total_cc, $complemento->aps_total_fs, $complemento->aps_disability);
                 $complemento->save();
@@ -2528,7 +2550,6 @@ class EconomicComplementController extends Controller
         $wf_record->message="El usuario ".Util::getFullNameuser()." devolvio el tramite de ".$old_wf->name." a ".$new->name ."  fecha ".Carbon::now()."
         \n Motivo: ".$request->nota.".";
         $wf_record->save();
-
 
         return back()->withInput();
 

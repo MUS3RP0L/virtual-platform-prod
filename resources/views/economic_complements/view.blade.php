@@ -2762,6 +2762,7 @@
             </div>
         </div>
     </div>
+    @if($has_amortization)
     <form  action="{{url('save_amortization')}}" method="POST">
             
         
@@ -2776,7 +2777,7 @@
               </div>
               <div class="modal-body">
                 <div class="row">
-                    <label>Monto :</label> <input type="number" required  step="any" name="amount_amortization" class="form-control">
+                    <label>Monto :</label> <input type="number" required  step="any" name="amount_amortization" class="form-control" value="{{$amount_amortization}}">
                     <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">
                 </div>
                 
@@ -2790,7 +2791,7 @@
         </div><!-- /.modal -->
 
     </form>
-
+    @endif
     <form  action="{{url('moreInfo')}}" method="POST">
         
         <div id="addMoreInfo" class="modal fade" tabindex="-1" role="dialog">
