@@ -683,11 +683,11 @@ public static function import_from_bank(Request $request)
         foreach ($afiliados as $afiliado) {
           # code...
              $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)
-                                                              ->where('eco_com_procedure_id','=','2')
-                                                              ->where('state','=','Edited')
-                                                              ->where('wf_current_state_id','=','2')
+                                                              ->where('eco_com_procedure_id','=','6')
+                                                              //->where('state','=','Edited')
+                                                              //->where('wf_current_state_id','=','2')
                                                               ->where('workflow_id','<=','3')
-                                                              ->whereNotNull('review_date')
+                                                              //->whereNotNull('review_date')
                                                               ->get();
              if($complementos)
              {
@@ -802,11 +802,13 @@ public static function import_from_bank(Request $request)
         Log::info($com_obser_contabilidad_1);
 
         
-       //  return $economic_complements;
-        //$fila = new CustomCollection(array('identificador' => ,$economic_complements-> ));
-         Excel::create('Reporte General '.date("Y-m-d H:i:s"),function($excel) 
+      //  return $economic_complements;
+      //$fila = new CustomCollection(array('identificador' => ,$economic_complements-> ));
+         Excel::create('Reporte General'.date("Y-m-d H:i:s"),function($excel) 
          {
-                     global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;               $excel->sheet('Observacion por contabilidad ',function($sheet) {
+                     global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;           
+
+                      $excel->sheet('Observacion por contabilidad ',function($sheet) {
 
                          global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;      
                          $economic_complements=EconomicComplement::whereIn('economic_complements.id',$com_obser_contabilidad_1)
@@ -1980,28 +1982,22 @@ public static function import_from_bank(Request $request)
     {
       if(Auth::check())
       {
-
+         ini_set('memory_limit', '-1');
+          ini_set('max_execution_time', '-1');
+          ini_set('max_input_time', '-1');
+          set_time_limit('-1');
         global $rows ;
 
-        $todos =  $norevisados = EconomicComplement::where('eco_com_procedure_id','=','2')->get();
-        $ids = array();
-        foreach ($todos as $complemento) {
-          # code...
-              $revisado = EconomicComplement::where('id',$complemento->id)
-                                            ->where('economic_complements.workflow_id','=','1')
-                                            ->where('economic_complements.wf_current_state_id','2')
-                                            ->where('economic_complements.state','Edited')
-                                            ->where('economic_complements.eco_com_procedure_id','2')
-                                            ->whereNotNull('review_date')
-                                            ->first();
-              if(!$revisado)
-              {
-                array_push($ids, $complemento->id);
-              }
-        }
-
-
-        $complementos = EconomicComplement::whereIn('id',$ids)->get();
+        $complementos = EconomicComplement::where('economic_complements.workflow_id','<=','3')
+                                            //->where('economic_complements.wf_current_state_id','2')
+                                            ->where('economic_complements.state','Received')
+                                            ->where('economic_complements.eco_com_procedure_id','6')
+                                            ->whereExists(function ($query) {
+                                                  $query->from('affiliate_observations')
+                                                        ->whereRaw('economic_complements.affiliate_id = affiliate_observations.affiliate_id and affiliate_observations.deleted_at is null');
+                                              })
+                                            ->get();
+        Log::info("Cantidad de complementos: ".$complementos->count());
 
         $rows =array();
         array_push($rows, array("ID",
@@ -2013,6 +2009,7 @@ public static function import_from_bank(Request $request)
                                 "Beneficiario Segundo Nombre",
                                 "Beneficiario Apellido Paterno",
                                 "Beneficiario Apellido Materno",
+                                "Beneficiario Apellido Conyugue",
                                 "Regional",
                                 "Tipo de Tramite",
                                 "Categoria",
@@ -2033,13 +2030,14 @@ public static function import_from_bank(Request $request)
                                 "Total",
                                 "Tipo de recepcion",
                                 "Observaciones "));
+        
         foreach ($complementos  as $complemento) {
           # code...
           $observaciones = AffiliateObservation::where('affiliate_id',$complemento->affiliate_id)->whereIn('observation_type_id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])->get();
           $obs ="";
           foreach ($observaciones as $observacion) {
             # code...
-            Log::info($observacion->observationType->name);
+            //Log::info($observacion->observationType->name);
             $obs = $obs." | ".$observacion->observationType->name;
           }
     
@@ -2065,7 +2063,6 @@ public static function import_from_bank(Request $request)
                                   $aplicant->last_name,
                                   $aplicant->mothers_last_name,
                                   $aplicant->surname_husband,
-
                                   $complemento->city->name,
                                   $complemento->economic_complement_modality->shortened,
                                   $complemento->category->name,
@@ -2073,9 +2070,12 @@ public static function import_from_bank(Request $request)
                                   $complemento->affiliate->degree->shortened,
                                   $complemento->affiliate->pension_entity->name,
                                   $complemento->affiliate->gender,
+                                 
                                   $complemento->sub_total_rent,
-                                  $complemento->dignity_pension,$complemento->total_rent,
-                                  $complemento->total_rent_calc,$complemento->salary_reference,
+                                  $complemento->dignity_pension,
+                                  $complemento->total_rent,
+                                  $complemento->total_rent_calc,
+                                  $complemento->salary_reference,
                                   $complemento->seniority,
                                   $complemento->salary_quotable,
                                   $complemento->diference,
