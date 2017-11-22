@@ -73,26 +73,26 @@ class CompareDataSenasir extends Command
                                 if ($eco) {
                                     $app=$eco->economic_complement_applicant;
                                     if (
-                                        Util::removeSpaces($eco->last_name) != Util::removeSpaces($result->paterno) ||
-                                        Util::removeSpaces($eco->mothers_last_name) != Util::removeSpaces($result->materno) ||
-                                        Util::removeSpaces($eco->first_name) != Util::removeSpaces($result->p_nombre) ||
-                                        Util::removeSpaces($eco->second_name) != Util::removeSpaces($result->s_nombre) ||
-                                        $eco->birth_date != Carbon::parse($result->fecha_nacimiento)->toDateString()
+                                        Util::removeSpaces($app->last_name) != Util::removeSpaces($result->paterno) ||
+                                        Util::removeSpaces($app->mothers_last_name) != Util::removeSpaces($result->materno) ||
+                                        Util::removeSpaces($app->first_name) != Util::removeSpaces($result->p_nombre) ||
+                                        Util::removeSpaces($app->second_name) != Util::removeSpaces($result->s_nombre) ||
+                                        $app->birth_date != Carbon::parse($result->fecha_nacimiento)->toDateString()
                                      ) {
                                         $tit_distint++;
                                         $data_tits[]=array(
-                                        'ci' => $afi->identity_card,
-                                        'ext' => $afi->city_identity_card->first_shortened ?? '',
-                                        'p_nombre' => $afi->first_name,
-                                        's_nombre' => $afi->second_name,
-                                        'paterno' => $afi->last_name,
-                                        'materno' => $afi->mothers_last_name,
-                                        'fecha_nac' => $afi->birth_date,
-                                        'se_p_nombre' => $result->p_nombre,
-                                        'se_s_nombre' => $result->s_nombre,
-                                        'se_paterno' => $result->paterno,
-                                        'se_materno' => $result->materno,
-                                        'se_fecha_nac' => $result->fecha_nacimiento,
+                                        'ci' => $app->identity_card,
+                                        'ext' => $app->city_identity_card->first_shortened ?? '',
+                                        'primer_nombre' => $app->first_name,
+                                        'senasir_primer_nombre' => $result->p_nombre,
+                                        'segundo_nombre' => $app->second_name,
+                                        'senasir_segundo_nombre' => $result->s_nombre,
+                                        'paterno' => $app->last_name,
+                                        'senasir_paterno' => $result->paterno,
+                                        'materno' => $app->mothers_last_name,
+                                        'senasir_materno' => $result->materno,
+                                        'fecha_nac' => $app->birth_date,
+                                        'senasir_fecha_nac' => $result->fecha_nacimiento ? Carbon::parse($result->fecha_nacimiento)->toDateString() : '',
                                         'code' => $eco->code,
                                         'id' => $eco->id,
                                         );  
@@ -122,16 +122,16 @@ class CompareDataSenasir extends Command
                                         $data_ders[] = array(
                                             'ci' => $app->identity_card,
                                             'ext' => $app->city_identity_card->first_shortened ?? '',
-                                            'p_nombre' => $app->first_name,
-                                            's_nombre' => $app->second_name,
+                                            'primer_nombre' => $app->first_name,
+                                            'senasir_primer_nombre' => $result->p_nombre,
+                                            'segundo_nombre' => $app->second_name,
+                                            'senasir_segundo_nombre' => $result->s_nombre,
                                             'paterno' => $app->last_name,
+                                            'senasir_paterno' => $result->paterno,
                                             'materno' => $app->mothers_last_name,
+                                            'senasir_materno' => $result->materno,
                                             'fecha_nac' => $app->birth_date,
-                                            'se_p_nombre' => $result->p_nombre,
-                                            'se_s_nombre' => $result->s_nombre,
-                                            'se_paterno' => $result->paterno,
-                                            'se_materno' => $result->materno,
-                                            'se_fecha_nac' => $result->fecha_nacimiento,
+                                            'senasir_fecha_nac' => $result->fecha_nacimiento ?  Carbon::parse($result->fecha_nacimiento)->toDateString() : '',
                                             'code' => $eco->code,
                                             'id' => $eco->id,
                                         );

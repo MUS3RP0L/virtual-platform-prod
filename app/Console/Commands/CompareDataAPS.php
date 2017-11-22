@@ -75,7 +75,7 @@ class CompareDataAPS extends Command
                                     if (
                                         Util::removeSpaces($app->last_name) != Util::removeSpaces($result->pa_titular) ||
                                         Util::removeSpaces($app->mothers_last_name) != Util::removeSpaces($result->sa_titular) ||
-                                        Util::removeSpaces($app->first_name) != Util::removeSpaces($result->pn_tiutlar) ||
+                                        Util::removeSpaces($app->first_name) != Util::removeSpaces($result->pn_titular) ||
                                         Util::removeSpaces($app->second_name) != Util::removeSpaces($result->sn_titular) ||
                                         $app->birth_date != Carbon::createFromFormat('Ymd',$result->fnac_titular)->toDateString()
                                      ) {
@@ -84,16 +84,16 @@ class CompareDataAPS extends Command
                                         $data_tits[] = array(
                                             'ci' => $app->identity_card,
                                             'ext' => $app->city_identity_card->first_shortened ?? '',
-                                            'p_nombre' => $app->first_name,
-                                            's_nombre' => $app->second_name,
+                                            'primer_nombre' => $app->first_name,
+                                            'aps_primer_nombre' => $result->pn_titular,
+                                            'segundo_nombre' => $app->second_name,
+                                            'aps_segundo_nombre' => $result->sn_titular,
                                             'paterno' => $app->last_name,
-                                            'materno' => $app->mothers_last_name,
-                                            'fecha_nac' => $app->birth_date,
-                                            'aps_p_nombre' => $result->pn_tiutlar,
-                                            'aps_s_nombre' => $result->sn_titular,
                                             'aps_paterno' => $result->pa_titular,
+                                            'materno' => $app->mothers_last_name,
                                             'aps_materno' => $result->sa_titular,
-                                            'aps_fecha_nac' => $result->fnac_titular,
+                                            'fecha_nac' => $app->birth_date,
+                                            'aps_fecha_nac' => Carbon::createFromFormat('Ymd',$result->fnac_titular)->toDateString(),
                                             'code' => $eco->code,
                                             'id' => $eco->id,
                                         );
@@ -101,27 +101,27 @@ class CompareDataAPS extends Command
                                     }
                                 }else{
                                     if (
-                                        Util::removeSpaces($app->last_name) != Util::removeSpaces($result->pa_derechohabiente) ||
-                                        Util::removeSpaces($app->mothers_last_name) != Util::removeSpaces($result->sa_derechohabiente) ||
-                                        Util::removeSpaces($app->first_name) != Util::removeSpaces($result->pn_derechohabiente) ||
-                                        Util::removeSpaces($app->second_name) != Util::removeSpaces($result->sn_derechohabiente) ||
-                                        $app->birth_date != Carbon::createFromFormat('Ymd',$result->fnac_derechohabiente)->toDateString()
+                                        (Util::removeSpaces($app->last_name) != Util::removeSpaces($result->pa_derechohabiente) ||
+                                                                                Util::removeSpaces($app->mothers_last_name) != Util::removeSpaces($result->sa_derechohabiente) ||
+                                                                                Util::removeSpaces($app->first_name) != Util::removeSpaces($result->pn_derechohabiente) ||
+                                                                                Util::removeSpaces($app->second_name) != Util::removeSpaces($result->sn_derechohabiente) ||
+                                                                                $app->birth_date != Carbon::createFromFormat('Ymd',$result->fnac_derechohabiente)->toDateString() ) && $result->fnac_derechohabiente
                                      ) {
                                         $tit_distint++;
                                         
                                         $data_ders[] = array(
                                             'ci' => $app->identity_card,
                                             'ext' => $app->city_identity_card->first_shortened ?? '',
-                                            'p_nombre' => $app->first_name,
-                                            's_nombre' => $app->second_name,
+                                            'primer_nombre' => $app->first_name,
+                                            'aps_primer_nombre' => $result->pn_derechohabiente,
+                                            'segundo_nombre' => $app->second_name,
+                                            'aps_segundo_nombre' => $result->sn_derechohabiente,
                                             'paterno' => $app->last_name,
-                                            'materno' => $app->mothers_last_name,
-                                            'fecha_nac' => $app->birth_date,
-                                            'aps_p_nombre' => $result->pn_derechohabiente,
-                                            'aps_s_nombre' => $result->sn_derechohabiente,
                                             'aps_paterno' => $result->pa_derechohabiente,
+                                            'materno' => $app->mothers_last_name,
                                             'aps_materno' => $result->sa_derechohabiente,
-                                            'aps_fecha_nac' => $result->fnac_derechohabiente,
+                                            'fecha_nac' => $app->birth_date,
+                                            'aps_fecha_nac' => $result->fnac_derechohabiente ? Carbon::createFromFormat('Ymd',$result->fnac_derechohabiente)->toDateString() : '',
                                             'code' => $eco->code,
                                             'id' => $eco->id,
                                         );

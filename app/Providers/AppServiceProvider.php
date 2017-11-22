@@ -2,6 +2,7 @@
 
 namespace Muserpol\Providers;
 
+use Validator;
 use Illuminate\Support\ServiceProvider;
 use Muserpol\EconomicComplement;
 use Muserpol\WorkflowRecord;
@@ -21,6 +22,13 @@ class AppServiceProvider extends ServiceProvider
         EconomicComplement::updating(function ($economic_complement)
         {
             WorkflowRecord::updatedEconomicComplement($economic_complement);
+        });
+        Validator::extend('not_zero', function($attribute, $value, $parameters, $validator) {
+            
+            return !($value=="0.00" || $value=='0' || $value=='');
+        });
+        Validator::extend('number_comma_dot', function($attribute, $value, $parameters, $validator) {
+            return  preg_match('/(?=.)^\$?(([1-9][0-9]{0,2}(,[0-9]{3})*)|0)?(\.[0-9]{1,2})?$/', $value);
         });
     }
 
