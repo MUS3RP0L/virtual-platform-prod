@@ -353,7 +353,7 @@ class EconomicComplementController extends Controller
         foreach ($semestre as $item) {
             $semester_list[$item]=$item;
         }
-
+        $current_semester = Util::getOriginalSemester();
         // $moduleObservation=Auth::user()->roles()->first()->module->id;
         // $observations_types = $moduleObservation == 1 ? ObservationType::all() : ObservationType::where('module_id',$moduleObservation)->get();
         $observations_types = ObservationType::where('module_id',Util::getRol()->module_id)->get();
@@ -367,6 +367,7 @@ class EconomicComplementController extends Controller
             'eco_com_states_list' => $eco_com_states_list,
             'eco_com_types_list' => $eco_com_types_list,
             'semester_list' => $semester_list,
+            'current_semester' => $current_semester,
             'pension_entities_list' => $pension_entities_list,
             'cities_list' => $cities_list,
             'cities_list_short' => $cities_list_short,

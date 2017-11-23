@@ -66,6 +66,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\ImportPayroll2017::class,
         \Muserpol\Console\Commands\CompareDataSenasir::class,
         \Muserpol\Console\Commands\CompareDataAPS::class,
+        \Muserpol\Console\Commands\SetTotalRentAps::class,
 
         
     ];
