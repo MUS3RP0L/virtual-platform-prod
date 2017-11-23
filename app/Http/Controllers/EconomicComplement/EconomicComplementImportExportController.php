@@ -61,7 +61,8 @@ class EconomicComplementImportExportController extends Controller
           foreach ($results as $datos) {
             
             $ext = ($datos->num_com ? "-".$datos->num_com : '');
-            $ext = str_replace(' ','', $ext);                                  
+            $ext = str_replace(' ','', $ext);
+            $ci = trim(Util::removeSpaces(trim($datos->carnet)).((trim(Util::removeSpaces($datos->num_com)) !='') ? '-'.$datos->num_com: ''));                      
             if($datos->renta == "DERECHOHABIENTE"){
               $comp = DB::table('eco_com_applicants') // VIUDEDAD
                   ->select(DB::raw('eco_com_applicants.identity_card as ci_app,economic_complements.*, eco_com_types.id as type'))
@@ -69,7 +70,8 @@ class EconomicComplementImportExportController extends Controller
                   ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                            
                   ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
                   ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
-                  ->whereRaw("LTRIM(eco_com_applicants.identity_card,'0') ='".rtrim($datos->carnet.''.$ext)."'")
+                  // ->whereRaw("LTRIM(eco_com_applicants.identity_card,'0') ='".rtrim($datos->carnet.''.$ext)."'")
+                  ->whereRaw("ltrim(trim(eco_com_applicants.identity_card),'0') ='".ltrim(trim($ci),'0')."'")
                   ->where('eco_com_types.id','=', 2)
                   ->where('affiliates.pension_entity_id','=', 5)
                   ->whereYear('economic_complements.year', '=', $year)
@@ -83,7 +85,8 @@ class EconomicComplementImportExportController extends Controller
                   ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                            
                   ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
                   ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
-                  ->whereRaw("LTRIM(eco_com_applicants.identity_card,'0') ='".rtrim($datos->carnet.''.$ext)."'")                
+                  ->whereRaw("ltrim(trim(eco_com_applicants.identity_card),'0') ='".ltrim(trim($ci),'0')."'")
+                  // ->whereRaw("LTRIM(eco_com_applicants.identity_card,'0') ='".rtrim($datos->carnet.''.$ext)."'")                
                   ->where('eco_com_types.id','=', 1)
                   ->where('affiliates.pension_entity_id','=', 5)
                   ->whereYear('economic_complements.year', '=', $year)
@@ -97,7 +100,8 @@ class EconomicComplementImportExportController extends Controller
                   ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')                                            
                   ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
                   ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
-                  ->whereRaw("LTRIM(eco_com_applicants.identity_card,'0') ='".rtrim($datos->carnet.''.$ext)."'")                
+                  ->whereRaw("ltrim(trim(eco_com_applicants.identity_card),'0') ='".ltrim(trim($ci),'0')."'")
+                  // ->whereRaw("LTRIM(eco_com_applicants.identity_card,'0') ='".rtrim($datos->carnet.''.$ext)."'")                
                   ->where('eco_com_types.id','=', 3)
                   ->where('affiliates.pension_entity_id','=', 5)
                   ->whereYear('economic_complements.year', '=', $year)
