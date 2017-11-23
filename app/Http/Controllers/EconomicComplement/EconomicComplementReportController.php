@@ -1364,21 +1364,22 @@ class EconomicComplementReportController extends Controller
         ->applicantinfo()
         ->affiliateinfo()
         ->where('aps_total_fs','>',0)
-        ->select(DB::raw(EconomicComplement::basic_info_colums()."".$columns.""))
+        ->select(DB::raw(EconomicComplement::basic_info_complements()."".$columns.""))
         ->get();
         $data = $economic_complements;
         Util::excel($file_name, 'hoja', $data);
         break;
         case '2':
-          $columns = ', pension_entities.type as tipo_de_ente_gestor, economic_complements.reception_type as tipo_de_recepcion, eco_com_states.name as estado, wf_states.name as ubicacion';
+          //$columns = ', pension_entities.type as tipo_de_ente_gestor, economic_complements.reception_type as tipo_de_recepcion, eco_com_states.name as estado, wf_states.name as ubicacion';
           $file_name = $name.' '.date("Y-m-d H:i:s");
+          //dd(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_complements().",".EconomicComplement::basic_info_affiliates()));
           $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
           ->ecocominfo()
           ->applicantinfo()
           ->affiliateinfo()
           ->ecocomstates()
           ->wfstates()
-          ->select(DB::raw(EconomicComplement::basic_info_colums()."".$columns.""))
+          ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()))
           ->get();
           $data = $economic_complements;
           Util::excel($file_name, 'hoja', $data);

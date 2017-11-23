@@ -115,7 +115,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('reception_type', 'Tipo de Recepción', ['class' => 'col-md-4 control-label']) !!}
                                     <div class="col-md-8">
@@ -146,10 +146,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-md-offset-1">
                                 @if(isset($last_complement->aps_disability))
                                     @if($last_complement->aps_disability > 0)
-                                    <div class="col-md-12">
+                                    <div class="col-md-8">
                                         <div class="callout callout-danger">
                                             <strong>Concurrencia - Prestación por Invalidéz:</strong> {{ Util::formatMoney($last_complement->aps_disability) }}
                                         </div>

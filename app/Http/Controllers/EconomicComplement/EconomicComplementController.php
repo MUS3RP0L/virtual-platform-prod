@@ -39,6 +39,7 @@ use Muserpol\Category;
 use Muserpol\WorkflowRecord;
 use Muserpol\WorkflowSequence;
 use Muserpol\WorkflowState;
+use Muserpol\Month;
 
 use Muserpol\ObservationType;
 use Muserpol\AffiliateObservation;
@@ -354,6 +355,9 @@ class EconomicComplementController extends Controller
             $semester_list[$item]=$item;
         }
         $current_semester = Util::getOriginalSemester();
+        $months = Month::all()->pluck('name','id');
+
+
         // $moduleObservation=Auth::user()->roles()->first()->module->id;
         // $observations_types = $moduleObservation == 1 ? ObservationType::all() : ObservationType::where('module_id',$moduleObservation)->get();
         $observations_types = ObservationType::where('module_id',Util::getRol()->module_id)->get();
@@ -372,7 +376,7 @@ class EconomicComplementController extends Controller
             'cities_list' => $cities_list,
             'cities_list_short' => $cities_list_short,
             'observations_types' => $observation_types_list,
-            
+            'months' => $months,
         ];
     }
 
@@ -746,7 +750,6 @@ class EconomicComplementController extends Controller
 
         public function store(Request $request)
         {
-            //return $request->all();
             $wf = WorkflowState::where('role_id','=',Util::getRol()->id)->first();
             // dd($wf);
             $can_create =false;
@@ -815,12 +818,12 @@ class EconomicComplementController extends Controller
                     $economic_complement->has_legal_guardian =$request->has('has_legal_guardian')?true:false;
                     if($request->has('legal_guardian_sc'))
                     {
-                        $economic_complement->has_legal_guardian_s = $request->legal_guardian_sc =='1'?true:false;
+                        $economic_complement->has_legal_guardian_s = $request->legal_guardian_sc !='1'?true:false;
                     }
                     
                     $economic_complement->code = $code ."/". $sem . "/" . Carbon::now()->year;
 
-                    $economic_complement->reception_type = $request->reception_type;
+                    $economic_complement->reception_type = $request->reception_type; 
                     // $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
                     // $economic_complement->base_wage_id = $base_wage->id;
                     // $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)->whereYear('year', '=', Carbon::now()->year)->where('semester', '=', Util::getSemester(Carbon::now()))->first();
@@ -1193,9 +1196,27 @@ class EconomicComplementController extends Controller
             $gender_list_s = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
 
         }
-
         // Log::info("has_cancel= ".json_encode($has_cancel));
         // Log::info("wf_state_before=" .json_encode($wf_state_before));
+
+        $amount_amortization=0;
+        switch (Util::getRol()->module_id) {
+            case 9:
+                # code...
+                $amount_amortization = $economic_complement->amount_accounting;
+                break;
+            case 6:
+                # code...
+                $amount_amortization = $economic_complement->amount_loan;
+                break;
+            case 2:
+                # code...
+                $amount_amortization = $economic_complement->amount_replacement;
+                break;
+        
+            
+        }
+
 
         $data = [
 
@@ -1222,6 +1243,7 @@ class EconomicComplementController extends Controller
         'state' => $state,
         'status_eco_com_submitted_documents_ar'=>$status_eco_com_submitted_documents_ar,
         'has_amortization' => $hasAmortization,
+        'amount_amortization' => $amount_amortization,
         'wf_state_before' => $wf_state_before,
         'buttons_enabled' => $buttons_enabled,
         'rent_month' => $rent_month,
@@ -1401,12 +1423,27 @@ class EconomicComplementController extends Controller
                 $economic_complement->city_id = trim($request->city);
                
                 $economic_complement->has_legal_guardian =$request->has('legal_guardian')?true:false;
-              //  Log::info("--------------");
+              
                 //Log::info($economic_complement->has_legal_guardian);
                 if($request->has('legal_guardian_sc'))
-                {
-                    $economic_complement->has_legal_guardian_s = $request->legal_guardian_sc =='1'?true:false;
+                {   
+                   //$v = $request->legal_guardian_sc =='1'?true:false;
+                     // Log::info("legal_guardian_sc: ".$request->legal_guardian_sc);
+                     // Log::info("v: ".$v);
+
+                    $economic_complement->has_legal_guardian_s = $request->legal_guardian_sc !='1'?true:false;
+                    // if(!$economic_complement->has_legal_guardian_s){
+                    //     $economic_complements->month_id = $request->month_id;
+                    // }
                 }
+                else
+                {
+                     Log::info("NO tiene legal_guardian_sc");
+
+                }
+                     Log::info("complemento: ".$economic_complement->id);
+
+
                     
           
                 $economic_complement->state="Edited";
@@ -2169,14 +2206,32 @@ class EconomicComplementController extends Controller
             }
         break;
         case 'legal_guardian':
+            //return $request->all();
             $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
               $eco_com_legal_guardian->identity_card = $request->identity_card_lg;
               if ($request->city_identity_card_id_lg) { $eco_com_legal_guardian->city_identity_card_id = $request->city_identity_card_id_lg; } else { $eco_com_legal_guardian->city_identity_card_id = null; }
              
-                $eco_com_legal_guardian->due_date =$request->due_date_lg;
-                $eco_com_legal_guardian->is_duedate_undefined =!$request->is_duedate_undefinedlg?false:true;
+              
 
-            
+              $eco_com_legal_guardian->is_duedate_undefined =!$request->is_duedate_undefinedlg?false:true;
+              if(!$eco_com_legal_guardian->is_duedate_undefined)
+              {
+                 if($request->due_date_lg!='')
+                 {
+                    $eco_com_legal_guardian->due_date =$request->due_date_lg;
+                 }else{
+                    $eco_com_legal_guardian->due_date = null;
+                 }
+                 
+              }
+
+
+              // if($request->month_id!='')
+              // {
+                $economic_complement->month_id = $request->month_id==''?null:$request->month_id;
+                $economic_complement->save();
+              // }
+              
               $eco_com_legal_guardian->last_name = $request->last_name_lg;
               $eco_com_legal_guardian->mothers_last_name = $request->mothers_last_name_lg;
               $eco_com_legal_guardian->first_name = $request->first_name_lg;
@@ -2184,6 +2239,7 @@ class EconomicComplementController extends Controller
               $eco_com_legal_guardian->surname_husband = $request->surname_husband_lg;
               $eco_com_legal_guardian->phone_number =trim(implode(",", $request->phone_number_lg));
               $eco_com_legal_guardian->cell_phone_number =trim(implode(",", $request->cell_phone_number_lg));
+              //return $eco_com_legal_guardian;
               $eco_com_legal_guardian->save();
               return redirect('economic_complement/'.$economic_complement->id);
           break;
@@ -2457,6 +2513,8 @@ class EconomicComplementController extends Controller
                     break;
                 
             }
+            Session::flash('message', 'Se guardo la Amortización.');
+            
             if ($complemento->total_rent > 0 ) {   
                 EconomicComplement::calculate($complemento,$complemento->total_rent, $complemento->sub_total_rent, $complemento->reimbursement, $complemento->dignity_pension, $complemento->aps_total_fsa, $complemento->aps_total_cc, $complemento->aps_total_fs, $complemento->aps_disability);
                 $complemento->save();
@@ -2495,7 +2553,6 @@ class EconomicComplementController extends Controller
         $wf_record->message="El usuario ".Util::getFullNameuser()." devolvio el tramite de ".$old_wf->name." a ".$new->name ."  fecha ".Carbon::now()."
         \n Motivo: ".$request->nota.".";
         $wf_record->save();
-
 
         return back()->withInput();
 

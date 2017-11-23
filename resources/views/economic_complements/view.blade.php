@@ -1981,6 +1981,15 @@
                                         <span class="help-block">Escriba el Apellido de Esposo (Opcional)</span>
                                     </div>
                                 </div>
+                                @if($economic_complement->has_legal_guardian && $economic_complement->has_legal_guardian_s==false)
+                                <div class="form-group">
+                                    {!! Form::label('boleta_cechus_y_anita', 'Boleta habilitación del cobro', ['class' => 'col-md-5 control-label']); !!}
+                                        <div class="col-md-6">
+                                        {!! Form::select('month_id',$months,$economic_complement->month_id,['class' => 'col-md-5 combobox form-control']) !!}
+                                        </div>
+                                   
+                                </div>
+                                @endif
 
                             </div>
                             <div class="col-md-6">
@@ -2753,6 +2762,7 @@
             </div>
         </div>
     </div>
+    @if($has_amortization)
     <form  action="{{url('save_amortization')}}" method="POST">
             
         
@@ -2767,7 +2777,7 @@
               </div>
               <div class="modal-body">
                 <div class="row">
-                    <label>Monto :</label> <input type="number" required  step="any" name="amount_amortization" class="form-control">
+                    <label>Monto :</label> <input type="number" required  step="any" name="amount_amortization" class="form-control" value="{{$amount_amortization}}">
                     <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">
                 </div>
                 
@@ -2781,7 +2791,7 @@
         </div><!-- /.modal -->
 
     </form>
-
+    @endif
     <form  action="{{url('moreInfo')}}" method="POST">
         
         <div id="addMoreInfo" class="modal fade" tabindex="-1" role="dialog">
