@@ -52,7 +52,7 @@ class CalculateAverage extends Command implements SelfHandling
                                     ->where('economic_complements.semester', '=', $semester)
                                     ->where('economic_complements.total_rent','>', 0)
                                     ->whereIN('economic_complements.eco_com_modality_id',[1,2])
-                                    //->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+                                    ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
                                     ->whereNull('economic_complements.aps_disability')
                                     ->groupBy('affiliates.degree_id','economic_complements.eco_com_modality_id')
                                     ->orderBy('affiliates.degree_id','ASC')->get();

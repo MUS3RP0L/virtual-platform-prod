@@ -3,6 +3,7 @@
 namespace Muserpol\Helper;
 use Carbon\Carbon;
 use Muserpol\EconomicComplement;
+use Muserpol\EconomicComplementProcedure;
 use Auth;
 use DB;
 use Session;
@@ -714,5 +715,19 @@ class Util
     			$sheet->fromArray($data);
     		});
     	})->store('xls', storage_path($folder_out));
+    }
+    public static function semesterAgo($year, $semester)
+    {
+    	if ($semester == 'Primer') {
+    		$year = $year -1;
+    		$semester =  'Segundo';
+    	}else{
+    		$semester =  'Primer';
+    	}
+    	$procedure =  EconomicComplementProcedure::whereYear('year','=',$year)->where('semester','=',$semester)->first();
+    	if ($procedure) {
+    		return $procedure->id;
+    	}
+    	return null;
     }
 }
