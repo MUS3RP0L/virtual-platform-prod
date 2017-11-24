@@ -47,6 +47,7 @@ class EconomicComplementReportController extends Controller
         '1' => 'Trámites con Pensión Solidaria de Vejez',
         '2' => 'Todos los Trámites',
         '3' => 'Diferencia de Promedio (Un semestre anterior)',
+        '4' => 'Trámites con concurrencia',
         // '2' => 'Trámites Inclusiones',
         // '3' => 'Trámites habituales',
       ];
@@ -1414,6 +1415,22 @@ class EconomicComplementReportController extends Controller
           }
           $file_name = $name.' '.date("Y-m-d H:i:s");
           Util::excel($file_name, 'hoja', $rows);
+          break;
+        case '4':
+          $columns = ',economic_complements.aps_disability as concurrencia';
+          $file_name = $name.' '.date("Y-m-d H:i:s");
+          $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+          ->ecocominfo()
+          ->applicantinfo()
+          ->affiliateinfo()
+          ->ecocomstates()
+          ->wfstates()
+          ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
+          ->where('aps_disability','>',0)
+          ->get();
+          $data = $economic_complements;
+          Util::excel($file_name, 'hoja', $data);
+          
           break;
         // case 2:
         // //tipos de recepcion inclusion 
