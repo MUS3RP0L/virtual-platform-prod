@@ -17,6 +17,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementProcedure;
+use Muserpol\EconomicComplementRent;
 use Muserpol\EconomicComplementState;
 use Muserpol\EconomicComplementStateType;
 use Muserpol\EconomicComplementType;
@@ -36,6 +37,7 @@ use Muserpol\Category;
 use Muserpol\ObservationType;
 use Muserpol\AffiliateObservation;
 use DB;
+use stdClass;
 
 class EconomicComplementReportController extends Controller
 {
@@ -44,6 +46,8 @@ class EconomicComplementReportController extends Controller
         '' => '',
         '1' => 'Trámites con Pensión Solidaria de Vejez',
         '2' => 'Todos los Trámites',
+        '3' => 'Diferencia de Promedio (Un semestre anterior)',
+        '4' => 'Trámites con concurrencia',
         // '2' => 'Trámites Inclusiones',
         // '3' => 'Trámites habituales',
       ];
@@ -1383,6 +1387,50 @@ class EconomicComplementReportController extends Controller
           ->get();
           $data = $economic_complements;
           Util::excel($file_name, 'hoja', $data);
+          break;
+        case '3':
+          $eco_com_procedure_current = EconomicComplementProcedure::find($eco_com_procedure_id);
+          $eco_com_procedure_old = EconomicComplementProcedure::find(Util::semesterAgo($year, $semester));
+          if (!$eco_com_procedure_old) { return;  }
+          $ren_old=EconomicComplementRent::whereYear('year','=',Carbon::parse($eco_com_procedure_old->year)->year)->where('semester','=',$eco_com_procedure_old->semester)->get();
+          $ren_current=EconomicComplementRent::whereYear('year','=',Carbon::parse($eco_com_procedure_current->year)->year)->where('semester','=',$eco_com_procedure_current->semester)->get();
+          $rows=[];
+          foreach ($ren_current as $current_rent) {
+            foreach ($ren_old as $old_rent) {
+              if ($current_rent->degree_id == $old_rent->degree_id && $current_rent->eco_com_type_id == $old_rent->eco_com_type_id) {
+                $rows[] = array(
+                  'degree' => Degree::find($current_rent->degree_id)->shortened,
+                  'year_old' => Carbon::parse($old_rent->year)->year,
+                  'semester_old' => $old_rent->semester,
+                  'average_old' => $old_rent->average,
+                  'year_current' => Carbon::parse($current_rent->year)->year,
+                  'semester_current' => $current_rent->semester,
+                  'average_current' => $current_rent->average,
+                  'difference' =>  $current_rent->average - $old_rent->average,
+                  // 'difference' => abs($old_rent->average - $current_rent->average),
+                  'modality' => EconomicComplementModality::find($current_rent->eco_com_type_id)->economic_complement_type->name ?? '', 
+                );
+               }
+            }
+          }
+          $file_name = $name.' '.date("Y-m-d H:i:s");
+          Util::excel($file_name, 'hoja', $rows);
+          break;
+        case '4':
+          $columns = ',economic_complements.aps_disability as concurrencia';
+          $file_name = $name.' '.date("Y-m-d H:i:s");
+          $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+          ->ecocominfo()
+          ->applicantinfo()
+          ->affiliateinfo()
+          ->ecocomstates()
+          ->wfstates()
+          ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
+          ->where('aps_disability','>',0)
+          ->get();
+          $data = $economic_complements;
+          Util::excel($file_name, 'hoja', $data);
+          
           break;
         // case 2:
         // //tipos de recepcion inclusion 
