@@ -424,7 +424,7 @@ class EconomicComplement extends Model
     }
     public static function basic_info_affiliates()
     {
-        return "affiliates.gender as genero, affiliates.first_name as primer_nombre_causahabiente, affiliates.second_name as segundo_nombre_causahabiente, affiliates.last_name as ap_paterno_causahabiente, affiliates.mothers_last_name as ap_materno_causahabiente, affiliates.surname_husband as ape_casada_causahabiente, affiliates.birth_date as fecha_nacimiento, affiliates.nua as codigo_nua_cua";
+        return "affiliates.identity_card, city_affiliates_identity_card.first_shortened as ext, affiliates.first_name as primer_nombre_causahabiente, affiliates.second_name as segundo_nombre_causahabiente, affiliates.last_name as ap_paterno_causahabiente, affiliates.mothers_last_name as ap_materno_causahabiente, affiliates.surname_husband as ape_casada_causahabiente, affiliates.birth_date as fecha_nacimiento, affiliates.nua as codigo_nua_cua";
     }
     public function scopeEcocominfo($query)
     {
@@ -439,10 +439,17 @@ class EconomicComplement extends Model
         return $query->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
                 ->leftJoin('cities as city_applicant_identity_card','eco_com_applicants.city_identity_card_id','=','city_applicant_identity_card.id');
     }
+    /* GABRIEL
+    public function scopeAffiliateinfo2($query)
+    {
+        return $query->leftJoin('affiliates','affiliates.city_identity_card_id','=','cities.id');
+            //->leftJoin('cities as city_applicant_identity_card','eco_com_applicants.city_identity_card_id','=','city_applicant_identity_card.id');
+    }
+    GABRIEL*/
     public function scopeAffiliateinfo($query)
     {
-        return $query->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
-            ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id');
+        return $query->leftJoin('affiliates as city_affiliates_identity_card','affiliates.city_identity_card_id','=','cites.id');
+            //->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id');
     }
     public function scopeEcocomstates($query)
     {
