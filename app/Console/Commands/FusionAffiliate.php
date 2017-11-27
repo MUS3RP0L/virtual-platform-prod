@@ -68,7 +68,7 @@ class FusionAffiliate extends Command
                             $affobs->affiliate_id = $new_affiliate->id;
                             $affobs->save();
                             $count_observations++;
-                        }
+                     $economic_complements   }
                         Log::info("Affiliate Observations");
                     }
                     $contributions = \Muserpol\Contribution::where('affiliate_id','=',$old_affiliate->id)->get();
@@ -77,7 +77,7 @@ class FusionAffiliate extends Command
                             $cont->affiliate_id = $new_affiliate->id;
                             $cont->save();
                             $count_contributions++;
-                        }
+                     $economic_complements   }
                         Log::info("contributions");
                     }
                     $affiliate_records = \Muserpol\AffiliateRecord::where('affiliate_id','=',$old_affiliate->id)->get();
@@ -86,7 +86,7 @@ class FusionAffiliate extends Command
                             $affirecord->affiliate_id=$new_affiliate->id;
                             $affirecord->save();
                             $count_records++;
-                        }
+                     $economic_complements   }
                         Log::info("affiliate records");
                     }
                     // $direct_contributions = \Muserpol\DirectContribution::where('affiliate_id','=',$affiliate->id)->get();
@@ -98,7 +98,7 @@ class FusionAffiliate extends Command
                     //     foreach ($economic_complements as $economic) {
                     //         $economic->affiliate_id = $new_affiliate->id;
                     //         $economic->save();
-                    //         $count++;
+                    /$economic_complements/         $count++;
                     //     }
                     //     Log::info("economic comple");
                     // }

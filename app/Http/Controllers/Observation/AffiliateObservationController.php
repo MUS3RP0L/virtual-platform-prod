@@ -11,6 +11,8 @@ use Muserpol\Affiliate;
 use Muserpol\EconomicComplement;
 use Muserpol\ObservationType;
 use Muserpol\EconomicComplementProcedure;
+use Muserpol\AffiliateRecord;
+
 use Carbon\Carbon;
 use Util;
 
@@ -40,7 +42,7 @@ class AffiliateObservationController extends Controller
 
     public function store(Request $request)
     {
-
+      //return $request->all();
       $rules = [
       'affiliate_id' => 'required',
       'observation_type_id' => 'required',
@@ -71,6 +73,17 @@ class AffiliateObservationController extends Controller
         Session::flash('observation_type_id',$observation->observation_type_id);
         Session::flash('message', $message);
       }
+
+      $affiliate = Affiliate::where('id',$request->affiliate_id)->first();
+      $aff_record = new AffiliateRecord;
+      if (Auth::user()) {$user_id = Auth::user()->id;}else{$user_id = 1;}
+      $aff_record->user_id = $user_id;
+      $aff_record->affiliate_id = $affiliate->id;
+      $aff_record->date = Carbon::now();
+      $aff_record->type_id = 6;// 6 es por la observacion
+      $aff_record->message = Auth::user()->getFullname()." creo la Observacion ".$observation->observationType->name;
+      $aff_record->save();
+
       return redirect('affiliate/'.$request->affiliate_id);
     }
 
@@ -137,6 +150,7 @@ class AffiliateObservationController extends Controller
     }
     public function update(Request $request)
     {
+      //dd($request->all());
       $affiliateObservation=AffiliateObservation::find($request->observation_id);
       $affiliateObservation->user_id=Auth::user()->id;
       $affiliateObservation->affiliate_id=$request->affiliate_id;
@@ -145,6 +159,17 @@ class AffiliateObservationController extends Controller
       $affiliateObservation->is_enabled=($request->is_enabled == 'on');
       $affiliateObservation->message=$request->message;
       $affiliateObservation->save();
+
+      $affiliate = Affiliate::where('id',$request->affiliate_id)->first();
+      $aff_record = new AffiliateRecord;
+      if (Auth::user()) {$user_id = Auth::user()->id;}else{$user_id = 1;}
+      $aff_record->user_id = $user_id;
+      $aff_record->affiliate_id = $affiliate->id;
+      $aff_record->date = Carbon::now();
+      $aff_record->type_id = 6;// 6 es por la observacion
+      $aff_record->message = Auth::user()->getFullname()." Se Actualizo Observacion ".$affiliateObservation->observationType->name;
+      $aff_record->save();
+
       return redirect('affiliate/'.$request->affiliate_id);
     }
 
