@@ -81,7 +81,7 @@ class AffiliateObservationController extends Controller
       $aff_record->affiliate_id = $affiliate->id;
       $aff_record->date = Carbon::now();
       $aff_record->type_id = 6;// 6 es por la observacion
-      $aff_record->message = Auth::user()->getFullname()." creo la Observacion ".$observation->observationType->name;
+      $aff_record->message = Auth::user()->getFullname()." creo la Observación ".$observation->observationType->name;
       $aff_record->save();
 
       return redirect('affiliate/'.$request->affiliate_id);
@@ -167,7 +167,7 @@ class AffiliateObservationController extends Controller
       $aff_record->affiliate_id = $affiliate->id;
       $aff_record->date = Carbon::now();
       $aff_record->type_id = 6;// 6 es por la observacion
-      $aff_record->message = Auth::user()->getFullname()." Se Actualizo Observacion ".$affiliateObservation->observationType->name;
+      $aff_record->message = Auth::user()->getFullname()." Se Actualizo Observación ".$affiliateObservation->observationType->name;
       $aff_record->save();
 
       return redirect('affiliate/'.$request->affiliate_id);
