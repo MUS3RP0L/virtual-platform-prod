@@ -30,6 +30,6 @@ class KindOfRent extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('degrees');
+        Schema::dropIfExists('eco_com_kind_rent');
     }
 }
