@@ -90,7 +90,7 @@ class EconomicComplementReportController extends Controller
         ['' => '',
           '1' => 'Reporte de Recepción por Usuario', 
           // '2' => 'Reporte de beneficiarios',
-          // '3' => 'Reporte de apoderados',
+          '3' => 'Reporte de apoderados',
           // '5' => 'Resumen de habituales',
           // '6' => 'Resumen de inclusiones',
           // '7' => 'Reporte por Intervalo de fechas',
