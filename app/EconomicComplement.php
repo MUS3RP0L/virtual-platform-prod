@@ -413,48 +413,33 @@ class EconomicComplement extends Model
             ->withInput();
         }
     }
+
     public static function basic_info_colums()
     {
-        return "row_number() OVER () AS NRO, economic_complements.code as n_tramite, eco_com_applicants.identity_card as ci, city_applicant_identity_card.first_shortened as ext, eco_com_applicants.first_name as primer_nombre, eco_com_applicants.second_name as segundo_nombre, eco_com_applicants.last_name as apellido_paterno, eco_com_applicants.mothers_last_name as apellido_materno, eco_com_applicants.surname_husband as apellido_de_casado, eco_com_applicants.birth_date as fecha_nac, cities.name as regional, degrees.name as grado, categories.name as categoria, eco_com_modalities.shortened as tipo_de_prestacion, pension_entities.name as ente_gestor";
-    }
-    public static function basic_info_complements()
-    {
-        //return "row_number() OVER () AS NRO, eco_com_applicants.identity_card as ci, city_applicant_identity_card.first_shortened as ext, eco_com_applicants.first_name as primer_nombre, eco_com_applicants.second_name as segundo_nombre, eco_com_applicants.last_name as apellido_paterno, eco_com_applicants.mothers_last_name as apellido_materno, eco_com_applicants.surname_husband as apellido_de_casado, eco_com_applicants.birth_date as fecha_nac, cities.name as regional, eco_com_modalities.shortened as tipo_de_tramite, categories.name as categoria, pension_entities.name as ente_gestor, degrees.name as grado, economic_complements.sub_total_rent as renta_segun_boleta, economic_complements.reimbursement as reintegro, economic_complements.dignity_pension as renta_dignidad, economic_complements.total_rent as renta_neto, economic_complements.total_rent_calc as neto, economic_complements.salary_reference as salario_referencial, economic_complements.seniority as antiguedad, economic_complements.seniority as antiguedad, economic_complements.salary_quotable as cotizable, economic_complements.difference as diferencia, economic_complements.complementary_factor as factor_complementario, economic_complements.total_repay as reintegro, economic_complements.total as total_complemento, economic_complements.total as total_complemento, economic_complements.reception_type as tipo_recepcion";
-        return "economic_complements.reception_date as fecha_de_recepcion, economic_complements.reimbursement as reintegro, economic_complements.dignity_pension as renta_dignidad, economic_complements.total_rent as renta_neto, economic_complements.total_rent_calc as neto, economic_complements.salary_reference as salario_referencial, economic_complements.seniority as antiguedad, economic_complements.seniority as antiguedad, economic_complements.difference as diferencia, economic_complements.complementary_factor as factor_complementario, economic_complements.complementary_factor as factor_complementario";
-    }
-    public static function basic_info_affiliates()
-    {
-        return "affiliates.identity_card, city_affiliates_identity_card.first_shortened as ext, affiliates.first_name as primer_nombre_causahabiente, affiliates.second_name as segundo_nombre_causahabiente, affiliates.last_name as ap_paterno_causahabiente, affiliates.mothers_last_name as ap_materno_causahabiente, affiliates.surname_husband as ape_casada_causahabiente, affiliates.birth_date as fecha_nacimiento, affiliates.nua as codigo_nua_cua";
+        return "row_number() OVER () AS NRO, economic_complements.code as CODIGO_TRAMITE, eco_com_applicants.identity_card as ci, city_applicant_identity_card.first_shortened as ext, eco_com_applicants.first_name as primer_nombre, eco_com_applicants.second_name as segundo_nombre, eco_com_applicants.last_name as apellido_paterno, eco_com_applicants.mothers_last_name as apellido_materno, eco_com_applicants.surname_husband as apellido_de_casado, eco_com_applicants.birth_date as fecha_nac, cities.name as regional, degrees.name as grado, categories.name as categoria, eco_com_modalities.shortened as tipo_de_prestacion, pension_entities.name as ente_gestor";
     }
     public function scopeEcocominfo($query)
     {
-        return $query->leftJoin('cities','economic_complements.city_id','=','cities.id')
-                ->leftJoin('degrees','economic_complements.degree_id','=','degrees.id')
-                ->leftJoin('categories','economic_complements.category_id','=','categories.id')
-                ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
-                ->leftJoin('eco_com_types', 'eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id');
+        return $query->leftJoin('cities', 'economic_complements.city_id', '=', 'cities.id')
+            ->leftJoin('degrees', 'economic_complements.degree_id', '=', 'degrees.id')
+            ->leftJoin('categories', 'economic_complements.category_id', '=', 'categories.id')
+            ->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+            ->leftJoin('eco_com_types', 'eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id');
     }
     public function scopeApplicantinfo($query)
     {
-        return $query->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
-                ->leftJoin('cities as city_applicant_identity_card','eco_com_applicants.city_identity_card_id','=','city_applicant_identity_card.id');
+        return $query->leftJoin('eco_com_applicants', 'economic_complements.id', '=', 'eco_com_applicants.economic_complement_id')
+            ->leftJoin('cities as city_applicant_identity_card', 'eco_com_applicants.city_identity_card_id', '=', 'city_applicant_identity_card.id');
     }
-    /* GABRIEL
-    public function scopeAffiliateinfo2($query)
-    {
-        return $query->leftJoin('affiliates','affiliates.city_identity_card_id','=','cities.id');
-            //->leftJoin('cities as city_applicant_identity_card','eco_com_applicants.city_identity_card_id','=','city_applicant_identity_card.id');
-    }
-    GABRIEL*/
     public function scopeAffiliateinfo($query)
     {
-        return $query->leftJoin('affiliates as city_affiliates_identity_card','affiliates.city_identity_card_id','=','cites.id');
-            //->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id');
+        return $query->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+            ->leftJoin('pension_entities', 'affiliates.pension_entity_id', '=', 'pension_entities.id');
     }
     public function scopeEcocomstates($query)
     {
-        return $query->leftJoin('eco_com_states','economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
-            ->leftJoin('eco_com_state_types','eco_com_states.eco_com_state_type_id', '=', 'eco_com_state_types.id');
+        return $query->leftJoin('eco_com_states', 'economic_complements.eco_com_state_id', '=', 'eco_com_states.id')
+            ->leftJoin('eco_com_state_types', 'eco_com_states.eco_com_state_type_id', '=', 'eco_com_state_types.id');
     }
     public function scopeWfstates($query)
     {
