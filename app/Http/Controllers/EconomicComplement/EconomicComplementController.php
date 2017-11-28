@@ -2458,7 +2458,7 @@ class EconomicComplementController extends Controller
         if($request->amount_amortization > 0)
         {
             switch ($rol->module_id) {
-                case 8: //contabiliadad
+                case 9: //contabiliadad
                     
                     $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
                     $complemento->amount_accounting = $request->amount_amortization;
@@ -2514,7 +2514,7 @@ class EconomicComplementController extends Controller
             
             if ($complemento->total_rent > 0 ) {   
                 EconomicComplement::calculate($complemento,$complemento->total_rent, $complemento->sub_total_rent, $complemento->reimbursement, $complemento->dignity_pension, $complemento->aps_total_fsa, $complemento->aps_total_cc, $complemento->aps_total_fs, $complemento->aps_disability);
-                // $complemento->save();
+                $complemento->save();
             }
         }
         else{
