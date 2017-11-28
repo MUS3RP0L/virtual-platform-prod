@@ -47,32 +47,32 @@ class ContributionController extends Controller
         }
 
         //saldo inicial
-        // $date_last_contribution = $last_contribution->month_year;
+        $date_last_contribution = $last_contribution->month_year;
 
-        // $first_contribution=Contribution::affiliateidIs($affiliate->id)->orderBy('month_year', 'asc')->first();
-        // $first_contribution_t=$first_contribution->retirement_fund;
-        // $max = Contribution::affiliateidIs($affiliate->id)->selectRaw('max(retirement_fund)')->get()->first()->max;
-        // $avg = Contribution::affiliateidIs($affiliate->id)->selectRaw('avg(retirement_fund)')->get()->first()->avg;
-        // $div=$avg/$max * 100;
-        // $date_first_contribution=$first_contribution->month_year;
-        // $date_entry=Affiliate::idIs($affiliate->id)->first()->date_entry;
-        // $number_periods=Carbon::parse($date_first_contribution)->diffInMonths(Carbon::parse($date_entry)) - 1;
-        // $pan=$first_contribution_t * $div / 100;
-        // $pi = InterestRate::where('month_year','>=',$date_first_contribution)->where('month_year','<=',$date_last_contribution)->selectRaw('avg(rate)')->get()->first()->avg;
-        // $sln=(((pow($pi + 1, $number_periods) - 1 ) / $pi) * $pan);
+        $first_contribution=Contribution::affiliateidIs($affiliate->id)->orderBy('month_year', 'asc')->first();
+        $first_contribution_t=$first_contribution->retirement_fund;
+        $max = Contribution::affiliateidIs($affiliate->id)->selectRaw('max(retirement_fund)')->get()->first()->max;
+        $avg = Contribution::affiliateidIs($affiliate->id)->selectRaw('avg(retirement_fund)')->get()->first()->avg;
+        $div=$avg/$max * 100;
+        $date_first_contribution=$first_contribution->month_year;
+        $date_entry=Affiliate::idIs($affiliate->id)->first()->date_entry;
+        $number_periods=Carbon::parse($date_first_contribution)->diffInMonths(Carbon::parse($date_entry)) - 1;
+        $pan=$first_contribution_t * $div / 100;
+        $pi = InterestRate::where('month_year','>=',$date_first_contribution)->where('month_year','<=',$date_last_contribution)->selectRaw('avg(rate)')->get()->first()->avg;
+        $sln=(((pow($pi + 1, $number_periods) - 1 ) / $pi) * $pan);
         
-        // //calculo cuenta indiviual
-        // $contribution_totals=Contribution::affiliateidIs($affiliate->id)->orderBy('month_year', 'asc')->get();
-        // $saldo_ini=$sln;
-        // foreach ($contribution_totals as $cont) {
-        //     $rate=InterestRate::where('month_year','=',$cont->month_year)->first();
-        //     if ($rate=$rate->rate ?? false) {
-        //         $interes=$saldo_ini * $rate;
-        //         $saldo_inte=$saldo_ini + $interes;
-        //         $saldo_acu=$saldo_inte + $cont->retirement_fund;
-        //         $saldo_ini=$saldo_acu;
-        //     }
-        // }
+        //calculo cuenta indiviual
+        $contribution_totals=Contribution::affiliateidIs($affiliate->id)->orderBy('month_year', 'asc')->get();
+        $saldo_ini=$sln;
+        foreach ($contribution_totals as $cont) {
+            $rate=InterestRate::where('month_year','=',$cont->month_year)->first();
+            if ($rate=$rate->rate ?? false) {
+                $interes=$saldo_ini * $rate;
+                $saldo_inte=$saldo_ini + $interes;
+                $saldo_acu=$saldo_inte + $cont->retirement_fund;
+                $saldo_ini=$saldo_acu;
+            }
+        }
 
         $data = [
 
@@ -81,8 +81,8 @@ class ContributionController extends Controller
             'total_retirement_fund' => $total_retirement_fund,
             'total_mortuary_quota' => $total_mortuary_quota,
             'total' => $total ?? '',
-            'beginning_balance' => '', //Util::formatMoney($sln),
-            'total_balance' => '',//Util::formatMoney($saldo_acu),
+            'beginning_balance' => Util::formatMoney($sln) ?? null,
+            'total_balance' => Util::formatMoney($saldo_acu) ?? null,
 
         ];
 

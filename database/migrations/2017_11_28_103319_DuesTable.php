@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class DebtsTable extends Migration
+class DuesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class DebtsTable extends Migration
      */
     public function up()
     {
-        Schema::create('debts', function(Blueprint $table) {
+        Schema::create('dues', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('affiliate_id')->unsigned();
             $table->bigInteger('observation_type_id')->unsigned();
@@ -32,6 +32,6 @@ class DebtsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('debts');
+        Schema::dropIfExists('dues');
     }
 }
