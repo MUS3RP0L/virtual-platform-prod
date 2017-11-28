@@ -271,6 +271,7 @@ class Util
 	    	$value = number_format($value, 2, ',', '.');
         	return $value;
 		}
+		return null;
     }
 
 	public static function formatPercentage($value)
