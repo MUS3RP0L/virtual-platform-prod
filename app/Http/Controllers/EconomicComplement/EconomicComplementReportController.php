@@ -1355,13 +1355,12 @@ class EconomicComplementReportController extends Controller
       return 'error';
     }
     $eco_com_procedure_id=$eco_com_procedure_id->id;
+    //dd($eco_com_procedure_id);
     $name = self::reports_lists()[$type];
     switch ($type) {
       case 1:
         //tramites con fracion solidaria
-
         $columns = ',economic_complements.aps_total_fs as fraccion_solidaria';
-
         $file_name = $name.' '.date("Y-m-d H:i:s");
         $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
         ->ecocominfo()
@@ -1370,20 +1369,45 @@ class EconomicComplementReportController extends Controller
         ->where('aps_total_fs','>',0)
         ->select(DB::raw(EconomicComplement::basic_info_complements()."".$columns.""))
         ->get();
+
         $data = $economic_complements;
         Util::excel($file_name, 'hoja', $data);
         break;
-        case '2':
+        case 2:
+            ini_set('memory_limit', '-1');
+            ini_set('max_execution_time', '-1');
+            ini_set('max_input_time', '-1');
+            set_time_limit('-1');
           //$columns = ', pension_entities.type as tipo_de_ente_gestor, economic_complements.reception_type as tipo_de_recepcion, eco_com_states.name as estado, wf_states.name as ubicacion';
           $file_name = $name.' '.date("Y-m-d H:i:s");
           //dd(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_complements().",".EconomicComplement::basic_info_affiliates()));
           $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
-          ->ecocominfo()
+            ->leftJoin('eco_com_applicants as eca','eca.economic_complement_id','=','economic_complements.id')
+            ->leftJoin('eco_com_modalities as ecm','ecm.id','=','economic_complements.eco_com_modality_id')
+            ->leftJoin('affiliates as af','af.id','=','economic_complements.affiliate_id')
+             ->leftJoin( DB::raw('(SELECT afob.affiliate_id, STRING_AGG (afob.message, \'||\') as observaciones
+                                   FROM affiliates AS af
+		                           LEFT JOIN affiliate_observations as afob ON(afob.affiliate_id = af.id)
+                                   GROUP BY afob.affiliate_id
+          ) as afobs'),'afobs.affiliate_id','=','af.id')
+            ->leftJoin('eco_com_states as ecs','ecs.id','=','economic_complements.eco_com_state_id')
+            ->leftJoin('cities as ci_ben','eca.city_identity_card_id','=','ci_ben.id')
+            ->leftJoin('degrees as de','de.id','=','af.degree_id')
+            ->leftJoin('categories as ca','ca.id','=','economic_complements.category_id')
+            ->leftJoin('pension_entities as pe','pe.id','=','af.pension_entity_id')
+            ->leftJoin('affiliate_observations as afob','af.id' ,'=','afob.affiliate_id')
+            ->leftJoin('wf_states as ws','ws.id','=','economic_complements.wf_current_state_id')
+            ->leftJoin('workflows as wo','wo.id','=','economic_complements.workflow_id')
+
+          /*->ecocominfo()
           ->applicantinfo()
           ->affiliateinfo()
+          ->affiliateinfo2()
           ->ecocomstates()
-          ->wfstates()
-          ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()))
+          ->wfstates(*/
+         // ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()))
+
+          ->select(DB::raw( 'row_number() OVER () AS nro, economic_complements.code as N_Tramite, economic_complements.reception_date as Fecha_recepcion, eca.identity_card as ci_beneficiario, ci_ben.first_shortened as expedido, eca.identity_card || \' \' || ci_ben.first_shortened as ci_completo, eca.first_name as prim_nomb_ben, eca.second_name as seg_nomb_ben, eca.last_name as apellido_pat_ben, eca.mothers_last_name as apellido_mat_ben, eca.surname_husband as ape_casada_ben, eca.birth_date as fecha_nac_ben, af.identity_card as ci_causa, ci_ben.first_shortened as exp_causa, af.identity_card || \' \' || ci_ben.first_shortened as ci_completo_causa, af.first_name as primer_nom_cau, af.second_name as segundo_nom_cau, af.last_name as ape_pat_cau, af.mothers_last_name as ape_mat_cau, af.surname_husband as ape_casada_cau, af.birth_date as fecha_nac_cau, af.nua as Nua, ci_ben.name as regional, ecm.shortened as tipo_de_prestacion, ecm.shortened as tipo_de_prestacion, ca.name as categoria, de.name as grado, pe.name as ente_gestor, economic_complements.aps_total_fsa as fracion_saldo_acumulado, economic_complements.aps_total_cc as compensacion_cotizaciones, economic_complements.aps_total_fs as fracicon_solidaria_vejez, economic_complements.total_rent as total_renta_o_jubilacion, economic_complements.total_rent_calc as promedio, economic_complements.seniority as antiguedad, economic_complements.salary_reference as sueldo_activo, economic_complements.salary_quotable as salario_cotizable, economic_complements.difference as diferencia, economic_complements.difference*6 as total_semestre, economic_complements.complementary_factor as factor_complementario, economic_complements.total as total_complemento_economico, economic_complements.state as estado, ws.first_shortened as ubicacion, ecm.name as tipo_beneficiario, ecs.name as estado, ws.first_shortened as ubicacion, wo.name as flujo, afobs.observaciones'))
           ->get();
           $data = $economic_complements;
           Util::excel($file_name, 'hoja', $data);
