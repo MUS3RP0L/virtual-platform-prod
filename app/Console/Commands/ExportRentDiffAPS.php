@@ -47,7 +47,7 @@ class ExportRentDiffAPS extends Command
         global $diffs,$diff_olds;
         $count=0;
         $diff=0;
-        $this->info("Cechus y anita");
+        $this->info("cechus y anita ");
         $eco_coms=EconomicComplement::where('eco_com_procedure_id','=', 6)->leftJoin('affiliates', 'economic_complements.affiliate_id','=', 'affiliates.id')
         ->whereIn('affiliates.pension_entity_id',[1,2,3,4])->select('economic_complements.id')->get()->pluck('id')
         ;  
@@ -69,10 +69,10 @@ class ExportRentDiffAPS extends Command
         }        
 
         $eco_olds = EconomicComplement::whereIn('economic_complements.id', $diff_olds)
-                    ->select('total_rent as renta_anterio')
-                    ->take(2)
+                    ->select('total_rent as renta_anterior')
                     ->get();
 
+        $this->info("eco_olds: ".$eco_olds->count());
 
         $columns = ',economic_complements.total_rent as renta_total';
 
@@ -81,22 +81,25 @@ class ExportRentDiffAPS extends Command
         ->applicantinfo()
         ->affiliateinfo()
         ->select(DB::raw(EconomicComplement::basic_info_colums()."".$columns.""))
-        ->take(2)
         ->get();
 
-        $economic_complements=json_encode($economic_complements);
-        $eco_olds = json_encode($eco_olds);
-
+        $this->info("economic_complements: ".$economic_complements->count());
         for ($i = 0; $i < sizeof($economic_complements); $i++) {
+            
+            $this->info('\n con renta anterior');
+
+            $economic_complements[$i]->setAttribute("renta_anterior",$eco_olds[$i]->renta_anterior);
+
             $this->info($economic_complements[$i]);
+
+            $this->info('\n -------------------------------------------------');
         }
 
-
-        $this->info($economic_complements);
         $this->info($eco_olds);
         
+        $this->info("economic_complements:");
 
-        $this->info($economic_complements);
+        //$this->info($economic_complements);
 
         $data = $economic_complements;
         Util::excelSave('Lista Afiliados que varian las rentas con APS', 'hoja', $data, 'excel/exports');
