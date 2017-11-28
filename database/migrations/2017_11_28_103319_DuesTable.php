@@ -14,12 +14,11 @@ class DuesTable extends Migration
     {
         Schema::create('dues', function(Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('affiliate_id')->unsigned();
-            $table->bigInteger('observation_type_id')->unsigned();
+            $table->bigInteger('devolution_id')->unsigned()->nullable();
+            $table->bigInteger('eco_com_procedure_id')->unsigned()->nullable();
             $table->decimal('amount', 13, 2);
-            $table->decimal('balance', 13, 2);
-            $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');
-            $table->foreign('observation_type_id')->references('id')->on('observation_types');
+            $table->foreign('devolution_id')->references('id')->on('devolutions');
+            $table->foreign('eco_com_procedure_id')->references('id')->on('eco_com_procedures');
             $table->timestamps();
             $table->softDeletes();
         });

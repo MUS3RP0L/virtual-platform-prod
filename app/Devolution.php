@@ -4,7 +4,7 @@ namespace Muserpol;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Debt extends Model
+class Devolution extends Model
 {
     public function observation_type()
     {
