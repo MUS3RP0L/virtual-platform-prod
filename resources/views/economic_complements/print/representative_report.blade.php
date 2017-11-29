@@ -35,7 +35,7 @@
                 <td ><h4>{!! ($item->cell_phone_number) ? $item->cell_phone_number : $item->phone_number !!}</h4></td>
                 <td ><h4>{!! $item->full_repre !!}</h4></td>
                 <td ><h4>{!! $item->ci !!} {!! $item->exp1 !!}</h4></td>
-                <td ><h4>{!! $item->has_legal_guardian ? 'SOL Y COB' : 'SOL' !!}</h4></td>
+                <td ><h4>{!! $item->has_legal_guardian_s ? 'SOL' : 'COB' !!}</h4></td>
             </tr>
             <?php $i++;?>
             @endforeach
