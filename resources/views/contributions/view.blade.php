@@ -29,7 +29,7 @@
 			@include('affiliates.simple_info')
 		</div>
 		<div class="col-md-6">
-			<div class="box box-info">
+			<div class="box box-success box-solid">
 			    <div class="box-header with-border">
 			        <div class="row">
 			            <div class="col-md-12">
@@ -72,7 +72,7 @@
 												Saldo Inicial
 											</div>
 			                                <div class="col-md-6">
-			                                    {!! $beginning_balance ? 'Bs'.$beginning_balance : '-' !!}
+			                                    {!! $beginning_balance ? 'Bs '.$beginning_balance : '-' !!}
 			                                </div>
 			                            </div>
 			                        </td>
@@ -112,7 +112,7 @@
 												Total Cuenta Individual
 											</div>
 			                                <div class="col-md-6">
-			                                     {!! $total_balance ? 'Bs'.$total_balance : '-' !!}
+			                                     {!! $total_balance ? 'Bs '.$total_balance : '-' !!}
 			                                </div>
 			                            </div>
 			                        </td>
