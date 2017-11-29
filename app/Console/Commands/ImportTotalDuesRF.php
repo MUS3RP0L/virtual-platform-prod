@@ -111,15 +111,6 @@ class ImportTotalDuesRF extends Command
                          $Progress->advance();
                      });
                  });
-                 // dd($affiliate_no);
-                 Excel::create('Lista Afiliados NO importados de File Maker'.date("Y-m-d H:i:s"),function($excel) use($affiliate_no)
-                 {
-                     global $affiliate_no;
-                     $excel->sheet('afiliados no importados',function($sheet) use($affiliate_no){
-                         global $affiliate_no;
-                         $sheet->fromArray($affiliate_no);
-                     });
-                 })->store('xls', storage_path('excel/exports'));
                  $time_end = microtime(true);
                  $execution_time = ($time_end - $time_start)/60;
                  $Progress->finish();
