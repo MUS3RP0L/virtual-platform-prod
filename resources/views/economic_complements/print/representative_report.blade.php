@@ -18,6 +18,7 @@
                 <th class="grand"><h4>TELF/CEL</h4></th>
                <th class="grand"><h4>REPRESENTANTE</h4></th>
                <th class="grand"><h4>CI REP.</h4></th>
+               <th class="grand"><h4>TIPO</h4></th>
            </tr>
            <?php $i=1;?>
             @foreach($representative_eco_complements as $item)
@@ -34,6 +35,7 @@
                 <td ><h4>{!! ($item->cell_phone_number) ? $item->cell_phone_number : $item->phone_number !!}</h4></td>
                 <td ><h4>{!! $item->full_repre !!}</h4></td>
                 <td ><h4>{!! $item->ci !!} {!! $item->exp1 !!}</h4></td>
+                <td ><h4>{!! $item->has_legal_guardian ? 'SOL Y COB' : 'SOL' !!}</h4></td>
             </tr>
             <?php $i++;?>
             @endforeach
