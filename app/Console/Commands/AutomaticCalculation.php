@@ -43,13 +43,15 @@ class AutomaticCalculation extends Command implements SelfHandling
                     $Progress = $this->output->createProgressBar();
                     $Progress->setFormat("%current%/%max% [%bar%] %percent:3s%%");                   
 
-                    	$economic_complements=EconomicComplement::whereYear('year','=',$year)->where('semester','=',$semester)->where('workflow_id','=',1)->where('total_rent','>',0)->whereNull('total')->get();
+                    	$economic_complements=EconomicComplement::whereYear('year','=',$year)->where('semester','=',$semester)->where('total_rent','>',0)->whereNull('total')->get();
+                    	// $economic_complements=EconomicComplement::whereYear('year','=',$year)->where('semester','=',$semester)->where('workflow_id','=',3)->where('total_rent','>',0)->whereNull('total')->get();
 		    			//$economic_complements=EconomicComplement::whereYear('year','=',$year)->where('semester','=',$semester)->get();  //original
 			    		$economic_complement_rent_temp = EconomicComplementRent::whereYear('year','=',$year)->where('semester','=',$semester)->get();	
 			    		$procedure = EconomicComplementProcedure::whereYear('year','=',$year)->where('semester','=',$semester)->first();
 		    						
 			    		$base_wage_temp = BaseWage::whereYear('month_year','=',$year)->get();
 			    		$count_all=0;
+			    		// dd($economic_complement_rent_temp->count(),($base_wage_temp->count()),($economic_complements->count()),$procedure->indicator);
 			    		if (sizeof($economic_complement_rent_temp)>0 && sizeof($base_wage_temp)>0 && sizeof($economic_complements)>0 && $procedure->indicator>0) 
 			    		{
 			    			
@@ -162,6 +164,8 @@ class AutomaticCalculation extends Command implements SelfHandling
 						    	    //CALCULATE WITH AVERAGE FOR MODALITIES 
 						    	    if ($economic_complement->eco_com_modality_id > 3 && ($economic_complement->eco_com_modality_id <10 )) 
 						    	    {
+						    	    	$this->info($economic_complement);
+						    	    	$this->info("-----");
 						    	        $economic_complement_rent = EconomicComplementRent::where('degree_id','=',$economic_complement->degree_id)
 						    	            ->where('eco_com_type_id','=',$economic_complement->economic_complement_modality->economic_complement_type->id)
 						    	            ->whereYear('year','=',Carbon::parse($economic_complement->year)->year)
