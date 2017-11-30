@@ -960,6 +960,10 @@ class AffiliateController extends Controller
         $title = "COMPROMISO DE DEVOLUCIÓN POR PAGOS EN DEMASÍA DEL COMPLEMENTO ECONÓMICO";
 
         $affiliate = Affiliate::where('id', '=', $devolution->affiliate_id)->first();
+        $eco_com = $affiliate->economic_complements()->where('eco_com_procedure_id','=',6)->first();
+        if (!$eco_com) {
+            # code...
+        }
         $data = [
             'date' => $date,
             'hour' => $hour,

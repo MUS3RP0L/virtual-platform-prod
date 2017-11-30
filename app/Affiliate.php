@@ -470,6 +470,6 @@ Affiliate::created(function($affiliate)
 
 Affiliate::updating(function($affiliate)
 {
-    Activity::updateAffiliate($affiliate);
-    AffiliateRecord::UpdatingAffiliate($affiliate);
+    //Activity::updateAffiliate($affiliate);
+    //AffiliateRecord::UpdatingAffiliate($affiliate);
 });
