@@ -31,6 +31,7 @@ use Muserpol\ObservationType;
 use Muserpol\EconomicComplementApplicant;
 use Muserpol\AffiliateObservation;
 use Muserpol\EconomicComplementSubmittedDocument;
+use Muserpol\Devolution;
 
 class AffiliateController extends Controller
 {
@@ -341,6 +342,18 @@ class AffiliateController extends Controller
             $status_documents = false;
             $last_ecocom = null;
         }
+        $percentages_list =array(
+''=> '',
+'0.00'=>'00%',
+'0.35'=>'35%',
+'0.45'=>'45%',
+'0.50'=>'50%',
+'0.55'=>'55%',
+'0.65'=>'65%',
+'0.75'=>'75%',
+'0.85'=>'85%',
+'1.00'=>'100%',
+);
         $paid_states=DB::table('paid_affiliates')->where('affiliate_id', '=',$affiliate->id)->get();
         $data = [
             'affiliate' => $affiliate,
@@ -360,7 +373,7 @@ class AffiliateController extends Controller
             'observations_types' => $observation_types_list,
             'affi_observations' => $affi_observations,
             'paid_states' =>$paid_states,
-
+            'percentage_list' => $percentages_list,
             // 'total_gain' => $total_gain,
             // 'total_public_security_bonus' => $total_public_security_bonus,
             // 'total_quotable' => $total_quotable,
@@ -540,6 +553,21 @@ class AffiliateController extends Controller
                     Session::flash('message', $message);
 
                 break;
+                case 'devolutions':
+                    $devolution = Devolution::where('affiliate_id','=',$affiliate->id)->where('observation_type_id','=',13)->first();
+                    
+                    if ($devolution) {
+                        if ($request->immediate_voluntary_return == 'on') {
+                            $devolution->deposit_number = $request->deposit_number; 
+                            $devolution->amount = $request->amount;
+                            $devolution->payment_date = $request->payment_date; 
+                        }
+                        $devolution->percentage = $request->percentage;
+                        dd($devolution);
+                    }
+
+                    // $devolution->save();
+                    break;
                 case 'institutional_eco_com':
                     // $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->orderBy('created_at','desc')->first();
                     $economic_complement = EconomicComplement::find($request->economic_complement_id);
@@ -918,5 +946,38 @@ class AffiliateController extends Controller
                 return $economic_complement->amount_accounting;
             })
             ->make(true);
+    }
+    public function devolution_voluntary_print(Devolution $devolution)
+    {        
+        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+        $date = Util::getDateEdit(date('Y-m-d'));
+        setlocale(LC_ALL, "es_ES.UTF-8");
+        $date = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
+        $current_date = Carbon::now();
+        $hour = Carbon::parse($current_date)->toTimeString();
+        $title = "COMPROMISO DE DEVOLUCIÓN POR PAGOS EN DEMASÍA DEL COMPLEMENTO ECONÓMICO";
+
+        $affiliate = Affiliate::where('id', '=', $devolution->affiliate_id)->first();
+        $data = [
+            'date' => $date,
+            'hour' => $hour,
+            'header1' => $header1,
+            'header2' => $header2,
+            'title' => $title,
+        ];
+        $second_data = [
+            'affiliate' => $affiliate,
+            'affiliate_records' => $affiliate_records,
+            'user' => Auth::user(),
+            'user_role' =>Util::getRol()->name
+        ];
+        $data = array_merge($data, $second_data);
+        return \PDF::loadView('affiliates.print.history', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->setOption('footer-right', 'Pagina [page] de [toPage]')->stream('affiliate_history.pdf');
+    }
+    public function devolution_print($value='')
+    {
+        # code...
     }
 }
