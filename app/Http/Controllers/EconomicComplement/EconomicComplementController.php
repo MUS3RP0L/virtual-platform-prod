@@ -2461,7 +2461,7 @@ class EconomicComplementController extends Controller
         if($request->amount_amortization > 0)
         {
             switch ($rol->module_id) {
-                case 8: //contabiliadad
+                case 9: //contabiliadad
                     
                     $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
                     $complemento->amount_accounting = $request->amount_amortization;

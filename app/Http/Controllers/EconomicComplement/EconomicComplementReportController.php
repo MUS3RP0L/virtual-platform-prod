@@ -90,7 +90,7 @@ class EconomicComplementReportController extends Controller
         ['' => '',
           '1' => 'Reporte de Recepción por Usuario', 
           // '2' => 'Reporte de beneficiarios',
-          // '3' => 'Reporte de apoderados',
+          '3' => 'Reporte de apoderados',
           // '5' => 'Resumen de habituales',
           // '6' => 'Resumen de inclusiones',
           // '7' => 'Reporte por Intervalo de fechas',
@@ -229,7 +229,20 @@ class EconomicComplementReportController extends Controller
                            $regional = ($request->city == 'Todo') ? '%%' : $request->city;
                            $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
                            $representative_eco_complements = DB::table('eco_com_legal_guardians')
-                                           ->select(DB::raw("economic_complements.id,economic_complements.affiliate_id,economic_complements.code,economic_complements.semester,economic_complements.reception_date,cities.name as city,eco_com_applicants.identity_card,cities1.first_shortened as exp, concat_ws(' ', NULLIF(eco_com_applicants.last_name,null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null), NULLIF(eco_com_applicants.first_name, null), NULLIF(eco_com_applicants.second_name, null)) as full_name, degrees.shortened,eco_com_types.name,pension_entities.name pension_entity,users.username, eco_com_legal_guardians.identity_card as ci, cities2.first_shortened as exp1, concat_ws(' ',NULLIF(eco_com_legal_guardians.last_name,null), NULLIF(eco_com_legal_guardians.mothers_last_name,null), NULLIF(eco_com_legal_guardians.first_name,null),NULLIF(eco_com_legal_guardians.second_name,null)) as full_repre,eco_com_applicants.phone_number,eco_com_applicants.cell_phone_number"))
+                                           ->select(DB::raw("economic_complements.id,economic_complements.affiliate_id,
+                                           economic_complements.code,economic_complements.semester,economic_complements.reception_date,
+                                           cities.name as city,eco_com_applicants.identity_card,cities1.first_shortened as exp, 
+                                           concat_ws(' ', NULLIF(eco_com_applicants.last_name,null), NULLIF(eco_com_applicants.mothers_last_name, null),
+                                            NULLIF(eco_com_applicants.surname_husband, null), NULLIF(eco_com_applicants.first_name, null), 
+                                            NULLIF(eco_com_applicants.second_name, null)) as full_name, degrees.shortened,
+                                            eco_com_types.name,pension_entities.name pension_entity,users.username,
+                                            eco_com_legal_guardians.identity_card as ci, cities2.first_shortened as exp1,
+                                            concat_ws(' ',NULLIF(eco_com_legal_guardians.last_name,null), 
+                                            NULLIF(eco_com_legal_guardians.mothers_last_name,null), NULLIF(eco_com_legal_guardians.first_name,null),
+                                            NULLIF(eco_com_legal_guardians.second_name,null)) as full_repre,eco_com_applicants.phone_number,
+                                            eco_com_applicants.cell_phone_number,
+                                            economic_complements.has_legal_guardian as has_legal_guardian,
+                                            economic_complements.has_legal_guardian_s as has_legal_guardian_s"))
                                            //->leftJoin('eco_com_applicants','eco_com_legal_guardians.eco_com_applicant_id','=', 'eco_com_applicants.id')
                                            ->leftJoin('economic_complements','eco_com_legal_guardians.economic_complement_id','=','economic_complements.id')
                                            ->leftJoin('eco_com_applicants','economic_complements.id','=', 'eco_com_applicants.economic_complement_id')
@@ -251,6 +264,7 @@ class EconomicComplementReportController extends Controller
                                            ->whereYear('economic_complements.year', '=', $request->year)
                                            ->where('economic_complements.semester', 'LIKE', rtrim($semester))
                                            ->where('economic_complements.has_legal_guardian','=',true)
+                                           ->orwhere('economic_complements.has_legal_guardian_s','=',true)
                                            ->orderBy('economic_complements.id','ASC')
                                            ->get();
                            if ($representative_eco_complements) {
