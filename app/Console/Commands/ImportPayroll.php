@@ -160,6 +160,7 @@ class ImportPayroll extends Command
                         $category_id = Category::select('id')->where('percentage', Util::CalcCategory(Util::decimal($result->cat),Util::decimal($result->sue)))->first()->id;
 
                         // $affiliate = Affiliate::where('identity_card', '=', Util::zero($result->car))->first();
+                        $ci = $result->car;
                         $affiliate = Affiliate::whereRaw("split_part(ltrim(trim(identity_card),'0'), '-',1) ='".explode('-',ltrim(trim($ci),'0'))[0]."'")->first();
 
                         if (!$affiliate) {
