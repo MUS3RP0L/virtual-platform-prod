@@ -721,7 +721,7 @@ class EconomicComplementReportController extends Controller
                                   $regional = ($request->city == 'Todo') ? '%%' : $request->city;
                                   $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
                                   $ecom = DB::table('eco_com_applicants')
-                                              ->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal,economic_complements.wf_current_state_id'))
+                                              ->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal,economic_complements.state'))
                                               ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                                               ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')              
                                               ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -734,7 +734,7 @@ class EconomicComplementReportController extends Controller
                                               ->whereYear('economic_complements.year','=', $request->year)
                                               ->where('economic_complements.semester','=', $semester)
                                               ->where('economic_complements.workflow_id','=',1)                                              
-                                              ->where('economic_complements.state','Edited')
+                                              ->where('economic_complements.wf_current_state_id',3)
                                               ->where('economic_complements.reception_type','=','Inclusion')                                             
                                               ->get(); 
                                 
@@ -751,7 +751,7 @@ class EconomicComplementReportController extends Controller
 
                                         foreach ($ecom as $datos) 
                                         {  
-                                          $tip = ($datos->wf_current_state_id == 3) ? "REVIZADO":"NO REVIZADO";
+                                          $tip = ($datos->state == 'Edited') ? "REVIZADO":"NO REVIZADO";
                                           $sheet->row($j,array($i, $datos->code,$datos->identity_card, $datos->ext, $datos->first_name,$datos->second_name,$datos->last_name,$datos->mothers_last_name, $datos->surname_husband, $datos->regional,$datos->degree,$datos->category,$datos->modality,$datos->pension_entity,$datos->subtotal,$datos->amount_loan,$datos->amount_accounting,$datos->amount_replacement,$datos->total,$tip));
                                           $j++;
                                           $i++;
