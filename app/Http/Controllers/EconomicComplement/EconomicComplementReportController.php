@@ -97,6 +97,7 @@ class EconomicComplementReportController extends Controller
           // '8' => 'Reporte Subsanados',
           // '9' => 'Reporte en Excel',
           // '10' => 'Reporte de excluidos por salario'
+          '11' => 'Reporte Inclusiones',
         ];
        // $report_type = ['' => '', '1' => 'Reporte de recepción por usuario', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Reporte de doble percepción', '5' => 'Resumen de habituales', '6' => 'Resumen de inclusiones', '7' => 'Reporte por Intervalo de fechas','8' => 'Reporte Subsanados','9' => 'Reporte en Excel','10' => 'Reporte de excluidos por salario'];
        foreach ($report_type as $key => $item) {
@@ -714,6 +715,59 @@ class EconomicComplementReportController extends Controller
                                   }
 
                               break;
+                        case "11": //REPORTE HABITUALES
+                                  global $j,$ecom,$regional,$semester;
+                                  $j=2;
+                                  $regional = ($request->city == 'Todo') ? '%%' : $request->city;
+                                  $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
+                                  $ecom = DB::table('eco_com_applicants')
+                                              ->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal,economic_complements.wf_current_state_id'))
+                                              ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                                              ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')              
+                                              ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+                                              ->leftJoin('cities as cities1','economic_complements.city_id','=','cities1.id')
+                                              ->leftJoin('cities as cities2', 'eco_com_applicants.city_identity_card_id','=', 'cities2.id')
+                                              ->leftJoin('degrees','economic_complements.degree_id','=','degrees.id')
+                                              ->leftJoin('categories','economic_complements.category_id', '=', 'categories.id')
+                                              ->leftJoin('pension_entities', 'affiliates.pension_entity_id','=','pension_entities.id')
+                                              ->whereRaw("economic_complements.city_id::text LIKE  '".$regional."'")             
+                                              ->whereYear('economic_complements.year','=', $request->year)
+                                              ->where('economic_complements.semester','=', $semester)
+                                              ->where('economic_complements.workflow_id','=',1)                                              
+                                              ->where('economic_complements.state','Edited')
+                                              ->where('economic_complements.reception_type','=','Inclusion')                                             
+                                              ->get(); 
+                                
+                                  
+                                  if(sizeof($ecom) > 0)
+                                  {
+                                    Excel::create('Inclusiones'.$semester, function($excel)
+                                    { global $ecom, $semester;
+                                      $excel->sheet("Inclusiones".$semester, function($sheet)
+                                      {
+                                        global $i,$j, $ecom,$tip;
+                                        $i=1;
+                                        $sheet->row(1, array('NRO','CODIGO_TRAMITE','CI','EXT','PRIMER_NOMBRE','SEGUNDO_NOMBRE','PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL','GRADO','CATEGORIA','TIPO_RENTA','ENTE_GESTOR','SUBTOTAL','AMORTIZACION_PRESTAMOS','AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO','TOTAL','TIPO_REVISION'));     
+
+                                        foreach ($ecom as $datos) 
+                                        {  
+                                          $tip = ($datos->wf_current_state_id == 3) ? "REVIZADO":"NO REVIZADO";
+                                          $sheet->row($j,array($i, $datos->code,$datos->identity_card, $datos->ext, $datos->first_name,$datos->second_name,$datos->last_name,$datos->mothers_last_name, $datos->surname_husband, $datos->regional,$datos->degree,$datos->category,$datos->modality,$datos->pension_entity,$datos->subtotal,$datos->amount_loan,$datos->amount_accounting,$datos->amount_replacement,$datos->total,$tip));
+                                          $j++;
+                                          $i++;
+                                        }
+
+
+                                      });
+                                    })->export('xlsx');
+                                     Session::flash('message', "Exportación Exitosa");
+                                    return redirect('economic_complement');
+                                  }
+                                  else
+                                  {
+                                    Session::flash('message', "No existen registros");
+                                    return redirect('economic_complement');
+                                  } 
 
                         default:
                                return redirect('report_complement');
