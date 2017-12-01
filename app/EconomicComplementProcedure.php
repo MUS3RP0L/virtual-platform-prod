@@ -3,7 +3,7 @@
 namespace Muserpol;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 class EconomicComplementProcedure extends Model
 {
     protected $table = 'eco_com_procedures';
@@ -36,5 +36,10 @@ class EconomicComplementProcedure extends Model
     {
       return $this->hasMany(ComplementaryFactor::class);
     }
-    
+    public function getShortenedName()
+    {
+      $s=($this->semester == 'Primer') ?'1ER. SEMESTRE/':'2DO. SEMESTRE/';
+      $y=Carbon::parse($this->year)->year;
+      return  $s.''.$y;
+    }
 }
