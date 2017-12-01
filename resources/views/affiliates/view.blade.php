@@ -1670,13 +1670,32 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label class="col-md-5">
+                                        Tipo de Descuento
+                                    </label>
+                                    <div class="col-md-7">
+                                    <div class="radio radio-primary">
+                                        <label style="font-size: 18px">
+                                            <input type="radio" value="false"  data-bind='checked:total_percentage, attr: {required: show_total_percentage}' name="total_percentage" > Total
+                                        </label>
+                                    </div>
+                                    <div class="radio radio-primary">
+                                        <label style="font-size: 18px">
+                                            <input type="radio" value="true" data-bind='checked:total_percentage, attr: {required: show_total_percentage}' name="total_percentage"> Porcentaje
+                                            
+                                        </label>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div data-bind="visible: show_total_percentage" class="form-group">
                                         {!! Form::label('percentage', 'Porcentaje:', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('percentaje',$percentage_list, null , ['class'=> 'combobox form-control', 'required']) !!}
+                                        {!! Form::select('percentage',$percentage_list, null , ['class'=> 'form-control', 'data-bind'=>'attr: {required: show_total_percentage}']) !!}
                                         <span class="help-block">Escriba el porcentaje</span>
                                     </div>
                                 </div>
-                                
+                            </div>
+                            <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-offset-5 col-md-4">
                                         <div class="form-group">
@@ -1694,7 +1713,7 @@
                                             {!! Form::label('deposit_number', 'Constancia de Deposito', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-7">
                                             <div class="input-group">
-                                                {!! Form::text('deposit_number', null,['class'=>'form-control']) !!}
+                                                {!! Form::text('deposit_number', null,['class'=>'form-control', 'data-bind' => 'attr: {required: immediate_voluntary_return}']) !!}
                                                 <span class="help-block">Escriba la constancia de Deposito</span>
                                             </div>
                                         </div>
@@ -1703,15 +1722,15 @@
                                             {!! Form::label('amount', 'Monto:', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-7">
                                             <div class="input-group">
-                                                {!! Form::text('amount', null, ['class' => 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                                {!! Form::text('amount', null, ['class' => 'form-control','data-bind' => 'attr: {required: immediate_voluntary_return}',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        {!! Form::label('payment_date', 'Fecha de Pago:', ['class' => 'col-md-5 control-label']) !!}
+                                        {!! Form::label('payment_date', 'Fecha de Pago:', ['class' => 'col-md-5 control-label',]) !!}
                                         <div class="col-md-7">
                                             <div class="input-group">
-                                                <input type="text" id="payment_date" class="form-control" name="payment_date"  data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                                <input type="text" id="payment_date" class="form-control" name="payment_date" data-bind ='attr: {required: immediate_voluntary_return}' data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                                 <div class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </div>
@@ -1778,7 +1797,13 @@
             self.selected = ko.observable({{ $affiliate->date_death ? true:false }});   
             self.DateDeathSpouseCheck = ko.observable({{ $spouse->date_death ? true:false }});   
         // for switch devolutions
-            self.immediate_voluntary_return = ko.observable(false);   
+            self.immediate_voluntary_return = ko.observable(false);
+            self.total_percentage = ko.observable(false);
+            self.show_total_percentage = ko.observable(false);
+            self.total_percentage.subscribe(function(){
+                console.log(self.total_percentage());
+                self.show_total_percentage(self.total_percentage() == 'true');
+            });
         }
 
     ko.applyBindings(selectedlModel());

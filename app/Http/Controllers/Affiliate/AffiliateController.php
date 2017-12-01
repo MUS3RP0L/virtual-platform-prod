@@ -554,18 +554,36 @@ class AffiliateController extends Controller
 
                 break;
                 case 'devolutions':
+
+                    $address=$affiliate->affiliate_address->first();
+                    if (!isset($address)) {
+                        $message = "Debe Actualizar la información de domicilio del afiliado.";
+                        Session::flash('message', $message);
+
+                        return redirect('affiliate/'.$affiliate->id);
+
+                    }
+
                     $devolution = Devolution::where('affiliate_id','=',$affiliate->id)->where('observation_type_id','=',13)->first();
+
                     
                     if ($devolution) {
                         if ($request->immediate_voluntary_return == 'on') {
                             $devolution->deposit_number = $request->deposit_number; 
-                            $devolution->amount = $request->amount;
-                            $devolution->payment_date = $request->payment_date; 
-                        }
-                        $devolution->percentage = $request->percentage;
-                        dd($devolution);
-                    }
+                            $devolution->payment_date = Util::datePick($request->payment_date); 
+                        }else{
+                            $devolution->deposit_number = null;
+                            $devolution->payment_date = null; 
 
+                        }
+                        if ($request->total_percentage == 'true') {
+                            $devolution->percentage = $request->percentage;
+                        }else{
+                            $devolution->percentage = null;
+                        }
+                        $devolution->save();
+                    return redirect()->route('devolution_print',$devolution->id);
+                    }
                     // $devolution->save();
                     break;
                 case 'institutional_eco_com':
@@ -947,8 +965,10 @@ class AffiliateController extends Controller
             })
             ->make(true);
     }
-    public function devolution_voluntary_print(Devolution $devolution)
+    public function devolution_print($devolution)
     {        
+        
+        $devolution=Devolution::where('id','=',$devolution)->first();
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
@@ -958,12 +978,20 @@ class AffiliateController extends Controller
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
         $title = "COMPROMISO DE DEVOLUCIÓN POR PAGOS EN DEMASÍA DEL COMPLEMENTO ECONÓMICO";
-
+        
         $affiliate = Affiliate::where('id', '=', $devolution->affiliate_id)->first();
+        $address = $affiliate->affiliate_address->first();
         $eco_com = $affiliate->economic_complements()->where('eco_com_procedure_id','=',6)->first();
+        $eco_com_applicant = null;
+        $city = null;
         if (!$eco_com) {
-            # code...
+        }else{
+            $eco_com_applicant=$eco_com->economic_complement_applicant;
+            $city=$eco_com->city->name;
         }
+        //aumentar restriccion q solo tome las deudas de I/II/2015 y I/II/2016
+        $total_dues=$devolution->dues()->sum('amount');
+        $total_dues_literal=Util::convertir($devolution->total);
         $data = [
             'date' => $date,
             'hour' => $hour,
@@ -972,16 +1000,18 @@ class AffiliateController extends Controller
             'title' => $title,
         ];
         $second_data = [
+            'devolution' => $devolution,
+            'economic_complement' => $eco_com,
+            'city' => $city,
+            'eco_com_applicant' => $eco_com_applicant,
+            'total_dues' => $total_dues,
+            'total_dues_literal' => $total_dues_literal,
             'affiliate' => $affiliate,
-            'affiliate_records' => $affiliate_records,
+            'address' => $address,
             'user' => Auth::user(),
             'user_role' =>Util::getRol()->name
         ];
         $data = array_merge($data, $second_data);
-        return \PDF::loadView('affiliates.print.history', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->setOption('footer-right', 'Pagina [page] de [toPage]')->stream('affiliate_history.pdf');
-    }
-    public function devolution_print($value='')
-    {
-        # code...
+        return \PDF::loadView('affiliates.print.devolution_print', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')/*->setOption('footer-right', 'Pagina [page] de [toPage]')*/->stream('affiliate_devolution.pdf');
     }
 }

@@ -10,4 +10,8 @@ class Due extends Model
     {
     	return $this->belongsTo(Devolution::class);
     }
+    public function eco_com_procedure()
+    {
+    	return $this->belongsTo(EconomicComplementProcedure::class);
+    }
 }
