@@ -117,6 +117,11 @@
                 <a href="" class="btn btn-success btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
             </div>
             @endcan
+            @can('eco_com_review_and_reception')
+                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Devoluciones" style="margin: 0;">
+                    <a href="" class="btn btn-info btn-raised" data-toggle="modal" data-target="#devolutionModal"><i class="fa fa-circle-o-notch" aria-hidden="true"></i></a>
+                </div>
+            @endcan
         </div>
     </div>
 
@@ -1650,6 +1655,89 @@
     {{-- <div class="modal fade" tabindex="-1" >
         <iframe src="{!! url('history_print/' . $affiliate->id ) !!}" id="historyPdf"></iframe>
     </div> --}}
+    
+        <!-- Edition of a police officer-->
+    <div id="devolutionModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Datos del compromiso de Devolucion por pagos en demasia</h4>
+                </div>
+                <div class="modal-body">
+                    {!! Form::model($affiliate, ['method' => 'PATCH', 'route' => ['affiliate.update', $affiliate], 'class' => 'form-horizontal']) !!}
+                    <input type="hidden" name="type" value="devolutions"/>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        {!! Form::label('percentage', 'Porcentaje:', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        {!! Form::select('percentaje',$percentage_list, null , ['class'=> 'combobox form-control', 'required']) !!}
+                                        <span class="help-block">Escriba el porcentaje</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-offset-5 col-md-4">
+                                        <div class="form-group">
+                                            <div class="togglebutton">
+                                              <label>
+                                                <input type="checkbox" data-bind="checked: immediate_voluntary_return" name="immediate_voluntary_return"> Devolución Voluntaria inmediata 
+                                              </label>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div data-bind='visible: immediate_voluntary_return'>
+                                    <div class="form-group">
+                                            {!! Form::label('deposit_number', 'Constancia de Deposito', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                {!! Form::text('deposit_number', null,['class'=>'form-control']) !!}
+                                                <span class="help-block">Escriba la constancia de Deposito</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            {!! Form::label('amount', 'Monto:', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                {!! Form::text('amount', null, ['class' => 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        {!! Form::label('payment_date', 'Fecha de Pago:', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                <input type="text" id="payment_date" class="form-control" name="payment_date"  data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6"></div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <a href="{!! url('affiliate/' . $affiliate->id) !!}" data-target="#" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    {!! Form::close() !!}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('scripts')
@@ -1689,6 +1777,8 @@
             var self = this;
             self.selected = ko.observable({{ $affiliate->date_death ? true:false }});   
             self.DateDeathSpouseCheck = ko.observable({{ $spouse->date_death ? true:false }});   
+        // for switch devolutions
+            self.immediate_voluntary_return = ko.observable(false);   
         }
 
     ko.applyBindings(selectedlModel());

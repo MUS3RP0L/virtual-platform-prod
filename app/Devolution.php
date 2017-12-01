@@ -10,4 +10,8 @@ class Devolution extends Model
     {
     	return $this->belongsTo(ObservationType::class);
     }
+    public function dues()
+    {
+    	return $this->hasMany(Due::class);
+    }
 }
