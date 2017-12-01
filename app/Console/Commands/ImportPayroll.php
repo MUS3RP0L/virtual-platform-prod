@@ -81,7 +81,6 @@ class ImportPayroll extends Command
                             $this->error('Missing columns in the file!');
                             exit();
                         }*/
-                        Log::info("cechus y anita");
                         switch ($FolderName) {
 
                             case 'c1':
