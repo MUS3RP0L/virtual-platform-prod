@@ -68,8 +68,8 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\CompareDataAPS::class,
         \Muserpol\Console\Commands\SetTotalRentAps::class,
         \Muserpol\Console\Commands\ImportTotalDuesRF::class,
+        \Muserpol\Console\Commands\ImportClassRentSenasir::class,
         \Muserpol\Console\Commands\CopyAverage::class,
-
         
     ];
 
