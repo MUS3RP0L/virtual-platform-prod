@@ -124,8 +124,10 @@ class EconomicComplementApplicant extends Model
         $re = '/\s+/';
         $subst = ' ';
         $result = preg_replace($re, $subst, $name);
-        
-        return trim($result);
+        if ($result) {
+            return trim($result);
+        }
+        return null;
     }
 
     public function getCivilStatus()
