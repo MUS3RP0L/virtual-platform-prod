@@ -1691,7 +1691,7 @@
                                         {!! Form::label('percentage', 'Porcentaje:', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
                                         {!! Form::select('percentage',$percentage_list, null , ['class'=> 'form-control', 'data-bind'=>'attr: {required: show_total_percentage}']) !!}
-                                        <span class="help-block">Escriba el porcentaje</span>
+                                        <span class="help-block">Seleccione el porcentaje</span>
                                     </div>
                                 </div>
                             </div>
@@ -1730,7 +1730,7 @@
                                         {!! Form::label('payment_date', 'Fecha de Pago:', ['class' => 'col-md-5 control-label',]) !!}
                                         <div class="col-md-7">
                                             <div class="input-group">
-                                                <input type="text" id="payment_date" class="form-control" name="payment_date" data-bind ='attr: {required: immediate_voluntary_return}' data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                                <input type="text" id="payment_date" class="form-control" name="payment_date" data-bind ='attr: {required: immediate_voluntary_return}'>
                                                 <div class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </div>
@@ -1776,6 +1776,9 @@
             $("#date_death_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("input[name='phone_number[]']").inputmask();
             $("input[name='cell_phone_number[]']").inputmask();
+            //for modal devolutions
+            $("#payment_date").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+            $("#amount").inputmask();
         });
 
         $(document).ready(function(){

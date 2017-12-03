@@ -20,6 +20,7 @@ class CreateDevolutionsTable extends Migration
             $table->decimal('total', 13, 2)->nullable();
             $table->decimal('balance', 13, 2)->nullable();
             $table->string('deposit_number')->nullable();
+            $table->decimal('payment_amount',13,2)->nullable();
             $table->date('payment_date')->nullable();
             $table->decimal('percentage', 13, 2)->nullable();
             $table->foreign('affiliate_id')->references('id')->on('affiliates')->onDelete('cascade');

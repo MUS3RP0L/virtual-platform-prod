@@ -343,17 +343,19 @@ class AffiliateController extends Controller
             $last_ecocom = null;
         }
         $percentages_list =array(
-''=> '',
-'0.00'=>'00%',
-'0.35'=>'35%',
-'0.45'=>'45%',
-'0.50'=>'50%',
-'0.55'=>'55%',
-'0.65'=>'65%',
-'0.75'=>'75%',
-'0.85'=>'85%',
-'1.00'=>'100%',
-);
+        '0.35'=>'35%',
+        '0.45'=>'45%',
+        '0.50'=>'50%',
+        '0.55'=>'55%',
+        '0.60'=>'60%',
+        '0.65'=>'65%',
+        '0.70'=>'70%',
+        '0.75'=>'75%',
+        '0.80'=>'80%',
+        '0.85'=>'85%',
+        '0.90'=>'90%',
+        '0.95'=>'95%',
+        );
         $paid_states=DB::table('paid_affiliates')->where('affiliate_id', '=',$affiliate->id)->get();
         $data = [
             'affiliate' => $affiliate,
@@ -558,10 +560,6 @@ class AffiliateController extends Controller
                     $address=$affiliate->affiliate_address->first();
                     if (!isset($address)) {
                         $message = "Debe Actualizar la información de domicilio del afiliado.";
-                        Session::flash('message', $message);
-
-                        return redirect('affiliate/'.$affiliate->id);
-
                     }
 
                     $devolution = Devolution::where('affiliate_id','=',$affiliate->id)->where('observation_type_id','=',13)->first();
@@ -570,11 +568,12 @@ class AffiliateController extends Controller
                     if ($devolution) {
                         if ($request->immediate_voluntary_return == 'on') {
                             $devolution->deposit_number = $request->deposit_number; 
+                            $devolution->payment_amount = floatval(str_replace(',','',$request->amount));
                             $devolution->payment_date = Util::datePick($request->payment_date); 
                         }else{
+                            $devolution->payment_amount = null;
                             $devolution->deposit_number = null;
                             $devolution->payment_date = null; 
-
                         }
                         if ($request->total_percentage == 'true') {
                             $devolution->percentage = $request->percentage;
@@ -583,7 +582,11 @@ class AffiliateController extends Controller
                         }
                         $devolution->save();
                     return redirect()->route('devolution_print',$devolution->id);
+                    }else{
+                        $message="El afiliado no tiene deudas.";
                     }
+                    Session::flash('message', $message);
+                    return redirect('affiliate/'.$affiliate->id);
                     // $devolution->save();
                     break;
                 case 'institutional_eco_com':
@@ -977,8 +980,7 @@ class AffiliateController extends Controller
         $date = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
-        $title = "COMPROMISO DE DEVOLUCIÓN POR PAGOS EN DEMASÍA DEL COMPLEMENTO ECONÓMICO";
-        
+        $title = "COMPROMISO DE DEVOLUCIÓN POR PAGOS EN DEFECTO DEL COMPLEMENTO ECONÓMICO";
         $affiliate = Affiliate::where('id', '=', $devolution->affiliate_id)->first();
         $address = $affiliate->affiliate_address->first();
         $eco_com = $affiliate->economic_complements()->where('eco_com_procedure_id','=',6)->first();
