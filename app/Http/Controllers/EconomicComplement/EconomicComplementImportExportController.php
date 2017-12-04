@@ -381,13 +381,14 @@ public static function import_from_bank(Request $request)
           ->whereYear('economic_complements.year', '=', $year)
           ->where('economic_complements.semester', '=', $semester)
           ->where('economic_complements.workflow_id','=',1)
-          ->where('economic_complements.wf_current_state_id',3)
+          ->where('economic_complements.wf_current_state_id','=',3)
           ->where('economic_complements.state','Edited')
           ->where('economic_complements.total','>', 0)
           ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')         
-          ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12,13,14,15) and is_enabled = false ) ")         
-          ->whereNotNull('economic_complements.review_date')->get();     
-      
+          ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12,13,14,15) and is_enabled = false ) ")->get();
+
+          //->whereNotNull('economic_complements.review_date')->get();     
+     // dd($afi);
 
       if($afi){
             if($semester == "Primer")
