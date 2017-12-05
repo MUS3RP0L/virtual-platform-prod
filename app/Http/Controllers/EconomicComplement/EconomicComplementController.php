@@ -799,7 +799,7 @@ class EconomicComplementController extends Controller
                     $economic_complement->affiliate_id = $affiliate->id;
                     $economic_complement->eco_com_modality_id = $eco_com_modality->id;
                     $economic_complement->eco_com_procedure_id = $eco_com_pro->id;
-                    if ($request->semester == 'Primer') {                
+                    if ($request->semester == 'Primer' || $request->semester == 'Segundo') { 
                         $economic_complement->workflow_id = 3;
                     }else{
                         $economic_complement->workflow_id = 1;
