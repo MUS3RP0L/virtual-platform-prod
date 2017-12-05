@@ -264,7 +264,6 @@ class EconomicComplementReportController extends Controller
                                            ->whereYear('economic_complements.year', '=', $request->year)
                                            ->where('economic_complements.semester', 'LIKE', rtrim($semester))
                                            ->where('economic_complements.has_legal_guardian','=',true)
-                                           ->orwhere('economic_complements.has_legal_guardian_s','=',true)
                                            ->orderBy('economic_complements.id','ASC')
                                            ->get();
                            if ($representative_eco_complements) {
