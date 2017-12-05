@@ -67,6 +67,8 @@ Route::group(['middleware' => 'auth'], function() {
 	//affiliate history print
 	Route::get('history_print/{affiliate_id}','Affiliate\AffiliateController@history_print');
 	
+	Route::get('devolution_print/{devolution_id}',['as'=>'devolution_print','uses'=>'Affiliate\AffiliateController@devolution_print']);
+
 	// Spouses
 	Route::resource('spouse', 'Affiliate\SpouseController');
 
@@ -264,6 +266,8 @@ Route::group(['middleware' => 'auth'], function() {
 		];
 		return \View::make('economic_complements.print.sworn_declaration1',$data)->render();
 	});
+
+	Route::post('automatic_validation', array('as'=>'automatic_validation', 'uses'=> 'EconomicComplement\EconomicComplementController@automatic_validation'));
 });
 
 define('ACCESS', env('ACCESS_PASS'));

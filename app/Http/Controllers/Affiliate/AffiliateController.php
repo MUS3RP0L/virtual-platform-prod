@@ -31,6 +31,7 @@ use Muserpol\ObservationType;
 use Muserpol\EconomicComplementApplicant;
 use Muserpol\AffiliateObservation;
 use Muserpol\EconomicComplementSubmittedDocument;
+use Muserpol\Devolution;
 
 class AffiliateController extends Controller
 {
@@ -341,6 +342,20 @@ class AffiliateController extends Controller
             $status_documents = false;
             $last_ecocom = null;
         }
+        $percentages_list =array(
+        '0.35'=>'35%',
+        '0.45'=>'45%',
+        '0.50'=>'50%',
+        '0.55'=>'55%',
+        '0.60'=>'60%',
+        '0.65'=>'65%',
+        '0.70'=>'70%',
+        '0.75'=>'75%',
+        '0.80'=>'80%',
+        '0.85'=>'85%',
+        '0.90'=>'90%',
+        '0.95'=>'95%',
+        );
         $paid_states=DB::table('paid_affiliates')->where('affiliate_id', '=',$affiliate->id)->get();
         $data = [
             'affiliate' => $affiliate,
@@ -360,7 +375,7 @@ class AffiliateController extends Controller
             'observations_types' => $observation_types_list,
             'affi_observations' => $affi_observations,
             'paid_states' =>$paid_states,
-
+            'percentage_list' => $percentages_list,
             // 'total_gain' => $total_gain,
             // 'total_public_security_bonus' => $total_public_security_bonus,
             // 'total_quotable' => $total_quotable,
@@ -540,6 +555,40 @@ class AffiliateController extends Controller
                     Session::flash('message', $message);
 
                 break;
+                case 'devolutions':
+
+                    $address=$affiliate->affiliate_address->first();
+                    if (!isset($address)) {
+                        $message = "Debe Actualizar la información de domicilio del afiliado.";
+                    }
+
+                    $devolution = Devolution::where('affiliate_id','=',$affiliate->id)->where('observation_type_id','=',13)->first();
+
+                    
+                    if ($devolution) {
+                        if ($request->immediate_voluntary_return == 'on') {
+                            $devolution->deposit_number = $request->deposit_number; 
+                            $devolution->payment_amount = floatval(str_replace(',','',$request->amount));
+                            $devolution->payment_date = Util::datePick($request->payment_date); 
+                        }else{
+                            $devolution->payment_amount = null;
+                            $devolution->deposit_number = null;
+                            $devolution->payment_date = null; 
+                        }
+                        if ($request->total_percentage == 'true') {
+                            $devolution->percentage = $request->percentage;
+                        }else{
+                            $devolution->percentage = null;
+                        }
+                        $devolution->save();
+                    return redirect()->route('devolution_print',$devolution->id);
+                    }else{
+                        $message="El afiliado no tiene deudas.";
+                    }
+                    Session::flash('message', $message);
+                    return redirect('affiliate/'.$affiliate->id);
+                    // $devolution->save();
+                    break;
                 case 'institutional_eco_com':
                     // $economic_complement = EconomicComplement::where('affiliate_id', $affiliate->id)->orderBy('created_at','desc')->first();
                     $economic_complement = EconomicComplement::find($request->economic_complement_id);
@@ -918,5 +967,53 @@ class AffiliateController extends Controller
                 return $economic_complement->amount_accounting;
             })
             ->make(true);
+    }
+    public function devolution_print($devolution)
+    {        
+        
+        $devolution=Devolution::where('id','=',$devolution)->first();
+        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
+        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
+        $date = Util::getDateEdit(date('Y-m-d'));
+        setlocale(LC_ALL, "es_ES.UTF-8");
+        $date = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
+        $current_date = Carbon::now();
+        $hour = Carbon::parse($current_date)->toTimeString();
+        $title = "COMPROMISO DE DEVOLUCIÓN POR PAGOS EN DEFECTO DEL COMPLEMENTO ECONÓMICO";
+        $affiliate = Affiliate::where('id', '=', $devolution->affiliate_id)->first();
+        $address = $affiliate->affiliate_address->first();
+        $eco_com = $affiliate->economic_complements()->where('eco_com_procedure_id','=',6)->first();
+        $eco_com_applicant = null;
+        $city = null;
+        if (!$eco_com) {
+        }else{
+            $eco_com_applicant=$eco_com->economic_complement_applicant;
+            $city=$eco_com->city->name;
+        }
+        //aumentar restriccion q solo tome las deudas de I/II/2015 y I/II/2016
+        $total_dues=$devolution->dues()->sum('amount');
+        $total_dues_literal=Util::convertir($devolution->total);
+        $data = [
+            'date' => $date,
+            'hour' => $hour,
+            'header1' => $header1,
+            'header2' => $header2,
+            'title' => $title,
+        ];
+        $second_data = [
+            'devolution' => $devolution,
+            'economic_complement' => $eco_com,
+            'city' => $city,
+            'eco_com_applicant' => $eco_com_applicant,
+            'total_dues' => $total_dues,
+            'total_dues_literal' => $total_dues_literal,
+            'affiliate' => $affiliate,
+            'address' => $address,
+            'user' => Auth::user(),
+            'user_role' =>Util::getRol()->name
+        ];
+        $data = array_merge($data, $second_data);
+        return \PDF::loadView('affiliates.print.devolution_print', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')/*->setOption('footer-right', 'Pagina [page] de [toPage]')*/->stream('affiliate_devolution.pdf');
     }
 }

@@ -97,6 +97,7 @@ class EconomicComplementReportController extends Controller
           // '8' => 'Reporte Subsanados',
           // '9' => 'Reporte en Excel',
           // '10' => 'Reporte de excluidos por salario'
+          '11' => 'Reporte Inclusiones',
         ];
        // $report_type = ['' => '', '1' => 'Reporte de recepción por usuario', '2' => 'Reporte de beneficiarios', '3' => 'Reporte de apoderados', '4' => 'Reporte de doble percepción', '5' => 'Resumen de habituales', '6' => 'Resumen de inclusiones', '7' => 'Reporte por Intervalo de fechas','8' => 'Reporte Subsanados','9' => 'Reporte en Excel','10' => 'Reporte de excluidos por salario'];
        foreach ($report_type as $key => $item) {
@@ -713,6 +714,59 @@ class EconomicComplementReportController extends Controller
                                   }
 
                               break;
+                        case "11": //REPORTE HABITUALES
+                                  global $j,$ecom,$regional,$semester;
+                                  $j=2;
+                                  $regional = ($request->city == 'Todo') ? '%%' : $request->city;
+                                  $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
+                                  $ecom = DB::table('eco_com_applicants')
+                                              ->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal,economic_complements.state'))
+                                              ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                                              ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')              
+                                              ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+                                              ->leftJoin('cities as cities1','economic_complements.city_id','=','cities1.id')
+                                              ->leftJoin('cities as cities2', 'eco_com_applicants.city_identity_card_id','=', 'cities2.id')
+                                              ->leftJoin('degrees','economic_complements.degree_id','=','degrees.id')
+                                              ->leftJoin('categories','economic_complements.category_id', '=', 'categories.id')
+                                              ->leftJoin('pension_entities', 'affiliates.pension_entity_id','=','pension_entities.id')
+                                              ->whereRaw("economic_complements.city_id::text LIKE  '".$regional."'")             
+                                              ->whereYear('economic_complements.year','=', $request->year)
+                                              ->where('economic_complements.semester','=', $semester)
+                                              ->where('economic_complements.workflow_id','=',1)                                              
+                                              ->where('economic_complements.wf_current_state_id',3)
+                                              ->where('economic_complements.reception_type','=','Inclusion')                                             
+                                              ->get(); 
+                                
+                                  
+                                  if(sizeof($ecom) > 0)
+                                  {
+                                    Excel::create('Inclusiones'.$semester, function($excel)
+                                    { global $ecom, $semester;
+                                      $excel->sheet("Inclusiones".$semester, function($sheet)
+                                      {
+                                        global $i,$j, $ecom,$tip;
+                                        $i=1;
+                                        $sheet->row(1, array('NRO','CODIGO_TRAMITE','CI','EXT','PRIMER_NOMBRE','SEGUNDO_NOMBRE','PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL','GRADO','CATEGORIA','TIPO_RENTA','ENTE_GESTOR','SUBTOTAL','AMORTIZACION_PRESTAMOS','AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO','TOTAL','TIPO_REVISION'));     
+
+                                        foreach ($ecom as $datos) 
+                                        {  
+                                          $tip = ($datos->state == 'Edited') ? "REVIZADO":"NO REVIZADO";
+                                          $sheet->row($j,array($i, $datos->code,$datos->identity_card, $datos->ext, $datos->first_name,$datos->second_name,$datos->last_name,$datos->mothers_last_name, $datos->surname_husband, $datos->regional,$datos->degree,$datos->category,$datos->modality,$datos->pension_entity,$datos->subtotal,$datos->amount_loan,$datos->amount_accounting,$datos->amount_replacement,$datos->total,$tip));
+                                          $j++;
+                                          $i++;
+                                        }
+
+
+                                      });
+                                    })->export('xlsx');
+                                     Session::flash('message', "Exportación Exitosa");
+                                    return redirect('economic_complement');
+                                  }
+                                  else
+                                  {
+                                    Session::flash('message', "No existen registros");
+                                    return redirect('economic_complement');
+                                  } 
 
                         default:
                                return redirect('report_complement');
@@ -1420,7 +1474,7 @@ class EconomicComplementReportController extends Controller
           ->wfstates(*/
          // ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()))
 
-          ->select(DB::raw( 'row_number() OVER () AS nro, economic_complements.code as N_Tramite, economic_complements.reception_date as Fecha_recepcion, eca.identity_card as ci_beneficiario, ci_ben.first_shortened as expedido, eca.identity_card || \' \' || ci_ben.first_shortened as ci_completo, eca.first_name as prim_nomb_ben, eca.second_name as seg_nomb_ben, eca.last_name as apellido_pat_ben, eca.mothers_last_name as apellido_mat_ben, eca.surname_husband as ape_casada_ben, eca.birth_date as fecha_nac_ben, af.identity_card as ci_causa, ci_ben.first_shortened as exp_causa, af.identity_card || \' \' || ci_ben.first_shortened as ci_completo_causa, af.first_name as primer_nom_cau, af.second_name as segundo_nom_cau, af.last_name as ape_pat_cau, af.mothers_last_name as ape_mat_cau, af.surname_husband as ape_casada_cau, af.birth_date as fecha_nac_cau, af.nua as Nua, ci_ben.name as regional, ecm.shortened as tipo_de_prestacion, ecm.shortened as tipo_de_prestacion, ca.name as categoria, de.name as grado, pe.name as ente_gestor, economic_complements.aps_total_fsa as fracion_saldo_acumulado, economic_complements.aps_total_cc as compensacion_cotizaciones, economic_complements.aps_total_fs as fracicon_solidaria_vejez, economic_complements.total_rent as total_renta_o_jubilacion, economic_complements.total_rent_calc as promedio, economic_complements.seniority as antiguedad, economic_complements.salary_reference as sueldo_activo, economic_complements.salary_quotable as salario_cotizable, economic_complements.difference as diferencia, economic_complements.difference*6 as total_semestre, economic_complements.complementary_factor as factor_complementario, economic_complements.total as total_complemento_economico, economic_complements.state as estado, ws.first_shortened as ubicacion, ecm.name as tipo_beneficiario, ecs.name as estado, ws.first_shortened as ubicacion, wo.name as flujo, afobs.observaciones'))
+          ->select(DB::raw( 'DISTINCT ON (economic_complements.id) economic_complements.id, row_number() OVER () AS nro, economic_complements.code as N_Tramite, economic_complements.reception_date as Fecha_recepcion, eca.identity_card as ci_beneficiario, ci_ben.first_shortened as expedido, eca.identity_card || \' \' || ci_ben.first_shortened as ci_completo, eca.first_name as prim_nomb_ben, eca.second_name as seg_nomb_ben, eca.last_name as apellido_pat_ben, eca.mothers_last_name as apellido_mat_ben, eca.surname_husband as ape_casada_ben, eca.birth_date as fecha_nac_ben, af.identity_card as ci_causa, ci_ben.first_shortened as exp_causa, af.identity_card || \' \' || ci_ben.first_shortened as ci_completo_causa, af.first_name as primer_nom_cau, af.second_name as segundo_nom_cau, af.last_name as ape_pat_cau, af.mothers_last_name as ape_mat_cau, af.surname_husband as ape_casada_cau, af.birth_date as fecha_nac_cau, af.nua as Nua, ci_ben.name as regional, ecm.shortened as tipo_de_prestacion, ecm.shortened as tipo_de_prestacion, ca.name as categoria, de.name as grado, pe.name as ente_gestor, economic_complements.aps_total_fsa as fracion_saldo_acumulado, economic_complements.aps_total_cc as compensacion_cotizaciones, economic_complements.aps_total_fs as fracicon_solidaria_vejez, economic_complements.total_rent as total_renta_o_jubilacion, economic_complements.total_rent_calc as promedio, economic_complements.seniority as antiguedad, economic_complements.salary_reference as sueldo_activo, economic_complements.salary_quotable as salario_cotizable, economic_complements.difference as diferencia, economic_complements.difference*6 as total_semestre, economic_complements.complementary_factor as factor_complementario, economic_complements.total as total_complemento_economico, economic_complements.state as estado, ws.first_shortened as ubicacion, ecm.name as tipo_beneficiario, economic_complements.reception_type as tipo_recepcion, ecs.name as estado, ws.first_shortened as ubicacion, wo.name as flujo, afobs.observaciones'))
           ->get();
           $data = $economic_complements;
           Util::excel($file_name, 'hoja', $data);

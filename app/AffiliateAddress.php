@@ -26,7 +26,7 @@ class AffiliateAddress extends Model
     }
     public function city()
     {
-        return $this->belongsTo('Muserpol\City');
+        return $this->belongsTo('Muserpol\City', 'city_address_id');
     }
 
     public function scopeAffiliateidIs($query, $id)

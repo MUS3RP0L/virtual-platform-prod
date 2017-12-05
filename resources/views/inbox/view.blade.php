@@ -64,10 +64,10 @@
           </span>
         </div> 
       </div>
-      @can('eco_com_approval')
+      {{-- @can('eco_com_approval') --}}
       <div class="col-md-3">
         <span data-toggle="modal" data-target="#sendAllModal" >
-          <a href="#" class="btn btn-md btn-raised btn-success" data-toggle="tooltip" data-placement="top" title="Derivar todos los tramites" ><i class="fa fa-arrow-right"></i></a>
+          <a href="#" class="btn btn-md btn-raised btn-success" data-toggle="tooltip" data-placement="top" title="Derivar todos los tramites" ><i class="fa  fa-files-o"></i> <i class="fa fa-arrow-right"></i> </a>
         </span>
       </div>
       <!-- Modal -->
@@ -94,7 +94,7 @@
           </div>
         </div>
       </div>
-       @endcan
+       {{-- @endcan --}}
 
 		</div>
     <div class="box-body">

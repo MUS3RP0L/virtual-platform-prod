@@ -81,7 +81,6 @@ class ImportPayroll extends Command
                             $this->error('Missing columns in the file!');
                             exit();
                         }*/
-
                         switch ($FolderName) {
 
                             case 'c1':
@@ -159,73 +158,76 @@ class ImportPayroll extends Command
 
                         $category_id = Category::select('id')->where('percentage', Util::CalcCategory(Util::decimal($result->cat),Util::decimal($result->sue)))->first()->id;
 
-                        $affiliate = Affiliate::where('identity_card', '=', Util::zero($result->car))->first();
+                        // $affiliate = Affiliate::where('identity_card', '=', Util::zero($result->car))->first();
+                        $ci = $result->car;
+                        $affiliate = Affiliate::whereRaw("split_part(ltrim(trim(identity_card),'0'), '-',1) ='".explode('-',ltrim(trim($ci),'0'))[0]."'")->first();
 
                         if (!$affiliate) {
-                            $affiliate = Affiliate::where('last_name', '=', $result->pat)->where('mothers_last_name', '=', $result->mat)
-                                                ->where('birth_date', '=', $birth_date)->where('date_entry', '=', $date_entry)
-                                                ->where('identity_card', '=', Util::RepeatedIdentityCard($result->car))->first();
+                            $this->info('hola');
+                            // $affiliate = Affiliate::where('last_name', '=', $result->pat)->where('mothers_last_name', '=', $result->mat)
+                            //                     ->where('birth_date', '=', $birth_date)->where('date_entry', '=', $date_entry)
+                            //                     ->where('identity_card', '=', Util::RepeatedIdentityCard($result->car))->first();
 
-                            if (!$affiliate) {
+                            // if (!$affiliate) {
 
-                                $affiliate = new Affiliate;
-                                $affiliate->identity_card = Util::zero($result->car);
-                                $affiliate->gender = $result->sex;
-                                $NewAffi ++;
+                            //     $affiliate = new Affiliate;
+                            //     $affiliate->identity_card = Util::zero($result->car);
+                            //     $affiliate->gender = $result->sex;
+                            //     $NewAffi ++;
 
-                            }
-                            else{$UpdateAffi ++;}
+                            // }
+                            // else{$UpdateAffi ++;}
                         }
                         else{$UpdateAffi ++;}
 
-                        $affiliate->change_date = $month_year;
+                        // $affiliate->change_date = $month_year;
 
-                        switch ($result->desg) {
+                        // switch ($result->desg) {
 
-                            case '1'://Disponibilidad
-                                $affiliate->affiliate_state_id = 3;
-                            break;
+                        //     case '1'://Disponibilidad
+                        //         $affiliate->affiliate_state_id = 3;
+                        //     break;
 
-                            case '3'://Comisión
-                                $affiliate->affiliate_state_id = 2;
-                            break;
+                        //     case '3'://Comisión
+                        //         $affiliate->affiliate_state_id = 2;
+                        //     break;
 
-                            default://Servicio
-                                $affiliate->affiliate_state_id = 1;
-                        }
+                        //     default://Servicio
+                        //         $affiliate->affiliate_state_id = 1;
+                        // }
 
-                        switch ($result->desg) {
+                        // switch ($result->desg) {
 
-                            case '5': //Batallón
-                                $affiliate->type = 'Batallón';
-                            break;
+                        //     case '5': //Batallón
+                        //         $affiliate->type = 'Batallón';
+                        //     break;
 
-                            default://Comando
-                                $affiliate->type = 'Comando';
-                        }
+                        //     default://Comando
+                        //         $affiliate->type = 'Comando';
+                        // }
 
-                        if ($result->uni) {
-                            $affiliate->unit_id = $unit_id;
-                        }
-                        if ($result->gra) {
-                            $affiliate->degree_id = $degree_id;
-                        }
+                        // if ($result->uni) {
+                        //     $affiliate->unit_id = $unit_id;
+                        // }
+                        // if ($result->gra) {
+                        //     $affiliate->degree_id = $degree_id;
+                        // }
 
-                        $affiliate->category_id = $category_id;
-                        $affiliate->user_id = 1;
-                        $affiliate->last_name = Util::replaceCharacter($result->pat);
-                        $affiliate->mothers_last_name = Util::replaceCharacter($result->mat);
-                        $affiliate->first_name = Util::replaceCharacter($first_name);
-                        $affiliate->second_name = Util::replaceCharacter($second_name);
-                        $affiliate->surname_husband = Util::replaceCharacter($result->apes);
-                        $affiliate->civil_status = 'S';
-                        $affiliate->nua = $result->nua;
-                        $affiliate->afp = Util::getAfp($result->afp);
-                        $affiliate->item = $result->item;
-                        $affiliate->birth_date = $birth_date;
-                        $affiliate->date_entry = $date_entry;
-                        $affiliate->registration = Util::CalcRegistration($affiliate->birth_date, $affiliate->last_name, $affiliate->mothers_last_name, $affiliate->first_name, $affiliate->gender);
-                        $affiliate->save();
+                        // $affiliate->category_id = $category_id;
+                        // $affiliate->user_id = 1;
+                        // $affiliate->last_name = Util::replaceCharacter($result->pat);
+                        // $affiliate->mothers_last_name = Util::replaceCharacter($result->mat);
+                        // $affiliate->first_name = Util::replaceCharacter($first_name);
+                        // $affiliate->second_name = Util::replaceCharacter($second_name);
+                        // $affiliate->surname_husband = Util::replaceCharacter($result->apes);
+                        // $affiliate->civil_status = 'S';
+                        // $affiliate->nua = $result->nua;
+                        // $affiliate->afp = Util::getAfp($result->afp);
+                        // $affiliate->item = $result->item;
+                        // $affiliate->birth_date = $birth_date;
+                        // $affiliate->date_entry = $date_entry;
+                        // $affiliate->registration = Util::CalcRegistration($affiliate->birth_date, $affiliate->last_name, $affiliate->mothers_last_name, $affiliate->first_name, $affiliate->gender);
+                        // $affiliate->save();
 
                         if (Util::decimal($result->sue)<> 0) {
 
