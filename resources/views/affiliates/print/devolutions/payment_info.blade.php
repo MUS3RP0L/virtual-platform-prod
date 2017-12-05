@@ -11,7 +11,11 @@
 	<tr>
 		<td></td>
 		<td>{!! $devolution->deposit_number !!}</td>
-		<td>{!! $devolution->total !!}</td>
-		<td>{!! $devolution->payment_date !!}</td>
+		@if($devolution->payment_amount)
+			<td>{!! Util::formatMoney($devolution->payment_amount) !!}</td>
+		@else
+			<td>{!! Util::formatMoney($devolution->total) !!}</td>
+		@endif
+		<td>{!! Util::getDateShort($devolution->payment_date) !!}</td>
 	</tr>
 </table>

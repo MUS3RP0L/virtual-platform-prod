@@ -21,13 +21,14 @@
         </td>
       </tr>
       <tr><td>
-        Yo <strong>{{ $eco_com_applicant->getFullName() }}</strong>, mayor de edad con Cédula de Identidad {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened ?? ''!!}, domiciliado en la Zona {!! $address->zone ?? '-' !!}, Calle {{ $address->street ?? '-' }}, Nro. {{ $address->number_address ?? '-' }}, de la ciudad de {{ $address->city->name ?? '' }}, hábil por derecho y en mi calidad de beneficiario (a) del Complemento Económico que otorga la Mutual de Servicios al Policía – MUSERPOL al sector pasivo de la Policía Boliviana, que habiendo sido notificado por haber percibido pagos en demasía involuntarios del Complemento Económico correspondiente al 1er. y 2do. Semestre de las gestiones 2015 y 2016 por un importe de Bs. {{ $total_dues_literal }} Bolivianos,<strong>expreso mi conformidad para que se efectúe el descuento
+        Yo <strong>{{ $eco_com_applicant->getFullName() }}</strong>, mayor de edad con Cédula de Identidad Nº{!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened ?? ''!!}, domiciliado en la Zona {!! $address->zone ?? '-' !!}, Calle {{ $address->street ?? '-' }}, Nro. {{ $address->number_address ?? '-' }}, de la ciudad de {{ $address->city->name ?? '' }}, hábil por derecho y en mi calidad de beneficiario (a) del Complemento Económico que otorga la Mutual de Servicios al Policía – MUSERPOL al sector pasivo de la Policía Boliviana, que habiendo sido notificado por haber percibido pagos en defecto del Complemento Económico correspondiente al 1er. y 2do. Semestre de las gestiones 2015 y 2016 por un importe de Bs. {{ $total_dues_literal }} Bolivianos,
+        <strong>
+          expreso mi conformidad para que se efectúe el descuento
           @if($devolution->percentage)
-            con el {{ $devolution->percentage * 100 }}% del
+            con el {{ $devolution->percentage * 100 }}% del beneficio del Complemento Económico a partir del 1er. Semestre de la gestión 2017 hasta cumplir el monto adeudado y los que se determinen posteriormente.
           @else
-            del total del pago en demasía inicialmente determinado, con el 
+           del total del pago en defecto inicialmente determinado, con el beneficio del Complemento Económico del Primer semestre de la gestión 2017.
           @endif
-          beneficio del Complemento Económico a partir del 1er. Semestre de la gestión 2017 hasta cumplir el monto adeudado y los que se determinen posteriormente.
         </strong>
       </td></tr>
       </table>
@@ -39,11 +40,10 @@
         @include('affiliates.print.devolutions.devolution_inmediate')
         @include('affiliates.print.devolutions.payment_info')
       @endif
-      <p>
+      <p class="size-10">
         <strong>En caso de incumplimiento al presente compromiso este podrá ser elevado a Instrumento Público de acuerdo a las normas que rigen nuestro ESTADO, en señal de plena conformidad firmo al pie del presente documento.</strong>
       </p>
       <table>
-
         <tr>
           <th style="width:33%" class="no-border"></th>
           <th class="info" style="border: 0px;text-align:center; width:60%"><p>&nbsp;</p><br>----------------------------------------------------
@@ -57,5 +57,6 @@
           <th class="no-border"> <div class="info" style="border: 1px solid  #3c3c3c!IMPORTANT;text-align:center;width: 150px;"><p>&nbsp;</p><br><br><br><br></div><br><span class="info" style="border: 0px;text-align:center;">Huella Digital Pulgar Derecho</span></th>
         </tr>
       </table>
+      <p>Cabe aclarar que esta cuantificación no corresponde a gestiones anteriores al 2015.</p>
   </div>
 @endsection
