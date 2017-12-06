@@ -130,54 +130,53 @@ class ImportClassRentSenasir extends Command
                     // $afiliado = $eco_vejes->filter(function($eco)use($ci)  {
                     //     return $eco->identity_card = $ci;
                     // });
-                    $afiliado = Affiliate::where('identity_card','=',$ci)->first();
-                    $this->info($afiliado);
-                    if($afiliado)
-                    {
-                        $this->info("afiliado: ".$afiliado->id);
 
-                        $complemento = EconomicComplement::where('affiliate_id',$afiliado->id)->where('eco_com_procedure_id',6)->first();
+                   // $afiliado = Affiliate::where('identity_card','=',$ci)->first();
 
-                        if(!$complemento)
-                        {
-                            $complemento = EconomicComplement::where('affiliate_id','0'.$afiliado->id)->where('eco_com_procedure_id',6)->first();
-                        }
-                        $this->info("no existe el afiliado ".$ci); 
+                    //$this->info($afiliado);
+                    // if($afiliado)
+                    // {
+                    //     $this->info("afiliado: ".$afiliado->id);
+
+                    //     $complemento = EconomicComplement::where('affiliate_id',$afiliado->id)->where('eco_com_procedure_id',6)->first();
+
+                    //     if(!$complemento)
+                    //     {
+                    //         $complemento = EconomicComplement::where('affiliate_id','0'.$afiliado->id)->where('eco_com_procedure_id',6)->first();
+                    //     }
+                    //     $this->info("no existe el afiliado ".$ci); 
                             
-                        }
+                    //     }
 
-                        if($complemento)
-                        {
-                            switch ($complemento->eco_com_modality_id) {
-                                case 1:
-                                case 4:
-                                case 6:
-                                case 8:
+                    //     if($complemento)
+                    //     {
+                    //         switch ($complemento->eco_com_modality_id) {
+                    //             case 1:
+                    //             case 4:
+                    //             case 6:
+                    //             case 8:
 
-                                        array_push($id_vejes, $complemento->id);        
-                                break;
+                    //                     array_push($id_vejes, $complemento->id);        
+                    //             break;
 
-                                case 2:
-                                case 5:
-                                case 7:
-                                case 9:
+                    //             case 2:
+                    //             case 5:
+                    //             case 7:
+                    //             case 9:
 
-                                        array_push($id_viudeda, $complemento->id);
-                                break;
+                    //                     array_push($id_viudeda, $complemento->id);
+                    //             break;
 
-                                default:
-                                    # code...
-                                        array_push($no_founded, $complemento->id);
+                    //             default:
+                    //                 # code...
+                    //                     array_push($no_founded, $complemento->id);
                                         
-                                    break;
+                    //                 break;
                               
-                            }
-                        }
-                        
+                    //         }
+                    //     }
 
-                        
-                          
-                    
+                    // }
 
                 }
                 else
@@ -342,7 +341,7 @@ class ImportClassRentSenasir extends Command
             $this->info("vejes size: ".sizeof($id_vejes ));
             $this->info("viudeda size: ".sizeof($id_viudeda ));
 
-            dd('terminando XD');
+            //dd('terminando XD');
             $eco_vejes  = EconomicComplement::join('affiliates','affiliates.id','=','economic_complements.affiliate_id')
                                             ->where('eco_com_procedure_id',6)
                                             ->where('affiliates.pension_entity_id',5)
@@ -389,7 +388,7 @@ class ImportClassRentSenasir extends Command
             }
             // dd($id_v);
             $this->info("No encontrados vejes".json_encode($no_founded));
-            //dd("Encontrados por vejes ".sizeof($id_v));
+            $this->info("Encontrados por vejes ".sizeof($id_v));
 
             $this->info("buscando a no importados viudeda");
            // $no_founded = null;
@@ -414,6 +413,7 @@ class ImportClassRentSenasir extends Command
             }
 
             $this->info("No encontrados viudeda".json_encode($no_foundedv));
+            $this->info("Encontrados por vejes ".sizeof($id_vd));
 
             $this->info("Cechus y Anita 2017 ® ™");
             $this->info("vejes: ".$vejes );
