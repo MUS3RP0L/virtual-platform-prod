@@ -992,7 +992,7 @@ class AffiliateController extends Controller
             $city=$eco_com->city->name;
         }
         //aumentar restriccion q solo tome las deudas de I/II/2015 y I/II/2016
-        $total_dues=$devolution->dues()->sum('amount');
+        // $total_dues=$devolution->dues()->sum('amount');
         $total_dues_literal=Util::convertir($devolution->total);
         $data = [
             'date' => $date,
@@ -1006,7 +1006,7 @@ class AffiliateController extends Controller
             'economic_complement' => $eco_com,
             'city' => $city,
             'eco_com_applicant' => $eco_com_applicant,
-            'total_dues' => $total_dues,
+            // 'total_dues' => $total_dues,
             'total_dues_literal' => $total_dues_literal,
             'affiliate' => $affiliate,
             'address' => $address,

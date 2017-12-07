@@ -71,8 +71,6 @@ class ImportTotalDuesRF extends Command
                                 $d->affiliate_id = $affi->id; 
                                 $d->observation_type_id = 13; 
                                 $d->start_eco_com_procedure_id = 2; 
-                                $d->total = $result->total; 
-                                $d->balance = $result->total; 
                                 $d->save();
                             }
                                 if (!Due::where('devolution_id','=',$d->id)->where('eco_com_procedure_id','=',5)->first()) {
@@ -103,6 +101,10 @@ class ImportTotalDuesRF extends Command
                                     $due->amount=$result->s_2016;
                                     $due->save();
                                 }
+                                $total_dues=$d->dues()->sum('amount');
+                                $d->total = $total_dues; 
+                                $d->balance = $total_dues; 
+                                $d->save(); 
                                 $affi_succ++;
                          }else{
                             $this->info($ci);
@@ -117,10 +119,7 @@ class ImportTotalDuesRF extends Command
                  $this->info("\n\n ---------\n
                      $affi_succ Affiliates Found\n
                      \tAffiliates NOT found $affi_no\n
-
-
                  Execution time $execution_time [minutes].\n");
-
              }
         }else {
             $this->error('Incorrect password!');
