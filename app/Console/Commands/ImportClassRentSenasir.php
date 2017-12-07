@@ -7,6 +7,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use Muserpol\Affiliate;
 use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementApplicant;
+use DB;
+
 class ImportClassRentSenasir extends Command
 {
     /**
@@ -82,6 +84,7 @@ class ImportClassRentSenasir extends Command
             $beneficiarios =0;
 
             $ci_vejes =array();
+            $ci_viudedad =array();
             // $rows = $reader->get("ci");
 
 
@@ -109,9 +112,7 @@ class ImportClassRentSenasir extends Command
             foreach ($rows as $row) {
 
                 $ext = trim($row->ext);
-                //$this->info('extencion ['.$ext.']');
-               // $this->info(strlen($ext));
-                // if(strlen($ext)>0)
+
                 if(strlen($ext)>0)
                 {
                     $ci = $row->ci.'-'.$row->ext;
@@ -196,61 +197,47 @@ class ImportClassRentSenasir extends Command
                 else
                 {
                     $file_benefeciarios[]=$ci;
-                    // $aplicants = EconomicComplementApplicant::where('identity_card',$ci)->get();
 
-                    // if($aplicants)
-                    // {
-                    //     foreach ($aplicants as $aplicant) {
-                    //         # code...
-                    //         $com = EconomicComplement::where('id',$aplicant->economic_complement_id)->where('eco_com_procedure_id',6)->first();
-                    //         if($com)
-                    //         {
-                    //             $complemento = $com;
-                    //         }
-                    //     }
-                    //     // $this->info("aplicant: ".$aplicant->economic_complement->where('eco_com_procedure_id',6).:;
-                    //     //$complemento = EconomicComplement::where('');
-                    // }
-
-                    // $aplicant = EconomicComplementApplicant::join('economic_complements','economic_complements.id','=','eco_com_applicants.economic_complement_id')
-
-                    //                                         ->where('eco_com_applicants.identity_card','0%'.$ci)
-                    //                                         ->first();
-
-                    $id_complemento = EconomicComplement::join('affiliates','affiliates.id','=','economic_complements.affiliate_id')
-                                            ->join('eco_com_applicants','eco_com_applicants.economic_complement_id','=','economic_complements.id')
-                                            ->where('eco_com_procedure_id',6)
-                                            ->where('eco_com_applicants.identity_card','like','0%'.$ci)
+                    $complemento = DB::table('economic_complements')
+                                            ->join('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
+                                            ->join('affiliates','affiliates.id','=','economic_complements.affiliate_id')
+                                            ->where('eco_com_applicants.identity_card','=',$ci)
+                                            ->whereIn('economic_complements.eco_com_modality_id',[2,5,7,9])
+                                            ->where('economic_complements.eco_com_procedure_id',6)
                                             ->where('affiliates.pension_entity_id',5)
-                                            ->whereIn('eco_com_modality_id',[2,5,7,9])
-                                            ->select('economic_complements.id','eco_com_applicants.identity_card')
+                                            ->select('economic_complements.id','eco_com_applicants.identity_card','economic_complements.eco_com_modality_id')
+                                            // ->where('economic_complements.s')
                                             ->first();
-                    // if(!$complemento)
-                    // {
-                    //      foreach ($aplicants as $aplicant) {
-                    //         # code...
-                    //         $com = EconomicComplement::where('id',$aplicant->economic_complement_id)->where('eco_com_procedure_id',6)->first();
-                    //         if($com)
-                    //         {
-                    //             $complemento = $com;
-                    //         }
-                    //     }
-                    // }
-                    if($id_complemento)
+                    if(!$complemento)
                     {
-
-                        $complemento = EconomicComplement::where('id',$id_complemento->id)->first();
+                        $complemento = DB::table('economic_complements')
+                                            ->join('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
+                                            ->join('affiliates','affiliates.id','=','economic_complements.affiliate_id')
+                                            ->where('eco_com_applicants.identity_card','like','0%'.$ci)
+                                            ->whereIn('economic_complements.eco_com_modality_id',[2,5,7,9])
+                                            ->where('economic_complements.eco_com_procedure_id',6)
+                                            ->where('affiliates.pension_entity_id',5)
+                                            ->select('economic_complements.id','eco_com_applicants.identity_card','economic_complements.eco_com_modality_id')
+                                            // ->where('economic_complements.s')
+                                            ->first();
                     }
 
+
+
                     if($complemento)
-                    {
+                    {   
+                        $ec = $complemento;
+                        $complemento= EconomicComplement::where('id',$ec->id)->first();
                         $beneficiarios++;
+
+                        $ci_viudedad[]=$complemento->identity_card;
+                        
                         switch ($complemento->eco_com_modality_id) {
                             case 1:
                             case 4:
                             case 6:
                             case 8:
-
+                        
                                     array_push($id_vejes, $complemento->id);        
                             break;
 
@@ -274,127 +261,71 @@ class ImportClassRentSenasir extends Command
 
                 }
 
+                if($complemento)
+                {
 
-
-
-             
-
-                //----------------------------------------------------------- hasta aqui busqueda
-
-                // if($complemento)
-                // {
-
-                //     switch ($row->clase_renta) {
-                //                 case 'VEJEZ':
-                //                     # code...
-                //                     $complemento->eco_com_kind_rent_id=1;
-                //                     $vejes++;
+                    switch ($row->clase_renta) {
+                                case 'VEJEZ':
+                                    # code...
+                                    $complemento->eco_com_kind_rent_id=1;
+                                    $vejes++;
                                     
-                //                     break;
-                //                 case 'VIUDEDAD':
-                //                     # code..
-                //                     $complemento->eco_com_kind_rent_id=2;
-                //                     $viudeda++;
+                                    break;
+                                case 'VIUDEDAD':
+                                    # code..
+                                    $complemento->eco_com_kind_rent_id=2;
+                                    $viudeda++;
                                     
-                //                     break;
+                                    break;
 
-                //                 case 'ORFANDAD':
-                //                     # code...
-                //                     $complemento->eco_com_kind_rent_id=3;
-                //                     $orfandad++;
-                //                     // array_push($id_orfandad, $complemento->id);
-                //                     break;  
+                                case 'ORFANDAD':
+                                    # code...
+                                    $complemento->eco_com_kind_rent_id=3;
+                                    $orfandad++;
+                                    // array_push($id_orfandad, $complemento->id);
+                                    break;  
 
-                //                 case 'ORFANDAD DOBLE':
-                //                     # code...
-                //                     $complemento->eco_com_kind_rent_id=4;
-                //                     $orfandadDoble++;
-                //                     // array_push($id_orfandadDoble, $complemento->id);
-                //                     break;                            
+                                case 'ORFANDAD DOBLE':
+                                    # code...
+                                    $complemento->eco_com_kind_rent_id=4;
+                                    $orfandadDoble++;
+                                    // array_push($id_orfandadDoble, $complemento->id);
+                                    break;                            
                                 
-                //                 case 'INVALIDEZ':
-                //                     # code...
-                //                     $complemento->eco_com_kind_rent_id=5;
-                //                     $invalidez++;
-                //                     // array_push($id_invalidez, $complemento->id);
-                //                     break;
+                                case 'INVALIDEZ':
+                                    # code...
+                                    $complemento->eco_com_kind_rent_id=5;
+                                    $invalidez++;
+                                    // array_push($id_invalidez, $complemento->id);
+                                    break;
 
-                //                 case 'INC.PARCIAL PERMANEN':
-                //                     # code...
-                //                     $complemento->eco_com_kind_rent_id=6;
-                //                     $parcial++;
-                //                     // array_push($id_parcial, $complemento->id);
-                //                     break;
+                                case 'INC.PARCIAL PERMANEN':
+                                    # code...
+                                    $complemento->eco_com_kind_rent_id=6;
+                                    $parcial++;
+                                    // array_push($id_parcial, $complemento->id);
+                                    break;
 
-                //                 case 'INC.TOTAL PERMANENTE':
-                //                     # code...
-                //                     $complemento->eco_com_kind_rent_id=7;
-                //                     $total++;
-                //                     // array_push($id_total, $complemento->id);
-                //                     break;
-
-
+                                case 'INC.TOTAL PERMANENTE':
+                                    # code...
+                                    $complemento->eco_com_kind_rent_id=7;
+                                    $total++;
+                                    // array_push($id_total, $complemento->id);
+                                    break;
 
 
-                //     }
 
-                //     $complemento->save();
 
-                //     // switch ($complemento->eco_com_modality_id) {
-                //     //     case 1:
-                //     //     case 4:
-                //     //     case 6:
-                //     //     case 8:
+                    }
 
-                //     //             array_push($id_vejes, $complemento->id);        
-                //     //     break;
+                    $complemento->save();
+                }
 
-                //     //     case 2:
-                //     //     case 5:
-                //     //     case 7:
-                //     //     case 9:
-
-                //     //             array_push($id_viudeda, $complemento->id);
-                //     //     break;
-                      
-                //     // }
-                    
-
-                // }
 
 
                 
             }//end for
 
-
-
-            // $this->info("Titulares ".sizeof($file_titulares));
-            // $this->info("beneficiarios ".sizeof($file_benefeciarios));
-            
-            // $this->info("vejes size: ".sizeof($id_vejes ));
-            // $this->info("viudeda size: ".sizeof($id_viudeda ));
-
-
-            //dd('terminando XD');
-            // $eco_vejes  = EconomicComplement::join('affiliates','affiliates.id','=','economic_complements.affiliate_id')
-            //                                 ->where('eco_com_procedure_id',6)
-            //                                 ->where('affiliates.pension_entity_id',5)
-            //                                 ->whereIn('eco_com_modality_id',[1,4,6,8])
-            //                                 ->select('economic_complements.id','affiliates.identity_card')
-            //                                 ->get();
-
-            // $eco_viudedad = EconomicComplement::join('affiliates','affiliates.id','=','economic_complements.affiliate_id')
-            //                                 ->join('eco_com_applicants','eco_com_applicants.economic_complement_id','=','economic_complements.id')
-            //                                 ->where('eco_com_procedure_id',6)
-            //                                 ->where('affiliates.pension_entity_id',5)
-            //                                 ->whereIn('eco_com_modality_id',[2,5,7,9])
-            //                                 ->select('economic_complements.id','eco_com_applicants.identity_card')
-            //                                 ->get();
-
-            
-            // $this->info("eco_vejes: ".$eco_vejes->count());
-            // $this->info("eco_viudedad: ".$eco_viudedad->count());
-            //dd($file_benefeciarios);
 
             $id_v=array();
             $id_vd=array();
@@ -403,23 +334,7 @@ class ImportClassRentSenasir extends Command
 
             foreach ($eco_vejes as $eco) {
 
-                
-                // $re = '/[^0*].*/';
-                // //$str = '00abf-1f';
 
-                // preg_match_all($re, $eco->identity_card, $matches, PREG_SET_ORDER, 0);
-                // $ci= $matches[0][0];
-
-                // if(in_array($ci, $file_titulares))
-                // {
-                //     array_push($id_v, $eco->id);
-                // }else {
-                //     # code...
-                //     $this->info("no encontrado:".$ci);
-                //     array_push($no_founded, $eco->id);
-                //     //dd(json_encode($file_titulares));
-
-                // }
                 $id_v[]=$eco->identity_card;
 
                 if(!in_array($eco->identity_card, $ci_vejes))
@@ -427,48 +342,32 @@ class ImportClassRentSenasir extends Command
                     $this->info("ci no encontrado:".$eco->identity_card);
                 }
             }
-            $this->info("buscando al uno de mas XD");
-            foreach ($ci_vejes as $ci)
-            {
-                # code...
-                if(!in_array($ci,$id_v))
-                {
-                    $this->info("ci no enctrado:".$ci);
-                }
-
-            }
-
-
+ 
             // dd($id_v);
-            $this->info("No encontrados vejes".json_encode($no_founded));
-            $this->info("con complemento a vejes: ".$vejes);
-            $this->info("Encontrados por vejes ".sizeof($id_vejes));
-            $this->info("Encontrados por Viudedad ".sizeof($id_viudeda));
-            dd("............................................................");
-            $this->info("buscando a no importados viudeda");
+            // $this->info("No encontrados viudad ".json_encode($no_founded));
+            // $this->info("con complemento a vejes: ".$vejes);
+            // $this->info("Encontrados por vejes ".sizeof($id_vejes));
+            // $this->info("Encontrados por Viudedad ".sizeof($id_viudeda));
+            // $this->info("con complemento".$beneficiarios);
+            // $this->info("buscando dentro ".sizeof($eco_viudedad));
            // $no_founded = null;
             $no_foundedv = array();
+
             foreach ($eco_viudedad as $eco) {
 
-                 $re = '/[^0*].*/';
-                //$str = '00abf-1f';
+                
 
-                preg_match_all($re, $eco->identity_card, $matches, PREG_SET_ORDER, 0);
-                $ci= $matches[0][0];
-
-                if(in_array($ci, $file_benefeciarios))
+                if(!in_array($eco->id, $id_viudeda))
                 {
-                    array_push($id_vd, $eco->id);
+                    $this->info("No se encontro a la viuda hdp id_complemento:".$eco->id);
                 }
-                else
-                {
-                    $this->info("no encontrado:".$ci);
-                    array_push($no_foundedv, $eco->id);
-                }
+                
             }
+            $this->info("beneficiarios : ".$beneficiarios);
 
-            $this->info("No encontrados viudeda".json_encode($no_foundedv));
+            // $this->info("No encontrados viudeda".json_encode($no_foundedv));
             $this->info("Encontrados por vejes ".sizeof($id_vd));
+         //  dd("............................................................");
 
             $this->info("Cechus y Anita 2017 ® ™");
             $this->info("vejes: ".$vejes );
@@ -484,19 +383,18 @@ class ImportClassRentSenasir extends Command
 
             $this->info("Total importados: ".($vejes+$viudeda+$orfandad+$orfandadDoble+$invalidez+$parcial+$total));
 
-            // $this->info("vejes: ".json_encode($id_vejes ));
-            // $this->info("viudeda: ".json_encode($id_viudeda ));
+            // // $this->info("vejes: ".json_encode($id_vejes ));
+            // // $this->info("viudeda: ".json_encode($id_viudeda ));
             
-            $this->info("vejes size: ".sizeof($id_vejes ));
-            $this->info("viudeda size: ".sizeof($id_viudeda ));
+            // $this->info("vejes size: ".sizeof($id_vejes ));
+            // $this->info("viudeda size: ".sizeof($id_viudeda ));
             
-            $this->info("_____________________________");
-            $this->info("encontrados vejes: ".json_encode($id_v));
-            $this->info("_____________________________");
-            $this->info("encontrados viudedad: ".json_encode($id_vd));
+            // $this->info("_____________________________");
+            // $this->info("encontrados vejes: ".json_encode($id_v));
+            // $this->info("_____________________________");
+            // $this->info("encontrados viudedad: ".json_encode($id_vd));
 
-            $this->info("no encontrados : ".sizeof($no_founded));
-            $this->info("beneficiarios : ".$beneficiarios);
+            // $this->info("no encontrados : ".sizeof($no_founded));
 
             // $this->info("orfandad: ".json_encode($id_orfandad ));
             // $this->info("orfandadDoble: ".json_encode($id_orfandadDoble));
