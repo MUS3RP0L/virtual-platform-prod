@@ -20,8 +20,8 @@
           RECONOCIMIENTO DE OBLIGACIÓN
         </td>
       </tr>
-      <tr><td>
-        Yo <strong>{{ $eco_com_applicant->getFullName() }}</strong>, mayor de edad con Cédula de Identidad Nº{!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened ?? ''!!}, domiciliado en la Zona {!! $address->zone ?? '-' !!}, Calle {{ $address->street ?? '-' }}, Nro. {{ $address->number_address ?? '-' }}, de la ciudad de {{ $address->city->name ?? '' }}, hábil por derecho y en mi calidad de beneficiario (a) del Complemento Económico que otorga la Mutual de Servicios al Policía – MUSERPOL al sector pasivo de la Policía Boliviana, que habiendo sido notificado por haber percibido pagos en defecto del Complemento Económico correspondiente al 1er. y 2do. Semestre de las gestiones 2015 y 2016 por un importe de Bs. {{ $total_dues_literal }} Bolivianos,
+      <tr><td class="text-justify">
+        Yo <strong>{{ $eco_com_applicant->getFullName() }}</strong>, mayor de edad con Cédula de Identidad Nº {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened ?? ''!!}, domiciliado en la Zona {!! $address->zone ?? '-' !!}, Calle {{ $address->street ?? '-' }}, Nro. {{ $address->number_address ?? '-' }}, de la ciudad de {{ $address->city->name ?? '' }}, hábil por derecho y en mi calidad de beneficiario (a) del Complemento Económico que otorga la Mutual de Servicios al Policía – MUSERPOL al sector pasivo de la Policía Boliviana, que habiendo sido notificado por haber percibido pagos en defecto del Complemento Económico correspondiente al 1er. y 2do. Semestre de las gestiones 2015 y 2016 por un importe de Bs. {{ $devolution->total }}, {{ $total_dues_literal }} Bolivianos,
         <strong>
           expreso mi conformidad para que se efectúe el descuento
           @if($devolution->percentage)
@@ -34,13 +34,13 @@
       </table>
       @include('economic_complements.info.applicant_info',['eco_com_applicant'=>$eco_com_applicant])
       @include('economic_complements.info.simple_info',['economic_complement'=>$economic_complement])
-      @include('affiliates.print.devolutions.amount', ['dues'=>$devolution->dues,'total_dues'=>$total_dues ])
+      @include('affiliates.print.devolutions.amount', ['dues'=>$devolution->dues])
 
       @if($devolution->deposit_number && $devolution->payment_date)
         @include('affiliates.print.devolutions.devolution_inmediate')
         @include('affiliates.print.devolutions.payment_info')
       @endif
-      <p class="size-10">
+      <p class="size-8">
         <strong>En caso de incumplimiento al presente compromiso este podrá ser elevado a Instrumento Público de acuerdo a las normas que rigen nuestro ESTADO, en señal de plena conformidad firmo al pie del presente documento.</strong>
       </p>
       <table>
@@ -57,6 +57,6 @@
           <th class="no-border"> <div class="info" style="border: 1px solid  #3c3c3c!IMPORTANT;text-align:center;width: 150px;"><p>&nbsp;</p><br><br><br><br></div><br><span class="info" style="border: 0px;text-align:center;">Huella Digital Pulgar Derecho</span></th>
         </tr>
       </table>
-      <p>Cabe aclarar que esta cuantificación no corresponde a gestiones anteriores al 2015.</p>
+      <p class="size-10">Cabe aclarar que esta cuantificación no corresponde a gestiones anteriores al 2015.</p>
   </div>
 @endsection
