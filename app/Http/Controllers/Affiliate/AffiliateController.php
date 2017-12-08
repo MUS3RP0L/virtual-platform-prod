@@ -924,7 +924,7 @@ class AffiliateController extends Controller
         $title = "HISTORIAL POLICIAL";
 
         $affiliate = Affiliate::where('id', '=', $affiliate_id)->first();
-        $affiliate_records = AffiliateRecord::where('affiliate_id', '=', $affiliate_id)->orderBy('date', 'asc')->get();
+        $affiliate_records = AffiliateRecord::where('affiliate_id', '=', $affiliate_id)->where('type_id', '<>', 6)->orderBy('date', 'asc')->get();
         $data = [
             'date' => $date,
             'hour' => $hour,
