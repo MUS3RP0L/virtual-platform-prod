@@ -72,6 +72,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\ImportClassRentSenasir::class,
         \Muserpol\Console\Commands\CopyAverage::class,
         \Muserpol\Console\Commands\DeleteObservationLoan::class,
+        \Muserpol\Console\Commands\Concurrencia::class,
         
     ];
 
