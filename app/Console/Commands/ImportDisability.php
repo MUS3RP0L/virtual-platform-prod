@@ -51,7 +51,7 @@ class ImportDisability extends Command implements SelfHandling
                                     ->whereRaw("split_part(LTRIM(affiliates.identity_card,'0'), '-',1) = '".$ci."'")
                                     ->whereRaw("LTRIM(affiliates.nua::text,'0') ='".$nua."'")
                                     ->whereYear('economic_complements.year','=', 2017)
-                                    ->where('economic_complements.semester','=','Primer')
+                                    ->where('economic_complements.semester','=','Segundo')
                                     ->select('economic_complements.id','economic_complements.aps_disability','economic_complements.total_rent','affiliates.identity_card')->first();                            
                             if ($afi) 
                             {   $ecom = EconomicComplement::where('id','=', $afi->id)->first();                       	

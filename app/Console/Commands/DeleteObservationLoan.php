@@ -56,7 +56,8 @@ class DeleteObservationLoan extends Command implements SelfHandling
                                         //->where('state','=','Received')
                                         ->where('affiliate_id','=',$dato->affiliate_id)->first();
                 if($actual)
-                {   $actual->wf_current_state_id = '3';
+                {   $ecom->user_id=9;
+                    $actual->wf_current_state_id = '3';
                     $actual->state='Edited';
                     $date = Carbon::Now();
                     $actual->review_date =$date; 
@@ -99,7 +100,8 @@ class DeleteObservationLoan extends Command implements SelfHandling
                              if($app)
                              {   //$this->info($ci);
                                  $ecom = EconomicComplement::where('id','=',$app->id)->first();
-                                 $ecom->wf_current_state_id = 3;                    
+                                 $ecom->user_id=9; 
+                                 $ecom->wf_current_state_id = 3;                                                    
                                  $ecom->state = 'Edited';
                                  $date = Carbon::Now();
                                  $ecom->review_date =$date; 
@@ -133,6 +135,7 @@ class DeleteObservationLoan extends Command implements SelfHandling
                                   
                              if($app)
                              {  $ecom = EconomicComplement::where('id','=',$app->id)->first();
+                                $ecom->user_id=9; 
                                 $ecom->wf_current_state_id = 3;
                                 $ecom->state='Edited';
                                 $date = Carbon::Now();
