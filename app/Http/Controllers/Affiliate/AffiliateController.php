@@ -558,8 +558,10 @@ class AffiliateController extends Controller
                 case 'devolutions':
 
                     $address=$affiliate->affiliate_address->first();
-                    if (!isset($address)) {
+                    if (!$address) {
                         $message = "Debe Actualizar la información de domicilio del afiliado.";
+                        Session::flash('message', $message);
+                        return redirect('affiliate/'.$affiliate->id);
                     }
 
                     $devolution = Devolution::where('affiliate_id','=',$affiliate->id)->where('observation_type_id','=',13)->first();
