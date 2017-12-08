@@ -1218,6 +1218,7 @@ class EconomicComplementController extends Controller
             
         }
 
+        $class_rent =DB::table('eco_com_kind_rent')->where('id',$economic_complement->eco_com_kind_rent_id)->first();
 
         $data = [
 
@@ -1255,6 +1256,7 @@ class EconomicComplementController extends Controller
         'spouse' => $spouse,
         'gender_list' =>$gender_list,
         'gender_list_s' => $gender_list_s,
+        'class_rent' => $class_rent,
         ];
         // dd($eco_com_submitted_documents_ar);
 
