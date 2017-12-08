@@ -56,7 +56,7 @@ class DeleteObservationLoan extends Command implements SelfHandling
                                         //->where('state','=','Received')
                                         ->where('affiliate_id','=',$dato->affiliate_id)->first();
                 if($actual)
-                {   $ecom->user_id=9;
+                {   $actual->user_id=9;
                     $actual->wf_current_state_id = '3';
                     $actual->state='Edited';
                     $date = Carbon::Now();
