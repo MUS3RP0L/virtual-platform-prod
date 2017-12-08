@@ -1676,12 +1676,12 @@
                                     <div class="col-md-7">
                                     <div class="radio radio-primary">
                                         <label style="font-size: 18px">
-                                            <input type="radio" value="false"  data-bind='checked:total_percentage, attr: {required: show_total_percentage}' name="total_percentage" > Total
+                                            <input type="radio" value="false"  data-bind='checked:total_percentage, attr: {required: show_total_percentage_radio}' name="total_percentage" > Total
                                         </label>
                                     </div>
                                     <div class="radio radio-primary">
                                         <label style="font-size: 18px">
-                                            <input type="radio" value="true" data-bind='checked:total_percentage, attr: {required: show_total_percentage}' name="total_percentage"> Porcentaje
+                                            <input type="radio" value="true" data-bind='checked:total_percentage, attr: {required: show_total_percentage_radio}' name="total_percentage"> Porcentaje
                                             
                                         </label>
                                     </div>
@@ -1803,9 +1803,11 @@
             self.immediate_voluntary_return = ko.observable(false);
             self.total_percentage = ko.observable(false);
             self.show_total_percentage = ko.observable(false);
+            self.show_total_percentage_radio = ko.observable(true);
             self.total_percentage.subscribe(function(){
                 console.log(self.total_percentage());
                 self.show_total_percentage(self.total_percentage() == 'true');
+                self.show_total_percentage_radio(self.total_percentage() == 'true');
             });
         }
 
