@@ -1696,7 +1696,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="row">
+                                <div class="row" data-bind='visible: !show_total_percentage()'>
                                     <div class="col-md-offset-5 col-md-4">
                                         <div class="form-group">
                                             <div class="togglebutton">

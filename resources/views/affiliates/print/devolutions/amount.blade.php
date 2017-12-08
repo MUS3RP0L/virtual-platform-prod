@@ -22,6 +22,7 @@
 	</tr>
 	<tr>
 		<td class="grand" colspan="2">MONTO TOTAL ADEUDADO A LA MUSERPOL</td>
-		<td colspan="2" class="size-15 bold text-right">Bs.{{ Util::formatMoney($devolution->total) ?? '0.00' }}</td>
+		<td colspan="2" class="size-13 bold text-right">Bs. {!! $total_dues_literal ?? '' !!}</td>
+		{{-- <td colspan="2" class="size-15 bold text-right">Bs.{{ Util::formatMoney($devolution->total) ?? '0.00' }}</td> --}}
 	</tr>
 </table>

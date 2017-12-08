@@ -25,24 +25,30 @@
         <strong>
           expreso mi conformidad para que se efectúe el descuento
           @if($devolution->percentage)
-            con el {{ $devolution->percentage * 100 }}% del beneficio del Complemento Económico a partir del 1er. Semestre de la gestión 2017 hasta cumplir el monto adeudado y los que se determinen posteriormente.
+            con el {{ $devolution->percentage * 100 }}% del beneficio del Complemento Económico a partir del Primer Semestre de la gestión 2017, hasta cubrir el monto determinado.
           @else
-           del total del pago en defecto inicialmente determinado, con el beneficio del Complemento Económico del Primer semestre de la gestión 2017.
+            @if($devolution->deposit_number && $devolution->payment_date)
+              expreso mi conformidad de manera voluntaria para efectuar la devolución del total del monto en defecto inicialmente determinado.
+            @else
+              expreso mi conformidad para que se efectúe el descuento del total del monto en defecto inicialmente determinado, con el beneficio del Complemento Económico del Primer semestre de la gestión 2017.
+            @endif
           @endif
         </strong>
       </td></tr>
       </table>
       @include('economic_complements.info.applicant_info',['eco_com_applicant'=>$eco_com_applicant])
       @include('economic_complements.info.simple_info',['economic_complement'=>$economic_complement])
-      @include('affiliates.print.devolutions.amount', ['dues'=>$devolution->dues])
+      @include('affiliates.print.devolutions.amount', ['dues'=>$devolution->dues, 'total_dues_literal'=>$total_dues_literal])
 
       @if($devolution->deposit_number && $devolution->payment_date)
         @include('affiliates.print.devolutions.devolution_inmediate')
         @include('affiliates.print.devolutions.payment_info')
       @endif
-      <p class="size-8">
-        <strong>En caso de incumplimiento al presente compromiso este podrá ser elevado a Instrumento Público de acuerdo a las normas que rigen nuestro ESTADO, en señal de plena conformidad firmo al pie del presente documento.</strong>
-      </p>
+       @if($devolution->percentage ||!$devolution->payment_date)
+        <p class="size-8">
+          <strong>En caso de incumplimiento al presente compromiso este podrá ser elevado a Instrumento Público de acuerdo a las normas que rigen nuestro ESTADO, en señal de plena conformidad firmo al pie del presente documento.</strong>
+        </p>
+       @endif
       <table>
         <tr>
           <th style="width:33%" class="no-border"></th>
