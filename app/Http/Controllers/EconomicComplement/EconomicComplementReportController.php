@@ -48,6 +48,7 @@ class EconomicComplementReportController extends Controller
         '2' => 'Todos los Trámites',
         '3' => 'Diferencia de Promedio (Un semestre anterior)',
         '4' => 'Trámites con concurrencia',
+        '5' => 'Trámites Excluidos por Salario',
         // '2' => 'Trámites Inclusiones',
         // '3' => 'Trámites habituales',
       ];
@@ -1518,6 +1519,22 @@ class EconomicComplementReportController extends Controller
           ->wfstates()
           ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
           ->where('aps_disability','>',0)
+          ->get();
+          $data = $economic_complements;
+          Util::excel($file_name, 'hoja', $data);
+          
+          break;
+        case '5':
+          $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable';
+          $file_name = $name.' '.date("Y-m-d H:i:s");
+          $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+          ->ecocominfo()
+          ->applicantinfo()
+          ->affiliateinfo()
+          ->ecocomstates()
+          ->wfstates()
+          ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
+          ->whereRaw('economic_complements.total_rent > economic_complements.salary_quotable')
           ->get();
           $data = $economic_complements;
           Util::excel($file_name, 'hoja', $data);

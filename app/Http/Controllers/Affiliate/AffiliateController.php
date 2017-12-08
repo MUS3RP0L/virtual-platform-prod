@@ -558,8 +558,10 @@ class AffiliateController extends Controller
                 case 'devolutions':
 
                     $address=$affiliate->affiliate_address->first();
-                    if (!isset($address)) {
+                    if (!$address) {
                         $message = "Debe Actualizar la información de domicilio del afiliado.";
+                        Session::flash('message', $message);
+                        return redirect('affiliate/'.$affiliate->id);
                     }
 
                     $devolution = Devolution::where('affiliate_id','=',$affiliate->id)->where('observation_type_id','=',13)->first();
@@ -924,7 +926,7 @@ class AffiliateController extends Controller
         $title = "HISTORIAL POLICIAL";
 
         $affiliate = Affiliate::where('id', '=', $affiliate_id)->first();
-        $affiliate_records = AffiliateRecord::where('affiliate_id', '=', $affiliate_id)->orderBy('date', 'asc')->get();
+        $affiliate_records = AffiliateRecord::where('affiliate_id', '=', $affiliate_id)->where('type_id', '<>', 6)->orderBy('date', 'asc')->get();
         $data = [
             'date' => $date,
             'hour' => $hour,
@@ -983,7 +985,7 @@ class AffiliateController extends Controller
         $title = "COMPROMISO DE DEVOLUCIÓN POR PAGOS EN DEFECTO DEL COMPLEMENTO ECONÓMICO";
         $affiliate = Affiliate::where('id', '=', $devolution->affiliate_id)->first();
         $address = $affiliate->affiliate_address->first();
-        $eco_com = $affiliate->economic_complements()->where('eco_com_procedure_id','=',6)->first();
+        $eco_com = $affiliate->economic_complements()->whereIn('eco_com_procedure_id',[2,6])->first();
         $eco_com_applicant = null;
         $city = null;
         if (!$eco_com) {
@@ -992,7 +994,7 @@ class AffiliateController extends Controller
             $city=$eco_com->city->name;
         }
         //aumentar restriccion q solo tome las deudas de I/II/2015 y I/II/2016
-        $total_dues=$devolution->dues()->sum('amount');
+        // $total_dues=$devolution->dues()->sum('amount');
         $total_dues_literal=Util::convertir($devolution->total);
         $data = [
             'date' => $date,
@@ -1006,7 +1008,7 @@ class AffiliateController extends Controller
             'economic_complement' => $eco_com,
             'city' => $city,
             'eco_com_applicant' => $eco_com_applicant,
-            'total_dues' => $total_dues,
+            // 'total_dues' => $total_dues,
             'total_dues_literal' => $total_dues_literal,
             'affiliate' => $affiliate,
             'address' => $address,

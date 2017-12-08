@@ -107,8 +107,8 @@ table th.grand {
 .title {
   width: 100%;
   display: block;
-  margin-top: 5px;
-  margin-bottom: 7px;
+  margin-top: 8px;
+  margin-bottom: 9px;
   font-size: 16px;
   text-align: center;
 }
@@ -135,11 +135,17 @@ strong, .bold{
 .size-12{
   font-size: 12px;
 }
+.size-11{
+  font-size: 11px;
+}
 .size-10{
   font-size: 10px;
 }
-.size-11{
-  font-size: 11px;
+.size-9{
+  font-size: 9px;
+}
+.size-8{
+  font-size: 8px;
 }
 .izq{
   text-align:left;
@@ -232,4 +238,14 @@ hr.cut-line {
   background: transparent; 
   color: #8c8b8b; 
   font-size: 18px; 
+}
+.text-justify{
+  text-align: justify;
+  text-justify: inter-word;
+}
+.text-right{
+  text-align: right;
+}
+.text-center{
+  text-align: center;
 }

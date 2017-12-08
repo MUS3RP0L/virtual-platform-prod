@@ -1018,6 +1018,19 @@
                                     </td>
                                 </tr>
 
+                                <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Clase de Renta</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! $class_rent?$class_rent->name:'' !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
                                 @can("accounting")
                                 <tr>
                                     <td style="border-top:0px;;">
