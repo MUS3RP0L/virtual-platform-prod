@@ -653,23 +653,7 @@ public static function import_from_bank(Request $request)
         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;
 
 
-
-
-         
-        $afiliados = DB::table('v_observados')->get();
-        
-        $a = array();
-        foreach ($afiliados as $afiliado) {
-
-          # code...
-          $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)->where('eco_com_procedure_id','=','6')->first();
-          if($complementos){
-             array_push($a, $afiliado->id);
-          }
-         
-        }
-        $afiliados = DB::table('v_observados')->whereIn('id',$a)->get();
-
+      
         $com_obser_contabilidad_1 = array();
         $com_obser_prestamos_2 = array();
         $com_obser_juridica_3 = array();
@@ -683,127 +667,183 @@ public static function import_from_bank(Request $request)
         $com_obser_pagodomicilio_12 = array();
         $com_obser_repofond_13 =array();
 
-
-        foreach ($afiliados as $afiliado) {
+ 
+      
+        // $afiliados = DB::table('v_observados')->whereIn('id',$a)->get();
+        $observados_prestamos = DB::table('affiliate_observations')
+                     ->join('economic_complements','economic_complements.affiliate_id','=','affiliate_observations.affiliate_id')
+                     ->where('affiliate_observations.observation_type_id',2)
+                     // ->whereIn('affiliate_observations.observation_type_id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+                     ->where('economic_complements.eco_com_procedure_id',6)
+                     ->where('economic_complements.workflow_id','<=',3)
+                     ->whereNull('affiliate_observations.deleted_at')
+                     ->select(DB::raw('DISTINCT ON (affiliate_observations.affiliate_id) affiliate_observations.affiliate_id as id'),'affiliate_observations.observation_type_id','economic_complements.id as complemento_id')
+                     ->get();
+        
+        foreach ($observados_prestamos as $afiliado) {
           # code...
-             $complementos = DB::table("economic_complements")->where('affiliate_id',$afiliado->id)
-                                                              ->where('eco_com_procedure_id','=','6')
-                                                              //->where('state','=','Edited')
-                                                              //->where('wf_current_state_id','=','2')
-                                                              ->where('workflow_id','<=','3')
-                                                              //->whereNotNull('review_date')
-                                                              ->get();
-             if($complementos)
-             {
-               switch ($afiliado->observation_type_id) {
-                 
-                 case 1:
-                   # code...
-                        foreach ($complementos as $complemento) {
-                          # code...
-                          array_push($com_obser_contabilidad_1, $complemento->id);
-                        }
-                   break;
-                 
-                 case 2:
-                   # code...
-                        foreach ($complementos as $complemento) {
-
-                          # code...
-                          array_push($com_obser_prestamos_2, $complemento->id);
-                        }
-                   break;
-                 
-                 case 3:
-                   # code...
-                        foreach ($complementos as $complemento) {
-                          # code...
-                          array_push($com_obser_juridica_3, $complemento->id);
-                        }
-                   break;
-                 
-                 case 4:
-                   # code...
-                        foreach ($complementos as $complemento) {
-                          # code...
-                          array_push($com_obser_fueraplz90_4, $complemento->id);
-                        }
-                   break;
-                 
-                 case 5:
-                   # code...
-                        foreach ($complementos as $complemento) {
-                          # code...
-                          array_push($com_obser_fueraplz120_5, $complemento->id);
-                        }
-                   break;
-                 
-                 case 6:
-                   # code...
-                        foreach ($complementos as $complemento) {
-                          # code...
-                          array_push($com_obser_faltareq_6, $complemento->id);
-                        }
-                   break;
-                 
-                 case 7:
-                   # code...
-                        foreach ($complementos as $complemento) {
-                          # code...
-                          array_push($com_obser_habitualinclusion7, $complemento->id);
-                        }
-                   break;
-                 
-                 case 8:
-                   # code...
-                        foreach ($complementos as $complemento) {
-                          # code...
-                          array_push($com_obser_menor16anos_8, $complemento->id);
-                        }
-                   break;
-                 
-                 case 9:
-                   # code..
-                        foreach ($complementos as $complemento) {
-                          # code...
-                          array_push($com_obser_invalidez_9, $complemento->id);
-                        }
-                   break;
-                 
-                 case 10:
-                   # code...
-                        foreach ($complementos as $complemento) {
-                          # code...
-                          array_push($com_obser_salario_10, $complemento->id);
-                        }
-                   break;
-                 
-                 case 12:
-                   # code...
-                        foreach ($complementos as $complemento) {
-                          # code...
-                          array_push($com_obser_pagodomicilio_12, $complemento->id);
-                        }
-                   break;
-                 
-                 case 13:
-                   # code...
-                        foreach ($complementos as $complemento) {
-                          # code...
-                          array_push($com_obser_repofond_13, $complemento->id);
-                        }
-                   break;
-
-
-                 default:
-                   # code...
-                   break;
-               }
-               
-             }
-
+          array_push($com_obser_prestamos_2, $afiliado->complemento_id);
         }
-        Log::info($com_obser_contabilidad_1);
+
+        $observados_contabilidad = DB::table('affiliate_observations')
+                     ->join('economic_complements','economic_complements.affiliate_id','=','affiliate_observations.affiliate_id')
+                     ->where('affiliate_observations.observation_type_id',1)
+                     // ->whereIn('affiliate_observations.observation_type_id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+                     ->where('economic_complements.eco_com_procedure_id',6)
+                     ->where('economic_complements.workflow_id','<=',3)
+                     ->whereNull('affiliate_observations.deleted_at')
+                     ->select(DB::raw('DISTINCT ON (affiliate_observations.affiliate_id) affiliate_observations.affiliate_id as id'),'affiliate_observations.observation_type_id','economic_complements.id as complemento_id')
+                     ->get();
+        foreach ($observados_contabilidad as $afiliado) {
+          # code...
+          array_push($com_obser_contabilidad_1, $afiliado->complemento_id);
+        } 
+
+        $observados_juridica = DB::table('affiliate_observations')
+                     ->join('economic_complements','economic_complements.affiliate_id','=','affiliate_observations.affiliate_id')
+                     ->where('affiliate_observations.observation_type_id',3)
+                     // ->whereIn('affiliate_observations.observation_type_id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+                     ->where('economic_complements.eco_com_procedure_id',6)
+                     ->where('economic_complements.workflow_id','<=',3)
+                     ->whereNull('affiliate_observations.deleted_at')
+                     ->select(DB::raw('DISTINCT ON (affiliate_observations.affiliate_id) affiliate_observations.affiliate_id as id'),'affiliate_observations.observation_type_id','economic_complements.id as complemento_id')
+                     ->get();
+        foreach ($observados_juridica as $afiliado) {
+          # code...
+          array_push($com_obser_juridica_3, $afiliado->complemento_id);
+        }
+
+        $observados_fueraplz90_4 = DB::table('affiliate_observations')
+                     ->join('economic_complements','economic_complements.affiliate_id','=','affiliate_observations.affiliate_id')
+                     ->where('affiliate_observations.observation_type_id',4)
+                     // ->whereIn('affiliate_observations.observation_type_id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+                     ->where('economic_complements.eco_com_procedure_id',6)
+                     ->where('economic_complements.workflow_id','<=',3)
+                     ->whereNull('affiliate_observations.deleted_at')
+                     ->select(DB::raw('DISTINCT ON (affiliate_observations.affiliate_id) affiliate_observations.affiliate_id as id'),'affiliate_observations.observation_type_id','economic_complements.id as complemento_id')
+                     ->get();
+        foreach ($observados_fueraplz90_4 as $afiliado) {
+          # code...
+          array_push($com_obser_fueraplz90_4, $afiliado->complemento_id);
+        }
+
+        $observados_fueraplz120_5 = DB::table('affiliate_observations')
+                     ->join('economic_complements','economic_complements.affiliate_id','=','affiliate_observations.affiliate_id')
+                     ->where('affiliate_observations.observation_type_id',5)
+                     // ->whereIn('affiliate_observations.observation_type_id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+                     ->where('economic_complements.eco_com_procedure_id',6)
+                     ->where('economic_complements.workflow_id','<=',3)
+                     ->whereNull('affiliate_observations.deleted_at')
+                     ->select(DB::raw('DISTINCT ON (affiliate_observations.affiliate_id) affiliate_observations.affiliate_id as id'),'affiliate_observations.observation_type_id','economic_complements.id as complemento_id')
+                     ->get();
+        foreach ($observados_fueraplz120_5 as $afiliado) {
+          # code...
+          array_push($com_obser_fueraplz120_5, $afiliado->complemento_id);
+        }
+
+        $observados_faltareq_6 = DB::table('affiliate_observations')
+                     ->join('economic_complements','economic_complements.affiliate_id','=','affiliate_observations.affiliate_id')
+                     ->where('affiliate_observations.observation_type_id',6)
+                     // ->whereIn('affiliate_observations.observation_type_id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+                     ->where('economic_complements.eco_com_procedure_id',6)
+                     ->where('economic_complements.workflow_id','<=',3)
+                     ->whereNull('affiliate_observations.deleted_at')
+                     ->select(DB::raw('DISTINCT ON (affiliate_observations.affiliate_id) affiliate_observations.affiliate_id as id'),'affiliate_observations.observation_type_id','economic_complements.id as complemento_id')
+                     ->get();
+        foreach ($observados_faltareq_6 as $afiliado) {
+          # code...
+          array_push($com_obser_faltareq_6, $afiliado->complemento_id);
+        }
+
+        $observados_habitualinclusion7 = DB::table('affiliate_observations')
+                     ->join('economic_complements','economic_complements.affiliate_id','=','affiliate_observations.affiliate_id')
+                     ->where('affiliate_observations.observation_type_id',7)
+                     // ->whereIn('affiliate_observations.observation_type_id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+                     ->where('economic_complements.eco_com_procedure_id',6)
+                     ->where('economic_complements.workflow_id','<=',3)
+                     ->whereNull('affiliate_observations.deleted_at')
+                     ->select(DB::raw('DISTINCT ON (affiliate_observations.affiliate_id) affiliate_observations.affiliate_id as id'),'affiliate_observations.observation_type_id','economic_complements.id as complemento_id')
+                     ->get();
+        foreach ($observados_habitualinclusion7 as $afiliado) {
+          # code...
+          array_push($com_obser_habitualinclusion7, $afiliado->complemento_id);
+        }
+
+        $observados_menor16anos_8 = DB::table('affiliate_observations')
+                     ->join('economic_complements','economic_complements.affiliate_id','=','affiliate_observations.affiliate_id')
+                     ->where('affiliate_observations.observation_type_id',8)
+                     // ->whereIn('affiliate_observations.observation_type_id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+                     ->where('economic_complements.eco_com_procedure_id',6)
+                     ->where('economic_complements.workflow_id','<=',3)
+                     ->whereNull('affiliate_observations.deleted_at')
+                     ->select(DB::raw('DISTINCT ON (affiliate_observations.affiliate_id) affiliate_observations.affiliate_id as id'),'affiliate_observations.observation_type_id','economic_complements.id as complemento_id')
+                     ->get();
+        foreach ($observados_menor16anos_8 as $afiliado) {
+          # code...
+          array_push($com_obser_menor16anos_8, $afiliado->complemento_id);
+        }
+
+        $observados_invalidez_9 = DB::table('affiliate_observations')
+                     ->join('economic_complements','economic_complements.affiliate_id','=','affiliate_observations.affiliate_id')
+                     ->where('affiliate_observations.observation_type_id',9)
+                     // ->whereIn('affiliate_observations.observation_type_id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+                     ->where('economic_complements.eco_com_procedure_id',6)
+                     ->where('economic_complements.workflow_id','<=',3)
+                     ->whereNull('affiliate_observations.deleted_at')
+                     ->select(DB::raw('DISTINCT ON (affiliate_observations.affiliate_id) affiliate_observations.affiliate_id as id'),'affiliate_observations.observation_type_id','economic_complements.id as complemento_id')
+                     ->get();
+        foreach ($observados_invalidez_9 as $afiliado) {
+          # code...
+          array_push($com_obser_invalidez_9, $afiliado->complemento_id);
+        }
+
+        $observados_salario_10 = DB::table('affiliate_observations')
+                     ->join('economic_complements','economic_complements.affiliate_id','=','affiliate_observations.affiliate_id')
+                     ->where('affiliate_observations.observation_type_id',10)
+                     // ->whereIn('affiliate_observations.observation_type_id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+                     ->where('economic_complements.eco_com_procedure_id',6)
+                     ->where('economic_complements.workflow_id','<=',3)
+                     ->whereNull('affiliate_observations.deleted_at')
+                     ->select(DB::raw('DISTINCT ON (affiliate_observations.affiliate_id) affiliate_observations.affiliate_id as id'),'affiliate_observations.observation_type_id','economic_complements.id as complemento_id')
+                     ->get();
+        foreach ($observados_salario_10 as $afiliado) {
+          # code...
+          array_push($com_obser_salario_10, $afiliado->complemento_id);
+        }
+
+        $observados_pagodomicilio_12 = DB::table('affiliate_observations')
+                     ->join('economic_complements','economic_complements.affiliate_id','=','affiliate_observations.affiliate_id')
+                     ->where('affiliate_observations.observation_type_id',12)
+                     // ->whereIn('affiliate_observations.observation_type_id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+                     ->where('economic_complements.eco_com_procedure_id',6)
+                     ->where('economic_complements.workflow_id','<=',3)
+                     ->whereNull('affiliate_observations.deleted_at')
+                     ->select(DB::raw('DISTINCT ON (affiliate_observations.affiliate_id) affiliate_observations.affiliate_id as id'),'affiliate_observations.observation_type_id','economic_complements.id as complemento_id')
+                     ->get();
+        foreach ($observados_pagodomicilio_12 as $afiliado) {
+          # code...
+          array_push($com_obser_pagodomicilio_12, $afiliado->complemento_id);
+        }
+
+        $observados_repofond_13 = DB::table('affiliate_observations')
+                     ->join('economic_complements','economic_complements.affiliate_id','=','affiliate_observations.affiliate_id')
+                     ->where('affiliate_observations.observation_type_id',13)
+                     // ->whereIn('affiliate_observations.observation_type_id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+                     ->where('economic_complements.eco_com_procedure_id',6)
+                     ->where('economic_complements.workflow_id','<=',3)
+                     ->whereNull('affiliate_observations.deleted_at')
+                     ->select(DB::raw('DISTINCT ON (affiliate_observations.affiliate_id) affiliate_observations.affiliate_id as id'),'affiliate_observations.observation_type_id','economic_complements.id as complemento_id')
+                     ->get();
+        foreach ($observados_repofond_13 as $afiliado) {
+          # code...
+          array_push($com_obser_repofond_13, $afiliado->complemento_id);
+        }
+
+        //dd($observados_repofond_13);
+        //dd(sizeof($afiliados));
+        
+   
+        //Log::info($com_obser_prestamos_2);
 
         
       //  return $economic_complements;
