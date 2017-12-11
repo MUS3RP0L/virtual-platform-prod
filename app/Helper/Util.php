@@ -540,7 +540,7 @@ class Util
             // $valor_convertido = $converted . strtoupper($moneda);
             $valor_convertido = $converted . '00/100';
         } else {
-            $valor_convertido = $converted . strtoupper($moneda)  . ($div_decimales[1]) . '/100 ';
+            $valor_convertido = $converted . strtoupper($moneda) .' CON ' . ($div_decimales[1]) . '/100 ';
             // $valor_convertido = $converted . strtoupper($moneda) . ' CON ' . $decimales . ' ' . strtoupper($centimos);
         }
         return $valor_convertido;

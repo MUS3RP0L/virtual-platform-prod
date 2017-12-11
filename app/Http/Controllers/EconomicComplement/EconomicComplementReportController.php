@@ -49,6 +49,7 @@ class EconomicComplementReportController extends Controller
         '3' => 'Diferencia de Promedio (Un semestre anterior)',
         '4' => 'Trámites con concurrencia',
         '5' => 'Trámites Excluidos por Salario',
+        '6' => 'Cambio de Grado y Categoría (Comparación con un semestre Anterior)',
         // '2' => 'Trámites Inclusiones',
         // '3' => 'Trámites habituales',
       ];
@@ -1539,6 +1540,34 @@ class EconomicComplementReportController extends Controller
           ->get();
           $data = $economic_complements;
           Util::excel($file_name, 'hoja', $data);
+          
+          break;
+        case '6':
+          $eco_com_procedure_current = EconomicComplementProcedure::find($eco_com_procedure_id);
+          $eco_com_procedure_old = EconomicComplementProcedure::find(Util::semesterAgo($year, $semester));
+          if (!$eco_com_procedure_old) { return;  }
+          $ecos_old=$eco_com_procedure_old->economic_complements;
+          $ecos_current=$eco_com_procedure_current->economic_complements;
+          // dd($ecos_old->count(), $ecos_current->count());
+          $rows=[];
+          foreach ($ecos_current as $current) {
+            $afi_id=$current->affiliate_id;
+            $old=EconomicComplement::where('affiliate_id','=',$afi_id)->where('eco_com_procedure_id','=', $eco_com_procedure_old->id)->first();
+            if ($old) {
+              if ($current->degree_id != $old->degree_id || $current->category_id != $old->category_id) {
+                $rows[] = array(
+                  'tramite_anterior' => $old->code,
+                  'tramite_actual' => $current->code,
+                  'grado_anterior' => Degree::find($old->degree_id)->shortened,
+                  'grado_actual' => Degree::find($current->degree_id)->shortened,
+                  'categoria_anterior' => Category::find($old->category_id)->name,
+                  'categoria_actual' => Category::find($current->category_id)->name,
+                );
+               }
+            }
+          }
+          $file_name = $name.' '.date("Y-m-d H:i:s");
+          Util::excel($file_name, 'hoja', $rows);
           
           break;
         // case 2:
