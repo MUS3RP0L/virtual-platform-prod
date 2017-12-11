@@ -1775,10 +1775,12 @@ public static function import_from_bank(Request $request)
     public function payrollLegalGuardian()
     {
         global $rows,$i;
-        $eco=EconomicComplement::where('eco_com_procedure_id','=',2)
-            ->whereNotNull('review_date')
+        $eco=EconomicComplement::where('eco_com_procedure_id','=',6)
+            //->whereNotNull('review_date')
+            ->where('wf_current_state_id','=','3')
             ->where('state','like','Edited')
             ->where('has_legal_guardian','=',true)
+            ->where('has_legal_guardian_s','=',false)
             ->get();
         $rows[]=array('Nro','C.I.','Nombre Completo Poderdante','C.I.','Nombre Completo Apoderado','Regional','Grado','Tipo Renta','Complemento Economico');
         $i=1;
@@ -2118,17 +2120,19 @@ public static function import_from_bank(Request $request)
 
     {
         global $rows,$i;
-        $eco=EconomicComplement::where('eco_com_procedure_id','=',2)
-            ->whereNotNull('review_date')
+        $eco=EconomicComplement::where('eco_com_procedure_id','=',6)
+            //->whereNotNull('review_date')
+            ->where('wf_current_state_id','=','3')
             ->where('state','like','Edited')
             ->where('has_legal_guardian','=',true)
+            ->where('has_legal_guardian_s','=',false)
             ->where('economic_complements.total','>', 0)
             ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
             ->get();
         $rows[]=array('Nro','C.I.','Nombre Completo Poderdante','C.I.','Nombre Completo Apoderado','Regional','Grado','Tipo Renta','Complemento Economico');
         $i=1;
         foreach ($eco as $e) {
-            if (!$e->affiliate->observations()->whereIn('observation_type_id', [1,2,3,12,13])->where('is_enabled','=',false)->get()->count()) {
+            if (!$e->affiliate->observations()->whereNotIn('observation_type_id', [1,2,3,12,13])->where('is_enabled','=',false)->whereNull('deleted_at')->get()->count()) {
             $app = $e->economic_complement_applicant;
             $apo = $e->economic_complement_legal_guardian;
             $data = new stdClass;
