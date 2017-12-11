@@ -1534,7 +1534,7 @@ class EconomicComplementReportController extends Controller
           ->ecocomstates()
           ->wfstates()
           ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
-          ->whereRaw('economic_complements.total_rent > economic_complements.salary_quotable')
+          ->whereRaw('economic_complements.total_rent > economic_complements.salary_quotable and aps_disability is null')
           ->get();
           $data = $economic_complements;
           Util::excel($file_name, 'hoja', $data);
