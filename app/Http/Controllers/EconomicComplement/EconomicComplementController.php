@@ -1115,20 +1115,17 @@ class EconomicComplementController extends Controller
            
                 if($hasObservation)
                 {
-                     $hasAmortization =true; 
-                    // $last_complement = EconomicComplement::where('affiliate_id',$economic_complement->affiliate_id)->orderBy('year','desc')->first();
-
-                    // // Log::info("complemento actual ".$economic_complement->year);
-                    // // Log::info("ultimo complemento ".$last_complement->year);
-
-                    // if($economic_complement->year == $last_complement->year)
-                    // {
-                    //     if($economic_complement->total > 0)
-                    //     {
-                    //         $hasAmortization =true; 
-                    //     }
+                                      
+                    if($economic_complement->eco_com_state_id=3 || $economic_complement->eco_com_state_id=2 || $economic_complement->eco_com_state_id=1 || $economic_complement->eco_com_state_id=18 || $economic_complement->eco_com_state_id=17 || $economic_complement->eco_com_state_id=21 )
+                    {
                         
-                    // }
+                        if($economic_complement->total > 0)
+                        {
+                            $hasAmortization =true; 
+                        }
+                        
+                    }
+
                      
                 }
                
@@ -1148,9 +1145,7 @@ class EconomicComplementController extends Controller
                     if($has_repocision_observation)
                     {
 
-                        $last_complement = EconomicComplement::where('affiliate_id',$economic_complement->affiliate_id)->orderBy('year','desc')->first();
-
-                        if($economic_complement->year == $last_complement->year)
+                        if($economic_complement->eco_com_state_id=3 || $economic_complement->eco_com_state_id=2 || $economic_complement->eco_com_state_id=1 || $economic_complement->eco_com_state_id=18 || $economic_complement->eco_com_state_id=17 || $economic_complement->eco_com_state_id=21 )
                         {
                             if($economic_complement->total > 0)
                             {
