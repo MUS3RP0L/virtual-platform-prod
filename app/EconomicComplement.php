@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use Session;
+use DB;
 use Muserpol\Helper\Util;
 
 class EconomicComplement extends Model
@@ -453,6 +454,16 @@ class EconomicComplement extends Model
     public function scopeWfstates($query)
     {
         return $query->leftJoin('wf_states', 'economic_complements.wf_current_state_id', '=', 'wf_states.id');
+    }
+    public function scopeAffiliateObservations($query)
+    {
+        return $query->leftJoin(DB::raw("(SELECT affiliates.id, string_agg(observation_types.name, ' | ') as observations
+                            FROM affiliates
+                            LEFT JOIN affiliate_observations ON affiliates.id = affiliate_observations.affiliate_id
+                            LEFT JOIN observation_types on affiliate_observations.observation_type_id = observation_types.id
+                            where affiliate_observations.deleted_at is null
+                            GROUP BY affiliates.id) as observations"),'affiliates.id','=','observations.id');
+
     }
 }
 
