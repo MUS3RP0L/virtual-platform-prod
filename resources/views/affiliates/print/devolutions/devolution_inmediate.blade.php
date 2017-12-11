@@ -6,7 +6,7 @@
 	</tr>
 	
 	<tr >
-		<td><strong>CONCEPTO</strong></td><td><strong>MONTO DE LA DEUDA (BS)</strong></td><td><strong>FECHA DE PAGO</strong></td><td><strong>ENTIDAD FINANCIERA</strong></td>
+		<td><strong>CONCEPTO</strong></td><td><strong>MONTO DE LA DEUDA (BS.)</strong></td><td><strong>FECHA DE PAGO</strong></td><td><strong>ENTIDAD FINANCIERA</strong></td>
 	</tr>
 	<tr>
 		<td>Devolución por: <strong>Pagos en demasía del Complemento Económico.</strong></td>

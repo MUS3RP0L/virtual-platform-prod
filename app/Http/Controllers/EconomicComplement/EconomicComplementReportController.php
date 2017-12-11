@@ -49,7 +49,10 @@ class EconomicComplementReportController extends Controller
         '3' => 'Diferencia de Promedio (Un semestre anterior)',
         '4' => 'Trámites con concurrencia',
         '5' => 'Trámites Excluidos por Salario',
-        '8' => 'Trámites con Apoderados',
+        '6' => 'Cambio de Grado (Comparación con un semestre Anterior)',
+        '7' => 'Cambio de Categoría (Comparación con un semestre Anterior)',
+        '8' => 'Trámites con Apoderados'
+
         // '2' => 'Trámites Inclusiones',
         // '3' => 'Trámites habituales',
       ];
@@ -1543,6 +1546,63 @@ class EconomicComplementReportController extends Controller
           break;
 
         case '6':
+          $eco_com_procedure_current = EconomicComplementProcedure::find($eco_com_procedure_id);
+          $eco_com_procedure_old = EconomicComplementProcedure::find(Util::semesterAgo($year, $semester));
+          if (!$eco_com_procedure_old) { return;  }
+          $ecos_old=$eco_com_procedure_old->economic_complements;
+          $ecos_current=$eco_com_procedure_current->economic_complements;
+          // dd($ecos_old->count(), $ecos_current->count());
+          $rows=[];
+          foreach ($ecos_current as $current) {
+            $afi_id=$current->affiliate_id;
+            $old=EconomicComplement::where('affiliate_id','=',$afi_id)->where('eco_com_procedure_id','=', $eco_com_procedure_old->id)->first();
+            if ($old) {
+              if ($current->degree_id != $old->degree_id ) {
+                $rows[] = array(
+                  'afiliado_ci' => $current->affiliate->identity_card,
+                  'tramite_anterior' => $old->code,
+                  'tramite_actual' => $current->code,
+                  'grado_anterior' => Degree::find($old->degree_id)->shortened,
+                  'grado_actual' => Degree::find($current->degree_id)->shortened,
+                );
+               }
+            }
+          }
+          $file_name = $name.' '.date("Y-m-d H:i:s");
+          Util::excel($file_name, 'hoja', $rows);
+          
+          break;
+          case '7':
+          $eco_com_procedure_current = EconomicComplementProcedure::find($eco_com_procedure_id);
+          $eco_com_procedure_old = EconomicComplementProcedure::find(Util::semesterAgo($year, $semester));
+          if (!$eco_com_procedure_old) { return;  }
+          $ecos_old=$eco_com_procedure_old->economic_complements;
+          $ecos_current=$eco_com_procedure_current->economic_complements;
+          // dd($ecos_old->count(), $ecos_current->count());
+          $rows=[];
+          foreach ($ecos_current as $current) {
+            $afi_id=$current->affiliate_id;
+            $old=EconomicComplement::where('affiliate_id','=',$afi_id)->where('eco_com_procedure_id','=', $eco_com_procedure_old->id)->first();
+            if ($old) {
+              if ($current->category_id != $old->category_id) {
+                $rows[] = array(
+                  'afiliado_ci' => $current->affiliate->identity_card,
+                  'tramite_anterior' => $old->code,
+                  'tramite_actual' => $current->code,
+                  'categoria_anterior' => Category::find($old->category_id)->name,
+                  'categoria_actual' => Category::find($current->category_id)->name,
+                );
+               }
+            }
+          }
+          $file_name = $name.' '.date("Y-m-d H:i:s");
+          Util::excel($file_name, 'hoja', $rows);
+
+          
+          break;
+
+
+        case '8':
           $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable, observations.observations as observaciones';
           $file_name = $name.' '.date("Y-m-d H:i:s");
           $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
@@ -1558,8 +1618,8 @@ class EconomicComplementReportController extends Controller
           
           $data = $economic_complements;
           Util::excel($file_name, 'hoja', $data);
-          
-          break;
+         break;
+
         // case 2:
         // //tipos de recepcion inclusion 
 

@@ -79,7 +79,7 @@ class importObservations extends Command
                  foreach ($hoja as $fila) {
 
                      # code...
-                    $afiliado = DB::table('affiliates')->where('identity_card','=',$fila->ci)->first();
+                    $afiliado = DB::table('affiliates')->where('identity_card','=',trim($fila->ci))->first();
 
                     if($afiliado)
                     {
@@ -185,7 +185,8 @@ class importObservations extends Command
 
                      # code...
                     // $this->info("c ".$fila);
-                    $afiliado = DB::table('affiliates')->where('identity_card','=',$fila->ci)->first();
+                    $afiliado = DB::table('affiliates')->where('identity_card','=',trim($fila->ci))->first();
+                    // $afiliado = DB::table('affiliates')->where('identity_card','=',$fila->ci)->first();
 
 
 
@@ -200,7 +201,7 @@ class importObservations extends Command
                        $observacion->observation_type_id = 2;
                        $observacion->date = date("Y-m-d");
                        $observacion->message="Prestatario en situación de mora.";
-                       $observacion->save();
+                       // $observacion->save();
 
                        // $tramites = EconomicComplement::where("affiliate_id","=",$afiliado->id)->where("eco_com_procedure_id","=","2")->get();
                        // Log::info("tramites : ".sizeof($tramites));
