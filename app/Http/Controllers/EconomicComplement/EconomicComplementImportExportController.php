@@ -420,7 +420,7 @@ public static function import_from_bank(Request $request)
 
                     //$import = number_format($datos->importe, 2, ',', '.');
                     $import=$datos->importe;
-                    if ($economic->has_legal_guardian)
+                    if ($economic->has_legal_guardian == true && $economic->has_legal_guardian_s == false)
                     {
                       
                       $legal1 = EconomicComplementLegalGuardian::where('economic_complement_id','=', $economic->id)->first();
