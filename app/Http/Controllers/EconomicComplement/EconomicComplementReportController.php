@@ -1556,6 +1556,7 @@ class EconomicComplementReportController extends Controller
             if ($old) {
               if ($current->degree_id != $old->degree_id ) {
                 $rows[] = array(
+                  'afiliado_ci' => $current->affiliate->identity_card,
                   'tramite_anterior' => $old->code,
                   'tramite_actual' => $current->code,
                   'grado_anterior' => Degree::find($old->degree_id)->shortened,
@@ -1582,6 +1583,7 @@ class EconomicComplementReportController extends Controller
             if ($old) {
               if ($current->category_id != $old->category_id) {
                 $rows[] = array(
+                  'afiliado_ci' => $current->affiliate->identity_card,
                   'tramite_anterior' => $old->code,
                   'tramite_actual' => $current->code,
                   'categoria_anterior' => Category::find($old->category_id)->name,
