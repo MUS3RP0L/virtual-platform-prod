@@ -651,7 +651,7 @@ public static function import_from_bank(Request $request)
       {
 
  
-        global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13;
+        global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13,$com_obser_legalguardian;
 
 
       
@@ -667,8 +667,10 @@ public static function import_from_bank(Request $request)
         $com_obser_salario_10 = array();
         $com_obser_pagodomicilio_12 = array();
         $com_obser_repofond_13 =array();
+        $com_obser_legalguardian =array();
 
- 
+
+      
       
         // $afiliados = DB::table('v_observados')->whereIn('id',$a)->get();
         $observados_prestamos = DB::table('affiliate_observations')
@@ -840,7 +842,19 @@ public static function import_from_bank(Request $request)
           array_push($com_obser_repofond_13, $afiliado->complemento_id);
         }
 
-        //dd($observados_repofond_13);
+        $observados_legalguardian = DB::table('economic_complements')
+                                    ->where('eco_com_procedure_id',6)
+                                    ->where('workflow_id','<=',3)
+                                    ->where('has_legal_guardian','=','true')
+                                    ->get();
+
+
+        foreach ($observados_legalguardian as $afiliado) {
+          # code...
+          array_push($com_obser_legalguardian, $afiliado->id);
+        }
+
+        //dd($com_obser_legalguardian);
         //dd(sizeof($afiliados));
         
    
@@ -1310,6 +1324,40 @@ public static function import_from_bank(Request $request)
                           }
 
                           array_push($rows,array($c->Id,$c->Nro_tramite,$c->Primer_nombre.' '.$c->Segundo_nombre.' '.$c->Paterno.' '.$c->Materno,$c->CI,$c->Ext,$c->Regional,$c->Grado,$c->Tipo_renta,$c->Complemento_Final,$observacion));
+                        }
+                     
+                        $sheet->fromArray($rows, null, 'A1', false, false);
+                        $sheet->cells('A1:J1', function($cells) { 
+
+                            // manipulate the range of cells
+                            $cells->setBackground('#058A37');
+                            $cells->setFontColor('#ffffff');  
+
+                        });
+
+                        });
+
+                        $excel->sheet('Apoderados',function($sheet) {
+
+                         global $com_obser_contabilidad_1,$com_obser_prestamos_2,$com_obser_juridica_3,$com_obser_fueraplz90_4,$com_obser_fueraplz120_5,$com_obser_faltareq_6,$com_obser_habitualinclusion7,$com_obser_menor16anos_8,$com_obser_invalidez_9,$com_obser_salario_10,$com_obser_pagodomicilio_12,$com_obser_repofond_13,$com_obser_legalguardian;     
+                         $economic_complements=EconomicComplement::whereIn('economic_complements.id',$com_obser_legalguardian)
+                          ->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
+                          ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                          ->leftJoin('cities as city_com','economic_complements.city_id','=','city_com.id')
+                          ->leftJoin('cities as city_ben','eco_com_applicants.city_identity_card_id','=','city_ben.id')
+                          ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+                          ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
+                          ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                          ->distinct('economic_complements.id')
+                          ->select('economic_complements.id as Id','economic_complements.code as Nro_tramite','eco_com_applicants.first_name as Primer_nombre','eco_com_applicants.second_name as Segundo_nombre', 'eco_com_applicants.last_name as Paterno','eco_com_applicants.mothers_last_name as Materno','eco_com_applicants.identity_card as CI','city_ben.first_shortened as Ext','city_com.name as Regional','degrees.shortened as Grado','eco_com_modalities.shortened as Tipo_renta','economic_complements.total as Complemento_Final','affiliates.id as affiliate_id','economic_complements.has_legal_guardian_s')
+                          ->get();
+
+                        $rows = array(array('ID','Nro de Tramite','Nombres y Apellidos','C.I.','Ext','Regional','Grado','Tipo Renta','Complemento Económico Final','Tipo Apoderado'));
+                        foreach ($economic_complements as $c) {
+                          # code...
+                          $apoderado = $c->has_legal_guardian_s?'Solicitante':'Cobrador';
+
+                          array_push($rows,array($c->Id,$c->Nro_tramite,$c->Primer_nombre.' '.$c->Segundo_nombre.' '.$c->Paterno.' '.$c->Materno,$c->CI,$c->Ext,$c->Regional,$c->Grado,$c->Tipo_renta,$c->Complemento_Final,$apoderado));
                         }
                      
                         $sheet->fromArray($rows, null, 'A1', false, false);
