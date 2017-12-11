@@ -267,7 +267,6 @@ class EconomicComplementReportController extends Controller
                                            ->whereYear('economic_complements.year', '=', $request->year)
                                            ->where('economic_complements.semester', 'LIKE', rtrim($semester))
                                            ->where('economic_complements.has_legal_guardian','=',true)
-                                           ->orwhere('economic_complements.has_legal_guardian_s','=',true)
                                            ->orderBy('economic_complements.id','ASC')
                                            ->get();
                            if ($representative_eco_complements) {
@@ -1536,7 +1535,7 @@ class EconomicComplementReportController extends Controller
           ->ecocomstates()
           ->wfstates()
           ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
-          ->whereRaw('economic_complements.total_rent > economic_complements.salary_quotable')
+          ->whereRaw('economic_complements.total_rent > economic_complements.salary_quotable and aps_disability is null')
           ->get();
           $data = $economic_complements;
           Util::excel($file_name, 'hoja', $data);

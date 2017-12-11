@@ -79,7 +79,7 @@ class importObservations extends Command
                  foreach ($hoja as $fila) {
 
                      # code...
-                    $afiliado = DB::table('affiliates')->where('identity_card','=',$fila->ci)->first();
+                    $afiliado = DB::table('affiliates')->where('identity_card','=',trim($fila->ci))->first();
 
                     if($afiliado)
                     {
@@ -92,7 +92,7 @@ class importObservations extends Command
                        $observacion->observation_type_id = 1;
                        $observacion->date = date("Y-m-d");
                        $observacion->message="Falta de descargo por fondos en avance, fondo rotativo.";
-                       $observacion->save();
+                       // $observacion->save();
 
                        $tramites = EconomicComplement::where("affiliate_id","=",$afiliado->id)->where("eco_com_procedure_id","=","2")->get();
                        Log::info("tramites : ".sizeof($tramites));
@@ -158,7 +158,7 @@ class importObservations extends Command
                 # code...
                 $this->info("Ejecutando Observados por prestamo");   
 
-                $path = storage_path('excel/imports/mora.xlsx');
+                $path = storage_path('excel/imports/mora3.xlsx');
                 // $path = str_replace('\\', '/', $o_path);
                 $this->info("path: ".$path);
 
@@ -175,16 +175,18 @@ class importObservations extends Command
                  Excel::load($path, function($reader) {
 
                 global $Progress,$rows,$no_registrados;
-
+                  Log::info("ingreso a la lectura");
 
                  $archivo = $reader->select(array('ci'))->get();
+                 Log::info($archivo);
                  // $this->info($archivo);
                  $hoja = $archivo;
                  foreach ($hoja as $fila) {
 
                      # code...
                     // $this->info("c ".$fila);
-                    $afiliado = DB::table('affiliates')->where('identity_card','=',$fila->ci)->first();
+                    $afiliado = DB::table('affiliates')->where('identity_card','=',trim($fila->ci))->first();
+                    // $afiliado = DB::table('affiliates')->where('identity_card','=',$fila->ci)->first();
 
 
 
@@ -198,16 +200,16 @@ class importObservations extends Command
                        $observacion->affiliate_id= $afiliado->id;
                        $observacion->observation_type_id = 2;
                        $observacion->date = date("Y-m-d");
-                       $observacion->message="Prestatario en situacion de mora.";
-                       $observacion->save();
+                       $observacion->message="Prestatario en situación de mora.";
+                       // $observacion->save();
 
-                       $tramites = EconomicComplement::where("affiliate_id","=",$afiliado->id)->where("eco_com_procedure_id","=","2")->get();
-                       Log::info("tramites : ".sizeof($tramites));
-                       foreach ($tramites as $tramite) {
-                           # code...
-                            $tramite->amortization = 0.5;
-                            $tramite->save();
-                       }
+                       // $tramites = EconomicComplement::where("affiliate_id","=",$afiliado->id)->where("eco_com_procedure_id","=","2")->get();
+                       // Log::info("tramites : ".sizeof($tramites));
+                       // foreach ($tramites as $tramite) {
+                       //     # code...
+                       //      $tramite->amortization = 0.5;
+                       //      $tramite->save();
+                       // }
 
                     }
                     else{
