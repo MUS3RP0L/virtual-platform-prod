@@ -1115,20 +1115,20 @@ class EconomicComplementController extends Controller
            
                 if($hasObservation)
                 {
+                     $hasAmortization =true; 
+                    // $last_complement = EconomicComplement::where('affiliate_id',$economic_complement->affiliate_id)->orderBy('year','desc')->first();
 
-                    $last_complement = EconomicComplement::where('affiliate_id',$economic_complement->affiliate_id)->orderBy('year','desc')->first();
+                    // // Log::info("complemento actual ".$economic_complement->year);
+                    // // Log::info("ultimo complemento ".$last_complement->year);
 
-                    // Log::info("complemento actual ".$economic_complement->year);
-                    // Log::info("ultimo complemento ".$last_complement->year);
-
-                    if($economic_complement->year == $last_complement->year)
-                    {
-                        if($economic_complement->total > 0)
-                        {
-                            $hasAmortization =true; 
-                        }
+                    // if($economic_complement->year == $last_complement->year)
+                    // {
+                    //     if($economic_complement->total > 0)
+                    //     {
+                    //         $hasAmortization =true; 
+                    //     }
                         
-                    }
+                    // }
                      
                 }
                
