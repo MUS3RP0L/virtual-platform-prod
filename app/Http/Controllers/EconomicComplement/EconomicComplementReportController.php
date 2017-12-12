@@ -1660,7 +1660,7 @@ class EconomicComplementReportController extends Controller
          break;
 
          case '11': //REPORTE DE AMORTIZACION
-          $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable,economic_complements.amount_loan as amortizacion_prestamos,economic_complements.amount_accounting as amortizacion_contabilidad, economic_complements.amount_replacement as amortizacón_resposicion,  observations.observations as observaciones';
+          $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable,economic_complements.amount_loan as amortizacion_prestamos,economic_complements.amount_accounting as amortizacion_contabilidad, economic_complements.amount_replacement as amortizacón_resposicion,  observations.observations as observaciones, economic_complements.has_legal_guardian,economic_complements.has_legal_guardian_s';
           $file_name = $name.' '.date("Y-m-d H:i:s");
           $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
           ->ecocominfo()
