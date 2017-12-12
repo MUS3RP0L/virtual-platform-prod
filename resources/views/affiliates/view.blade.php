@@ -1674,20 +1674,18 @@
                                     <strong>Total Deuda:</strong> {{ Util::formatMoney($devolution->total ?? null) }}
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-5">
+                                    <label class="col-md-4">
                                         Tipo de Descuento
                                     </label>
-                                    <div class="col-md-7">
+                                    <div class="col-md-8">
                                     <div class="radio radio-primary">
-                                        <label style="font-size: 18px">
-                                            <input type="radio" value="false"  data-bind='checked:total_percentage, attr: {required: show_total_percentage_radio}' name="total_percentage" > Total
+                                        <label style="font-size: 18px" data-toggle="tooltip" data-placement="top" title="Nota: Solo si la deuda es menor al complemento económico.">
+                                            <input type="radio" value="false"  data-bind='checked:total_percentage, attr: {required: show_total_percentage_radio}' name="total_percentage" > Por el Total de la Deuda
                                         </label>
-                                        <span class="help-block"><strong>Nota: </strong> Seleccionar total si la deuda es menor al complemento económico.</span>
                                     </div>
                                     <div class="radio radio-primary">
                                         <label style="font-size: 18px">
-                                            <input type="radio" value="true" data-bind='checked:total_percentage, attr: {required: show_total_percentage_radio}' name="total_percentage"> Porcentaje
-                                            
+                                            <input type="radio" value="true" data-bind='checked:total_percentage, attr: {required: show_total_percentage_radio}' name="total_percentage"> Porcentaje para Amortizar
                                         </label>
                                     </div>
                                     </div>
