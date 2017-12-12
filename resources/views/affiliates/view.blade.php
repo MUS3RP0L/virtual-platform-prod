@@ -1669,6 +1669,10 @@
                     <input type="hidden" name="type" value="devolutions"/>
                         <div class="row">
                             <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <strong>Total Deuda:</strong> {{ Util::formatMoney($devolution->total) }}
+                                </div>
                                 <div class="form-group">
                                     <label class="col-md-5">
                                         Tipo de Descuento
@@ -1678,6 +1682,7 @@
                                         <label style="font-size: 18px">
                                             <input type="radio" value="false"  data-bind='checked:total_percentage, attr: {required: show_total_percentage_radio}' name="total_percentage" > Total
                                         </label>
+                                        <span class="help-block"><strong>Nota: </strong> Seleccionar total si la deuda es menor al complemento económico.</span>
                                     </div>
                                     <div class="radio radio-primary">
                                         <label style="font-size: 18px">
@@ -1709,6 +1714,7 @@
                                 </div>
 
                                 <div data-bind='visible: immediate_voluntary_return'>
+                                    <div class="row text-center"><strong>Datos del Deposito</strong></div>
                                     <div class="form-group">
                                             {!! Form::label('deposit_number', 'Constancia de Deposito', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-7">

@@ -26,6 +26,7 @@ use Muserpol\EconomicComplementLegalGuardian;
 use Muserpol\EconomicComplementRequirement;
 use Muserpol\EconomicComplementSubmittedDocument;
 use Muserpol\EconomicComplementRent;
+use Muserpol\Devolution;
 
 use Muserpol\Affiliate;
 use Muserpol\Spouse;
@@ -1196,6 +1197,7 @@ class EconomicComplementController extends Controller
         // Log::info("wf_state_before=" .json_encode($wf_state_before));
 
         $amount_amortization=0;
+        $devolution = null;
         switch (Util::getRol()->module_id) {
             case 9:
                 # code...
@@ -1208,9 +1210,18 @@ class EconomicComplementController extends Controller
             case 2:
                 # code...
                 $amount_amortization = $economic_complement->amount_replacement;
+                $devolution =  Devolution::where('affiliate_id','=',$affiliate->id)->where('observation_type_id','=',13)->first();
                 break;
-        
-            
+        }
+        $devolution_amount_percetage = null;
+        $devolution_amount_total = null;
+        if($devolution){   
+            if ($devolution->percentage && $economic_complement->total > 0) {
+                 $devolution_amount_percetage = floatval($economic_complement->total * $devolution->percentage);
+            }elseif ($economic_complement->total > 0 && !$devolution->percentage) {
+                $devolution_amount_total = $devolution->total;
+            }
+
         }
 
         $class_rent =DB::table('eco_com_kind_rent')->where('id',$economic_complement->eco_com_kind_rent_id)->first();
@@ -1252,6 +1263,9 @@ class EconomicComplementController extends Controller
         'gender_list' =>$gender_list,
         'gender_list_s' => $gender_list_s,
         'class_rent' => $class_rent,
+        'devolution' => $devolution,
+        'devolution_amount_percetage' => $devolution_amount_percetage,
+        'devolution_amount_total' => $devolution_amount_total,
         ];
         // dd($eco_com_submitted_documents_ar);
 
@@ -2455,6 +2469,7 @@ class EconomicComplementController extends Controller
     public function save_amortization(Request $request)
     {
         
+        // $start_procedure = EconomicComplementProcedure::wher;
         $rol = Util::getRol();
         if($request->amount_amortization > 0)
         {
@@ -2464,7 +2479,10 @@ class EconomicComplementController extends Controller
                     $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
                     $complemento->amount_accounting = $request->amount_amortization;
                     $complemento->save();
-
+                    $sum = 0;
+                    // while (Util::semesternext()) {
+                        
+                    // }
                     $wf_record=new WorkflowRecord;
                     $wf_record->user_id=Auth::user()->id;
                     $wf_record->date=Carbon::now();

@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Devolution extends Model
 {
+	public function affiliate()
+	{
+		return $this->belongsTo(Affiliate::class);
+	}
     public function observation_type()
     {
     	return $this->belongsTo(ObservationType::class);

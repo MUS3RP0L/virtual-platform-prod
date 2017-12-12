@@ -343,19 +343,14 @@ class AffiliateController extends Controller
             $last_ecocom = null;
         }
         $percentages_list =array(
-        '0.35'=>'35%',
-        '0.45'=>'45%',
         '0.50'=>'50%',
-        '0.55'=>'55%',
         '0.60'=>'60%',
-        '0.65'=>'65%',
         '0.70'=>'70%',
-        '0.75'=>'75%',
         '0.80'=>'80%',
-        '0.85'=>'85%',
         '0.90'=>'90%',
-        '0.95'=>'95%',
+        '1'=>'100%',
         );
+        $devolution = Devolution::where('affiliate_id','=', $affiliate->id)->where('observation_type_id','=',13)->first();
         $paid_states=DB::table('paid_affiliates')->where('affiliate_id', '=',$affiliate->id)->get();
         $data = [
             'affiliate' => $affiliate,
@@ -376,6 +371,7 @@ class AffiliateController extends Controller
             'affi_observations' => $affi_observations,
             'paid_states' =>$paid_states,
             'percentage_list' => $percentages_list,
+            'devolution' => $devolution,
             // 'total_gain' => $total_gain,
             // 'total_public_security_bonus' => $total_public_security_bonus,
             // 'total_quotable' => $total_quotable,
@@ -985,7 +981,7 @@ class AffiliateController extends Controller
         $title = "COMPROMISO DE DEVOLUCIÓN POR PAGOS EN DEFECTO DEL COMPLEMENTO ECONÓMICO";
         $affiliate = Affiliate::where('id', '=', $devolution->affiliate_id)->first();
         $address = $affiliate->affiliate_address->first();
-        $eco_com = $affiliate->economic_complements()->whereIn('eco_com_procedure_id',[2,6])->first();
+        $eco_com = $affiliate->economic_complements()->whereIn('eco_com_procedure_id',[2,6])->get()->last();
         $eco_com_applicant = null;
         $city = null;
         if (!$eco_com) {
