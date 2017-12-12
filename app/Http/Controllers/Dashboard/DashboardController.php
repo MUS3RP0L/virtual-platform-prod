@@ -344,8 +344,8 @@ class DashboardController extends Controller
             ->leftjoin('affiliate_observations', 'affiliates.id', '=', 'affiliate_observations.affiliate_id')
             ->leftjoin('observation_types', 'affiliate_observations.observation_type_id', '=', 'observation_types.id')
             ->leftjoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
-             ->where('eco_com_procedures.year', '=', Util::datePickYear($last_year))
-
+            ->where( 'eco_com_procedures.id', '=', $current_eco_com_procedure->id)
+             ->whereNull('affiliate_observations.deleted_at')
             // ->where('affiliate_observations.is_enabled', '=', false)
             ->select(DB::raw("count(*) as quantity, observation_types.name"))
             ->groupBy('observation_types.name')
