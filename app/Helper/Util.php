@@ -731,4 +731,18 @@ class Util
     	}
     	return null;
     }
+    public static function semesterNext($year, $semester)
+    {
+    	if ($semester == 'Primer') {
+    		$semester =  'Segundo';
+    	}else{
+    		$year = $year + 1;
+    		$semester =  'Primer';
+    	}
+    	$procedure =  EconomicComplementProcedure::whereYear('year','=',$year)->where('semester','=',$semester)->first();
+    	if ($procedure) {
+    		return $procedure->id;
+    	}
+    	return null;
+    }
 }

@@ -21,11 +21,11 @@
         </td>
       </tr>
       <tr><td class="text-justify">
-        Yo <strong>{{ $eco_com_applicant->getFullName() }}</strong>, mayor de edad con Cédula de Identidad Nº {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened ?? ''!!}, domiciliado en la Zona {!! $address->zone ?? '-' !!}, Calle {{ $address->street ?? '-' }}, Nro. {{ $address->number_address ?? '-' }}, de la ciudad de {{ $address->city->name ?? '' }}, hábil por derecho y en mi calidad de beneficiario (a) del Complemento Económico que otorga la Mutual de Servicios al Policía – MUSERPOL al sector pasivo de la Policía Boliviana, que habiendo sido notificado por haber percibido pagos en defecto del Complemento Económico correspondiente al 1er. y 2do. Semestre de las gestiones 2015 y 2016 por un importe de Bs. {{ Util::formatMoney($devolution->total) }}  ({{ $total_dues_literal }} BOLIVIANOS),
+        Yo <strong>{{ $eco_com_applicant->getFullName() }}</strong>, mayor de edad con Cédula de Identidad Nº {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened  ? $eco_com_applicant->city_identity_card->first_shortened.'.' : ''!!}, domiciliado en la Zona {!! $address->zone ?? '-' !!}, Calle {{ $address->street ?? '-' }}, Nro. {{ $address->number_address ?? '-' }}, de la ciudad de {{ $address->city->name ?? '' }}, hábil por derecho y en mi calidad de beneficiario (a) del Complemento Económico que otorga la Mutual de Servicios al Policía – MUSERPOL al sector pasivo de la Policía Boliviana, que habiendo sido notificado por haber percibido pagos en defecto del Complemento Económico correspondiente al 1er. y 2do. Semestre de las gestiones 2015 y 2016 por un importe de Bs. {{ Util::formatMoney($devolution->total) }}  ({{ $total_dues_literal }} BOLIVIANOS),
         <strong>
-          expreso mi conformidad para que se efectúe el descuento
+          
           @if($devolution->percentage)
-            con el {{ $devolution->percentage * 100 }}% del beneficio del Complemento Económico a partir del Primer Semestre de la gestión 2017, hasta cubrir el monto determinado.
+          expreso mi conformidad para que se efectúe el descuento con el {{ $devolution->percentage * 100 }}% del beneficio del Complemento Económico a partir del Primer Semestre de la gestión 2017, hasta cubrir el monto determinado.
           @else
             @if($devolution->deposit_number && $devolution->payment_date)
               expreso mi conformidad de manera voluntaria para efectuar la devolución del total del monto en defecto inicialmente determinado.
