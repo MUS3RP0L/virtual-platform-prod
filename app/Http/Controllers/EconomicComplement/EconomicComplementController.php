@@ -1103,7 +1103,7 @@ class EconomicComplementController extends Controller
         $hasObservation =false;
         foreach ($affi_observations as $observation) {
             # code...
-            if(Util::getRol()->module_id == $observation->observationType->module_id)
+            if(Util::getRol()->module_id == $observation->observationType->module_id && $observation->is_enabled == false)
             {
                 $hasObservation = true;
             }  
