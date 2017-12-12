@@ -2798,7 +2798,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Amortizar</h4>
               </div>
-              <div class="modal-body">
+              {{-- <div class="modal-body">
                 <div class="row">
                     <label>Monto ( {{ $devolution->percentage ? ($devolution->percentage*100).'%' : 'total' }} )</label>
                     @if($devolution->percentage)
@@ -2810,7 +2810,7 @@
                     @endif
                 </div>
                 
-              </div>
+              </div> --}}
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-primary">Guardar </button>
