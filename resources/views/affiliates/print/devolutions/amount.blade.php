@@ -5,22 +5,24 @@
 		</td>
 	</tr>
 	<tr >
-		<td><strong>GESTIÓN</strong></td><td><strong>MONTO ADEUDADO</strong></td>
+		<td><strong>GESTIÓN</strong></td><td class="text-center"><strong>MONTO ADEUDADO</strong></td>
+		<td><strong>GESTIÓN</strong></td><td class="text-center"><strong>MONTO ADEUDADO</strong></td>
 		@foreach($dues as $index=>$due)
-		{{-- @if($index%2 == 0) --}}
+		@if($index%2 == 0)
 			<tr>
-		{{-- @endif --}}
-			<td>{{ $due->eco_com_procedure->getShortenedName() }}</td><td><strong>Bs. </strong>	{!! Util::formatMoney($due->amount) ?? '0.00' !!}</td>
-		{{-- @if($index%2 == 1) --}}
+		@endif
+			<td>{{ $due->eco_com_procedure->getShortenedName() }}</td><td class="text-right"><strong>Bs. </strong>	{!! Util::formatMoney($due->amount) ?? '0.00' !!}</td>
+		@if($index%2 == 1)
 			</tr>
-		{{-- @endif --}}
+		@endif
 		@endforeach
 	</tr>
 	<tr>
-		<td colspan="1" class="no-border"></td>
+		<td colspan="4"></td>
 	</tr>
 	<tr>
-		<td class="grand">MONTO TOTAL ADEUDADO A LA MUSERPOL</td>
-		<td colspan="1" class="size-15 bold">Bs.{{ Util::formatMoney($devolution->total) ?? '0.00' }}</td>
+		<td class="grand" colspan="2">MONTO TOTAL ADEUDADO A LA MUSERPOL</td>
+		<td colspan="2" class="size-11 bold text-right">Bs. {{ Util::formatMoney($devolution->total) }} ({!! $total_dues_literal ?? '' !!} BOLIVIANOS)</td>
+		{{-- <td colspan="2" class="size-15 bold text-right">Bs.{{ Util::formatMoney($devolution->total) ?? '0.00' }}</td> --}}
 	</tr>
 </table>

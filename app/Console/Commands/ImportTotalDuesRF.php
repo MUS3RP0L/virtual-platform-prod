@@ -62,7 +62,8 @@ class ImportTotalDuesRF extends Command
                          ini_set('max_input_time', '-1');
                          set_time_limit('-1');
                          $ci = trim(Util::removeSpaces($result->ci));
-                         $affi=Affiliate::where('identity_card', '=', $ci)->first();
+                         $affi=Affiliate::whereRaw("ltrim(trim(identity_card),'0') ='".ltrim(trim($ci),'0')."'")->first();
+                         // $affi=Affiliate::where('identity_card', '=', $ci)->first();
                          if ($affi) {
                             $d=Devolution::where('affiliate_id','=', $affi->id)->where('observation_type_id','=',13)->first();
                             // dd($d);
@@ -71,8 +72,6 @@ class ImportTotalDuesRF extends Command
                                 $d->affiliate_id = $affi->id; 
                                 $d->observation_type_id = 13; 
                                 $d->start_eco_com_procedure_id = 2; 
-                                $d->total = $result->total; 
-                                $d->balance = $result->total; 
                                 $d->save();
                             }
                                 if (!Due::where('devolution_id','=',$d->id)->where('eco_com_procedure_id','=',5)->first()) {
@@ -103,6 +102,10 @@ class ImportTotalDuesRF extends Command
                                     $due->amount=$result->s_2016;
                                     $due->save();
                                 }
+                                $total_dues=$d->dues()->sum('amount');
+                                $d->total = $total_dues; 
+                                $d->balance = $total_dues; 
+                                $d->save(); 
                                 $affi_succ++;
                          }else{
                             $this->info($ci);
@@ -117,10 +120,7 @@ class ImportTotalDuesRF extends Command
                  $this->info("\n\n ---------\n
                      $affi_succ Affiliates Found\n
                      \tAffiliates NOT found $affi_no\n
-
-
                  Execution time $execution_time [minutes].\n");
-
              }
         }else {
             $this->error('Incorrect password!');

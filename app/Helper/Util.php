@@ -540,7 +540,7 @@ class Util
             // $valor_convertido = $converted . strtoupper($moneda);
             $valor_convertido = $converted . '00/100';
         } else {
-            $valor_convertido = $converted . strtoupper($moneda)  . ($div_decimales[1]) . '/100 ';
+            $valor_convertido = $converted . strtoupper($moneda) .' CON ' . ($div_decimales[1]) . '/100 ';
             // $valor_convertido = $converted . strtoupper($moneda) . ' CON ' . $decimales . ' ' . strtoupper($centimos);
         }
         return $valor_convertido;
@@ -740,6 +740,20 @@ class Util
     		$year = $year -1;
     		$semester =  'Segundo';
     	}else{
+    		$semester =  'Primer';
+    	}
+    	$procedure =  EconomicComplementProcedure::whereYear('year','=',$year)->where('semester','=',$semester)->first();
+    	if ($procedure) {
+    		return $procedure->id;
+    	}
+    	return null;
+    }
+    public static function semesterNext($year, $semester)
+    {
+    	if ($semester == 'Primer') {
+    		$semester =  'Segundo';
+    	}else{
+    		$year = $year + 1;
     		$semester =  'Primer';
     	}
     	$procedure =  EconomicComplementProcedure::whereYear('year','=',$year)->where('semester','=',$semester)->first();

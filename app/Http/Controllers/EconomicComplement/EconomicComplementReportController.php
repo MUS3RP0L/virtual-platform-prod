@@ -48,6 +48,13 @@ class EconomicComplementReportController extends Controller
         '2' => 'Todos los Trámites',
         '3' => 'Diferencia de Promedio (Un semestre anterior)',
         '4' => 'Trámites con concurrencia',
+        '5' => 'Trámites Excluidos por Salario',
+        '6' => 'Cambio de Grado (Comparación con un semestre Anterior)',
+        '7' => 'Cambio de Categoría (Comparación con un semestre Anterior)',
+        '8' => 'Trámites con Apoderados',
+        '9' => 'Trámites Validados con Observaciones',
+        '10' => 'Trámites No Validados con Observaciones'
+
         // '2' => 'Trámites Inclusiones',
         // '3' => 'Trámites habituales',
       ];
@@ -265,7 +272,6 @@ class EconomicComplementReportController extends Controller
                                            ->whereYear('economic_complements.year', '=', $request->year)
                                            ->where('economic_complements.semester', 'LIKE', rtrim($semester))
                                            ->where('economic_complements.has_legal_guardian','=',true)
-                                           ->orwhere('economic_complements.has_legal_guardian_s','=',true)
                                            ->orderBy('economic_complements.id','ASC')
                                            ->get();
                            if ($representative_eco_complements) {
@@ -1524,6 +1530,135 @@ class EconomicComplementReportController extends Controller
           Util::excel($file_name, 'hoja', $data);
           
           break;
+        case '5':
+          $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable';
+          $file_name = $name.' '.date("Y-m-d H:i:s");
+          $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+          ->ecocominfo()
+          ->applicantinfo()
+          ->affiliateinfo()
+          ->ecocomstates()
+          ->wfstates()
+          ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
+          ->whereRaw('economic_complements.total_rent > economic_complements.salary_quotable and aps_disability is null')
+          ->get();
+          $data = $economic_complements;
+          Util::excel($file_name, 'hoja', $data);
+          
+          break;
+
+        case '6':
+          $eco_com_procedure_current = EconomicComplementProcedure::find($eco_com_procedure_id);
+          $eco_com_procedure_old = EconomicComplementProcedure::find(Util::semesterAgo($year, $semester));
+          if (!$eco_com_procedure_old) { return;  }
+          $ecos_old=$eco_com_procedure_old->economic_complements;
+          $ecos_current=$eco_com_procedure_current->economic_complements;
+          // dd($ecos_old->count(), $ecos_current->count());
+          $rows=[];
+          foreach ($ecos_current as $current) {
+            $afi_id=$current->affiliate_id;
+            $old=EconomicComplement::where('affiliate_id','=',$afi_id)->where('eco_com_procedure_id','=', $eco_com_procedure_old->id)->first();
+            if ($old) {
+              if ($current->degree_id != $old->degree_id ) {
+                $rows[] = array(
+                  'afiliado_ci' => $current->affiliate->identity_card,
+                  'tramite_anterior' => $old->code,
+                  'tramite_actual' => $current->code,
+                  'grado_anterior' => Degree::find($old->degree_id)->shortened,
+                  'grado_actual' => Degree::find($current->degree_id)->shortened,
+                );
+               }
+            }
+          }
+          $file_name = $name.' '.date("Y-m-d H:i:s");
+          Util::excel($file_name, 'hoja', $rows);
+          
+          break;
+          case '7':
+          $eco_com_procedure_current = EconomicComplementProcedure::find($eco_com_procedure_id);
+          $eco_com_procedure_old = EconomicComplementProcedure::find(Util::semesterAgo($year, $semester));
+          if (!$eco_com_procedure_old) { return;  }
+          $ecos_old=$eco_com_procedure_old->economic_complements;
+          $ecos_current=$eco_com_procedure_current->economic_complements;
+          // dd($ecos_old->count(), $ecos_current->count());
+          $rows=[];
+          foreach ($ecos_current as $current) {
+            $afi_id=$current->affiliate_id;
+            $old=EconomicComplement::where('affiliate_id','=',$afi_id)->where('eco_com_procedure_id','=', $eco_com_procedure_old->id)->first();
+            if ($old) {
+              if ($current->category_id != $old->category_id) {
+                $rows[] = array(
+                  'afiliado_ci' => $current->affiliate->identity_card,
+                  'tramite_anterior' => $old->code,
+                  'tramite_actual' => $current->code,
+                  'categoria_anterior' => Category::find($old->category_id)->name,
+                  'categoria_actual' => Category::find($current->category_id)->name,
+                );
+               }
+            }
+          }
+          $file_name = $name.' '.date("Y-m-d H:i:s");
+          Util::excel($file_name, 'hoja', $rows);
+
+          
+          break;
+
+
+        case '8':
+          $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable, observations.observations as observaciones';
+          $file_name = $name.' '.date("Y-m-d H:i:s");
+          $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+          ->ecocominfo()
+          ->applicantinfo()
+          ->affiliateinfo()
+          ->ecocomstates()
+          ->wfstates()
+          ->affiliateobservations()
+          ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
+          ->whereRaw('economic_complements.has_legal_guardian = true and economic_complements.has_legal_guardian_s = false')
+          ->get();
+          
+          $data = $economic_complements;
+          Util::excel($file_name, 'hoja', $data);
+         break;
+
+        case '9':  //VALIDADOS CON OBSERVACION
+          $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable, observations.observations as observaciones';
+          $file_name = $name.' '.date("Y-m-d H:i:s");
+          $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+          ->ecocominfo()
+          ->applicantinfo()
+          ->affiliateinfo()
+          ->ecocomstates()
+          ->wfstates()
+          ->affiliateobservations()
+          ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
+          ->whereRaw("economic_complements.workflow_id = 1 and economic_complements.wf_current_state_id = 3 and economic_complements.state = 'Edited' and exists(SELECT affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12,13,14,15) and affiliate_observations.is_enabled = false and affiliate_observations.deleted_at is NULL)")
+          ->get();
+          
+          $data = $economic_complements;
+          Util::excel($file_name, 'hoja', $data);
+         break;
+
+        case '10': //NO VALIDADOS CON OBSERVACIONES
+          $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable, observations.observations as observaciones';
+          $file_name = $name.' '.date("Y-m-d H:i:s");
+          $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+          ->ecocominfo()
+          ->applicantinfo()
+          ->affiliateinfo()
+          ->ecocomstates()
+          ->wfstates()
+          ->affiliateobservations()
+          ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
+          ->whereRaw("economic_complements.workflow_id = 1 and economic_complements.wf_current_state_id <= 3 and economic_complements.state <> 'Edited'")
+          ->get();
+          
+          $data = $economic_complements;
+          Util::excel($file_name, 'hoja', $data);
+         break;
+
+
         // case 2:
         // //tipos de recepcion inclusion 
 

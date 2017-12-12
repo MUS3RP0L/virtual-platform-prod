@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use Session;
+use DB;
 use Muserpol\Helper\Util;
 
 class EconomicComplement extends Model
@@ -456,15 +457,15 @@ class EconomicComplement extends Model
         return $query->leftJoin('wf_states', 'economic_complements.wf_current_state_id', '=', 'wf_states.id');
     }
 
-    public function scopeObservation($query)
+    public function scopeAffiliateObservations($query)
     {
-        return $query->leftJoin('eco_com_applicants','economic_complements.id','=','eco_com_applicants.economic_complement_id')
-                          ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
-                          ->leftJoin('cities as city_com','economic_complements.city_id','=','city_com.id')
-                          ->leftJoin('cities as city_ben','eco_com_applicants.city_identity_card_id','=','city_ben.id')
-                          ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
-                          ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
-                          ->leftJoin('degrees','affiliates.degree_id','=','degrees.id');
+        return $query->leftJoin(DB::raw("(SELECT affiliates.id, string_agg(observation_types.name, ' | ') as observations
+                            FROM affiliates
+                            LEFT JOIN affiliate_observations ON affiliates.id = affiliate_observations.affiliate_id
+                            LEFT JOIN observation_types on affiliate_observations.observation_type_id = observation_types.id
+                            where affiliate_observations.deleted_at is null
+                            GROUP BY affiliates.id) as observations"),'affiliates.id','=','observations.id');
+
     }
 }
 

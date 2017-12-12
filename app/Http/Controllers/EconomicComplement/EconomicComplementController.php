@@ -26,6 +26,7 @@ use Muserpol\EconomicComplementLegalGuardian;
 use Muserpol\EconomicComplementRequirement;
 use Muserpol\EconomicComplementSubmittedDocument;
 use Muserpol\EconomicComplementRent;
+use Muserpol\Devolution;
 
 use Muserpol\Affiliate;
 use Muserpol\Spouse;
@@ -40,6 +41,7 @@ use Muserpol\WorkflowRecord;
 use Muserpol\WorkflowSequence;
 use Muserpol\WorkflowState;
 use Muserpol\Month;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Muserpol\ObservationType;
 use Muserpol\AffiliateObservation;
@@ -799,7 +801,7 @@ class EconomicComplementController extends Controller
                     $economic_complement->affiliate_id = $affiliate->id;
                     $economic_complement->eco_com_modality_id = $eco_com_modality->id;
                     $economic_complement->eco_com_procedure_id = $eco_com_pro->id;
-                    if ($request->semester == 'Primer') {                
+                    if ($request->semester == 'Primer' || $request->semester == 'Segundo') { 
                         $economic_complement->workflow_id = 3;
                     }else{
                         $economic_complement->workflow_id = 1;
@@ -1101,7 +1103,7 @@ class EconomicComplementController extends Controller
         $hasObservation =false;
         foreach ($affi_observations as $observation) {
             # code...
-            if(Util::getRol()->module_id == $observation->observationType->module_id)
+            if(Util::getRol()->module_id == $observation->observationType->module_id && $observation->is_enabled == false)
             {
                 $hasObservation = true;
             }  
@@ -1195,6 +1197,7 @@ class EconomicComplementController extends Controller
         // Log::info("wf_state_before=" .json_encode($wf_state_before));
 
         $amount_amortization=0;
+        $devolution = null;
         switch (Util::getRol()->module_id) {
             case 9:
                 # code...
@@ -1207,9 +1210,18 @@ class EconomicComplementController extends Controller
             case 2:
                 # code...
                 $amount_amortization = $economic_complement->amount_replacement;
+                $devolution =  Devolution::where('affiliate_id','=',$affiliate->id)->where('observation_type_id','=',13)->first();
                 break;
-        
-            
+        }
+        $devolution_amount_percetage = null;
+        $devolution_amount_total = null;
+        if($devolution){   
+            if ($devolution->percentage && $economic_complement->total > 0) {
+                 $devolution_amount_percetage = floatval($economic_complement->total * $devolution->percentage);
+            }elseif ($economic_complement->total > 0 && !$devolution->percentage) {
+                $devolution_amount_total = $devolution->total;
+            }
+
         }
 
         $class_rent =DB::table('eco_com_kind_rent')->where('id',$economic_complement->eco_com_kind_rent_id)->first();
@@ -1251,6 +1263,9 @@ class EconomicComplementController extends Controller
         'gender_list' =>$gender_list,
         'gender_list_s' => $gender_list_s,
         'class_rent' => $class_rent,
+        'devolution' => $devolution,
+        'devolution_amount_percetage' => $devolution_amount_percetage,
+        'devolution_amount_total' => $devolution_amount_total,
         ];
         // dd($eco_com_submitted_documents_ar);
 
@@ -2454,6 +2469,7 @@ class EconomicComplementController extends Controller
     public function save_amortization(Request $request)
     {
         
+        $start_procedure = EconomicComplementProcedure::where('id','=', 2)->first();
         $rol = Util::getRol();
         if($request->amount_amortization > 0)
         {
@@ -2497,7 +2513,20 @@ class EconomicComplementController extends Controller
                     $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
                     $complemento->amount_replacement = $request->amount_amortization;
                     $complemento->save();
-
+                    $sum = 0;
+                    while ($start_procedure) {
+                        $eco_com = $start_procedure->economic_complements()->where('affiliate_id','=', $complemento->affiliate_id)->first();
+                        if ($eco_com) {
+                            if ($eco_com->amount_replacement) {
+                                $sum += $eco_com->amount_replacement;
+                            }
+                        }
+                        $start_procedure = EconomicComplementProcedure::where('id','=', Util::semesternext(Carbon::parse($start_procedure->year)->year, $start_procedure->semester))->first();
+                        Log::info("whille");
+                    }
+                    $devolution = Devolution::where('affiliate_id','=',$complemento->affiliate_id)->where('observation_type_id','=',13)->first();
+                    $devolution->balance = $devolution->total - $sum;
+                    $devolution->save();
                     $wf_record=new WorkflowRecord;
                     $wf_record->user_id=Auth::user()->id;
                     $wf_record->date=Carbon::now();
@@ -2646,4 +2675,134 @@ class EconomicComplementController extends Controller
             return redirect('economic_complement/'.$economic_complement->id);
 
     }
+
+    public function automatic_validation(Request $request)
+    {   global $results,$rev,$nrev;
+        ini_set('memory_limit', '-1');
+        ini_set('max_execution_time', '-1');
+        ini_set('max_input_time', '-1');
+        set_time_limit('-1');
+        if($request->filexl == false)
+        {
+            //validacion con el anterior semestre
+            $rev=0;
+            $nrev=0;
+            $ecom1 = EconomicComplement::where('eco_com_procedure_id','=',2)
+                                        ->whereIn('eco_com_state_id',[1,18,17])->get();
+            foreach ($ecom1 as $dato) 
+            {   
+                 $actual = EconomicComplement::where('eco_com_procedure_id','=',6)
+                                        ->where('wf_current_state_id','=',3)
+                                        ->where('economic_complements.reception_type','=','Habitual')
+                                        ->where('state','=','Received')
+                                        ->where('affiliate_id','=',$dato->affiliate_id)->first();
+                if($actual)
+                {   
+                    $actual->state='Edited';
+                    $date = Carbon::Now();
+                    $actual->review_date =$date; 
+                    $actual->save();
+                    $rev++;
+                }
+                else
+                {
+                    $nrev++;
+                }
+            }
+        }
+        elseif($request->filexl == true)
+        {
+            //validacion desde excel pagados por muserpol
+            if($request->hasFile('archive'))
+            {
+                $reader = $request->file('archive');
+                $filename = $reader->getRealPath();
+                Excel::load($filename, function($reader) {
+                      global $results;
+                      ini_set('memory_limit', '-1');
+                      ini_set('max_execution_time', '-1');
+                      ini_set('max_input_time', '-1');
+                      set_time_limit('-1');
+                      $results = collect($reader->get());
+                });
+                
+               foreach ($results as $result) 
+               {
+                     $ci = $result->ci;
+                    
+                     if($result->tipo_renta == "VEJEZ")
+                     {   //dd($result->tipo_renta."hola");
+                        $app=EconomicComplementApplicant::leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                                                     ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+                                                     ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                                                     ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
+                                                     ->where('eco_com_types.id','=',1)
+                                                     //->where('eco_com_applicants.identity_card','=',rtrim($ci))
+                                                     ->whereRaw("ltrim(trim(eco_com_applicants.identity_card),'0') ='".ltrim(trim($ci),'0')."'")
+                                                     ->where('economic_complements.eco_com_procedure_id','=',6)
+                                                     ->where('economic_complements.reception_type','=','Habitual')
+                                                     ->where('economic_complements.wf_current_state_id','=',3)
+                                                     ->where('economic_complements.state','=','Received')
+                                                     ->select('economic_complements.id','economic_complements.affiliate_id')
+                                                     ->first();
+                       
+                         if($app)
+                         {   
+                             $ecom = EconomicComplement::where('id','=',$app->id)->first();                     
+                             $ecom->state = 'Edited';
+                             $date = Carbon::Now();
+                             $ecom->review_date =$date; 
+                             $ecom->save(); 
+                            // dd($ecom->id);
+                             $rev++;
+                         }else
+                         {
+                              
+                             //  $this->info("Vejez: ".$result->ci);
+                            $nrev = $nrev."-".$result->ci;
+                         }
+                     
+                     }
+                     elseif($result->tipo_renta =='VIUDEDAD')
+                     {   
+                        $app=EconomicComplementApplicant::leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                                                    ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+                                                    ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                                                    ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
+                                                    ->where('eco_com_types.id','=',2)
+                                                    //->where('eco_com_applicants.identity_card','=',rtrim($ci))
+                                                    ->whereRaw("ltrim(trim(eco_com_applicants.identity_card),'0') ='".ltrim(trim($ci),'0')."'")
+                                                    ->where('economic_complements.eco_com_procedure_id','=',6)
+                                                    ->where('economic_complements.reception_type','=','Habitual')
+                                                    ->where('economic_complements.wf_current_state_id','=',3)
+                                                    ->where('economic_complements.state','=','Received')
+                                                    ->select('economic_complements.id','economic_complements.affiliate_id')
+                                                    ->first();
+                        //dd($app."--");        
+                         if($app)
+                         {   $ecom = EconomicComplement::where('id','=',$app->id)->first();
+                             $ecom->state='Edited';
+                             $date = Carbon::Now();
+                             $ecom->review_date =$date; 
+                             $ecom->save(); 
+                             // dd($ecom->id." Viu");
+                             $rev++;
+                         }
+                         else
+                         {
+                               //$this->info("Viudedad: ".$result->ci);
+                            $nrev = $nrev."-".$result->ci;
+                         }
+                     }
+                }
+           }
+
+        }
+        $message = "Revizados:".$rev." "."No revizados:".$nrev;
+
+        Session::flash('message', $message);
+        return redirect('economic_complement');
+    }
+
+
 }

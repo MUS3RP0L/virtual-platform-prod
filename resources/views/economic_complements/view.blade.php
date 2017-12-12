@@ -2664,8 +2664,18 @@
                     <h4 class="modal-title">Historial de Deudas de {{ $affiliate->getFullNamePrintTotal() }}</h4>
                 </div>
                 <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                        </thead>
+                    </table>
                     <table class="table table-bordered table-hover" id="debts-table" width="100%">
                         <thead>
+                            <tr class="warning">
+                                <th>Total Deuda</th>
+                                <th></th>
+                                <th>{{ Util::formatMoney($devolution->total ?? null) }}</th>
+                                <th></th>
+                            </tr>
                             <tr class="success">
                                 {{-- <th>Tipo de Observación</th> --}}
                                 <th>Nro. de Trámite</th>
@@ -2681,7 +2691,12 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                
+                            </tr>
+                            <tr>
+                                <th>Total Balance</th>
+                                <th></th>
+                                <th>{{ Util::formatMoney($devolution->balance ?? null) }}</th>
+                                <th></th>
                             </tr>
                         </tfoot>
                     </table>
@@ -2790,8 +2805,20 @@
               </div>
               <div class="modal-body">
                 <div class="row">
-                    <label>Monto :</label> <input type="number" required  step="any" name="amount_amortization" class="form-control" value="{{$amount_amortization}}">
-                    <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">
+                    @if(!$devolution)
+                        <label>Monto</label>
+                        <input type="number" required  step="any" name="amount_amortization" class="form-control" value="{{ $amount_amortization }}">
+                            <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">
+                    @else
+                        <label>Monto ( {{ isset($devolution->percentage) ? ($devolution->percentage*100).'%' : 'total' }} )</label>
+                        @if($devolution->percentage)
+                            <input type="number" required  step="any" name="amount_amortization" id="amount_amortization" class="form-control" value="{{ $amount_amortization ?? $devolution_amount_percetage ?? null  }}">
+                            <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">
+                        @else
+                            <input type="number" required  step="any" name="amount_amortization" class="form-control" value="{{ $amount_amortization ?? $devolution_amount_total ?? null }}">
+                            <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">
+                        @endif
+                    @endif
                 </div>
                 
               </div>
@@ -3398,6 +3425,9 @@ $(document).ready(function() {
 
     //for calculation
     $(document).ready(function() {
+        $("#amount_amortization").inputmask();
+
+
         $("#aps_total_fsa").inputmask();
         $("#aps_total_fs").inputmask();
         $("#aps_total_cc").inputmask();
@@ -3560,7 +3590,7 @@ $(document).ready(function() {
                 var three = api.column(3).data().reduce( function (a, b) {
                     return (intVal(a) + intVal(b)).toFixed(2);
                 }, 0 );
-                $(api.column(0).footer()).html('Total');
+                $(api.column(0).footer()).html('Total Amortizaciones');
                 $(api.column(1).footer()).html(one);
                 $(api.column(2).footer()).html(two);
                 $(api.column(3).footer()).html(three);

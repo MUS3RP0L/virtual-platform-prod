@@ -381,13 +381,14 @@ public static function import_from_bank(Request $request)
           ->whereYear('economic_complements.year', '=', $year)
           ->where('economic_complements.semester', '=', $semester)
           ->where('economic_complements.workflow_id','=',1)
-          ->where('economic_complements.wf_current_state_id',3)
+          ->where('economic_complements.wf_current_state_id','=',3)
           ->where('economic_complements.state','Edited')
           ->where('economic_complements.total','>', 0)
           ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')         
-          ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12,13,14,15) and is_enabled = false ) ")         
-          ->whereNotNull('economic_complements.review_date')->get();     
-      
+          ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12,13,14,15) and affiliate_observations.is_enabled = false and affiliate_observations.deleted_at is null) ")->get();
+
+          //->whereNotNull('economic_complements.review_date')->get();     
+     // dd($afi);
 
       if($afi){
             if($semester == "Primer")
@@ -419,7 +420,7 @@ public static function import_from_bank(Request $request)
 
                     //$import = number_format($datos->importe, 2, ',', '.');
                     $import=$datos->importe;
-                    if ($economic->has_legal_guardian)
+                    if ($economic->has_legal_guardian == true && $economic->has_legal_guardian_s == false)
                     {
                       
                       $legal1 = EconomicComplementLegalGuardian::where('economic_complement_id','=', $economic->id)->first();
@@ -1400,14 +1401,14 @@ public static function import_from_bank(Request $request)
           ->leftJoin('categories','categories.id','=','economic_complements.category_id')
           ->leftJoin('cities as cities2','affiliates.city_identity_card_id','=','cities2.id')
           ->whereYear('economic_complements.year', '=', '2017')
-          ->where('economic_complements.semester', '=', 'Primer')
+          ->where('economic_complements.semester', '=', 'Segundo')
           ->where('economic_complements.workflow_id','=',1)
-          ->where('economic_complements.wf_current_state_id',2)
+          ->where('economic_complements.wf_current_state_id','=',3)
           ->where('economic_complements.state','Edited')
           ->where('economic_complements.total','>', 0)
           ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')        
-          ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12,13,14,15) and is_enabled = false)")        
-          ->whereNotNull('economic_complements.review_date')
+          ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12,13,14,15) and affiliate_observations.is_enabled = false and affiliate_observations.deleted_at is null)")        
+          //->whereNotNull('economic_complements.review_date')
           ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
           
           ->get();
@@ -1578,12 +1579,12 @@ public static function import_from_bank(Request $request)
                                           ->whereYear('economic_complements.year', '=', $request->year)
                                           ->where('economic_complements.semester', '=', $request->semester)
                                           ->where('economic_complements.workflow_id','=',1)
-                                          ->where('economic_complements.wf_current_state_id',2)
+                                          ->where('economic_complements.wf_current_state_id',3)
                                           ->where('economic_complements.state','Edited')
                                           ->where('economic_complements.total','>', 0)                                          
                                           ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
-                                          ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12,13,14,15) and is_enabled = false)")         
-                                          ->whereNotNull('economic_complements.review_date')                                    
+                                          ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12,13,14,15) and affiliate_observations.is_enabled = false and affiliate_observations.deleted_at is null)")         
+                                          //->whereNotNull('economic_complements.review_date')                                    
                                           ->orderBy('cities0.second_shortened','ASC')->get();
 
               $encb= array('NRO_TRAMITE','CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'APELLIDO_PATERNO','APELLIDO_MATERNO','APELLIDO_DE_CASADO','CI_CAUSAHABIENTE','EXT','PRIMER_NOMBRE_CAUSAHABIENTE','SEGUNDO_NOMBRE_CAUSAHABIENTE','APELLIDO_PATERNO_CAUSAHABIENTE','APELLIDO_MATERNO_CAUSAHABIENTE','APELLIDO_DE_CASADO_CAUSAHABIENTE','FECHA_NACIMIENTO','ESTADO_CIVIL','REGIONAL','GRADO','TIPO_DE_RENTA','ENTE_GESTOR','RENTA_BOLETA','REINTEGRO','RENTA_DIGNIDAD','RENTA_TOTAL_NETA','NETO','CATEGORIA','REFERENTE_SALARIAL', 'ANTIGUEDAD','COTIZABLE','DIFERENCIA','TOTAL_SEMESTRE','FACTOR_DE_COMPLEMENTACION','COMPLEMENTO_ECONOMICO_FINAL_2017','AMORTIZACION','COMPLEMENTO SIN AMORTIZACION','TIPO_TRAMITE');
@@ -1862,10 +1863,12 @@ public static function import_from_bank(Request $request)
     public function payrollLegalGuardian()
     {
         global $rows,$i;
-        $eco=EconomicComplement::where('eco_com_procedure_id','=',2)
-            ->whereNotNull('review_date')
+        $eco=EconomicComplement::where('eco_com_procedure_id','=',6)
+            //->whereNotNull('review_date')
+            ->where('wf_current_state_id','=','3')
             ->where('state','like','Edited')
             ->where('has_legal_guardian','=',true)
+            ->where('has_legal_guardian_s','=',false)
             ->get();
         $rows[]=array('Nro','C.I.','Nombre Completo Poderdante','C.I.','Nombre Completo Apoderado','Regional','Grado','Tipo Renta','Complemento Economico');
         $i=1;
@@ -2205,17 +2208,19 @@ public static function import_from_bank(Request $request)
 
     {
         global $rows,$i;
-        $eco=EconomicComplement::where('eco_com_procedure_id','=',2)
-            ->whereNotNull('review_date')
+        $eco=EconomicComplement::where('eco_com_procedure_id','=',6)
+            //->whereNotNull('review_date')
+            ->where('wf_current_state_id','=','3')
             ->where('state','like','Edited')
             ->where('has_legal_guardian','=',true)
+            ->where('has_legal_guardian_s','=',false)
             ->where('economic_complements.total','>', 0)
             ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
             ->get();
         $rows[]=array('Nro','C.I.','Nombre Completo Poderdante','C.I.','Nombre Completo Apoderado','Regional','Grado','Tipo Renta','Complemento Economico');
         $i=1;
         foreach ($eco as $e) {
-            if (!$e->affiliate->observations()->whereIn('observation_type_id', [1,2,3,12,13])->where('is_enabled','=',false)->get()->count()) {
+            if (!$e->affiliate->observations()->whereNotIn('observation_type_id', [1,2,3,12,13])->where('is_enabled','=',false)->whereNull('deleted_at')->get()->count()) {
             $app = $e->economic_complement_applicant;
             $apo = $e->economic_complement_legal_guardian;
             $data = new stdClass;

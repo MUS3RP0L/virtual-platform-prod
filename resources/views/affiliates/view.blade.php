@@ -1669,20 +1669,23 @@
                     <input type="hidden" name="type" value="devolutions"/>
                         <div class="row">
                             <div class="col-md-6">
+
                                 <div class="form-group">
-                                    <label class="col-md-5">
+                                    <strong>Total Deuda:</strong> {{ Util::formatMoney($devolution->total ?? null) }}
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4">
                                         Tipo de Descuento
                                     </label>
-                                    <div class="col-md-7">
+                                    <div class="col-md-8">
                                     <div class="radio radio-primary">
-                                        <label style="font-size: 18px">
-                                            <input type="radio" value="false"  data-bind='checked:total_percentage, attr: {required: show_total_percentage}' name="total_percentage" > Total
+                                        <label style="font-size: 18px" data-toggle="tooltip" data-placement="top" title="Nota: Solo si la deuda es menor al complemento económico.">
+                                            <input type="radio" value="false"  data-bind='checked:total_percentage, attr: {required: show_total_percentage_radio}' name="total_percentage" > Por el Total de la Deuda
                                         </label>
                                     </div>
                                     <div class="radio radio-primary">
                                         <label style="font-size: 18px">
-                                            <input type="radio" value="true" data-bind='checked:total_percentage, attr: {required: show_total_percentage}' name="total_percentage"> Porcentaje
-                                            
+                                            <input type="radio" value="true" data-bind='checked:total_percentage, attr: {required: show_total_percentage_radio}' name="total_percentage"> Porcentaje para Amortizar
                                         </label>
                                     </div>
                                     </div>
@@ -1691,12 +1694,12 @@
                                         {!! Form::label('percentage', 'Porcentaje:', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
                                         {!! Form::select('percentage',$percentage_list, null , ['class'=> 'form-control', 'data-bind'=>'attr: {required: show_total_percentage}']) !!}
-                                        <span class="help-block">Escriba el porcentaje</span>
+                                        <span class="help-block">Seleccione el porcentaje</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="row">
+                                <div class="row" data-bind='visible: !show_total_percentage()'>
                                     <div class="col-md-offset-5 col-md-4">
                                         <div class="form-group">
                                             <div class="togglebutton">
@@ -1709,6 +1712,7 @@
                                 </div>
 
                                 <div data-bind='visible: immediate_voluntary_return'>
+                                    <div class="row text-center"><strong>Datos del Deposito</strong></div>
                                     <div class="form-group">
                                             {!! Form::label('deposit_number', 'Constancia de Deposito', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-7">
@@ -1730,7 +1734,7 @@
                                         {!! Form::label('payment_date', 'Fecha de Pago:', ['class' => 'col-md-5 control-label',]) !!}
                                         <div class="col-md-7">
                                             <div class="input-group">
-                                                <input type="text" id="payment_date" class="form-control" name="payment_date" data-bind ='attr: {required: immediate_voluntary_return}' data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                                <input type="text" id="payment_date" class="form-control" name="payment_date" data-bind ='attr: {required: immediate_voluntary_return}'>
                                                 <div class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </div>
@@ -1776,6 +1780,9 @@
             $("#date_death_spouse_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
             $("input[name='phone_number[]']").inputmask();
             $("input[name='cell_phone_number[]']").inputmask();
+            //for modal devolutions
+            $("#payment_date").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
+            $("#amount").inputmask();
         });
 
         $(document).ready(function(){
@@ -1800,9 +1807,11 @@
             self.immediate_voluntary_return = ko.observable(false);
             self.total_percentage = ko.observable(false);
             self.show_total_percentage = ko.observable(false);
+            self.show_total_percentage_radio = ko.observable(true);
             self.total_percentage.subscribe(function(){
                 console.log(self.total_percentage());
                 self.show_total_percentage(self.total_percentage() == 'true');
+                self.show_total_percentage_radio(self.total_percentage() == 'true');
             });
         }
 

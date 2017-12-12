@@ -266,6 +266,8 @@ Route::group(['middleware' => 'auth'], function() {
 		];
 		return \View::make('economic_complements.print.sworn_declaration1',$data)->render();
 	});
+
+	Route::post('automatic_validation', array('as'=>'automatic_validation', 'uses'=> 'EconomicComplement\EconomicComplementController@automatic_validation'));
 });
 
 define('ACCESS', env('ACCESS_PASS'));
