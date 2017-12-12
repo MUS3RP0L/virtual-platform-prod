@@ -717,6 +717,23 @@ class Util
     		});
     	})->store('xls', storage_path($folder_out));
     }
+    public static function excelSaveSheets($file_name,$document){
+
+    	Excel::create($file_name, function($excel) use($document) {
+
+    		
+
+		    // $excel->sheet('Sheetname', function($sheet) {
+
+		    //     $sheet->fromArray(array(
+		    //         array('data1', 'data2'),
+		    //         array('data3', 'data4')
+		    //     ));
+
+		    // });
+
+		})->store('xls', storage_path($folder_out));
+    }
     public static function semesterAgo($year, $semester)
     {
     	if ($semester == 'Primer') {
