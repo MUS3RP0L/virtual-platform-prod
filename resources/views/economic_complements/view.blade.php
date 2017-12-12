@@ -2673,7 +2673,7 @@
                             <tr class="warning">
                                 <th>Total Deuda</th>
                                 <th></th>
-                                <th>{{ Util::formatMoney($devolution->total) }}</th>
+                                <th>{{ Util::formatMoney($devolution->total ?? null) }}</th>
                                 <th></th>
                             </tr>
                             <tr class="success">
