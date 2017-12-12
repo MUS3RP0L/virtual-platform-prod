@@ -1671,7 +1671,7 @@
                             <div class="col-md-6">
 
                                 <div class="form-group">
-                                    <strong>Total Deuda:</strong> {{ Util::formatMoney($devolution->total) }}
+                                    <strong>Total Deuda:</strong> {{ Util::formatMoney($devolution->total ?? null) }}
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-5">
