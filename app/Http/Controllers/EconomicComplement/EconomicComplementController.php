@@ -2469,7 +2469,7 @@ class EconomicComplementController extends Controller
     public function save_amortization(Request $request)
     {
         
-        // $start_procedure = EconomicComplementProcedure::wher;
+        $start_procedure = EconomicComplementProcedure::where('id','=', 2)->first();
         $rol = Util::getRol();
         if($request->amount_amortization > 0)
         {
@@ -2479,10 +2479,7 @@ class EconomicComplementController extends Controller
                     $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
                     $complemento->amount_accounting = $request->amount_amortization;
                     $complemento->save();
-                    $sum = 0;
-                    // while (Util::semesternext()) {
-                        
-                    // }
+
                     $wf_record=new WorkflowRecord;
                     $wf_record->user_id=Auth::user()->id;
                     $wf_record->date=Carbon::now();
@@ -2516,7 +2513,18 @@ class EconomicComplementController extends Controller
                     $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
                     $complemento->amount_replacement = $request->amount_amortization;
                     $complemento->save();
-
+                    $sum = 0;
+                    while ($start_procedure) {
+                        $eco_com = $start_procedure->economic_complements()->where('affiliate_id','=', $complemento->affiliate_id)->first();
+                        if ($eco_com) {
+                            if ($eco_com->amount_accounting) {
+                                $sum += $eco_com->amount_accounting;
+                            }
+                        }
+                        $start_procedure = EconomicComplementProcedure::where('id','=', Util::semesternext(Carbon::parse($start_procedure->year)->year, $start_procedure->semester))->first();
+                        Log::info("whille");
+                    }
+                    dd($sum);
                     $wf_record=new WorkflowRecord;
                     $wf_record->user_id=Auth::user()->id;
                     $wf_record->date=Carbon::now();
