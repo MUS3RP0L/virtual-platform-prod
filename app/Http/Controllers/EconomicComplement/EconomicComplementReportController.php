@@ -53,7 +53,8 @@ class EconomicComplementReportController extends Controller
         '7' => 'Cambio de Categoría (Comparación con un semestre Anterior)',
         '8' => 'Trámites con Apoderados',
         '9' => 'Trámites Validados con Observaciones',
-        '10' => 'Trámites No Validados con Observaciones'
+        '10' => 'Trámites No Validados con Observaciones',
+        '11' => 'Planilla Banco Union S.A.'
 
         // '2' => 'Trámites Inclusiones',
         // '3' => 'Trámites habituales',
@@ -1652,6 +1653,24 @@ class EconomicComplementReportController extends Controller
           ->affiliateobservations()
           ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
           ->whereRaw("economic_complements.workflow_id = 1 and economic_complements.wf_current_state_id <= 3 and economic_complements.state <> 'Edited'")
+          ->get();
+          
+          $data = $economic_complements;
+          Util::excel($file_name, 'hoja', $data);
+         break;
+
+         case '11': //REPORTE DE AMORTIZACION
+          $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable,economic_complements.amount_loan as amortizacion_prestamos,economic_complements.amount_accounting as amortizacion_contabilidad, economic_complements.amount_replacement as amortizacón_resposicion,  observations.observations as observaciones, economic_complements.has_legal_guardian,economic_complements.has_legal_guardian_s';
+          $file_name = $name.' '.date("Y-m-d H:i:s");
+          $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+          ->ecocominfo()
+          ->applicantinfo()
+          ->affiliateinfo()
+          ->ecocomstates()
+          ->wfstates()
+          ->affiliateobservations()
+          ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
+          ->whereRaw("economic_complements.workflow_id = 1 and economic_complements.wf_current_state_id = 3 and economic_complements.state = 'Edited' and not exists(SELECT affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12,13,14,15) and affiliate_observations.is_enabled = false and affiliate_observations.deleted_at is NULL)")
           ->get();
           
           $data = $economic_complements;
