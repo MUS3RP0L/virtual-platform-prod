@@ -1103,7 +1103,7 @@ class EconomicComplementController extends Controller
         $hasObservation =false;
         foreach ($affi_observations as $observation) {
             # code...
-            if(Util::getRol()->module_id == $observation->observationType->module_id)
+            if(Util::getRol()->module_id == $observation->observationType->module_id && $observation->is_enabled == false)
             {
                 $hasObservation = true;
             }  
@@ -2517,14 +2517,16 @@ class EconomicComplementController extends Controller
                     while ($start_procedure) {
                         $eco_com = $start_procedure->economic_complements()->where('affiliate_id','=', $complemento->affiliate_id)->first();
                         if ($eco_com) {
-                            if ($eco_com->amount_accounting) {
-                                $sum += $eco_com->amount_accounting;
+                            if ($eco_com->amount_replacement) {
+                                $sum += $eco_com->amount_replacement;
                             }
                         }
                         $start_procedure = EconomicComplementProcedure::where('id','=', Util::semesternext(Carbon::parse($start_procedure->year)->year, $start_procedure->semester))->first();
                         Log::info("whille");
                     }
-                    dd($sum);
+                    $devolution = Devolution::where('affiliate_id','=',$complemento->affiliate_id)->where('observation_type_id','=',13)->first();
+                    $devolution->balance = $devolution->total - $sum;
+                    $devolution->save();
                     $wf_record=new WorkflowRecord;
                     $wf_record->user_id=Auth::user()->id;
                     $wf_record->date=Carbon::now();
