@@ -25,16 +25,12 @@
         <?php $ii=sizeOf($devolution->dues()->where('amount','>',0)->get());?>
         @foreach($devolution->dues()->where('amount','>',0)->get() as $index => $d)
           @if($index<$ii-1)
-            {{ $d->eco_com_procedure->semester  }} Semestre de {{ Carbon\Carbon::parse($d->eco_com_procedure->year)->year  }}
-              @if($index==$ii-2)
-                @else
-                  ,
-              @endif
+            {{ $d->eco_com_procedure->semester  }} Semestre {{ Carbon\Carbon::parse($d->eco_com_procedure->year)->year  }}@if($index==$ii-2)@else,@endif
           @else
             @if($ii>1)
               y
             @endif
-              {{ $d->eco_com_procedure->semester  }} Semestre de {{ Carbon\Carbon::parse($d->eco_com_procedure->year)->year  }}
+              {{ $d->eco_com_procedure->semester  }} Semestre {{ Carbon\Carbon::parse($d->eco_com_procedure->year)->year  }},
             @endif
         @endforeach
 
