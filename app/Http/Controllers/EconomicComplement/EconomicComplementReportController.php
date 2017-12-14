@@ -1115,7 +1115,6 @@ class EconomicComplementReportController extends Controller
       $user_role = Util::getRol()->name;
       $economic_complements_array=EconomicComplement::where('economic_complements.state','Edited')->leftJoin('wf_states','economic_complements.wf_current_state_id', '=','wf_states.id')
                   ->where('wf_states.role_id',(Util::getRol()->id))
-                  ->where('economic_complements.eco_com_procedure_id','2')
                   ->where('economic_complements.user_id',Auth::user()->id)
                   ->whereIn('economic_complements.id',$ids)
                   ->select('economic_complements.id')
@@ -1126,7 +1125,7 @@ class EconomicComplementReportController extends Controller
       foreach (\Muserpol\City::all() as $city) {
         $economic_complements=EconomicComplement::whereIn('id',$economic_complements_array)->where('city_id','=',$city->id)->get();
         $economic_complements_temp_array=EconomicComplement::whereIn('id',$economic_complements_array)->where('city_id','=',$city->id)->get()->pluck('id');
-        $total=Util::formatMoney(Util::totalSumEcoCom($economic_complements_temp_array));
+        $total=Util::formatMoney(Util::totalSumEcoCom($economic_complements_temp_array)->sum);
         $title2 = "Planilla de Firmas ".$semester." Semestre ".$year."- Regional ".$city->name;
         if ($total) {
         $pages[] = \View::make('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user', 'user_role','total'))->render();
@@ -1185,6 +1184,8 @@ class EconomicComplementReportController extends Controller
         if ($economic_complement->amount_loan || $economic_complement->amount_accounting || $economic_complement->amount_replacement) {
           $temp_total=$economic_complement->total +  ($economic_complement->amount_loan ?? 0) + ($economic_complement->amount_accounting ?? 0) + ($economic_complement->amount_replacement ?? 0);
         }
+
+        $temp_total=(number_format($temp_total,2,'.',''));
         if ($economic_complement->old_eco_com && ($old_eco_com->amount_loan || $old_eco_com->amount_accounting || $old_eco_com->amount_replacement)) {
           $old_eco_com_total_calificate=$old_eco_com->total +  ($old_eco_com->amount_loan ?? 0) + ($old_eco_com->amount_accounting ?? 0) + ($old_eco_com->amount_replacement ?? 0);
         }
@@ -1214,6 +1215,7 @@ class EconomicComplementReportController extends Controller
             'total_literal' => $total_literal,
             'old_eco_com_total_calificate' => $old_eco_com_total_calificate ?? null,
         ];
+
         $second_data = [
             'sub_total_rent' => Util::formatMoney($economic_complement->sub_total_rent),
             'reimbursement' => Util::formatMoney($economic_complement->reimbursement),
@@ -1227,10 +1229,11 @@ class EconomicComplementReportController extends Controller
             'total_amount_semester' => Util::formatMoney($economic_complement->difference*6),
             'complementary_factor' => $economic_complement->complementary_factor,
             'total' => Util::formatMoney($economic_complement->total),
-            'temp_total' => Util::formatMoney($temp_total),
+            'temp_total' => $temp_total,
             'user' => Auth::user(),
             'user_role' =>Util::getRol()->name
         ];
+        // dd(Util:: str_replace(',', '.', (str_replace('.', '', Util::formatMoney($temp_total)))));
         $data = array_merge($data, $second_data);
         return \PDF::loadView('economic_complements.print.print_total', $data)->setOption('page-width', '215.9')->setOption('page-height', '330')->setOption('margin-bottom', 0)/*->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')*/->stream('print_total.pdf');
 

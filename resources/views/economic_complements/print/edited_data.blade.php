@@ -37,7 +37,7 @@
                <th style="padding: 3px; width: 30px" class="grand bold">GRADO</th>
                <th style="padding: 3px; width: 20px" class="grand bold">CAT.</th>
                <th style="padding: 3px; width: 30px" class="grand bold">N° DE TRAMITE</th>
-               <th style="padding: 3px; width: 20px" class="grand bold">LIQ. PAGABLE</th>
+               <th style="padding: 3px; width: 20px" class="grand bold">TOTAL</th>
                <th style="padding: 3px; width: 100px" class="grand bold">FIRMA</th>
            </tr>
           </thead>
@@ -50,7 +50,7 @@
                 <td style="padding-left:10px; padding-top:20px; padding-bottom:18px; " >{!! $item->degree->shortened ?? '' !!}</td>
                 <td style="padding-left:10px; padding-top:20px; padding-bottom:18px; " >{!! $item->category->name ?? '' !!}</td>
                 <td style="padding-left:10px; padding-top:20px; padding-bottom:18px;   text-align: center;">{!! $item->code !!}</td>
-                <td style="padding-right:10px; padding-top:20px; padding-bottom:18px;   text-align: right;">Bs. {!! Util::formatMoney($item->total) !!} </td>
+                <td style="padding-right:10px; padding-top:20px; padding-bottom:18px;   text-align: right;">Bs. {!! Util::formatMoney($item->total + ($item->amount_loan ?? 0) + ($item->amount_accounting ?? 0) + ($item->amount_replacement ?? 0) ) !!} </td>
                 <td></td>
             </tr>
             @endforeach

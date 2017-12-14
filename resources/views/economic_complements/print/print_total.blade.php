@@ -61,7 +61,7 @@
         </tr>
         @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 )
         <tr>
-          <td class="grand service text-left"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BOLIVIANOS {{ $economic_complement->old_eco_com ? '(RECALIFICADO)':'' }}</strong></td><td class="number"><strong>{{$temp_total}}</strong></td><td></td>
+          <td class="grand service text-left"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BOLIVIANOS {{ $economic_complement->old_eco_com ? '(RECALIFICADO)':'' }}</strong></td><td class="number"><strong>{{Util::formatMoney($temp_total)}}</strong></td><td></td>
         </tr>
         @endif
         @if($economic_complement->amount_loan)
@@ -111,6 +111,7 @@
           <td ><strong> </strong>{!!$economic_complement->comment!!}</td>
         </tr>
       </table>
+      <br>
       <table>
         <tr>
           <td class="padding-top"><strong>Elaborado y Revisado por:</strong></td>
@@ -229,7 +230,7 @@
     <tr>
       <td colspan="2" class="no-border">
         <strong>SON:</strong>
-        <em class="size-9">{{ Util::convertir($economic_complement->total)   }} BOLIVIANOS</em>
+        <em class="size-9">{{ Util::convertir($temp_total > 0 ? $temp_total : $economic_complement->total)   }} BOLIVIANOS.</em>
       </td>
     </tr>
     <tr>
@@ -239,7 +240,7 @@
       </td>
       <td class="no-border text-center size-16">
         <span class="code border-radius">
-          Bs. {{ Util::formatMoney($economic_complement->total) }}
+          Bs. {{ Util::formatMoney($temp_total > 0 ? $temp_total : $economic_complement->total ) }}
         </span>
       </td>
     </tr>
@@ -278,7 +279,7 @@
         </span>
         <br>
         <br>
-        <strong class="code border-radius size-16 ">Bs. {{ Util::formatMoney($economic_complement->total) }}</strong>
+        <strong class="code border-radius size-16 ">Bs. {{ Util::formatMoney($temp_total > 0 ? $temp_total : $economic_complement->total) }}</strong>
       </td>
         <tr><td colspan="4" class="no-border">
         <strong><em>PÁGUESE A LA ORDEN DE:</em></strong><br>
@@ -289,7 +290,7 @@
     <tr>
       <td colspan="4" class="no-border">
         <strong>LA SUMA DE:</strong><br>
-        <em class="size-10">{{ Util::convertir($economic_complement->total)   }} BOLIVIANOS</em>
+        <em class="size-10">{{ Util::convertir($temp_total > 0 ? $temp_total : $economic_complement->total)   }} BOLIVIANOS.</em>
       </td>
     </tr>
     <tr>
@@ -303,7 +304,7 @@
         <div class="code border-radius">6<br> <em>MESES</em></div>
       </td>
       <td class="width-30-por no-border text-center">
-        <div class="code border-radius"><strong>{{ Util::formatMoney($economic_complement->total) ?? '' }}</strong> <br> <em>LIQUIDO PAGABLE</em></div>
+        <div class="code border-radius"><strong>{{ Util::formatMoney($temp_total > 0 ? $temp_total : $economic_complement->total) ?? '' }}</strong> <br> <em>LIQUIDO PAGABLE</em></div>
         {{-- <span class="code border-radius">Bs. {{ Util::formatMoney($economic_complement->total) }}</span> --}}
       </td>
     </tr>
