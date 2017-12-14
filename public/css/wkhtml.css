@@ -259,18 +259,18 @@ hr.cut-line {
   text-align: center;
 }
 .main1{
-  height: 793.70px;
+  height: 801px;
   // background:#3b5998;
 }
 .main-left{
-  height: 280px;
+  height: 273px;
   width: 264px;
   // background:red;
   display: inline-block;
   margin-right: 5px;
 }
 .main-right{
-  height: 280px;
+  height: 273px;
   margin:0; 
   width: 430px;
   display: inline-block;
