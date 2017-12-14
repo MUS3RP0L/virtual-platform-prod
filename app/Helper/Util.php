@@ -690,7 +690,7 @@ class Util
     }
     public static function totalSumEcoCom($ids_eco_com)
     {
-    	$total=EconomicComplement::whereIn('id',$ids_eco_com)->sum('total');
+    	$total=EconomicComplement::whereIn('id',$ids_eco_com)->select(DB::raw("sum(total + coalesce(economic_complements.amount_replacement, 0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_loan, 0))"))->get()->first();
     	return $total;
     }
     public static function removeSpaces($text)
