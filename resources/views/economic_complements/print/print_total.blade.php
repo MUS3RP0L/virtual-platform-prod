@@ -1,7 +1,7 @@
 @extends('globalprint.wkhtml')
-@section('subtitle')
+@section('title2')
 @if($economic_complement->old_eco_com)
-  {{-- <center><strong>(RECALIFICACION)</strong></center> --}}
+  <center><strong>{{ $title2 }}</strong></center>
 	@endif
 @endsection
 @section('content')

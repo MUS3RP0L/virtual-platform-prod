@@ -259,12 +259,12 @@ hr.cut-line {
   text-align: center;
 }
 .main1{
-  height: 801px;
+  height: 737px;
   // background:#3b5998;
 }
 .main-left{
   height: 273px;
-  width: 264px;
+  width: 243px;
   // background:red;
   display: inline-block;
   margin-right: 5px;
@@ -272,7 +272,7 @@ hr.cut-line {
 .main-right{
   height: 273px;
   margin:0; 
-  width: 430px;
+  width: 453px;
   display: inline-block;
   // background:green;
 }
