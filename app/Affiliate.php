@@ -53,6 +53,11 @@ class Affiliate extends Model
 
     protected $guarded = ['id'];
 
+    public function devolution()
+    {
+        return $this->hasMany(Devolution::class);
+    }
+
     public function contributions()
     {
         return $this->hasMany('Muserpol\Contribution');

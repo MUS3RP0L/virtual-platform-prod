@@ -18,11 +18,12 @@
   <div id="project">
     @include('economic_complements.info.applicant_info',['eco_com_applicant'=>$eco_com_applicant])
 
-    @if($economic_complement->has_legal_guardian)
+    @if($economic_complement->has_legal_guardian && $economic_complement->has_legal_guardian_s)
     @include('economic_complements.info.legal_guardian',['economic_complement_legal_guardian'=>$economic_complement_legal_guardian])
     @endif
 
     @include('economic_complements.info.simple_info',['economic_complement'=>$economic_complement])
+    <br>
     <table>
       <tr>
         <td colspan="3" class="grand service info_title" ><strong>CÁLCULO DEL COMPLEMENTO ECONÓMICO {{ $economic_complement->economic_complement_procedure->getShortenedNameTwo() }}</strong></td>
@@ -60,7 +61,7 @@
         </tr>
         @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 )
         <tr>
-          <td class="grand service text-left"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BS. ({{ $economic_complement->old_eco_com ? 'RECALIFICADO':'CALIFICADO' }})</strong></td><td class="number"><strong>{{$temp_total}}</strong></td><td></td>
+          <td class="grand service text-left"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BOLIVIANOS {{ $economic_complement->old_eco_com ? '(RECALIFICADO)':'' }}</strong></td><td class="number"><strong>{{$temp_total}}</strong></td><td></td>
         </tr>
         @endif
         @if($economic_complement->amount_loan)
@@ -75,12 +76,12 @@
         @endif
         @if($economic_complement->amount_replacement)
         <tr>
-          <td> – AMORTIZACIÓN POR REPOSICIÓN DE FONDOS</td><td></td><td class="number" >{{Util::formatMoney($economic_complement->amount_replacement)}}</td>
+          <td> – AMORTIZACIÓN POR REPOSICIÓN DE FONDOS {{ $economic_complement->affiliate->devolution->first() ? ' CON EL '.($economic_complement->affiliate->devolution->first()->percentage*100).'%' : '' }}</td><td></td><td class="number" >{{Util::formatMoney($economic_complement->amount_replacement)}}</td>
         </tr>
         @endif
         <tr>
           @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 )
-          <td class="grand service text-left"><strong>TOTAL LIQUIDO A PAGAR EN BS.</strong></td><td class="number"><strong>{{$total}}</strong></td><td></td>
+          <td class="grand service text-left"><strong>TOTAL LIQUIDO A PAGAR EN BOLIVIANOS</strong></td><td class="number"><strong>{{$total}}</strong></td><td></td>
           @else
           <td class="grand service text-left"><strong>TOTAL COMPLEMENTO ECONÓMICO EN {{ $economic_complement->economic_complement_procedure->getShortenedNameTwo() }}</strong></td><td class="number"><strong>{{$total}}</strong></td><td></td>
           @endif
@@ -96,11 +97,11 @@
           <td></td>
         </tr>
         <tr>
-          <td colspan="3"><strong>Son: </strong> {{ Util::convertir($economic_complement->total_repay) }} BOLIVIANOS</td>
+          <td colspan="3"><strong>Son: </strong> {{ Util::convertir($economic_complement->total_repay) }} BOLIVIANOS.</td>
         </tr>
         @else
         <tr>
-          <td colspan="3"><strong>Son: </strong> {{ $total_literal }} BOLIVIANOS</td>
+          <td colspan="3"><strong>Son: </strong> {{ $total_literal }} BOLIVIANOS.</td>
         </tr>
         @endif
         </table>
@@ -178,10 +179,10 @@
 <div class="main-left">
   <table>
     <tr>
-      <td class="no-border"></td>
+      <td colspan="2" class="no-border"></td>
     </tr>
     <tr class="tableh1">
-      <th style="width: 50%;border: 0px" class="size-7">
+      <th colspan="2" style="width: 50%;border: 0px" class="size-7">
         <b>MUTUAL DE SERVICIOS AL POLICÍA<br>
           {!! $header1 !!}<br>{!! $header2 !!}
           @yield('title')
@@ -189,34 +190,53 @@
         </b>
       </th>
     </tr>
-    <tr >
-      <td class="no-border">
+    <tr>
+      <td colspan="2" class="no-border">
         <em>{{ ucwords(strtolower($user->city->name ?? '')) ?? 'La Paz' }}, {!! $date !!} - {!! $hour !!}</em>
       </td>
     </tr>
     <tr>
-      <td class="no-border">
+      <td colspan="2" class="no-border">
         <strong><em>REGIONAL:</em></strong>  {{ $economic_complement->city->name ?? '' }} <br>
-      </td></tr><tr><td class="no-border">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="no-border">
         <strong><em>GRADO:</em></strong>  {{ $economic_complement->degree->shortened ?? '' }} <br>
-      </td></tr><tr><td class="no-border">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="no-border">
         <strong><em>CATEGORÍA:</em></strong>  {{ $economic_complement->category->name ?? '' }} <br>
-      </td></tr><tr><td class="no-border">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="no-border">
         <strong><em>NOMBRES Y APELLIDOS:</em></strong><br>
           {{ $economic_complement->economic_complement_applicant->getFullName() ?? '' }} <br>
-      </td></tr><tr><td class="no-border">
-        <strong><em>CI:</em></strong> {!! $economic_complement->economic_complement_applicant->identity_card !!} {{$economic_complement->economic_complement_applicant->city_identity_card->first_shortened ?? ''}} <br>
-      </td></tr><tr><td class="no-border">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="no-border">
+        <strong><em>C.I.:</em></strong> {!! $economic_complement->economic_complement_applicant->identity_card !!} {{$economic_complement->economic_complement_applicant->city_identity_card ? $economic_complement->economic_complement_applicant->city_identity_card->first_shortened.'.' : ''}} <br>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="no-border">
         <strong><em>TRÁMITE Nº:</em></strong> {!! $economic_complement->code ?? ''!!} <br>
       </td>
     </tr>
     <tr>
-      <td class="no-border">
+      <td colspan="2" class="no-border">
         <strong>SON:</strong>
         <em class="size-9">{{ Util::convertir($economic_complement->total)   }} BOLIVIANOS</em>
       </td>
     </tr>
     <tr>
+      <td class="no-border" >
+        {{-- <strong>TIPO DE PRESTACIÓN:</strong> --}}
+        {{ strtoupper($economic_complement->economic_complement_modality->economic_complement_type->name) ?? '' }}
+      </td>
       <td class="no-border text-center size-16">
         <span class="code border-radius">
           Bs. {{ Util::formatMoney($economic_complement->total) }}
@@ -249,7 +269,7 @@
     </tr><tr>
       <td colspan="2" class="no-border">
         <strong><em>REGIONAL:</em></strong>  {{ $economic_complement->city->name ?? '' }} <br>
-        <strong><em>CI:</em></strong>  {!! $economic_complement->economic_complement_applicant->identity_card !!} {{$economic_complement->economic_complement_applicant->city_identity_card->first_shortened ?? ''}} <br>
+        <strong><em>C.I.:</em></strong> {!! $economic_complement->economic_complement_applicant->identity_card !!} {{$economic_complement->economic_complement_applicant->city_identity_card ? $economic_complement->economic_complement_applicant->city_identity_card->first_shortened.'.' : ''}} <br>
         <strong><em>TRÁMITE Nº:</em></strong> {!! $economic_complement->code ?? ''!!} <br>
       </td>
         <td colspan="2" class="text-center no-border">

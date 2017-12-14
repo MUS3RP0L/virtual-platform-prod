@@ -582,20 +582,6 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id == 1)
-                                <tr>
-                                    <td style="border-top:0px;;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong>Lugar de Nac.</strong>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! $eco_com_applicant->economic_complement->affiliate->city_birth->name ?? '' !!}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @else
                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
@@ -608,7 +594,6 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @endif
                                 <tr>
                                     <td style="border-top:0px;;">
                                         <div class="row">
@@ -1829,15 +1814,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if($eco_com_applicant->economic_complement->economic_complement_modality->economic_complement_type->id == 1)
-                                    <div class="form-group">
-                                        {!! Form::label('city_birth_id', 'Lugar de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
-                                        <div class="col-md-7">
-                                            {!! Form::select('city_birth_id', $cities_list, $affiliate->city_birth_id, ['class' => 'combobox form-control']) !!}
-                                            <span class="help-block">Seleccione Departamento</span>
-                                        </div>
-                                    </div>
-                                @else
                                     <div class="form-group">
                                         {!! Form::label('city_birth_id', 'Lugar de Nacimiento', ['class' => 'col-md-5 control-label']) !!}
                                         <div class="col-md-7">
@@ -1845,8 +1821,7 @@
                                             <span class="help-block">Seleccione Departamento</span>
                                         </div>
                                     </div>
-                                @endif
-
+                                
                                 
 
                                 
