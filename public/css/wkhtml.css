@@ -20,7 +20,14 @@ table {
   border-spacing: 0;
   margin-bottom: 3px;
 }
-
+.tableh1 {
+  height: 15px;
+  width: 100%;
+  border-bottom: 1px solid  #5D6975;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 3px;
+}
 .tablet {
   width: 100%;
   border-spacing: 0;

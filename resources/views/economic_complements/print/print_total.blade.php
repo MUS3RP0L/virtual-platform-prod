@@ -182,7 +182,7 @@
     <tr>
       <td class="no-border"></td>
     </tr>
-    <tr class="tableh">
+    <tr class="tableh1">
       <th style="width: 50%;border: 0px" class="size-7">
         <b>MUTUAL DE SERVICIOS AL POLICÍA<br>
           {!! $header1 !!}<br>{!! $header2 !!}
@@ -234,7 +234,7 @@
     <tr>
       <td colspan="4" class="no-border"></td>
     </tr>
-    <tr class="tableh">
+    <tr class="tableh1">
       <th colspan="4" style="width: 50%;border: 0px" class="size-7">
         <b>MUTUAL DE SERVICIOS AL POLICÍA<br>
           {!! $header1 !!}<br>{!! $header2 !!}
