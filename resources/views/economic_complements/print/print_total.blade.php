@@ -57,7 +57,7 @@
           <td>TOTAL SEMESTRE (DIFERENCIA SE MULTIPLICA POR 6 MESES)</td><td class="number">{{$total_amount_semester}}</td><td></td>
         </tr>
         <tr>
-          <td>FACTOR DE COMPLEMENTACIÓN</td><td class="number">{{ $factor_complement }} %</td><td></td>
+          <td>FACTOR DE COMPLEMENTACIÓN</td><td class="number">{{ $factor_complement*100 }} %</td><td></td>
         </tr>
         @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 )
         <tr>
@@ -83,7 +83,7 @@
           @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 )
           <td class="grand service text-left"><strong>TOTAL LIQUIDO A PAGAR EN BOLIVIANOS</strong></td><td class="number"><strong>{{$total}}</strong></td><td></td>
           @else
-          <td class="grand service text-left"><strong>TOTAL COMPLEMENTO ECONÓMICO EN {{ $economic_complement->economic_complement_procedure->getShortenedNameTwo() }}</strong></td><td class="number"><strong>{{$total}}</strong></td><td></td>
+          <td class="grand service text-left"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BOLIVIANOS{{-- {{ $economic_complement->economic_complement_procedure->getShortenedNameTwo() }} --}}</strong></td><td class="number"><strong>{{$total}}</strong></td><td></td>
           @endif
         </tr>
         @if($economic_complement->old_eco_com)
