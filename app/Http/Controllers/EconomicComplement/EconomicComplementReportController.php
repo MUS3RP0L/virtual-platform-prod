@@ -1230,7 +1230,7 @@ class EconomicComplementReportController extends Controller
             'user_role' =>Util::getRol()->name
         ];
         $data = array_merge($data, $second_data);
-        return \PDF::loadView('economic_complements.print.print_total', $data)->setOption('page-width', '215.9')->setOption('page-height', '330')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('print_total.pdf');
+        return \PDF::loadView('economic_complements.print.print_total', $data)->setOption('page-width', '215.9')->setOption('page-height', '330')->setOption('margin-bottom', 0)/*->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')*/->stream('print_total.pdf');
 
         // ->setOption('page-width', '215.9')->setOption('page-height', '330')
 

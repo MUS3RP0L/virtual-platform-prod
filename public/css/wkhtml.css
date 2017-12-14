@@ -147,6 +147,15 @@ strong, .bold{
 .size-8{
   font-size: 8px;
 }
+.size-7{
+  font-size: 7px;
+}
+.size-6{
+  font-size: 6px;
+}
+.size-5{
+  font-size: 5px;
+}
 .izq{
   text-align:left;
 }
@@ -248,4 +257,38 @@ hr.cut-line {
 }
 .text-center{
   text-align: center;
+}
+.main1{
+  height: 793.70px;
+  // background:#3b5998;
+}
+.main-left{
+  height: 280px;
+  width: 264px;
+  // background:red;
+  display: inline-block;
+  margin:0; 
+}
+.main-right{
+  height: 280px;
+  margin:0; 
+  width: 439px;
+  display: inline-block;
+  // background:green;
+}
+.border-radius{
+  border-radius: 5px;
+  padding: 3px 6px;
+}
+.margin-l-10{
+  margin-left: 10px;
+}
+.width-25-por{
+  width: 25%
+}
+.width-20-por{
+  width: 20%
+}
+.width-30-por{
+  width: 30%
 }
