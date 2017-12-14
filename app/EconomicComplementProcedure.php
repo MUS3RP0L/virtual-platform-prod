@@ -42,4 +42,16 @@ class EconomicComplementProcedure extends Model
       $y=Carbon::parse($this->year)->year;
       return  $s.''.$y;
     }
+    public function getShortenedNameTwo()
+    {
+      $s=($this->semester == 'Primer') ?'1ER. SEMESTRE':'2DO. SEMESTRE';
+      $y=Carbon::parse($this->year)->year;
+      return  $s.' DE '.$y;
+    }
+    public function getFullName()
+    {
+      $s=($this->semester == 'Primer') ?'PRIMER':'SEGUNDO';
+      $y=Carbon::parse($this->year)->year;
+      return  $s.' SEMESTRE '.$y;
+    }
 }
