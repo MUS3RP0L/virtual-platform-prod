@@ -183,7 +183,7 @@
       <td class="no-border"></td>
     </tr>
     <tr class="tableh">
-      <th style="width: 50%;border: 0px" class="size-8">
+      <th style="width: 50%;border: 0px" class="size-7">
         <b>MUTUAL DE SERVICIOS AL POLICÍA<br>
           {!! $header1 !!}<br>{!! $header2 !!}
           @yield('title')
@@ -199,11 +199,16 @@
     <tr>
       <td class="no-border">
         <strong><em>REGIONAL:</em></strong>  {{ $economic_complement->city->name ?? '' }} <br>
+      </td></tr><tr><td class="no-border">
         <strong><em>GRADO:</em></strong>  {{ $economic_complement->degree->shortened ?? '' }} <br>
+      </td></tr><tr><td class="no-border">
         <strong><em>CATEGORÍA:</em></strong>  {{ $economic_complement->category->name ?? '' }} <br>
+      </td></tr><tr><td class="no-border">
         <strong><em>NOMBRES Y APELLIDOS:</em></strong><br>
           {{ $economic_complement->economic_complement_applicant->getFullName() ?? '' }} <br>
+      </td></tr><tr><td class="no-border">
         <strong><em>CI:</em></strong> {!! $economic_complement->economic_complement_applicant->identity_card !!} {{$economic_complement->economic_complement_applicant->city_identity_card->first_shortened ?? ''}} <br>
+      </td></tr><tr><td class="no-border">
         <strong><em>TRÁMITE Nº:</em></strong> {!! $economic_complement->code ?? ''!!} <br>
       </td>
     </tr>
@@ -230,7 +235,7 @@
       <td colspan="4" class="no-border"></td>
     </tr>
     <tr class="tableh">
-      <th colspan="4" style="width: 50%;border: 0px" class="size-8">
+      <th colspan="4" style="width: 50%;border: 0px" class="size-7">
         <b>MUTUAL DE SERVICIOS AL POLICÍA<br>
           {!! $header1 !!}<br>{!! $header2 !!}
           @yield('title')
