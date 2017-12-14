@@ -1,8 +1,6 @@
 @extends('globalprint.wkhtml')
 @section('title2')
-@if($economic_complement->old_eco_com)
   <center><strong>{{ $title2 }}</strong></center>
-	@endif
 @endsection
 @section('content')
 <style type="text/css">
