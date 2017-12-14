@@ -267,12 +267,12 @@ hr.cut-line {
   width: 264px;
   // background:red;
   display: inline-block;
-  margin:0; 
+  margin-right: 5px;
 }
 .main-right{
   height: 280px;
   margin:0; 
-  width: 439px;
+  width: 430px;
   display: inline-block;
   // background:green;
 }
