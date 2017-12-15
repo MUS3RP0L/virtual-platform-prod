@@ -2525,8 +2525,10 @@ class EconomicComplementController extends Controller
                         Log::info("whille");
                     }
                     $devolution = Devolution::where('affiliate_id','=',$complemento->affiliate_id)->where('observation_type_id','=',13)->first();
-                    $devolution->balance = $devolution->total - $sum;
-                    $devolution->save();
+                    if ($devolution) {
+                        $devolution->balance = $devolution->total - $sum;
+                        $devolution->save();
+                    }
                     $wf_record=new WorkflowRecord;
                     $wf_record->user_id=Auth::user()->id;
                     $wf_record->date=Carbon::now();

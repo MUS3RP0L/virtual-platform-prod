@@ -21,22 +21,36 @@
         </td>
       </tr>
       <tr><td class="text-justify">
-        Yo <strong>{{ $eco_com_applicant->getFullName() }}</strong>, mayor de edad con Cédula de Identidad Nº {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened  ? $eco_com_applicant->city_identity_card->first_shortened.'.' : ''!!}, domiciliado en la Zona {!! $address->zone ?? '-' !!}, Calle {{ $address->street ?? '-' }}, Nro. {{ $address->number_address ?? '-' }}, de la ciudad de {{ $address->city->name ?? '' }}, hábil por derecho y en mi calidad de beneficiario (a) del Complemento Económico que otorga la Mutual de Servicios al Policía – MUSERPOL al sector pasivo de la Policía Boliviana, que habiendo sido notificado por haber percibido pagos en defecto del Complemento Económico correspondiente al 1er. y 2do. Semestre de las gestiones 2015 y 2016 por un importe de Bs. {{ Util::formatMoney($devolution->total) }}  ({{ $total_dues_literal }} BOLIVIANOS),
+        Yo <strong>{{ $eco_com_applicant->getFullName() }}</strong>, mayor de edad con Cédula de Identidad Nº {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened  ? $eco_com_applicant->city_identity_card->first_shortened.'.' : ''!!}, domiciliado en la Zona {!! $address->zone ?? '-' !!}, {{ $address->street ?? '-' }}, Nro. {{ $address->number_address ?? '-' }}, de la ciudad de {{ $address->city->name ?? '' }}, hábil por derecho y en mi calidad de beneficiario (a) del Complemento Económico que otorga la Mutual de Servicios al Policía – MUSERPOL al sector pasivo de la Policía Boliviana, que habiendo sido notificado por haber percibido pagos en defecto del Complemento Económico correspondiente al 
+        <?php $ii=sizeOf($devolution->dues()->where('amount','>',0)->get());?>
+        @foreach($devolution->dues()->where('amount','>',0)->get() as $index => $d)
+          @if($index<$ii-1)
+            {{ $d->eco_com_procedure->semester  }} Semestre {{ Carbon\Carbon::parse($d->eco_com_procedure->year)->year  }}@if($index==$ii-2)@else,@endif
+          @else
+            @if($ii>1)
+              y
+            @endif
+              {{ $d->eco_com_procedure->semester  }} Semestre {{ Carbon\Carbon::parse($d->eco_com_procedure->year)->year  }},
+            @endif
+        @endforeach
+
+        {{-- al 1er. y 2do. Semestre de las gestiones 2015 y 2016  --}}
+        por un importe de Bs. {{ Util::formatMoney($devolution->total) }}  ({{ $total_dues_literal }} BOLIVIANOS),
         <strong>
           
           @if($devolution->percentage)
-          expreso mi conformidad para que se efectúe el descuento con el {{ $devolution->percentage * 100 }}% del beneficio del Complemento Económico a partir del Primer Semestre de la gestión 2017, hasta cubrir el monto determinado.
+          expreso mi conformidad de manera voluntaria para que se efectúe el descuento con el {{ $devolution->percentage * 100 }}% del beneficio del Complemento Económico a partir del Primer Semestre de la gestión 2017, hasta cubrir el monto determinado.
           @else
             @if($devolution->deposit_number && $devolution->payment_date)
               expreso mi conformidad de manera voluntaria para efectuar la devolución del total del monto en defecto inicialmente determinado.
             @else
-              expreso mi conformidad para que se efectúe el descuento del total del monto en defecto inicialmente determinado, con el beneficio del Complemento Económico del Primer semestre de la gestión 2017.
+              expreso mi conformidad de manera voluntaria para que se efectúe el descuento del total del monto en defecto inicialmente determinado, con el beneficio del Complemento Económico del Primer semestre de la gestión 2017.
             @endif
           @endif
         </strong>
       </td></tr>
       </table>
-      @include('economic_complements.info.applicant_info',['eco_com_applicant'=>$eco_com_applicant])
+      @include('economic_complements.info.applicant_info',['eco_com_applicant'=>$eco_com_applicant, 'city_birth_long'=> $eco_com_applicant->city_birth->name ?? null])
       @include('economic_complements.info.simple_info',['economic_complement'=>$economic_complement])
       @include('affiliates.print.devolutions.amount', ['dues'=>$devolution->dues,'devolution'=>$devolution,'total_dues_literal'=>$total_dues_literal])
 
