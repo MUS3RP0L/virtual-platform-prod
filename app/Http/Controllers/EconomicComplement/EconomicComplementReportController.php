@@ -1651,7 +1651,7 @@ class EconomicComplementReportController extends Controller
           ->wfstates()
           ->affiliateobservations()
           ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
-          ->whereRaw("economic_complements.workflow_id = 1 and economic_complements.wf_current_state_id <= 3 and economic_complements.state <> 'Edited'")
+          ->whereRaw("economic_complements.workflow_id = 1 and economic_complements.wf_current_state_id <= 3 and economic_complements.state <> 'Edited 03. '")
           ->get();
           
           $data = $economic_complements;
@@ -1691,7 +1691,25 @@ class EconomicComplementReportController extends Controller
         // $data = $economic_complements;
         // Util::excel($file_name, 'hoja', $data);
         // break;
-      
+        case '11':
+          # code...
+            $columns = ', observations.observations as observaciones';
+            $file_name = $name.' '.date("Y-m-d H:i:s");
+
+            $economic_complements = EconomicComplement::where('eco_com_procedure_id',$eco_com_procedure_id)
+            ->ecocominfo()
+            ->applicantinfo()
+            ->affiliateinfo()
+            ->ecocomstates()
+            ->Observations()
+            ->where('affiliate_observations.observation_type_id',2)
+            //->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
+            ->get();
+            dd($economic_complements);
+            $data = $economic_complements;
+            Util::excel($file_name,'observados prestamos',$data);
+
+          break;
       default:
         
         break;

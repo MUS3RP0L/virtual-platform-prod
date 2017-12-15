@@ -67,7 +67,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $gate->define('economic_complement-treasury',function($user){
 
-            if(Util::getRol()->module_id == 2 || Util::getRol()->module_id == 9)
+            if(Util::getRol()->module_id == 2 || Util::getRol()->module_id == 9|| Util::getRol()->module_id == 8)
             {
                 return true;
             }
