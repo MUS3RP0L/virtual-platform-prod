@@ -73,6 +73,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\CopyAverage::class,
         \Muserpol\Console\Commands\DeleteObservationLoan::class,
         \Muserpol\Console\Commands\Concurrencia::class,
+        \Muserpol\Console\Commands\UpdateComplementaryFactor::class,
         
     ];
 
