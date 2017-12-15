@@ -57,7 +57,7 @@
           <td>TOTAL SEMESTRE (DIFERENCIA SE MULTIPLICA POR 6 MESES)</td><td class="number">{{$total_amount_semester}}</td><td></td>
         </tr>
         <tr>
-          <td>FACTOR DE COMPLEMENTACIÓN</td><td class="number">{{ $factor_complement*100 }} %</td><td></td>
+          <td>FACTOR DE COMPLEMENTACIÓN</td><td class="number">{{ intval($economic_complement->complementary_factor) }} %</td><td></td>
         </tr>
         @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 )
         <tr>
