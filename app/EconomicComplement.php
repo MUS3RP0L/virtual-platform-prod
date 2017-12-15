@@ -428,6 +428,7 @@ class EconomicComplement extends Model
     {
         return "affiliates.gender as genero, affiliates.first_name as primer_nombre_causahabiente, affiliates.second_name as segundo_nombre_causahabiente, affiliates.last_name as ap_paterno_causahabiente, affiliates.mothers_last_name as ap_materno_causahabiente, affiliates.surname_husband as ape_casada_causahabiente, affiliates.birth_date as fecha_nacimiento, affiliates.nua as codigo_nua_cua";
     }
+    
     public function scopeEcocominfo($query)
     {
         return $query->leftJoin('cities', 'economic_complements.city_id', '=', 'cities.id')
@@ -455,15 +456,20 @@ class EconomicComplement extends Model
     {
         return $query->leftJoin('wf_states', 'economic_complements.wf_current_state_id', '=', 'wf_states.id');
     }
+
     public function scopeAffiliateObservations($query)
     {
-        return $query->leftJoin(DB::raw("(SELECT affiliates.id, string_agg(observation_types.name, ' | ') as observations
+        return $query->leftJoin(DB::raw("(SELECT affiliates.id,observation_types.id as observation_type_id, string_agg(observation_types.name, ' | ') as observations
                             FROM affiliates
                             LEFT JOIN affiliate_observations ON affiliates.id = affiliate_observations.affiliate_id
                             LEFT JOIN observation_types on affiliate_observations.observation_type_id = observation_types.id
                             where affiliate_observations.deleted_at is null
                             GROUP BY affiliates.id) as observations"),'affiliates.id','=','observations.id');
 
+    }
+    public function scopeObservations($query)
+    {
+        return $query->leftJoin('affiliate_observations','affiliate_observations.affiliate_id','=','economic_complements.affiliate_id');
     }
 }
 

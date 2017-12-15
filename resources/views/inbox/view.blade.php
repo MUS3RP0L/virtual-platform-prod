@@ -251,6 +251,7 @@
     </div>  
     @endif
     {!! Form::close() !!}
+    
 		</div>
 	</div>
 </div>
@@ -513,8 +514,10 @@ $(document).ready(function (){
         self.listaWorkflowsReceived = ko.observableArray();
         self.listaSecuencias = ko.observableArray();
         
+
         for (var i in workflowsList) {
           self.listaWorkflows.push(new Workflow(workflowsList[i].id,workflowsList[i].name,workflowsList[i].quantity,workflowsList[i].color));
+
         }
         for (var i in workflowsListReceived) {
           self.listaWorkflowsReceived.push(new Workflow(workflowsListReceived[i].id,workflowsListReceived[i].name,workflowsListReceived[i].quantity,workflowsListReceived[i].color));

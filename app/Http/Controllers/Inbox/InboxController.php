@@ -29,11 +29,13 @@ class InboxController extends Controller
      */
     public function index()
     {   
-     
-        if(Util::getRol()->module_id ==2 || Util::getRol()->module_id ==9 )
+        // dd(Util::getRol());
+        //return Util::getRol();
+        if(Util::getRol()->module_id ==2 || Util::getRol()->module_id ==9 || Util::getRol()->module_id == 8  )
         {
             
             $sw_actual = WorkflowState::where('role_id',Util::getRol()->id)->first();
+            // dd($sw_actual);
             $secuencias = array();
             if($sw_actual)
             {
@@ -48,8 +50,12 @@ class InboxController extends Controller
                 foreach ($sequence as $s) {
                                 # code...
                     $wf = WorkflowState::where('id',$s->wf_state_next_id)->first();
+                    Log::info("workflows:");
                     Log::info($wf);
                     $wf_nexts = array('id'=>$wf->id,'name'=>$wf->name,'workflow_id'=>$s->workflow_id);
+                    Log::info("next:");
+                    Log::info($wf_nexts);
+
                     array_push($secuencias, $wf_nexts);
                 }            
                 // $sw_siguiente = WorkflowState::where('id',$sequence->wf_state_next_id)->first();
@@ -126,7 +132,8 @@ class InboxController extends Controller
             }
             $data = array('sw_actual' => $sw_actual, 'secuencias' => $secuencias, 'workflow_ids'=> $workflow_ids ,'wfs'=>$wfss, 'wf_received'=>$wf_received );
 
-            // return $data;
+           // return $data;
+
             return view('inbox.view',$data);
         }
         else
