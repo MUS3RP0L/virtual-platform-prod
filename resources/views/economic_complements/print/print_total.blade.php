@@ -117,7 +117,7 @@
           <td class="width-20-por no-border"></td>
           <td class="width-30-por padding-top"><strong>Elaborado y Revisado por:</strong></td>
           {{-- <td class="width-30-por padding-top"><strong>Aprobado por:</strong></td> --}}
-          <td class="width-30-por padding-top"><strong>Aprobado por:</strong></td>
+          <td class="width-30-por padding-top"><strong>V° B°</strong></td>
           <td class="width-20-por no-border"></td>
         </tr>
       </table>
