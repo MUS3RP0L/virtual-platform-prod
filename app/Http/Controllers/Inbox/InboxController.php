@@ -132,8 +132,8 @@ class InboxController extends Controller
             }
             $data = array('sw_actual' => $sw_actual, 'secuencias' => $secuencias, 'workflow_ids'=> $workflow_ids ,'wfs'=>$wfss, 'wf_received'=>$wf_received );
 
-            return $data;
-            
+           // return $data;
+
             return view('inbox.view',$data);
         }
         else

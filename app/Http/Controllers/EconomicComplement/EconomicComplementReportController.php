@@ -1657,7 +1657,7 @@ class EconomicComplementReportController extends Controller
           ->wfstates()
           ->affiliateobservations()
           ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
-          ->whereRaw("economic_complements.workflow_id = 1 and economic_complements.wf_current_state_id <= 3 and economic_complements.state <> 'Edited 03. '")
+          ->whereRaw("economic_complements.workflow_id = 1 and economic_complements.wf_current_state_id <= 3 and economic_complements.state <> 'Edited'")
           ->get();
           
           $data = $economic_complements;
