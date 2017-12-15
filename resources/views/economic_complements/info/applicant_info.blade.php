@@ -11,6 +11,6 @@
 	<tr>
 		<td><strong>FECHA NAC:</strong></td><td> {!! $eco_com_applicant->getShortBirthDate() !!}</td>
 		<td><strong>EDAD:</strong></td><td>{!! $eco_com_applicant->getAge() !!} AÑOS</td>
-		<td><strong>LUGAR DE NAC.:</strong></td><td>{!! $city_birth_long ?? $eco_com_applicant->city_birth->second_shortened ?? '' !!}</td>
+		<td><strong>LUGAR DE NAC.:</strong></td><td>{!! $eco_com_applicant->city_birth->name ?? '' !!}</td>
 	</tr>
 </table>
