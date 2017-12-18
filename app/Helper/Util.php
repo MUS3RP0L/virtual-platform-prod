@@ -594,7 +594,7 @@ class Util
     				return 'Calificó';
     				break;
     			default:
-    				return 'Edito';
+    				return 'Verificó';
     				break;
     		}	
     }
