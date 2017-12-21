@@ -51,7 +51,7 @@ class ImportRezagados extends Command implements SelfHandling
 
                         $ecom = EconomicComplement::where('affiliate_id','=', $result->descripcion2)
                                                     ->whereYear('year','=', 2017)
-                                                    ->where('semester','=', 'Primer')->first();
+                                                    ->where('semester','=', 'Segundo')->first();
                         if($ecom)
                         {
                             if ($ecom->eco_com_state_id == 1 or $ecom->eco_com_state_id == 17)
