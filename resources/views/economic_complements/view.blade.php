@@ -47,13 +47,13 @@
             @endif
         @endcan
         
-        @can('eco_com_qualification')
+        {{-- @can('eco_com_qualification')
             @if($economic_complement->total> 0)
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir comprobante de respaldo" style="margin:0px;">
                     <a href="#" class="btn btn-sm btn-raised btn-success" onclick="printJS({printable:'{!! url('print_eco_com_backrest/' . $economic_complement->id) !!}', type:'pdf', showModal:true})"><i class="fa fa-file"></i></a>
                 </div>
             @endif
-        @endcan
+        @endcan --}}
         @if($has_amortization)
        
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Amortización" style="margin:0px;">
