@@ -118,9 +118,13 @@
             </div>
             @endcan
             @can('eco_com_review_and_reception')
-                <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Devoluciones" style="margin: 0;">
-                    <a href="" class="btn btn-info btn-raised" data-toggle="modal" data-target="#devolutionModal"><i class="fa fa-circle-o-notch" aria-hidden="true"></i></a>
-                </div>
+                @if($devolution)
+                    @if($devolution->balance > 0 )
+                        <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Devoluciones" style="margin: 0;">
+                            <a href="" class="btn btn-info btn-raised" data-toggle="modal" data-target="#devolutionModal"><i class="fa fa-circle-o-notch" aria-hidden="true"></i></a>
+                        </div>
+                    @endif
+                @endif
             @endcan
         </div>
     </div>
@@ -1655,8 +1659,10 @@
     {{-- <div class="modal fade" tabindex="-1" >
         <iframe src="{!! url('history_print/' . $affiliate->id ) !!}" id="historyPdf"></iframe>
     </div> --}}
+
     
         <!-- Edition of a police officer-->
+    @if($devolution)
     <div id="devolutionModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -1665,27 +1671,48 @@
                     <h4 class="modal-title">Datos del compromiso de Devolucion por pagos en demasia</h4>
                 </div>
                 <div class="modal-body">
+                    <table class="table table-bordered" style="width:100%;">
+                        <tr class="success" >
+                            <td class="text-center" style="width:25%"><strong>GESTIÓN</strong></td><td class="text-center" style="width:25%"><strong>MONTO ADEUDADO</strong></td>
+                            <td class="text-center" style="width:25%"><strong>GESTIÓN</strong></td><td class="text-center" style="width:25%"><strong>MONTO ADEUDADO</strong></td>
+                        </tr>
+                            @foreach($devolution->dues as $index=>$due)
+                            @if($index%2 == 0)
+                                <tr>
+                            @endif
+                                <td>{{ $due->eco_com_procedure->getShortenedName() }}</td><td class="text-right"><strong>Bs. </strong>  {!! Util::formatMoney($due->amount) ?? '0.00' !!}</td>
+                            @if($index%2 == 1)
+                                </tr>
+                            @endif
+                            @endforeach
+                        </tr>
+                    </table>
+                    <hr>
                     {!! Form::model($affiliate, ['method' => 'PATCH', 'route' => ['affiliate.update', $affiliate], 'class' => 'form-horizontal']) !!}
                     <input type="hidden" name="type" value="devolutions"/>
                         <div class="row">
-                            <div class="col-md-6">
-
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <strong>Total Deuda:</strong> {{ Util::formatMoney($devolution->total ?? null) }}
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-4">
+                                    <h4><strong>Total Deuda Pendiente:</strong> {{ Util::formatMoney($devolution->balance ?? null) }}</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <label class="col-md-2">
                                         Tipo de Descuento
                                     </label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-10">
                                     <div class="radio radio-primary">
                                         <label style="font-size: 18px" data-toggle="tooltip" data-placement="top" title="Nota: Solo si la deuda es menor al complemento económico.">
-                                            <input type="radio" value="false"  data-bind='checked:total_percentage, attr: {required: show_total_percentage_radio}' name="total_percentage" > Por el Total de la Deuda
+                                            <input type="radio" value="false"  data-bind='checked:total_percentage, attr: {required: show_total_percentage_radio}' name="total_percentage" >Por el Total de la Deuda Pendiente
                                         </label>
                                     </div>
                                     <div class="radio radio-primary">
                                         <label style="font-size: 18px">
-                                            <input type="radio" value="true" data-bind='checked:total_percentage, attr: {required: show_total_percentage_radio}' name="total_percentage"> Porcentaje para Amortizar
+                                            <input type="radio"  value="true" data-bind='checked:total_percentage, attr: {required: show_total_percentage_radio}' name="total_percentage"> Porcentaje para Amortizar
                                         </label>
                                     </div>
                                     </div>
@@ -1698,9 +1725,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <div class="row" data-bind='visible: !show_total_percentage()'>
-                                    <div class="col-md-offset-5 col-md-4">
+                                    <div class="col-md-offset-1 col-md-12">
                                         <div class="form-group">
                                             <div class="togglebutton">
                                               <label>
@@ -1711,7 +1738,7 @@
                                     </div>
                                 </div>
 
-                                <div data-bind='visible: immediate_voluntary_return'>
+                                <div data-bind='visible: immediate_voluntary_return() && !show_total_percentage()'>
                                     <div class="row text-center"><strong>Datos del Deposito</strong></div>
                                     <div class="form-group">
                                             {!! Form::label('deposit_number', 'Constancia de Deposito', ['class' => 'col-md-5 control-label']) !!}
@@ -1760,6 +1787,7 @@
             </div>
         </div>
     </div>
+    @endif
 
 @endsection
 
