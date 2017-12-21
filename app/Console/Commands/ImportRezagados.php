@@ -54,18 +54,18 @@ class ImportRezagados extends Command implements SelfHandling
                                                     ->where('semester','=', 'Segundo')->first();
                         if($ecom)
                         {
-                            if ($ecom->eco_com_state_id == 1 or $ecom->eco_com_state_id == 17)
+                            if ($ecom->eco_com_state_id == 1 ) //or $ecom->eco_com_state_id == 17
                             {                                   
                               
                               $pagados ++;                     
                             }
                             else
                             { 
-                              if($ecom->total == $result->importe_a_pagar)                               
+                              if($ecom->total == $result->importeapagar)                               
                               {
                                  $ecom->workflow_id= 2;
-                                    $ecom->wf_current_state_id = 3;
-                                    $ecom->eco_com_state_id = 15;
+                                 $ecom->wf_current_state_id = 3;
+                                 $ecom->eco_com_state_id = 15;
 
                                 $ecom->save();
                                 $rezagados ++;
@@ -90,8 +90,8 @@ class ImportRezagados extends Command implements SelfHandling
                 $Progress->finish();
 
                 $this->info("\n\nReport Update:\n
-                $pagados Pagados en Banco.\n    
-                $rezagados Rezagados.\n                
+                Pagados en Banco: $pagados\n    
+                Rezagados: $rezagados\n                
                 Execution time $execution_time [minutes].\n");
             }
 
