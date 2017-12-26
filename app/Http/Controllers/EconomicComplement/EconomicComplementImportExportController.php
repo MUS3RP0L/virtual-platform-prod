@@ -385,7 +385,7 @@ public static function import_from_bank(Request $request)
           ->where('economic_complements.state','Edited')
           ->where('economic_complements.total','>', 0)
           ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')         
-          ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12,13,14,15) and affiliate_observations.is_enabled = false and affiliate_observations.deleted_at is null) ")->get();
+          ->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,6,7,12,13,14,15) and affiliate_observations.is_enabled = false and affiliate_observations.deleted_at is null) ")->get();
 
           //->whereNotNull('economic_complements.review_date')->get();     
      // dd($afi);
