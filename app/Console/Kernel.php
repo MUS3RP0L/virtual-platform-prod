@@ -75,6 +75,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\Concurrencia::class,
         \Muserpol\Console\Commands\UpdateComplementaryFactor::class,
         \Muserpol\Console\Commands\ImportBank::class,
+        \Muserpol\Console\Commands\CheckRequirement::class,
         
     ];
 

@@ -51,9 +51,9 @@ class ImportBank extends Command implements SelfHandling
                         $Progress->advance();
 
                         
-                       Log::info($result->descripcion2);
+                       //Log::info($result->descripcion2);
                      
-                            $ecom = EconomicComplement::where('affiliate_id','=', $result->descripcion2)                                                      
+                            $ecom = EconomicComplement::where('affiliate_id','=', trim($result->descripcion2))                                                     
                                                       ->where('eco_com_procedure_id','=', 6)->first();
                             if ($ecom)
                             {       
@@ -67,7 +67,8 @@ class ImportBank extends Command implements SelfHandling
                             }
                             else
                             {
-                                  $nofound++;              
+                                  $nofound++; 
+                                  Log::info($result->descripcion2);             
                             }
                         
 
