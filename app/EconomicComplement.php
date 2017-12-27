@@ -459,7 +459,7 @@ class EconomicComplement extends Model
 
     public function scopeAffiliateObservations($query)
     {
-        return $query->leftJoin(DB::raw("(SELECT affiliates.id,observation_types.id as observation_type_id, string_agg(observation_types.name, ' | ') as observations
+        return $query->leftJoin(DB::raw("(SELECT affiliates.id, string_agg(observation_types.name, ' | ') as observations
                             FROM affiliates
                             LEFT JOIN affiliate_observations ON affiliates.id = affiliate_observations.affiliate_id
                             LEFT JOIN observation_types on affiliate_observations.observation_type_id = observation_types.id
