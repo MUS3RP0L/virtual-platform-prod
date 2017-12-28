@@ -76,7 +76,11 @@
         @endif
         @if($economic_complement->amount_replacement)
         <tr>
+          @if($economic_complement->affiliate->devolution->first()->percentage)
           <td> – AMORTIZACIÓN POR REPOSICIÓN DE FONDOS {{ $economic_complement->affiliate->devolution->first() ? ' CON EL '.($economic_complement->affiliate->devolution->first()->percentage*100).'%' : '' }}</td><td></td><td class="number" >{{Util::formatMoney($economic_complement->amount_replacement)}}</td>
+          @else
+          <td> – AMORTIZACIÓN POR REPOSICIÓN DE FONDOS POR EL TOTAL</td><td></td><td class="number" >{{Util::formatMoney($economic_complement->amount_replacement)}}</td>
+          @endif
         </tr>
         @endif
         <tr>
