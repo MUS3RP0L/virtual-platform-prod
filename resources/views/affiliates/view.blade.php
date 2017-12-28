@@ -119,7 +119,7 @@
             @endcan
             @can('eco_com_review_and_reception')
                 @if($devolution)
-                    @if($devolution->balance > 0 )
+                    @if($devolution->total > 0 )
                         <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Devoluciones" style="margin: 0;">
                             <a href="" class="btn btn-info btn-raised" data-toggle="modal" data-target="#devolutionModal"><i class="fa fa-circle-o-notch" aria-hidden="true"></i></a>
                         </div>

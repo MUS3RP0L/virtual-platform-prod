@@ -15,17 +15,18 @@ use Muserpol\EconomicComplementApplicant;
 use Log;
 
 
-class ImportRezagados extends Command implements SelfHandling
+class ImportBank extends Command implements SelfHandling
 {
-    protected $signature = 'import:rezagados';
+    protected $signature = 'import:bank';
    
-    protected $description = 'Comando par aimportar rezagados';
+    protected $description = 'Comando par aimportar pagados';
 
     public function handle()
     {   
-        global $Progress,$rezagados, $pagados,$cam;
-        
-       $password = $this->ask('Enter the password');
+        global $Progress, $found,$nofound,$cam;
+        $found=0;
+        $nofound=0;
+        $password = $this->ask('Enter the password');
         if ($password == ACCESS) 
         {
 
@@ -42,43 +43,34 @@ class ImportRezagados extends Command implements SelfHandling
                 {
                     $rows->each(function($result) 
                     {
-                        global $Progress,$rezagados, $pagados,$cam;
+                        global $Progress,$found, $nofound,$cam;
                         ini_set('memory_limit', '-1');
                         ini_set('max_execution_time', '-1');
                         ini_set('max_input_time', '-1');
                         set_time_limit('-1');
                         $Progress->advance();
 
-                        $ecom = EconomicComplement::where('affiliate_id','=', $result->descripcion2)
-                                                    ->whereYear('year','=', 2017)
-                                                    ->where('semester','=', 'Segundo')->first();
-                        if($ecom)
-                        {
-                            if ($ecom->eco_com_state_id == 1 ) //or $ecom->eco_com_state_id == 17
-                            {                                   
-                              
-                              $pagados ++;                     
+                        
+                       //Log::info($result->descripcion2);
+                     
+                            $ecom = EconomicComplement::where('affiliate_id','=', trim($result->descripcion2))                                                     
+                                                      ->where('eco_com_procedure_id','=', 6)->first();
+                            if ($ecom)
+                            {       
+                                    $ecom->eco_com_state_id = 1;  //pagado banco
+                                    $ecom->wf_current_state_id= 8;     //archivo          
+                                    $ecom->payment_number = $result->nro_comprobante;
+                                    $ecom->payment_date = $result->fecha_pago;
+                                    $ecom->bank_agency = $result->agencia.' - '.$result->cod_agencia;
+                                    $ecom->save();
+                                    $found++;                  
                             }
                             else
-                            { 
-                              if($ecom->total == $result->importeapagar)                               
-                              {
-                                 $ecom->workflow_id= 2;
-                                 $ecom->wf_current_state_id = 3;
-                                 $ecom->eco_com_state_id = 15;
-
-                                $ecom->save();
-                                $rezagados ++;
-                              }
-                              else
-                              {
-                                    Log::info($ecom->id);
-                              }
-
-                             
+                            {
+                                  $nofound++; 
+                                  Log::info($result->descripcion2);             
                             }
-                            
-                        }                 
+                        
 
                     });
 
@@ -90,8 +82,8 @@ class ImportRezagados extends Command implements SelfHandling
                 $Progress->finish();
 
                 $this->info("\n\nReport Update:\n
-                Pagados en Banco: $pagados\n    
-                Rezagados: $rezagados\n                
+                Pagados en Banco: $found\n    
+                No pagados: $nofound\n                
                 Execution time $execution_time [minutes].\n");
             }
 
