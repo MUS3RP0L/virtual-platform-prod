@@ -10,10 +10,10 @@ Formulario Nº 3
  <strong>DIRECTOR (A) GENERAL EJECUTIVO</strong><br />
  <strong>MUTUAL DE SERVICIOS AL POLICÍA</strong><br />
  Presente.-<br />
- <p align="justify"><strong>REF: {!! $applicant_type !!} SOLICITA NUEVA INCLUSIÓN {!! strtoupper($economic_complement->semester) !!} SEMESTRE COMPLEMENTO ECONÓMICO DE LA GESTIÓN {!! Util::getYear($economic_complement->reception_date) !!}</strong></p>
+ <p align="justify"><strong>REF: {!! $applicant_type !!} SOLICITA NUEVA INCLUSIÓN {!! strtoupper($economic_complement->semester) !!} SEMESTRE COMPLEMENTO ECONÓMICO DE LA GESTIÓN 2017</strong></p>
 
  <p>Distinguido (a) Director (a): </p>
- <p align="justify">La presente tiene por objeto solicitar a su autoridad instruir por la unidad correspondiente <strong>&nbsp;&nbsp;LA INCLUSIÓN COMO NUEVO BENEFICIARIO PARA EL PAGO DEL BENEFICIO DEL COMPLEMENTO ECONÓMICO DEL {!! strtoupper($economic_complement->semester) !!} SEMESTRE DE LA GESTIÓN {!! Util::getYear($economic_complement->reception_date) !!}.</strong> </p>
+ <p align="justify">La presente tiene por objeto solicitar a su autoridad instruir por la unidad correspondiente <strong>&nbsp;&nbsp;LA INCLUSIÓN COMO NUEVO BENEFICIARIO PARA EL PAGO DEL BENEFICIO DEL COMPLEMENTO ECONÓMICO DEL {!! strtoupper($economic_complement->semester) !!} SEMESTRE DE LA GESTIÓN 2017.</strong> </p>
  <p>Para tal efecto, adjunto folder con los requisitos exigidos de acuerdo al siguiente detalle: </p>
   <div class="title2"><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
   <table class="table" style="width:100%;">
