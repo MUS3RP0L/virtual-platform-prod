@@ -276,9 +276,10 @@ class AffiliateController extends Controller
             $observation_types_list[$item->id]=$item->name;
         }
 
-        $year = Util::getYear(Carbon::now());
+        //$year = Util::getYear(Carbon::now());
         // $semester = Util::getCurrentSemester();
-        $semester = Util::getOriginalSemester();
+        //$semester = Util::getOriginalSemester();
+        $year = Util::getCurrentYear();
         $eco_com_current_procedure_first = EconomicComplementProcedure::whereYear('year', '=',$year)
         ->where('semester','Primer')
         ->first();
