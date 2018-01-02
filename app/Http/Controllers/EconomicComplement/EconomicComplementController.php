@@ -585,7 +585,7 @@ class EconomicComplementController extends Controller
             $last_complement = EconomicComplement::where('affiliate_id',$affiliate_id)->where('eco_com_procedure_id', '=', $eco_com_procedure_one->id)->first();
         }
         // return $last_complement;
-        if (!$economic_complement) {
+        if (!$last_complement) {
             $economic_complement = new EconomicComplement;
             $eco_com_type = false;
             $eco_com_modality = false;
