@@ -761,5 +761,12 @@ class Util
     		return $procedure->id;
     	}
     	return null;
-    }
+	}
+
+	public static function getCurrentYear()
+	{
+		return Carbon::parse(EconomicComplementProcedure::get()->last()->year)->year;
+	}
+
+
 }
