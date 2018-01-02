@@ -87,7 +87,7 @@ class EconomicComplementReportController extends Controller
            $semester1_list[$item]=$item;
        }
 
-       $current_year = Carbon::now()->year;
+       $current_year = Util::getCurrentYear();
        $year_list =[$current_year => $current_year];
        $eco_com_year = EconomicComplement::distinct()->select('year')->orderBy('year', 'desc')->get();
        foreach ($eco_com_year as $item) {
@@ -1416,7 +1416,7 @@ class EconomicComplementReportController extends Controller
     foreach ($eco_com_pro_years as $key => $value) {
       $years[]=array(Util::getYear($value) => Util::getYear($value));
     }
-    $current_year = carbon::now()->year;
+    $current_year = Util::getCurrentYear();
     $semesters = EconomicComplementProcedure::orderBy('semester')->get()->pluck('semester', 'semester');
     $current_semester = Util::getOriginalSemester();
     $reports_list=self::reports_lists();

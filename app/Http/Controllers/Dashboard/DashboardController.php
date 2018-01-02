@@ -82,7 +82,6 @@ class DashboardController extends Controller
 			$affiliateState = AffiliateState::all();
 			$affiliateType = AffiliateStateType::all();//revisar
 			$district = DB::table('units')->select(DB::raw('DISTINCT (units.district) as district'))->get();
-			$year = Carbon::now()->year;
 			$Total_AffiliatebyState=[];
 			foreach ($affiliateState as $item) {
 				$TotalAffiliates = Affiliate::afibyState($item->id,$year)->first();

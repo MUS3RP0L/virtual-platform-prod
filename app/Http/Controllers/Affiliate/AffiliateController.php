@@ -705,7 +705,7 @@ class AffiliateController extends Controller
         setlocale(LC_ALL, "es_ES.UTF-8");
         $dateHeader = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
         $current_semester=util::getCurrentSemester();
-        $current_year=Carbon::now()->year;
+        $current_year= Util::getCurrentYear();
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
         $eco_com = EconomicComplement::where('affiliate_id',$id_affiliate)->first();

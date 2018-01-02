@@ -241,7 +241,7 @@ class EconomicComplement extends Model
             // $total_rent = floatval(str_replace(',','',$sub_total_rent))-floatval(str_replace(',','',$reimbursement))-floatval(str_replace(',','',$dignity_pension));
             $total_rent = $n_total_rent;
             //APS
-            $mount = EconomicComplementProcedure::whereYear('year', '=', Carbon::now()->year)->where('semester','like',Util::getCurrentSemester())->first()->indicator;
+            $mount = EconomicComplementProcedure::get()->last()->indicator;
             if($economic_complement->affiliate->pension_entity->type=='APS'){
                 $comp=0;
                 if (floatval(str_replace(',','',$aps_total_fsa)) > 0) {

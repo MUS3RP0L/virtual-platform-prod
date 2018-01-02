@@ -57,7 +57,7 @@ class EconomicComplementProcedureController extends Controller
         $lagging_end_date = Carbon::parse($economic_complement_procedure->lagging_end_date)->format('d/m/Y');
         $additional_start_date = Carbon::parse($economic_complement_procedure->additional_start_date)->format('d/m/Y');
         $additional_end_date = Carbon::parse($economic_complement_procedure->additional_end_date)->format('d/m/Y');
-        $year = Carbon::now()->year;
+        $year = Util::getCurrentYear();
         $indicator = $economic_complement_procedure->indicator;
         $semester = Util::getCurrentSemester();
         return view('economic_complements.procedure.create',compact('normal_start_date','normal_end_date','lagging_start_date','lagging_end_date','additional_start_date','additional_end_date','year','semester'));

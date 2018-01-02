@@ -347,16 +347,7 @@ class Util
 			return date("d", strtotime($date))." ".$meses[date("n", strtotime($date))-1]. " ".date("Y", strtotime($date));
         }
 	}
-	public static function getSemester($date)
-	{
-		if ($date) {
-			if (date("n", strtotime($date))-1 < 12) {
-				return "Primer";
-			}else{
-				return "Segundo";
-			}
-        }
-	}
+	
 	public static function getOriginalSemester()
 	{
 		return (Carbon::now()->month <= 6) ? 'Primer' : 'Segundo';
@@ -570,13 +561,6 @@ class Util
     	return $gender=='M'?'F':'M';
     }
 
-    public static function getCurrentSemester()
-    {
-    	$current_date = Carbon::now();
-    	$current_month = $current_date->format('m');
-    	return $current_month<=12 ? "Primer" : "Segundo";
-
-    }
     public static function getFullNameUser()
     {
     	return Auth::user()->first_name." ".Auth::user()->last_name; 
@@ -768,5 +752,9 @@ class Util
 		return Carbon::parse(EconomicComplementProcedure::get()->last()->year)->year;
 	}
 
+	public static function getCurrentSemester()
+	{
+		return EconomicComplementProcedure::get()->last()->semester;
+	}
 
 }

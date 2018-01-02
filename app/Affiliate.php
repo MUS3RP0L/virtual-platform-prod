@@ -442,12 +442,12 @@ class Affiliate extends Model
         if (Util::getCurrentSemester() == 'Primer') {
             $last_semester_first = 'Segundo';
             $last_semester_second = 'Primer';
-            $last_year_first = Carbon::now()->year - 1;
+            $last_year_first = Util::getCurrentYear() - 1;
             $last_year_second = $last_year_first;
         }else{
             $last_semester_first = 'Primer';
             $last_semester_second = 'Segundo';
-            $last_year_first = Carbon::now()->year ;
+            $last_year_first = Util::getCurrentYear() ;
             $last_year_second = $last_year_first -1;
         }
         $eco_com_reception_type = 'Inclusion';
