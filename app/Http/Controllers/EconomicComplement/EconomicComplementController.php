@@ -382,190 +382,190 @@ class EconomicComplementController extends Controller
         ];
     }
 
-    // public function ReceptionFirstStep($affiliate_id)
-    // {
-    //     $getViewModel = self::getViewModel();
+    public function ReceptionFirstStep($affiliate_id)
+    {
+        $getViewModel = self::getViewModel();
 
-    //     $affiliate = Affiliate::idIs($affiliate_id)->first();
+        $affiliate = Affiliate::idIs($affiliate_id)->first();
 
-    //     $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
-    //     ->whereYear('year', '=', Util::getCurrentYear())
-    //     ->where('semester', '=', Util::getCurrentSemester());
-    //     // dd(Util::getOriginalSemester());
-    //     $eco_com_procedure=EconomicComplementProcedure::where('semester', 'like', 'Primer')->where('year', '=', Util::datePickYear(Carbon::now()->year))->first();
-    //     // dd($eco_com_procedure);
-    //     // dd($economic_complement);
-    //     $last_complement = EconomicComplement::where('affiliate_id',$affiliate_id)->orderBy('reception_date','DESC')->first();
+        $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
+        ->whereYear('year', '=', Util::getCurrentYear())
+        ->where('semester', '=', 'Primer')->first;
+        // dd(Util::getOriginalSemester());
+        $eco_com_procedure=EconomicComplementProcedure::where('semester', 'like', 'Primer')->where('year', '=', Util::datePickYear(Util::getCurrentYear()))->first();
+        // dd($eco_com_procedure);
+        // dd($economic_complement);
+        $last_complement = EconomicComplement::where('affiliate_id',$affiliate_id)->orderBy('reception_date','DESC')->first();
 
-    //     // return $last_complement;
-    //     if (!$economic_complement) {
-    //         $economic_complement = new EconomicComplement;
-    //         $eco_com_type = false;
-    //         $eco_com_modality = false;
-    //         $eco_com_modality_type_id = false;
-    //         $economic_complement->semester =  $eco_com_procedure->semester;
-    //         $economic_complement->year = Carbon::now()->year;
-    //         $economic_complement->aps_total_cc = $last_complement->aps_total_cc ?? null;
-    //         $economic_complement->aps_total_fsa = $last_complement->aps_total_fsa ?? null;
-    //         $economic_complement->aps_total_fs = $last_complement->aps_total_fs ?? null;
-    //         $economic_complement->total_rent = $last_complement->total_rent ?? null;
+        // return $last_complement;
+        if (!$economic_complement) {
+            $economic_complement = new EconomicComplement;
+            $eco_com_type = false;
+            $eco_com_modality = false;
+            $eco_com_modality_type_id = false;
+            $economic_complement->semester =  $eco_com_procedure->semester;
+            $economic_complement->year = Carbon::now()->year;
+            $economic_complement->aps_total_cc = $last_complement->aps_total_cc ?? null;
+            $economic_complement->aps_total_fsa = $last_complement->aps_total_fsa ?? null;
+            $economic_complement->aps_total_fs = $last_complement->aps_total_fs ?? null;
+            $economic_complement->total_rent = $last_complement->total_rent ?? null;
 
           
-    //     }else{
-    //         $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->name;
-    //         $eco_com_modality = $economic_complement->economic_complement_modality->name;
-    //         $eco_com_modality_type_id = $economic_complement->economic_complement_modality->economic_complement_type->id;
-    //     }
+        }else{
+            $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->name;
+            $eco_com_modality = $economic_complement->economic_complement_modality->name;
+            $eco_com_modality_type_id = $economic_complement->economic_complement_modality->economic_complement_type->id;
+        }
 
-    //     $last_year = Carbon::now()->subYear()->year;
-    //     $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
-    //     if (EconomicComplement::affiliateIs($affiliate_id)
-    //         ->whereYear('year', '=', $last_year)
-    //         ->where('semester', '=', $last_semester)->first()) {
-    //         $affiliate->type_ecocom = 'Habitual';
-    //     }else{
-    //         $affiliate->type_ecocom = 'Inclusión';
-    //     }
+        $last_year = Util::getCurrentYear() - 1;
+        $last_semester = "Segundo";
+        if (EconomicComplement::affiliateIs($affiliate_id)
+            ->whereYear('year', '=', $last_year)
+            ->where('semester', '=', $last_semester)->first()) {
+            $affiliate->type_ecocom = 'Habitual';
+        }else{
+            $affiliate->type_ecocom = 'Inclusión';
+        }
 
-    //     if (Util::getCurrentSemester() == 'Primer') {
-    //         $last_semester_first = 'Segundo';
-    //         $last_semester_second = 'Primer';
-    //         $last_year_first = Carbon::now()->year - 1;
-    //         $last_year_second = $last_year_first;
-    //     }else{
-    //         $last_semester_first = 'Primer';
-    //         $last_semester_second = 'Segundo';
-    //         $last_year_first = Carbon::now()->year ;
-    //         $last_year_second = $last_year_first -1;
-    //     }
-    //     $eco_com_reception_type = 'Inclusion';
-    //     $last_procedure_second = EconomicComplementProcedure::whereYear('year', '=', $last_year_second)->where('semester','like',$last_semester_second)->first();
-    //     if (sizeof($last_procedure_second)>0) {
-    //         if ($last_procedure_second->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
-    //             $eco_com_reception_type = 'Habitual';
-    //         }
-    //     }
-    //     $last_procedure_first = EconomicComplementProcedure::whereYear('year', '=', $last_year_first)->where('semester','like',$last_semester_first)->first();
-    //     if (sizeof($last_procedure_first)>0) {
-    //         if ($last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
-    //             $eco_com_reception_type = 'Habitual';
-    //         }
-    //     }
-    //     $reception_types =  array('Inclusion' => 'Inclusion', 'Habitual' => 'Habitual');
-    //     $semesters =  array('Primer' => 'Primer');
-    //     $data = [
-    //         'affiliate' => $affiliate,
-    //         'eco_com_type' => $eco_com_type,
-    //         'eco_com_modality' => $eco_com_modality,
-    //         'economic_complement' => $economic_complement,
-    //         'eco_com_modality_type_id' => $eco_com_modality_type_id,
-    //         'reception_types' => $reception_types,
-    //         'semesters' => $semesters,
-    //         'last_complement' => $last_complement,
-    //         'eco_com_reception_type' => $eco_com_reception_type
-    //     ];
+        if (Util::getCurrentSemester() == 'Primer') {
+            $last_semester_first = 'Segundo';
+            $last_semester_second = 'Primer';
+            $last_year_first = Carbon::now()->year - 2;
+            $last_year_second = $last_year_first;
+        }else{
+            $last_semester_first = 'Primer';
+            $last_semester_second = 'Segundo';
+            $last_year_first = Carbon::now()->year ;
+            $last_year_second = $last_year_first -1;
+        }
+        $eco_com_reception_type = 'Inclusion';
+        $last_procedure_second = EconomicComplementProcedure::whereYear('year', '=', $last_year_second)->where('semester','like',$last_semester_second)->first();
+        if (sizeof($last_procedure_second)>0) {
+            if ($last_procedure_second->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
+                $eco_com_reception_type = 'Habitual';
+            }
+        }
+        $last_procedure_first = EconomicComplementProcedure::whereYear('year', '=', $last_year_first)->where('semester','like',$last_semester_first)->first();
+        if (sizeof($last_procedure_first)>0) {
+            if ($last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
+                $eco_com_reception_type = 'Habitual';
+            }
+        }
+        $reception_types =  array('Inclusion' => 'Inclusion', 'Habitual' => 'Habitual');
+        $semesters =  array('Primer' => 'Primer');
+        $data = [
+            'affiliate' => $affiliate,
+            'eco_com_type' => $eco_com_type,
+            'eco_com_modality' => $eco_com_modality,
+            'economic_complement' => $economic_complement,
+            'eco_com_modality_type_id' => $eco_com_modality_type_id,
+            'reception_types' => $reception_types,
+            'semesters' => $semesters,
+            'last_complement' => $last_complement,
+            'eco_com_reception_type' => $eco_com_reception_type
+        ];
 
-    //     $data = array_merge($data, $getViewModel);
-    //     return view('economic_complements.reception_first_step', $data);
-    // }
+        $data = array_merge($data, $getViewModel);
+        return view('economic_complements.reception_first_step', $data);
+    }
 
-    // public function ReceptionSecondStep($economic_complement_id)
-    // {
-    //     $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+    public function ReceptionSecondStep($economic_complement_id)
+    {
+        $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
 
-    //     $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+        $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
-    //     $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
+        $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
 
-    //     if ($economic_complement->has_legal_guardian) {
-    //         $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
-    //     }else{
-    //         $eco_com_legal_guardian = '';
-    //     }
-    //     $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
-    //     $eco_com_modality = $economic_complement->economic_complement_modality;
+        if ($economic_complement->has_legal_guardian) {
+            $eco_com_legal_guardian = EconomicComplementLegalGuardian::economicComplementIs($economic_complement->id)->first();
+        }else{
+            $eco_com_legal_guardian = '';
+        }
+        $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
+        $eco_com_modality = $economic_complement->economic_complement_modality;
 
-    //     if ($eco_com_applicant->gender == 'M') {
-    //         $gender_list = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
-    //     }elseif ($eco_com_applicant->gender == 'F') {
-    //         $gender_list = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
-    //     }
+        if ($eco_com_applicant->gender == 'M') {
+            $gender_list = ['' => '', 'C' => 'CASADO', 'S' => 'SOLTERO', 'V' => 'VIUDO', 'D' => 'DIVORCIADO'];
+        }elseif ($eco_com_applicant->gender == 'F') {
+            $gender_list = ['' => '', 'C' => 'CASADA', 'S' => 'SOLTERA', 'V' => 'VIUDA', 'D' => 'DIVORCIADA'];
+        }
 
-    //     if($affiliate->nua == null){
-    //         $affiliate->nua=0;
-    //     }
+        if($affiliate->nua == null){
+            $affiliate->nua=0;
+        }
 
-    //     $last_year = Carbon::now()->subYear()->year;
-    //     $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
-    //     if (EconomicComplement::affiliateIs($affiliate->id)
-    //         ->whereYear('year', '=', $last_year)
-    //         ->where('semester', '=', $last_semester)->first()) {
-    //         $affiliate->type_ecocom = 'Habitual';
-    // }else{
-    //     $affiliate->type_ecocom = 'Inclusión';
-    // }
+        $last_year = Carbon::now()->subYear()->year;
+        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
+        if (EconomicComplement::affiliateIs($affiliate->id)
+            ->whereYear('year', '=', $last_year)
+            ->where('semester', '=', $last_semester)->first()) {
+            $affiliate->type_ecocom = 'Habitual';
+    }else{
+        $affiliate->type_ecocom = 'Inclusión';
+    }
 
-    // $data = [
+    $data = [
 
-    // 'affiliate' => $affiliate,
-    // 'eco_com_type' => $eco_com_type->name,
-    // 'eco_com_modality' => $eco_com_modality->name,
-    // 'economic_complement' => $economic_complement,
-    // 'eco_com_applicant' => $eco_com_applicant,
-    // 'eco_com_legal_guardian' => $eco_com_legal_guardian,
-    // 'gender_list' => $gender_list
+    'affiliate' => $affiliate,
+    'eco_com_type' => $eco_com_type->name,
+    'eco_com_modality' => $eco_com_modality->name,
+    'economic_complement' => $economic_complement,
+    'eco_com_applicant' => $eco_com_applicant,
+    'eco_com_legal_guardian' => $eco_com_legal_guardian,
+    'gender_list' => $gender_list
 
-    // ];
-    // $data = array_merge($data, self::getViewModel());
+    ];
+    $data = array_merge($data, self::getViewModel());
 
-    // return view('economic_complements.reception_second_step', $data);
-    // }
+    return view('economic_complements.reception_second_step', $data);
+    }
 
-    // public function ReceptionThirdStep($economic_complement_id)
-    // {
-    //     $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
+    public function ReceptionThirdStep($economic_complement_id)
+    {
+        $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
 
-    //     $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+        $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
-    //     $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
+        $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
 
-    //     $eco_com_modality = $economic_complement->economic_complement_modality;
+        $eco_com_modality = $economic_complement->economic_complement_modality;
 
-    //     $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($economic_complement->id)->get();
+        $eco_com_submitted_documents = EconomicComplementSubmittedDocument::with('economic_complement_requirement')->economicComplementIs($economic_complement->id)->get();
 
-    //     if (EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->first()) {
-    //         $status_documents = TRUE;
-    //     }else{
-    //         $status_documents = FALSE;
-    //     }
+        if (EconomicComplementSubmittedDocument::economicComplementIs($economic_complement->id)->first()) {
+            $status_documents = TRUE;
+        }else{
+            $status_documents = FALSE;
+        }
 
-    //     if ($economic_complement->reception_type == 'Habitual') {
-    //         if ($economic_complement->economic_complement_modality->economic_complement_type->name== 'Viudedad') {
-    //             $eco_com_requirements = EconomicComplementRequirement::where(function ($query)
-    //             {
-    //                 $query->where('id','=',6)
-    //                 ->orWhere('id','=',8)
-    //                 ->orWhere('id','=',13);
-    //             })->orderBy('id','asc')->get();
+        if ($economic_complement->reception_type == 'Habitual') {
+            if ($economic_complement->economic_complement_modality->economic_complement_type->name== 'Viudedad') {
+                $eco_com_requirements = EconomicComplementRequirement::where(function ($query)
+                {
+                    $query->where('id','=',6)
+                    ->orWhere('id','=',8)
+                    ->orWhere('id','=',13);
+                })->orderBy('id','asc')->get();
 
-    //         }else{
-    //             $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->orderBy('id', 'asc')->take(2)->get();
-    //         }
-    //     }else{
-    //         $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
-    //     }
-    //     $data = [
-    //         'affiliate' => $affiliate,
-    //         'economic_complement' => $economic_complement,
-    //         'eco_com_type' => $eco_com_type->name,
-    //         'eco_com_modality' => $eco_com_modality->name,
-    //         'eco_com_requirements' => $eco_com_requirements,
-    //         'eco_com_submitted_documents' => $eco_com_submitted_documents,
-    //         'status_documents' => $status_documents
-    //     ];
-    //     $data = array_merge($data, self::getViewModel());
-    //     return view('economic_complements.reception_third_step', $data);
-    // }
+            }else{
+                $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->orderBy('id', 'asc')->take(2)->get();
+            }
+        }else{
+            $eco_com_requirements = EconomicComplementRequirement::economicComplementTypeIs($eco_com_type->id)->get();
+        }
+        $data = [
+            'affiliate' => $affiliate,
+            'economic_complement' => $economic_complement,
+            'eco_com_type' => $eco_com_type->name,
+            'eco_com_modality' => $eco_com_modality->name,
+            'eco_com_requirements' => $eco_com_requirements,
+            'eco_com_submitted_documents' => $eco_com_submitted_documents,
+            'status_documents' => $status_documents
+        ];
+        $data = array_merge($data, self::getViewModel());
+        return view('economic_complements.reception_third_step', $data);
+    }
 
     //second semester
     public function ReceptionFirstStepSecond($affiliate_id)
@@ -576,7 +576,7 @@ class EconomicComplementController extends Controller
 
         $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
         ->whereYear('year', '=', Util::getCurrentYear())
-        ->where('semester', '=', Util::getCurrentSemester());
+        ->where('semester', '=', Util::getCurrentSemester())->first;
         $eco_com_procedure=EconomicComplementProcedure::where('semester', 'like', 'Segundo')->where('year', '=', Util::datePickYear(Util::getCurrentYear()))->first();
         $eco_com_procedure_one=EconomicComplementProcedure::where('semester', 'like', 'Primer')->where('year', '=', Util::datePickYear(Util::getCurrentYear()))->first();
         $eco_com_procedure_second=EconomicComplementProcedure::where('semester', 'like', 'Segundo')->where('year', '=', Util::datePickYear(Util::getCurrentYear() - 1))->first();
@@ -585,7 +585,7 @@ class EconomicComplementController extends Controller
             $last_complement = EconomicComplement::where('affiliate_id',$affiliate_id)->where('eco_com_procedure_id', '=', $eco_com_procedure_one->id)->first();
         }
         // // return $last_complement;
-        // if (!$economic_complement) {
+        if (!$economic_complement) {
             $economic_complement = new EconomicComplement;
             $eco_com_type = false;
             $eco_com_modality = false;
@@ -596,11 +596,11 @@ class EconomicComplementController extends Controller
             $economic_complement->aps_total_fsa = $last_complement->aps_total_fsa ?? null;
             $economic_complement->aps_total_fs = $last_complement->aps_total_fs ?? null;
             $economic_complement->total_rent = $last_complement->total_rent ?? null;
-        // }else{
-        //     $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->name;
-        //     $eco_com_modality = $economic_complement->economic_complement_modality->name;
-        //     $eco_com_modality_type_id = $economic_complement->economic_complement_modality->economic_complement_type->id;
-        // }
+        }else{
+            $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->name;
+            $eco_com_modality = $economic_complement->economic_complement_modality->name;
+            $eco_com_modality_type_id = $economic_complement->economic_complement_modality->economic_complement_type->id;
+        }
 
         $last_year = Util::getCurrentYear()-1;
         /*CORREGIR ALERICK */
