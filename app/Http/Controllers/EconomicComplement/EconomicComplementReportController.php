@@ -1418,7 +1418,7 @@ class EconomicComplementReportController extends Controller
     }
     $current_year = Util::getCurrentYear();
     $semesters = EconomicComplementProcedure::orderBy('semester')->get()->pluck('semester', 'semester');
-    $current_semester = Util::getOriginalSemester();
+    $current_semester = Util::getCurrentSemester();
     $reports_list=self::reports_lists();
     
     // self::reports_list = $reports_list;

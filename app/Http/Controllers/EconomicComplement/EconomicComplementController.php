@@ -356,7 +356,7 @@ class EconomicComplementController extends Controller
         foreach ($semestre as $item) {
             $semester_list[$item]=$item;
         }
-        $current_semester = Util::getOriginalSemester();
+        $current_semester = Util::getCurrentSemester();
         $months = Month::all()->pluck('name','id');
 
 
@@ -2428,7 +2428,7 @@ class EconomicComplementController extends Controller
     }
     public function receptionType($affiliate_id, $new_modality_id)
     {
-        if (Util::getOriginalSemester() == 'Primer') {
+        if (Util::getCurrentSemester() == 'Primer') {
             $last_semester_first = 'Segundo';
             $last_semester_second = 'Primer';
             $last_year_first = Util::getCurrentYear() - 1;
