@@ -54,7 +54,7 @@ class DashboardController extends Controller
 	public function showIndex()
 	{
 		//get last economonomic complement and last year
-		$current_eco_com_procedure=EconomicComplementProcedure::whereyear('year','=',Carbon::now()->year)->where('semester','like',Util::getOriginalSemester())->first();
+		$current_eco_com_procedure=EconomicComplementProcedure::whereyear('year','=',Carbon::now()->year-1)->where('semester','like',Util::getOriginalSemester())->first();
 
 		$last_economic_complement=$current_eco_com_procedure->economic_complements->last();
 		$last_year=Carbon::parse($last_economic_complement->year)->year;
