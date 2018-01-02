@@ -76,7 +76,7 @@
                     @if($has_first_eco_com == 'edit')
                     <li  data-toggle="tooltip" data-placement="left" title="1er Semestre"><a href="{!! url('economic_complement/'.$first_economic_complement->id) !!}" class="text-center">&nbsp;&nbsp;<i class="fa fa-eye"></i>Ver 1er Semestre&nbsp;&nbsp;</a></li>
                     @else
-                        <li><a href="{!! url('economic_complement_reception_first_step/' . $affiliate->id) !!}"  class="text-center">&nbsp;&nbsp;<i class="glyphicon glyphicon-plus"></i>Crear 1er Semestre&nbsp;&nbsp;</a></li>
+                       <!-- <li><a href="{!! url('economic_complement_reception_first_step/' . $affiliate->id) !!}"  class="text-center">&nbsp;&nbsp;<i class="glyphicon glyphicon-plus"></i>Crear 1er Semestre&nbsp;&nbsp;</a></li> -->
                     @endif
                     <li role="separator" class="divider"></li>
                     @if($has_second_eco_com == 'edit')
