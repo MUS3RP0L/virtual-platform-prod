@@ -66,7 +66,7 @@ class EconomicComplementController extends Controller
 
         $data = [
             'year' => Util::getCurrentYear(),
-            'semester' => Util::getSemester(Carbon::now()),
+            'semester' => Util::getCurrentSemester(),
             'procedures' =>$procedures
         ];
 
@@ -602,8 +602,9 @@ class EconomicComplementController extends Controller
             $eco_com_modality_type_id = $economic_complement->economic_complement_modality->economic_complement_type->id;
         }
 
-        $last_year = Carbon::now()->subYear()->year;
-        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
+        $last_year = Util::getCurrentYear()-1;
+        /*CORREGIR ALERICK */
+        $last_semester = "Primer";
         if (EconomicComplement::affiliateIs($affiliate_id)
             ->whereYear('year', '=', $last_year)
             ->where('semester', '=', $last_semester)->first()) {
@@ -672,9 +673,10 @@ class EconomicComplementController extends Controller
         if($affiliate->nua == null){
             $affiliate->nua=0;
         }
+        $last_year = Util::getCurrentYear() - 1;
+        /*CORREGIR ALERICK */
+        $last_semester = "Primer";
 
-        $last_year = Carbon::now()->subYear()->year;
-        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
         if (EconomicComplement::affiliateIs($affiliate->id)
             ->whereYear('year', '=', $last_year)
             ->where('semester', '=', $last_semester)->first()) {
@@ -946,8 +948,10 @@ class EconomicComplementController extends Controller
             }
         }
 
-        $last_year = Carbon::now()->subYear()->year;
-        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
+        $last_year = Util::getCurrentYear() - 1;
+        /*CORREGIR ALERICK */
+        $last_semester = "Primer";
+        
         if (EconomicComplement::affiliateIs($affiliate->id)
                 ->whereYear('year', '=', $last_year)
                 ->where('semester', '=', $last_semester)->first()) {

@@ -113,7 +113,7 @@ class AffiliateObservationController extends Controller
         $observations=AffiliateObservation::where('affiliate_id',$request->affiliate_id)->select(['id','affiliate_id','date','message','is_enabled','observation_type_id'])->get();
         $observations_list = collect(new AffiliateObservation);
         foreach ($observations as $obs) {
-          if(Util::getYear($economic_complement->year)==Util::getYear($obs->date) && Util::getSemester($economic_complement->year) == Util::getSemester($obs->date)){
+          if(Util::getYear($economic_complement->year)==Util::getYear($obs->date)){
             $observations_list->push($obs);
           }
         }
