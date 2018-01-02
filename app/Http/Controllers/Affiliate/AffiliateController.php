@@ -935,7 +935,7 @@ class AffiliateController extends Controller
             'user_role' =>Util::getRol()->name
         ];
         $data = array_merge($data, $second_data);
-        return \PDF::loadView('affiliates.print.history', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->setOption('footer-right', 'Pagina [page] de [toPage]')->stream('affiliate_history.pdf');
+        return \PDF::loadView('affiliates.print.history', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->setOption('footer-right', 'Pagina [page] de [toPage]')->stream('affiliate_history.pdf');
     }
     public function get_debts_record(Request $request)
     {
@@ -1010,6 +1010,6 @@ class AffiliateController extends Controller
             'user_role' =>Util::getRol()->name
         ];
         $data = array_merge($data, $second_data);
-        return \PDF::loadView('affiliates.print.devolution_print', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')/*->setOption('footer-right', 'Pagina [page] de [toPage]')*/->stream('affiliate_devolution.pdf');
+        return \PDF::loadView('affiliates.print.devolution_print', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')/*->setOption('footer-right', 'Pagina [page] de [toPage]')*/->stream('affiliate_devolution.pdf');
     }
 }
