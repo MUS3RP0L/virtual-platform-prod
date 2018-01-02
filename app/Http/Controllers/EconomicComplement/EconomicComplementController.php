@@ -584,8 +584,8 @@ class EconomicComplementController extends Controller
         if (EconomicComplement::where('affiliate_id',$affiliate_id)->where('eco_com_procedure_id', '=', $eco_com_procedure_one->id)->first()) {
             $last_complement = EconomicComplement::where('affiliate_id',$affiliate_id)->where('eco_com_procedure_id', '=', $eco_com_procedure_one->id)->first();
         }
-        // return $last_complement;
-        if (!$last_complement) {
+        // // return $last_complement;
+        // if (!$economic_complement) {
             $economic_complement = new EconomicComplement;
             $eco_com_type = false;
             $eco_com_modality = false;
@@ -596,11 +596,11 @@ class EconomicComplementController extends Controller
             $economic_complement->aps_total_fsa = $last_complement->aps_total_fsa ?? null;
             $economic_complement->aps_total_fs = $last_complement->aps_total_fs ?? null;
             $economic_complement->total_rent = $last_complement->total_rent ?? null;
-        }else{
-            $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->name;
-            $eco_com_modality = $economic_complement->economic_complement_modality->name;
-            $eco_com_modality_type_id = $economic_complement->economic_complement_modality->economic_complement_type->id;
-        }
+        // }else{
+        //     $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->name;
+        //     $eco_com_modality = $economic_complement->economic_complement_modality->name;
+        //     $eco_com_modality_type_id = $economic_complement->economic_complement_modality->economic_complement_type->id;
+        // }
 
         $last_year = Util::getCurrentYear()-1;
         /*CORREGIR ALERICK */
