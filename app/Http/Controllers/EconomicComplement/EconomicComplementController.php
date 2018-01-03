@@ -495,8 +495,10 @@ class EconomicComplementController extends Controller
             $affiliate->nua=0;
         }
 
-        $last_year = Carbon::now()->subYear()->year;
-        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
+        //$last_year = Carbon::now()->subYear()->year;
+        //$last_semester = Util::getSemester(Carbon::now()->subMonth(7));
+        $last_year = Util::getCurrentYear() - 1;
+        $last_semester = 'Primer';
         if (EconomicComplement::affiliateIs($affiliate->id)
             ->whereYear('year', '=', $last_year)
             ->where('semester', '=', $last_semester)->first()) {
