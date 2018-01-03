@@ -576,7 +576,7 @@ class EconomicComplementController extends Controller
 
         $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
         ->whereYear('year', '=', Util::getCurrentYear())
-        ->where('semester', '=', Util::getCurrentSemester())->first;
+        ->where('semester', '=', Util::getCurrentSemester())->first();
         $eco_com_procedure=EconomicComplementProcedure::where('semester', 'like', 'Segundo')->where('year', '=', Util::datePickYear(Util::getCurrentYear()))->first();
         $eco_com_procedure_one=EconomicComplementProcedure::where('semester', 'like', 'Primer')->where('year', '=', Util::datePickYear(Util::getCurrentYear()))->first();
         $eco_com_procedure_second=EconomicComplementProcedure::where('semester', 'like', 'Segundo')->where('year', '=', Util::datePickYear(Util::getCurrentYear() - 1))->first();
