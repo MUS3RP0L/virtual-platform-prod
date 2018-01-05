@@ -30,7 +30,7 @@
     <table >
       <tr>
         <td class="izq no-border size-10">
-         <strong>Fecha de Emisi&#243n: </strong> 29 de Diciembre de 2017 -<!-- {!! $date !!}   - {!! $hour !!} -->
+         <strong>Fecha de Emisi&#243n: </strong> 29 de Diciembre de 2017 -<!-- {!! $date !!} --> - {!! $hour !!}
         </td>
         <td class="der no-border size-10">
           @if(isset($user))
