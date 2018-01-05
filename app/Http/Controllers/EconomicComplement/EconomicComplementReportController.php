@@ -1139,7 +1139,7 @@ class EconomicComplementReportController extends Controller
       return response()->download($file_name);
 
       
-      return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user', 'user_role','total'))->setPaper('letter')->setOrientation('landscape')->setOPtion('footer-center', 'Pagina [page] de [toPage]')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->stream('report_edited.pdf');
+      return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user', 'user_role','total'))->setPaper('letter')->setOrientation('landscape')->setOPtion('footer-center', 'Pagina [page] de [toPage]')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_edited.pdf');
       }
     }
 
