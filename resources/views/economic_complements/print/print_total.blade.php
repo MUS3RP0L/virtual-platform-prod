@@ -251,7 +251,7 @@
       </td>
     </tr>
   </table>
-  <span style="position: absolute; bottom:3%" class="size-6">PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017</span>
+  <span style="position: absolute; bottom:3%" class="size-6">PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018</span>
     
 </div>
 <div class="main-right">
@@ -324,6 +324,6 @@
       <td class="no-border"></td>
     </tr>
   </table>
-  <span style="position: absolute; bottom:3%" class="size-6">PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017</span>
+  <span style="position: absolute; bottom:3%" class="size-6">PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018</span>
 </div>
 @endsection
