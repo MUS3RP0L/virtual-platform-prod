@@ -199,7 +199,7 @@
     </tr>
     <tr>
       <td colspan="2" class="no-border">
-        <em>{{ ucwords(strtolower($user->city->name ?? '')) ?? 'La Paz' }}, 29 de Diciembre de 2017<!-- {!! $date !!}--> - {!! $hour !!}</em>
+        <em>{{ ucwords(strtolower($user->city->name ?? '')) ?? 'La Paz' }}, {!! $date !!} - {!! $hour !!}</em>
       </td>
     </tr>
     <tr>
@@ -271,7 +271,7 @@
     </tr>
     <tr >
       <td class="no-border" colspan="4">
-        <em>{{ ucwords(strtolower($user->city->name ?? '')) ?? 'La Paz' }}, 29 de Diciembre de 2017<!-- {!! $date !!}--> - {!! $hour !!}</em>
+        <em>{{ ucwords(strtolower($user->city->name ?? '')) ?? 'La Paz' }}, {!! $date !!} - {!! $hour !!}</em>
       </td>
     </tr><tr>
       <td colspan="2" class="no-border">
