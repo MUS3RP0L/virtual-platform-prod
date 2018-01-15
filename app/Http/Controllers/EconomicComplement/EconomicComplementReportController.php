@@ -1430,7 +1430,7 @@ class EconomicComplementReportController extends Controller
     $type = $request->type;
     $year = $request->year;
     $semester = $request->semester;
-    $eco_com_procedure_id = EconomicComplementProcedure::whereYear('year','=',Util::getYear($year))->where('semester','like',$semester)->first();
+    $eco_com_procedure_id = EconomicComplementProcedure::whereYear('year','=',$year)->where('semester','like',$semester)->first();
     if (!$eco_com_procedure_id) {
       return 'error';
     }
