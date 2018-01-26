@@ -28,7 +28,7 @@
             {!! Breadcrumbs::render('show_affiliate', $affiliate) !!}
         </div>
         <div class="col-md-6">
-       @can('retirement_fund')
+       {{--  @can('retirement_fund')
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Aportes" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
                 <ul class="dropdown-menu">
@@ -68,7 +68,7 @@
                     </strong>
                 </span>&nbsp;
             @endforeach
-        @endcan
+        @endcan  --}}
         @can('eco_com_reception')
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento  Económico" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
