@@ -1126,10 +1126,10 @@ class EconomicComplementController extends Controller
                     if($economic_complement->eco_com_state_id=3 || $economic_complement->eco_com_state_id=2 || $economic_complement->eco_com_state_id=1 || $economic_complement->eco_com_state_id=18 || $economic_complement->eco_com_state_id=17 || $economic_complement->eco_com_state_id=21 )
                     {
                         
-                        if($economic_complement->total > 0)
-                        {
+                        // if($economic_complement->total > 0)
+                        // {
                             $hasAmortization =true; 
-                        }
+                        // }
                         
                     }
 
@@ -1154,10 +1154,10 @@ class EconomicComplementController extends Controller
 
                         if($economic_complement->eco_com_state_id=3 || $economic_complement->eco_com_state_id=2 || $economic_complement->eco_com_state_id=1 || $economic_complement->eco_com_state_id=18 || $economic_complement->eco_com_state_id=17 || $economic_complement->eco_com_state_id=21 )
                         {
-                            if($economic_complement->total > 0)
-                            {
+                            // if($economic_complement->total > 0)
+                            // {
                                 $hasAmortization =true; 
-                            }
+                            // }
                             
                         }
                     }
