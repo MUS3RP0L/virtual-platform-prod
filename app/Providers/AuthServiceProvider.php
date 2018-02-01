@@ -180,7 +180,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         $gate->define('retirement_fund',function($user){
-            if($user->roles()->first()->module->id == 3){
+            if(Util::getRol()->module_id == 3){
                 return true;
             }
             return false;
