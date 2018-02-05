@@ -1,6 +1,8 @@
 @extends('globalprint.wkhtml')
 @section('title2')
-  <center><strong>{{ $title2 }}</strong></center>
+  <center><strong>{{ $title2 }} @if ($economic_complement->old_eco_com && $economic_complement->total_repay > 0)
+     (REINTEGRO)
+   @endif</strong></center>
 @endsection
 @section('content')
 <style type="text/css">
@@ -12,14 +14,11 @@
     }
 </style>
 <div class="main1">
-  
-
 <div class="title2"><strong class="code">{!! $title_inline !!}</strong><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
   <div id="project">
     @include('economic_complements.info.applicant_info',['eco_com_applicant'=>$eco_com_applicant])
-
-    @if($economic_complement->has_legal_guardian && $economic_complement->has_legal_guardian_s)
-    @include('economic_complements.info.legal_guardian',['economic_complement_legal_guardian'=>$economic_complement_legal_guardian])
+    @if($economic_complement->has_legal_guardian)
+    @include('economic_complements.info.legal_guardian',['economic_complement_legal_guardian'=>$economic_complement_legal_guardian, 'economic_complement'=>$economic_complement])
     @endif
 
     @include('economic_complements.info.simple_info',['economic_complement'=>$economic_complement])
@@ -193,7 +192,11 @@
         <b>MUTUAL DE SERVICIOS AL POLICÍA<br>
           {!! $header1 !!}<br>{!! $header2 !!}
           @yield('title')
-          <br> <em>"{{ strtoupper($economic_complement->economic_complement_procedure->getFullName() ?? '') }}"</em>
+          <br> <em>"{{ strtoupper($economic_complement->economic_complement_procedure->getFullName() ?? '') }}
+            @if ($economic_complement->old_eco_com && $economic_complement->total_repay > 0)
+            (REINTEGRO)
+            @endif
+            "</em>
         </b>
       </th>
     </tr>
@@ -235,8 +238,13 @@
     </tr>
     <tr>
       <td colspan="2" class="no-border">
-        <strong>SON:</strong>
-        <em class="size-9">{{ Util::convertir($temp_total > 0 ? $temp_total : $economic_complement->total)   }} BOLIVIANOS.</em>
+        @if ($economic_complement->old_eco_com)
+          <strong>SON:</strong>
+          <em class="size-9">{{ Util::convertir($economic_complement->total_repay ?? 0 )   }} BOLIVIANOS.</em>
+        @else
+          <strong>SON:</strong>
+          <em class="size-9">{{ Util::convertir($temp_total > 0 ? $temp_total : $economic_complement->total)   }} BOLIVIANOS.</em>
+        @endif
       </td>
     </tr>
     <tr>
@@ -246,7 +254,11 @@
       </td>
       <td class="no-border text-center size-16">
         <span class="code border-radius">
-          Bs. {{ Util::formatMoney($temp_total > 0 ? $temp_total : $economic_complement->total ) }}
+          @if ($economic_complement->old_eco_com)
+            Bs. {{ Util::formatMoney($economic_complement->total_repay ?? 0 ) }}
+          @else
+            Bs. {{ Util::formatMoney($temp_total > 0 ? $temp_total : $economic_complement->total ) }}
+          @endif
         </span>
       </td>
     </tr>
@@ -264,7 +276,11 @@
         <b>MUTUAL DE SERVICIOS AL POLICÍA<br>
           {!! $header1 !!}<br>{!! $header2 !!}
           @yield('title')
-          <br> <em>"{{ strtoupper($economic_complement->economic_complement_procedure->getFullName() ?? '') }}"</em>
+          <br> <em>"{{ strtoupper($economic_complement->economic_complement_procedure->getFullName() ?? '') }}
+            @if ($economic_complement->old_eco_com && $economic_complement->total_repay > 0)                
+            (REINTEGRO)
+            @endif
+          "</em>
         </b>
       </th>
 
@@ -285,7 +301,11 @@
         </span>
         <br>
         <br>
-        <strong class="code border-radius size-16 ">Bs. {{ Util::formatMoney($temp_total > 0 ? $temp_total : $economic_complement->total) }}</strong>
+        @if ($economic_complement->old_eco_com)
+          <strong class="code border-radius size-16 ">Bs. {{ Util::formatMoney($economic_complement->total_repay ?? 0 ) }}</strong>
+        @else
+          <strong class="code border-radius size-16 ">Bs. {{ Util::formatMoney($temp_total > 0 ? $temp_total : $economic_complement->total) }}</strong>
+        @endif
       </td>
         <tr><td colspan="4" class="no-border">
         <strong><em>PÁGUESE A LA ORDEN DE:</em></strong><br>
@@ -296,7 +316,11 @@
     <tr>
       <td colspan="4" class="no-border">
         <strong>LA SUMA DE:</strong><br>
-        <em class="size-10">{{ Util::convertir($temp_total > 0 ? $temp_total : $economic_complement->total)   }} BOLIVIANOS.</em>
+        @if ($economic_complement->old_eco_com)
+          <em class="size-10">{{ Util::convertir($economic_complement->total_repay ?? 0)   }} BOLIVIANOS.</em>    
+        @else
+          <em class="size-10">{{ Util::convertir($temp_total > 0 ? $temp_total : $economic_complement->total)   }} BOLIVIANOS.</em>
+        @endif
       </td>
     </tr>
     <tr>
@@ -310,7 +334,11 @@
         <div class="code border-radius">6<br> <em>MESES</em></div>
       </td>
       <td class="width-30-por no-border text-center">
-        <div class="code border-radius"><strong>{{ Util::formatMoney($temp_total > 0 ? $temp_total : $economic_complement->total) ?? '' }}</strong> <br> <em>LIQUIDO PAGABLE</em></div>
+        @if ($economic_complement->old_eco_com)
+          <div class="code border-radius"><strong>{{ Util::formatMoney($economic_complement->total_repay ?? 0) ?? '' }}</strong> <br> <em>LIQUIDO PAGABLE</em></div>
+        @else
+          <div class="code border-radius"><strong>{{ Util::formatMoney($temp_total > 0 ? $temp_total : $economic_complement->total) ?? '' }}</strong> <br> <em>LIQUIDO PAGABLE</em></div>
+        @endif
         {{-- <span class="code border-radius">Bs. {{ Util::formatMoney($economic_complement->total) }}</span> --}}
       </td>
     </tr>
