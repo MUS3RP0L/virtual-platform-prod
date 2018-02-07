@@ -156,6 +156,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('getdataobservations',['as'=>'getdataobservations','uses'=>'Observation\AffiliateObservationController@getDataObsertaions']);
 	Route::get('export_excel_observations','EconomicComplement\EconomicComplementImportExportController@export_excel_observations');
 	Route::get('export_not_review','EconomicComplement\EconomicComplementImportExportController@export_not_review');
+	Route::get('export_amortizados_reposicion','EconomicComplement\EconomicComplementImportExportController@export_amortizados_reposicion');
+	
 
 	Route::post('save_amortization','EconomicComplement\EconomicComplementController@save_amortization');
 	Route::get('ChangeRol','User\UserController@ChangeRol');
