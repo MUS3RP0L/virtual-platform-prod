@@ -14,7 +14,7 @@
                 <a href="" class="btn btn-info btn-raised" data-target="#myModal-Automatic_Validation" data-toggle="modal"><i class="fa fa-file"></i></a>
             </div>
             @endcan
-            <div class="btn-group" style="margin:-3px 0;" data-toggle="tooltip" data-placement="top" data-original-title="Reporte de Amortazados por Reposicion de Fondos">                
+            <div class="btn-group" style="margin:-3px 0;" data-toggle="tooltip" data-placement="top" data-original-title="Reporte de Devoluciones">                
                 <a href="{{URL('export_amortizados_reposicion')}}" class="btn btn-info btn-raised"><i class="fa  fa-file-excel-o"></i></a>
             </div>
             <div class="btn-group" style="margin:-3px 0;" data-toggle="tooltip" data-placement="top" data-original-title="Planilla General">                
