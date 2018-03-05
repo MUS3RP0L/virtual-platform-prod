@@ -286,6 +286,7 @@ class InboxController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->id);
         $rules = [
              'ids' =>'required|min:1',
         ];

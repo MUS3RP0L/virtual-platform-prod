@@ -561,6 +561,9 @@ $(document).ready(function (){
         // self.wf_click = ko.observable();  
 
         self.wf_click = function(data, event){
+          var rows = table.rows({ 'search': 'applied' }).nodes();
+          $('input[type="checkbox"]', rows).prop('checked', false);
+          $('#editedCheckboxAll').prop('checked', false);
 
           workflow_id=data.id();
         
