@@ -14,6 +14,7 @@ use Muserpol\Contribution;
 use Muserpol\ContributionRate;
 
 use Util;
+use Log;
 
 use Carbon\Carbon;
 
@@ -209,15 +210,21 @@ class ImportPayroll2018 extends Command
                                              $this->error("no hay contribution rate");
                                          }
                                          $percentage = round(($contribution->total / $contribution->quotable) * 100, 2);
-
-                                         if ($percentage == $contribution_rate->retirement_fund + $contribution_rate->mortuary_quota) {
+                                         
+                                         if ($percentage == round(($contribution_rate->retirement_fund + $contribution_rate->mortuary_quota),2)) {
                                              $contribution->retirement_fund = $contribution->total * $contribution_rate->retirement_fund / $percentage;
                                              $contribution->mortuary_quota = $contribution->total * $contribution_rate->mortuary_quota / $percentage;
-                                         }else {
-                                             $this->error('Unknown percentage of contribution!');
-                                             exit();
+                                            }else {
+                                                if($percentage == round($contribution_rate->mortuary_quota,2)){
+                                                    $contribution->retirement_fund = 0;
+                                                    $contribution->mortuary_quota = $contribution->total * $contribution_rate->mortuary_quota / $percentage;
+                                                }else{
+                                                    $this->error('Unknown percentage of contribution!');
+                                                    exit();
+                                                    Log::info($result);
+                                                }
                                          }
-                                         $contribution->save();
+                                        $contribution->save();
                                          //$NewContri ++;
                                      }
                                  }
