@@ -23,6 +23,7 @@ use Muserpol\EconomicComplementProcedure;
 use Muserpol\EconomicComplementApplicant;
 use Muserpol\EconomicComplementLegalGuardian;
 use Muserpol\EconomicComplementState;
+use Muserpol\Devolution;
 use stdClass;
 
 use App\CustomCollection;
@@ -3700,5 +3701,33 @@ public function export_wfamort_total_contabilidad(Request $request) // EXPORTAR 
 
     Session::flash('message', "Importación Exitosa");
     return redirect('economic_complement'); 
+  }
+  public function export_amortizados_reposicion()
+  {
+      global $afiliados;
+        $afiliados = Devolution::leftJoin('affiliates','affiliates.id','=','devolutions.affiliate_id')
+              ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
+              ->leftJoin('cities', 'affiliates.city_identity_card_id','=', 'cities.id')
+              ->leftJoin('cities as cities2','affiliates.city_birth_id','=','cities2.id')
+              ->leftJoin('degrees','degrees.id','=','affiliates.degree_id')
+              ->leftJoin('categories','categories.id','=','affiliates.category_id')
+
+              ->whereRaw('devolutions.total > devolutions.balance')
+              ->select('affiliates.identity_card as ci','cities.first_shortened as extension','affiliates.first_name as primer_nombre','affiliates.second_name as segundo_nombre','affiliates.last_name as paterno','affiliates.mothers_last_name as materno','cities2.name as ciudad','degrees.name as grado','categories.name as categoria','devolutions.total','devolutions.balance as deuda')
+              ->get();
+         Excel::create('Amortizados_'.date("Y-m-d H:i:s"), function($excel) {
+
+           $excel->sheet('Amortizados Cechus y karen',function($sheet){
+                global $afiliados;
+                $sheet->fromArray($afiliados);
+                $sheet->cells('A1:I1', function($cells) {
+                  $cells->setBackground('#058A37');
+                  $cells->setFontColor('#ffffff');  
+                  $cells->setFontWeight('bold');
+                });
+            });
+
+         })->download('xlsx');
+
   }
 }
