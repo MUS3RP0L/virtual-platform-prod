@@ -24,7 +24,7 @@ class ImportPayroll2018 extends Command
      *
      * @var string
      */
-    protected $signature = 'import:payroll_2017';
+    protected $signature = 'import:payroll_2018';
 
     /**
      * The console command description.
