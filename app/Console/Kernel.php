@@ -82,7 +82,7 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('create:ipcrate')->monthly();
+        // $schedule->command('create:ipcrate')->monthly();
         $schedule->command('create:contributionrate')->monthly();
     }
 }
