@@ -78,6 +78,8 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\CheckRequirement::class,
         \Muserpol\Console\Commands\ImportConciliacion::class,
         \Muserpol\Console\Commands\ImportPayroll2018::class,
+        \Muserpol\Console\Commands\ImportReimbursement2018::class
+        
         
     ];
 
