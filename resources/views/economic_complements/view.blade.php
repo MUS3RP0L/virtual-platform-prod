@@ -1189,37 +1189,39 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
-                            @if($economic_complement->affiliate->pension_entity->type == 'APS')
-                                <table class="table table-bordered table-responsive table-hover table-striped">
-                                    <thead>
+                            @if($economic_complement->affiliate->pension_entity)
+                                @if($economic_complement->affiliate->pension_entity->type == 'APS')
+                                    <table class="table table-bordered table-responsive table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Detalle de la Fracción</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                    <tbody>
                                         <tr>
-                                            <th>Detalle de la Fracción</th>
-                                            <th>Total</th>
+                                            <td style="width: 70%">Fracción de Saldo Acumulada</td>
+                                            <td style="text-align: right">{{ Util::formatMoney($economic_complement->aps_total_fsa)}} </td>
                                         </tr>
-                                    </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 70%">Fracción de Saldo Acumulada</td>
-                                        <td style="text-align: right">{{ Util::formatMoney($economic_complement->aps_total_fsa)}} </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 70%">Fracción de Pensión CCM o Pago de CCM</td>
-                                        <td style="text-align: right">{{ Util::formatMoney($economic_complement->aps_total_cc)}} </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 70%">Fracion Solidaria de Vejéz</td>
-                                        <td style="text-align: right">{{ Util::formatMoney($economic_complement->aps_total_fs)}} </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 70%">Total</td>
-                                        <td  style="text-align: right" > {{ Util::formatMoney($economic_complement->getTotalFractions()) }} </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        <tr>
+                                            <td style="width: 70%">Fracción de Pensión CCM o Pago de CCM</td>
+                                            <td style="text-align: right">{{ Util::formatMoney($economic_complement->aps_total_cc)}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 70%">Fracion Solidaria de Vejéz</td>
+                                            <td style="text-align: right">{{ Util::formatMoney($economic_complement->aps_total_fs)}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 70%">Total</td>
+                                            <td  style="text-align: right" > {{ Util::formatMoney($economic_complement->getTotalFractions()) }} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                @endif
                             @endif
                             @if($economic_complement->aps_disability > 0)
                             <hr>
@@ -2118,38 +2120,40 @@
                         {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement], 'class' => 'form-horizontal']) !!}
                             <input type="hidden" name="step" value="rent"/>
                             <div class="row">
-                                <h4 style="text-align: center">{!!$economic_complement->affiliate->pension_entity->name!!}</h4>
+                                <h4 style="text-align: center">{!!$economic_complement->affiliate->pension_entity->name ?? null !!}</h4>
                                 <div class="col-md-12">
-                                    @if($economic_complement->affiliate->pension_entity->name != 'SENASIR')
-                                    <div class="col-md-6">     
-                                        <div class="form-group">
-                                            {!! Form::label('aps_total_fsa', 'Fraccion de Saldo Acumulado', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-6">
-                                            {!! Form::text('aps_total_fsa', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
-                                                <span class="help-block">Escriba la Fraccion de Saldo Acumulado</span>
+                                    @if($economic_complement->affiliate->pension_entity)
+                                        @if($economic_complement->affiliate->pension_entity->name != 'SENASIR')
+                                        <div class="col-md-6">     
+                                            <div class="form-group">
+                                                {!! Form::label('aps_total_fsa', 'Fraccion de Saldo Acumulado', ['class' => 'col-md-5 control-label']) !!}
+                                                <div class="col-md-6">
+                                                {!! Form::text('aps_total_fsa', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                                    <span class="help-block">Escriba la Fraccion de Saldo Acumulado</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                {!! Form::label('aps_total_cc', 'Fraccion de Cotizaciones', ['class' => 'col-md-5 control-label']) !!}
+                                                <div class="col-md-6">
+                                                {!! Form::text('aps_total_cc', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                                    <span class="help-block">Escriba la Fraccion de Cotizaciones</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                {!! Form::label('aps_total_fs', 'Fraccion Solidaria', ['class' => 'col-md-5 control-label']) !!}
+                                                <div class="col-md-6">
+                                                {!! Form::text('aps_total_fs', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                                    <span class="help-block">Escriba la Fraccion solidaria</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                {!! Form::label('total_frac', 'Total Fracciones', ['class' => 'col-md-5 control-label']) !!}
+                                                <div class="col-md-6">
+                                                {!! Form::text('total_frac', null, ['class' => 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'", 'readonly']) !!}
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            {!! Form::label('aps_total_cc', 'Fraccion de Cotizaciones', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-6">
-                                            {!! Form::text('aps_total_cc', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
-                                                <span class="help-block">Escriba la Fraccion de Cotizaciones</span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            {!! Form::label('aps_total_fs', 'Fraccion Solidaria', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-6">
-                                            {!! Form::text('aps_total_fs', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
-                                                <span class="help-block">Escriba la Fraccion solidaria</span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            {!! Form::label('total_frac', 'Total Fracciones', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-6">
-                                            {!! Form::text('total_frac', null, ['class' => 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'", 'readonly']) !!}
-                                            </div>
-                                        </div>
-                                    </div>
+                                        @endif
                                     @endif
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -2609,7 +2613,7 @@
                                          <div class="form-group">
                                                 {!! Form::label('affiliate_entity_pension', 'Ente Gestor', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
-                                                {!! Form::select('affiliate_entity_pension',$entity_pensions, $affiliate->pension_entity->id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                {!! Form::select('affiliate_entity_pension',$entity_pensions, $affiliate->pension_entity->id ?? null, ['class'=> 'combobox form-control', 'required']) !!}
                                                 <span class="help-block">Seleccione un ente gestor</span>
                                             </div>
                                         </div>
