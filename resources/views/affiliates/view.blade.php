@@ -926,7 +926,7 @@
                                             <div class="col-md-6">
                                                 <strong>Código de Afiliado:</strong>
                                             </div>
-                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->pension_entity->type!!}">
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->id !!}">
                                                 {!! $affiliate->id !!}
                                             </div>
                                         </div>
