@@ -13,7 +13,7 @@ use Muserpol\Category;
 use Muserpol\Reimbursement;
 use Muserpol\ContributionRate;
 use Muserpol\Contribution;
-
+use DB;
 use Util;
 use Log;
 
@@ -53,19 +53,27 @@ class ImportReimbursement2018 extends Command
     public function handle()
     {
         
-        global $Progress, $aficount,$afincount;
+        global $Progress, $aficount,$afincount,$affiliate_no, $search_ci;
              $password = $this->ask('Enter the password');
              if ($password == ACCESS) {
                  $FolderName = $this->ask('Enter the name of the folder you want to import');
-
+                 
                  if ($this->confirm('Are you sure to import the folder "' . $FolderName . '" ? [y|N]') && $FolderName) {
+                     
+                    $carnet = $this->choice('Buscar afiliados SIN extension?', ['SI', 'NO']);
+                    $this->info($carnet);
+                    if($carnet == "SI"){
+                        $search_ci = true;
+                    }else{
+                        $search_ci = false;
+                    }
                      $time_start = microtime(true);
                      $this->info("Working...\n");
                      $Progress = $this->output->createProgressBar();
                      $Progress->setFormat("%current%/%max% [%bar%] %percent:3s%%");
                      Excel::batch('public/file_to_import/' . $FolderName . '/', function($rows, $file) {
                          $rows->each(function($result) {
-                                 global $Progress,$aficount, $afincount;
+                                 global $Progress,$aficount, $afincount, $affiliate_no, $search_ci;
                                  ini_set('memory_limit', '-1');
                                  ini_set('max_execution_time', '-1');
                                  ini_set('max_input_time', '-1');
@@ -77,48 +85,40 @@ class ImportReimbursement2018 extends Command
                                  $year = $result->a_o ? intval($result->a_o)+2000: 0;
                                  $month_year = Carbon::createFromDate($year, $month, 1)->toDateString();
 
-
-                                 if (is_null($result->desg)) {$result->desg = 0;}
-                                 $breakdown_id = Breakdown::select('id')->where('code', $result->desg)->first()->id;
-
-                                 if ($breakdown_id == 1) {
-                                     $unit_id = Unit::select('id')->where('breakdown_id', 1)->where('code', '20190')->first()->id;
-                                 }
-                                 elseif ($breakdown_id == 2) {
-                                     $unit_id = Unit::select('id')->where('breakdown_id', 2)->where('code', '20190')->first()->id;
-                                 }
-                                 elseif ($breakdown_id == 3) {
-                                     $unit_id = Unit::select('id')->where('breakdown_id', 3)->where('code', '20190')->first()->id;
-                                 }
-                                 else{
-                                     if (Unit::select('id')->where('breakdown_id', $breakdown_id)->where('code', $result->uni)->first()) {
-                                         $unit_id = Unit::select('id')->where('breakdown_id', $breakdown_id)->where('code', $result->uni)->first()->id;
-                                     }else {
-                                         $unit_id = Unit::select('id')->where('code', $result->uni)->first()->id;
-                                     }
-                                 }
-                                 if ($result->niv == '04' && $result->gra == '15'){$result->niv = '03';}
-                                 $hierarchy_id = $result->niv ? Hierarchy::where('code','=', $result->niv)->first()->id ?? null : null;
-                                 $degree_id = $result->gra ? Degree::where('code','=', trim($result->gra))->where('hierarchy_id', '=', $hierarchy_id)->first()->id : null;
-                                 
-                                 $afi = Affiliate::whereRaw("ltrim(trim(identity_card),'0') ='".ltrim(trim($ci),'0')."'")->first();
-                                $cat_percentage=Util::CalcCategory(Util::decimal($result->cat),Util::decimal($result->sue));
-                                if(Util::getCategoryId_number($cat_percentage) == "error"){
-                                    Log::info($cat_percentage);
-                                    if($con = Contribution::where('month_year', '=', $month_year)
-                                    ->where('affiliate_id', '=', $afi->id)->first() ){
-                                        $category_id=$con->category_id;
-                                    }else{
-                                        Log::info("error en la categoria");
-                                        exit();
-                                    }
+                                if($search_ci){
+                                    $afi=DB::table('affiliates')->whereRaw("ltrim(split_part(affiliates.identity_card, '-',1), '0') like '".(explode("-",ltrim(trim($ci), "0"))[0])."'")->first();
                                 }else{
-
-                                    $category_id = Category::where('percentage', Util::CalcCategory(Util::decimal($result->cat),Util::decimal($result->sue)))->first()->id;
-                                }
-                                 
+                                    $afi = Affiliate::whereRaw("ltrim(trim(identity_card),'0') ='".ltrim(trim($ci),'0')."'")->first();
+                                }                                 
                                  
                                  if ($afi) {
+
+
+                                    if (is_null($result->desg)) {$result->desg = 0;}
+                                    $breakdown_id = Breakdown::select('id')->where('code', $result->desg)->first()->id;
+   
+                                    if ($breakdown_id == 1) {
+                                        $unit_id = Unit::select('id')->where('breakdown_id', 1)->where('code', '20190')->first()->id;
+                                    }
+                                    elseif ($breakdown_id == 2) {
+                                        $unit_id = Unit::select('id')->where('breakdown_id', 2)->where('code', '20190')->first()->id;
+                                    }
+                                    elseif ($breakdown_id == 3) {
+                                        $unit_id = Unit::select('id')->where('breakdown_id', 3)->where('code', '20190')->first()->id;
+                                    }
+                                    else{
+                                        if (Unit::select('id')->where('breakdown_id', $breakdown_id)->where('code', $result->uni)->first()) {
+                                            $unit_id = Unit::select('id')->where('breakdown_id', $breakdown_id)->where('code', $result->uni)->first()->id;
+                                        }else {
+                                            $unit_id = Unit::select('id')->where('code', $result->uni)->first()->id;
+                                        }
+                                    }
+                                    if ($result->niv == '04' && $result->gra == '15'){$result->niv = '03';}
+                                    $hierarchy_id = $result->niv ? Hierarchy::where('code','=', $result->niv)->first()->id ?? null : null;
+                                    $degree_id = $result->gra ? Degree::where('code','=', trim($result->gra))->where('hierarchy_id', '=', $hierarchy_id)->first()->id : null;
+                                   
+
+
                                      $aficount++;
                                      if (Util::decimal($result->sue)<> 0) {
                                           $contribution = Reimbursement::where('month_year', '=', $month_year)
@@ -132,7 +132,7 @@ class ImportReimbursement2018 extends Command
                                               $contribution->unit_id = $unit_id;
                                               $contribution->breakdown_id = $breakdown_id;
                                               $contribution->degree_id = $degree_id;
-                                              $contribution->category_id = $category_id;
+                                            //   $contribution->category_id = $category_id;
                                               $contribution->item = $item;
                                               
                                               $contribution->base_wage = Util::decimal($result->sue);
@@ -184,14 +184,29 @@ class ImportReimbursement2018 extends Command
                                      }
                                 }else{
                                     $afincount++;
+                                    Log::info(json_encode($result));
+                                    $affiliate_no[]= array(
+                                        'ci' => $result->car,
+                                        'p_nombre'=>$result->nom,
+                                        's_nombre'=>$result->nom2,
+                                        'paterno'=>$result->pat,
+                                        'materno'=>$result->mat,
+                                        'anio'=>$result->a_o,
+                                        'mes'=>$result->mes
+                                    );
                                 }
-                                     
-                                     
-                                
-                                 $Progress->advance();
+                                $Progress->advance();
                          });
                      });
-
+                     Log::info($affiliate_no);
+                     Excel::create('Lista Afiliados NO importados de Reintegro'.date("Y-m-d H:i:s"),function($excel)
+                     {
+                         global $affiliate_no;
+                         $excel->sheet('afiliados no importados',function($sheet) {
+                             global $affiliate_no;
+                             $sheet->fromArray($affiliate_no);
+                         });
+                     })->store('xls', storage_path('excel/exports'));
                      $time_end = microtime(true);
                      $execution_time = ($time_end - $time_start)/60;
                      $Progress->finish();

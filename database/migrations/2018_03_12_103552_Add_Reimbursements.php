@@ -16,7 +16,7 @@ class AddReimbursements extends Migration
             $table->bigInteger('degree_id')->unsigned()->nullable();
             $table->bigInteger('unit_id')->unsigned()->nullable();
             $table->bigInteger('breakdown_id')->unsigned()->nullable();
-            $table->bigInteger('category_id')->unsigned()->nullable();
+            // $table->bigInteger('category_id')->unsigned()->nullable();
             $table->date('month_year');
             $table->string('item')->nullable();
             $table->enum('type',['Planilla', 'Directo']);
@@ -45,7 +45,7 @@ class AddReimbursements extends Migration
             $table->unique(['affiliate_id','month_year']);
             $table->foreign('degree_id')->references('id')->on('degrees');
             $table->foreign('unit_id')->references('id')->on('units');
-            $table->foreign('category_id')->references('id')->on('categories');
+            // $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('breakdown_id')->references('id')->on('breakdowns');
             $table->timestamps();
             $table->softDeletes();
