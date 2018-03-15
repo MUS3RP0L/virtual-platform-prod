@@ -920,6 +920,18 @@
                                     </td>
                                 </tr>
                                 @endif
+                                <tr class="success">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Código de Afiliado:</strong>
+                                            </div>
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->pension_entity->type!!}">
+                                                {!! $affiliate->id !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                                 @if($affiliate->reason_decommissioned)
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">>
