@@ -35,10 +35,10 @@
           <td class="grand service"><strong>A FAVOR</strong></td><td class="grand service"><strong>DESCUENTO</strong></td>
         </tr>
         <tr>
-          <td><strong>BOLETA TOTAL</strong></td><td class="number"><strong>{{$total_rent}}</strong></td><td></td>
+          <td><strong>RENTA O PENSIÓN (PASIVO NETO)</strong></td><td class="number"><strong>{{$total_rent}}</strong></td><td></td>
         </tr>
         <tr>
-          <td>RENTA O PENSIÓN (PASIVO NETO)</td><td class="number">{{$total_rent_calc}}</td><td></td>
+          <td>REFERENTE DE CALIFICACIÓN (PROMEDIO)</td><td class="number">{{($total_rent_calc == $total_rent) ? NULL : $total_rent_calc }}</td><td></td>
         </tr>
         <tr>
           <td>REFERENTE SALARIO DEL ACTIVO</td><td class="number">{{$salary_reference}}</td><td></td>
