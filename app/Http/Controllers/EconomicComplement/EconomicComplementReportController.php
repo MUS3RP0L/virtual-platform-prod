@@ -1184,10 +1184,11 @@ class EconomicComplementReportController extends Controller
         if ($economic_complement->amount_loan || $economic_complement->amount_accounting || $economic_complement->amount_replacement) {
           $temp_total=$economic_complement->total +  ($economic_complement->amount_loan ?? 0) + ($economic_complement->amount_accounting ?? 0) + ($economic_complement->amount_replacement ?? 0);
         }
+        // dd($temp_total);
 
         $temp_total=(number_format($temp_total,2,'.',''));
-        if ($economic_complement->old_eco_com && ($old_eco_com->amount_loan || $old_eco_com->amount_accounting || $old_eco_com->amount_replacement)) {
-          $old_eco_com_total_calificate=$old_eco_com->total +  ($old_eco_com->amount_loan ?? 0) + ($old_eco_com->amount_accounting ?? 0) + ($old_eco_com->amount_replacement ?? 0);
+        if ($economic_complement->old_eco_com && ($old_eco_com->amount_loan || $old_eco_com->amount_accounting || $old_eco_com->amount_replacement || true )) {
+          $old_eco_com_total_calificate = $old_eco_com->total + ($old_eco_com->amount_loan ?? 0) + ($old_eco_com->amount_accounting ?? 0) + ($old_eco_com->amount_replacement ?? 0);
         }
         $data = [
             'doc_number'=>$doc_number,
@@ -1248,7 +1249,9 @@ class EconomicComplementReportController extends Controller
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-        $title = "FORMULARIO CE - 1";
+        $title_inline = "FORMULARIO CE - 1";
+        $title = "HOJA DE CÁLCULO DEL COMPLEMENTO ECONÓMICO";
+        
         $date = Util::getDateEdit(date('Y-m-d'));
         setlocale(LC_ALL, "es_ES.UTF-8");
         $date = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
@@ -1264,6 +1267,7 @@ class EconomicComplementReportController extends Controller
         
         if ($economic_complement->old_eco_com) {
             $old_eco_com=json_decode($economic_complement->old_eco_com);
+            $title2 = \Muserpol\EconomicComplementProcedure::where('id',$old_eco_com->eco_com_procedure_id)->first()->getFullName() ?? '';
             $total_literal=Util::convertir($old_eco_com->total);
             $old_eco_com_total_frac = $old_eco_com->aps_total_cc + $old_eco_com->aps_total_fsa + $old_eco_com->aps_total_fs;
             $modality=\Muserpol\EconomicComplementModality::where('id',$old_eco_com->eco_com_modality_id)->first();
@@ -1305,6 +1309,8 @@ class EconomicComplementReportController extends Controller
             'header1' => $header1,
             'header2' => $header2,
             'title' => $title,
+            'title2' => $title2,
+            'title_inline' => $title_inline,
             'total_literal' => $total_literal ?? '',
         ];
         $second_data = [

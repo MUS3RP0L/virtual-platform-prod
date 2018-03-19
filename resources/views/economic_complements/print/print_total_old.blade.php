@@ -1,8 +1,8 @@
 @extends('globalprint.wkhtml')
-@section('subtitle')
-@if($economic_complement->old_eco_com)
-	{{-- <center><b>(TRÁMITE ANTERIOR)</b></center> --}}
-	@endif
+@section('title2')
+	<center><strong>{{ $title2 }} @if ($economic_complement->old_eco_com && $economic_complement->total_repay > 0)
+     (TRÁMITE ANTERIOR)
+   @endif</strong></center>
 @endsection
 @section('content')
 <style type="text/css">
@@ -10,7 +10,7 @@
       text-align: right;
     }
 </style>
-	<div class="title2"><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
+	<div class="title2"><strong class="code">{!! $title_inline !!}</strong><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
    <div id="project">
   <table class="table" style="width:100%;">
   	<tr>
@@ -85,10 +85,10 @@
 		    <td class="grand service"><b>A FAVOR</b></td><td class="grand service"><b>DESCUENTO</b></td>
 		  </tr>
 		  <tr>
-		    <td><b>BOLETA TOTAL</b></td><td class="number"><b>{{Util::formatMoney($old_eco_com->total_rent)}}</b></td><td></td>
+		    <td><b>RENTA O PENSIÓN (PASIVO NETO)</b></td><td class="number"><b>{{Util::formatMoney($old_eco_com->total_rent)}}</b></td><td></td>
 		  </tr>
 		  <tr>
-		    <td>RENTA O PENSIÓN PASIVO NETO</td><td class="number">{{Util::formatMoney($old_eco_com->total_rent_calc)}}</td><td></td>
+		    <td>REFERENTE DE CALIFICACIÓN (PROMEDIO)</td><td class="number">{{Util::formatMoney($old_eco_com->total_rent_calc)}}</td><td></td>
 		  </tr>
 		  <tr>
 		    <td>REFERENTE SALARIO DEL ACTIVO</td><td class="number">{{Util::formatMoney($old_eco_com->salary_reference)}}</td><td></td>
@@ -151,9 +151,11 @@
 	<br>
 	<table>
 		<tr>
-			<td class="padding-top"><strong>Elaborado y Revisado por:</strong></td>
-			<td class="padding-top"><strong>Aprobado por:</strong></td>
-			<td class="padding-top"><strong>Aprobado por:</strong></td>
+			<td class="width-20-por no-border"></td>
+			<td class="width-30-por padding-top"><strong>Elaborado y Revisado por:</strong></td>
+			{{-- <td class="width-30-por padding-top"><strong>Aprobado por:</strong></td> --}}
+			<td class="width-30-por padding-top"><strong>V° B°</strong></td>
+			<td class="width-20-por no-border"></td>
 		</tr>
 	</table>
 	{{-- <table>
