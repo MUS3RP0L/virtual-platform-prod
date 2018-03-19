@@ -47,19 +47,19 @@
 		    <td colspan="6" class="grand info_title">INFORMACIÓN DEL TRÁMITE</td>
 		  </tr>
 		  <tr>
-		    <td><strong>MODALIDAD: </strong></td><td>{{ $old_eco_com_modality }}</td>
+		    <td><strong>TIPO DE PRESTACIÓN:</strong></td><td>{{ $old_eco_com_modality }}</td>
 		    <td><strong>GRADO:</strong></td><td>{!! $old_eco_com_degree !!}</td>
 		  	<td><strong>CATEGORÍA:</strong></td><td>{!! $old_eco_com_category !!}</td>
 		  <tr>
 		  </tr>
 		    <td><strong>REGIONAL:</strong></td><td>{!! $old_eco_com_city !!}</td>  	
-		    <td><strong>GESTIÓN:</strong></td><td> {!! $old_eco_com_year!!}</td>
-		    <td><strong>SEMESTRE:</strong></td><td>{!! $old_eco_com->semester !!}</td>
-		  </tr>
-		  <tr>
+		    {{--  <td><strong>GESTIÓN:</strong></td><td> {!! $old_eco_com_year!!}</td>  --}}
+		    {{--  <strong><strong>SEMESTRE:</strong></strong><td>{!! $old_eco_com->semester !!}</td>  --}}
+		  {{--  </tr>
+		  <tr>  --}}
 		    <td><strong>ENTE GESTOR:</strong></td><td>{!! $affiliate->pension_entity->name ?? '' !!}</td>
 		    <td><strong>TIPO DE TRÁMITE: </strong></td><td>{!! strtoupper($old_eco_com->reception_type) !!}</td>  	
-		    <td><strong>FECHA DE RECEPCIÓN:</strong></td><td>{!! $old_eco_com_reception_date!!}</td>
+		    {{--  <td><strong>FECHA DE RECEPCIÓN:</strong></td><td>{!! $old_eco_com_reception_date!!}</td>  --}}
 		  </tr>
 		
 		@if($economic_complement->has_legal_guardian)

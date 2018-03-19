@@ -1275,7 +1275,7 @@ class EconomicComplementReportController extends Controller
             $old_eco_com_modality = $modality->shortened;
             $degree=\Muserpol\Degree::where('id',$old_eco_com->degree_id)->first();
             $old_eco_com_degree = $degree->shortened;
-            $old_eco_com_year = Carbon::parse($degree->year)->year;
+            $old_eco_com_year = Carbon::parse($old_eco_com->year)->year;
             $category=\Muserpol\Category::where('id',$old_eco_com->category_id)->first();
             $old_eco_com_category = $category->name;
             $city=\Muserpol\City::where('id',$old_eco_com->city_id)->first();

@@ -2573,7 +2573,7 @@
                                         <div class="form-group">
                                                 {!! Form::label('category', 'Categoria', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
-                                                {!! Form::select('category',$categories, $economic_complement->category_id , ['class'=> 'form-control', 'required','id'=>'category']) !!}
+                                                {!! Form::select('category',$categories, $economic_complement->category_id , ['class'=> 'form-control', 'required','id'=>'category', 'disabled']) !!}
                                                 <span class="help-block">Seleccione una Categoria para el policía</span>
                                             </div>
                                         </div>
