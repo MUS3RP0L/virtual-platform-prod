@@ -1184,10 +1184,11 @@ class EconomicComplementReportController extends Controller
         if ($economic_complement->amount_loan || $economic_complement->amount_accounting || $economic_complement->amount_replacement) {
           $temp_total=$economic_complement->total +  ($economic_complement->amount_loan ?? 0) + ($economic_complement->amount_accounting ?? 0) + ($economic_complement->amount_replacement ?? 0);
         }
+        // dd($temp_total);
 
         $temp_total=(number_format($temp_total,2,'.',''));
         if ($economic_complement->old_eco_com && ($old_eco_com->amount_loan || $old_eco_com->amount_accounting || $old_eco_com->amount_replacement || true )) {
-          $old_eco_com_total_calificate=$old_eco_com->total ;
+          $old_eco_com_total_calificate = $old_eco_com->total + ($old_eco_com->amount_loan ?? 0) + ($old_eco_com->amount_accounting ?? 0) + ($old_eco_com->amount_replacement ?? 0);
         }
         $data = [
             'doc_number'=>$doc_number,
