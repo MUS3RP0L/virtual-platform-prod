@@ -498,6 +498,8 @@ class AffiliateController extends Controller
                         $affiliate->affiliate_state_id = 5;
                         if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
                         $affiliate->identity_card = trim($request->identity_card);
+
+                        //falta registrar los anios de Servicio
                         $affiliate->category_id = $request->category;
                         $affiliate->type = $request->type_affiliate;
                         $affiliate->pension_entity_id = $request->pension;
@@ -540,6 +542,8 @@ class AffiliateController extends Controller
                     $affiliate->degree_id = $request->degree;
                     $affiliate->date_entry = Util::datePick($request->date_entry);
                     $affiliate->item = $request->item > 0 ? $request->item: 0 ;
+
+                    //falta registrar los anios de servicio
                     $affiliate->category_id = $request->category;
                     $affiliate->pension_entity_id=$request->affiliate_entity_pension;
                     $affiliate->service_years=$request->service_years <> "" ? $request->service_years:null;
@@ -608,8 +612,12 @@ class AffiliateController extends Controller
                     }
                     // /recalculate
                     $economic_complement->city_id = $request->regional;
-                    $economic_complement->category_id = $request->category;
                     $economic_complement->degree_id = $request->degree;
+                    if ($this->getCategory($request) == "error") {
+                        $economic_complement->category_id = null;
+                    } else {
+                        $economic_complement->category_id = $this->getCategory($request)->id;
+                    }
                     $economic_complement->save();
                     //$affiliate->affiliate_state_id = $request->state;
                     //  $affiliate->type = $request->affiliate_type;
@@ -617,11 +625,15 @@ class AffiliateController extends Controller
                     $affiliate->degree_id = $request->degree;
                     $affiliate->date_entry = Util::datePick($request->date_entry);
                     $affiliate->item = $request->item > 0 ? $request->item: 0 ;
-                    $affiliate->category_id = $request->category;
                     $affiliate->pension_entity_id=$request->affiliate_entity_pension;
                     $affiliate->service_years=$request->service_years <> "" ? $request->service_years:null;
                     $affiliate->service_months=$request->service_months <> "" ? $request->service_months : null;
                     $affiliate->death_certificate_number=$request->death_certificate_number;
+                    if ($this->getCategory($request) == "error") {
+                        $affiliate->category_id = null;
+                    }else{
+                        $affiliate->category_id = $this->getCategory($request)->id;
+                    }
                     $affiliate->save();
                     if ($economic_complement->total_rent > 0 ) {   
                         EconomicComplement::calculate($economic_complement,$economic_complement->total_rent, $economic_complement->sub_total_rent, $economic_complement->reimbursement, $economic_complement->dignity_pension, $economic_complement->aps_total_fsa, $economic_complement->aps_total_cc, $economic_complement->aps_total_fs, $economic_complement->aps_disability);
@@ -898,6 +910,9 @@ class AffiliateController extends Controller
     {
         $service_year = $request->service_years;
         $service_month = $request->service_months;
+        if ($service_year < 0 || $service_month < 0 || $service_year >100 || $service_month > 12 ) {
+            return "error";
+        }
         if ($service_month > 0) {
             $service_year++;
         }
