@@ -2559,14 +2559,14 @@
                                         <div class="form-group">
                                                 {!! Form::label('service_years', 'Años de servicio', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-5">
-                                                {!! Form::text('service_years',$affiliate->service_years, ['class'=> 'form-control', 'required']) !!}
+                                                {!! Form::text('service_years',$affiliate->service_years, ['class'=> 'form-control']) !!}
                                                 <span class="help-block">Escriba los años de servicio</span>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                                 {!! Form::label('service_months', 'Meses de servicio', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-5">
-                                                {!! Form::text('service_months',$affiliate->service_months, ['class'=> 'form-control', 'required']) !!}
+                                                {!! Form::text('service_months',$affiliate->service_months, ['class'=> 'form-control']) !!}
                                                 <span class="help-block">Escriba los meses de servicio</span>
                                             </div>
                                         </div>
@@ -3500,11 +3500,6 @@ $(document).ready(function() {
         $("#service_years").inputmask('numeric',{min:0, max:100});
         $('#service_years').on('keyup',function(event) {
             year = $(this).val();
-            if(year > 0 || $.isNumeric(year)){
-                $('#service_months').prop('required', false);
-            }else{
-                $('#service_years').prop('required', true);
-            }
             $.ajax({
                 url: '{{ route('get_category') }}',
                 type: 'GET',
@@ -3516,17 +3511,14 @@ $(document).ready(function() {
             .done(function(data) {
                 if(data!= "error"){
                     $('#category').val(data.id);
+                }else{
+                    $('#category').val(null);
                 }
             });
         });
         $("#service_months").inputmask('numeric',{min:0, max:12});
         $('#service_months').on('keyup',function(event) {
             month = $(this).val();
-            if(month > 0 || $.isNumeric(month)){
-                $('#service_years').prop('required', false);
-            }else{
-                $('#service_months').prop('required', true);
-            }
             $.ajax({
                 url: '{{ route('get_category') }}',
                 type: 'GET',
@@ -3538,6 +3530,8 @@ $(document).ready(function() {
             .done(function(data) {
                 if(data!= "error"){
                     $('#category').val(data.id);
+                }else{
+                    $('#category').val(null);
                 }
             });
         });

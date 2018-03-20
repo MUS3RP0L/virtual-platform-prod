@@ -12,8 +12,14 @@
     td{
       font-size:10px;
     }
+    .p-19{
+      padding: 0px 19px;
+    }
 </style>
-<div class="main1">
+    @section('padding')
+    p-19
+    @endsection
+<div class="main1 p-19">
 <div class="title2"><strong class="code">{!! $title_inline !!}</strong><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
   <div id="project">
     @include('economic_complements.info.applicant_info',['eco_com_applicant'=>$eco_com_applicant])
@@ -104,6 +110,20 @@
             <tr>
               <td colspan="3"><strong>Son: </strong> {{ Util::convertir($economic_complement->total_repay) }} BOLIVIANOS.</td>
             </tr>
+          @else
+            <tr>
+              <td>TOTAL COMP. ECO. (PASIVO DIFERIDO)</td>
+              <td class="number">{!! Util::formatMoney($old_eco_com_total_calificate) !!}</td>
+              <td></td>
+            </tr>
+            <tr style="font-size: 1.1em">
+              <td class="grand service text-left">TOTAL COMPLEMENTO ECONÓMICO EN BOLIVIANOS</td>
+              <td class="number"><strong>{!! Util::formatMoney($economic_complement->total) !!}</strong></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colspan="3"><strong>Son: </strong> {{ Util::convertir($economic_complement->total) }} BOLIVIANOS.</td>
+            </tr>
           @endif
         @else
         <tr>
@@ -185,176 +205,199 @@
     </table>
   </div> --}}
 </div>
-<div class="main-left">
-  <table>
-    <tr>
-      <td colspan="2" class="no-border"></td>
-    </tr>
-    <tr class="tableh1">
-      <th colspan="2" style="width: 50%;border: 0px" class="size-7">
-        <b>MUTUAL DE SERVICIOS AL POLICÍA<br>
-          {!! $header1 !!}<br>{!! $header2 !!}
-          @yield('title')
-          <br> <em>"{{ strtoupper($economic_complement->economic_complement_procedure->getFullName() ?? '') }}
-            @if ($economic_complement->old_eco_com && $economic_complement->total_repay > 0)
-            (REINTEGRO)
-            @endif
-            "</em>
-        </b>
-      </th>
-    </tr>
-    <tr>
-      <td colspan="2" class="no-border">
-        <em>{{ ucwords(strtolower($user->city->name ?? '')) ?? 'La Paz' }}, {!! $date !!} - {!! $hour !!}</em>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" class="no-border">
-        <strong><em>REGIONAL:</em></strong>  {{ $economic_complement->city->name ?? '' }} <br>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" class="no-border">
-        <strong><em>GRADO:</em></strong>  {{ $economic_complement->degree->shortened ?? '' }} <br>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" class="no-border">
-        <strong><em>CATEGORÍA:</em></strong>  {{ $economic_complement->category->name ?? '' }} <br>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" class="no-border">
-        <strong><em>NOMBRES Y APELLIDOS:</em></strong><br>
-          {{ $economic_complement->economic_complement_applicant->getFullName() ?? '' }} <br>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" class="no-border">
-        <strong><em>C.I.:</em></strong> {!! $economic_complement->economic_complement_applicant->identity_card !!} {{$economic_complement->economic_complement_applicant->city_identity_card ? $economic_complement->economic_complement_applicant->city_identity_card->first_shortened.'.' : ''}} <br>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" class="no-border">
-        <strong><em>TRÁMITE Nº:</em></strong> {!! $economic_complement->code ?? ''!!} <br>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" class="no-border">
-        @if ($economic_complement->old_eco_com)
-          <strong>SON:</strong>
-          <em class="size-9">{{ Util::convertir($economic_complement->total_repay ?? 0 )   }} BOLIVIANOS.</em>
-        @else
-          <strong>SON:</strong>
-          <em class="size-9">{{ Util::convertir($temp_total > 0 ? $temp_total : $economic_complement->total)   }} BOLIVIANOS.</em>
-        @endif
-      </td>
-    </tr>
-    <tr>
-      <td class="no-border" >
-        {{-- <strong>TIPO DE PRESTACIÓN:</strong> --}}
-        {{ strtoupper($economic_complement->economic_complement_modality->economic_complement_type->name) ?? '' }}
-      </td>
-      <td class="no-border text-center size-16">
-        <span class="code border-radius">
+<div style="margin:0; padding:0; width:100%; display:block">
+  <div class="main-left">
+    <table>
+      <tr>
+        <td colspan="2" class="no-border"></td>
+      </tr>
+      <tr class="tableh1">
+        <th colspan="2" style="width: 50%;border: 0px;padding-top:10px" class="size-6">
+          <b>MUTUAL DE SERVICIOS AL POLICÍA<br>
+            {!! $header1 !!}<br>{!! $header2 !!}
+            @yield('title')
+            <br> <em>"{{ strtoupper($economic_complement->economic_complement_procedure->getFullName() ?? '') }}
+              @if ($economic_complement->old_eco_com && $economic_complement->total_repay > 0)
+              (REINTEGRO)
+              @endif
+              "</em>
+          </b>
+        </th>
+      </tr>
+      <tr>
+        <td colspan="2" class="no-border">
+          <em>{{ ucwords(strtolower($user->city->name ?? '')) ?? 'La Paz' }}, {!! $date !!} - {!! $hour !!}</em>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="no-border">
+          <strong><em>REGIONAL:</em></strong>  {{ $economic_complement->city->name ?? '' }} <br>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="no-border">
+          <strong><em>GRADO:</em></strong>  {{ $economic_complement->degree->shortened ?? '' }} <br>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="no-border">
+          <strong><em>CATEGORÍA:</em></strong>  {{ $economic_complement->category->name ?? '' }} <br>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="no-border">
+          <strong><em>NOMBRES Y APELLIDOS:</em></strong><br>
+            {{ $economic_complement->economic_complement_applicant->getFullName() ?? '' }} <br>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="no-border">
+          <strong><em>C.I.:</em></strong> {!! $economic_complement->economic_complement_applicant->identity_card !!} {{$economic_complement->economic_complement_applicant->city_identity_card ? $economic_complement->economic_complement_applicant->city_identity_card->first_shortened.'.' : ''}} <br>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="no-border">
+          <strong><em>TRÁMITE Nº:</em></strong> {!! $economic_complement->code ?? ''!!} <br>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="no-border">
           @if ($economic_complement->old_eco_com)
-            Bs. {{ Util::formatMoney($economic_complement->total_repay ?? 0 ) }}
-          @else
-            Bs. {{ Util::formatMoney($temp_total > 0 ? $temp_total : $economic_complement->total ) }}
-          @endif
-        </span>
-      </td>
-    </tr>
-  </table>
-  <span style="position: absolute; bottom:3%" class="size-6">PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018</span>
-    
-</div>
-<div class="main-right">
-  <table>
-    <tr>
-      <td colspan="4" class="no-border"></td>
-    </tr>
-    <tr class="tableh1">
-      <th colspan="4" style="width: 50%;border: 0px" class="size-7">
-        <b>MUTUAL DE SERVICIOS AL POLICÍA<br>
-          {!! $header1 !!}<br>{!! $header2 !!}
-          @yield('title')
-          <br> <em>"{{ strtoupper($economic_complement->economic_complement_procedure->getFullName() ?? '') }}
-            @if ($economic_complement->old_eco_com && $economic_complement->total_repay > 0)                
-            (REINTEGRO)
+            @if ($economic_complement->eco_com_state_id != 15)
+            <strong>SON:</strong>
+            <em class="size-9">{{ Util::convertir($economic_complement->total_repay ?? 0 )   }} BOLIVIANOS.</em>
+            @else
+            <strong>SON:</strong>
+            <em class="size-9">{{ Util::convertir($economic_complement->total ?? 0 )   }} BOLIVIANOS.</em>
             @endif
-          "</em>
-        </b>
-      </th>
-
-    </tr>
-    <tr >
-      <td class="no-border" colspan="4">
-        <em>{{ ucwords(strtolower($user->city->name ?? '')) ?? 'La Paz' }}, {!! $date !!} - {!! $hour !!}</em>
-      </td>
-    </tr><tr>
-      <td colspan="2" class="no-border">
-        <strong><em>REGIONAL:</em></strong>  {{ $economic_complement->city->name ?? '' }} <br>
-        <strong><em>C.I.:</em></strong> {!! $economic_complement->economic_complement_applicant->identity_card !!} {{$economic_complement->economic_complement_applicant->city_identity_card ? $economic_complement->economic_complement_applicant->city_identity_card->first_shortened.'.' : ''}} <br>
-        <strong><em>TRÁMITE Nº:</em></strong> {!! $economic_complement->code ?? ''!!} <br>
-      </td>
-        <td colspan="2" class="text-center no-border">
-        <span >
-           {{ strtoupper($economic_complement->economic_complement_modality->economic_complement_type->name) ?? '' }}
-        </span>
-        <br>
-        <br>
-        @if ($economic_complement->old_eco_com)
-          <strong class="code border-radius size-16 ">Bs. {{ Util::formatMoney($economic_complement->total_repay ?? 0 ) }}</strong>
-        @else
-          <strong class="code border-radius size-16 ">Bs. {{ Util::formatMoney($temp_total > 0 ? $temp_total : $economic_complement->total) }}</strong>
-        @endif
-      </td>
-        <tr><td colspan="4" class="no-border">
-        <strong><em>PÁGUESE A LA ORDEN DE:</em></strong><br>
-          <span class="margin-l-10">{{ $economic_complement->economic_complement_applicant->getFullName() ?? '' }} </span><br>
-      </td>
+          @else
+            <strong>SON:</strong>
+            <em class="size-9">{{ Util::convertir($temp_total > 0 ? $temp_total : $economic_complement->total)   }} BOLIVIANOS.</em>
+          @endif
+        </td>
+      </tr>
+      <tr>
+        <td class="no-border" >
+          {{-- <strong>TIPO DE PRESTACIÓN:</strong> --}}
+          {{ strtoupper($economic_complement->economic_complement_modality->economic_complement_type->name) ?? '' }}
+        </td>
+        <td class="no-border text-center size-16">
+          <span class="code border-radius">
+            @if ($economic_complement->old_eco_com)
+              @if ($economic_complement->eco_com_state_id != 15)
+              Bs. {{ Util::formatMoney($economic_complement->total_repay ?? 0 ) }}
+              @else
+              Bs. {{ Util::formatMoney($economic_complement->total ?? 0 ) }}
+              @endif
+            @else
+              Bs. {{ Util::formatMoney($temp_total > 0 ? $temp_total : $economic_complement->total ) }}
+            @endif
+          </span>
+        </td>
+      </tr>
+    </table>
+    <span style="position: absolute; bottom:3%" class="size-6">PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018</span>
       
-    </tr>
-    <tr>
-      <td colspan="4" class="no-border">
-        <strong>LA SUMA DE:</strong><br>
-        @if ($economic_complement->old_eco_com)
-          <em class="size-10">{{ Util::convertir($economic_complement->total_repay ?? 0)   }} BOLIVIANOS.</em>    
-        @else
-          <em class="size-10">{{ Util::convertir($temp_total > 0 ? $temp_total : $economic_complement->total)   }} BOLIVIANOS.</em>
-        @endif
-      </td>
-    </tr>
-    <tr>
-      <td class="width-30-por no-border text-center">
-        <div class="code border-radius">{{ $economic_complement->degree->shortened ?? '' }} <br> <em>GRADO</em></div>
-      </td>
-      <td class="width-20-por no-border text-center">
-        <div class="code border-radius">{{ $economic_complement->category->name ?? '' }} <br> <em>CATEGORÍA</em></div>
-      </td>
-      <td class="width-20-por no-border text-center">
-        <div class="code border-radius">6<br> <em>MESES</em></div>
-      </td>
-      <td class="width-30-por no-border text-center">
-        @if ($economic_complement->old_eco_com)
-          <div class="code border-radius"><strong>{{ Util::formatMoney($economic_complement->total_repay ?? 0) ?? '' }}</strong> <br> <em>LIQUIDO PAGABLE</em></div>
-        @else
-          <div class="code border-radius"><strong>{{ Util::formatMoney($temp_total > 0 ? $temp_total : $economic_complement->total) ?? '' }}</strong> <br> <em>LIQUIDO PAGABLE</em></div>
-        @endif
-        {{-- <span class="code border-radius">Bs. {{ Util::formatMoney($economic_complement->total) }}</span> --}}
-      </td>
-    </tr>
-    <tr>
-      <td class="no-border"></td>
-    </tr><tr>
-      <td class="no-border"></td>
-    </tr><tr>
-      <td class="no-border"></td>
-    </tr><tr>
-      <td class="no-border"></td>
-    </tr>
-  </table>
-  <span style="position: absolute; bottom:3%" class="size-6">PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018</span>
+  </div>
+  <div class="main-right">
+    <table>
+      <tr>
+        <td colspan="4" class="no-border"></td>
+      </tr>
+      <tr class="tableh1">
+        <th colspan="4" style="width: 50%;border: 0px;padding-top:10px" class="size-6">
+          <b>MUTUAL DE SERVICIOS AL POLICÍA<br>
+            {!! $header1 !!}<br>{!! $header2 !!}
+            @yield('title')
+            <br> <em>"{{ strtoupper($economic_complement->economic_complement_procedure->getFullName() ?? '') }}
+              @if ($economic_complement->old_eco_com && $economic_complement->total_repay > 0)                
+              (REINTEGRO)
+              @endif
+            "</em>
+          </b>
+        </th>
+
+      </tr>
+      <tr >
+        <td class="no-border" colspan="4">
+          <em>{{ ucwords(strtolower($user->city->name ?? '')) ?? 'La Paz' }}, {!! $date !!} - {!! $hour !!}</em>
+        </td>
+      </tr><tr>
+        <td colspan="2" class="no-border">
+          <strong><em>REGIONAL:</em></strong>  {{ $economic_complement->city->name ?? '' }} <br>
+          <strong><em>C.I.:</em></strong> {!! $economic_complement->economic_complement_applicant->identity_card !!} {{$economic_complement->economic_complement_applicant->city_identity_card ? $economic_complement->economic_complement_applicant->city_identity_card->first_shortened.'.' : ''}} <br>
+          <strong><em>TRÁMITE Nº:</em></strong> {!! $economic_complement->code ?? ''!!} <br>
+        </td>
+          <td colspan="2" class="text-center no-border">
+          <span >
+            {{ strtoupper($economic_complement->economic_complement_modality->economic_complement_type->name) ?? '' }}
+          </span>
+          <br>
+          <br>
+          @if ($economic_complement->old_eco_com)
+            @if ($economic_complement->eco_com_state_id != 15)
+              <strong class="code border-radius size-16 ">Bs. {{ Util::formatMoney($economic_complement->total_repay ?? 0 ) }}</strong>
+            @else
+              <strong class="code border-radius size-16 ">Bs. {{ Util::formatMoney($economic_complement->total ?? 0 ) }}</strong>
+            @endif
+          @else
+            <strong class="code border-radius size-16 ">Bs. {{ Util::formatMoney($temp_total > 0 ? $temp_total : $economic_complement->total) }}</strong>
+          @endif
+        </td>
+          <tr><td colspan="4" class="no-border">
+          <strong><em>PÁGUESE A LA ORDEN DE:</em></strong><br>
+            <span class="margin-l-10">{{ $economic_complement->economic_complement_applicant->getFullName() ?? '' }} </span><br>
+        </td>
+        
+      </tr>
+      <tr>
+        <td colspan="4" class="no-border">
+          <strong>LA SUMA DE:</strong><br>
+          @if ($economic_complement->old_eco_com)
+            @if ($economic_complement->eco_com_state_id != 15)
+              <em class="size-10">{{ Util::convertir($economic_complement->total_repay ?? 0)   }} BOLIVIANOS.</em>
+            @else
+              <em class="size-10">{{ Util::convertir($economic_complement->total ?? 0)   }} BOLIVIANOS.</em>
+            @endif
+          @else
+            <em class="size-10">{{ Util::convertir($temp_total > 0 ? $temp_total : $economic_complement->total)   }} BOLIVIANOS.</em>
+          @endif
+        </td>
+      </tr>
+      <tr>
+        <td class="width-30-por no-border text-center">
+          <div class="code border-radius">{{ $economic_complement->degree->shortened ?? '' }} <br> <em>GRADO</em></div>
+        </td>
+        <td class="width-20-por no-border text-center">
+          <div class="code border-radius">{{ $economic_complement->category->name ?? '' }} <br> <em>CATEGORÍA</em></div>
+        </td>
+        <td class="width-20-por no-border text-center">
+          <div class="code border-radius">6<br> <em>MESES</em></div>
+        </td>
+        <td class="width-30-por no-border text-center">
+          @if ($economic_complement->old_eco_com)
+            @if ($economic_complement->eco_com_state_id != 15)
+              <div class="code border-radius"><strong>{{ Util::formatMoney($economic_complement->total_repay ?? 0) ?? '' }}</strong> <br> <em>LIQUIDO PAGABLE</em></div>
+            @else
+              <div class="code border-radius"><strong>{{ Util::formatMoney($economic_complement->total ?? 0) ?? '' }}</strong> <br> <em>LIQUIDO PAGABLE</em></div>
+            @endif
+          @else
+            <div class="code border-radius"><strong>{{ Util::formatMoney($temp_total > 0 ? $temp_total : $economic_complement->total) ?? '' }}</strong> <br> <em>LIQUIDO PAGABLE</em></div>
+          @endif
+          {{-- <span class="code border-radius">Bs. {{ Util::formatMoney($economic_complement->total) }}</span> --}}
+        </td>
+      </tr>
+      <tr>
+        <td class="no-border"></td>
+      </tr><tr>
+        <td class="no-border"></td>
+      </tr><tr>
+        <td class="no-border"></td>
+      </tr><tr>
+        <td class="no-border"></td>
+      </tr>
+    </table>
+    <span style="position: absolute; bottom:3%" class="size-6">PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018</span>
+  </div>
 </div>
 @endsection
