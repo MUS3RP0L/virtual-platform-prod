@@ -90,19 +90,21 @@
           @endif
         </tr>
         @if($economic_complement->old_eco_com)
-        <tr>
-          <td>TOTAL COMP. ECO. PAGADO</td>
-          <td class="number">{!! Util::formatMoney($old_eco_com_total_calificate) !!}</td>
-          <td></td>
-        </tr>
-        <tr style="font-size: 1.1em">
-          <td  class="grand service text-left">TOTAL REINTEGRO</td>
-          <td class="number"><strong>{!! Util::formatMoney($economic_complement->total_repay) !!}</strong></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td colspan="3"><strong>Son: </strong> {{ Util::convertir($economic_complement->total_repay) }} BOLIVIANOS.</td>
-        </tr>
+          @if ($economic_complement->eco_com_state_id != 15)
+            <tr>
+              <td>TOTAL COMP. ECO. PAGADO</td>
+              <td class="number">{!! Util::formatMoney($old_eco_com_total_calificate) !!}</td>
+              <td></td>
+            </tr>
+            <tr style="font-size: 1.1em">
+              <td  class="grand service text-left">TOTAL REINTEGRO</td>
+              <td class="number"><strong>{!! Util::formatMoney($economic_complement->total_repay) !!}</strong></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colspan="3"><strong>Son: </strong> {{ Util::convertir($economic_complement->total_repay) }} BOLIVIANOS.</td>
+            </tr>
+          @endif
         @else
         <tr>
           <td colspan="3"><strong>Son: </strong> {{ $total_literal }} BOLIVIANOS.</td>
