@@ -594,7 +594,7 @@ class AffiliateController extends Controller
                     $economic_complement = EconomicComplement::find($request->economic_complement_id);
 
                     // recalculate
-                    if ($economic_complement->total > 0 && ( $economic_complement->eco_com_state_id == 1 || $economic_complement->eco_com_state_id == 2 || $economic_complement->eco_com_state_id == 3 || $economic_complement->eco_com_state_id == 17 || $economic_complement->eco_com_state_id == 18 || $economic_complement->eco_com_state_id == 15 )) {
+                    /* if ($economic_complement->total > 0 && ( $economic_complement->eco_com_state_id == 1 || $economic_complement->eco_com_state_id == 2 || $economic_complement->eco_com_state_id == 3 || $economic_complement->eco_com_state_id == 17 || $economic_complement->eco_com_state_id == 18 || $economic_complement->eco_com_state_id == 15 )) {
                         if ($request->degree != $economic_complement->degree_id || $request->category != $economic_complement->category_id ) {
                             $economic_complement->recalification_date = Carbon::now();
                             $temp_eco_com = (array)json_decode($economic_complement);
@@ -609,7 +609,7 @@ class AffiliateController extends Controller
                             }
                             $economic_complement->save();
                         }
-                    }
+                    } */
                     // /recalculate
                     $economic_complement->city_id = $request->regional;
                     $economic_complement->degree_id = $request->degree;
@@ -654,7 +654,6 @@ class AffiliateController extends Controller
                     } else {
                         $affiliate->category_id = $affiliate->category_id;
                     }
-                    $affiliate->category_id = null;
                     $affiliate->save();
                     if ($economic_complement->total_rent > 0 ) {   
                         EconomicComplement::calculate($economic_complement,$economic_complement->total_rent, $economic_complement->sub_total_rent, $economic_complement->reimbursement, $economic_complement->dignity_pension, $economic_complement->aps_total_fsa, $economic_complement->aps_total_cc, $economic_complement->aps_total_fs, $economic_complement->aps_disability);

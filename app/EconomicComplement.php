@@ -481,5 +481,6 @@ EconomicComplement::created(function($ecomplement)
 EconomicComplement::updated(function($ecomplement)
 {
     Activity::updateEconomicComplement($ecomplement);
+    // WorkflowRecord::updatedEconomicComplement($ecomplement);
 
 });
