@@ -1125,7 +1125,8 @@ class EconomicComplementReportController extends Controller
       foreach (\Muserpol\City::all() as $city) {
         $economic_complements=EconomicComplement::whereIn('id',$economic_complements_array)->where('city_id','=',$city->id)->get();
         $economic_complements_temp_array=EconomicComplement::whereIn('id',$economic_complements_array)->where('city_id','=',$city->id)->get()->pluck('id');
-        $total=Util::formatMoney(Util::totalSumEcoCom($economic_complements_temp_array)->sum);
+        $total=Util::formatMoney(Util::totalSumEcoCom($economic_complements_temp_array));
+        // $total=Util::formatMoney(Util::totalSumEcoCom($economic_complements_temp_array)->sum);
         $title2 = " Listado de Beneficiarios del Complemento Económico <br>".$semester." Semestre ".$year."- Regional ".$city->name;
         if ($total) {
         $pages[] = \View::make('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user', 'user_role','total'))->render();

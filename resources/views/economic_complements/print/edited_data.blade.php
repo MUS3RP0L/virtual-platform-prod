@@ -50,7 +50,17 @@
                 <td class="text-center" style="padding-left:2px; padding-top:4px; padding-bottom:4px; " >{!! $item->degree->shortened ?? '' !!}</td>
                 <td class="text-center" style="padding-left:2px; padding-top:4px; padding-bottom:4px; " >{!! $item->category->name ?? '' !!}</td>
                 <td style="padding-left:2px; padding-top:4px; padding-bottom:4px;   text-align: center;">{!! $item->code !!}</td>
-                <td style="padding-right:2px; padding-top:4px; padding-bottom:4px;   text-align: right;">Bs. {!! Util::formatMoney($item->total + ($item->amount_loan ?? 0) + ($item->amount_accounting ?? 0) + ($item->amount_replacement ?? 0) ) !!} </td>
+                @if ($item->old_eco_com)
+                  @if ($item->eco_com_state_id == 15)
+                    <td style="padding-right:2px; padding-top:4px; padding-bottom:4px;   text-align: right;">Bs. {!! Util::formatMoney($item->total + ($item->amount_loan ?? 0) + ($item->amount_accounting ?? 0) + ($item->amount_replacement ?? 0) ) !!} </td>
+                  @else
+                    <td style="padding-right:2px; padding-top:4px; padding-bottom:4px;   text-align: right;">Bs. {!! Util::formatMoney($item->total_repay + ($item->amount_loan ?? 0) + ($item->amount_accounting ?? 0) + ($item->amount_replacement ?? 0) ) !!} </td>
+                  @endif
+                @else
+                  <td style="padding-right:2px; padding-top:4px; padding-bottom:4px;   text-align: right;">Bs. {!! Util::formatMoney($item->total + ($item->amount_loan ?? 0) + ($item->amount_accounting ?? 0) + ($item->amount_replacement ?? 0) ) !!} </td>
+                @endif
+
+
                 <!-- <td></td> -->
             </tr>
             @endforeach
