@@ -670,8 +670,22 @@ class Util
     }
     public static function totalSumEcoCom($ids_eco_com)
     {
-    	$total=EconomicComplement::whereIn('id',$ids_eco_com)->select(DB::raw("sum(total + coalesce(economic_complements.amount_replacement, 0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_loan, 0))"))->get()->first();
-    	return $total;
+		$total = 0;
+		foreach ($ids_eco_com as $key => $value) {
+			$eco = EconomicComplement::find($value);
+			if ($eco->old_eco_com) {
+				if ($eco->eco_com_state_id == 15){
+					$total = $total + ($eco->total + ($eco->amount_loan ?? 0) + ($eco->amount_accounting ?? 0) + ($eco->amount_replacement ?? 0));
+				}else{
+					$total = $total + ($eco->total_repay + ($eco->amount_loan ?? 0) + ($eco->amount_accounting ?? 0) + ($eco->amount_replacement ?? 0));
+				}
+			}else{
+				$total = $total + ($eco->total + ($eco->amount_loan ?? 0) + ($eco->amount_accounting ?? 0) + ($eco->amount_replacement ?? 0));
+			}
+		}
+		return $total;
+    	// $total=EconomicComplement::whereIn('id',$ids_eco_com)->select(DB::raw("sum(total + coalesce(economic_complements.amount_replacement, 0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_loan, 0))"))->get()->first();
+    	// return $total;
     }
     public static function removeSpaces($text)
     {
