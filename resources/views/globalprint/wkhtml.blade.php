@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="{{ asset('css/wkhtml.css') }}">
 </head>
 <body>
-  
+    <div class="@yield('padding')">
     <table class="tableh">
       <tr>
         <th style="width: 25%;border: 0px;">
@@ -45,6 +45,7 @@
       @yield('title2')
     </h2>
     @endif
+    </div>
     @yield('content')
 
   {{-- <div class="qr-code"> --}}

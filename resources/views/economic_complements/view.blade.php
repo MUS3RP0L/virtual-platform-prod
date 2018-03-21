@@ -3511,6 +3511,8 @@ $(document).ready(function() {
             .done(function(data) {
                 if(data!= "error"){
                     $('#category').val(data.id);
+                }else{
+                    $('#category').val(null);
                 }
             });
         });
@@ -3528,6 +3530,8 @@ $(document).ready(function() {
             .done(function(data) {
                 if(data!= "error"){
                     $('#category').val(data.id);
+                }else{
+                    $('#category').val(null);
                 }
             });
         });

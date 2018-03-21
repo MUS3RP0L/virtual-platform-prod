@@ -594,7 +594,7 @@ class AffiliateController extends Controller
                     $economic_complement = EconomicComplement::find($request->economic_complement_id);
 
                     // recalculate
-                    if ($economic_complement->total > 0 && ( $economic_complement->eco_com_state_id == 1 || $economic_complement->eco_com_state_id == 2 || $economic_complement->eco_com_state_id == 3 || $economic_complement->eco_com_state_id == 17 || $economic_complement->eco_com_state_id == 18 || $economic_complement->eco_com_state_id == 15 )) {
+                    /* if ($economic_complement->total > 0 && ( $economic_complement->eco_com_state_id == 1 || $economic_complement->eco_com_state_id == 2 || $economic_complement->eco_com_state_id == 3 || $economic_complement->eco_com_state_id == 17 || $economic_complement->eco_com_state_id == 18 || $economic_complement->eco_com_state_id == 15 )) {
                         if ($request->degree != $economic_complement->degree_id || $request->category != $economic_complement->category_id ) {
                             $economic_complement->recalification_date = Carbon::now();
                             $temp_eco_com = (array)json_decode($economic_complement);
@@ -609,15 +609,25 @@ class AffiliateController extends Controller
                             }
                             $economic_complement->save();
                         }
-                    }
+                    } */
                     // /recalculate
                     $economic_complement->city_id = $request->regional;
                     $economic_complement->degree_id = $request->degree;
-                    if ($this->getCategory($request) == "error") {
-                        $economic_complement->category_id = null;
-                    } else {
-                        $economic_complement->category_id = $this->getCategory($request)->id;
+                    if($request->service_months || $request->service_years){
+                        $cat = $this->getCategory($request);
+                        if ($cat == "error") {
+                            return redirect('economic_complement/' . $economic_complement->id)
+                                ->withErrors('Hubo un error al actualizar la categoría.')
+                                ;
+                        } else {
+                            if ($economic_complement->category_id != $cat->id) {
+                                $economic_complement->category_id = $cat->id;
+                            }
+                        }
+                    }else{
+                        $economic_complement->category_id = $economic_complement->category_id;
                     }
+                    
                     $economic_complement->save();
                     //$affiliate->affiliate_state_id = $request->state;
                     //  $affiliate->type = $request->affiliate_type;
@@ -629,10 +639,20 @@ class AffiliateController extends Controller
                     $affiliate->service_years=$request->service_years <> "" ? $request->service_years:null;
                     $affiliate->service_months=$request->service_months <> "" ? $request->service_months : null;
                     $affiliate->death_certificate_number=$request->death_certificate_number;
-                    if ($this->getCategory($request) == "error") {
-                        $affiliate->category_id = null;
-                    }else{
-                        $affiliate->category_id = $this->getCategory($request)->id;
+
+                    if ($request->service_months || $request->service_years) {
+                        $cat = $this->getCategory($request);
+                        if ($cat == "error") {
+                            return redirect('economic_complement/' . $economic_complement->id)
+                                ->withErrors('Hubo un error al actualizar la categoría.')
+                                ;
+                        } else {
+                            if ($affiliate->category_id != $cat->id) {
+                                $affiliate->category_id = $cat->id;
+                            }
+                        }
+                    } else {
+                        $affiliate->category_id = $affiliate->category_id;
                     }
                     $affiliate->save();
                     if ($economic_complement->total_rent > 0 ) {   
