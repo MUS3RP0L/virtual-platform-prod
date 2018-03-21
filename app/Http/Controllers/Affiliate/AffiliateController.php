@@ -549,7 +549,7 @@ class AffiliateController extends Controller
                     $affiliate->service_years=$request->service_years <> "" ? $request->service_years:null;
                     $affiliate->service_months=$request->service_months <> "" ? $request->service_months : null;
                     $affiliate->save();
-                    $message = "Información del Policia actualizada correctamene.";
+                    $message = "Información del Policía actualizada correctamente.";
                     Session::flash('message', $message);
 
                 break;
@@ -658,14 +658,11 @@ class AffiliateController extends Controller
                     if ($economic_complement->total_rent > 0 ) {   
                         EconomicComplement::calculate($economic_complement,$economic_complement->total_rent, $economic_complement->sub_total_rent, $economic_complement->reimbursement, $economic_complement->dignity_pension, $economic_complement->aps_total_fsa, $economic_complement->aps_total_cc, $economic_complement->aps_total_fs, $economic_complement->aps_disability);
                     }
-                    
-                    $message = "Información del Policia actualizada correctamene.";
+                    $message = "Información del Policía actualizada correctamente.";
                     Session::flash('message', $message);
 
                     return redirect('economic_complement/'.$economic_complement->id);
-
             }
-
         }
 
         if($request->type=='institutional_eco_com'){

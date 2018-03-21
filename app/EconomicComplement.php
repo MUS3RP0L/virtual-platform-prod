@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use Session;
 use DB;
 use Muserpol\Helper\Util;
+use Muserpol\WorkflowState;
+use Auth;
 
 class EconomicComplement extends Model
 {
@@ -405,12 +407,21 @@ class EconomicComplement extends Model
                 $old_total=json_decode($economic_complement->old_eco_com)->total;
                 // dd($total." ".$old_total);
                 $economic_complement->total_repay =  floatval($total) - (floatval($old_total) + (floatval(json_decode($economic_complement->old_eco_com)->amount_loan) + floatval(json_decode($economic_complement->old_eco_com)->amount_replacement) + floatval(json_decode($economic_complement->old_eco_com)->amount_accounting)));
+                $economic_complement->user_id = Auth::user()->id;
+                $economic_complement->state = 'Edited';
+                if (WorkflowState::where('role_id', '=', Util::getRol()->id)->first()) {
+                    $economic_complement->wf_current_state_id = WorkflowState::where('role_id', '=', Util::getRol()->id)->first()->id;
+                } else {
+                    return redirect('economic_complement/' . $economic_complement->id)
+                        ->withErrors('Ocurrió un error verifique que los datos estén correctos.')
+                        ->withInput();
+                }
             }
             // dd($economic_complement->total_repay);
             $economic_complement->save();
         }else{
             return redirect('economic_complement/'.$economic_complement->id)
-            ->withErrors('Verifique si existen sueldos, promedios y factor de complementacion.')
+            ->withErrors('Verifique si existen sueldos, promedios y factor de complementación.')
             ->withInput();
         }
     }
