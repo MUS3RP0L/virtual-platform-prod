@@ -66,7 +66,12 @@ class WorkflowRecord extends Model
                 $wf_record->eco_com_id=$economic_complement->id;
                 $wf_record->wf_state_id=$economic_complement->wf_current_state_id;
                 $wf_record->record_type_id=1;
-                $wf_record->message="El usuario ".Util::getFullNameuser()." derivo el tramite ".$economic_complement->code." de ".$old_economic_complement->wf_state->name." a ".$economic_complement->wf_state->name." en fecha ".Carbon::now().".";
+
+                if ($economic_complement->eco_com_state_id == 1 || $economic_complement->eco_com_state_id == 2 || $economic_complement->eco_com_state_id == 3 || $economic_complement->eco_com_state_id == 17 || $economic_complement->eco_com_state_id == 18 || $economic_complement->eco_com_state_id == 15) {
+                    $wf_record->message="El usuario ".Util::getFullNameuser()." derivo el tramite ".$economic_complement->code." de ".$old_economic_complement->wf_state->name." a ".$economic_complement->wf_state->name." en fecha ".Carbon::now().",  (Por una recalificacion )";
+                }else{
+                    $wf_record->message="El usuario ".Util::getFullNameuser()." derivo el tramite ".$economic_complement->code." de ".$old_economic_complement->wf_state->name." a ".$economic_complement->wf_state->name." en fecha ".Carbon::now().".";
+                }
                 $wf_record->save();
             }
             // if ($old_economic_complement->degree_id <> $economic_complement->degree_id) {
