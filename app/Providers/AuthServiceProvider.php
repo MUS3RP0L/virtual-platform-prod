@@ -110,7 +110,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $gate->define('eco_com_review_reception_calification_contabilidad',function($user){
             // foreach ($user->roles as $role) {
-                if(Util::getRol()->id == 3 || Util::getRol()->id == 2 || Util::getRol()->id == 4 || Util::getRol()->id == 7 ||  Util::getRol()->id ==16 || Util::getRol()->id == 22 || Util::getRol()->id == 23 || Util::getRol()->id == 24 || Util::getRol()->id == 25 || Util::getRol()->id == 26 || Util::getRol()->id == 27 ){
+                if(Util::getRol()->id == 3 || Util::getRol()->id == 6 || Util::getRol()->id == 2 || Util::getRol()->id == 4 || Util::getRol()->id == 7 ||  Util::getRol()->id ==16 || Util::getRol()->id == 22 || Util::getRol()->id == 23 || Util::getRol()->id == 24 || Util::getRol()->id == 25 || Util::getRol()->id == 26 || Util::getRol()->id == 27 ){
                     return true;
                 }
             // }
