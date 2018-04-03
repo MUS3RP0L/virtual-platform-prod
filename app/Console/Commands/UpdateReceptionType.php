@@ -13,7 +13,7 @@ use Muserpol\EconomicComplementProcedure;
 use Maatwebsite\Excel\Facades\Excel;
 use Muserpol\Helper\Util;
 use Carbon\Carbon;
-
+use Log;
 class UpdateReceptionType extends Command implements SelfHandling
 {
     protected $signature = 'update:reception_type';
@@ -38,32 +38,34 @@ class UpdateReceptionType extends Command implements SelfHandling
                 $this->info("Working...\n");
                 $Progress = $this->output->createProgressBar();
                 $Progress->setFormat("%current%/%max% [%bar%] %percent:3s%%");
-                $economic_complements = EconomicComplement::whereYear('year','=',$year)->where('semester','=',$semester)->get();
+                $economic_complements = EconomicComplementProcedure::whereYear('year', '=', $year)->where('semester', 'like', $semester)->first()->economic_complements;
                 foreach ($economic_complements as $eco) {
                     // temp 
-                    if (Util::getCurrentSemester() == 'Primer') {
+                    if ($semester == 'Primer') {
                         $last_semester_first = 'Segundo';
                         $last_semester_second = 'Primer';
-                        $last_year_first = Carbon::now()->year - 1; 
+                        $last_year_first = Carbon::parse(Util::datePickYear($year))->year - 1; 
                         $last_year_second = $last_year_first;
                     }else{
                         $last_semester_first = 'Primer';
                         $last_semester_second = 'Segundo';
-                        $last_year_first = Carbon::now()->year ;
+                        $last_year_first = Carbon::parse(Util::datePickYear($year))->year ;
                         $last_year_second = $last_year_first -1;
                     }
+                    // Log::info($last_semester_first." ".$last_semester_second." ".$last_year_first." ".$last_year_second);
                     $reception_type = 'Inclusion';
                     $affiliate_id = $eco->affiliate_id;
                     $last_procedure_second = EconomicComplementProcedure::whereYear('year', '=', $last_year_second)->where('semester','like',$last_semester_second)->first();
                     if (sizeof($last_procedure_second)>0) {
                         if ($old_eco = $last_procedure_second->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
+                            // Log::info('SECOND '.$last_procedure_second->year."  ".$last_procedure_second->semester);
                             $reception_type = 'Habitual';
                             if ($old_eco->economic_complement_modality->economic_complement_type->id == 1 && ($eco->economic_complement_modality->economic_complement_type->id == 2||$eco->economic_complement_modality->economic_complement_type->id == 3)) {
                                 $reception_type = 'Inclusion';
                                 $count_modalities++;
                             }elseif ($old_eco->economic_complement_modality->economic_complement_type->id == 2 &&  $eco->economic_complement_modality->economic_complement_type->id  == 3) {
-                                    $reception_type = 'Inclusion';
-                                    $count_modalities++;
+                                $reception_type = 'Inclusion';
+                                $count_modalities++;
                             }else{
                                 $count_semesters++;
                             }
@@ -74,12 +76,13 @@ class UpdateReceptionType extends Command implements SelfHandling
                     $last_procedure_first = EconomicComplementProcedure::whereYear('year', '=', $last_year_first)->where('semester','like',$last_semester_first)->first();
                     if (sizeof($last_procedure_first)>0) {
                         if ($old_eco = $last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
+                            // Log::info('FIRST '.$last_procedure_first->year."  ".$last_procedure_first->semester);
                             $reception_type = 'Habitual';
                             if ($old_eco->economic_complement_modality->economic_complement_type->id == 1 && ($eco->economic_complement_modality->economic_complement_type->id == 2 || $eco->economic_complement_modality->economic_complement_type->id == 3)) {
                                 $reception_type = 'Inclusion';
                                 $count_modalities++;
                             }elseif ($old_eco->economic_complement_modality->economic_complement_type->id == 2 &&  $eco->economic_complement_modality->economic_complement_type->id  == 3) {
-                                    $reception_type = 'Inclusion';
+                                $reception_type = 'Inclusion';
                                     $count_modalities++;
                             }else{
                                 $count_semesters++;

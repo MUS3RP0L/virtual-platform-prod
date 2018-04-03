@@ -764,7 +764,7 @@ class Util
 
 	public static function getCurrentSemester()
 	{
-		return EconomicComplementProcedure::get()->last()->semester;
+		return EconomicComplementProcedure::orderBy('sequence', 'asc')->get()->last()->semester;
 	}
 
 }
