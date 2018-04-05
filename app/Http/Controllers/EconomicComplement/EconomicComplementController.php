@@ -1108,17 +1108,32 @@ class EconomicComplementController extends Controller
         $hasObservation =false;
         foreach ($affi_observations as $observation) {
             # code...
-            if(Util::getRol()->module_id == $observation->observationType->module_id && $observation->is_enabled == false)
-            {
-                $hasObservation = true;
-            }  
+            switch (Util::getRol()->id) {
+                case 7:
+                case 4:
+                    if(Util::getRol()->module_id == 2 && $observation->is_enabled == false)
+                    {
+                        $hasObservation = true;
+                    }  
+                    # code...
+
+                    break;
+                case 16:
+                    if(Util::getRol()->module_id == $observation->observationType->module_id && $observation->is_enabled == false)
+                    {
+                        $hasObservation = true;
+                    } 
+                    break;
+                
+            }
+            
         }
-         
+        // dd($hasObservation);
         // Log::info("has observatop ".json_encode($hasObservation));
         $hasAmortization = false;
-        switch (Util::getRol()->module_id) {
-            case 9:
-            case 6:
+        switch (Util::getRol()->id) {
+           
+            case 16:
            
                 if($hasObservation)
                 {
@@ -1137,19 +1152,25 @@ class EconomicComplementController extends Controller
                 }
                
                 break;
-             case 2:
+             case 4:
+             case 7:
                 
                 if($hasObservation)
                 {
                     $has_repocision_observation = false;
+                    $has_contabilidad_observation = false;
                     foreach ($affi_observations as $observation) {
                          # code...
                         if($observation->observation_type_id == 13)
                         {
                             $has_repocision_observation = true;
                         }
+                        if($observation->observation_type_id == 1)
+                        {
+                            $has_contabilidad_observation = true;
+                        }
                      } 
-                    if($has_repocision_observation)
+                    if($has_repocision_observation || $has_contabilidad_observation)
                     {
 
                         if($economic_complement->eco_com_state_id=3 || $economic_complement->eco_com_state_id=2 || $economic_complement->eco_com_state_id=1 || $economic_complement->eco_com_state_id=18 || $economic_complement->eco_com_state_id=17 || $economic_complement->eco_com_state_id=21 )
@@ -1203,16 +1224,16 @@ class EconomicComplementController extends Controller
 
         $amount_amortization=0;
         $devolution = null;
-        switch (Util::getRol()->module_id) {
-            case 9:
+        switch (Util::getRol()->id) {
+            case 7:
                 # code...
                 $amount_amortization = $economic_complement->amount_accounting;
                 break;
-            case 6:
+            case 16:
                 # code...
                 $amount_amortization = $economic_complement->amount_loan;
                 break;
-            case 2:
+            case 4:
                 # code...
                 $amount_amortization = $economic_complement->amount_replacement;
                 $devolution =  Devolution::where('affiliate_id','=',$affiliate->id)->where('observation_type_id','=',13)->first();
@@ -1272,6 +1293,7 @@ class EconomicComplementController extends Controller
         'devolution_amount_percetage' => $devolution_amount_percetage,
         'devolution_amount_total' => $devolution_amount_total,
         ];
+        // return $data;
         // dd($eco_com_submitted_documents_ar);
 
         // if ($economic_complement->base_wage_id) {
@@ -2478,8 +2500,8 @@ class EconomicComplementController extends Controller
         $rol = Util::getRol();
         if($request->amount_amortization > 0)
         {
-            switch ($rol->module_id) {
-                case 9: //contabiliadad
+            switch ($rol->id) {
+                case 7: //contabiliadad
                     
                     $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
                     $complemento->amount_accounting = $request->amount_amortization;
@@ -2496,7 +2518,7 @@ class EconomicComplementController extends Controller
 
                     break;
 
-                case 6: //prestamo 
+                case 16: //prestamo 
                     
                     $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
                     $complemento->amount_loan = $request->amount_amortization;
@@ -2513,7 +2535,7 @@ class EconomicComplementController extends Controller
 
                     break;
                 
-                case 2: //complemento
+                case 4: //complemento
                     
                     $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
                     $complemento->amount_replacement = $request->amount_amortization;
