@@ -71,8 +71,9 @@
             @endforeach
         @endcan --}}
         @can('eco_com_reception')
+            @if ($available_create_eco_com)
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento  Económico" style="margin: 0;">
-                <!-- <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a> -->
+                <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
                 <ul class="dropdown-menu">
                     @if($has_first_eco_com == 'edit')
                     <li  data-toggle="tooltip" data-placement="left" title="1er Semestre"><a href="{!! url('economic_complement/'.$first_economic_complement->id) !!}" class="text-center">&nbsp;&nbsp;<i class="fa fa-eye"></i>Ver 1er Semestre&nbsp;&nbsp;</a></li>
@@ -87,6 +88,7 @@
                     @endif
                 </ul>
             </div>
+            @endif
             {{-- @if($has_first_eco_com=="edit")
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento  Económico" style="margin: 0;">
                     <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>

@@ -350,6 +350,9 @@ class AffiliateController extends Controller
         );
         $devolution = Devolution::where('affiliate_id','=', $affiliate->id)->where('observation_type_id','=',13)->first();
         // $paid_states=DB::table('paid_affiliates')->where('affiliate_id', '=',$affiliate->id)->get();
+
+
+        $available_create_eco_com = (Carbon::now() <=  Carbon::parse(EconomicComplementProcedure::orderBy('sequence','desc')->first()->additional_end_date));
         $data = [
             'affiliate' => $affiliate,
             'affiliate_address' => $affiliate_address,
@@ -362,6 +365,7 @@ class AffiliateController extends Controller
             'second_economic_complement' => $second_economic_complement,
             'has_first_eco_com' => $has_first_eco_com,
             'has_second_eco_com' => $has_second_eco_com,
+            'available_create_eco_com' => $available_create_eco_com,
             'last_ecocom' => $last_ecocom,
             'eco_com_submitted_documents' => $eco_com_submitted_documents,
             'status_documents' => $status_documents,
