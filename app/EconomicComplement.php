@@ -392,7 +392,7 @@ class EconomicComplement extends Model
             }
             if($economic_complement->amount_accounting > 0)
             {
-                $total  = $total - $economic_complement->accounting;
+                $total  = $total - $economic_complement->amount_accounting;
             }
             if($economic_complement->amount_replacement > 0)
             {
