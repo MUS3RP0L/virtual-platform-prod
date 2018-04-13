@@ -54,7 +54,8 @@ class EconomicComplementReportController extends Controller
         '8' => 'Trámites con Apoderados',
         '9' => 'Trámites Validados con Observaciones',
         '10' => 'Trámites No Validados con Observaciones',
-        '11' => 'Planilla Banco Union S.A.'
+        '11' => 'Planilla Banco Union S.A.',
+        '12' => 'Todos los derechohabiente y afiliados.(todos los semestres)',
 
         // '2' => 'Trámites Inclusiones',
         // '3' => 'Trámites habituales',
@@ -1738,6 +1739,22 @@ class EconomicComplementReportController extends Controller
             //->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
             ->get();
             dd($economic_complements);
+            $data = $economic_complements;
+            Util::excel($file_name,'observados prestamos',$data);
+
+          break;
+          case '12':
+          # code...
+            $columns = '';
+            $file_name = $name.' '.date("Y-m-d H:i:s");
+
+            $economic_complements=EconomicComplement::affiliateinfo()->applicantinfo()
+            ->select(DB::raw("DISTINCT ON (affiliates.identity_card) affiliates.identity_card as CI_CAUSAHABIENTE,".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_applicants().",economic_complements.affiliate_id"))
+            // ->take(10)
+            ->get();
+            foreach ($economic_complements as $eco) {
+              $eco->ciudad =Affiliate::find($eco->affiliate_id)->economic_complements()->orderBy('updated_at','desc')->first()->city->name;
+            }
             $data = $economic_complements;
             Util::excel($file_name,'observados prestamos',$data);
 
