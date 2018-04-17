@@ -1200,11 +1200,16 @@ class EconomicComplementController extends Controller
         $states = null;
 
         $has_edit_state =false;
-        if($economic_complement->workflow_id != 1 && $economic_complement->wf_current_state_id = 9)
+        if(Util::getRol()->id == 9 || Util::getRol()->id == 4 )
         {
-            $has_edit_state =true;
-
-            $states = EconomicComplementState::where('eco_com_state_type_id',1)->get();
+            if($economic_complement->workflow_id != 1) //adicionar condicionantes en este punto 
+            {
+                $has_edit_state =true;
+    
+                // $states = EconomicComplementState::where('eco_com_state_type_id',1)->get(); //solo los de tipo Pago
+                $states = EconomicComplementState::all();
+    
+            }
         }
         //datos para el spouse
 
@@ -1251,7 +1256,7 @@ class EconomicComplementController extends Controller
         }
 
         $class_rent =DB::table('eco_com_kind_rent')->where('id',$economic_complement->eco_com_kind_rent_id)->first();
-
+        // dd($has_edit_state);
         $data = [
 
         'affiliate' => $affiliate,
@@ -2618,12 +2623,15 @@ class EconomicComplementController extends Controller
         $economic_complement = EconomicComplement::where('id',$request->id_complemento)->first();
 
         $older = DB::table('eco_com_states')->where('id',$economic_complement->eco_com_state_id)->first();
-        // dd($economic_complement);
-        // $older = $economic_complement->economic_complement_state()->name;
-        
 
         $economic_complement->eco_com_state_id = $request->state_id;
-        $economic_complement->number_check = $request->numero_cheque;
+        if( $economic_complement->eco_com_state_id == 2 ||  $economic_complement->eco_com_state_id == 3)
+        {
+            $economic_complement->number_check = $request->numero_cheque;
+        }
+        else{
+            $economic_complement->number_check = null;
+        }
         $economic_complement->save();
 
         $new = DB::table('eco_com_states')->where('id',$economic_complement->eco_com_state_id)->first();

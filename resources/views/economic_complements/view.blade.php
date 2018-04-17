@@ -902,11 +902,11 @@
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
                             </span>
                         @endcan
-                        @can("treasury")
+                        @if($has_edit_state)
                             <span data-toggle="modal" data-target="#change-state-modal">
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="glyphicon glyphicon-lg glyphicon glyphicon-transfer"></i></a>
                             </span>
-                        @endcan
+                        @endif
                         @can("accounting")
                             <span data-toggle="modal" data-target="#addMoreInfo">
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Adicionar Información"><i class="fa fa-lg fa fa-plus"></i></a>
@@ -3011,7 +3011,7 @@
     </form>
     @endif
 
-    @can("treasury")
+    @if($has_edit_state)
 
     <form  action="{{url('change_state')}}" method="POST">
             
@@ -3026,14 +3026,12 @@
               </div>
               <div class="modal-body">
                 <label> Tipo de Pago</label><br>
-                <select class="form-control" name ="state_id" data-bind="options: lista" >
-                    @foreach($states as $st)
-                    <option value={{$st->id}}>{{$st->name}}</option>
-                    @endforeach
+            
+                <select class="form-control" name ="state_id" data-bind="options: lista, optionsText: 'name', optionsValue: 'id' ,value: state_id" >
                 </select>
-                <label data-bind="value: listaEstados">  aa</label>
+                {{-- <label data-bind="value: listaEstados">  aa</label> --}}
                 <!-- <label data-bind="value: sw_tesoreria"> aa</label> -->
-                <div data-bind="visible: sw_tesoreria ">
+                <div data-bind="visible: isCheck ">
                     <label> Numero de Cheque</label><br>
                     <input type="number" name="numero_cheque" class="form-control" >
                     <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">    
@@ -3051,7 +3049,7 @@
 
     </form>
 
-    @endcan
+    @endif
 
 @include('observations.create')
 
@@ -3240,6 +3238,32 @@ $(document).ready(function() {
         console.log(self.is_paid_spouse());
     };
 
+    // for Edit state
+    @if($has_edit_state)
+    var StateModel = function(){
+        var self = this;
+        // console.log({!!  $states !!});
+        self.lista = ko.observableArray({!! $states !!});
+        console.log(self.lista);
+        self.state_id = ko.observable({{ $economic_complement->eco_com_state_id}});
+        self.isCheck = ko.observable(false);
+        self.state_id.subscribe(function(id){
+            // console.log(id);
+            if(id==2 || id ==3 )
+            {
+                self.isCheck(true);
+            }
+            else
+            {
+                self.isCheck(false);
+            }
+            // console.log(self.isCheck());
+        });
+
+
+    };
+    @endif
+
     @if(isset($wf_state_before) && $has_cancel==true && sizeof($wf_state_before) > 0)
     console.log("existe la variable");
     function Secuencia(id,nombre)
@@ -3280,13 +3304,14 @@ $(document).ready(function() {
         
 
     }
+  
 
     // ko.applyBindings();
-    ko.applyBindings(model,selectedlModel(),SecuenciaViewModel());
+    ko.applyBindings(model,selectedlModel(),SecuenciaViewModel(),StateModel());
    
     @else
     console.log("no existe");
-     ko.applyBindings(model,selectedlModel());
+     ko.applyBindings(model,selectedlModel(),StateModel());
 
     @endif
 
