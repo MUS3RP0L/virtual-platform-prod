@@ -35,7 +35,7 @@ class InboxController extends Controller
         {
             
             $sw_actual = WorkflowState::where('role_id',Util::getRol()->id)->first();
-            // dd($sw_actual);
+            
             // $secuencias_atras = array();
 
             // $secuencias = WorkflowSequence::where("workflow_id",'<=',3)
