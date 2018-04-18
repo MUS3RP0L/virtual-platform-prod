@@ -3307,12 +3307,19 @@ $(document).ready(function() {
   
 
     // ko.applyBindings();
-    ko.applyBindings(model,selectedlModel(),SecuenciaViewModel(),StateModel());
-   
+        @if($has_edit_state)
+        ko.applyBindings(model,selectedlModel(),SecuenciaViewModel(),StateModel());
+        @else
+        ko.applyBindings(model,selectedlModel(),SecuenciaViewModel());    
+        @endif
+
     @else
     console.log("no existe");
-     ko.applyBindings(model,selectedlModel(),StateModel());
-
+        @if($has_edit_state)
+        ko.applyBindings(model,selectedlModel(),StateModel());
+        @else
+        ko.applyBindings(model,selectedlModel());
+        @endif
     @endif
 
 

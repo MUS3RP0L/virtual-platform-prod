@@ -36,6 +36,19 @@ class InboxController extends Controller
             
             $sw_actual = WorkflowState::where('role_id',Util::getRol()->id)->first();
             // dd($sw_actual);
+            // $secuencias_atras = array();
+
+            // $secuencias = WorkflowSequence::where("workflow_id",'<=',3)
+            // ->where("wf_state_next_id",$sw_actual->id)
+            // ->where('action','Aprobar')
+            // ->get();
+
+            // foreach($secuencias as $secuencia){
+            //     $wf = WorkflowState::where('id',$secuencia->wf_state_current_id)->first();
+            //     $wf_nexts = array('id'=>$wf->id,'name'=>$wf->name);
+            //     array_push($secuencias_atras,$wf_nexts);
+            // }
+            // return $secuencias_atras;
             $secuencias = array();
             if($sw_actual)
             {
@@ -132,7 +145,7 @@ class InboxController extends Controller
             }
             $data = array('sw_actual' => $sw_actual, 'secuencias' => $secuencias, 'workflow_ids'=> $workflow_ids ,'wfs'=>$wfss, 'wf_received'=>$wf_received );
 
-           // return $data;
+        //    return $data;
 
             return view('inbox.view',$data);
         }
