@@ -198,36 +198,43 @@
     <div data-bind="visible: secuenciaIsVisible, if: secuenciaIsVisible ">
       
       {{-- boton de retroceso --}}
-      <div data-bind="visible: once">
-        <div class="btn-group">
-          <button type="button" class="btn btn-raised btn-success" data-bind="click: setBack()"  data-target="#back-modal"  data-toggle="modal" ><i class="fa fa-send" ></i> <strong data-bind="text: secuenciaActualAtras().name"></strong></button>
-          <button type="button" class="btn btn-raised btn-success dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-          </button>
-         
-          <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuenciasAtras">
-            <li ><a href="#" data-bind="text: name,click: $root.seleccionaSecuenciaAtras"></a></li>
-          </ul>
+      <div class="row">
+
+        <div class="col-md-6" data-bind="visible: once">
+          <div class="btn-group">
+            <button type="button" class="btn btn-raised btn-warning" data-bind="click: setBack()"  data-target="#back-modal"  data-toggle="modal" ><i class="fa fa-arrow-left" ></i> <strong data-bind="text: secuenciaActualAtras().name"></strong></button>
+            <button type="button" class="btn btn-raised btn-warning dropdown-toggle" data-toggle="dropdown">
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+           
+            <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuenciasAtras">
+              <li ><a href="#" data-bind="text: name,click: $root.seleccionaSecuenciaAtras"></a></li>
+            </ul>
+          </div>
         </div>
-      </div>
-      {{-- boton de envio --}}
-      <div data-bind="visible: once">
-        <div class="btn-group">
-          <button type="button" class="btn btn-raised btn-success" data-bind="click: setNext()" data-target="#modal-confirm"  data-toggle="modal" ><i class="fa fa-send" ></i> <strong data-bind="text: secuenciaActual.nombre"></strong></button>
-          <button type="button" class="btn btn-raised btn-success dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-          </button>
-         
-          <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuencias">
-            <li ><a href="#" data-bind="text: nombre, click: $root.secuenciaSeleccionada"></a></li>
-          </ul>
+
+        {{-- boton de envio --}}
+        <div class="cod-md-6" data-bind="visible: once">
+          <div class="btn-group">
+            <button type="button" class="btn btn-raised btn-success" data-bind="click: setNext()" data-target="#modal-confirm"  data-toggle="modal" > <strong data-bind="text: secuenciaActual.nombre"></strong>  <i class="fa fa-arrow-right" ></i></button>
+            <button type="button" class="btn btn-raised btn-success dropdown-toggle" data-toggle="dropdown">
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+           
+            <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuencias">
+              <li ><a href="#" data-bind="text: nombre, click: $root.secuenciaSeleccionada"></a></li>
+            </ul>
+          </div>
         </div>
+
       </div>
+
+
       <input type="hidden" name="wf_state_next_id" data-bind="value: secuenciaActual.id">
       <input type="hidden" id="ids" name="ids">
-      <input type="text" name="type" data-bind="value: type()">
+      <input type="hidden" name="type" data-bind="value: type()">
 
           <div id="modal-confirm" class="modal fade modal-info" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
