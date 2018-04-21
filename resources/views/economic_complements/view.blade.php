@@ -87,25 +87,7 @@
 
             @if($buttons_enabled)
                     
-                @if($has_cancel)    
-                    @if($wf_state_before)
-                  
-                    <span data-toggle="tooltip" data-placement="top" data-original-title="Devolución de Tramite" style="margin:0px;">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-raised btn-warning dropdown-toggle enabled" ><i class="fa fa-arrow-left" ></i> 
-                      <button type="button" class="btn btn-sm btn-raised btn-warning dropdown-toggle dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                      </button>
-                     
-                      <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuencias">
-                        <li ><a href="#" data-target="#back-modal"  data-toggle="modal"   data-bind="text: nombre, click: secuenciaSeleccionada"></a></li>
-                      </ul>
-                    </div>
-                    </span>
-
-                    @endif
-                @endif    
+                
             <!-- <div class="btn-group">
                 <span data-toggle="tooltip" data-placement="top" data-original-title="ver" style="margin:0px;">
                     <a href="" data-target="#myModal-review-user" class="btn btn-sm btn-raised btn-{{ $economic_complement->stateOf() ? 'info' : 'warning'}} dropdown-toggle enabled" data-toggle="modal"> <strong>{{ $economic_complement->stateOf() ? "Revisado":"No revisado"}}</strong></a>
@@ -2977,40 +2959,6 @@
         </div>
     </div>
 
-
-
-
-    @if($wf_state_before && $has_cancel)
-
-    <form  action="{{url('retroceso_de_tramite')}}" method="POST">
-            
-        
-        <div id="back-modal" class="modal fade modal-default" tabindex="-1" role="dialog">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                 <input type="hidden" name="_token" value="{{ csrf_token() }}">  
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><strong class=""> Retroceso de Tramite</strong></h4>
-              </div>
-              <div class="modal-body">
-              
-                    Esta seguro de enviar el tramite de <strong> {{$economic_complement->wf_state->name }}</strong>  a  <strong data-bind="text: secuenciaActual.nombre"></strong>
-                    <textarea class="form-control" name="nota" placeholder=" Nota"></textarea>
-                    <input type="hidden" name="wf_state_id" data-bind="value: secuenciaActual.id">
-                <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">    
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">No</button>
-                <button type="submit" class="btn btn-raised btn-danger">Si </button>
-              </div>
-            </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-
-    </form>
-    @endif
-
     @if($has_edit_state)
 
     <form  action="{{url('change_state')}}" method="POST">
@@ -3264,62 +3212,12 @@ $(document).ready(function() {
     };
     @endif
 
-    @if(isset($wf_state_before) && $has_cancel==true && sizeof($wf_state_before) > 0)
-    console.log("existe la variable");
-    function Secuencia(id,nombre)
-    {
-       var self = this;
-       self.id = ko.observable(id);
-       self.nombre = ko.observable(nombre);
-    }
    
-    var SecuenciaViewModel = function ()
-    {
-        var self = this;
-
-        var secuencias = {!! json_encode($wf_state_before) !!};
-        console.log(secuencias);
-
-        self.listaSecuencias = ko.observableArray();
-
-        for(var i in secuencias)
-        {
-          console.log(secuencias[i]);
-          self.listaSecuencias.push(new Secuencia(secuencias[i].id,secuencias[i].name));
-        }
-
-        self.secuenciaActual = new Secuencia(secuencias[0].id,secuencias[0].name);
-
-        console.log(self.secuenciaActual);
-        self.secuenciaSeleccionada = function(secuencia)
-        {
-            console.log(secuencia);
-          self.secuenciaActual.nombre(secuencia.nombre());
-          self.secuenciaActual.id(secuencia.id());
-        
-          
-          console.log(secuencia.nombre()+" id "+secuencia.id());
-         
-        }
-        
-
-    }
-  
-
-    // ko.applyBindings();
-        @if($has_edit_state)
-        ko.applyBindings(model,selectedlModel(),SecuenciaViewModel(),StateModel());
-        @else
-        ko.applyBindings(model,selectedlModel(),SecuenciaViewModel());    
-        @endif
-
-    @else
     console.log("no existe");
-        @if($has_edit_state)
-        ko.applyBindings(model,selectedlModel(),StateModel());
-        @else
-        ko.applyBindings(model,selectedlModel());
-        @endif
+    @if($has_edit_state)
+    ko.applyBindings(model,selectedlModel(),StateModel());
+    @else
+    ko.applyBindings(model,selectedlModel());
     @endif
 
 
