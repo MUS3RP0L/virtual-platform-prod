@@ -773,9 +773,9 @@
                             <h3 class="box-title"><span class="glyphicon glyphicon-briefcase"></span> Información Policial Actual</h3>
                         </div>
                         <div class="col-md-4 text-right">
-                            {{-- <span data-toggle="modal" data-target="#policeModal">
+                            <span data-toggle="modal" data-target="#policeModal">
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa-pencil"></i></a>
-                            </span> --}}
+                            </span>
                             
                             <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Imprimir Historial" onclick="printJS({printable:'{!! url("history_print/" . $affiliate->id ) !!}', type:'pdf', showModal:true})"><i aria-hidden="true" class="fa fa-lg fa-print"></i></a>
                             <span data-toggle="modal" data-target="#myModal-record">
