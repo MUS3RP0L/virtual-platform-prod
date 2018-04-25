@@ -144,13 +144,13 @@
                         <div class="col-md-10">
                             <h3 class="box-title"><i class="fa fa-{{$affiliate->gender=='M'?'male':'female'  }}"></i> Información Personal</h3>
                         </div>
-                        {{-- <div class="col-md-2 text-right">
+                        <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-personal">
                                     <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
                                 </a>
                             </div>
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
                 <div class="box-body">
@@ -499,7 +499,7 @@
                             <h3 class="box-title">
                                 <i class="fa fa-{{$affiliate->gender=='M'?'female':'male'  }}"></i> Información de Conyuge</h3>
                         </div>
-                       {{--  @if($info_spouse)
+                        @if($info_spouse)
                             @can("eco_com_review_and_reception")
                             <div class="col-md-2 text-right">
                                 <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
@@ -509,7 +509,7 @@
                                 </div>
                             </div>
                             @endcan
-                        @endif --}}
+                        @endif
                     </div>
                 </div>
                 <div class="box-body">
