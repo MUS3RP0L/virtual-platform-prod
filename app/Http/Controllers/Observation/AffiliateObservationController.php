@@ -46,7 +46,6 @@ class AffiliateObservationController extends Controller
       $rules = [
       'affiliate_id' => 'required',
       'observation_type_id' => 'required',
-      'message' => 'required|min:5',
       ];
       $messages = [
       'observation_type_id.required' => 'El campo tipo de observacion es requerido',
