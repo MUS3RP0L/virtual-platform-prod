@@ -4,6 +4,14 @@ namespace Muserpol\Console\Commands;
 
 use Illuminate\Console\Command;
 
+use Log;
+use Maatwebsite\Excel\Facades\Excel;
+use Muserpol\Helper\Util;
+use Carbon\Carbon;
+use Muserpol\Affiliate;
+use stdClass;
+use Muserpol\Spouse;
+
 class CompleteListApplicants extends Command
 {
     /**
@@ -11,7 +19,7 @@ class CompleteListApplicants extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'complete:applicants';
 
     /**
      * The console command description.
@@ -37,7 +45,7 @@ class CompleteListApplicants extends Command
      */
     public function handle()
     {
-        global $Progress, $aficount1,$aficount2;
+        global $Progress, $new_rows, $afisi, $afino, $afispouseno,  $spousesi, $spouseno;
         $password = $this->ask('Enter the password');
         if ($password == ACCESS) {
             $FolderName = $this->ask('Enter the name of the folder you want to import');
@@ -48,75 +56,105 @@ class CompleteListApplicants extends Command
                 $Progress->setFormat("%current%/%max% [%bar%] %percent:3s%%");
                 Excel::batch('public/file_to_import/' . $FolderName . '/', function($rows, $file) {
                     $rows->each(function($result) {
-                        global $Progress, $aficount1,$aficount2;
+                        global $Progress, $new_rows, $afisi, $afino, $afispouseno,  $spousesi, $spouseno;
                         ini_set('memory_limit', '-1');
                         ini_set('max_execution_time', '-1');
                         ini_set('max_input_time', '-1');
                         set_time_limit('-1');
-                        $ci = $result->ci;
-                        if($result->tipo_renta == "VEJEZ")
+                        $c_p_nombre = $result->p_nombre_c;
+                        $c_s_nombre = $result->s_nombre_c;
+                        $c_pat = $result->paterno_c;
+                        $c_mat = $result->materno_c;
+                        $d_p_nombre = $result->p_nombre_d;
+                        $d_s_nombre = $result->s_nombre_d;
+                        $d_pat = $result->paterno_d;
+                        $d_mat = $result->materno_d;
+                        // if (strtolower($c_p_nombre) == 'ricardo') {
+                        //     $this->info($c_p_nombre);
+                        // }
+                        if (isset($c_p_nombre) || isset($c_s_nombre) || isset($c_pat) || isset($c_mat))
                         {
-                            $app=EconomicComplementApplicant::leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
-                                                        ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
-                                                        ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
-                                                        ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
-                                                        ->where('eco_com_types.id','=',1)
-                                                        ->where('eco_com_applicants.identity_card','=',rtrim($ci))
-                                                        ->where('economic_complements.eco_com_procedure_id','=',2)
-                                                        ->select('economic_complements.id')
-                                                        ->first();
-                            if($app)
-                            {
-                                $ecom = EconomicComplement::where('id','=',$app->id)->first();
-                                //dd($ecom->id);
-                                $ecom->wf_current_state_id = 12;
-                                $ecom->state = 'Received';
-                                $ecom->save();
-                                  $aficount1++;
-                                  $this->info($result->ci); 
-                            }else
-                            {
-                                  $aficount1++;
-                                  $this->info($result->ci);
+                            $affiliate = Affiliate::whereRaw("coalesce(affiliates.first_name, '') like '".Util::removeSpaces(strtoupper($c_p_nombre))."%'")
+                                    ->whereRaw("coalesce(affiliates.second_name, '') like '".Util::removeSpaces(strtoupper($c_s_nombre))."%'")
+                                    ->whereRaw("coalesce(affiliates.last_name, '') like '".Util::removeSpaces(strtoupper($c_pat))."%'")
+                                    ->whereRaw("coalesce(affiliates.mothers_last_name, '') like '".Util::removeSpaces(strtoupper($c_mat))."%'")
+                                    ->first()
+                                    ;
+                            // Log::info($affiliate);
+                            if ($affiliate) {
+                                $afisi++;
+                                $spouse = $affiliate->spouse;
+                                if ($spouse) {
+                                    $new_rows[] = array(
+                                        'ci_c' => $affiliate->identity_card,
+                                        'p_nombre_c' => $result->p_nombre_c,
+                                        's_nombre_c' => $result->s_nombre_c,
+                                        'paterno_c' => $result->paterno_c,
+                                        'materno_c' => $result->materno_c,
+                                        'ci_d' => $spouse->identity_card,
+                                        'p_nombre_d' => $spouse->first_name,
+                                        's_nombre_d' => $spouse->second_name,
+                                        'paterno_d' => $spouse->last_name,
+                                        'materno_d' => $spouse->mothers_last_name,
+                                    );
+                                    // $new_rows[] = $data_spouse;
+                                }else{
+                                    $afispouseno++;
+                                }
+                            }else{
+                                $afino++;
                             }
-                        
-                        }
-                        elseif($result->tipo_renta =='VIUDEDAD')
-                        {
-                             $app=EconomicComplementApplicant::leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
-                                                          ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
-                                                          ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
-                                                          ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
-                                                          ->where('eco_com_types.id','=',2)
-                                                          ->where('eco_com_applicants.identity_card','=',rtrim($ci))
-                                                          ->where('economic_complements.eco_com_procedure_id','=',2)
-                                                          ->select('economic_complements.id')
-                                                          ->first();
-                            //dd($app->id);
-                            if($app)
-                            {   $ecom = EconomicComplement::where('id','=',$app->id)->first();
-                                $ecom->wf_current_state_id = 12;
-                                $ecom->state = 'Received';
-                                $ecom->save();
-                                  $aficount2++;
-                                  $this->info($result->ci);
-                            }else
+                        }else{
+                            if (isset($d_p_nombre)||isset($d_s_nombre)||isset($d_pat)||isset($d_mat))
                             {
-                                  $aficount2++;
-                                  $this->info($result->ci);
+                                $spouse = Spouse::whereRaw("coalesce(spouses.first_name, '') like '" . Util::removeSpaces(strtoupper($d_p_nombre)) . "%'")
+                                    ->whereRaw("coalesce(spouses.second_name, '') like '" . Util::removeSpaces(strtoupper($d_s_nombre)) . "%'")
+                                    ->whereRaw("coalesce(spouses.last_name, '') like '" . Util::removeSpaces(strtoupper($d_pat)) . "%'")
+                                    ->whereRaw("coalesce(spouses.mothers_last_name, '') like '" . Util::removeSpaces(strtoupper($d_mat)) . "%'")
+                                    ->first();
+                                if ($spouse) {
+                                    $spousesi++;
+                                    $affiliate = $spouse->affiliate;
+                                    if ($affiliate) {
+                                        $new_rows[] = array(
+                                            'ci_c' => $affiliate->identity_card,
+                                            'p_nombre_c' => $affiliate->first_name,
+                                            's_nombre_c' => $affiliate->second_name,
+                                            'paterno_c' => $affiliate->last_name,
+                                            'materno_c' => $affiliate->mothers_last_name,
+                                            'ci_d' => $spouse->identity_card,
+                                            'p_nombre_d' => $spouse->first_name,
+                                            's_nombre_d' => $spouse->second_name,
+                                            'paterno_d' => $spouse->last_name,
+                                            'materno_d' => $spouse->mothers_last_name,
+                                        );
+                                    // $new_rows[] = $data_spouse;
+                                    } else {
+                                    }
+                                } else {
+                                    $spouseno++;
+                                }
                             }
                         }
-
-                      
-                        $Progress->advance();
+                        $Progress->advance(); 
                     });
                 });
+                Excel::create('Lista de derechohabientes y causahabientes completada' . date("Y-m-d H:i:s"), function ($excel) {
+                    global $new_rows;
+                    $excel->sheet('lista', function ($sheet) use ($new_rows) {
+                        global $new_rows;
+                        $sheet->fromArray($new_rows);
+                    });
+                })->store('xls', storage_path('excel/exports'));
                 $time_end = microtime(true);
                 $execution_time = ($time_end - $time_start)/60;
                 $Progress->finish();
-                $this->info("\n\nVejez $aficount1 Viudedad $aficount2\n
-                
-                    
+                $this->info("\n\n Afiliados encontrados: $afisi\n
+                Afiliados NO encontradosL: $afino\n
+                Esposas no econtrados (pero si el afiliado): $afispouseno\n
+                \n ---------------------\n
+                Viudas encontrdaas: $spousesi \n
+                Viudas NO encontrdaas: $spouseno \n
                 Execution time $execution_time [minutes].\n");
             }
        }else {
