@@ -8,7 +8,7 @@
         </div>
         <div class="col-md-2 text-right">
             <div >
-                @can("eco_com_reception")
+                @can("eco_com-ret_fun_reception")
                 <span data-toggle="tooltip" data-placement="top" data-original-title="Nuevo">
                     <a  href="" class="btn btn bg-olive" data-toggle="modal" data-target="#myModal-personal">
                         <span class="fa fa-lg fa-plus" aria-hidden="true"></span>
