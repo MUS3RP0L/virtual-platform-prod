@@ -38,6 +38,7 @@ use Muserpol\ObservationType;
 use Muserpol\AffiliateObservation;
 use DB;
 use stdClass;
+use Log;
 
 class EconomicComplementReportController extends Controller
 {
@@ -1764,16 +1765,50 @@ class EconomicComplementReportController extends Controller
         case '13':
             $columns = '';
             $file_name = $name.' '.date("Y-m-d H:i:s");
-            $affiliates = Affiliate::select(DB::raw(
-                "row_number() OVER () AS NRO,".
-                Affiliate::basic_info_columns().
-                ""
-                ))
-                    ->leftJoin('affiliate_states','affiliates.affiliate_state_id', '=', 'affiliate_states.id')
+            $affiliates = Affiliate::leftJoin('affiliate_states','affiliates.affiliate_state_id', '=', 'affiliate_states.id')
                     ->leftJoin('affiliate_state_types', 'affiliate_states.affiliate_state_type_id', '=', 'affiliate_state_types.id')
                     ->where('affiliate_state_types.id', '=', '2')
                     ->get();
-            $data = $affiliates;
+            $data= [];
+            foreach ($affiliates as $key => $a) {
+                $applicant = null;
+                $af= Affiliate::where('identity_card', $a->identity_card)->first();
+                if (sizeof($af->economic_complements)) {
+                        $eco = $af->economic_complements()->leftJoin('eco_com_procedures', 'eco_com_procedures.id', '=', 'economic_complements.eco_com_procedure_id')
+                            ->orderBy('eco_com_procedures.sequence', 'desc')
+                            ->select('economic_complements.id')
+                            ->first();
+                        $eco = EconomicComplement::find($eco->id);
+                    $applicant = $eco->economic_complement_applicant;
+                }else{
+                    $ret_fun = DB::table('retirement_funds')->where('affiliate_id', $a->id)->first();
+                    if(sizeof($ret_fun)){
+                        $applicant = DB::table('ret_fun_beneficiaries')->where('retirement_fund_id', $ret_fun->id)->where('type', 'S')->first();
+                        Log::info("ret");
+                    }
+                }
+                
+                $data[] = array(
+                    'ci_causahabiente' => $a->identity_card,
+                    'primer_nombre_causahabiente' => $a->first_name,
+                    'segundo_nombre_causahabiente' => $a->second_name,
+                    'ap_paterno_causahabiente' => $a->last_name,
+                    'ap_materno_causahabiente' => $a->mothers_last_name,
+                    'ape_casada_causahabiente' => $a->surname_husband,
+                    'fecha_nacimiento_causahabiente' => $a->birth_date,
+                    'codigo_nua_cua_causahabiente' => $a->nua,
+                    'genero_causahabiente' => $a->gender,
+                    'estado'=> $a->affiliate_state->name,
+
+                    'ci_derechohabiente' => $applicant->identity_card ?? null,
+                    'primer_nombre_derechohabiente' => $applicant->first_name ?? null,
+                    'segundo_nombre_derechohabiente' => $applicant->second_name ?? null,
+                    'apellido_paterno_derechohabiente' => $applicant->last_name ?? null,
+                    'apellido_materno_derechohabiente' => $applicant->mothers_last_name ?? null,
+                    'apellido_de_casado_derechohabiente' => $applicant->surname_husband ?? null,
+                    'fecha_nac_derechohabiente' => $applicant->birth_date ?? null,
+                );
+            }
             Util::excel($file_name,'afiliados pasivos',$data);
         break;
         case '14':
