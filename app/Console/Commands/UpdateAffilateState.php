@@ -4,6 +4,7 @@ namespace Muserpol\Console\Commands;
 
 use Illuminate\Console\Command;
 use Muserpol\Affiliate;
+use Muserpol\EconomicComplement;
 
 class UpdateAffilateState extends Command
 {
@@ -53,7 +54,9 @@ class UpdateAffilateState extends Command
                 if (sizeof($eco)) {
                     $eco = $a->economic_complements()->leftJoin('eco_com_procedures', 'eco_com_procedures.id', '=', 'economic_complements.eco_com_procedure_id')
                         ->orderBy('eco_com_procedures.sequence', 'desc')
+                        ->select('economic_complements.id')
                         ->first();
+                    $eco = EconomicComplement::find($eco->id);
                     $affiliate = $eco->affiliate;
                     switch ($eco->economic_complement_modality->economic_complement_type->id) {
                         case 1:
