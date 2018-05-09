@@ -81,6 +81,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\ImportReimbursement2018::class,
         \Muserpol\Console\Commands\SequenceNumber::class,
         \Muserpol\Console\Commands\CompleteListApplicants::class,
+        \Muserpol\Console\Commands\UpdateAffilateState::class,
         
         
     ];
