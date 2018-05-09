@@ -465,6 +465,21 @@ class Affiliate extends Model
         }
         return $eco_com_reception_type;
     }
+    public static function basic_info_columns()
+    {
+        return "
+            affiliates.identity_card as ci,
+            affiliates.first_name as primer_nombre,
+            affiliates.second_name as segundo_nombre,
+            affiliates.last_name as ap_paterno,
+            affiliates.mothers_last_name as ap_materno,
+            affiliates.surname_husband as ape_casada,
+            affiliates.gender as genero,
+            affiliates.birth_date as fecha_nacimiento,
+            affiliates.nua as nua_cua,
+            affiliate_states.name estado
+        ";
+    }
 
 }
 

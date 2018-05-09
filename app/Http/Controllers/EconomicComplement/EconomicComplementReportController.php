@@ -56,6 +56,8 @@ class EconomicComplementReportController extends Controller
         '10' => 'Trámites No Validados con Observaciones',
         '11' => 'Planilla Banco Union S.A.',
         '12' => 'Todos los derechohabiente y afiliados.(todos los semestres)',
+        '13' => 'Afiliados del sector Pasivo',
+        '14' => 'Afiliados en Disponibilidad',
 
         // '2' => 'Trámites Inclusiones',
         // '3' => 'Trámites habituales',
@@ -1743,7 +1745,7 @@ class EconomicComplementReportController extends Controller
             Util::excel($file_name,'observados prestamos',$data);
 
           break;
-          case '12':
+        case '12':
           # code...
             $columns = '';
             $file_name = $name.' '.date("Y-m-d H:i:s");
@@ -1758,9 +1760,38 @@ class EconomicComplementReportController extends Controller
             $data = $economic_complements;
             Util::excel($file_name,'observados prestamos',$data);
 
-          break;
-      default:
-        
+        break;
+        case '13':
+            $columns = '';
+            $file_name = $name.' '.date("Y-m-d H:i:s");
+            $affiliates = Affiliate::select(DB::raw(
+                "row_number() OVER () AS NRO,".
+                Affiliate::basic_info_columns().
+                ""
+                ))
+                    ->leftJoin('affiliate_states','affiliates.affiliate_state_id', '=', 'affiliate_states.id')
+                    ->leftJoin('affiliate_state_types', 'affiliate_states.affiliate_state_type_id', '=', 'affiliate_state_types.id')
+                    ->where('affiliate_state_types.id', '=', '2')
+                    ->get();
+            $data = $affiliates;
+            Util::excel($file_name,'afiliados pasivos',$data);
+        break;
+        case '14':
+            $columns = '';
+            $file_name = $name.' '.date("Y-m-d H:i:s");
+            $affiliates = Affiliate::select(DB::raw(
+                "row_number() OVER () AS NRO,".
+                Affiliate::basic_info_columns().
+                ""
+                ))
+                    ->leftJoin('affiliate_states','affiliates.affiliate_state_id', '=', 'affiliate_states.id')
+                    ->where('affiliate_states.id', '=', '3')
+                    ->get();
+            $data = $affiliates;
+            Util::excel($file_name,'afiliados en disponibilidad',$data);
+        break;
+        default:
+
         break;
     }
     return "hola";
