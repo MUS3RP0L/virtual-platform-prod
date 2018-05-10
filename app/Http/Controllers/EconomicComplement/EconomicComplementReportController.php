@@ -1814,14 +1814,25 @@ class EconomicComplementReportController extends Controller
         case '14':
             $columns = '';
             $file_name = $name.' '.date("Y-m-d H:i:s");
+            $query = collect(DB::table('affiliates')
+                    ->select(DB::RAW("affiliates.id, max(contributions.month_year)"))
+                    ->leftJoin( "contributions", "affiliates.id",  '=', "contributions.affiliate_id")
+                    ->leftJoin( "affiliate_states" ,"affiliates.affiliate_state_id",  '=', "affiliate_states.id")
+                    ->where("affiliate_states.id",  "=",  3)
+                    ->where("contributions.breakdown_id",  "=",1)
+                    ->groupBy( "affiliates.id")
+                    ->havingRaw("max(contributions.month_year) >= '2015-01-01' and min(contributions.month_year) <= '2017-12-01'")
+                    ->get())
+                    ->pluck('id');
+
             $affiliates = Affiliate::select(DB::raw(
                 "row_number() OVER () AS NRO,".
                 Affiliate::basic_info_columns().
                 ""
                 ))
-                    ->leftJoin('affiliate_states','affiliates.affiliate_state_id', '=', 'affiliate_states.id')
-                    ->where('affiliate_states.id', '=', '3')
-                    ->get();
+                ->leftJoin('affiliate_states','affiliates.affiliate_state_id', '=', 'affiliate_states.id')
+                ->whereIn('affiliates.id', $query)
+                ->get();
             $data = $affiliates;
             Util::excel($file_name,'afiliados en disponibilidad',$data);
         break;
