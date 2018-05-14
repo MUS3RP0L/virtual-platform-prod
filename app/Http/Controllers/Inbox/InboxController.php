@@ -38,7 +38,7 @@ class InboxController extends Controller
             
             $sw_actual = WorkflowState::where('role_id',Util::getRol()->id)->first();
             
-            $secuencias_atras = WorkflowState::where('sequence_number','<',$sw_actual->sequence_number )->select('id','name')->orderBy('sequence_number')->get();
+            $secuencias_atras = WorkflowState::where('sequence_number','<',$sw_actual->sequence_number )->select('id','name')->orderBy('sequence_number','DESC')->get();
 
             $secuencias = array();
             if($sw_actual)
