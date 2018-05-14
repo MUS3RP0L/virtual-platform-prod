@@ -116,8 +116,13 @@
               <td class="number">{!! Util::formatMoney($old_eco_com_total_calificate) !!}</td>
               <td></td>
             </tr>
-            <tr style="font-size: 1.1em">
-              <td class="grand service text-left">TOTAL COMPLEMENTO ECONÓMICO EN BOLIVIANOS</td>
+            <tr>
+              <td class="text-left">TOTAL REINTEGRO</td>
+              <td class="number">{!! Util::formatMoney($economic_complement->total_repay) !!}</td>
+              <td></td>
+            </tr>
+              <tr style="font-size: 1.1em">
+              <td class="grand service text-left">TOTAL A PAGAR</td>
               <td class="number"><strong>{!! Util::formatMoney($economic_complement->total) !!}</strong></td>
               <td></td>
             </tr>
