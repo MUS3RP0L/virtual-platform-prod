@@ -476,8 +476,7 @@ class Affiliate extends Model
             affiliates.surname_husband as ape_casada,
             affiliates.gender as genero,
             affiliates.birth_date as fecha_nacimiento,
-            affiliates.nua as nua_cua,
-            affiliate_states.name estado
+            affiliates.nua as nua_cua
         ";
     }
 
