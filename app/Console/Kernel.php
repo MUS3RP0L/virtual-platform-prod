@@ -83,6 +83,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\CompleteListApplicants::class,
         \Muserpol\Console\Commands\UpdateAffilateState::class,
         
+        \Muserpol\Console\Commands\RentasApsSegundoSemestre::class,
         
     ];
 
