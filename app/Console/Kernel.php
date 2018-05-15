@@ -76,7 +76,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\UpdateComplementaryFactor::class,
         \Muserpol\Console\Commands\ImportBank::class,
         \Muserpol\Console\Commands\CheckRequirement::class,
-        
+        \Muserpol\Console\Commands\ImportacionMatriculas::class,
     ];
 
     protected function schedule(Schedule $schedule)
