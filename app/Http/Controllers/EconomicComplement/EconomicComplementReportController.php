@@ -1759,7 +1759,7 @@ class EconomicComplementReportController extends Controller
               $eco->ciudad =Affiliate::find($eco->affiliate_id)->economic_complements()->orderBy('updated_at','desc')->first()->city->name;
             }
             $data = $economic_complements;
-            Util::excel($file_name,'observados prestamos',$data);
+            Util::excel($file_name,'Affiliados y Derechohabientes',$data);
 
         break;
         case '13':
