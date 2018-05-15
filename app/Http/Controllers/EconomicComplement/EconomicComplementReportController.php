@@ -59,7 +59,7 @@ class EconomicComplementReportController extends Controller
         '12' => 'Todos los derechohabiente y afiliados.(todos los semestres)',
         '13' => 'Afiliados del sector Pasivo',
         '14' => 'Afiliados en Disponibilidad',
-        '15' => 'Afiliados Observados por Documentos Preverificados I/2018',
+        '15' => 'Afiliados Observados por Documentos Preverificados 2018',
 
         // '2' => 'Trámites Inclusiones',
         // '3' => 'Trámites habituales',
