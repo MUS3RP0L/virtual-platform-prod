@@ -59,6 +59,7 @@ class EconomicComplementReportController extends Controller
         '12' => 'Todos los derechohabiente y afiliados.(todos los semestres)',
         '13' => 'Afiliados del sector Pasivo',
         '14' => 'Afiliados en Disponibilidad',
+        '15' => 'Afiliados Observados por Documentos Preverificados I/2018',
 
         // '2' => 'Trámites Inclusiones',
         // '3' => 'Trámites habituales',
@@ -1812,7 +1813,7 @@ class EconomicComplementReportController extends Controller
             Util::excel($file_name,'afiliados pasivos',$data);
         break;
         case '14':
-            $columns = '';
+            $columns = ',affiliate_states.name estado';
             $file_name = $name.' '.date("Y-m-d H:i:s");
             $query = collect(DB::table('affiliates')
                     ->select(DB::RAW("affiliates.id, max(contributions.month_year)"))
@@ -1827,14 +1828,33 @@ class EconomicComplementReportController extends Controller
 
             $affiliates = Affiliate::select(DB::raw(
                 "row_number() OVER () AS NRO,".
-                Affiliate::basic_info_columns().
-                ""
+                Affiliate::basic_info_columns().$columns
                 ))
                 ->leftJoin('affiliate_states','affiliates.affiliate_state_id', '=', 'affiliate_states.id')
                 ->whereIn('affiliates.id', $query)
                 ->get();
             $data = $affiliates;
             Util::excel($file_name,'afiliados en disponibilidad',$data);
+        break;
+        case '15':
+            $columns = '';
+            $file_name = $name.' '.date("Y-m-d H:i:s");
+            $query = collect(DB::table('affiliates')
+                    ->select(DB::RAW("affiliates.id"))
+                    ->leftJoin("affiliate_observations", "affiliates.id",  '=',  "affiliate_observations.affiliate_id")
+                    ->leftJoin("observation_types", "affiliate_observations.observation_type_id",  "=",  "observation_types.id")
+                    ->where("observation_types.id",  '=', 16)
+                    ->get())
+                    ->pluck('id');
+
+            $affiliates = Affiliate::select(DB::raw(
+                "row_number() OVER () AS NRO,".
+                Affiliate::basic_info_columns()
+                ))
+                ->whereIn('affiliates.id', $query)
+                ->get();
+            $data = $affiliates;
+            Util::excel($file_name, 'afi obs por Documentos Prev',$data);
         break;
         default:
 
