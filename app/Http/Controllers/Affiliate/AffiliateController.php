@@ -275,10 +275,8 @@ class AffiliateController extends Controller
         foreach ($observations_types as $item) {
             $observation_types_list[$item->id]=$item->name;
         }
-
-        $year = Util::getYear(Carbon::now());
-        // $semester = Util::getCurrentSemester();
-        $semester = Util::getOriginalSemester();
+        $year = Util::getCurrentYear();
+        $semester = Util::getCurrentSemester();
         $eco_com_current_procedure_first = EconomicComplementProcedure::whereYear('year', '=',$year)
         ->where('semester','Primer')
         ->first();
@@ -351,7 +349,10 @@ class AffiliateController extends Controller
         '1'=>'100%',
         );
         $devolution = Devolution::where('affiliate_id','=', $affiliate->id)->where('observation_type_id','=',13)->first();
-        $paid_states=DB::table('paid_affiliates')->where('affiliate_id', '=',$affiliate->id)->get();
+        // $paid_states=DB::table('paid_affiliates')->where('affiliate_id', '=',$affiliate->id)->get();
+
+
+        $available_create_eco_com = (Carbon::now() <=  Carbon::parse(EconomicComplementProcedure::orderBy('sequence','desc')->first()->additional_end_date));
         $data = [
             'affiliate' => $affiliate,
             'affiliate_address' => $affiliate_address,
@@ -364,12 +365,13 @@ class AffiliateController extends Controller
             'second_economic_complement' => $second_economic_complement,
             'has_first_eco_com' => $has_first_eco_com,
             'has_second_eco_com' => $has_second_eco_com,
+            'available_create_eco_com' => $available_create_eco_com,
             'last_ecocom' => $last_ecocom,
             'eco_com_submitted_documents' => $eco_com_submitted_documents,
             'status_documents' => $status_documents,
             'observations_types' => $observation_types_list,
             'affi_observations' => $affi_observations,
-            'paid_states' =>$paid_states,
+            // 'paid_states' =>$paid_states,
             'percentage_list' => $percentages_list,
             'devolution' => $devolution,
             // 'total_gain' => $total_gain,
@@ -500,6 +502,8 @@ class AffiliateController extends Controller
                         $affiliate->affiliate_state_id = 5;
                         if ($request->city_identity_card_id) { $affiliate->city_identity_card_id = $request->city_identity_card_id; } else { $affiliate->city_identity_card_id = null; }
                         $affiliate->identity_card = trim($request->identity_card);
+
+                        //falta registrar los anios de Servicio
                         $affiliate->category_id = $request->category;
                         $affiliate->type = $request->type_affiliate;
                         $affiliate->pension_entity_id = $request->pension;
@@ -542,12 +546,14 @@ class AffiliateController extends Controller
                     $affiliate->degree_id = $request->degree;
                     $affiliate->date_entry = Util::datePick($request->date_entry);
                     $affiliate->item = $request->item > 0 ? $request->item: 0 ;
+
+                    //falta registrar los anios de servicio
                     $affiliate->category_id = $request->category;
                     $affiliate->pension_entity_id=$request->affiliate_entity_pension;
                     $affiliate->service_years=$request->service_years <> "" ? $request->service_years:null;
                     $affiliate->service_months=$request->service_months <> "" ? $request->service_months : null;
                     $affiliate->save();
-                    $message = "Información del Policia actualizada correctamene.";
+                    $message = "Información del Policía actualizada correctamente.";
                     Session::flash('message', $message);
 
                 break;
@@ -593,23 +599,39 @@ class AffiliateController extends Controller
 
                     // recalculate
                     if ($economic_complement->total > 0 && ( $economic_complement->eco_com_state_id == 1 || $economic_complement->eco_com_state_id == 2 || $economic_complement->eco_com_state_id == 3 || $economic_complement->eco_com_state_id == 17 || $economic_complement->eco_com_state_id == 18 || $economic_complement->eco_com_state_id == 15 )) {
-                        $economic_complement->recalification_date = Carbon::now();
-                        $temp_eco_com = (array)json_decode($economic_complement);
-                        $old_eco_com = [];
-                        foreach ($temp_eco_com as $key => $value) {
-                            if ($key != 'old_eco_com') {
-                                $old_eco_com[$key] = $value;
+                        if ($request->degree != $economic_complement->degree_id || $request->category != $economic_complement->category_id ) {
+                            $economic_complement->recalification_date = Carbon::now();
+                            $temp_eco_com = (array)json_decode($economic_complement);
+                            $old_eco_com = [];
+                            foreach ($temp_eco_com as $key => $value) {
+                                if ($key != 'old_eco_com') {
+                                    $old_eco_com[$key] = $value;
+                                }
                             }
+                            if (!$economic_complement->old_eco_com) {
+                                $economic_complement->old_eco_com=json_encode($old_eco_com);
+                            }
+                            $economic_complement->save();
                         }
-                        if (!$economic_complement->old_eco_com) {
-                            $economic_complement->old_eco_com=json_encode($old_eco_com);
-                        }
-                        $economic_complement->save();
                     }
                     // /recalculate
                     $economic_complement->city_id = $request->regional;
-                    $economic_complement->category_id = $request->category;
                     $economic_complement->degree_id = $request->degree;
+                    if($request->service_months || $request->service_years){
+                        $cat = $this->getCategory($request);
+                        if ($cat == "error") {
+                            return redirect('economic_complement/' . $economic_complement->id)
+                                ->withErrors('Hubo un error al actualizar la categoría.')
+                                ;
+                        } else {
+                            if ($economic_complement->category_id != $cat->id) {
+                                $economic_complement->category_id = $cat->id;
+                            }
+                        }
+                    }else{
+                        $economic_complement->category_id = $economic_complement->category_id;
+                    }
+                    
                     $economic_complement->save();
                     //$affiliate->affiliate_state_id = $request->state;
                     //  $affiliate->type = $request->affiliate_type;
@@ -617,23 +639,34 @@ class AffiliateController extends Controller
                     $affiliate->degree_id = $request->degree;
                     $affiliate->date_entry = Util::datePick($request->date_entry);
                     $affiliate->item = $request->item > 0 ? $request->item: 0 ;
-                    $affiliate->category_id = $request->category;
                     $affiliate->pension_entity_id=$request->affiliate_entity_pension;
                     $affiliate->service_years=$request->service_years <> "" ? $request->service_years:null;
                     $affiliate->service_months=$request->service_months <> "" ? $request->service_months : null;
                     $affiliate->death_certificate_number=$request->death_certificate_number;
+
+                    if ($request->service_months || $request->service_years) {
+                        $cat = $this->getCategory($request);
+                        if ($cat == "error") {
+                            return redirect('economic_complement/' . $economic_complement->id)
+                                ->withErrors('Hubo un error al actualizar la categoría.')
+                                ;
+                        } else {
+                            if ($affiliate->category_id != $cat->id) {
+                                $affiliate->category_id = $cat->id;
+                            }
+                        }
+                    } else {
+                        $affiliate->category_id = $affiliate->category_id;
+                    }
                     $affiliate->save();
                     if ($economic_complement->total_rent > 0 ) {   
                         EconomicComplement::calculate($economic_complement,$economic_complement->total_rent, $economic_complement->sub_total_rent, $economic_complement->reimbursement, $economic_complement->dignity_pension, $economic_complement->aps_total_fsa, $economic_complement->aps_total_cc, $economic_complement->aps_total_fs, $economic_complement->aps_disability);
                     }
-                    
-                    $message = "Información del Policia actualizada correctamene.";
+                    $message = "Información del Policía actualizada correctamente.";
                     Session::flash('message', $message);
 
                     return redirect('economic_complement/'.$economic_complement->id);
-
             }
-
         }
 
         if($request->type=='institutional_eco_com'){
@@ -705,7 +738,7 @@ class AffiliateController extends Controller
         setlocale(LC_ALL, "es_ES.UTF-8");
         $dateHeader = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
         $current_semester=util::getCurrentSemester();
-        $current_year=Carbon::now()->year;
+        $current_year= Util::getCurrentYear();
         $current_date = Carbon::now();
         $hour = Carbon::parse($current_date)->toTimeString();
         $eco_com = EconomicComplement::where('affiliate_id',$id_affiliate)->first();
@@ -898,6 +931,9 @@ class AffiliateController extends Controller
     {
         $service_year = $request->service_years;
         $service_month = $request->service_months;
+        if ($service_year < 0 || $service_month < 0 || $service_year >100 || $service_month > 12 ) {
+            return "error";
+        }
         if ($service_month > 0) {
             $service_year++;
         }
@@ -937,7 +973,7 @@ class AffiliateController extends Controller
             'user_role' =>Util::getRol()->name
         ];
         $data = array_merge($data, $second_data);
-        return \PDF::loadView('affiliates.print.history', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->setOption('footer-right', 'Pagina [page] de [toPage]')->stream('affiliate_history.pdf');
+        return \PDF::loadView('affiliates.print.history', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->setOption('footer-right', 'Pagina [page] de [toPage]')->stream('affiliate_history.pdf');
     }
     public function get_debts_record(Request $request)
     {
@@ -1012,6 +1048,6 @@ class AffiliateController extends Controller
             'user_role' =>Util::getRol()->name
         ];
         $data = array_merge($data, $second_data);
-        return \PDF::loadView('affiliates.print.devolution_print', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')/*->setOption('footer-right', 'Pagina [page] de [toPage]')*/->stream('affiliate_devolution.pdf');
+        return \PDF::loadView('affiliates.print.devolution_print', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')/*->setOption('footer-right', 'Pagina [page] de [toPage]')*/->stream('affiliate_devolution.pdf');
     }
 }

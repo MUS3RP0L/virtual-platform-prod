@@ -65,8 +65,8 @@ class EconomicComplementController extends Controller
         }
 
         $data = [
-            'year' => Carbon::now()->year,
-            'semester' => Util::getSemester(Carbon::now()),
+            'year' => Util::getCurrentYear(),
+            'semester' => Util::getCurrentSemester(),
             'procedures' =>$procedures
         ];
 
@@ -356,7 +356,7 @@ class EconomicComplementController extends Controller
         foreach ($semestre as $item) {
             $semester_list[$item]=$item;
         }
-        $current_semester = Util::getOriginalSemester();
+        $current_semester = Util::getCurrentSemester();
         $months = Month::all()->pluck('name','id');
 
 
@@ -389,10 +389,10 @@ class EconomicComplementController extends Controller
         $affiliate = Affiliate::idIs($affiliate_id)->first();
 
         $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
-        ->whereYear('year', '=', Carbon::now()->year)
-        ->where('semester', '=', Util::getSemester(Carbon::now()))->first();
+        ->whereYear('year', '=', Util::getCurrentYear())
+        ->where('semester', '=', 'Primer')->first();
         // dd(Util::getOriginalSemester());
-        $eco_com_procedure=EconomicComplementProcedure::where('semester', 'like', 'Primer')->where('year', '=', Util::datePickYear(Carbon::now()->year))->first();
+        $eco_com_procedure=EconomicComplementProcedure::where('semester', 'like', 'Primer')->where('year', '=', Util::datePickYear(Util::getCurrentYear()))->first();
         // dd($eco_com_procedure);
         // dd($economic_complement);
         $last_complement = EconomicComplement::where('affiliate_id',$affiliate_id)->orderBy('reception_date','DESC')->first();
@@ -417,8 +417,8 @@ class EconomicComplementController extends Controller
             $eco_com_modality_type_id = $economic_complement->economic_complement_modality->economic_complement_type->id;
         }
 
-        $last_year = Carbon::now()->subYear()->year;
-        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
+        $last_year = Util::getCurrentYear() - 1;
+        $last_semester = "Segundo";
         if (EconomicComplement::affiliateIs($affiliate_id)
             ->whereYear('year', '=', $last_year)
             ->where('semester', '=', $last_semester)->first()) {
@@ -430,7 +430,7 @@ class EconomicComplementController extends Controller
         if (Util::getCurrentSemester() == 'Primer') {
             $last_semester_first = 'Segundo';
             $last_semester_second = 'Primer';
-            $last_year_first = Carbon::now()->year - 1;
+            $last_year_first = Carbon::now()->year - 2;
             $last_year_second = $last_year_first;
         }else{
             $last_semester_first = 'Primer';
@@ -495,8 +495,10 @@ class EconomicComplementController extends Controller
             $affiliate->nua=0;
         }
 
-        $last_year = Carbon::now()->subYear()->year;
-        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
+        //$last_year = Carbon::now()->subYear()->year;
+        //$last_semester = Util::getSemester(Carbon::now()->subMonth(7));
+        $last_year = Util::getCurrentYear() - 1;
+        $last_semester = 'Primer';
         if (EconomicComplement::affiliateIs($affiliate->id)
             ->whereYear('year', '=', $last_year)
             ->where('semester', '=', $last_semester)->first()) {
@@ -575,23 +577,23 @@ class EconomicComplementController extends Controller
         $affiliate = Affiliate::idIs($affiliate_id)->first();
 
         $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
-        ->whereYear('year', '=', Carbon::now()->year)
-        ->where('semester', '=', 'Segundo')->first();
-        $eco_com_procedure=EconomicComplementProcedure::where('semester', 'like', 'Segundo')->where('year', '=', Util::datePickYear(Carbon::now()->year))->first();
-        $eco_com_procedure_one=EconomicComplementProcedure::where('semester', 'like', 'Primer')->where('year', '=', Util::datePickYear(Carbon::now()->year))->first();
-        $eco_com_procedure_second=EconomicComplementProcedure::where('semester', 'like', 'Segundo')->where('year', '=', Util::datePickYear(Carbon::now()->year - 1))->first();
+        ->whereYear('year', '=', Util::getCurrentYear())
+        ->where('semester', '=', Util::getCurrentSemester())->first();
+        $eco_com_procedure=EconomicComplementProcedure::where('semester', 'like', 'Segundo')->where('year', '=', Util::datePickYear(Util::getCurrentYear()))->first();
+        $eco_com_procedure_one=EconomicComplementProcedure::where('semester', 'like', 'Primer')->where('year', '=', Util::datePickYear(Util::getCurrentYear()))->first();
+        $eco_com_procedure_second=EconomicComplementProcedure::where('semester', 'like', 'Segundo')->where('year', '=', Util::datePickYear(Util::getCurrentYear() - 1))->first();
         $last_complement = EconomicComplement::where('affiliate_id',$affiliate_id)->where('eco_com_procedure_id', '=', $eco_com_procedure_second->id)->first();
         if (EconomicComplement::where('affiliate_id',$affiliate_id)->where('eco_com_procedure_id', '=', $eco_com_procedure_one->id)->first()) {
             $last_complement = EconomicComplement::where('affiliate_id',$affiliate_id)->where('eco_com_procedure_id', '=', $eco_com_procedure_one->id)->first();
         }
-        // return $last_complement;
+        // // return $last_complement;
         if (!$economic_complement) {
             $economic_complement = new EconomicComplement;
             $eco_com_type = false;
             $eco_com_modality = false;
             $eco_com_modality_type_id = false;
             $economic_complement->semester =  $eco_com_procedure->semester;
-            $economic_complement->year = Carbon::now()->year;
+            $economic_complement->year = Util::getCurrentYear();
             $economic_complement->aps_total_cc = $last_complement->aps_total_cc ?? null;
             $economic_complement->aps_total_fsa = $last_complement->aps_total_fsa ?? null;
             $economic_complement->aps_total_fs = $last_complement->aps_total_fs ?? null;
@@ -602,8 +604,9 @@ class EconomicComplementController extends Controller
             $eco_com_modality_type_id = $economic_complement->economic_complement_modality->economic_complement_type->id;
         }
 
-        $last_year = Carbon::now()->subYear()->year;
-        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
+        $last_year = Util::getCurrentYear()-1;
+        /*CORREGIR ALERICK */
+        $last_semester = "Primer";
         if (EconomicComplement::affiliateIs($affiliate_id)
             ->whereYear('year', '=', $last_year)
             ->where('semester', '=', $last_semester)->first()) {
@@ -613,7 +616,7 @@ class EconomicComplementController extends Controller
         }
 
             $last_semester_first = 'Primer';
-            $last_year_first = Carbon::now()->year ;
+            $last_year_first = Util::getCurrentYear();
             $last_year_second = $last_year_first -1;
             $last_semester_second = 'Segundo';
         
@@ -672,9 +675,10 @@ class EconomicComplementController extends Controller
         if($affiliate->nua == null){
             $affiliate->nua=0;
         }
+        $last_year = Util::getCurrentYear() - 1;
+        /*CORREGIR ALERICK */
+        $last_semester = "Primer";
 
-        $last_year = Carbon::now()->subYear()->year;
-        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
         if (EconomicComplement::affiliateIs($affiliate->id)
             ->whereYear('year', '=', $last_year)
             ->where('semester', '=', $last_semester)->first()) {
@@ -777,16 +781,16 @@ class EconomicComplementController extends Controller
                 $semester = $request->semester;
                 $affiliate = Affiliate::idIs($request->affiliate_id)->first();
 
-                $eco_com_pro = EconomicComplementProcedure::where('year','=',Util::datePickYear(Carbon::now()->year))->where('semester','=',$semester)->first();
+                $eco_com_pro = EconomicComplementProcedure::where('year','=',Util::datePickYear(Util::getCurrentYear()))->where('semester','=',$semester)->first();
 
                 $economic_complement = EconomicComplement::affiliateIs($affiliate->id)
-                ->whereYear('year', '=', Carbon::now()->year)
+                ->whereYear('year', '=', Util::getCurrentYear())
                 ->where('semester', '=', $semester)->first();
                 
                 $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
                 if (!$economic_complement) {
                     $economic_complement = new EconomicComplement;
-                    if ($last_economic_complement = EconomicComplement::whereYear('year', '=', Carbon::now()->year)
+                    if ($last_economic_complement = EconomicComplement::whereYear('year', '=', Util::getCurrentYear())
                         ->where('semester', '=', $semester)
                         ->whereNull('deleted_at')->orderBy('id', 'desc')->first()) {
                             $number_code = Util::separateCode($last_economic_complement->code);
@@ -814,7 +818,7 @@ class EconomicComplementController extends Controller
                     $economic_complement->reception_date = date('Y-m-d');
                     $economic_complement->state = 'Edited';
 
-                    $economic_complement->year = Util::datePickYear(Carbon::now()->year, Util::getSemester(Carbon::now()));
+                    $economic_complement->year = Util::datePickYear(Util::getCurrentYear());
                     $economic_complement->semester = $semester;
                     
                     $economic_complement->has_legal_guardian =$request->has('has_legal_guardian')?true:false;
@@ -823,12 +827,11 @@ class EconomicComplementController extends Controller
                         $economic_complement->has_legal_guardian_s = $request->legal_guardian_sc !='1'?true:false;
                     }
                     
-                    $economic_complement->code = $code ."/". $sem . "/" . Carbon::now()->year;
+                    $economic_complement->code = $code ."/". $sem . "/" . Util::getCurrentYear();
 
                     $economic_complement->reception_type = $request->reception_type; 
                     // $base_wage = BaseWage::degreeIs($affiliate->degree_id)->first();
                     // $economic_complement->base_wage_id = $base_wage->id;
-                    // $complementary_factor = ComplementaryFactor::hierarchyIs($base_wage->degree->hierarchy->id)->whereYear('year', '=', Carbon::now()->year)->where('semester', '=', Util::getSemester(Carbon::now()))->first();
                     // $economic_complement->complementary_factor_id = $complementary_factor->id;
                     $economic_complement->save();
                 }
@@ -947,8 +950,10 @@ class EconomicComplementController extends Controller
             }
         }
 
-        $last_year = Carbon::now()->subYear()->year;
-        $last_semester = Util::getSemester(Carbon::now()->subMonth(7));
+        $last_year = Util::getCurrentYear() - 1;
+        /*CORREGIR ALERICK */
+        $last_semester = "Primer";
+        
         if (EconomicComplement::affiliateIs($affiliate->id)
                 ->whereYear('year', '=', $last_year)
                 ->where('semester', '=', $last_semester)->first()) {
@@ -1103,17 +1108,32 @@ class EconomicComplementController extends Controller
         $hasObservation =false;
         foreach ($affi_observations as $observation) {
             # code...
-            if(Util::getRol()->module_id == $observation->observationType->module_id && $observation->is_enabled == false)
-            {
-                $hasObservation = true;
-            }  
+            switch (Util::getRol()->id) {
+                case 7:
+                case 4:
+                    if(Util::getRol()->module_id == 2 && $observation->is_enabled == false)
+                    {
+                        $hasObservation = true;
+                    }  
+                    # code...
+
+                    break;
+                case 16:
+                    if(Util::getRol()->module_id == $observation->observationType->module_id && $observation->is_enabled == false)
+                    {
+                        $hasObservation = true;
+                    } 
+                    break;
+                
+            }
+            
         }
-         
+        // dd($hasObservation);
         // Log::info("has observatop ".json_encode($hasObservation));
         $hasAmortization = false;
-        switch (Util::getRol()->module_id) {
-            case 9:
-            case 6:
+        switch (Util::getRol()->id) {
+           
+            case 16:
            
                 if($hasObservation)
                 {
@@ -1121,10 +1141,10 @@ class EconomicComplementController extends Controller
                     if($economic_complement->eco_com_state_id=3 || $economic_complement->eco_com_state_id=2 || $economic_complement->eco_com_state_id=1 || $economic_complement->eco_com_state_id=18 || $economic_complement->eco_com_state_id=17 || $economic_complement->eco_com_state_id=21 )
                     {
                         
-                        if($economic_complement->total > 0)
-                        {
+                        // if($economic_complement->total > 0)
+                        // {
                             $hasAmortization =true; 
-                        }
+                        // }
                         
                     }
 
@@ -1132,27 +1152,33 @@ class EconomicComplementController extends Controller
                 }
                
                 break;
-             case 2:
+             case 4:
+             case 7:
                 
                 if($hasObservation)
                 {
                     $has_repocision_observation = false;
+                    $has_contabilidad_observation = false;
                     foreach ($affi_observations as $observation) {
                          # code...
                         if($observation->observation_type_id == 13)
                         {
                             $has_repocision_observation = true;
                         }
+                        if($observation->observation_type_id == 1)
+                        {
+                            $has_contabilidad_observation = true;
+                        }
                      } 
-                    if($has_repocision_observation)
+                    if($has_repocision_observation || $has_contabilidad_observation)
                     {
 
                         if($economic_complement->eco_com_state_id=3 || $economic_complement->eco_com_state_id=2 || $economic_complement->eco_com_state_id=1 || $economic_complement->eco_com_state_id=18 || $economic_complement->eco_com_state_id=17 || $economic_complement->eco_com_state_id=21 )
                         {
-                            if($economic_complement->total > 0)
-                            {
+                            // if($economic_complement->total > 0)
+                            // {
                                 $hasAmortization =true; 
-                            }
+                            // }
                             
                         }
                     }
@@ -1174,11 +1200,16 @@ class EconomicComplementController extends Controller
         $states = null;
 
         $has_edit_state =false;
-        if($economic_complement->workflow_id != 1 && $economic_complement->wf_current_state_id = 9)
+        if(Util::getRol()->id == 9 || Util::getRol()->id == 4 )
         {
-            $has_edit_state =true;
-
-            $states = EconomicComplementState::where('eco_com_state_type_id',1)->get();
+            if($economic_complement->workflow_id != 1) //adicionar condicionantes en este punto 
+            {
+                $has_edit_state =true;
+    
+                // $states = EconomicComplementState::where('eco_com_state_type_id',1)->get(); //solo los de tipo Pago
+                $states = EconomicComplementState::all();
+    
+            }
         }
         //datos para el spouse
 
@@ -1198,16 +1229,16 @@ class EconomicComplementController extends Controller
 
         $amount_amortization=0;
         $devolution = null;
-        switch (Util::getRol()->module_id) {
-            case 9:
+        switch (Util::getRol()->id) {
+            case 7:
                 # code...
                 $amount_amortization = $economic_complement->amount_accounting;
                 break;
-            case 6:
+            case 16:
                 # code...
                 $amount_amortization = $economic_complement->amount_loan;
                 break;
-            case 2:
+            case 4:
                 # code...
                 $amount_amortization = $economic_complement->amount_replacement;
                 $devolution =  Devolution::where('affiliate_id','=',$affiliate->id)->where('observation_type_id','=',13)->first();
@@ -1225,7 +1256,7 @@ class EconomicComplementController extends Controller
         }
 
         $class_rent =DB::table('eco_com_kind_rent')->where('id',$economic_complement->eco_com_kind_rent_id)->first();
-
+        // dd($has_edit_state);
         $data = [
 
         'affiliate' => $affiliate,
@@ -1267,6 +1298,7 @@ class EconomicComplementController extends Controller
         'devolution_amount_percetage' => $devolution_amount_percetage,
         'devolution_amount_total' => $devolution_amount_total,
         ];
+        // return $data;
         // dd($eco_com_submitted_documents_ar);
 
         // if ($economic_complement->base_wage_id) {
@@ -2307,11 +2339,11 @@ class EconomicComplementController extends Controller
                 // $pdf->loadHTML($view)->setPaper('legal');
                 // return $pdf->stream();
 
-                return \PDF::loadView('economic_complements.print.sworn_declaration1', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_edited.pdf');
+                return \PDF::loadView('economic_complements.print.sworn_declaration1', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->stream('report_edited.pdf');
             case 'viudedad':
                 $spouse = Spouse::where('affiliate_id',$affiliate->id)->first();
                 array_push($data, $spouse);
-                return \PDF::loadView('economic_complements.print.sworn_declaration2', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_edited.pdf');
+                return \PDF::loadView('economic_complements.print.sworn_declaration2', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->stream('report_edited.pdf');
 
                 // $view = \View::make('economic_complements.print.sworn_declaration2', $data)->render();
                 // $pdf = \App::make('dompdf.wrapper');
@@ -2367,7 +2399,7 @@ class EconomicComplementController extends Controller
             case 'report':
                 $title= "RECEPCIÓN DE REQUISITOS";
                 array_push($data,$title);
-                return \PDF::loadView('economic_complements.print.reception_report', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_edited.pdf');
+                return \PDF::loadView('economic_complements.print.reception_report', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->stream('report_edited.pdf');
                 
                 $view = \View::make('economic_complements.print.reception_report', compact('header1', 'header2', 'title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','user', 'user_role','yearcomplement'))->render();
                 $pdf = \App::make('dompdf.wrapper');
@@ -2377,7 +2409,7 @@ class EconomicComplementController extends Controller
             case 'inclusion':
                 $title= "";
                 array_push($data,$title);
-                return \PDF::loadView('economic_complements.print.inclusion_solicitude', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_edited.pdf');
+                return \PDF::loadView('economic_complements.print.inclusion_solicitude', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->stream('report_edited.pdf');
                 
                 $view = \View::make('economic_complements.print.inclusion_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type', 'user', 'user_role'))->render();
 
@@ -2388,7 +2420,7 @@ class EconomicComplementController extends Controller
             case 'habitual':
                 $title= "";
                 array_push($data,$title);
-                return \PDF::loadView('economic_complements.print.habitual_solicitude', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_edited.pdf');
+                return \PDF::loadView('economic_complements.print.habitual_solicitude', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->stream('report_edited.pdf');
 
 
                 $view = \View::make('economic_complements.print.habitual_solicitude', compact('header1','header2','title','date','hour','economic_complement','eco_com_submitted_document','affiliate','eco_com_applicant','applicant_type', 'user', 'user_role'))->render();
@@ -2429,15 +2461,15 @@ class EconomicComplementController extends Controller
     }
     public function receptionType($affiliate_id, $new_modality_id)
     {
-        if (Util::getOriginalSemester() == 'Primer') {
+        if (Util::getCurrentSemester() == 'Primer') {
             $last_semester_first = 'Segundo';
             $last_semester_second = 'Primer';
-            $last_year_first = Carbon::now()->year - 1;
+            $last_year_first = Util::getCurrentYear() - 1;
             $last_year_second = $last_year_first;
         }else{
             $last_semester_first = 'Primer';
             $last_semester_second = 'Segundo';  
-            $last_year_first = Carbon::now()->year ;
+            $last_year_first = Util::getCurrentYear() ;
             $last_year_second = $last_year_first -1;
         }
         $reception_type = 'Inclusion';
@@ -2473,8 +2505,8 @@ class EconomicComplementController extends Controller
         $rol = Util::getRol();
         if($request->amount_amortization > 0)
         {
-            switch ($rol->module_id) {
-                case 9: //contabiliadad
+            switch ($rol->id) {
+                case 7: //contabiliadad
                     
                     $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
                     $complemento->amount_accounting = $request->amount_amortization;
@@ -2491,7 +2523,7 @@ class EconomicComplementController extends Controller
 
                     break;
 
-                case 6: //prestamo 
+                case 16: //prestamo 
                     
                     $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
                     $complemento->amount_loan = $request->amount_amortization;
@@ -2508,7 +2540,7 @@ class EconomicComplementController extends Controller
 
                     break;
                 
-                case 2: //complemento
+                case 4: //complemento
                     
                     $complemento = EconomicComplement::where('id',$request->id_complemento)->first();
                     $complemento->amount_replacement = $request->amount_amortization;
@@ -2591,12 +2623,15 @@ class EconomicComplementController extends Controller
         $economic_complement = EconomicComplement::where('id',$request->id_complemento)->first();
 
         $older = DB::table('eco_com_states')->where('id',$economic_complement->eco_com_state_id)->first();
-        // dd($economic_complement);
-        // $older = $economic_complement->economic_complement_state()->name;
-        
 
         $economic_complement->eco_com_state_id = $request->state_id;
-        $economic_complement->number_check = $request->numero_cheque;
+        if( $economic_complement->eco_com_state_id == 2 ||  $economic_complement->eco_com_state_id == 3)
+        {
+            $economic_complement->number_check = $request->numero_cheque;
+        }
+        else{
+            $economic_complement->number_check = null;
+        }
         $economic_complement->save();
 
         $new = DB::table('eco_com_states')->where('id',$economic_complement->eco_com_state_id)->first();

@@ -77,11 +77,18 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\ImportBank::class,
         \Muserpol\Console\Commands\CheckRequirement::class,
         \Muserpol\Console\Commands\ImportacionMatriculas::class,
+        \Muserpol\Console\Commands\ImportConciliacion::class,
+        \Muserpol\Console\Commands\ImportPayroll2018::class,
+        \Muserpol\Console\Commands\ImportReimbursement2018::class,
+        \Muserpol\Console\Commands\SequenceNumber::class,
+        \Muserpol\Console\Commands\CompleteListApplicants::class,
+        \Muserpol\Console\Commands\UpdateAffilateState::class,
+        \Muserpol\Console\Commands\RentasApsSegundoSemestre::class,
     ];
 
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('create:ipcrate')->monthly();
+        // $schedule->command('create:ipcrate')->monthly();
         $schedule->command('create:contributionrate')->monthly();
     }
 }

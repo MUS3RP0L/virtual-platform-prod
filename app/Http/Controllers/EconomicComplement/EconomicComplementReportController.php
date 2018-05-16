@@ -38,6 +38,7 @@ use Muserpol\ObservationType;
 use Muserpol\AffiliateObservation;
 use DB;
 use stdClass;
+use Log;
 
 class EconomicComplementReportController extends Controller
 {
@@ -54,7 +55,11 @@ class EconomicComplementReportController extends Controller
         '8' => 'Trámites con Apoderados',
         '9' => 'Trámites Validados con Observaciones',
         '10' => 'Trámites No Validados con Observaciones',
-        '11' => 'Planilla Banco Union S.A.'
+        '11' => 'Planilla Banco Union S.A.',
+        '12' => 'Todos los derechohabiente y afiliados.(todos los semestres)',
+        '13' => 'Afiliados del sector Pasivo',
+        '14' => 'Afiliados en Disponibilidad',
+        '15' => 'Afiliados Observados por Documentos Preverificados 2018',
 
         // '2' => 'Trámites Inclusiones',
         // '3' => 'Trámites habituales',
@@ -87,7 +92,7 @@ class EconomicComplementReportController extends Controller
            $semester1_list[$item]=$item;
        }
 
-       $current_year = Carbon::now()->year;
+       $current_year = Util::getCurrentYear();
        $year_list =[$current_year => $current_year];
        $eco_com_year = EconomicComplement::distinct()->select('year')->orderBy('year', 'desc')->get();
        foreach ($eco_com_year as $item) {
@@ -163,7 +168,7 @@ class EconomicComplementReportController extends Controller
 
                            if ($eco_complements) {
                                
-                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','anio','user','eco_complements','user_role'))->setPaper('letter')->setOption('encoding', 'utf-8')->setOrientation('landscape')->setOption('footer-right', 'Pagina [page] de [toPage]')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_by_user.pdf');
+                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','anio','user','eco_complements','user_role'))->setPaper('letter')->setOption('encoding', 'utf-8')->setOrientation('landscape')->setOption('footer-right', 'Pagina [page] de [toPage]')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->stream('report_by_user.pdf');
 
                                /*$view = \View::make('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','anio','user','eco_complements'))->render();
                                $pdf = \App::make('dompdf.wrapper');
@@ -213,7 +218,7 @@ class EconomicComplementReportController extends Controller
                                            ->get();
                                            //dd($regional);                                           
                            if ($beneficiary_eco_complements) {                              
-                             return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user','user_role'))->setPaper('letter')->setOrientation('landscape')->setOption('footer-right', 'Pagina [page] de [toPage]')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_beneficiary.pdf');
+                             return \PDF::loadView('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user','user_role'))->setPaper('letter')->setOrientation('landscape')->setOption('footer-right', 'Pagina [page] de [toPage]')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->stream('report_beneficiary.pdf');
 
                              /*$view = \View::make('economic_complements.print.beneficiary_report',compact('header1','header2','title','date','type','hour','beneficiary_eco_complements','anio','user'))->render();
                                 $pdf = \App::make('dompdf.wrapper');
@@ -519,7 +524,7 @@ class EconomicComplementReportController extends Controller
                                            ->get();
                            if ($eco_complements) {
                                
-                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','eco_complements','anio','user'))->setPaper('letter')->setOrientation('landscape')->setOption('footer-right', 'Pagina [page] de [toPage]')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_by_user.pdf');
+                               return \PDF::loadView('economic_complements.print.daily_report',compact('header1','header2','title','date','type','hour','eco_complements','anio','user'))->setPaper('letter')->setOrientation('landscape')->setOption('footer-right', 'Pagina [page] de [toPage]')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->stream('report_by_user.pdf');
                            } else {
                                $message = "No existen registros para visualizar";
                                Session::flash('message', $message);
@@ -527,7 +532,7 @@ class EconomicComplementReportController extends Controller
                            }
                            break;
                         case '8':                          
-                                if($request->year <'2017'){
+                                if($request->year <'2018'){
                                 global $list,$list_date,$final;
                                 $regional = ($request->city == 'Todo') ? '%%' : $request->city;
                                 $semester = ($request->semester == 'Todo') ? '%%' : $request->semester;
@@ -1125,21 +1130,22 @@ class EconomicComplementReportController extends Controller
       foreach (\Muserpol\City::all() as $city) {
         $economic_complements=EconomicComplement::whereIn('id',$economic_complements_array)->where('city_id','=',$city->id)->get();
         $economic_complements_temp_array=EconomicComplement::whereIn('id',$economic_complements_array)->where('city_id','=',$city->id)->get()->pluck('id');
-        $total=Util::formatMoney(Util::totalSumEcoCom($economic_complements_temp_array)->sum);
-        $title2 = "Planilla de Firmas ".$semester." Semestre ".$year."- Regional ".$city->name;
+        $total=Util::formatMoney(Util::totalSumEcoCom($economic_complements_temp_array));
+        // $total=Util::formatMoney(Util::totalSumEcoCom($economic_complements_temp_array)->sum);
+        $title2 = " Listado de Beneficiarios del Complemento Económico <br>".$semester." Semestre ".$year."- Regional ".$city->name;
         if ($total) {
         $pages[] = \View::make('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user', 'user_role','total'))->render();
         }
       }
       $pdf = \App::make('snappy.pdf.wrapper');
 
-      $pdf->setPaper('letter')->setOrientation('landscape')->setOPtion('footer-center', 'Pagina [page] de [toPage]')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017');
+      $pdf->setPaper('letter')->setOrientation('landscape')->setOPtion('footer-center', 'Pagina [page] de [toPage]')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018');
       $file_name=storage_path().'/snappy/planillas/'.'planilla_'.Auth::user()->username.'_'.date("Y-m-d_H:i:s").'.pdf';
       $pdf->generateFromHtml($pages,$file_name, [], true);
       return response()->download($file_name);
 
       
-      return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user', 'user_role','total'))->setPaper('letter')->setOrientation('landscape')->setOPtion('footer-center', 'Pagina [page] de [toPage]')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_edited.pdf');
+      return \PDF::loadView('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user', 'user_role','total'))->setPaper('letter')->setOrientation('landscape')->setOPtion('footer-center', 'Pagina [page] de [toPage]')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->stream('report_edited.pdf');
       }
     }
 
@@ -1184,10 +1190,11 @@ class EconomicComplementReportController extends Controller
         if ($economic_complement->amount_loan || $economic_complement->amount_accounting || $economic_complement->amount_replacement) {
           $temp_total=$economic_complement->total +  ($economic_complement->amount_loan ?? 0) + ($economic_complement->amount_accounting ?? 0) + ($economic_complement->amount_replacement ?? 0);
         }
+        // dd($temp_total);
 
         $temp_total=(number_format($temp_total,2,'.',''));
-        if ($economic_complement->old_eco_com && ($old_eco_com->amount_loan || $old_eco_com->amount_accounting || $old_eco_com->amount_replacement)) {
-          $old_eco_com_total_calificate=$old_eco_com->total +  ($old_eco_com->amount_loan ?? 0) + ($old_eco_com->amount_accounting ?? 0) + ($old_eco_com->amount_replacement ?? 0);
+        if ($economic_complement->old_eco_com && ($old_eco_com->amount_loan || $old_eco_com->amount_accounting || $old_eco_com->amount_replacement || true )) {
+          $old_eco_com_total_calificate = $old_eco_com->total + ($old_eco_com->amount_loan ?? 0) + ($old_eco_com->amount_accounting ?? 0) + ($old_eco_com->amount_replacement ?? 0);
         }
         $data = [
             'doc_number'=>$doc_number,
@@ -1235,7 +1242,7 @@ class EconomicComplementReportController extends Controller
         ];
         // dd(Util:: str_replace(',', '.', (str_replace('.', '', Util::formatMoney($temp_total)))));
         $data = array_merge($data, $second_data);
-        return \PDF::loadView('economic_complements.print.print_total', $data)->setOption('page-width', '215.9')->setOption('page-height', '330')->setOption('margin-bottom', 0)/*->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')*/->stream('print_total.pdf');
+        return \PDF::loadView('economic_complements.print.print_total', $data)->setOption('page-width', '215.9')->setOption('page-height', '330')->setOption('margin-bottom', 0)->setOption('margin-left', 5)->setOption('margin-right', 5)/*->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')*/->stream('print_total.pdf');
 
         // ->setOption('page-width', '215.9')->setOption('page-height', '330')
 
@@ -1248,7 +1255,9 @@ class EconomicComplementReportController extends Controller
     {
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-        $title = "FORMULARIO CE - 1";
+        $title_inline = "FORMULARIO CE - 1";
+        $title = "HOJA DE CÁLCULO DEL COMPLEMENTO ECONÓMICO";
+        
         $date = Util::getDateEdit(date('Y-m-d'));
         setlocale(LC_ALL, "es_ES.UTF-8");
         $date = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
@@ -1264,6 +1273,7 @@ class EconomicComplementReportController extends Controller
         
         if ($economic_complement->old_eco_com) {
             $old_eco_com=json_decode($economic_complement->old_eco_com);
+            $title2 = \Muserpol\EconomicComplementProcedure::where('id',$old_eco_com->eco_com_procedure_id)->first()->getFullName() ?? '';
             $total_literal=Util::convertir($old_eco_com->total);
             $old_eco_com_total_frac = $old_eco_com->aps_total_cc + $old_eco_com->aps_total_fsa + $old_eco_com->aps_total_fs;
             $modality=\Muserpol\EconomicComplementModality::where('id',$old_eco_com->eco_com_modality_id)->first();
@@ -1271,7 +1281,7 @@ class EconomicComplementReportController extends Controller
             $old_eco_com_modality = $modality->shortened;
             $degree=\Muserpol\Degree::where('id',$old_eco_com->degree_id)->first();
             $old_eco_com_degree = $degree->shortened;
-            $old_eco_com_year = Carbon::parse($degree->year)->year;
+            $old_eco_com_year = Carbon::parse($old_eco_com->year)->year;
             $category=\Muserpol\Category::where('id',$old_eco_com->category_id)->first();
             $old_eco_com_category = $category->name;
             $city=\Muserpol\City::where('id',$old_eco_com->city_id)->first();
@@ -1305,6 +1315,8 @@ class EconomicComplementReportController extends Controller
             'header1' => $header1,
             'header2' => $header2,
             'title' => $title,
+            'title2' => $title2,
+            'title_inline' => $title_inline,
             'total_literal' => $total_literal ?? '',
         ];
         $second_data = [
@@ -1325,7 +1337,7 @@ class EconomicComplementReportController extends Controller
             'user_role' =>Util::getRol()->name
         ];
         $data = array_merge($data, $second_data);
-        return \PDF::loadView('economic_complements.print.print_total_old', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('print_total.pdf');
+        return \PDF::loadView('economic_complements.print.print_total_old', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->stream('print_total.pdf');
         // $view = \View::make('economic_complements.print.print_total_old',$data )->render();
         // $pdf = \App::make('dompdf.wrapper');
         // $pdf->loadHTML($view)->setPaper('legal');
@@ -1368,7 +1380,7 @@ class EconomicComplementReportController extends Controller
             'user_role' =>Util::getRol()->name
         ];
         $data = array_merge($data, $second_data);
-        return \PDF::loadView('economic_complements.print.print_total_backrest', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('print_total.pdf');
+        return \PDF::loadView('economic_complements.print.print_total_backrest', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->stream('print_total.pdf');
       }
     }
     public function invalid_cell_phone()
@@ -1405,7 +1417,7 @@ class EconomicComplementReportController extends Controller
           'user_role' =>Util::getRol()->name
       ];
       $data = array_merge($data, $second_data);
-      return \PDF::loadView('economic_complements.reports.invalid_cell_phone', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2017')->stream('report_invalid_cell_phone.pdf');
+      return \PDF::loadView('economic_complements.reports.invalid_cell_phone', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->stream('report_invalid_cell_phone.pdf');
     }
   public function menu()
   {
@@ -1416,9 +1428,9 @@ class EconomicComplementReportController extends Controller
     foreach ($eco_com_pro_years as $key => $value) {
       $years[]=array(Util::getYear($value) => Util::getYear($value));
     }
-    $current_year = carbon::now()->year;
+    $current_year = Util::getCurrentYear();
     $semesters = EconomicComplementProcedure::orderBy('semester')->get()->pluck('semester', 'semester');
-    $current_semester = Util::getOriginalSemester();
+    $current_semester = Util::getCurrentSemester();
     $reports_list=self::reports_lists();
     
     // self::reports_list = $reports_list;
@@ -1430,7 +1442,7 @@ class EconomicComplementReportController extends Controller
     $type = $request->type;
     $year = $request->year;
     $semester = $request->semester;
-    $eco_com_procedure_id = EconomicComplementProcedure::whereYear('year','=',Util::getYear($year))->where('semester','like',$semester)->first();
+    $eco_com_procedure_id = EconomicComplementProcedure::whereYear('year','=',$year)->where('semester','like',$semester)->first();
     if (!$eco_com_procedure_id) {
       return 'error';
     }
@@ -1472,6 +1484,7 @@ class EconomicComplementReportController extends Controller
           ) as afobs'),'afobs.affiliate_id','=','af.id')
             ->leftJoin('eco_com_states as ecs','ecs.id','=','economic_complements.eco_com_state_id')
             ->leftJoin('cities as ci_ben','eca.city_identity_card_id','=','ci_ben.id')
+            ->leftJoin('cities as reg','economic_complements.city_id','=','reg.id')
             ->leftJoin('degrees as de','de.id','=','af.degree_id')
             ->leftJoin('categories as ca','ca.id','=','economic_complements.category_id')
             ->leftJoin('pension_entities as pe','pe.id','=','af.pension_entity_id')
@@ -1487,7 +1500,7 @@ class EconomicComplementReportController extends Controller
           ->wfstates(*/
          // ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()))
 
-          ->select(DB::raw( 'DISTINCT ON (economic_complements.id) economic_complements.id, row_number() OVER () AS nro, economic_complements.code as N_Tramite, economic_complements.reception_date as Fecha_recepcion, eca.identity_card as ci_beneficiario, ci_ben.first_shortened as expedido, eca.identity_card || \' \' || ci_ben.first_shortened as ci_completo, eca.first_name as prim_nomb_ben, eca.second_name as seg_nomb_ben, eca.last_name as apellido_pat_ben, eca.mothers_last_name as apellido_mat_ben, eca.surname_husband as ape_casada_ben, eca.birth_date as fecha_nac_ben, af.identity_card as ci_causa, ci_ben.first_shortened as exp_causa, af.identity_card || \' \' || ci_ben.first_shortened as ci_completo_causa, af.first_name as primer_nom_cau, af.second_name as segundo_nom_cau, af.last_name as ape_pat_cau, af.mothers_last_name as ape_mat_cau, af.surname_husband as ape_casada_cau, af.birth_date as fecha_nac_cau, af.nua as Nua, ci_ben.name as regional, ecm.shortened as tipo_de_prestacion, ecm.shortened as tipo_de_prestacion, ca.name as categoria, de.name as grado, pe.name as ente_gestor, economic_complements.aps_total_fsa as fracion_saldo_acumulado, economic_complements.aps_total_cc as compensacion_cotizaciones, economic_complements.aps_total_fs as fracicon_solidaria_vejez, economic_complements.total_rent as total_renta_o_jubilacion, economic_complements.total_rent_calc as promedio, economic_complements.seniority as antiguedad, economic_complements.salary_reference as sueldo_activo, economic_complements.salary_quotable as salario_cotizable, economic_complements.difference as diferencia, economic_complements.difference*6 as total_semestre, economic_complements.complementary_factor as factor_complementario, economic_complements.total as total_complemento_economico, economic_complements.state as estado, ws.first_shortened as ubicacion, ecm.name as tipo_beneficiario, economic_complements.reception_type as tipo_recepcion, ecs.name as estado, ws.first_shortened as ubicacion, wo.name as flujo, afobs.observaciones'))
+          ->select(DB::raw( 'DISTINCT ON (economic_complements.id) economic_complements.id, row_number() OVER () AS nro, economic_complements.code as N_Tramite, economic_complements.reception_date as Fecha_recepcion, eca.identity_card as ci_beneficiario, ci_ben.first_shortened as expedido, eca.identity_card || \' \' || ci_ben.first_shortened as ci_completo, eca.first_name as prim_nomb_ben, eca.second_name as seg_nomb_ben, eca.last_name as apellido_pat_ben, eca.mothers_last_name as apellido_mat_ben, eca.surname_husband as ape_casada_ben, eca.birth_date as fecha_nac_ben, af.identity_card as ci_causa, ci_ben.first_shortened as exp_causa, af.identity_card || \' \' || ci_ben.first_shortened as ci_completo_causa, af.first_name as primer_nom_cau, af.second_name as segundo_nom_cau, af.last_name as ape_pat_cau, af.mothers_last_name as ape_mat_cau, af.surname_husband as ape_casada_cau, af.birth_date as fecha_nac_cau, af.nua as Nua, reg.name as regional, ecm.shortened as tipo_de_prestacion, ecm.shortened as tipo_de_prestacion, ca.name as categoria, de.name as grado, pe.name as ente_gestor, economic_complements.aps_total_fsa as fracion_saldo_acumulado, economic_complements.aps_total_cc as compensacion_cotizaciones, economic_complements.aps_total_fs as fracicon_solidaria_vejez, economic_complements.total_rent as total_renta_o_jubilacion, economic_complements.total_rent_calc as promedio, economic_complements.seniority as antiguedad, economic_complements.salary_reference as sueldo_activo, economic_complements.salary_quotable as salario_cotizable, economic_complements.difference as diferencia, economic_complements.difference*6 as total_semestre, economic_complements.complementary_factor as factor_complementario, economic_complements.total as total_complemento_economico, economic_complements.state as estado, ws.first_shortened as ubicacion, ecm.name as tipo_beneficiario, economic_complements.reception_type as tipo_recepcion, ecs.name as estado, ws.first_shortened as ubicacion, wo.name as flujo, afobs.observaciones'))
           ->get();
           $data = $economic_complements;
           Util::excel($file_name, 'hoja', $data);
@@ -1734,8 +1747,117 @@ class EconomicComplementReportController extends Controller
             Util::excel($file_name,'observados prestamos',$data);
 
           break;
-      default:
-        
+        case '12':
+          # code...
+            $columns = '';
+            $file_name = $name.' '.date("Y-m-d H:i:s");
+
+            $economic_complements=EconomicComplement::affiliateinfo()->applicantinfo()
+            ->select(DB::raw("DISTINCT ON (affiliates.identity_card) affiliates.identity_card as CI_CAUSAHABIENTE,".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_applicants().",economic_complements.affiliate_id"))
+            // ->take(10)
+            ->get();
+            foreach ($economic_complements as $eco) {
+              $eco->ciudad =Affiliate::find($eco->affiliate_id)->economic_complements()->orderBy('updated_at','desc')->first()->city->name;
+            }
+            $data = $economic_complements;
+            Util::excel($file_name,'Affiliados y Derechohabientes',$data);
+
+        break;
+        case '13':
+            $columns = '';
+            $file_name = $name.' '.date("Y-m-d H:i:s");
+            $affiliates = Affiliate::leftJoin('affiliate_states','affiliates.affiliate_state_id', '=', 'affiliate_states.id')
+                    ->leftJoin('affiliate_state_types', 'affiliate_states.affiliate_state_type_id', '=', 'affiliate_state_types.id')
+                    ->where('affiliate_state_types.id', '=', '2')
+                    ->get();
+            $data= [];
+            foreach ($affiliates as $key => $a) {
+                $applicant = null;
+                $af= Affiliate::where('identity_card', $a->identity_card)->first();
+                if (sizeof($af->economic_complements)) {
+                        $eco = $af->economic_complements()->leftJoin('eco_com_procedures', 'eco_com_procedures.id', '=', 'economic_complements.eco_com_procedure_id')
+                            ->orderBy('eco_com_procedures.sequence', 'desc')
+                            ->select('economic_complements.id')
+                            ->first();
+                        $eco = EconomicComplement::find($eco->id);
+                    $applicant = $eco->economic_complement_applicant;
+                }else{
+                    $ret_fun = DB::table('retirement_funds')->where('affiliate_id', $a->id)->first();
+                    if(sizeof($ret_fun)){
+                        $applicant = DB::table('ret_fun_beneficiaries')->where('retirement_fund_id', $ret_fun->id)->where('type', 'S')->first();
+                        Log::info("ret");
+                    }
+                }
+                
+                $data[] = array(
+                    'ci_causahabiente' => $a->identity_card,
+                    'primer_nombre_causahabiente' => $a->first_name,
+                    'segundo_nombre_causahabiente' => $a->second_name,
+                    'ap_paterno_causahabiente' => $a->last_name,
+                    'ap_materno_causahabiente' => $a->mothers_last_name,
+                    'ape_casada_causahabiente' => $a->surname_husband,
+                    'fecha_nacimiento_causahabiente' => $a->birth_date,
+                    'codigo_nua_cua_causahabiente' => $a->nua,
+                    'genero_causahabiente' => $a->gender,
+                    'estado'=> $a->affiliate_state->name,
+
+                    'ci_derechohabiente' => $applicant->identity_card ?? null,
+                    'primer_nombre_derechohabiente' => $applicant->first_name ?? null,
+                    'segundo_nombre_derechohabiente' => $applicant->second_name ?? null,
+                    'apellido_paterno_derechohabiente' => $applicant->last_name ?? null,
+                    'apellido_materno_derechohabiente' => $applicant->mothers_last_name ?? null,
+                    'apellido_de_casado_derechohabiente' => $applicant->surname_husband ?? null,
+                    'fecha_nac_derechohabiente' => $applicant->birth_date ?? null,
+                );
+            }
+            Util::excel($file_name,'afiliados pasivos',$data);
+        break;
+        case '14':
+            $columns = ',affiliate_states.name estado';
+            $file_name = $name.' '.date("Y-m-d H:i:s");
+            $query = collect(DB::table('affiliates')
+                    ->select(DB::RAW("affiliates.id, max(contributions.month_year)"))
+                    ->leftJoin( "contributions", "affiliates.id",  '=', "contributions.affiliate_id")
+                    ->leftJoin( "affiliate_states" ,"affiliates.affiliate_state_id",  '=', "affiliate_states.id")
+                    ->where("affiliate_states.id",  "=",  3)
+                    ->where("contributions.breakdown_id",  "=",1)
+                    ->groupBy( "affiliates.id")
+                    ->havingRaw("max(contributions.month_year) >= '2015-01-01' and min(contributions.month_year) <= '2017-12-01'")
+                    ->get())
+                    ->pluck('id');
+
+            $affiliates = Affiliate::select(DB::raw(
+                "row_number() OVER () AS NRO,".
+                Affiliate::basic_info_columns().$columns
+                ))
+                ->leftJoin('affiliate_states','affiliates.affiliate_state_id', '=', 'affiliate_states.id')
+                ->whereIn('affiliates.id', $query)
+                ->get();
+            $data = $affiliates;
+            Util::excel($file_name,'afiliados en disponibilidad',$data);
+        break;
+        case '15':
+            $columns = '';
+            $file_name = $name.' '.date("Y-m-d H:i:s");
+            $query = collect(DB::table('affiliates')
+                    ->select(DB::RAW("affiliates.id"))
+                    ->leftJoin("affiliate_observations", "affiliates.id",  '=',  "affiliate_observations.affiliate_id")
+                    ->leftJoin("observation_types", "affiliate_observations.observation_type_id",  "=",  "observation_types.id")
+                    ->where("observation_types.id",  '=', 16)
+                    ->get())
+                    ->pluck('id');
+
+            $affiliates = Affiliate::select(DB::raw(
+                "row_number() OVER () AS NRO,".
+                Affiliate::basic_info_columns()
+                ))
+                ->whereIn('affiliates.id', $query)
+                ->get();
+            $data = $affiliates;
+            Util::excel($file_name, 'afi obs por Documentos Prev',$data);
+        break;
+        default:
+
         break;
     }
     return "hola";

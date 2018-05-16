@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="{{ asset('css/wkhtml.css') }}">
 </head>
 <body>
-  
+    <div class="@yield('padding')">
     <table class="tableh">
       <tr>
         <th style="width: 25%;border: 0px;">
@@ -30,7 +30,7 @@
     <table >
       <tr>
         <td class="izq no-border size-10">
-          <strong>Fecha de Emisi&#243n: </strong> {!! $date !!} - {!! $hour !!}    
+         <strong>Fecha de Emisi&#243n: </strong>{!! $date !!} - {!! $hour !!}
         </td>
         <td class="der no-border size-10">
           @if(isset($user))
@@ -45,6 +45,7 @@
       @yield('title2')
     </h2>
     @endif
+    </div>
     @yield('content')
 
   {{-- <div class="qr-code"> --}}

@@ -54,10 +54,10 @@ class DashboardController extends Controller
 	public function showIndex()
 	{
 		//get last economonomic complement and last year
-		$current_eco_com_procedure=EconomicComplementProcedure::whereyear('year','=',Carbon::now()->year)->where('semester','like',Util::getOriginalSemester())->first();
+		$current_eco_com_procedure = EconomicComplementProcedure::get()->last();
 
-		$last_economic_complement=$current_eco_com_procedure->economic_complements->last();
-		$last_year=Carbon::parse($last_economic_complement->year)->year;
+		$last_economic_complement = $current_eco_com_procedure->economic_complements->last();
+		$last_year = Carbon::parse($last_economic_complement->year)->year;
 
 		/*	$AfiServ = DB::table('affiliates')
 										->select(DB::raw('count(*) as totalafis'))
@@ -82,7 +82,6 @@ class DashboardController extends Controller
 			$affiliateState = AffiliateState::all();
 			$affiliateType = AffiliateStateType::all();//revisar
 			$district = DB::table('units')->select(DB::raw('DISTINCT (units.district) as district'))->get();
-			$year = Carbon::now()->year;
 			$Total_AffiliatebyState=[];
 			foreach ($affiliateState as $item) {
 				$TotalAffiliates = Affiliate::afibyState($item->id,$year)->first();
@@ -136,7 +135,7 @@ class DashboardController extends Controller
 
 			}
 			*/
-			$current_year=Carbon::now()->year;
+			$current_year = Util::getCurrentYear();
 
 			//voluntary contribution by current year
 		/*	$monthVoluntaryContribution = DB::table('contributions')

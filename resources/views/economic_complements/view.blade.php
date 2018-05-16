@@ -87,25 +87,7 @@
 
             @if($buttons_enabled)
                     
-                @if($has_cancel)    
-                    @if($wf_state_before)
-                  
-                    <span data-toggle="tooltip" data-placement="top" data-original-title="Devolución de Tramite" style="margin:0px;">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-raised btn-warning dropdown-toggle enabled" ><i class="fa fa-arrow-left" ></i> 
-                      <button type="button" class="btn btn-sm btn-raised btn-warning dropdown-toggle dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                      </button>
-                     
-                      <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuencias">
-                        <li ><a href="#" data-target="#back-modal"  data-toggle="modal"   data-bind="text: nombre, click: secuenciaSeleccionada"></a></li>
-                      </ul>
-                    </div>
-                    </span>
-
-                    @endif
-                @endif    
+                
             <!-- <div class="btn-group">
                 <span data-toggle="tooltip" data-placement="top" data-original-title="ver" style="margin:0px;">
                     <a href="" data-target="#myModal-review-user" class="btn btn-sm btn-raised btn-{{ $economic_complement->stateOf() ? 'info' : 'warning'}} dropdown-toggle enabled" data-toggle="modal"> <strong>{{ $economic_complement->stateOf() ? "Revisado":"No revisado"}}</strong></a>
@@ -902,11 +884,11 @@
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa fa-pencil"></i></a>
                             </span>
                         @endcan
-                        @can("treasury")
+                        @if($has_edit_state)
                             <span data-toggle="modal" data-target="#change-state-modal">
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="glyphicon glyphicon-lg glyphicon glyphicon-transfer"></i></a>
                             </span>
-                        @endcan
+                        @endif
                         @can("accounting")
                             <span data-toggle="modal" data-target="#addMoreInfo">
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Adicionar Información"><i class="fa fa-lg fa fa-plus"></i></a>
@@ -1189,37 +1171,39 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
-                            @if($economic_complement->affiliate->pension_entity->type == 'APS')
-                                <table class="table table-bordered table-responsive table-hover table-striped">
-                                    <thead>
+                            @if($economic_complement->affiliate->pension_entity)
+                                @if($economic_complement->affiliate->pension_entity->type == 'APS')
+                                    <table class="table table-bordered table-responsive table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Detalle de la Fracción</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                    <tbody>
                                         <tr>
-                                            <th>Detalle de la Fracción</th>
-                                            <th>Total</th>
+                                            <td style="width: 70%">Fracción de Saldo Acumulada</td>
+                                            <td style="text-align: right">{{ Util::formatMoney($economic_complement->aps_total_fsa)}} </td>
                                         </tr>
-                                    </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 70%">Fracción de Saldo Acumulada</td>
-                                        <td style="text-align: right">{{ Util::formatMoney($economic_complement->aps_total_fsa)}} </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 70%">Fracción de Pensión CCM o Pago de CCM</td>
-                                        <td style="text-align: right">{{ Util::formatMoney($economic_complement->aps_total_cc)}} </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 70%">Fracion Solidaria de Vejéz</td>
-                                        <td style="text-align: right">{{ Util::formatMoney($economic_complement->aps_total_fs)}} </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 70%">Total</td>
-                                        <td  style="text-align: right" > {{ Util::formatMoney($economic_complement->getTotalFractions()) }} </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        <tr>
+                                            <td style="width: 70%">Fracción de Pensión CCM o Pago de CCM</td>
+                                            <td style="text-align: right">{{ Util::formatMoney($economic_complement->aps_total_cc)}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 70%">Fracion Solidaria de Vejéz</td>
+                                            <td style="text-align: right">{{ Util::formatMoney($economic_complement->aps_total_fs)}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 70%">Total</td>
+                                            <td  style="text-align: right" > {{ Util::formatMoney($economic_complement->getTotalFractions()) }} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                @endif
                             @endif
                             @if($economic_complement->aps_disability > 0)
                             <hr>
@@ -2118,38 +2102,40 @@
                         {!! Form::model($economic_complement, ['method' => 'PATCH', 'route' => ['economic_complement.update', $economic_complement], 'class' => 'form-horizontal']) !!}
                             <input type="hidden" name="step" value="rent"/>
                             <div class="row">
-                                <h4 style="text-align: center">{!!$economic_complement->affiliate->pension_entity->name!!}</h4>
+                                <h4 style="text-align: center">{!!$economic_complement->affiliate->pension_entity->name ?? null !!}</h4>
                                 <div class="col-md-12">
-                                    @if($economic_complement->affiliate->pension_entity->name != 'SENASIR')
-                                    <div class="col-md-6">     
-                                        <div class="form-group">
-                                            {!! Form::label('aps_total_fsa', 'Fraccion de Saldo Acumulado', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-6">
-                                            {!! Form::text('aps_total_fsa', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
-                                                <span class="help-block">Escriba la Fraccion de Saldo Acumulado</span>
+                                    @if($economic_complement->affiliate->pension_entity)
+                                        @if($economic_complement->affiliate->pension_entity->name != 'SENASIR')
+                                        <div class="col-md-6">     
+                                            <div class="form-group">
+                                                {!! Form::label('aps_total_fsa', 'Fraccion de Saldo Acumulado', ['class' => 'col-md-5 control-label']) !!}
+                                                <div class="col-md-6">
+                                                {!! Form::text('aps_total_fsa', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                                    <span class="help-block">Escriba la Fraccion de Saldo Acumulado</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                {!! Form::label('aps_total_cc', 'Fraccion de Cotizaciones', ['class' => 'col-md-5 control-label']) !!}
+                                                <div class="col-md-6">
+                                                {!! Form::text('aps_total_cc', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                                    <span class="help-block">Escriba la Fraccion de Cotizaciones</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                {!! Form::label('aps_total_fs', 'Fraccion Solidaria', ['class' => 'col-md-5 control-label']) !!}
+                                                <div class="col-md-6">
+                                                {!! Form::text('aps_total_fs', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                                    <span class="help-block">Escriba la Fraccion solidaria</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                {!! Form::label('total_frac', 'Total Fracciones', ['class' => 'col-md-5 control-label']) !!}
+                                                <div class="col-md-6">
+                                                {!! Form::text('total_frac', null, ['class' => 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'", 'readonly']) !!}
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            {!! Form::label('aps_total_cc', 'Fraccion de Cotizaciones', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-6">
-                                            {!! Form::text('aps_total_cc', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
-                                                <span class="help-block">Escriba la Fraccion de Cotizaciones</span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            {!! Form::label('aps_total_fs', 'Fraccion Solidaria', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-6">
-                                            {!! Form::text('aps_total_fs', null, ['class' => 'form-control aps', "data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
-                                                <span class="help-block">Escriba la Fraccion solidaria</span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            {!! Form::label('total_frac', 'Total Fracciones', ['class' => 'col-md-5 control-label']) !!}
-                                            <div class="col-md-6">
-                                            {!! Form::text('total_frac', null, ['class' => 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'", 'readonly']) !!}
-                                            </div>
-                                        </div>
-                                    </div>
+                                        @endif
                                     @endif
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -2569,7 +2555,7 @@
                                         <div class="form-group">
                                                 {!! Form::label('category', 'Categoria', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
-                                                {!! Form::select('category',$categories, $economic_complement->category_id , ['class'=> 'form-control', 'required','id'=>'category']) !!}
+                                                {!! Form::select('category',$categories, $economic_complement->category_id , ['class'=> 'form-control', 'required','id'=>'category', 'disabled']) !!}
                                                 <span class="help-block">Seleccione una Categoria para el policía</span>
                                             </div>
                                         </div>
@@ -2609,7 +2595,7 @@
                                          <div class="form-group">
                                                 {!! Form::label('affiliate_entity_pension', 'Ente Gestor', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
-                                                {!! Form::select('affiliate_entity_pension',$entity_pensions, $affiliate->pension_entity->id , ['class'=> 'combobox form-control', 'required']) !!}
+                                                {!! Form::select('affiliate_entity_pension',$entity_pensions, $affiliate->pension_entity->id ?? null, ['class'=> 'combobox form-control', 'required']) !!}
                                                 <span class="help-block">Seleccione un ente gestor</span>
                                             </div>
                                         </div>
@@ -2973,41 +2959,7 @@
         </div>
     </div>
 
-
-
-
-    @if($wf_state_before && $has_cancel)
-
-    <form  action="{{url('retroceso_de_tramite')}}" method="POST">
-            
-        
-        <div id="back-modal" class="modal fade modal-default" tabindex="-1" role="dialog">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                 <input type="hidden" name="_token" value="{{ csrf_token() }}">  
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><strong class=""> Retroceso de Tramite</strong></h4>
-              </div>
-              <div class="modal-body">
-              
-                    Esta seguro de enviar el tramite de <strong> {{$economic_complement->wf_state->name }}</strong>  a  <strong data-bind="text: secuenciaActual.nombre"></strong>
-                    <textarea class="form-control" name="nota" placeholder=" Nota"></textarea>
-                    <input type="hidden" name="wf_state_id" data-bind="value: secuenciaActual.id">
-                <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">    
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">No</button>
-                <button type="submit" class="btn btn-raised btn-danger">Si </button>
-              </div>
-            </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-
-    </form>
-    @endif
-
-    @can("treasury")
+    @if($has_edit_state)
 
     <form  action="{{url('change_state')}}" method="POST">
             
@@ -3022,14 +2974,12 @@
               </div>
               <div class="modal-body">
                 <label> Tipo de Pago</label><br>
-                <select class="form-control" name ="state_id" data-bind="options: lista" >
-                    @foreach($states as $st)
-                    <option value={{$st->id}}>{{$st->name}}</option>
-                    @endforeach
+            
+                <select class="form-control" name ="state_id" data-bind="options: lista, optionsText: 'name', optionsValue: 'id' ,value: state_id" >
                 </select>
-                <label data-bind="value: listaEstados">  aa</label>
+                {{-- <label data-bind="value: listaEstados">  aa</label> --}}
                 <!-- <label data-bind="value: sw_tesoreria"> aa</label> -->
-                <div data-bind="visible: sw_tesoreria ">
+                <div data-bind="visible: isCheck ">
                     <label> Numero de Cheque</label><br>
                     <input type="number" name="numero_cheque" class="form-control" >
                     <input type="hidden" name="id_complemento" value="{{$economic_complement->id}}">    
@@ -3047,7 +2997,7 @@
 
     </form>
 
-    @endcan
+    @endif
 
 @include('observations.create')
 
@@ -3236,54 +3186,38 @@ $(document).ready(function() {
         console.log(self.is_paid_spouse());
     };
 
-    @if(isset($wf_state_before) && $has_cancel==true && sizeof($wf_state_before) > 0)
-    console.log("existe la variable");
-    function Secuencia(id,nombre)
-    {
-       var self = this;
-       self.id = ko.observable(id);
-       self.nombre = ko.observable(nombre);
-    }
-   
-    var SecuenciaViewModel = function ()
-    {
+    // for Edit state
+    @if($has_edit_state)
+    var StateModel = function(){
         var self = this;
+        // console.log({!!  $states !!});
+        self.lista = ko.observableArray({!! $states !!});
+        console.log(self.lista);
+        self.state_id = ko.observable({{ $economic_complement->eco_com_state_id}});
+        self.isCheck = ko.observable(false);
+        self.state_id.subscribe(function(id){
+            // console.log(id);
+            if(id==2 || id ==3 )
+            {
+                self.isCheck(true);
+            }
+            else
+            {
+                self.isCheck(false);
+            }
+            // console.log(self.isCheck());
+        });
 
-        var secuencias = {!! json_encode($wf_state_before) !!};
-        console.log(secuencias);
 
-        self.listaSecuencias = ko.observableArray();
+    };
+    @endif
 
-        for(var i in secuencias)
-        {
-          console.log(secuencias[i]);
-          self.listaSecuencias.push(new Secuencia(secuencias[i].id,secuencias[i].name));
-        }
-
-        self.secuenciaActual = new Secuencia(secuencias[0].id,secuencias[0].name);
-
-        console.log(self.secuenciaActual);
-        self.secuenciaSeleccionada = function(secuencia)
-        {
-            console.log(secuencia);
-          self.secuenciaActual.nombre(secuencia.nombre());
-          self.secuenciaActual.id(secuencia.id());
-        
-          
-          console.log(secuencia.nombre()+" id "+secuencia.id());
-         
-        }
-        
-
-    }
-
-    // ko.applyBindings();
-    ko.applyBindings(model,selectedlModel(),SecuenciaViewModel());
    
-    @else
     console.log("no existe");
-     ko.applyBindings(model,selectedlModel());
-
+    @if($has_edit_state)
+    ko.applyBindings(model,selectedlModel(),StateModel());
+    @else
+    ko.applyBindings(model,selectedlModel());
     @endif
 
 
@@ -3507,6 +3441,8 @@ $(document).ready(function() {
             .done(function(data) {
                 if(data!= "error"){
                     $('#category').val(data.id);
+                }else{
+                    $('#category').val(null);
                 }
             });
         });
@@ -3524,6 +3460,8 @@ $(document).ready(function() {
             .done(function(data) {
                 if(data!= "error"){
                     $('#category').val(data.id);
+                }else{
+                    $('#category').val(null);
                 }
             });
         });

@@ -27,8 +27,8 @@ class ComplementaryFactorController extends Controller
 
     public function index()
     {
-        $year = Util::getYear(new Carbon());
-        $semester = Util::getSemester(new Carbon());
+        $year = Util::getCurrentYear();
+        $semester = Util::getCurrentSemester();
 
         if (ComplementaryFactor::whereYear('year', '=', $year)->where('semester', '=', $semester)->where('hierarchy_id', '=', 1)->first()) {
             $complementary_factor = ComplementaryFactor::whereYear('year', '=', $year)->where('semester', '=', $semester)->where('hierarchy_id', '=', 1)->first();

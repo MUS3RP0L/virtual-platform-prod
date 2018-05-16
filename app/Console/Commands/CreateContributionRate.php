@@ -42,9 +42,11 @@ class CreateContributionRate extends Command
             $new_contributionrate->user_id = 1;
             $new_contributionrate->retirement_fund = $last_contributionrate->retirement_fund;
             $new_contributionrate->mortuary_quota = $last_contributionrate->mortuary_quota;
-            $new_contributionrate->rate_active = $new_contributionrate->rate_active;
+            // $new_contributionrate->rate_active = $new_contributionrate->rate_active;
             $new_contributionrate->mortuary_aid = $last_contributionrate->mortuary_aid;
-            
+            $new_contributionrate->retirement_fund_commission = $last_contributionrate->retirement_fund_commission;
+            $new_contributionrate->mortuary_quota_commission = $last_contributionrate->mortuary_quota_commission;
+
             $fecha = Carbon::parse($last_contributionrate->month_year);
             $new_contributionrate->month_year = Carbon::parse($last_contributionrate->month_year)->addMonth();
             $new_contributionrate->save();

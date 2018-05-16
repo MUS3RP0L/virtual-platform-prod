@@ -52,8 +52,8 @@ class FusionOnlyAffiliate extends Command
         // foreach ($affiliates_all as $old_affiliate) {
         //     foreach ($new_affi_with_ext as $new_affiliate) {
                 // if ($old_affiliate->identity_card == explode('-', $new_affiliate->identity_card)[0]) {
-                $old_affiliate=Affiliate::find(15582);
-                $new_affiliate=Affiliate::find(54000);
+                $old_affiliate=Affiliate::find(6229);
+                $new_affiliate=Affiliate::find(54076);
                     $affi_count++;
                     $activities = \Muserpol\Activity::where('affiliate_id','=',$old_affiliate->id)->get();
                     if ($activities->count()) {
@@ -108,10 +108,15 @@ class FusionOnlyAffiliate extends Command
                     }
 
                     //no hay registros en reimbursemenets
-                    // $reimbursements = \Muserpol\Reimbursement::where('affiliate_id','=',$affiliate->id)->get();
-                    // if ($reimbursements->count()) {
-                    //     Log::info("reimbursmene");
-                    // }
+                    $reimbursements = \Muserpol\Reimbursement::where('affiliate_id','=',$old_affiliate->id)->get();
+                    if ($reimbursements->count()) {
+                        foreach ($reimbursements as $reimbursement) {
+                            $reimbursement->affiliate_id = $new_affiliate->id;
+                            $reimbursement->save();
+                            $count++;
+                        }
+                        Log::info("reimbursmene");
+                    }
 
                      $spouses = \Muserpol\Spouse::where('affiliate_id','=',$old_affiliate->id)->get();
                      if ($spouses->count()) {
@@ -129,15 +134,15 @@ class FusionOnlyAffiliate extends Command
                     // }
 
                      //no hay registros en affiliate address
-                    // $affiliate_address = \Muserpol\AffiliateAddress::where('affiliate_id','=',$old_affiliate->id)->get();
-                    // if ($affiliate_address->count()) {
-                    //     foreach ($affiliate_address as $address) {
-                    //         $address->affiliate_id =  $new_affiliate->id;
-                    //         $address->save();
-                    //         $count++;
-                    //     }
-                    //     Log::info("affilate address");
-                    // }
+                    $affiliate_address = \Muserpol\AffiliateAddress::where('affiliate_id','=',$old_affiliate->id)->get();
+                    if ($affiliate_address->count()) {
+                        foreach ($affiliate_address as $address) {
+                            $address->affiliate_id =  $new_affiliate->id;
+                            $address->save();
+                            $count++;
+                        }
+                        Log::info("affilate address");
+                    }
 
                      //no hay registros en vouchers
                     // $vouchers = \Muserpol\Voucher::where('affiliate_id','=',$affiliate->id)->get();

@@ -271,15 +271,15 @@ hr.cut-line {
 }
 .main-left{
   height: 253px;
-  width: 243px;
+  width: 257px;
   // background:red;
   display: inline-block;
-  margin-right: 5px;
+  margin-right: 30px;
 }
 .main-right{
   height: 253px;
   margin:0; 
-  width: 453px;
+  width: 450px;
   display: inline-block;
   // background:green;
 }

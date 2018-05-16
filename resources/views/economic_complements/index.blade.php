@@ -14,6 +14,9 @@
                 <a href="" class="btn btn-info btn-raised" data-target="#myModal-Automatic_Validation" data-toggle="modal"><i class="fa fa-file"></i></a>
             </div>
             @endcan
+            <div class="btn-group" style="margin:-3px 0;" data-toggle="tooltip" data-placement="top" data-original-title="Reporte de Devoluciones">                
+                <a href="{{URL('export_amortizados_reposicion')}}" class="btn btn-info btn-raised"><i class="fa  fa-file-excel-o"></i></a>
+            </div>
             <div class="btn-group" style="margin:-3px 0;" data-toggle="tooltip" data-placement="top" data-original-title="Planilla General">                
                 <a href="" class="btn btn-primary btn-raised" data-toggle="dropdown"><i class="fa fa-money"></i></a>
                 <a href="" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>

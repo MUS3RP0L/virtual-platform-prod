@@ -15,7 +15,7 @@ use Muserpol\AffiliateRecord;
 
 use Carbon\Carbon;
 use Util;
-
+use Log;
 use Auth;
 use Datatables;
 use Session;
@@ -46,7 +46,6 @@ class AffiliateObservationController extends Controller
       $rules = [
       'affiliate_id' => 'required',
       'observation_type_id' => 'required',
-      'message' => 'required|min:5',
       ];
       $messages = [
       'observation_type_id.required' => 'El campo tipo de observacion es requerido',
@@ -113,13 +112,15 @@ class AffiliateObservationController extends Controller
         $observations=AffiliateObservation::where('affiliate_id',$request->affiliate_id)->select(['id','affiliate_id','date','message','is_enabled','observation_type_id'])->get();
         $observations_list = collect(new AffiliateObservation);
         foreach ($observations as $obs) {
-          if(Util::getYear($economic_complement->year)==Util::getYear($obs->date) && Util::getSemester($economic_complement->year) == Util::getSemester($obs->date)){
+          // if(Util::getYear($economic_complement->year)==Util::getYear($obs->date)){
             $observations_list->push($obs);
-          }
+          // }
         }
       } else {
         $observations_list=AffiliateObservation::where('affiliate_id',$request->affiliate_id)->select(['id','affiliate_id','date','message','is_enabled','observation_type_id'])->get();
       }
+
+      Log::info(sizeof($observations_list));
 
       return Datatables::of($observations_list)
         ->editColumn('date',function ($observation)

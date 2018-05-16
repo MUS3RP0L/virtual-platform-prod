@@ -197,21 +197,44 @@
     
     <div data-bind="visible: secuenciaIsVisible, if: secuenciaIsVisible ">
       
-      <div data-bind="visible: once">
-        <div class="btn-group">
-          <button type="button" class="btn btn-raised btn-success"  data-target="#modal-confirm"  data-toggle="modal" ><i class="fa fa-send" ></i> <strong data-bind="text: secuenciaActual.nombre"></strong></button>
-          <button type="button" class="btn btn-raised btn-success dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-          </button>
-         
-          <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuencias">
-            <li ><a href="#" data-bind="text: nombre, click: $root.secuenciaSeleccionada"></a></li>
-          </ul>
+      {{-- boton de retroceso --}}
+      <div class="row">
+
+        <div class="col-md-6" data-bind="visible: once">
+          <div class="btn-group">
+            <button type="button" class="btn btn-raised btn-warning" data-bind="click: setBack()"  data-target="#back-modal"  data-toggle="modal" ><i class="fa fa-arrow-left" ></i> <strong data-bind="text: secuenciaActualAtras().name"></strong></button>
+            <button type="button" class="btn btn-raised btn-warning dropdown-toggle" data-toggle="dropdown">
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+           
+            <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuenciasAtras">
+              <li ><a href="#" data-bind="text: name,click: $root.seleccionaSecuenciaAtras"></a></li>
+            </ul>
+          </div>
         </div>
+
+        {{-- boton de envio --}}
+        <div class="cod-md-6" data-bind="visible: once">
+          <div class="btn-group">
+            <button type="button" class="btn btn-raised btn-success" data-bind="click: setNext()" data-target="#modal-confirm"  data-toggle="modal" > <strong data-bind="text: secuenciaActual.nombre"></strong>  <i class="fa fa-arrow-right" ></i></button>
+            <button type="button" class="btn btn-raised btn-success dropdown-toggle" data-toggle="dropdown">
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+           
+            <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuencias">
+              <li ><a href="#" data-bind="text: nombre, click: $root.secuenciaSeleccionada"></a></li>
+            </ul>
+          </div>
+        </div>
+
       </div>
+
+
       <input type="hidden" name="wf_state_next_id" data-bind="value: secuenciaActual.id">
       <input type="hidden" id="ids" name="ids">
+      <input type="hidden" name="type" data-bind="value: type()">
 
           <div id="modal-confirm" class="modal fade modal-info" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -233,6 +256,28 @@
               </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
           </div><!-- /.modal -->
+
+          <div id="back-modal" class="modal fade modal-default" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title"><strong class=""> Retroceso de Tramite</strong></h4>
+                </div>
+                <div class="modal-body">
+                
+                      Esta seguro de enviar el o los tramites a  <strong data-bind="text: secuenciaActualAtras().name"></strong>
+                      <textarea class="form-control" name="nota" placeholder=" Nota"></textarea>
+                      <input type="hidden" name="wf_state_id" data-bind="value: secuenciaActualAtras().id">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">No</button>
+                  <button type="submit" class="btn btn-raised btn-danger">Si </button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
+
     </div>
 
     <div data-bind="visible: messageVisible">
@@ -251,7 +296,6 @@
     </div>  
     @endif
     {!! Form::close() !!}
-    
 		</div>
 	</div>
 </div>
@@ -507,7 +551,25 @@ $(document).ready(function (){
         var workflowsList = {!! json_encode($wfs); !!};
         var workflowsListReceived = {!! json_encode($wf_received); !!};
         var secuencias = {!! json_encode($secuencias); !!} ;
-     
+
+        self.type = ko.observable(1);
+        
+        self.listaSecuenciasAtras = ko.observableArray({!! json_encode($secuencias_atras); !!});
+        // console.log(self.listaSecuenciasAtras());
+        self.secuenciaActualAtras = ko.observable(self.listaSecuenciasAtras()[0]);
+        self.seleccionaSecuenciaAtras = function(secuencia){
+          // console.log(self.secuenciaActualAtras());
+            self.secuenciaActualAtras(secuencia);
+        };
+
+        self.setBack= function(){
+          self.type(1);
+        };       
+        
+        self.setNext= function(){
+          self.type(2);
+        };       
+        
         self.once = ko.observable(false);
        
         self.listaWorkflows = ko.observableArray();
@@ -561,6 +623,9 @@ $(document).ready(function (){
         // self.wf_click = ko.observable();  
 
         self.wf_click = function(data, event){
+          var rows = table.rows({ 'search': 'applied' }).nodes();
+          $('input[type="checkbox"]', rows).prop('checked', false);
+          $('#editedCheckboxAll').prop('checked', false);
 
           workflow_id=data.id();
         
@@ -678,7 +743,7 @@ $(document).ready(function (){
           self.secuenciaActual.workflow_id(secuencia.workflow_id());
           
           console.log(secuencia.nombre()+" workflow_id "+secuencia.workflow_id());
-         
+
         }
 
        

@@ -251,7 +251,7 @@ class AutomaticCalculation extends Command implements SelfHandling
 							    	}
 							    	if($economic_complement->amount_accounting > 0)
 							    	{
-							    		$total  = $total - $economic_complement->accounting;
+							    		$total  = $total - $economic_complement->amount_accounting;
 							    	}
 							    	if($economic_complement->amount_replacement > 0)
 							    	{

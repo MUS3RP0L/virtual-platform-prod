@@ -18,8 +18,10 @@ use Auth;
 use Validator;
 use Session;
 use stdClass;
+use Carbon\Carbon;
 use Log;
 use DB;
+use Muserpol\WorkflowRecord;
 class InboxController extends Controller
 {
     /**
@@ -35,7 +37,9 @@ class InboxController extends Controller
         {
             
             $sw_actual = WorkflowState::where('role_id',Util::getRol()->id)->first();
-            // dd($sw_actual);
+            
+            $secuencias_atras = WorkflowState::where('sequence_number','<',$sw_actual->sequence_number )->select('id','name')->orderBy('sequence_number','DESC')->get();
+
             $secuencias = array();
             if($sw_actual)
             {
@@ -130,9 +134,14 @@ class InboxController extends Controller
                    }
                    $wf_received[]=$data;
             }
-            $data = array('sw_actual' => $sw_actual, 'secuencias' => $secuencias, 'workflow_ids'=> $workflow_ids ,'wfs'=>$wfss, 'wf_received'=>$wf_received );
+            $data = array('sw_actual' => $sw_actual,
+                            'secuencias' => $secuencias,
+                            'workflow_ids'=> $workflow_ids ,
+                            'wfs'=>$wfss,
+                            'secuencias_atras' => $secuencias_atras,
+                            'wf_received'=>$wf_received );
 
-           // return $data;
+        //    return $data;
 
             return view('inbox.view',$data);
         }
@@ -305,13 +314,38 @@ class InboxController extends Controller
             //     $e->state='Received';
             //     // $e->save();
             // }
-            foreach (explode(',',$request->ids) as $key) {
-                $e=EconomicComplement::find($key);
-                // $wfsq=WorkflowSequence::where('wf_state_current_id',$e->wf_current_state_id)->where('action','Aprobar')->first();
-                $e->wf_current_state_id=$request->wf_state_next_id;
-                $e->state='Received';
-                $e->save();
+            if($request->type==2)
+            {
+                foreach (explode(',',$request->ids) as $key) {
+                    $e=EconomicComplement::find($key);
+                    // $wfsq=WorkflowSequence::where('wf_state_current_id',$e->wf_current_state_id)->where('action','Aprobar')->first();
+                    $e->wf_current_state_id=$request->wf_state_next_id;
+                    $e->state='Received';
+                    $e->save();
+                }
             }
+            if($request->type==1)
+            {
+                foreach (explode(',',$request->ids) as $key) {
+                    $e=EconomicComplement::find($key);
+                    // $wfsq=WorkflowSequence::where('wf_state_current_id',$e->wf_current_state_id)->where('action','Aprobar')->first();
+                    $e->wf_current_state_id=$request->wf_state_id;
+                    $e->state='Received';
+                    $e->save();
+                    $new = DB::table('wf_states')->where('id',$e->wf_current_state_id)->first();
+                    $old_wf = DB::table('wf_states')->where('id',$e->wf_current_state_id)->first();
+                    $wf_record=new WorkflowRecord;
+                    $wf_record->user_id=Auth::user()->id;
+                    $wf_record->date=Carbon::now();
+                    $wf_record->eco_com_id=$e->id;
+                    $wf_record->wf_state_id=$e->wf_current_state_id;
+                    $wf_record->record_type_id=1;
+                    $wf_record->message="El usuario ".Util::getFullNameuser()." devolvio el tramite de ".$old_wf->name." a ".$new->name ."  fecha ".Carbon::now()."
+                    \n Motivo: ".$request->nota.".";
+                    $wf_record->save();
+                }
+            }
+            
             return redirect('inbox'); 
         }
     }

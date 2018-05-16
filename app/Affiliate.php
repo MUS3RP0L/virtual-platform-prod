@@ -442,12 +442,12 @@ class Affiliate extends Model
         if (Util::getCurrentSemester() == 'Primer') {
             $last_semester_first = 'Segundo';
             $last_semester_second = 'Primer';
-            $last_year_first = Carbon::now()->year - 1;
+            $last_year_first = Util::getCurrentYear() - 1;
             $last_year_second = $last_year_first;
         }else{
             $last_semester_first = 'Primer';
             $last_semester_second = 'Segundo';
-            $last_year_first = Carbon::now()->year ;
+            $last_year_first = Util::getCurrentYear() ;
             $last_year_second = $last_year_first -1;
         }
         $eco_com_reception_type = 'Inclusion';
@@ -464,6 +464,20 @@ class Affiliate extends Model
             }
         }
         return $eco_com_reception_type;
+    }
+    public static function basic_info_columns()
+    {
+        return "
+            affiliates.identity_card as ci,
+            affiliates.first_name as primer_nombre,
+            affiliates.second_name as segundo_nombre,
+            affiliates.last_name as ap_paterno,
+            affiliates.mothers_last_name as ap_materno,
+            affiliates.surname_husband as ape_casada,
+            affiliates.gender as genero,
+            affiliates.birth_date as fecha_nacimiento,
+            affiliates.nua as nua_cua
+        ";
     }
 
 }

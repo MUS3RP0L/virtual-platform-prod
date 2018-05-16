@@ -28,7 +28,8 @@
             {!! Breadcrumbs::render('show_affiliate', $affiliate) !!}
         </div>
         <div class="col-md-6">
-       @can('retirement_fund')
+        {{ Auth::user()->get}}
+        @can('retirement_fund')
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Aportes" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
                 <ul class="dropdown-menu">
@@ -54,7 +55,7 @@
                 </ul>
             </div>
         @endcan
-        @can('retirement_fund')
+        {{-- @can('retirement_fund')
             @foreach($paid_states as $paid_state)
                 <span class="my-alert my-alert-info">
                     El afiliado ya fue pagado por <strong> 
@@ -68,15 +69,16 @@
                     </strong>
                 </span>&nbsp;
             @endforeach
-        @endcan
+        @endcan --}}
         @can('eco_com_reception')
+            @if ($available_create_eco_com)
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento  Económico" style="margin: 0;">
                 <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
                 <ul class="dropdown-menu">
                     @if($has_first_eco_com == 'edit')
                     <li  data-toggle="tooltip" data-placement="left" title="1er Semestre"><a href="{!! url('economic_complement/'.$first_economic_complement->id) !!}" class="text-center">&nbsp;&nbsp;<i class="fa fa-eye"></i>Ver 1er Semestre&nbsp;&nbsp;</a></li>
                     @else
-                        <li><a href="{!! url('economic_complement_reception_first_step/' . $affiliate->id) !!}"  class="text-center">&nbsp;&nbsp;<i class="glyphicon glyphicon-plus"></i>Crear 1er Semestre&nbsp;&nbsp;</a></li>
+                       <!-- <li><a href="{!! url('economic_complement_reception_first_step/' . $affiliate->id) !!}"  class="text-center">&nbsp;&nbsp;<i class="glyphicon glyphicon-plus"></i>Crear 1er Semestre&nbsp;&nbsp;</a></li> -->
                     @endif
                     <li role="separator" class="divider"></li>
                     @if($has_second_eco_com == 'edit')
@@ -86,6 +88,7 @@
                     @endif
                 </ul>
             </div>
+            @endif
             {{-- @if($has_first_eco_com=="edit")
                 <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Complemento  Económico" style="margin: 0;">
                     <a href="" class="btn btn-success btn-raised bg-orange" data-toggle="dropdown"><i class="fa fa-puzzle-piece fa-lg"></i></a>
@@ -141,13 +144,13 @@
                         <div class="col-md-10">
                             <h3 class="box-title"><i class="fa fa-{{$affiliate->gender=='M'?'male':'female'  }}"></i> Información Personal</h3>
                         </div>
-                        {{-- <div class="col-md-2 text-right">
+                        <div class="col-md-2 text-right">
                             <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                 <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-personal">
                                     <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
                                 </a>
                             </div>
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
                 <div class="box-body">
@@ -496,7 +499,7 @@
                             <h3 class="box-title">
                                 <i class="fa fa-{{$affiliate->gender=='M'?'female':'male'  }}"></i> Información de Conyuge</h3>
                         </div>
-                       {{--  @if($info_spouse)
+                        @if($info_spouse)
                             @can("eco_com_review_and_reception")
                             <div class="col-md-2 text-right">
                                 <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
@@ -506,7 +509,7 @@
                                 </div>
                             </div>
                             @endcan
-                        @endif --}}
+                        @endif
                     </div>
                 </div>
                 <div class="box-body">
@@ -770,9 +773,9 @@
                             <h3 class="box-title"><span class="glyphicon glyphicon-briefcase"></span> Información Policial Actual</h3>
                         </div>
                         <div class="col-md-4 text-right">
-                            {{-- <span data-toggle="modal" data-target="#policeModal">
+                            <span data-toggle="modal" data-target="#policeModal">
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa-pencil"></i></a>
-                            </span> --}}
+                            </span>
                             
                             <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Imprimir Historial" onclick="printJS({printable:'{!! url("history_print/" . $affiliate->id ) !!}', type:'pdf', showModal:true})"><i aria-hidden="true" class="fa fa-lg fa-print"></i></a>
                             <span data-toggle="modal" data-target="#myModal-record">
@@ -919,6 +922,18 @@
                                     </td>
                                 </tr>
                                 @endif
+                                <tr class="success">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Código de Afiliado:</strong>
+                                            </div>
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->id !!}">
+                                                {!! $affiliate->id !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                                 @if($affiliate->reason_decommissioned)
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">>

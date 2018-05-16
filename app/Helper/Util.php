@@ -8,7 +8,7 @@ use Auth;
 use DB;
 use Session;
 use Maatwebsite\Excel\Facades\Excel;
-
+use Log;
 
 class Util
 {
@@ -347,20 +347,7 @@ class Util
 			return date("d", strtotime($date))." ".$meses[date("n", strtotime($date))-1]. " ".date("Y", strtotime($date));
         }
 	}
-	public static function getSemester($date)
-	{
-		if ($date) {
-			if (date("n", strtotime($date))-1 < 12) {
-				return "Primer";
-			}else{
-				return "Segundo";
-			}
-        }
-	}
-	public static function getOriginalSemester()
-	{
-		return (Carbon::now()->month <= 6) ? 'Primer' : 'Segundo';
-	}
+	
 
 	public static function getfullmonthYear($date)
 	{
@@ -570,13 +557,6 @@ class Util
     	return $gender=='M'?'F':'M';
     }
 
-    public static function getCurrentSemester()
-    {
-    	$current_date = Carbon::now();
-    	$current_month = $current_date->format('m');
-    	return $current_month<=12 ? "Primer" : "Segundo";
-
-    }
     public static function getFullNameUser()
     {
     	return Auth::user()->first_name." ".Auth::user()->last_name; 
@@ -690,8 +670,22 @@ class Util
     }
     public static function totalSumEcoCom($ids_eco_com)
     {
-    	$total=EconomicComplement::whereIn('id',$ids_eco_com)->select(DB::raw("sum(total + coalesce(economic_complements.amount_replacement, 0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_loan, 0))"))->get()->first();
-    	return $total;
+		$total = 0;
+		foreach ($ids_eco_com as $key => $value) {
+			$eco = EconomicComplement::find($value);
+			if ($eco->old_eco_com) {
+				if ($eco->eco_com_state_id == 15){
+					$total = $total + ($eco->total + ($eco->amount_loan ?? 0) + ($eco->amount_accounting ?? 0) + ($eco->amount_replacement ?? 0));
+				}else{
+					$total = $total + ($eco->total_repay + ($eco->amount_loan ?? 0) + ($eco->amount_accounting ?? 0) + ($eco->amount_replacement ?? 0));
+				}
+			}else{
+				$total = $total + ($eco->total + ($eco->amount_loan ?? 0) + ($eco->amount_accounting ?? 0) + ($eco->amount_replacement ?? 0));
+			}
+		}
+		return $total;
+    	// $total=EconomicComplement::whereIn('id',$ids_eco_com)->select(DB::raw("sum(total + coalesce(economic_complements.amount_replacement, 0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_loan, 0))"))->get()->first();
+    	// return $total;
     }
     public static function removeSpaces($text)
     {
@@ -761,5 +755,23 @@ class Util
     		return $procedure->id;
     	}
     	return null;
-    }
+	}
+
+	public static function getCurrentYear()
+	{
+		return Carbon::parse(EconomicComplementProcedure::get()->last()->year)->year;
+	}
+
+	public static function getCurrentSemester()
+	{
+		return EconomicComplementProcedure::orderBy('sequence', 'asc')->get()->last()->semester;
+	}
+
+	public static function getFormatCi($ci_excel)
+	{
+		$re = '/[^0*].*/';
+		preg_match_all($re, $ci_excel, $ci, PREG_SET_ORDER, 0);
+		return trim($ci[0][0]);
+	}
+
 }
