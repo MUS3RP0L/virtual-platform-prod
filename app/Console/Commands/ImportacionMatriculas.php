@@ -43,41 +43,59 @@ class ImportacionMatriculas extends Command
     {
         //
         $afiliado=[];
+        $ruta=storage_path('excel/imports/Senasir Marzo.xlsx');
+        $this->info($ruta);
         if ($this->confirm('Importar Matricula del Afiliado?')) {
-            $ruta=storage_path('excel/imports/Senasir Marzo.xlsx');
-            $this->info($ruta);
             Excel::load($ruta, function($reader) {
-                // reader methods
-                $archivo = $reader->select(array('carnet'))->get();
-               // Log::info($archivo);
-                $hoja = $archivo[0];
-                $this->info(sizeOf($hoja));
-                foreach ($hoja as $fila) {
-                    //Log::info($fila);
-                    $ci=trim($fila->carnet);
-                   // $afiliado = Affiliate::where('identity_card',trim($fila->carnet))->first();
-                    
-                    $afiliado = DB::table('affiliates')->where('first_name','=',$ci)->first();
-                    Log::info($afiliado);
-                    if($afiliado)
+            //     $archivo = $reader->select(array('carnet'))->get();
+
+              //  Log::info($archivo);
+                // $hoja = $archivo[0];
+            //     $this->info(sizeOf($hoja));
+                $reader->each(function($row) {
+                    //$this->info($row->carnet);
+                    $ci=$row->carnet;
+                    $affiliado=Affiliate::where('identity_card',$ci)->first();
+                    Log::info($affiliado);
+                    if($affiliado)
                     {
-                        //Log::info($afiliado->identity_card);
-                       $this->info('hay afiliado');
+                        Log::info($afiliado->identity_card);
+                        $affiliado->affiliate_registration_number=$row->mat_titular;
+                        $affiliado->save();
+                        $this->info('hay afiliado');
                     }
                     else{
-
-                      $this->info('no hay afiliado');
-
+                        $this->info($row->carnet." Afiliado No encontrado");
                     }
-                    //$this->info('paso if');
-                }
-
+                });
             });
-            $this->info($ruta);
         }
         if ($this->confirm('Importar Matricula del Derechoambiente?')) {
+            Excel::load($ruta, function($reader) {
+                //     $archivo = $reader->select(array('carnet'))->get();
+    
+                  //  Log::info($archivo);
+                    // $hoja = $archivo[0];
+                //     $this->info(sizeOf($hoja));
+                    $reader->each(function($row) {
+                        //$this->info($row->carnet);
+                        $ci=$row->carnet;
+                        $affiliado=Affiliate::where('identity_card',$ci)->first();
+                        Log::info($affiliado);
+                        if($affiliado)
+                        {
+                            Log::info($afiliado->identity_card);
+                            $affiliado->affiliate_registration_number=$row->mat_titular;
+                            $affiliado->save();
+                            $this->info('hay afiliado');
+                        }
+                        else{
+                            $this->info($row->carnet." Afiliado No encontrado");
+                        }
+                    });
+                });
         }
-        $this->info('hola');
+        
 
     }
 }
