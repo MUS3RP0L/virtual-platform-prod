@@ -47,41 +47,19 @@ class ImportacionMatriculas extends Command
         $afiliado=[];
         $ruta=storage_path('excel/imports/Senasir Marzo.xlsx');
         $this->info($ruta);
-        if ($this->confirm('¿Importar Matricula del Afiliado?')) {
-            Excel::load($ruta, function($reader) {
-            //     $archivo = $reader->select(array('carnet'))->get();
-              //  Log::info($archivo);
-                // $hoja = $archivo[0];
-            //     $this->info(sizeOf($hoja));
-                $reader->each(function($row) {
-                    //$this->info($row->carnet);
-                    //$ci=$row->carnet;
-                    if($row->num_com_tit){
-                        $carnet=$row->carnet."-".$row->num_com_tit;
-                    }else{
-                        $carnet=$row->carnet;
-                    }
-                    $ci=Util::getFormatCi($carnet);
-                    $affiliado=Affiliate::where('identity_card',$ci)->first();
-                    Log::info($affiliado);
-                    if($affiliado)
-                    {
-                        //Log::info($afiliado->identity_card);
-                        $affiliado->affiliate_registration_number=$row->mat_titular;
-                        $affiliado->save();
-                        $this->info(' hay afiliado');
-                    }
-                    else{
-                        $this->info($carnet." Afiliado No encontrado");
-                    }
-                });
-            });
-        }
-        if ($this->confirm('¿Importar Matricula del Derechoambiente?')) {
-            Excel::load($ruta, function($reader) {
+        global $cont, $total;
+        if ($this->confirm('¿Importar Matricula del Derechohabiente y del Afiliado?')) {
 
+            Excel::load($ruta, function($reader) {
+                global $cont, $total;
+                $cont=0;
+                $this->info(sizeOf($reader));
                 $reader->each(function($row) {
-                    if($row->num_nom){
+                    global $cont, $total;
+                    $total=$total+1;
+                    Log::info($row);
+                    $numcomv=trim($row->num_com);
+                    if($numcomv){
                         $carnetd=$row->carnetv."-".$row->num_com;
                     }else{
                         $carnetd=$row->carnetv;
@@ -90,16 +68,26 @@ class ImportacionMatriculas extends Command
                     $applicants = EconomicComplementApplicant::where('identity_card',$ci)->get();
                     //Log::info($applicant);
                     if($applicants){
-                        foreach($applicants as $applicant){
-                            //Log::info($afiliado->identity_card);
-                            $applicant->applicant_registration_number=$row->mat_dh;
-                            $applicant->save();
+                        if(sizeOf($applicants)>0){
+                            $cont=$cont+1;
+                            foreach($applicants as $applicant){
+                                //Log::info($afiliado->identity_card);
+                                $affiliate=$applicant->economic_complement->affiliate;
+                                $affiliate->affiliate_registration_number=$row->mat_titular;
+                                $affiliate->save();
+
+                                $applicant->applicant_registration_number=$row->mat_dh;
+                                $applicant->save();
+                            }
+                        //$this->info(' Hay el Derechohabiente');
+                        }else{
+                            $this->info($carnetd." No hay el Derechohabiente");
                         }
-                        $this->info(' Hay el Derechohabiente');
-                    }else{
-                        $this->info($carnetd." No hay el Derechohabiente");
                     }
-                });
+                }
+            );
+            $this->info("Total de registros: ".$total);
+            $this->info("Cantidad de importados: ".$cont);
             });
         }
     }
