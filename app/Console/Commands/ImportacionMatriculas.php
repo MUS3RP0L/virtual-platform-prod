@@ -47,14 +47,15 @@ class ImportacionMatriculas extends Command
         $afiliado=[];
         $ruta=storage_path('excel/imports/Senasir Marzo.xlsx');
         $this->info($ruta);
-        /*global $contaf, $total;
+        global $contaf, $totalr;
         if ($this->confirm('¿Importar Matricula del Afiliado?')) {
             Excel::load($ruta, function($reader) {
-                global $contaf, $total;
+                global $contaf, $totalr;
                 $reader->each(function($row) {
-                    global $contaf, $total;
-                    $total=$total+1;
-                    if($row->num_com_tit){
+                    global $contaf, $totalr;
+                    $totalr=$totalr+1;
+                    $numcomvt=trim($row->num_com_tit);
+                    if($numcomvt){
                         $carnet=$row->carnet."-".$row->num_com_tit;
                     }else{
                         $carnet=$row->carnet;
@@ -73,10 +74,10 @@ class ImportacionMatriculas extends Command
                         $this->info($carnet." Afiliado No encontrado");
                     }
                 });
-                $this->info($total);
-                $this->info($contaf);
+                $this->info("Total de Registros: ".$totalr);
+                $this->info("Total de Importados: ".$contaf);
             });
-        }*/
+        }
 
         global $cont, $total;
         if ($this->confirm('¿Importar Matricula del Derechohabiente y del Afiliado?')) {
