@@ -4,6 +4,11 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>PLATAFORMA VIRTUAL - MUSERPOL</title>
   <link rel="stylesheet" href="{{ asset('css/wkhtml.css') }}">
+  <style>
+    table, tr, td, th, tbody, thead, tfoot {
+        page-break-inside: avoid !important;
+    }
+  </style>
 </head>
 <body>
     <div class="@yield('padding')">
@@ -16,7 +21,12 @@
         </th>
         <th style="width: 50%;border: 0px">
           <h4><b>MUTUAL DE SERVICIOS AL POLICÍA<br>
-            {!! $header1 !!}<br>{!! $header2 !!}
+            @if(isset($header1))
+            {!! $header1 !!}
+            @endif
+            @if(isset($header2))
+            <br>{!! $header2 !!}
+            @endif
             @yield('title')
           </b></h4>
         </th>
