@@ -1,10 +1,10 @@
-<div class="box box-danger box-solid">
+<div class="box box-warning box-solid">
     <div class="box-header with-border">
         <h3 class="box-title"><span class="glyphicon glyphicon-eye-open"></span> Observaciones</h3>
             <div class="box-tools pull-right">
             @can("eco_com_review_reception_calification_contabilidad")
                 <div data-toggle="tooltip" data-placement="left" data-original-title="Añadir">
-                        <a href="" class="btn btn-sm bg-red btn-raised" data-toggle="modal" data-target="#observationModal">
+                        <a href="" class="btn btn-sm bg-yellow btn-raised" data-toggle="modal" data-target="#observationModal">
                             <span class="fa fa-lg fa-plus" aria-hidden="true"></span>
                         </a>
                 </div>
