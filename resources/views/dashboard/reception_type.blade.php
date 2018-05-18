@@ -1,6 +1,6 @@
 <div class="box box-warning">
 	<div class="box-header with-border">
-		<h3 class="box-title">Total tipo de recepción del {!! $last_economic_complement->semester !!} semestre del {!! $last_year !!} </h3>
+		<h3 class="box-title">Total de tipo de recepción del {!! $last_economic_complement->semester !!} semestre del {!! $last_year !!} </h3>
 	</div>
 	<div class="box-body" style="width: 92%">
 		<canvas id="reception_type_pie" width="450" height="320"/>

@@ -1,6 +1,6 @@
 <div class="box box-warning">
 	<div class="box-header with-border">
-		<h3 class="box-title">Total Afiliados por Ente Gestor del {!! $last_economic_complement->semester !!} semestre del {!! $last_year !!} </h3>
+		<h3 class="box-title">Total de Afiliados por Ente Gestor del {!! $last_economic_complement->semester !!} semestre del {!! $last_year !!} </h3>
 	</div>
 	<div class="box-body" style="width: 92%">
 		<canvas id="pension_entities_pie" width="450" height="320"/>
