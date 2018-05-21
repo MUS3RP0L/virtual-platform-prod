@@ -802,7 +802,9 @@ class EconomicComplementReportController extends Controller
                            ->leftJoin('degrees','eco_com_rents.degree_id','=','degrees.id')
                            ->whereYear('eco_com_rents.year', '=', $request->year)
                            ->where('eco_com_rents.semester', '=', $request->semester)
-                           ->orderBy('degrees.id','ASC');
+                           ->orderBy('degrees.correlative','ASC')
+                           ->orderBy('eco_com_types.id','ASC');
+                           
                return Datatables::of($average_list)
                        ->addColumn('degree', function ($average_list) { return $average_list->degree; })
                        ->editColumn('type', function ($average_list) { return $average_list->type; })
@@ -819,7 +821,8 @@ class EconomicComplementReportController extends Controller
                               ->leftJoin('degrees','eco_com_rents.degree_id','=','degrees.id')
                               ->whereYear('eco_com_rents.year', '=', date("Y"))
                               ->where('eco_com_rents.semester', '=', $eco_com->semester)
-                              ->orderBy('degrees.id','ASC');
+                              ->orderBy('degrees.correlative','ASC')
+                              ->orderBy('eco_com_types.id','ASC');
                return Datatables::of($average_list)
                        ->addColumn('degree', function ($average_list) { return $average_list->degree; })
                        ->editColumn('type', function ($average_list) { return $average_list->type; })

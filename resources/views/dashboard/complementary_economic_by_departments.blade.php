@@ -1,6 +1,6 @@
 <div class="box box-danger">
 	<div class="box-header with-border">
-		<h3 class="box-title">Total Complemento economico por departamentos del {!! $last_economic_complement->semester !!} semestre del {!! $last_year !!}</h3>
+		<h3 class="box-title">Total Complemento económico por departamentos del {!! $last_economic_complement->semester !!} semestre del {!! $last_year !!}</h3>
 	</div>
 	<div class="box-body" style="width: 92%">
 		<canvas id="pie-eco-com-cities" width="450" height="320"/>

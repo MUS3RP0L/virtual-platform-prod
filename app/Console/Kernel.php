@@ -76,15 +76,14 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\UpdateComplementaryFactor::class,
         \Muserpol\Console\Commands\ImportBank::class,
         \Muserpol\Console\Commands\CheckRequirement::class,
+        \Muserpol\Console\Commands\ImportacionMatriculas::class,
         \Muserpol\Console\Commands\ImportConciliacion::class,
         \Muserpol\Console\Commands\ImportPayroll2018::class,
         \Muserpol\Console\Commands\ImportReimbursement2018::class,
         \Muserpol\Console\Commands\SequenceNumber::class,
         \Muserpol\Console\Commands\CompleteListApplicants::class,
         \Muserpol\Console\Commands\UpdateAffilateState::class,
-        
         \Muserpol\Console\Commands\RentasApsSegundoSemestre::class,
-        
     ];
 
     protected function schedule(Schedule $schedule)
