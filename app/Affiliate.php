@@ -479,6 +479,16 @@ class Affiliate extends Model
             affiliates.nua as nua_cua
         ";
     }
+    public function lastEconomicComplement()
+    {
+        $eco_com = $this->economic_complements;
+        if (sizeof($eco_com)) {
+            $id =  $this->economic_complements()->select('economic_complements.id')->leftJoin('eco_com_procedures', 'eco_com_procedures.id','=', 'economic_complements.eco_com_procedure_id')->orderBy('eco_com_procedures.sequence', 'desc')->get()->pluck('id')->first();
+            return EconomicComplement::find($id);
+        }
+        return null;
+
+    }
 
 }
 
