@@ -1256,7 +1256,7 @@ class EconomicComplementController extends Controller
         }
 
         $class_rent =DB::table('eco_com_kind_rent')->where('id',$economic_complement->eco_com_kind_rent_id)->first();
-        // dd($has_edit_state);
+
         $data = [
 
         'affiliate' => $affiliate,
@@ -1297,6 +1297,7 @@ class EconomicComplementController extends Controller
         'devolution' => $devolution,
         'devolution_amount_percetage' => $devolution_amount_percetage,
         'devolution_amount_total' => $devolution_amount_total,
+        'complement_observations' => $economic_complement->observations,
         ];
         // return $data;
         // dd($eco_com_submitted_documents_ar);

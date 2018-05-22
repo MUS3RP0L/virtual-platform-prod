@@ -19,7 +19,6 @@
 	</div>
 	<div class="col-md-6">
     
-            
        @can('eco_com_reception')
          @if( $economic_complement->reception_type == 'Inclusion' )
 
@@ -879,7 +878,7 @@
                           </a>
                         </h4>
                       </div>
-                      <div id="affiliate_observations" class="panel-collapse collapse in">
+                      <div id="affiliate_observations" class="panel-collapse collapse">
                         <div class="box-body">
                             <div class="row">
                                 @if(isset($affi_observations))
@@ -891,7 +890,7 @@
                                                     <th class="col-md-3">Tipo </th>
                                                     <th class="col-md-5">Descripción </th>
                                                     <th class="col-md-1">Habilitado</th>
-                                                    <th class="col-md-1">Opciones</th>
+                                                    {{-- <th class="col-md-1">Opciones</th> --}}
                                                 </tr>
                                             </thead>
                                         </table>
@@ -915,12 +914,22 @@
                           <a data-toggle="collapse" data-parent="#accordion" href="#complement_observations">
                             Tramite
                           </a>
+                         
+
                         </h4>
+                        <div class="box-tools pull-right">
+                                <div data-toggle="tooltip" data-placement="left" data-original-title="Añadir">
+                                        <a href="" class="btn btn-sm btn-danger btn-raised" data-toggle="modal" data-target="#observationEditModal" data-observation-id="" data-observation-type-id="" data-observation-message="" data-observation-enabled="">
+                                            <span class="fa fa-lg fa-plus" aria-hidden="true"></span>
+                                        </a>
                       </div>
-                      <div id="complement_observations" class="panel-collapse collapse">
+                        </div>
+                      </div>
+                      <div id="complement_observations" class="panel-collapse collapse in">
                         <div class="box-body">
                                 <div class="row">
                                     <div class="col-md-12">
+                                       
                                         <table class="table table-bordered table-hover table-striped" id="economic-observations-table">
                                             <thead>
                                                 <tr class="success">
@@ -2817,14 +2826,13 @@
     <div class="modal fade" id="observationEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                {!! Form::open(['url' => 'observation/update']) !!}
+                {!! Form::open(['action' => 'Observation\EconomicComplementObservationController@store']) !!}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Editando Observación</h4>
                 </div>
                 <div class="modal-body">
-                    {!! Form::token() !!}
-                    {!! Form::label('observation_type_id_edit', 'Tipo', ['']) !!}
+                        {!! Form::label('observation_type_id_edit_l', 'Tipo', ['']) !!}
                     <div class="form-group">
                         {!! Form::select('observation_type_id', $observations_types, '', ['class' => 'col-md-2 form-control','required' => 'required', 'id'=>'observation_type_id_edit']) !!}
                     </div>
@@ -2837,8 +2845,8 @@
                             </label>
                         </div>
                     </div>
-                    {!! Form::hidden('affiliate_id', $affiliate->id,['id'=>'affiliate_id_edit']) !!}
-                    {!! Form::hidden('observation_id','',['id'=>'observation_id_edit']) !!}
+                        {!! Form::hidden('economic_complement_id', $economic_complement->id,['id'=>'economic_complement_id_edit']) !!}
+                    <input type="hidden" name="observation_id" id="observation_id_edit" >
                 </div>
                 <div class="modal-footer">
                     <div class="text-center">
@@ -2855,22 +2863,29 @@
     <div class="modal fade" id="observationDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                {!! Form::open(['method' => 'POST', 'route' => ['observation_delete'], 'class' => 'form-horizontal']) !!}
+                {!! Form::open(['action' => 'Observation\EconomicComplementObservationController@delete']) !!}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">¿Esta seguro de Eliminar la observación?</h4>
                 </div>
                 <div class="modal-body">
                     {!! Form::token() !!}
-                    {!! Form::hidden('affiliate_id', $affiliate->id,['id'=>'affiliate_id_delete']) !!}
+                    {!! Form::hidden('complement_id', $affiliate->id,['id'=>'complement_id_delete']) !!}
                     {!! Form::hidden('observation_id','',['id'=>'observation_id_delete']) !!}
-                    <div class="text-center">
-                        <a href="#" data-dismiss="modal" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
-                        &nbsp;&nbsp;&nbsp;
-                        <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
+                    <div class="row">
+                            &nbsp;&nbsp;&nbsp; <strong id="observation_name"></strong>
                     </div>
+                    <br>
+                    <div class="row">
+                        <div class="text-center">
+                            <a href="#" data-dismiss="modal" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
+                            &nbsp;&nbsp;&nbsp;
+                            <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
+                        </div>
+                    </div>
+                    
                 </div>
-                    {!! Form::close() !!}
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
@@ -2902,15 +2917,15 @@
         
         
         <div id="amortization-modal" class="modal fade" tabindex="-1" role="dialog">
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog" role="document"observation_id_delete>
             <div class="modal-content">
               <div class="modal-header">
                  <input type="hidden" name="_token" value="{{ csrf_token() }}">  
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Amortizar</h4>
+                <h4 class="modal-title">Amortizar<observation_id_delete/h4>
               </div>
               <div class="modal-body">
-                <div class="row">
+                <div class="row">observation_id_delete
                     @if(!$devolution)
                         <label>Monto</label>
                         <input type="number" required  step="any" name="amount_amortization" class="form-control" value="{{ $amount_amortization }}">
@@ -3144,7 +3159,7 @@
 
     @endif
 
-@include('observations.create')
+{{-- @include('observations.create') --}}
 
 @endsection
 
@@ -3159,7 +3174,7 @@ $(document).ready(function() {
 
     //para el datatable de affiliados
 
-      $('#observations-table').DataTable({
+     var observationsTable= $('#observations-table').DataTable({
             "dom": '<"top">t<"bottom"p>',
             processing: true,
             serverSide: true,
@@ -3168,12 +3183,8 @@ $(document).ready(function() {
             ajax: {
                 url: '{!! route('get_observations') !!}',
                 data: function (d) {
-                    @if(isset($economic_complement))
-                        d.affiliate_id={{$economic_complement->affiliate_id}},
-                        d.economic_complement_id={{$economic_complement->id}}
-                    @else
                         d.affiliate_id={{$affiliate->id}}
-                    @endif
+                   
                 }
                
             },
@@ -3182,8 +3193,8 @@ $(document).ready(function() {
                 { data: 'date', bSortable: false },
                 { data: 'type',name:"type" },
                 { data: 'message', bSortable: false },
-                { data: 'is_enabled', bSortable: false },
-                { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
+                { data: 'is_enabled', bSortable: false }
+                // { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
             ]
         });
 
@@ -3194,9 +3205,9 @@ $(document).ready(function() {
             pageLength: 8,
             autoWidth: false,
             ajax: {
-                url: '{!! route('get_observations') !!}',
+            url: '{!! route('get_complement_obsevations') !!}',
                 data: function (d) {                  
-                        d.economic_complement_id={{  }}$economic_complement->id}}
+                    d.economic_complement_id={{  $economic_complement->id}}
                 }
             },
             columns: [
@@ -3209,28 +3220,34 @@ $(document).ready(function() {
             ]
         });
         
-
-
-    console.log(observationsTable);
-
    //funciones modal de observaciones al affiliado
-   $(document).on('click', '.editObservation', function(event) {
-        $.get('/observation/'+$(this).data('id'), function(data) {
-            $('#observation_type_id_edit').val(data.observation_type_id);
-            $('#message_edit').val(data.message);
-            $('#message_edit').val(data.message);
-            $('#affiliate_id').val(data.affiliate_id);
-            $('#is_enabled').attr('checked', data.is_enabled);
-            $('#observation_id_edit').val(data.id);
-        });
-        event.preventDefault();
+    $('#observationEditModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var observation_type_id = button.data('observation-type-id') // Extract info from data-* attributes
+                var observation_id = button.data('observation-id')
+                var observation_message = button.data('observation-message')
+                var observation_enabled = button.data('observation-enabled')
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var modal = $(this)
+             
+                modal.find('.modal-body #observation_type_id_edit').val(observation_type_id)
+                modal.find('.modal-body #observation_id_edit').val(observation_id)
+                modal.find('.modal-body #message_edit').val(observation_message)
+                modal.find('.modal-body #is_enabled').prop('checked',observation_enabled)
     });
-    // delete observations
-    $(document).on('click', '.deleteObservation', function(event) {
-        $.get('/observation/'+$(this).data('id'), function(data) {
-            $('#observation_id_delete').val(data.id);
-        });
-        event.preventDefault();
+
+    $('#observationDeleteModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var observation_id = button.data('observation-id')
+                var observation_name = button.data('observation-name')
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var modal = $(this)
+                // console.log(observation_id)
+             
+                modal.find('.modal-body #observation_id_delete').val(observation_id)
+                modal.find('.modal-body #observation_name').text(observation_name)
     });
     //---- fin modal observaciones al afiliado
 });
@@ -3442,7 +3459,6 @@ $(document).ready(function() {
     @else
     ko.applyBindings(model,selectedlModel());
     @endif
-
 
     });
     // $(document).ready(function() {

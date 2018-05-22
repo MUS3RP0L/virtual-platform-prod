@@ -195,8 +195,9 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('observation/update',['as'=>'updateObservation','uses'=>'Observation\AffiliateObservationController@update']);
 	Route::post('observation_delete',['as'=>'observation_delete','uses'=>'Observation\AffiliateObservationController@delete']);
 
-	Route::post('get_complement_obsevations','Observation\EconomicComplementObservationController@getComplementObservation');
-
+	Route::get('get_complement_obsevations','Observation\EconomicComplementObservationController@getComplementObservation')->name('get_complement_obsevations');
+	Route::resource('complement_observation','Observation\EconomicComplementObservationController');
+	Route::post('complement_observation_delete','Observation\EconomicComplementObservationController@delete')->name('complement_observation_delete');
 	//Routes for inbox
 	Route::resource('inbox', 'Inbox\InboxController');
 	Route::get('received_data', array('as'=>'received_data','uses'=>'Inbox\InboxController@DataReceived'));

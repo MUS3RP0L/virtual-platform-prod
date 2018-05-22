@@ -15,6 +15,7 @@ class AddEnabledObservationComplement extends Migration
         //
         Schema::table('eco_com_observations', function (Blueprint $table) {
             $table->boolean('is_enabled')->default(false);
+            $table->renameColumn('economic_omplement_id', 'economic_complement_id');            
          });
     }
 
