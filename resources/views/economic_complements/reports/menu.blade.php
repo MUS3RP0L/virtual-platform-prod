@@ -16,11 +16,11 @@
                     <div class="form-group">
                         {!! Form::label('type', 'Reporte', ['class' => 'col-md-2 control-label']) !!}
                         <div class="col-md-10">
-                            {!! Form::select('type', $reports_list, null, ['class' => 'combobox form-control ', 'required' ]) !!}
+                            {!! Form::select('type', $reports_list, null, ['class' => 'combobox form-control','data-bind'=>'value: optionSelected', 'required' ]) !!}
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" data-bind="visible: optionSelected()<12?true:false">
                     <div class="form-group">
                         {!! Form::label('year', 'Gestión', ['class' => 'col-md-3 control-label']) !!}
                         <div class="col-md-8">
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" data-bind="visible: optionSelected()<12?true:false">
                     <div class="form-group">
                         {!! Form::label('semester', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
                         <div class="col-md-8">
@@ -41,8 +41,16 @@
                 <div class="row text-center">
                     <div class="form-group">
                         <div class="col-md-12">
+
                             <button type="reset" class="btn btn-raised btn-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Limpiar">&nbsp;<span class="glyphicon glyphicon-erase"></span>&nbsp;</button>
                             &nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Generar">&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;</button>
+                            <br><br>
+                                <div class="togglebutton" data-bind="visible: optionSelected()==12?true:false">
+                                    <label>
+
+                                        <input type="checkbox" name="type_doc" data-bind='checked: typeDoc'> <span data-bind="text: typeDoc()?'Pdf':'Excel'"></span>
+                                    </label>
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -63,5 +71,11 @@
     $(document).ready(function() {
         $('.combobox').combobox();
     });
+    function SelectorViewModel()
+    {
+        this.optionSelected = ko.observable();
+        this.typeDoc = ko.observable();
+    }
+    ko.applyBindings(new SelectorViewModel());
 </script>
 @endpush

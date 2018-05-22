@@ -493,6 +493,20 @@
                                         </div>
                                     </td>
                                 </tr>
+                                @if($eco_com_applicant->applicant_registration_number)
+                                    <tr class="success">
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <strong>Matricula del Beneficiario:</strong>
+                                                </div>
+                                                <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $eco_com_applicant->applicant_registration_number !!}">
+                                                    {!! $eco_com_applicant->applicant_registration_number!!}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endif
 									@if($eco_com_applicant->date_death)
 									<tr>
 										<td style="border-top:0px;;">

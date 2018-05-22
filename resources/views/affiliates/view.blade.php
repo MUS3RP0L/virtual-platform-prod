@@ -934,6 +934,20 @@
                                         </div>
                                     </td>
                                 </tr>
+                                @if($affiliate->affiliate_registration_number)
+                                <tr class="success">
+                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Matricula del Afiliado:</strong>
+                                            </div>
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->affiliate_registration_number !!}">
+                                                {!! $affiliate->affiliate_registration_number !!}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endif
                                 @if($affiliate->reason_decommissioned)
                                     <tr>
                                         <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">>

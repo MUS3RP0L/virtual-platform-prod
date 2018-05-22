@@ -1,6 +1,6 @@
 <div class="box box-danger">
 	<div class="box-header with-border">
-		<h3 class="box-title"> Total Revisados y No Revisados </h3>
+		<h3 class="box-title"> Total de Trámites Revisados y No Revisados </h3>
 
 	</div>
 	<div class="box-body" style="width: 92%">

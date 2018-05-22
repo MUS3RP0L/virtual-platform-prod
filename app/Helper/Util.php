@@ -8,7 +8,7 @@ use Auth;
 use DB;
 use Session;
 use Maatwebsite\Excel\Facades\Excel;
-
+use Log;
 
 class Util
 {
@@ -765,6 +765,22 @@ class Util
 	public static function getCurrentSemester()
 	{
 		return EconomicComplementProcedure::orderBy('sequence', 'asc')->get()->last()->semester;
+	}
+
+	public static function getFormatCi($ci_excel)
+	{
+		if($ci_excel!=""){
+			$re = '/[^0*].*/';
+		preg_match_all($re, $ci_excel, $ci, PREG_SET_ORDER, 0);
+			if(sizeOf($ci)>0){
+				return trim($ci[0][0]);
+			}else{
+				return $ci_excel;
+			}
+		}else{
+			return $ci_excel;
+		}
+		
 	}
 
 }

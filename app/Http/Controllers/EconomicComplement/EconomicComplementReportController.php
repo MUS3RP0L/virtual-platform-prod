@@ -59,7 +59,7 @@ class EconomicComplementReportController extends Controller
         '12' => 'Todos los derechohabiente y afiliados.(todos los semestres)',
         '13' => 'Afiliados del sector Pasivo',
         '14' => 'Afiliados en Disponibilidad',
-        '15' => 'Afiliados Observados por Documentos Preverificados I/2018',
+        '15' => 'Afiliados Observados por Documentos Preverificados 2018',
 
         // '2' => 'Trámites Inclusiones',
         // '3' => 'Trámites habituales',
@@ -802,7 +802,9 @@ class EconomicComplementReportController extends Controller
                            ->leftJoin('degrees','eco_com_rents.degree_id','=','degrees.id')
                            ->whereYear('eco_com_rents.year', '=', $request->year)
                            ->where('eco_com_rents.semester', '=', $request->semester)
-                           ->orderBy('degrees.id','ASC');
+                           ->orderBy('degrees.correlative','ASC')
+                           ->orderBy('eco_com_types.id','ASC');
+                           
                return Datatables::of($average_list)
                        ->addColumn('degree', function ($average_list) { return $average_list->degree; })
                        ->editColumn('type', function ($average_list) { return $average_list->type; })
@@ -819,7 +821,8 @@ class EconomicComplementReportController extends Controller
                               ->leftJoin('degrees','eco_com_rents.degree_id','=','degrees.id')
                               ->whereYear('eco_com_rents.year', '=', date("Y"))
                               ->where('eco_com_rents.semester', '=', $eco_com->semester)
-                              ->orderBy('degrees.id','ASC');
+                              ->orderBy('degrees.correlative','ASC')
+                              ->orderBy('eco_com_types.id','ASC');
                return Datatables::of($average_list)
                        ->addColumn('degree', function ($average_list) { return $average_list->degree; })
                        ->editColumn('type', function ($average_list) { return $average_list->type; })
@@ -1749,18 +1752,29 @@ class EconomicComplementReportController extends Controller
           break;
         case '12':
           # code...
+            ini_set('memory_limit', '-1');
+            ini_set('max_execution_time', '-1');
+            ini_set('max_input_time', '-1');
+            set_time_limit('-1');
             $columns = '';
             $file_name = $name.' '.date("Y-m-d H:i:s");
-
             $economic_complements=EconomicComplement::affiliateinfo()->applicantinfo()
             ->select(DB::raw("DISTINCT ON (affiliates.identity_card) affiliates.identity_card as CI_CAUSAHABIENTE,".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_applicants().",economic_complements.affiliate_id"))
-            // ->take(10)
+            // ->take(500)
             ->get();
             foreach ($economic_complements as $eco) {
               $eco->ciudad =Affiliate::find($eco->affiliate_id)->economic_complements()->orderBy('updated_at','desc')->first()->city->name;
             }
             $data = $economic_complements;
-            Util::excel($file_name,'observados prestamos',$data);
+            if(isset($request->type_doc)){
+                $user = Auth::user();
+                $date = Carbon::now();
+                $datos = array('data'=>$data,'user'=>$user,'date'=>$date->toDateString(),'hour'=>$date->toTimeString(),'user_role'=> Util::getRol()->name ,'title' =>'Reporte de Afiliados y Dechohabientes' );
+                return \PDF::loadView('globalprint.excel_to_pdf',$datos)->setPaper('letter')->setOption('encoding', 'utf-8')->setOrientation('landscape')->setOption('footer-right', 'Pagina [page] de [toPage]')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->stream('report_by_user.pdf');
+            }
+            else{
+                Util::excel($file_name,'Affiliados y Derechohabientes',$data);
+            }
 
         break;
         case '13':
