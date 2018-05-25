@@ -75,6 +75,7 @@ class AffiliateObservationController extends Controller
 
       $affiliate = Affiliate::where('id',$request->affiliate_id)->first();
       $aff_record = new AffiliateRecord;
+     
       if (Auth::user()) {$user_id = Auth::user()->id;}else{$user_id = 1;}
       $aff_record->user_id = $user_id;
       $aff_record->affiliate_id = $affiliate->id;
@@ -107,18 +108,20 @@ class AffiliateObservationController extends Controller
 
     public function showOfAffiliate(Request $request)
     {
-      if (isset($request->economic_complement_id)) {
-        $economic_complement = EconomicComplement::where('id',$request->economic_complement_id)->first();
-        $observations=AffiliateObservation::where('affiliate_id',$request->affiliate_id)->select(['id','affiliate_id','date','message','is_enabled','observation_type_id'])->get();
-        $observations_list = collect(new AffiliateObservation);
-        foreach ($observations as $obs) {
-          // if(Util::getYear($economic_complement->year)==Util::getYear($obs->date)){
-            $observations_list->push($obs);
-          // }
-        }
-      } else {
-        $observations_list=AffiliateObservation::where('affiliate_id',$request->affiliate_id)->select(['id','affiliate_id','date','message','is_enabled','observation_type_id'])->get();
-      }
+      // if (isset($request->economic_complement_id)) {
+      //   $economic_complement = EconomicComplement::where('id',$request->economic_complement_id)->first();
+      //   $observations=AffiliateObservation::where('affiliate_id',$request->affiliate_id)->select(['id','affiliate_id','date','message','is_enabled','observation_type_id'])->get();
+      //   $observations_list = collect(new AffiliateObservation);
+      //   foreach ($observations as $obs) {
+      //     // if(Util::getYear($economic_complement->year)==Util::getYear($obs->date)){
+      //       $observations_list->push($obs);
+      //     // }
+      //   }
+      // } else {
+        $observations_list=AffiliateObservation::where('affiliate_id',$request->affiliate_id)
+                                                ->where('observation_type_id','<>',11)
+                                                ->select(['id','affiliate_id','date','message','is_enabled','observation_type_id'])->get();
+      // }
 
       Log::info(sizeof($observations_list));
 
@@ -130,13 +133,6 @@ class AffiliateObservationController extends Controller
         ->addColumn('type',function ($observation){
           return $observation->observationType->name;
         })
-        ->editColumn('is_enabled',function ($observation)
-        {
-          if ($observation->is_enabled) {
-            return '<i class="fa fa-check-square-o fa-2x"></>';
-          }
-          return '<i class="fa fa-square-o fa-2x"></>';
-        })
         ->addColumn('action', function ($observation) {
 
           return
@@ -144,7 +140,7 @@ class AffiliateObservationController extends Controller
             <button type="button" class="btn btn-warning btn-raised btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="caret"></span></button>
             <ul class="dropdown-menu">
                 <li><a href="/print_observations/'.$observation->affiliate_id.'/'.$observation->observation_type_id.'"><i class="glyphicon glyphicon-print"></i> Imprimir</a></li>'.
-                ((Util::getRol()->module_id == ObservationType::find($observation->observation_type_id)->module_id) ? '<li><a data-id="'.$observation->id.'" class="editObservation" href="#" role="button" data-toggle="modal" data-target="#observationEditModal" ><i class="fa fa-pencil" ></i> Editar</a></li><li><a data-toggle="modal" data-target="#observationDeleteModal" data-id="'.$observation->id.'" class="deleteObservation" href="#">' .$observation->observation_type. '<i class="fa fa-times-circle"></i> Archivar</a></li>':'').'
+                ((Util::getRol()->module_id == ObservationType::find($observation->observation_type_id)->module_id) ? '<li><a data-toggle="modal" data-target="#observationDeleteModal" data-id="'.$observation->id.'" class="deleteObservation" href="#">' .$observation->observation_type. '<i class="fa fa-times-circle"></i> Eliminar</a></li>':'').'
               </ul>
             </div>';})
         ->make(true);

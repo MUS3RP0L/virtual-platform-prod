@@ -21,7 +21,6 @@
                                 <th>Fecha de la Observación Realizada</th>
                                 <th>Tipo de Observación</th>
                                 <th>Descripción de la Observación</th>
-                                <th>Habilitado</th>
                                 <th>Opciones</th>
                             </tr>
                         </thead>
@@ -57,13 +56,7 @@
                 </div>
                 {!! Form::label('message', 'Mensaje:', []) !!}
                 <textarea name="message" id="message_edit" cols="50" rows="10" required="required" class="form-control"></textarea>
-                {!! Form::label('is_enabled', 'Habilitado', ['']) !!}
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label><input type="checkbox" name="is_enabled" id="is_enabled">
-                        </label>
-                    </div>
-                </div>
+               
                 {!! Form::hidden('affiliate_id', $affiliate->id,['id'=>'affiliate_id_edit']) !!}
                 {!! Form::hidden('observation_id','',['id'=>'observation_id_edit']) !!}
             </div>
@@ -74,7 +67,7 @@
                     <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
                 </div>
             </div>
-                {!! Form::close() !!}
+            {!! Form::close() !!}
         </div>
     </div>
 </div>
@@ -113,12 +106,8 @@
             ajax: {
                 url: '{!! route('get_observations') !!}',
                 data: function (d) {
-                    @if(isset($economic_complement))
-                        d.affiliate_id={{$economic_complement->affiliate_id}},
-                        d.economic_complement_id={{$economic_complement->id}}
-                    @else
-                        d.affiliate_id={{$affiliate->id}}
-                    @endif
+                 
+                    d.affiliate_id={{$affiliate->id}}
                 }
             },
             columns: [
@@ -126,7 +115,6 @@
                 { data: 'date', bSortable: false },
                 { data: 'type',name:"type" },
                 { data: 'message', bSortable: false },
-                { data: 'is_enabled', bSortable: false },
                 { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
             ]
         });

@@ -870,64 +870,25 @@
                 <div class="box-body">
                   <div class="box-group" id="accordion">
                     <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
-                    <div class="panel box panel-primary">
-                      <div class="box-header with-border">
-                        <h4 class="box-title">
-                          <a data-toggle="collapse" data-parent="#accordion" href="#affiliate_observations">
-                            Affiliado 
-                          </a>
-                        </h4>
-                      </div>
-                      <div id="affiliate_observations" class="panel-collapse collapse">
-                        <div class="box-body">
-                            <div class="row">
-                                @if(isset($affi_observations))
-                                    <div class="col-md-12">
-                                        <table class="table table-bordered table-hover table-striped" id="observations-table">
-                                            <thead>
-                                                <tr class="success">
-                                                    <th class="col-md-2">Fecha </th>
-                                                    <th class="col-md-3">Tipo </th>
-                                                    <th class="col-md-5">Descripción </th>
-                                                    <th class="col-md-1">Habilitado</th>
-                                                    {{-- <th class="col-md-1">Opciones</th> --}}
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                @else
-                                    <div class="row text-center">
-                                        <div data-toggle="modal" data-target="#">
-                                            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="No hay observaciones">
-                                            <span class="fa fa-eye fa-5x" style="opacity: .4"></span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                      </div>
-                    </div>
+                   
                     <div class="panel box box-danger">
                       <div class="box-header with-border">
                         <h4 class="box-title">
                           <a data-toggle="collapse" data-parent="#accordion" href="#complement_observations">
                             Tramite
                           </a>
-                         
-
                         </h4>
                         <div class="box-tools pull-right">
                                 <div data-toggle="tooltip" data-placement="left" data-original-title="Añadir">
-                                        <a href="" class="btn btn-sm btn-danger btn-raised" data-toggle="modal" data-target="#observationEditModal" data-observation-id="" data-observation-type-id="" data-observation-message="" data-observation-enabled="">
-                                            <span class="fa fa-lg fa-plus" aria-hidden="true"></span>
-                                        </a>
+                                    <a href="" class="btn btn-sm btn-danger btn-raised" data-toggle="modal" data-target="#observationEditModal" data-observation-id="" data-observation-type-id="" data-observation-message="" data-observation-enabled="">
+                                                    <span class="fa fa-lg fa-plus" aria-hidden="true"></span>
+                                    </a>
                       </div>
                         </div>
                       </div>
                       <div id="complement_observations" class="panel-collapse collapse in">
                         <div class="box-body">
-                                <div class="row">
+                            <div class="row">
                                     <div class="col-md-12">
                                        
                                         <table class="table table-bordered table-hover table-striped" id="economic-observations-table">
@@ -942,6 +903,43 @@
                                             </thead>
                                         </table>
                                     </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    <div class="panel box panel-primary">
+                      <div class="box-header with-border">
+                        <h4 class="box-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#note_observations">
+                                Notas  
+                          </a>
+                         
+                        </h4>
+                        <div class="box-tools pull-right">
+                                <div data-toggle="tooltip" data-placement="left" data-original-title="Añadir">
+                                        <a href="" class="btn btn-sm btn-info btn-raised" data-toggle=
+                                        "modal" data-target="#observationEditModal" data-observation-id="" data-observation-type-id="11" data-observation-message="" data-observation-enabled="" data-notes="1">
+                                            <span class="fa fa-lg fa-plus" aria-hidden="true"></span>
+                                        </a>
+                      </div>
+                        </div>
+                      </div>
+                        <div id="note_observations" class="panel-collapse collapse">
+                        <div class="box-body">
+                                <div class="row">
+                                       
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered table-hover table-striped" id="notes-table">
+                                            <thead>
+                                                <tr class="success">
+                                                    <th class="col-md-2">Fecha </th>
+                                                    <th class="col-md-9">Descripción </th>
+                                                    <th class="col-md-1">Opciones</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                
                                 </div>
                         </div>
                       </div>
@@ -2829,19 +2827,20 @@
                 {!! Form::open(['action' => 'Observation\EconomicComplementObservationController@store']) !!}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Editando Observación</h4>
+                    <h4 class="modal-title" id="editModalTitle">Editando Observación</h4>
                 </div>
                 <div class="modal-body">
-                        {!! Form::label('observation_type_id_edit_l', 'Tipo', ['']) !!}
+                        {!! Form::label('observation_type_id_edit', 'Tipo', ['class'=>'note']) !!}
                     <div class="form-group">
-                        {!! Form::select('observation_type_id', $observations_types, '', ['class' => 'col-md-2 form-control','required' => 'required', 'id'=>'observation_type_id_edit']) !!}
+                        {!! Form::select('observation_type_id', $observations_types, '', ['class' => 'col-md-2 form-control note','required' => 'required', 'id'=>'observation_type_id_edit']) !!}
                     </div>
                     {!! Form::label('message', 'Mensaje:', []) !!}
                     <textarea name="message" id="message_edit" cols="50" rows="10" required="required" class="form-control"></textarea>
-                    {!! Form::label('is_enabled', 'Habilitado', ['']) !!}
+
                     <div class="form-group">
-                        <div class="checkbox">
-                            <label><input type="checkbox" name="is_enabled" id="is_enabled">
+                        <div class="togglebutton note">
+                            <label>
+                                <input type="checkbox" name="is_enabled" id="is_enabled"> <span id="check_title"> </span>
                             </label>
                         </div>
                     </div>
@@ -2850,9 +2849,8 @@
                 </div>
                 <div class="modal-footer">
                     <div class="text-center">
-                        <a href="#" data-dismiss="modal" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
-                        &nbsp;&nbsp;&nbsp;
-                        <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
+                        <a href="#" data-dismiss="modal" class="btn btn-raised btn-warning"><span class="fa fa-close"></span></a>
+                        <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;&nbsp;&nbsp;<span class="fa fa-save"></span>&nbsp;&nbsp;&nbsp;</button>
                     </div>
                 </div>
                     {!! Form::close() !!}
@@ -3171,34 +3169,30 @@ $(document).ready(function() {
    @if($status_eco_com_submitted_documents_ar)
         // $('#statusDocumentsModal').modal('show');
    @endif
-
-    //para el datatable de affiliados
-
-     var observationsTable= $('#observations-table').DataTable({
+    $('#economic-observations-table').DataTable({
             "dom": '<"top">t<"bottom"p>',
             processing: true,
             serverSide: true,
             pageLength: 8,
             autoWidth: false,
             ajax: {
-                url: '{!! route('get_observations') !!}',
+        url: '{!! route('get_complement_obsevations') !!}',
                 data: function (d) {
-                        d.affiliate_id={{$affiliate->id}}
-                   
+                d.economic_complement_id={{  $economic_complement->id}},
+                d.notes=0
                 }
-               
             },
             columns: [
 
                 { data: 'date', bSortable: false },
                 { data: 'type',name:"type" },
                 { data: 'message', bSortable: false },
-                { data: 'is_enabled', bSortable: false }
-                // { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
+            { data: 'is_enabled', bSortable: false },
+            { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
             ]
         });
 
-        $('#economic-observations-table').DataTable({
+    $('#notes-table').DataTable({
             "dom": '<"top">t<"bottom"p>',
             processing: true,
             serverSide: true,
@@ -3207,18 +3201,18 @@ $(document).ready(function() {
             ajax: {
             url: '{!! route('get_complement_obsevations') !!}',
                 data: function (d) {                  
-                    d.economic_complement_id={{  $economic_complement->id}}
+                d.economic_complement_id={{  $economic_complement->id}},
+                d.notes=1
                 }
             },
             columns: [
 
                 { data: 'date', bSortable: false },
-                { data: 'type',name:"type" },
                 { data: 'message', bSortable: false },
-                { data: 'is_enabled', bSortable: false },
                 { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
             ]
         });
+        
         
    //funciones modal de observaciones al affiliado
     $('#observationEditModal').on('show.bs.modal', function (event) {
@@ -3227,16 +3221,50 @@ $(document).ready(function() {
                 var observation_id = button.data('observation-id')
                 var observation_message = button.data('observation-message')
                 var observation_enabled = button.data('observation-enabled')
+                var notes = button.data('notes')
                 // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                 // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
                 var modal = $(this)
              
+                modal.find('.modal-body #is_enabled').change(function(){
+                    if($(this).is(":checked")){
+                        console.log('check');
+                        $('#check_title').text('Subsanado'); 
+                    }else
+                    {
+                        $('#check_title').text('Vigente'); 
+                        console.log('no check');
+                    }
+                });
+                if(observation_enabled){
+                    $('#check_title').text('Subsanado'); 
+                }
+                else{
+                    $('#check_title').text('Vigente');
+                }
                 modal.find('.modal-body #observation_type_id_edit').val(observation_type_id)
                 modal.find('.modal-body #observation_id_edit').val(observation_id)
                 modal.find('.modal-body #message_edit').val(observation_message)
                 modal.find('.modal-body #is_enabled').prop('checked',observation_enabled)
+                
+                if(notes)
+                {
+                    // modal.find('.modal-body #observation_type_id_edit').hide()
+                    modal.find('.modal-body .note').hide()
+                    //  $(".childNode").hide(100);
+                    modal.find('.modal-body #observation_type_label').hide()
+                    modal.find('.modal-body #is_enabled').hide()
+                }else{
+                    // modal.find('.modal-body #observation_type_id_edit').show()
+                    modal.find('.modal-body .note').show()
+                    modal.find('.modal-body #observation_type_label').show()
+                    modal.find('.modal-body #is_enabled').is(":visible")
+                }
+                
+
     });
 
+    
     $('#observationDeleteModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget) // Button that triggered the modal
                 var observation_id = button.data('observation-id')
