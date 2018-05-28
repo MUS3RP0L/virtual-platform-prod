@@ -96,7 +96,7 @@
                      {{-- <li><a href="" data-toggle="modal" data-target="#myModal-exportaps" data-toggle="modal"><i class="fa  fa-shield"></i> APS</a> <li>                    --}}
                      <li><a href="{{url('export_aps')}}" style="padding:3px 5px;"><i class="fa  fa-shield"></i> APS</a> <li>                   
                     <li role="separator" class="divider"></li>
-                    <li><a href="{{url('export_aps_availability')}}"  style="padding:3px 5px;"><i class="fa  fa-file-excel-o"></i>ASP Disponibilidad</a></li>        
+                    <li><a href="{{url('export_aps_availability')}}"  style="padding:3px 5px;"><i class="fa  fa-file-excel-o"></i>APS Inclusiones</a></li>        
                    
 
                 </ul>
