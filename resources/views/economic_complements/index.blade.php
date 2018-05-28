@@ -93,7 +93,8 @@
                 <a href="" class="btn btn-primary btn-raised" data-toggle="dropdown"><i class="fa fa-building"></i></a>
                 <a href="" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                     <li><a href="" data-toggle="modal" data-target="#myModal-exportaps" data-toggle="modal"><i class="fa  fa-shield"></i> APS</a> <li>                   
+                     {{-- <li><a href="" data-toggle="modal" data-target="#myModal-exportaps" data-toggle="modal"><i class="fa  fa-shield"></i> APS</a> <li>                    --}}
+                     <li><a href="{{url('export_aps')}}" style="padding:3px 5px;"><i class="fa  fa-shield"></i> APS</a> <li>                   
                     <li role="separator" class="divider"></li>
                     <li><a href="{{url('export_aps_availability')}}"  style="padding:3px 5px;"><i class="fa  fa-file-excel-o"></i>ASP Disponibilidad</a></li>        
                    
