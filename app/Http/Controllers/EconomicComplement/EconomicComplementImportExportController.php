@@ -332,11 +332,11 @@ public static function import_from_bank(Request $request)
 }
 
     //############################################## EXPORT AFFILIATES TO APS ###################################
-    public function export_to_aps(Request $request)
+    public function export_to_aps()
     {
-        global $year, $semester,$i,$afi;
-       $year = $request->year;
-       $semester = $request->semester;
+      global $year, $semester,$i,$afi;
+      // $year = $request->year;
+      // $semester = $request->semester;
        Excel::create('Muserpol_para_aps', function($excel) {
                  global $year,$semester, $j;
                  $j = 2;
@@ -345,15 +345,16 @@ public static function import_from_bank(Request $request)
                  $i=1;
                  $sheet->row(1, array('NRO', 'TIPO_ID', 'NUM_ID', 'EXTENSION', 'CUA', 'PRIMER_APELLIDO_T', 'SEGUNDO_APELLIDO_T','PRIMER_NOMBRE_T','SEGUNDO_NOMBRE_T','APELLIDO_CASADA_T','FECHA_NACIMIENTO_T'));
                  $afi = DB::table('eco_com_applicants')
-                     ->select(DB::raw('economic_complements.id,economic_complements.affiliate_id,affiliates.identity_card,cities.third_shortened,affiliates.nua,affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,affiliates.birth_date'))
+                     ->select(DB::raw('distinct on (affiliates.identity_card) affiliates.identity_card,economic_complements.id,economic_complements.affiliate_id,cities.third_shortened,affiliates.nua,affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,affiliates.birth_date'))
                      ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                      ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
                      ->leftJoin('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
                      ->where('affiliates.pension_entity_id','<>', 5)
                      //->where('economic_complements.sub_total_rent','>', 0)
                      //->whereNull('economic_complements.total_rent')
-                     ->whereYear('economic_complements.year', '=', $year)                     
-                     ->where('economic_complements.semester', '=', $semester)->get();
+                    //  ->whereYear('economic_complements.year', '=', $year)
+                    //  ->where('economic_complements.semester', '=', $semester)
+                     ->get();
                  foreach ($afi as $datos) {
                      $sheet->row($j, array($i, "I",Util::addcero($datos->identity_card,13),$datos->third_shortened,Util::addcero($datos->nua,9), $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,Util::DateUnion($datos->birth_date)));
                      $j++;
@@ -2295,15 +2296,17 @@ public static function import_from_bank(Request $request)
                 $i=1;
                 $sheet->row(1, array('NRO', 'TIPO_ID', 'NUM_ID', 'EXTENSION', 'CUA', 'PRIMER_APELLIDO_T', 'SEGUNDO_APELLIDO_T','PRIMER_NOMBRE_T','SEGUNDO_NOMBRE_T','APELLIDO_CASADA_T','FECHA_NACIMIENTO_T'));
                 $afi = DB::table('affiliates')
-                    ->select(DB::raw("concat(repeat('0',13-length(RTRIM(affiliates.identity_card))), RTRIM(affiliates.identity_card)) as identity_card, CITIES.third_shortened, cast(concat(repeat('0',9-length(RTRIM(cast(affiliates.nua as text)))), RTRIM(cast(affiliates.nua as text))) as text) as nua, affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,replace(cast(affiliates.birth_date as text), '-', '') as birth_date"))
+                    ->select(DB::raw("distinct on (affiliates.identity_card) affiliates.identity_card, concat(repeat('0',13-length(RTRIM(affiliates.identity_card))), RTRIM(affiliates.identity_card)) as identity_card, CITIES.third_shortened, cast(concat(repeat('0',9-length(RTRIM(cast(affiliates.nua as text)))), RTRIM(cast(affiliates.nua as text))) as text) as nua, affiliates.last_name,affiliates.mothers_last_name,affiliates.first_name,affiliates.second_name,affiliates.surname_husband,replace(cast(affiliates.birth_date as text), '-', '') as birth_date"))
                     ->leftJoin('units','affiliates.unit_id','=','units.id')
                     ->leftJoin('breakdowns', 'units.breakdown_id', '=', 'breakdowns.id')
                     ->leftJoin('cities', 'affiliates.city_identity_card_id', '=', 'cities.id')
-                    ->where('breakdowns.id','=', 1)
-                    ->whereNull('affiliates.pension_entity_id')
+                    ->leftJoin('affiliate_observations','affiliates.id', '=', 'affiliate_observations.affiliate_id')
+                    ->leftJoin('observation_types', 'affiliate_observations.observation_type_id', '=', 'observation_types.id')
+                    // ->where('breakdowns.id','=', 1)
+                    // ->whereNull('affiliates.pension_entity_id')
                     ->where('affiliates.nua','>', 0)
+                    ->whereRaw("(observation_types.id = 16 or breakdowns.id = 1) and not exists(SELECT 1 FROM economic_complements where economic_complements.affiliate_id = affiliates.id)")
                     ->get();
-
                 foreach ($afi as $datos)
                 {
                     $sheet->row($j, array($i, "I",$datos->identity_card,$datos->third_shortened,$datos->nua, $datos->last_name, $datos->mothers_last_name,$datos->first_name, $datos->second_name, $datos->surname_husband,$datos->birth_date));

@@ -133,7 +133,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('import_senasir', array('as'=>'import_senasir', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@import_from_senasir'));
 	Route::post('import_aps', array('as'=>'import_aps', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@import_from_aps'));
 	Route::post('import_bank', array('as'=>'import_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@import_from_bank'));
-	Route::post('export_aps', array('as'=>'export_aps', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_aps'));
+	Route::get('export_aps', array('as'=>'export_aps', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_aps'));
 	Route::post('export_bank', array('as'=>'export_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_bank'));
 	Route::get('export_aps_availability','EconomicComplement\EconomicComplementImportExportController@export_aps_availability');  //APS AVAILABILIT
 	Route::post('export_by_department_bank', array('as'=>'export_by_department_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_by_department_bank'));
