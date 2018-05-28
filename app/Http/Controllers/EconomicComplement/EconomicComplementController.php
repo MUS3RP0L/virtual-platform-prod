@@ -26,6 +26,7 @@ use Muserpol\EconomicComplementLegalGuardian;
 use Muserpol\EconomicComplementRequirement;
 use Muserpol\EconomicComplementSubmittedDocument;
 use Muserpol\EconomicComplementRent;
+use Muserpol\EconomicComplementObservation;
 use Muserpol\Devolution;
 
 use Muserpol\Affiliate;
@@ -362,11 +363,11 @@ class EconomicComplementController extends Controller
 
         // $moduleObservation=Auth::user()->roles()->first()->module->id;
         // $observations_types = $moduleObservation == 1 ? ObservationType::all() : ObservationType::where('module_id',$moduleObservation)->get();
-        $observations_types = ObservationType::where('module_id',Util::getRol()->module_id)->get();
-        $observation_types_list = array('' => '');
-            foreach ($observations_types as $item) {
-                $observation_types_list[$item->id]=$item->name;
-            }
+        $observations_types = ObservationType::where('module_id',Util::getRol()->module_id)->where('type','T')->where('id','<>',11)->get();
+        // $observation_types_list = array('' => '');
+        //     foreach ($observations_types as $item) {
+        //         $observation_types_list[$item->id]=$item->name;
+        //     }
 
 
         return [
@@ -377,7 +378,7 @@ class EconomicComplementController extends Controller
             'pension_entities_list' => $pension_entities_list,
             'cities_list' => $cities_list,
             'cities_list_short' => $cities_list_short,
-            'observations_types' => $observation_types_list,
+            'observations_types' => $observations_types,
             'months' => $months,
         ];
     }
@@ -1256,7 +1257,8 @@ class EconomicComplementController extends Controller
         }
 
         $class_rent =DB::table('eco_com_kind_rent')->where('id',$economic_complement->eco_com_kind_rent_id)->first();
-
+        $observations_quantity = EconomicComplementObservation::where('economic_complement_id',$economic_complement->id)->where('observation_type_id','<>',11)->get()->count();
+        $notes_quantity = EconomicComplementObservation::where('economic_complement_id',$economic_complement->id)->where('observation_type_id',11)->get()->count();
         $data = [
 
         'affiliate' => $affiliate,
@@ -1298,6 +1300,8 @@ class EconomicComplementController extends Controller
         'devolution_amount_percetage' => $devolution_amount_percetage,
         'devolution_amount_total' => $devolution_amount_total,
         'complement_observations' => $economic_complement->observations,
+        'observations_quantity' =>$observations_quantity,
+        'notes_quantity' =>$notes_quantity,
         ];
         // return $data;
         // dd($eco_com_submitted_documents_ar);

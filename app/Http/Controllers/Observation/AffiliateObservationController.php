@@ -12,7 +12,7 @@ use Muserpol\EconomicComplement;
 use Muserpol\ObservationType;
 use Muserpol\EconomicComplementProcedure;
 use Muserpol\AffiliateRecord;
-
+use Muserpol\EconomicComplementObservation;
 use Carbon\Carbon;
 use Util;
 use Log;
@@ -71,6 +71,26 @@ class AffiliateObservationController extends Controller
         Session::flash('affiliate_id',$observation->affiliate_id);
         Session::flash('observation_type_id',$observation->observation_type_id);
         Session::flash('message', $message);
+
+        // Log::info(Util::getCurrentProcedure());
+        //creando la observacion en el tramite en caso de exista el tramite y el tipo sea AT
+        
+        if($observation->observationType->type == 'AT')
+        {
+          $economic_complement = EconomicComplement::where('affiliate_id',$observation->affiliate_id)->where('eco_com_procedure_id',Util::getCurrentProcedure()->id)->first();
+          // Log::info($economic_complement);
+          if($economic_complement)
+          { 
+            $eco_com_observation = new EconomicComplementObservation;
+            $eco_com_observation->user_id = Auth::user()->id;
+            $eco_com_observation->economic_complement_id = $economic_complement->id;
+            $eco_com_observation->observation_type_id = $observation->observation_type_id;
+            $eco_com_observation->message = $observation->message;
+            $eco_com_observation->save();
+          }
+        }
+
+
       }
 
       $affiliate = Affiliate::where('id',$request->affiliate_id)->first();
@@ -102,7 +122,18 @@ class AffiliateObservationController extends Controller
     public function delete(Request $request)
     {
       $observation=AffiliateObservation::find($request->observation_id);
+      if($observation->observationType->type == 'AT')
+      {
+        $economic_complement = EconomicComplement::where('affiliate_id',$observation->affiliate_id)->where('eco_com_procedure_id',Util::getCurrentProcedure()->id)->first();
+        // Log::info($economic_complement);
+        if($economic_complement)
+        { 
+          $eco_com_observation = EconomicComplementObservation::where('economic_complement_id',$economic_complement->id)->where('observation_type_id',$observation->observation_type_id)->first();
+          $eco_com_observation->delete();
+        }
+      }
       $observation->delete();
+
       return back();
     }
 
@@ -123,8 +154,6 @@ class AffiliateObservationController extends Controller
                                                 ->select(['id','affiliate_id','date','message','is_enabled','observation_type_id'])->get();
       // }
 
-      Log::info(sizeof($observations_list));
-
       return Datatables::of($observations_list)
         ->editColumn('date',function ($observation)
         {
@@ -139,7 +168,7 @@ class AffiliateObservationController extends Controller
             '<div class="btn-group" style="margin:-3px 0;">
             <button type="button" class="btn btn-warning btn-raised btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="caret"></span></button>
             <ul class="dropdown-menu">
-                <li><a href="/print_observations/'.$observation->affiliate_id.'/'.$observation->observation_type_id.'"><i class="glyphicon glyphicon-print"></i> Imprimir</a></li>'.
+            '.
                 ((Util::getRol()->module_id == ObservationType::find($observation->observation_type_id)->module_id) ? '<li><a data-toggle="modal" data-target="#observationDeleteModal" data-id="'.$observation->id.'" class="deleteObservation" href="#">' .$observation->observation_type. '<i class="fa fa-times-circle"></i> Eliminar</a></li>':'').'
               </ul>
             </div>';})
