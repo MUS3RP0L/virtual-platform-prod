@@ -1759,7 +1759,9 @@ class EconomicComplementReportController extends Controller
             $columns = '';
             $file_name = $name.' '.date("Y-m-d H:i:s");
             $economic_complements=EconomicComplement::affiliateinfo()->applicantinfo()
-            ->select(DB::raw("DISTINCT ON (affiliates.identity_card) affiliates.identity_card as CI_CAUSAHABIENTE,".EconomicComplement::basic_info_affiliates(). ",affiliates.phone_number as telefono_causahabiente, affiliates.cell_phone_number as celular_causahabiente,".EconomicComplement::basic_info_applicants(). ",eco_com_applicants.phone_number as telefono, eco_com_applicants.cell_phone_number as celular,economic_complements.affiliate_id"))
+            ->select(DB::raw("DISTINCT ON (affiliates.identity_card) affiliates.identity_card as CI_CAUSAHABIENTE,".EconomicComplement::basic_info_affiliates(). ",degree_affiliates.name as grado, category_affiliates.name as categoria, affiliates.phone_number as telefono_causahabiente, affiliates.cell_phone_number as celular_causahabiente,".EconomicComplement::basic_info_applicants(). ",eco_com_applicants.phone_number as telefono, eco_com_applicants.cell_phone_number as celular,economic_complements.affiliate_id"))
+            ->leftJoin('degrees as degree_affiliates', 'affiliates.degree_id', '=', 'degree_affiliates.id')
+            ->leftJoin('categories as category_affiliates', 'affiliates.category_id', '=', 'category_affiliates.id')
             // ->take(500)
             ->get();
             foreach ($economic_complements as $eco) {
