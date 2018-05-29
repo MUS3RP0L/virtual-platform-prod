@@ -22,7 +22,7 @@ use Muserpol\EconomicComplementProcedure;
 use Muserpol\WorkflowState;
 
 use Log;
-
+use Session;
 class DashboardController extends Controller
 {
 		/*
@@ -464,31 +464,50 @@ class DashboardController extends Controller
 	}
 
 	public function searchAffiliate(Request $request)
-	{
+	{		
 		$query = $request->q;
-
+		$type = $request->search_type;				
+		Session::set('search_type', $type);
 		if(!$query && $query == '') return Response::json(array(), 400);
 
-		$affiliates = Affiliate::where('identity_card','like', $query)
-			->orderBy('first_name','asc')
-			->take(3)
-			->get(array('id', 'identity_card', 'first_name', 'last_name'))->toArray();
-		$spouse = Spouse::where('identity_card','like', $query)
-			// ->leftJoin('economic_complements','economic_complements.id','=','eco_com_applicants.economic_complement_id')
-			->orderBy('first_name','asc')
-			->take(3)
-			->get(array('spouses.affiliate_id','spouses.identity_card', 'spouses.first_name', 'spouses.last_name'))->toArray();	
+		if($type == "1"){
+			$affiliates = Affiliate::where('identity_card','like', $query)
+				->orderBy('first_name','asc')
+				->take(3)
+				->get(array('id', 'identity_card', 'first_name', 'last_name'))->toArray();
+			$affiliates = $this->appendURLaffiliate($affiliates, 'affiliate');
+			$affiliates = $this->appendValue($affiliates, 'affiliate', 'class');
+			$data = $affiliates;
+		}
+		else{
+			$eco_com_applicant = EconomicComplementApplicant::where('eco_com_applicants.identity_card','like', $query)				
+				->leftJoin('economic_complements','economic_complements.id','=','eco_com_applicants.economic_complement_id')
+				->select('economic_complements.affiliate_id as id','eco_com_applicants.identity_card', 'eco_com_applicants.last_name', 'eco_com_applicants.first_name')
+				->orderBy('eco_com_applicants.last_name','asc')
+				->take(3)
+				->get(array('id','eco_com_applicants.identity_card', 'eco_com_applicants.last_name', 'eco_com_applicants.first_name'))
+				->toArray();				
+				$eco_com_applicant  = $this->appendURLaffiliate($eco_com_applicant, 'affiliate');
+				$eco_com_applicant = $this->appendValue($eco_com_applicant, 'eco_com_applicant', 'class');
+				$data = $eco_com_applicant;
+		}
+		// else{
+		// 	$spouse = Spouse::where('identity_card','like', $query)
+		// 		// ->leftJoin('economic_complements','economic_complements.id','=','eco_com_applicants.economic_complement_id')
+		// 		->orderBy('first_name','asc')
+		// 		->take(3)
+		// 		->get(array('spouses.affiliate_id','spouses.identity_card', 'spouses.first_name', 'spouses.last_name'))->toArray();	
 
-		$affiliates = $this->appendURLaffiliate($affiliates, 'affiliate');
-		$affiliates = $this->appendValue($affiliates, 'affiliate', 'class');
 
-		// $eco_com_applicant  = $this->appendURLaffiliate($eco_com_applicant, 'affiliate');
-		// $eco_com_applicant = $this->appendValue($eco_com_applicant, 'eco_com_applicant', 'class');
+		// 	// $eco_com_applicant  = $this->appendURLaffiliate($eco_com_applicant, 'affiliate');
+		// 	// $eco_com_applicant = $this->appendValue($eco_com_applicant, 'eco_com_applicant', 'class');
 
-		$spouse  = $this->appendURLspouse($spouse, 'affiliate');
-		$spouse = $this->appendValue($spouse, 'spouse', 'class');
+		// 	$spouse  = $this->appendURLspouse($spouse, 'affiliate');
+		// 	$spouse = $this->appendValue($spouse, 'spouse', 'class');
+		// 	$data = $spouse;
+		// }
 
-		$data = array_merge($affiliates,$spouse);
+		//$data = array_merge($affiliates,$spouse);
 
 		return response()->json(array(
 			'data'=>$data
