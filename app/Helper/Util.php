@@ -778,4 +778,8 @@ class Util
 		return trim($ci[0][0]);
 	}
 
+	public static function getEnabledLabel($is_enabled)
+	{
+		return $is_enabled?'Subsanado':'Vigente';
+	}
 }
