@@ -15,7 +15,7 @@ Formulario Nº 4
  <p>Distinguido (a) Director (a): </p>
  <p align="justify">La presente tiene por objeto solicitar a su autoridad pueda instruir por la unidad correspondiente hacerme el <strong>&nbsp;&nbsp; PAGO DEL BENEFICIO DEL COMPLEMENTO ECONÓMICO DEL {!! strtoupper($economic_complement->semester) !!} SEMESTRE DE LA GESTIÓN 2017, </strong>en razón que mi persona fue beneficiario en el semestre anterior.</p>
  <p>Para tal efecto, adjunto los requisitos exigidos de acuerdo al siguiente detalle:</p>
- <div class="title2"><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong></div>
+ <div class="title2"><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong><strong class="code">Nº Afiliado: {!! $affiliate->id !!} </strong></div>
  <table class="table" style="width:100%;">
      <tr>
        <td colspan="6" class="grand info_title">

@@ -19,13 +19,22 @@
                     <a href="{!! url('inbox') !!}" class="btn btn-success btn-raised bg-orange" ><i class="fa fa-refresh fa-lg"></i></a>
           </div>
           @can('eco_com_qualification')
-          <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Planilla de los Trámites seleccinados" style="margin: 0;">
-          {!! Form::open(['method' => 'POST', 'route' => ['print_edited_data']]) !!}
-            <button class="btn btn-primary btn-raised  bg-blue" ><i class="fa fa-print fa-lg"></i>
-            </button>
-            <input type="hidden" id="ids_print" name="ids_print">
-          {!! Form::close() !!} 
-          </div>
+            <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Planilla de los Trámites seleccinados" style="margin: 0;">
+            {!! Form::open(['method' => 'POST', 'route' => ['print_edited_data']]) !!}
+              <button class="btn btn-primary btn-raised  bg-blue" ><i class="fa fa-print fa-lg"></i>
+              </button>
+              <input type="hidden" id="ids_print" name="ids_print">
+            {!! Form::close() !!} 
+            </div>
+          @endcan
+          @can('eco_com_reception')
+            <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Planilla de los Trámites seleccinados (recepionados)" style="margin: 0;">
+            {!! Form::open(['method' => 'POST', 'route' => ['print_edited_data']]) !!}
+              <button class="btn btn-primary btn-raised  bg-blue" ><i class="fa fa-print fa-lg"></i>
+              </button>
+              <input type="hidden" id="ids_print" name="ids_print">
+            {!! Form::close() !!} 
+            </div>
           @endcan
     		</div>
     </div>
@@ -51,254 +60,349 @@
     .padding-lr{
       padding: 0px 0px 0px 5px !important;
     }
+.wrapper1{
+  text-align:center;
+  margin:0 auto 20px auto;
+}
+.tabs{
+  margin-top:5px;
+  font-size:18px;
+  padding:0px;
+  list-style:none;
+  background:#fff;
+  box-shadow:0px 5px 20px rgba(0,0,0,0.1);
+  display:inline-block;
+  border-radius:50px;
+  position:relative;
+}
+
+.tabs a{
+  text-decoration:none;
+  color: #777;
+  text-transform:uppercase;
+  padding:10px 20px;
+  display:inline-block;
+  position:relative;
+  z-index:1;
+  transition-duration:0.6s;
+}
+
+.tabs a.active{
+  color:#fff;
+}
+
+.tabs a i{
+  margin-right:5px;
+}
+
+.tabs .selector{
+  height:100%;
+  display:inline-block;
+  position:absolute;
+  left:0px;
+  top:0px;
+  z-index:1;
+  border-radius:50px;
+  transition-duration:0.6s;
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  background: #37ecba;
+  background-image: linear-gradient(to top, #37ecba 0%, #72afd3 100%);
+  background: -moz-linear-gradient(45deg, #37ecba 0%, #72afd3 100%);
+  background: -webkit-linear-gradient(45deg, #37ecba 0%,#72afd3 100%);
+  background: linear-gradient(45deg, #37ecba 0%,#72afd3 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#37ecba', endColorstr='#72afd3',GradientType=1 );
+}
 </style>
-<div class="row">
-<div class="col-md-6">
-	<div class="box box-success">
-		<div class="box-header with-border">
-      <h3 class="box-title">Trámites recibidos</h3>
-      <div class="box-tools pull-right">
-        <div data-bind="foreach: listaWorkflowsReceived">
-          <span data-toggle="tooltip" data-placement="top" data-bind="attr: {title: nombre}">
-            <a data-bind="attr: {'data-id': id},css:color, style:{fontWeight:'bold'},style:{fontWeight: 'bold'}"  href="#" class="btn-received btn btn-sm btn-raised "><i data-bind="text: quantityStyle, style:{fontWeight: 'bold'}" class="fa fa-file-text-o"></i></a>
-          </span>
-        </div> 
-      </div>
-      {{-- @can('eco_com_approval') --}}
-      <div class="col-md-3">
-        <span data-toggle="modal" data-target="#sendAllModal" >
-          <a href="#" class="btn btn-md btn-raised btn-success" data-toggle="tooltip" data-placement="top" title="Derivar todos los tramites" ><i class="fa  fa-files-o"></i> <i class="fa fa-arrow-right"></i> </a>
-        </span>
-      </div>
-      <!-- Modal -->
-      <div class="modal fade" id="sendAllModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog " role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel"><strong>¿Esta seguro de derivar todos los trámites?</strong></h4>
-            </div>
-            <div class="row text-center">
-              {!! Form::open(['method' => 'POST', 'route' => ['inbox_send_all'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <a href="#" data-dismiss="modal" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
-                        &nbsp;&nbsp;&nbsp;
-                        <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Confirmar">&nbsp;<span class="fa fa-check"></span>&nbsp;</button>
-                    </div>
-                </div>
-                {!! Form::close() !!}
-            </div>
-            <div class="modal-footer">
-            </div>
-          </div>
-        </div>
-      </div>
-       {{-- @endcan --}}
-
-		</div>
-    <div class="box-body">
-      {{-- {!! Form::select('select-received', $workflow_ids, null, ['id'=>'select-received']); !!} --}}
-  		<table id="received" class="table table-bordered table-hover">
-          <tfoot>
-            <th></th>
-            <th class="padding-lr" style="max-width: 100px;"><input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;"></th>
-            <th class="padding-lr">
-              <div class="form-group">
-                
-              <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
-              </div>
-            </th>
-            <th class="padding-lr" style="max-width: 60px;">
-              
-              <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
-            </th>
-            <th class="padding-lr" style="max-width: 60px;"><input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;"></th>
-            {{-- <th>Opciones</th> --}}
-          </tfoot>
-  		   <thead>
-  		      <tr class="success">
-              <th></th>
-               <th>CI</th>
-               <th>Nombre de beneficiario</th>
-  		         <th>Reg</th>
-               <th>Tŕamite</th>
-  		         {{-- <th>Opciones</th> --}}
-  		      </tr>
-  		   </thead>
-        
-  		</table>
+<div class="row111">
+  <div class="wrapper1">
+    <nav class="tabs">
+      <div class="selector"></div>
+      <a href="#home" role="tab" data-toggle="tab" class="active"><i class="fa fa-clock-o"></i>Trámites recibidos</a>
+      <a href="#home1" role="tab" data-toggle="tab">{{Util::getRol()->action}} <i class="fa fa-check"></i></a>
+    </nav>
   </div>
-	</div>
-</div>
-<div class="col-md-6">
-	<div class="box box-success">
-		<div class="box-header with-border">
-			<h3 class="box-title"> {{Util::getRol()->action}} </h3>
-      <div class="box-tools pull-right">
-        <div data-bind="foreach: listaWorkflows">
+  {{-- <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+    <li role="presentation"><a href="#home1" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
 
-          <span data-toggle="tooltip" data-placement="top" data-bind="attr: {title: nombre}">
-            <a data-bind="attr: {'data-id': id},css:color, click:$parent.wf_click,style:{fontWeight: 'bold'}"  href="#" class="btn-edited btn btn-sm btn-raised"><i data-bind="text: quantityStyle, style:{fontWeight: 'bold'}" class="fa fa-file-text-o"></i></a>
-          </span>
-        </div> 
-      </div>
-		</div>
-		<div class="box-body">
+  </ul> --}}
 
-         {{-- <select data-bind=" options: listaWorkflows ,optionsValue: 'id', optionsText: 'nombre',value: workflowSelected" id='select-edited'></select>  --}}
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="home">
+      <div class="col-md-12">
+        <div class="box box-success">
+          <div class="box-header with-border">
+            <h3 class="box-title">Trámites recibidos</h3>
+            <div class="box-tools pull-right">
+              <div data-bind="foreach: listaWorkflowsReceived">
+                <span data-toggle="tooltip" data-placement="top" data-bind="attr: {title: nombre}">
+                  <a data-bind="attr: {'data-id': id},css:color, style:{fontWeight:'bold'},style:{fontWeight: 'bold'}"  href="#" class="btn-received btn btn-sm btn-raised "><i data-bind="text: quantityStyle, style:{fontWeight: 'bold'}" class="fa fa-file-text-o"></i></a>
+                </span>
+              </div> 
+            </div>
+            {{-- @can('eco_com_approval') --}}
+            <div class="col-md-1">
+              <span data-toggle="modal" data-target="#sendAllModal" >
+                <a href="#" class="btn btn-md btn-raised btn-success" data-toggle="tooltip" data-placement="top" title="Derivar todos los tramites" ><i class="fa  fa-files-o"></i> <i class="fa fa-arrow-right"></i> </a>
+              </span>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="sendAllModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog " role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"><strong>¿Esta seguro de derivar todos los trámites?</strong></h4>
+                  </div>
+                  <div class="row text-center">
+                    {!! Form::open(['method' => 'POST', 'route' => ['inbox_send_all'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}
+                      <div class="form-group">
+                          <div class="col-md-12">
+                              <a href="#" data-dismiss="modal" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
+                              &nbsp;&nbsp;&nbsp;
+                              <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Confirmar">&nbsp;<span class="fa fa-check"></span>&nbsp;</button>
+                          </div>
+                      </div>
+                      {!! Form::close() !!}
+                  </div>
+                  <div class="modal-footer">
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{-- @endcan --}}
 
-		{!! Form::open(['method' => 'POST', 'route' => ['inbox.store'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}
-		<table id="edited" style="width:100%" class="table table-bordered table-hover">
-      <tfoot>
-              <th></th>
-              <th></th>
-              <th class="padding-lr">
-                <div class="form-group col-md-12">
-                  <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
-                </div>
-              </th>
-              <th class="padding-lr">
-                <div class="form-group col-md-12">
-                  <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
-                </div>
-              </th>
-              <th class="padding-lr">
-                <div class="form-group col-md-12">
-                  <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
-                </div>
-              </th>
-              <th class="padding-lr">
-                <div class="form-group col-md-12">
-                  <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
-                </div>
-              </th>
-            </tfoot>
-            <thead>
-                <tr class="success">
+          </div>
+          <div class="box-body">
+            {{-- {!! Form::select('select-received', $workflow_ids, null, ['id'=>'select-received']); !!} --}}
+            <table id="received" class="table table-bordered table-hover">
+                <tfoot>
+                  <th></th>
+                  <th class="padding-lr" style="max-width: 100px;"><input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;"></th>
+                  <th class="padding-lr">
+                    <div class="form-group">
+                      
+                    <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
+                    </div>
+                  </th>
+                  <th class="padding-lr" style="max-width: 60px;">
+                    
+                    <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
+                  </th>
+                  <th class="padding-lr" style="max-width: 60px;"><input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;"></th>
+                  <th class="padding-lr" style="max-width: 60px;"><input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;"></th>
+                  <th class="padding-lr" style="max-width: 60px;"><input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;"></th>
+                  <th class="padding-lr" style="max-width: 60px;"><input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;"></th>
+                  {{-- <th>Opciones</th> --}}
+                </tfoot>
+              <thead>
+                  <tr class="success">
                     <th></th>
-                    <th>
-                        <div class="checkboxx">
-                            <label>
-                                <input type="checkbox" id="editedCheckboxAll" name="select_all"><span class="checkbox-decorator"><span  class="check"></span></span>
-                            </label>
-                        </div>
-                    </th>
                     <th>CI</th>
                     <th>Nombre de beneficiario</th>
                     <th>Reg</th>
                     <th>Tŕamite</th>
-                </tr>
-            </thead>
-            
-		</table>
-    @if($sw_actual)
-    
-    
-    <div data-bind="visible: secuenciaIsVisible, if: secuenciaIsVisible ">
-      
-      {{-- boton de retroceso --}}
-      <div class="row">
-
-        <div class="col-md-6" data-bind="visible: once">
-          <div class="btn-group">
-            <button type="button" class="btn btn-raised btn-warning" data-bind="click: setBack()"  data-target="#back-modal"  data-toggle="modal" ><i class="fa fa-arrow-left" ></i> <strong data-bind="text: secuenciaActualAtras().name"></strong></button>
-            <button type="button" class="btn btn-raised btn-warning dropdown-toggle" data-toggle="dropdown">
-              <span class="caret"></span>
-              <span class="sr-only">Toggle Dropdown</span>
-            </button>
-           
-            <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuenciasAtras">
-              <li ><a href="#" data-bind="text: name,click: $root.seleccionaSecuenciaAtras"></a></li>
-            </ul>
-          </div>
+                    <th>Tipo</th>
+                    <th>Tipo de Prestación</th>
+                    <th>Fecha de Recepcion</th>
+                    {{-- <th>Opciones</th> --}}
+                  </tr>
+              </thead>
+              
+            </table>
         </div>
-
-        {{-- boton de envio --}}
-        <div class="cod-md-6" data-bind="visible: once">
-          <div class="btn-group">
-            <button type="button" class="btn btn-raised btn-success" data-bind="click: setNext()" data-target="#modal-confirm"  data-toggle="modal" > <strong data-bind="text: secuenciaActual.nombre"></strong>  <i class="fa fa-arrow-right" ></i></button>
-            <button type="button" class="btn btn-raised btn-success dropdown-toggle" data-toggle="dropdown">
-              <span class="caret"></span>
-              <span class="sr-only">Toggle Dropdown</span>
-            </button>
-           
-            <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuencias">
-              <li ><a href="#" data-bind="text: nombre, click: $root.secuenciaSeleccionada"></a></li>
-            </ul>
-          </div>
         </div>
-
       </div>
-
-
-      <input type="hidden" name="wf_state_next_id" data-bind="value: secuenciaActual.id">
-      <input type="hidden" id="ids" name="ids">
-      <input type="hidden" name="type" data-bind="value: type()">
-
-          <div id="modal-confirm" class="modal fade modal-info" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                   <input type="hidden" name="_token" value="{{ csrf_token() }}">  
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title">Enviar tramite</h4>
-                </div>
-                <div class="modal-body">
-                
-                      Esta seguro de enviar los tramites de <strong> {{ $sw_actual->name }}</strong>  a  <strong data-bind="text: secuenciaActual.nombre"> </strong> ?
-                    
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-raised" data-dismiss="modal"> No</button>
-                  <button type="submit" class="btn btn-raised" >Si </button>
-                </div>
-              </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-          </div><!-- /.modal -->
-
-          <div id="back-modal" class="modal fade modal-default" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title"><strong class=""> Retroceso de Tramite</strong></h4>
-                </div>
-                <div class="modal-body">
-                
-                      Esta seguro de enviar el o los tramites a  <strong data-bind="text: secuenciaActualAtras().name"></strong>
-                      <textarea class="form-control" name="nota" placeholder=" Nota"></textarea>
-                      <input type="hidden" name="wf_state_id" data-bind="value: secuenciaActualAtras().id">
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">No</button>
-                  <button type="submit" class="btn btn-raised btn-danger">Si </button>
-                </div>
-              </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-          </div><!-- /.modal -->
-
     </div>
+    <div role="tabpanel" class="tab-pane" id="home1">
+      <div class="col-md-12">
+        <div class="box box-success">
+          <div class="box-header with-border">
+            <h3 class="box-title"> {{Util::getRol()->action}} </h3>
+            <div class="box-tools pull-right">
+              <div data-bind="foreach: listaWorkflows">
 
-    <div data-bind="visible: messageVisible">
-        <br>
-        <div class="alert alert-primary alert-dismissible" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          El <strong data-bind="text: workflowSelectedName"> </strong> No tiene opciones de envio.
+                <span data-toggle="tooltip" data-placement="top" data-bind="attr: {title: nombre}">
+                  <a data-bind="attr: {'data-id': id},css:color, click:$parent.wf_click,style:{fontWeight: 'bold'}"  href="#" class="btn-edited btn btn-sm btn-raised"><i data-bind="text: quantityStyle, style:{fontWeight: 'bold'}" class="fa fa-file-text-o"></i></a>
+                </span>
+              </div> 
+            </div>
+          </div>
+          <div class="box-body">
+
+              {{-- <select data-bind=" options: listaWorkflows ,optionsValue: 'id', optionsText: 'nombre',value: workflowSelected" id='select-edited'></select>  --}}
+
+          {!! Form::open(['method' => 'POST', 'route' => ['inbox.store'], 'class' => 'form-horizontal','id'=>'frm-edited']) !!}
+          <table id="edited" style="width:100%" class="table table-bordered table-hover">
+            <tfoot>
+                    <th></th>
+                    <th></th>
+                    <th class="padding-lr">
+                      <div class="form-group col-md-12">
+                        <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
+                      </div>
+                    </th>
+                    <th class="padding-lr">
+                      <div class="form-group col-md-12">
+                        <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
+                      </div>
+                    </th>
+                    <th class="padding-lr">
+                      <div class="form-group col-md-12">
+                        <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
+                      </div>
+                    </th>
+                    <th class="padding-lr">
+                      <div class="form-group col-md-12">
+                        <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
+                      </div>
+                    </th>
+                    <th class="padding-lr">
+                      <div class="form-group col-md-12">
+                        <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
+                      </div>
+                    </th>
+                    <th class="padding-lr">
+                      <div class="form-group col-md-12">
+                        <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
+                      </div>
+                    </th>
+                    <th class="padding-lr">
+                      <div class="form-group col-md-12">
+                        <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
+                      </div>
+                    </th>
+                  </tfoot>
+                  <thead>
+                      <tr class="success">
+                          <th></th>
+                          <th>
+                              <div class="checkboxx">
+                                  <label>
+                                      <input type="checkbox" id="editedCheckboxAll" name="select_all"><span class="checkbox-decorator"><span  class="check"></span></span>
+                                  </label>
+                              </div>
+                          </th>
+                          <th>CI</th>
+                          <th>Nombre de beneficiario</th>
+                          <th>Reg</th>
+                          <th>Tŕamite</th>
+                          <th>Tipo</th>
+                          <th>Tipo de Prestación</th>
+                          <th>Fecha de Recepcion</th>
+                      </tr>
+                  </thead>
+                  
+          </table>
+          @if($sw_actual)
+          
+          
+          <div data-bind="visible: secuenciaIsVisible, if: secuenciaIsVisible ">
+            
+            {{-- boton de retroceso --}}
+            <div class="row text-center">
+
+              <div class="col-md-6" data-bind="visible: once">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-raised btn-warning" data-bind="click: setBack()"  data-target="#back-modal"  data-toggle="modal" ><i class="fa fa-arrow-left" ></i> <strong data-bind="text: secuenciaActualAtras().name"></strong></button>
+                  <button type="button" class="btn btn-raised btn-warning dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                
+                  <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuenciasAtras">
+                    <li ><a href="#" data-bind="text: name,click: $root.seleccionaSecuenciaAtras"></a></li>
+                  </ul>
+                </div>
+              </div>
+
+              {{-- boton de envio --}}
+              <div class="cod-md-6" data-bind="visible: once">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-raised btn-success" data-bind="click: setNext()" data-target="#modal-confirm"  data-toggle="modal" > <strong data-bind="text: secuenciaActual.nombre"></strong>  <i class="fa fa-arrow-right" ></i></button>
+                  <button type="button" class="btn btn-raised btn-success dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                
+                  <ul class="dropdown-menu" role="menu" data-bind="foreach: listaSecuencias">
+                    <li ><a href="#" data-bind="text: nombre, click: $root.secuenciaSeleccionada"></a></li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+
+
+            <input type="hidden" name="wf_state_next_id" data-bind="value: secuenciaActual.id">
+            <input type="hidden" id="ids" name="ids">
+            <input type="hidden" name="type" data-bind="value: type()">
+
+                <div id="modal-confirm" class="modal fade modal-info" tabindex="-1" role="dialog">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">  
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Enviar tramite</h4>
+                      </div>
+                      <div class="modal-body">
+                      
+                            Esta seguro de enviar los tramites de <strong> {{ $sw_actual->name }}</strong>  a  <strong data-bind="text: secuenciaActual.nombre"> </strong> ?
+                          
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-raised" data-dismiss="modal"> No</button>
+                        <button type="submit" class="btn btn-raised" >Si </button>
+                      </div>
+                    </div><!-- /.modal-content -->
+                  </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+                <div id="back-modal" class="modal fade modal-default" tabindex="-1" role="dialog">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><strong class=""> Retroceso de Tramite</strong></h4>
+                      </div>
+                      <div class="modal-body">
+                      
+                            Esta seguro de enviar el o los tramites a  <strong data-bind="text: secuenciaActualAtras().name"></strong>
+                            <textarea class="form-control" name="nota" placeholder=" Nota"></textarea>
+                            <input type="hidden" name="wf_state_id" data-bind="value: secuenciaActualAtras().id">
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-raised btn-danger">Si </button>
+                      </div>
+                    </div><!-- /.modal-content -->
+                  </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+          </div>
+
+          <div data-bind="visible: messageVisible">
+              <br>
+              <div class="alert alert-primary alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                El <strong data-bind="text: workflowSelectedName"> </strong> No tiene opciones de envio.
+              </div>
+          </div>
+          
+          @else
+          <br>
+          <div class="alert alert-primary alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong> Fin del Tramite!</strong> ultimo punto del flujo del tramite.
+          </div>  
+          @endif
+          {!! Form::close() !!}
+          </div>
         </div>
+      </div>
     </div>
-    
-    @else
-    <br>
-    <div class="alert alert-primary alert-dismissible" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <strong> Fin del Tramite!</strong> ultimo punto del flujo del tramite.
-    </div>  
-    @endif
-    {!! Form::close() !!}
-		</div>
-	</div>
-</div>
+  </div>
 </div>
 
 
@@ -306,6 +410,26 @@
 <script>
 
 $(document).ready(function (){
+  var tabs = $('.tabs');
+  var items = $('.tabs').find('a').length;
+  var selector = $(".tabs").find(".selector");
+  var activeItem = tabs.find('.active');
+  var activeWidth = activeItem.innerWidth();
+  $(".selector").css({
+    "left": activeItem.position.left + "px", 
+    "width": activeWidth + "px"
+  });
+
+  $(".tabs").on("click","a",function(){
+    $('.tabs a').removeClass("active");
+    $(this).addClass('active');
+    var activeWidth = $(this).innerWidth();
+    var itemPos = $(this).position();
+    $(".selector").css({
+      "left":itemPos.left + "px", 
+      "width": activeWidth + "px"
+    });
+  });
 
     var oTable = $('#received').DataTable({
         
@@ -323,6 +447,9 @@ $(document).ready(function (){
             { data: 'name',name: 'name'},
             { data: 'city',name: 'city'},
             { data: 'code',name:'code',"sType": "code" },
+            { data: 'reception_type'},
+            { data: 'benefit_type'},
+            { data: 'reception_date'},
             // { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
         ],
        'order': [3, 'asc'],
@@ -425,6 +552,16 @@ $(document).ready(function (){
         },
         { "data":"city" },
         { "data":"code","sType": "code" },
+        { "data":"reception_type"},
+        { "data":"benefit_type"},
+        { "data":"reception_date", render:function(data, type, row){
+          var d= new Date(data);
+          var options = {  
+            weekday: "long", year: "numeric", month: "short",  
+            day: "numeric", hour: "2-digit", minute: "2-digit"  
+        };  
+          return d.toLocaleDateString('es-ES', options);
+        }},
 
      ],
       'order': [4, 'asc'],
@@ -446,6 +583,18 @@ $(document).ready(function (){
   
   jQuery.fn.dataTableExt.oSort["code-asc"] = function (x, y) {
       return jQuery.fn.dataTableExt.oSort["code-desc"](y, x);
+  }
+  
+  jQuery.fn.dataTableExt.oSort["reception-date-desc"] = function (x, y) {
+      function getDate(date){
+          var d = date +' 00:00:00';
+          return new Date(d);
+      };
+      return ((getDate(x)< getDate(y)) ? -1 : ((getDate(x)> getDate(y)) ? 1 : 0));
+  };
+  
+  jQuery.fn.dataTableExt.oSort["reception-date-asc"] = function (x, y) {
+      return jQuery.fn.dataTableExt.oSort["reception-date-desc"](y, x);
   }
   
   table.columns().every( function () {
