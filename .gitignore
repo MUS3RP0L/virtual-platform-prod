@@ -3,3 +3,5 @@
 /.idea
 /.phpintel
 /storage/excel/exports
+/storage/
+npm-debug.log
