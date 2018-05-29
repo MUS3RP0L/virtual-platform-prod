@@ -218,7 +218,9 @@ class EconomicComplementController extends Controller
             }
 
         }
+        if($request->has('last_name')){
 
+        }
         if($request->has('eco_com_type'))
         {
             if ($request->has('eco_com_modality_id'))
