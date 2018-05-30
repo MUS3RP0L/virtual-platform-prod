@@ -27,6 +27,7 @@ use Muserpol\EconomicComplementRequirement;
 use Muserpol\EconomicComplementSubmittedDocument;
 use Muserpol\EconomicComplementRent;
 use Muserpol\EconomicComplementObservation;
+use Muserpol\EconomicComplementRecord;
 use Muserpol\Devolution;
 
 use Muserpol\Affiliate;
@@ -2450,13 +2451,20 @@ class EconomicComplementController extends Controller
 
     public function get_record(Request $request)
     {
+        Log::info($request->id);
        
-        $records = WorkflowRecord::select(['date', 'message'])->where('eco_com_id', $request->id)->orderBy('created_at', 'desc');
-
-        return Datatables::of($records)
-            ->editColumn('date',function ($record){
-                return Util::getDateShort($record->date);
-            })
+        $new_records = EconomicComplementRecord::select('created_at','message')->where('economic_complement_id',$request->id)->get();
+        $records =  WorkflowRecord::select('created_at', 'message')->where('eco_com_id', $request->id)->orderBy('created_at', 'desc')->get();
+        $history  = collect();
+        foreach($new_records as $record){
+            $history->push(array('created_at'=>$record->created_at,'message'=>$record->message));
+        }
+        foreach($records as $record){
+            $history->push(array('created_at'=>$record->created_at,'message'=>$record->message));
+        }
+   
+        return Datatables::of($history)
+            ->editColumn('created_at', '{!! $created_at !!}')
             ->make(true);
     }
     public function getReceptionType(Request $request)

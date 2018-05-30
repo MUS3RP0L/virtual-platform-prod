@@ -3634,11 +3634,16 @@ $(document).ready(function() {
                 data: function (d) {
                     d.id = {{ $economic_complement->id }};
                 }
+                // ,success: function(d)
+                // {
+                //     console.log(d);
+                // }
             },
             columns: [
-                { data: 'date' },
+                { data: 'created_at' },
                 { data: 'message', bSortable: false }
             ],
+            "order": [[ 0, "desc" ]]
             
         });
 

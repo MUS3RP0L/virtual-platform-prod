@@ -5,9 +5,13 @@ namespace Muserpol\Providers;
 use Validator;
 use Illuminate\Support\ServiceProvider;
 use Muserpol\EconomicComplement;
+use Muserpol\Affiliate;
 use Muserpol\WorkflowRecord;
 use Muserpol\EconomicComplementObservation;
+use Muserpol\AffiliateObservation;
 use Muserpol\Observers\EcoComObservationObserver;
+use Muserpol\Observers\AffiliateObservationObserver;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -34,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         EconomicComplementObservation::observe(EcoComObservationObserver::class);
+        AffiliateObservation::observe(AffiliateObservationObserver::class);
         
     }
 
