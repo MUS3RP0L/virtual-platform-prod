@@ -1104,7 +1104,7 @@ class EconomicComplementReportController extends Controller
 
 
       $ids=explode(',',$request->ids_print);
-      // dd($ids[0]);
+    //   dd($ids);
       $semester=EconomicComplement::where('id','=',$ids[0])->first()->economic_complement_procedure->semester;
       $year=carbon::parse(EconomicComplement::where('id','=',$ids[0])->first()->economic_complement_procedure->year)->year;
       $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
@@ -1136,10 +1136,11 @@ class EconomicComplementReportController extends Controller
         $total=Util::formatMoney(Util::totalSumEcoCom($economic_complements_temp_array));
         // $total=Util::formatMoney(Util::totalSumEcoCom($economic_complements_temp_array)->sum);
         $title2 = " Listado de Beneficiarios del Complemento Económico <br>".$semester." Semestre ".$year."- Regional ".$city->name;
-        if ($total) {
+        if (sizeof($economic_complements)>0) {
         $pages[] = \View::make('economic_complements.print.edited_data',compact('header1','header2','title','title2','date','type','anio','hour','economic_complements','user', 'user_role','total'))->render();
         }
       }
+    //   dd($pages);
       $pdf = \App::make('snappy.pdf.wrapper');
 
       $pdf->setPaper('letter')->setOrientation('landscape')->setOPtion('footer-center', 'Pagina [page] de [toPage]')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018');
