@@ -193,6 +193,7 @@
                   <th class="padding-lr" style="max-width: 60px;"><input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;"></th>
                   <th class="padding-lr" style="max-width: 60px;"><input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;"></th>
                   <th class="padding-lr" style="max-width: 60px;"><input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;"></th>
+                  <th class="padding-lr" style="max-width: 60px;"><input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;"></th>
                   {{-- <th>Opciones</th> --}}
                 </tfoot>
               <thead>
@@ -204,6 +205,7 @@
                     <th>Tŕamite</th>
                     <th>Tipo</th>
                     <th>Tipo de Prestación</th>
+                    <th>Modalidad</th>
                     <th>Fecha de Recepcion</th>
                     {{-- <th>Opciones</th> --}}
                   </tr>
@@ -272,6 +274,11 @@
                         <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
                       </div>
                     </th>
+                    <th class="padding-lr">
+                      <div class="form-group col-md-12">
+                        <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
+                      </div>
+                    </th>
                   </tfoot>
                   <thead>
                       <tr class="success">
@@ -289,6 +296,7 @@
                           <th>Tŕamite</th>
                           <th>Tipo</th>
                           <th>Tipo de Prestación</th>
+                          <th>Modalidad</th>
                           <th>Fecha de Recepcion</th>
                       </tr>
                   </thead>
@@ -407,6 +415,7 @@
 
 
 @push('scripts')
+<script src="/js/moment-with-locales.min.js"></script>
 <script>
 
 $(document).ready(function (){
@@ -461,7 +470,12 @@ $(document).ready(function (){
             { data: 'code',name:'code',"sType": "code" },
             { data: 'reception_type'},
             { data: 'benefit_type'},
-            { data: 'reception_date'},
+            { data: 'modality'},
+            { data: 'reception', render:function(data, type, row){
+              return data;
+              moment.locale('es');
+              return moment(data).format("DD MMM YYYY").toString();
+            }},
             // { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
         ],
        'order': [3, 'asc'],
@@ -566,13 +580,11 @@ $(document).ready(function (){
         { "data":"code","sType": "code" },
         { "data":"reception_type"},
         { "data":"benefit_type"},
-        { "data":"reception_date", render:function(data, type, row){
-          var d= new Date(data);
-          var options = {  
-            weekday: "long", year: "numeric", month: "short",  
-            day: "numeric", hour: "2-digit", minute: "2-digit"  
-        };  
-          return d.toLocaleDateString('es-ES', options);
+        { "data":"modality"},
+        { "data":"reception", render:function(data, type, row){
+          return data;
+          moment.locale('es');
+          return moment(data).format("DD MMM YYYY").toString();
         }},
 
      ],
@@ -596,17 +608,21 @@ $(document).ready(function (){
   jQuery.fn.dataTableExt.oSort["code-asc"] = function (x, y) {
       return jQuery.fn.dataTableExt.oSort["code-desc"](y, x);
   }
-  
-  jQuery.fn.dataTableExt.oSort["reception-date-desc"] = function (x, y) {
-      function getDate(date){
-          var d = date +' 00:00:00';
-          return new Date(d);
-      };
-      return ((getDate(x)< getDate(y)) ? -1 : ((getDate(x)> getDate(y)) ? 1 : 0));
+
+  /*
+  * FIXME:
+  * no funciona el orden
+  */
+  jQuery.fn.dataTableExt.oSort["reception-desc"] = function (x, y) {
+    moment.locale('es');
+    if (moment(x, 'DD MMM YYYY').format('YYYY-MM-DD') < moment(y, 'DD MMM YYYY').format('YYYY-MM-DD'))
+     return 1;
+    else if (moment(x, 'DD MMM YYYY').format('YYYY-MM-DD') > moment(y, 'DD MMM YYYY').format('YYYY-MM-DD')) return -1;
+    else return 0;
   };
-  
-  jQuery.fn.dataTableExt.oSort["reception-date-asc"] = function (x, y) {
-      return jQuery.fn.dataTableExt.oSort["reception-date-desc"](y, x);
+
+  jQuery.fn.dataTableExt.oSort["reception-asc"] = function (x, y) {
+      return jQuery.fn.dataTableExt.oSort["reception-desc"](y, x);
   }
   
   table.columns().every( function () {
