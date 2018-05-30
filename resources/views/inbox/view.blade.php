@@ -19,7 +19,7 @@
                     <a href="{!! url('inbox') !!}" class="btn btn-success btn-raised bg-orange" ><i class="fa fa-refresh fa-lg"></i></a>
           </div>
           @can('eco_com_qualification')
-            <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Planilla de los Trámites seleccinados" style="margin: 0;">
+            <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Planilla de los Trámites seleccinados" id="planilla" style="margin: 0;">
             {!! Form::open(['method' => 'POST', 'route' => ['print_edited_data']]) !!}
               <button class="btn btn-primary btn-raised  bg-blue" ><i class="fa fa-print fa-lg"></i>
               </button>
@@ -28,7 +28,7 @@
             </div>
           @endcan
           @can('eco_com_reception')
-            <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Planilla de los Trámites seleccinados (recepionados)" style="margin: 0;">
+            <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Planilla de los Trámites seleccinados (recepionados)" id="planilla" style="margin: 0;">
             {!! Form::open(['method' => 'POST', 'route' => ['print_edited_data']]) !!}
               <button class="btn btn-primary btn-raised  bg-blue" ><i class="fa fa-print fa-lg"></i>
               </button>
@@ -117,8 +117,8 @@
   <div class="wrapper1">
     <nav class="tabs">
       <div class="selector"></div>
-      <a href="#home" role="tab" data-toggle="tab" class="active"><i class="fa fa-clock-o"></i>Trámites recibidos</a>
-      <a href="#home1" role="tab" data-toggle="tab">{{Util::getRol()->action}} <i class="fa fa-check"></i></a>
+      <a href="#home" role="tab" data-toggle="tab" class="active" data-value="received"><i class="fa fa-clock-o"></i><span id="received_quantity"></span> &nbsp;&nbsp;Trámites recibidos</a>
+      <a href="#home1" role="tab" data-toggle="tab" data-value="edited">{{Util::getRol()->action}} &nbsp;&nbsp;<span id="edited_quantity"></span> <i class="fa fa-check"></i></a>
     </nav>
   </div>
   {{-- <ul class="nav nav-tabs" role="tablist">
@@ -410,6 +410,13 @@
 <script>
 
 $(document).ready(function (){
+  $('#planilla').hide();
+  $('#received_quantity').text({!! json_encode($wf_received); !!}.reduce((total, c)=>{
+    return total + c.quantity;
+  },0));
+  $('#edited_quantity').text({!! json_encode($wfs); !!}.reduce((total, c)=>{
+    return total + c.quantity;
+  },0));
   var tabs = $('.tabs');
   var items = $('.tabs').find('a').length;
   var selector = $(".tabs").find(".selector");
@@ -423,10 +430,15 @@ $(document).ready(function (){
   $(".tabs").on("click","a",function(){
     $('.tabs a').removeClass("active");
     $(this).addClass('active');
+    if ($(this).data('value') == 'edited') {
+      $('#planilla').fadeIn();
+    }else{
+      $('#planilla').fadeOut();
+    }
     var activeWidth = $(this).innerWidth();
     var itemPos = $(this).position();
     $(".selector").css({
-      "left":itemPos.left + "px", 
+      "left":itemPos.left + "px",
       "width": activeWidth + "px"
     });
   });
