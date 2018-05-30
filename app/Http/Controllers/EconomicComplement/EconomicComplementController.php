@@ -55,42 +55,6 @@ class EconomicComplementController extends Controller
 
     public function index()
     {
-
-
-        $economic_complements = EconomicComplement::
-            select(['economic_complements.id', 
-                    'economic_complements.affiliate_id',
-                    'economic_complements.eco_com_modality_id', 
-                    'economic_complements.eco_com_state_id', 
-                    'economic_complements.code', 
-                    'economic_complements.created_at',
-                    'economic_complements.reception_date', 
-                    'economic_complements.total',
-                    'economic_complements.wf_current_state_id',
-                    'economic_complements.city_id',
-                    'economic_complements.eco_com_procedure_id',
-                    'affiliates.first_name',
-                    'affiliates.last_name',
-                    'affiliates.mothers_last_name'
-                    ])
-            ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
-            ->take(10)
-            ->orderBy('economic_complements.created_at','desc');
-            //print_r($economic_complements->last_name);
-            
-            // $economic_complements->where(function($economic_complements)
-            // {                    
-                //$economic_complements = $economic_complements->where('last_name', 'like', 'TAVERA');
-            // }); 
-
-        // echo "123";\
-        // print_r($economic_complements);
-        // foreach($economic_complements as $ec){
-        //     echo "123<br>";
-        //     print_r($ec->last_name);
-        // }
-        // return ;
-
         $procedures_e = EconomicComplementProcedure::orderBy('id','desc')->get();
         
         $procedures =   ['' => ''];
@@ -460,10 +424,16 @@ class EconomicComplementController extends Controller
 
     public function ReceptionFirstStep($affiliate_id)
     {
+        
         $getViewModel = self::getViewModel();
 
         $affiliate = Affiliate::idIs($affiliate_id)->first();
 
+        if($affiliate->getServiceYears()<16)
+        {
+            return redirect('affiliate/'.$affiliate_id);
+        }
+        
         $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
         ->whereYear('year', '=', Util::getCurrentYear())
         ->where('semester', '=', 'Primer')->first();
@@ -651,6 +621,10 @@ class EconomicComplementController extends Controller
         $getViewModel = self::getViewModel();
 
         $affiliate = Affiliate::idIs($affiliate_id)->first();
+        if($affiliate->getServiceYears()<16)
+        {
+            return redirect('affiliate/'.$affiliate_id);
+        }
 
         $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
         ->whereYear('year', '=', Util::getCurrentYear())
