@@ -86,7 +86,7 @@
         right: 34px;
         width: 16px;
         height: 16px;
-        background: url('./img/spinner.gif');
+        background: url('/img/spinner.gif');
         background-size: 16px 16px;
         opacity: 0;
     }
@@ -164,7 +164,7 @@
                                 <option value="1" @if(Session::get('search_type')==1) selected @endif>Afiliado</option>
                                 <option value="2" @if(Session::get('search_type')==2) selected @endif>Beneficiario</option>
                             </select>
-                            <select id="searchbox" placeholder="Buscar ..." name="q" class="searchbox form-control" style="width: 200px; top: 34px; visibility: visible;"></select>
+                            <select id="searchbox"  name="q" class="searchbox form-control" style="width: 200px; top: 34px; visibility: visible;" placeholder=" &#128269; Buscar..."></select>
                         </div>
                         {{-- <select id="searchbox" placeholder="&#xf002; Buscar Afiliado..." name="q" class="searchbox form-control" style="width: 200px; top: 34px; visibility: visible;"></select> --}}
                     </div>

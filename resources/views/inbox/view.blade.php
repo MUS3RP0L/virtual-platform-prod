@@ -309,8 +309,8 @@
             
             {{-- boton de retroceso --}}
             <div class="row text-center">
-
-              <div class="col-md-6" data-bind="visible: once">
+              
+              <div class="col-md-6" data-bind="visible: once() && listaSecuenciasAtras().length > 0">
                 <div class="btn-group">
                   <button type="button" class="btn btn-raised btn-warning" data-bind="click: setBack()"  data-target="#back-modal"  data-toggle="modal" ><i class="fa fa-arrow-left" ></i> <strong data-bind="text: secuenciaActualAtras().name"></strong></button>
                   <button type="button" class="btn btn-raised btn-warning dropdown-toggle" data-toggle="dropdown">
@@ -732,8 +732,12 @@ $(document).ready(function (){
         self.type = ko.observable(1);
         
         self.listaSecuenciasAtras = ko.observableArray({!! json_encode($secuencias_atras); !!});
-        // console.log(self.listaSecuenciasAtras());
-        self.secuenciaActualAtras = ko.observable(self.listaSecuenciasAtras()[0]);
+        // console.log(self.listaSecuenciasAtras({id: 0, name: ''}));
+        if (self.listaSecuenciasAtras().length > 0) {
+          self.secuenciaActualAtras = ko.observable(self.listaSecuenciasAtras()[0]);
+        }else{
+          self.secuenciaActualAtras = ko.observable({id: 0, name: ''});
+        }
         self.seleccionaSecuenciaAtras = function(secuencia){
           // console.log(self.secuenciaActualAtras());
             self.secuenciaActualAtras(secuencia);
@@ -748,7 +752,7 @@ $(document).ready(function (){
         };       
         
         self.once = ko.observable(false);
-       
+              
         self.listaWorkflows = ko.observableArray();
         self.listaWorkflowsReceived = ko.observableArray();
         self.listaSecuencias = ko.observableArray();
