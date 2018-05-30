@@ -2283,7 +2283,7 @@
                 data: function (d) {
                     d.code = $('input[name=code]').val();
                     d.affiliate_identitycard = $('input[name=affiliate_identitycard]').val();
-                    d.creation_date = $('input[name=creation_date]').val();
+                    d.creation_date = $('input[name=creation_date]').val();                    
                     d.eco_com_state_id = $('input[name=eco_com_state_id]').val();
                     d.eco_com_modality_id = $('select[name=eco_com_modality_id]').val();
                     d.post = $('input[name=post]').val();
@@ -2291,6 +2291,11 @@
                     d.eco_com_procedure_id = $('input[name=eco_com_procedure_id]').val();
                     d.eco_com_type = $('input[name=eco_com_type]').val();
                     //d.buscador= $('input[name=buscador]').val();
+
+                    d.affiliate_last_name = $('input[name=affiliate_last_name]').val();
+                    d.affiliate_mothers_last_name = $('input[name=affiliate_mothers_last_name]').val();
+                    d.affiliate_first_name = $('input[name=affiliate_first_name]').val();
+
                 }
             },
             columns: [
