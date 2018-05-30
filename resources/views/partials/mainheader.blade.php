@@ -159,7 +159,13 @@
             <ul class="nav navbar-nav">
                 <li>
                     <div class="form-group" style="padding-bottom:0px;padding-top:4px;padding-right:12px;">
-                        <select id="searchbox" placeholder="Buscar Afiliado..." name="q" class="searchbox form-control" style="width: 200px; top: 34px; visibility: visible;"></select>
+                        <div class="row form-inline">
+                            <select id="search_type" name="search_type" class="form-control">
+                                <option value="1" @if(Session::get('search_type')==1) selected @endif>Afiliado</option>
+                                <option value="2" @if(Session::get('search_type')==2) selected @endif>Beneficiario</option>
+                            </select>
+                            <select id="searchbox" placeholder="Buscar ..." name="q" class="searchbox form-control" style="width: 200px; top: 34px; visibility: visible;"></select>
+                        </div>
                         {{-- <select id="searchbox" placeholder="&#xf002; Buscar Afiliado..." name="q" class="searchbox form-control" style="width: 200px; top: 34px; visibility: visible;"></select> --}}
                     </div>
                 </li>
