@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use Muserpol\Helper\Util;
 use DB;
+use DateTime;
 
 class Affiliate extends Model
 {
@@ -490,6 +491,14 @@ class Affiliate extends Model
 
     }
 
+    public function getServiceyears(){
+        //$affiliate = Affiliate::find($affiliate_id);        
+        //$date1 = new DateTime($affiliate->date_entry);        
+        $date1 = new DateTime($this->date_entry);
+        $date2 = new DateTime(date('y-m-d'));
+        $diff = $date2->diff($date1);
+        return $diff->y;
+    }
 }
 
 Affiliate::created(function($affiliate)

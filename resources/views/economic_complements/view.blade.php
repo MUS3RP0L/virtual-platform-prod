@@ -1145,6 +1145,30 @@
                                         </div>
                                     </td>
                                 </tr>
+                                @if($economic_complement->is_paid_spouse)
+                                <tr>
+                                    <td style="border-top:0px;;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                    <strong>
+                                                <span class="label label-info"  style="font-size:12px">
+                                                Pago por &uacute;nica vez
+                                                </span>
+                                            </strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                    {{-- <span class="label label-info"> --}}
+                                                @if($spouse)
+                                                    {!! $spouse->last_name.' '.$spouse->mothers_last_name.' '.$spouse->first_name.' '.$spouse->second_name !!}
+                                                @else
+                                                SI
+                                                @endif
+                                            {{-- </span> --}}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endif
                             </table>
                         </div>
                     </div>

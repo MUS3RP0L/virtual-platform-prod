@@ -195,6 +195,14 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
+                                            <div class="form-group">
+                                                {!! Form::label('affiliate_identitycard', 'Número Carnet', ['class' => 'col-md-5 control-label']) !!}
+                                                <div class="col-md-7">
+                                                    {!! Form::text('affiliate_identitycard', '', ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {{-- <div class="col-md-4">
                                         <div class="form-group">
                                             {!! Form::label('eco_com_procedure_id', 'Semestre', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
@@ -203,19 +211,35 @@
                                                 <span class="help-block">Seleccione Semestre</span>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                 </div>
                                 <div class="row"><br>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            {!! Form::label('affiliate_identitycard', 'Número Carnet', ['class' => 'col-md-5 control-label']) !!}
+                                            {!! Form::label('affiliate_last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
-                                                {!! Form::text('affiliate_identitycard', '', ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                                {!! Form::text('affiliate_last_name', '', ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
+                                    <div class="form-group">
+                                        {!! Form::label('affiliate_mothers_last_name', 'Apellido Materno', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-7">
+                                            {!! Form::text('affiliate_mothers_last_name', '', ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            {!! Form::label('affiliate_first_name', 'Nombre', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-7">
+                                                {!! Form::text('affiliate_first_name', '', ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- <div class="col-md-4">
                                         <div class="form-group">
                                             {!! Form::label('eco_com_state_id', 'Estado', ['class' => 'col-md-5 control-label']) !!}
 
@@ -224,12 +248,12 @@
                                                 <span class="help-block">Seleccione Estado</span>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    {{-- <div class="col-md-3">
                                         <div class="form-group">
                                             {!! Form::label('eco_com_type', 'Tipo', ['class' => 'col-md-5 control-label']) !!}
                                             <div class="col-md-7">
@@ -246,7 +270,7 @@
 
                                         </div>
 
-                                    </div>
+                                    </div> --}}
 
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -2259,7 +2283,7 @@
                 data: function (d) {
                     d.code = $('input[name=code]').val();
                     d.affiliate_identitycard = $('input[name=affiliate_identitycard]').val();
-                    d.creation_date = $('input[name=creation_date]').val();
+                    d.creation_date = $('input[name=creation_date]').val();                    
                     d.eco_com_state_id = $('input[name=eco_com_state_id]').val();
                     d.eco_com_modality_id = $('select[name=eco_com_modality_id]').val();
                     d.post = $('input[name=post]').val();
@@ -2267,6 +2291,11 @@
                     d.eco_com_procedure_id = $('input[name=eco_com_procedure_id]').val();
                     d.eco_com_type = $('input[name=eco_com_type]').val();
                     //d.buscador= $('input[name=buscador]').val();
+
+                    d.affiliate_last_name = $('input[name=affiliate_last_name]').val();
+                    d.affiliate_mothers_last_name = $('input[name=affiliate_mothers_last_name]').val();
+                    d.affiliate_first_name = $('input[name=affiliate_first_name]').val();
+
                 }
             },
             columns: [

@@ -87,9 +87,29 @@ class EconomicComplementController extends Controller
 
     public function Data(Request $request)
     {
-      $economic_complements = EconomicComplement::select(['id', 'affiliate_id',
-            'eco_com_modality_id', 'eco_com_state_id', 'code', 'created_at','reception_date', 'total',
-            'wf_current_state_id','city_id','eco_com_procedure_id'])->orderBy('created_at','desc');
+        // $economic_complements = EconomicComplement::select(['id', 'affiliate_id',
+        //     'eco_com_modality_id', 'eco_com_state_id', 'code', 'created_at','reception_date', 'total',
+        //     'wf_current_state_id','city_id','eco_com_procedure_id'])->orderBy('created_at','desc');
+
+
+        $economic_complements = EconomicComplement::
+            select(['economic_complements.id', 
+                    'economic_complements.affiliate_id',
+                    'economic_complements.eco_com_modality_id', 
+                    'economic_complements.eco_com_state_id', 
+                    'economic_complements.code', 
+                    'economic_complements.created_at',
+                    'economic_complements.reception_date', 
+                    'economic_complements.total',
+                    'economic_complements.wf_current_state_id',
+                    'economic_complements.city_id',
+                    'economic_complements.eco_com_procedure_id',
+                    'affiliates.first_name',
+                    'affiliates.last_name',
+                    'affiliates.mothers_last_name'
+                    ])
+            ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+            ->orderBy('created_at','desc');
         //return $economic_complements->get();
 
         try {
@@ -218,7 +238,27 @@ class EconomicComplementController extends Controller
             }
 
         }
-
+        if($request->has('affiliate_last_name')){
+            $affiliate_last_name = trim($request->get('affiliate_last_name'));
+            $economic_complements->where(function($economic_complements) use ($affiliate_last_name)
+            {                    
+                $economic_complements->where('last_name', 'like', "{$affiliate_last_name}%");
+            });
+        }
+        if($request->has('affiliate_mothers_last_name')){
+            $affiliate_mothers_last_name = trim($request->get('affiliate_mothers_last_name'));
+            $economic_complements->where(function($economic_complements) use ($affiliate_mothers_last_name)
+            {                    
+                $economic_complements->where('mothers_last_name', 'like', "{$affiliate_mothers_last_name}%");
+            });
+        }
+        if($request->has('affiliate_first_name')){
+            $affiliate_first_name = trim($request->get('affiliate_first_name'));
+            $economic_complements->where(function($economic_complements) use ($affiliate_first_name)
+            {                    
+                $economic_complements->where('first_name', 'like', "{$affiliate_first_name}%");
+            });
+        }
         if($request->has('eco_com_type'))
         {
             if ($request->has('eco_com_modality_id'))
@@ -384,10 +424,16 @@ class EconomicComplementController extends Controller
 
     public function ReceptionFirstStep($affiliate_id)
     {
+        
         $getViewModel = self::getViewModel();
 
         $affiliate = Affiliate::idIs($affiliate_id)->first();
 
+        if($affiliate->getServiceYears()<16)
+        {
+            return redirect('affiliate/'.$affiliate_id);
+        }
+        
         $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
         ->whereYear('year', '=', Util::getCurrentYear())
         ->where('semester', '=', 'Primer')->first();
@@ -575,6 +621,10 @@ class EconomicComplementController extends Controller
         $getViewModel = self::getViewModel();
 
         $affiliate = Affiliate::idIs($affiliate_id)->first();
+        if($affiliate->getServiceYears()<16)
+        {
+            return redirect('affiliate/'.$affiliate_id);
+        }
 
         $economic_complement = EconomicComplement::affiliateIs($affiliate_id)
         ->whereYear('year', '=', Util::getCurrentYear())
