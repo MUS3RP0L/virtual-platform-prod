@@ -19,7 +19,7 @@
                     <a href="{!! url('inbox') !!}" class="btn btn-success btn-raised bg-orange" ><i class="fa fa-refresh fa-lg"></i></a>
           </div>
           @can('eco_com_qualification')
-            <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Planilla de los Trámites seleccinados" style="margin: 0;">
+            <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Planilla de los Trámites seleccinados" id="planilla" style="margin: 0;">
             {!! Form::open(['method' => 'POST', 'route' => ['print_edited_data']]) !!}
               <button class="btn btn-primary btn-raised  bg-blue" ><i class="fa fa-print fa-lg"></i>
               </button>
@@ -28,7 +28,7 @@
             </div>
           @endcan
           @can('eco_com_reception')
-            <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Planilla de los Trámites seleccinados (recepionados)" style="margin: 0;">
+            <div class="btn-group"  data-toggle="tooltip" data-original-title="Imprimir Planilla de los Trámites seleccinados (recepionados)" id="planilla" style="margin: 0;">
             {!! Form::open(['method' => 'POST', 'route' => ['print_edited_data']]) !!}
               <button class="btn btn-primary btn-raised  bg-blue" ><i class="fa fa-print fa-lg"></i>
               </button>
@@ -117,8 +117,8 @@
   <div class="wrapper1">
     <nav class="tabs">
       <div class="selector"></div>
-      <a href="#home" role="tab" data-toggle="tab" class="active"><i class="fa fa-clock-o"></i>Trámites recibidos</a>
-      <a href="#home1" role="tab" data-toggle="tab">{{Util::getRol()->action}} <i class="fa fa-check"></i></a>
+      <a href="#home" role="tab" data-toggle="tab" class="active" data-value="received"><i class="fa fa-clock-o"></i><span id="received_quantity"></span> &nbsp;&nbsp;Trámites recibidos</a>
+      <a href="#home1" role="tab" data-toggle="tab" data-value="edited">{{Util::getRol()->action}} &nbsp;&nbsp;<span id="edited_quantity"></span> <i class="fa fa-check"></i></a>
     </nav>
   </div>
   {{-- <ul class="nav nav-tabs" role="tablist">
@@ -193,6 +193,7 @@
                   <th class="padding-lr" style="max-width: 60px;"><input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;"></th>
                   <th class="padding-lr" style="max-width: 60px;"><input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;"></th>
                   <th class="padding-lr" style="max-width: 60px;"><input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;"></th>
+                  <th class="padding-lr" style="max-width: 60px;"><input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;"></th>
                   {{-- <th>Opciones</th> --}}
                 </tfoot>
               <thead>
@@ -204,6 +205,7 @@
                     <th>Tŕamite</th>
                     <th>Tipo</th>
                     <th>Tipo de Prestación</th>
+                    <th>Modalidad</th>
                     <th>Fecha de Recepcion</th>
                     {{-- <th>Opciones</th> --}}
                   </tr>
@@ -272,6 +274,11 @@
                         <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
                       </div>
                     </th>
+                    <th class="padding-lr">
+                      <div class="form-group col-md-12">
+                        <input type="text" class="form-control search-icon" style="width:100%" placeholder="&#xf002;">
+                      </div>
+                    </th>
                   </tfoot>
                   <thead>
                       <tr class="success">
@@ -289,6 +296,7 @@
                           <th>Tŕamite</th>
                           <th>Tipo</th>
                           <th>Tipo de Prestación</th>
+                          <th>Modalidad</th>
                           <th>Fecha de Recepcion</th>
                       </tr>
                   </thead>
@@ -301,8 +309,8 @@
             
             {{-- boton de retroceso --}}
             <div class="row text-center">
-
-              <div class="col-md-6" data-bind="visible: once">
+              
+              <div class="col-md-6" data-bind="visible: once() && listaSecuenciasAtras().length > 0">
                 <div class="btn-group">
                   <button type="button" class="btn btn-raised btn-warning" data-bind="click: setBack()"  data-target="#back-modal"  data-toggle="modal" ><i class="fa fa-arrow-left" ></i> <strong data-bind="text: secuenciaActualAtras().name"></strong></button>
                   <button type="button" class="btn btn-raised btn-warning dropdown-toggle" data-toggle="dropdown">
@@ -407,9 +415,17 @@
 
 
 @push('scripts')
+<script src="/js/moment-with-locales.min.js"></script>
 <script>
 
 $(document).ready(function (){
+  $('#planilla').hide();
+  $('#received_quantity').text({!! json_encode($wf_received); !!}.reduce((total, c)=>{
+    return total + c.quantity;
+  },0));
+  $('#edited_quantity').text({!! json_encode($wfs); !!}.reduce((total, c)=>{
+    return total + c.quantity;
+  },0));
   var tabs = $('.tabs');
   var items = $('.tabs').find('a').length;
   var selector = $(".tabs").find(".selector");
@@ -423,10 +439,15 @@ $(document).ready(function (){
   $(".tabs").on("click","a",function(){
     $('.tabs a').removeClass("active");
     $(this).addClass('active');
+    if ($(this).data('value') == 'edited') {
+      $('#planilla').fadeIn();
+    }else{
+      $('#planilla').fadeOut();
+    }
     var activeWidth = $(this).innerWidth();
     var itemPos = $(this).position();
     $(".selector").css({
-      "left":itemPos.left + "px", 
+      "left":itemPos.left + "px",
       "width": activeWidth + "px"
     });
   });
@@ -449,7 +470,12 @@ $(document).ready(function (){
             { data: 'code',name:'code',"sType": "code" },
             { data: 'reception_type'},
             { data: 'benefit_type'},
-            { data: 'reception_date'},
+            { data: 'modality'},
+            { data: 'reception', render:function(data, type, row){
+              return data;
+              moment.locale('es');
+              return moment(data).format("DD MMM YYYY").toString();
+            }},
             // { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
         ],
        'order': [3, 'asc'],
@@ -554,13 +580,11 @@ $(document).ready(function (){
         { "data":"code","sType": "code" },
         { "data":"reception_type"},
         { "data":"benefit_type"},
-        { "data":"reception_date", render:function(data, type, row){
-          var d= new Date(data);
-          var options = {  
-            weekday: "long", year: "numeric", month: "short",  
-            day: "numeric", hour: "2-digit", minute: "2-digit"  
-        };  
-          return d.toLocaleDateString('es-ES', options);
+        { "data":"modality"},
+        { "data":"reception", render:function(data, type, row){
+          return data;
+          moment.locale('es');
+          return moment(data).format("DD MMM YYYY").toString();
         }},
 
      ],
@@ -584,17 +608,21 @@ $(document).ready(function (){
   jQuery.fn.dataTableExt.oSort["code-asc"] = function (x, y) {
       return jQuery.fn.dataTableExt.oSort["code-desc"](y, x);
   }
-  
-  jQuery.fn.dataTableExt.oSort["reception-date-desc"] = function (x, y) {
-      function getDate(date){
-          var d = date +' 00:00:00';
-          return new Date(d);
-      };
-      return ((getDate(x)< getDate(y)) ? -1 : ((getDate(x)> getDate(y)) ? 1 : 0));
+
+  /*
+  * FIXME:
+  * no funciona el orden
+  */
+  jQuery.fn.dataTableExt.oSort["reception-desc"] = function (x, y) {
+    moment.locale('es');
+    if (moment(x, 'DD MMM YYYY').format('YYYY-MM-DD') < moment(y, 'DD MMM YYYY').format('YYYY-MM-DD'))
+     return 1;
+    else if (moment(x, 'DD MMM YYYY').format('YYYY-MM-DD') > moment(y, 'DD MMM YYYY').format('YYYY-MM-DD')) return -1;
+    else return 0;
   };
-  
-  jQuery.fn.dataTableExt.oSort["reception-date-asc"] = function (x, y) {
-      return jQuery.fn.dataTableExt.oSort["reception-date-desc"](y, x);
+
+  jQuery.fn.dataTableExt.oSort["reception-asc"] = function (x, y) {
+      return jQuery.fn.dataTableExt.oSort["reception-desc"](y, x);
   }
   
   table.columns().every( function () {
@@ -704,8 +732,12 @@ $(document).ready(function (){
         self.type = ko.observable(1);
         
         self.listaSecuenciasAtras = ko.observableArray({!! json_encode($secuencias_atras); !!});
-        // console.log(self.listaSecuenciasAtras());
-        self.secuenciaActualAtras = ko.observable(self.listaSecuenciasAtras()[0]);
+        // console.log(self.listaSecuenciasAtras({id: 0, name: ''}));
+        if (self.listaSecuenciasAtras().length > 0) {
+          self.secuenciaActualAtras = ko.observable(self.listaSecuenciasAtras()[0]);
+        }else{
+          self.secuenciaActualAtras = ko.observable({id: 0, name: ''});
+        }
         self.seleccionaSecuenciaAtras = function(secuencia){
           // console.log(self.secuenciaActualAtras());
             self.secuenciaActualAtras(secuencia);
@@ -720,7 +752,7 @@ $(document).ready(function (){
         };       
         
         self.once = ko.observable(false);
-       
+              
         self.listaWorkflows = ko.observableArray();
         self.listaWorkflowsReceived = ko.observableArray();
         self.listaSecuencias = ko.observableArray();

@@ -178,8 +178,9 @@ class InboxController extends Controller
             'v_observados',
             'economic_complements.workflow_id',
             'economic_complements.reception_type',
-            'economic_complements.reception_date',
-            'eco_com_types.name as benefit_type'
+            'economic_complements.reception_date as reception',
+            'eco_com_types.name as benefit_type',
+            'eco_com_modalities.name as modality'
             )
             // ->select(DB::raw("DISTINCT ON (economic_complements.id) economic_complements.id, economic_complements.affiliate_id,economic_complements.workflow_id, eco_com_applicants.identity_card as ci, trim(regexp_replace(CONCAT(eco_com_applicants.first_name,' ',eco_com_applicants.second_name,' ',eco_com_applicants.last_name,' ',eco_com_applicants.mothers_last_name,' ',eco_com_applicants.surname_husband),'( )+' , ' ', 'g')) as name ,cities.second_shortened as city, economic_complements.code"))
             ->orderBy('economic_complements.id', 'asc');
@@ -242,8 +243,9 @@ class InboxController extends Controller
             'v_observados',
             'economic_complements.workflow_id',
             'economic_complements.reception_type',
-            'economic_complements.reception_date',
-            'eco_com_types.name as benefit_type'
+            'economic_complements.reception_date as reception',
+            'eco_com_types.name as benefit_type',
+            'eco_com_modalities.name as modality'
             )
             ->orderBy('economic_complements.id', 'asc');
             // ->select(DB::raw("economic_complements.affiliate_id,economic_complements.workflow_id, economic_complements.id, eco_com_applicants.identity_card as ci, trim(regexp_replace(CONCAT(eco_com_applicants.first_name,' ',eco_com_applicants.second_name,' ',eco_com_applicants.last_name,' ',eco_com_applicants.mothers_last_name,' ',eco_com_applicants.surname_husband),'( )+' , ' ', 'g')) as name ,cities.second_shortened as city, economic_complements.code,v_observados.id as observation"))
