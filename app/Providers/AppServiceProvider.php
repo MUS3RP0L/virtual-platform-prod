@@ -5,7 +5,13 @@ namespace Muserpol\Providers;
 use Validator;
 use Illuminate\Support\ServiceProvider;
 use Muserpol\EconomicComplement;
+use Muserpol\Affiliate;
 use Muserpol\WorkflowRecord;
+use Muserpol\EconomicComplementObservation;
+use Muserpol\AffiliateObservation;
+use Muserpol\Observers\EcoComObservationObserver;
+use Muserpol\Observers\AffiliateObservationObserver;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -30,6 +36,10 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('number_comma_dot', function($attribute, $value, $parameters, $validator) {
             return  preg_match('/(?=.)^\$?(([1-9][0-9]{0,2}(,[0-9]{3})*)|0)?(\.[0-9]{1,2})?$/', $value);
         });
+
+        EconomicComplementObservation::observe(EcoComObservationObserver::class);
+        AffiliateObservation::observe(AffiliateObservationObserver::class);
+        
     }
 
     /**

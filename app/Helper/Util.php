@@ -766,6 +766,10 @@ class Util
 	{
 		return EconomicComplementProcedure::orderBy('sequence', 'asc')->get()->last()->semester;
 	}
+	public static function getCurrentProcedure()
+	{
+		return EconomicComplementProcedure::orderBy('sequence', 'asc')->get()->last();
+	}
 
 	public static function getFormatCi($ci_excel)
 	{
@@ -783,4 +787,8 @@ class Util
 		
 	}
 
+	public static function getEnabledLabel($is_enabled)
+	{
+		return $is_enabled?'Subsanado':'Vigente';
+	}
 }

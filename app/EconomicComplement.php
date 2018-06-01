@@ -114,6 +114,11 @@ class EconomicComplement extends Model
         return $this->hasOne('Muserpol\EconomicComplementLegalGuardian');
     }
 
+    public function observations()
+    {
+        return $this->hasMany('Muserpol\EconomicComplementObservation');
+    }
+
     public function scopeIdIs($query, $id)
     {
         return $query->where('id', $id);

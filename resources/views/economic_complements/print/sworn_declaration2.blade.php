@@ -8,7 +8,7 @@
   }
 </style>
 
-<div class="title2"><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite: Nº {!! $economic_complement->code !!}</strong></div>
+<div class="title2"><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite: Nº {!! $economic_complement->code !!}</strong><strong class="code">Nº Afiliado: {!! $affiliate->id !!} </strong></div>
 <div id="project">
         {{--Información beneficiario--}}
   @if($economic_complement->economic_complement_modality->economic_complement_type->id > 1)
