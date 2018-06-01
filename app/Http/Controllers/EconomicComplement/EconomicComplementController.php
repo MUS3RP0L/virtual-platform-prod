@@ -110,8 +110,7 @@ class EconomicComplementController extends Controller
                     ])
             ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
             ->orderBy('created_at','desc');
-        //return $economic_complements->get();
-
+        //return $economic_complements->get();        
         try {
               $procedure_id = $request->get('eco_com_procedure_id');
         //    Log::info("obteniendo eco_com_procedure_id=".$procedure_id);
@@ -178,7 +177,7 @@ class EconomicComplementController extends Controller
 
                    if($beneficiarios){
 
-                       $economic_complements->whereIn('id',$ids)->where('eco_com_procedure_id','=',$procedure_id);
+                       $economic_complements->whereIn('economic_complements.id',$ids)->where('eco_com_procedure_id','=',$procedure_id);
                        // $economic_complements->where('id', '=' , "{$applicants->economic_complement_id}")->where('eco_com_procedure_id','=',$procedure_id);
                    }
                    else{
@@ -205,7 +204,7 @@ class EconomicComplementController extends Controller
 
                    if($beneficiarios){
 
-                       $economic_complements->whereIn('id',$ids);
+                       $economic_complements->whereIn('economic_complements.id',$ids);
                        // $economic_complements->where('id', '=' , "{$applicants->economic_complement_id}")->where('eco_com_procedure_id','=',$procedure_id);
                    }
                    else{

@@ -489,7 +489,18 @@ class DashboardController extends Controller
 				->toArray();				
 				$eco_com_applicant  = $this->appendURLaffiliate($eco_com_applicant, 'affiliate');
 				$eco_com_applicant = $this->appendValue($eco_com_applicant, 'eco_com_applicant', 'class');
-				$data = $eco_com_applicant;
+								
+				$spouse = Spouse::where('identity_card','like', $query)
+					//->leftJoin('economic_complements','economic_complements.id','=','eco_com_applicants.economic_complement_id')
+					->orderBy('first_name','asc')
+					->take(3)
+					->get(array('spouses.affiliate_id','spouses.identity_card', 'spouses.first_name', 'spouses.last_name'))
+					->toArray();
+
+				$spouse  = $this->appendURLspouse($spouse, 'affiliate');
+				$spouse = $this->appendValue($spouse, 'spouse', 'class');
+				
+				$data = array_merge($eco_com_applicant,$spouse);
 		}
 		// else{
 		// 	$spouse = Spouse::where('identity_card','like', $query)
