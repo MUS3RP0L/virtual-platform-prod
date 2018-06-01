@@ -55,9 +55,11 @@
 			if($(this).val() == 1)
 				$("#searchbox").attr("placeholder", "Buscar afiliado...");
 			else
-				$("#searchbox").attr("placeholder", "Buscar derechohambiente...");
+				$("#searchbox").attr("placeholder", "Buscar derechohambiente...");						
+			select_object.selectize()[0].selectize.clear();
+			select_object.selectize()[0].selectize.clearOptions();
 		});
-		$('#searchbox').selectize({
+		var select_object = $('#searchbox').selectize({
 	        valueField: 'url',
 	        labelField: 'identity_card',
 	        searchField: ['identity_card'],
@@ -75,7 +77,7 @@
 	            {value: 'spouse', label: 'Derechohabiente:'},
 			],
 	        optgroupField: 'class',
-	        load: function(query, callback) {
+	        load: function(query, callback) {				
 	            if (!query.length) return callback();
 	            $.ajax({
 	                url: '{{url("search")}}',
@@ -85,16 +87,26 @@
 	                    q: query.toString().toUpperCase(),
 						search_type: $("#search_type").val(),
 	                },
-	                error: function() {
+	                error: function() {						
 	                    callback();
 	                },
 	                success: function(res) {
-						console.log("wityh successfull result");
+						$( "#searchbox" ).val("");
 	                    callback(res.data);
 	                }
-	            });
+	            });				
 	        },
-	        onChange: function(){
+			clearOptions: function() {
+			var self = this;
+			self.loadedSearches = {};
+			self.userOptions = {};
+			self.renderCache = {};
+			self.options = self.sifter.items = {};
+			self.lastQuery = null;
+			self.trigger('option_clear');
+			self.clear();
+			},
+	        onChange: function(){								
 	            window.location = this.items[0];
 	        }
 	    });
