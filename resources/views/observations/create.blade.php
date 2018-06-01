@@ -23,13 +23,7 @@
 					@else
 					{!! Form::textarea('message', null, ['class'=>'form-control']) !!}
 				@endif
-				{!! Form::label('is_enabled', 'Habilitado', ['']) !!}
-				<div class="form-group">
-				    <div class="checkbox">
-				        <label><input type="checkbox" name="is_enabled">
-				        </label>
-				    </div>
-				</div>
+				
 				{!! Form::hidden('affiliate_id', $affiliate->id) !!}
 			</div>
 			<div class="modal-footer">
