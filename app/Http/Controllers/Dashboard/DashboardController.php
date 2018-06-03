@@ -54,10 +54,10 @@ class DashboardController extends Controller
 	public function showIndex()
 	{
 		//get last economonomic complement and last year
-		$current_eco_com_procedure = EconomicComplementProcedure::get()->last();
+		$current_eco_com_procedure = Util::getCurrentProcedure();
 
-		$last_economic_complement = $current_eco_com_procedure->economic_complements->last();
-		$last_year = Carbon::parse($last_economic_complement->year)->year;
+		$year = Carbon::parse($current_eco_com_procedure->year)->year;
+		$semester = $current_eco_com_procedure->semester;
 
 		/*	$AfiServ = DB::table('affiliates')
 										->select(DB::raw('count(*) as totalafis'))
@@ -167,14 +167,10 @@ class DashboardController extends Controller
 		$totalAfi = $totalAfiServ + $totalAfiComi;
 		*/
 
-
-
 		//for economic complement
 		$economic_complement=DB::table('economic_complements')
 			->select(DB::raw('COUNT(*) as quantity, EXTRACT(MONTH FROM economic_complements.reception_date) as month'))
-			//->groupBy(DB::raw('EXTRACT(MONTH FROM economic_complements.reception_date)'))
-			->whereYear('economic_complements.year','=',$last_year)
-			->where('economic_complements.semester','=',$last_economic_complement->semester)
+			->where('economic_complements.eco_com_procedure_id','=',$current_eco_com_procedure->id)
 			->groupBy('month')
 			->orderBy('month')
 			->get();
@@ -191,8 +187,7 @@ class DashboardController extends Controller
 			->select(DB::raw('count(*) as quantity, eco_com_types.name as type_name'))
 			->join('eco_com_modalities','eco_com_types.id', '=', 'eco_com_modalities.eco_com_type_id')
 			->join('economic_complements','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
-			->whereYear('economic_complements.year','=',$last_year)
-			->where('economic_complements.semester','=',$last_economic_complement->semester)
+			->where('economic_complements.eco_com_procedure_id','=',$current_eco_com_procedure->id)
 			->groupBy('eco_com_types.name')
 			->get();
 		$economic_complement_pie_types_labels=[];
@@ -209,8 +204,7 @@ class DashboardController extends Controller
 			->select(DB::raw('count(*) as quantity, eco_com_modalities.shortened'))
 			->join('eco_com_modalities','eco_com_types.id' ,'=', 'eco_com_modalities.eco_com_type_id')
 			->join('economic_complements','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
-			->whereYear('economic_complements.year','=',$last_year)
-			->where('economic_complements.semester','=',$last_economic_complement->semester)
+			->where('economic_complements.eco_com_procedure_id','=',$current_eco_com_procedure->id)
 			->groupBy('eco_com_modalities.shortened')
 			->get();
 			$economic_complement_modalities_types_datas=[];
@@ -223,8 +217,7 @@ class DashboardController extends Controller
 			->select(DB::raw('count(*) as quantity, cities.name'))
 			->join('economic_complements','economic_complements.city_id','=','cities.id')
 			->groupBy('cities.name')
-			->whereYear('economic_complements.year','=',$last_year)
-			->where('economic_complements.semester','=',$last_economic_complement->semester)
+			->where('economic_complements.eco_com_procedure_id','=',$current_eco_com_procedure->id)
 			->orderBy('quantity')
 			->get();
 		$economic_complement_cities_data=[];
@@ -239,11 +232,17 @@ class DashboardController extends Controller
 		// order by (substr(substr(code,position('/' in code)+1,length(code)),length(substr(code,position('/' in code)+1,length(code)))-4, length(substr(code,position('/' in code)+1,length(code))) )) asc, cantidad
 		// limit 5
 
-		$limit_semesters=5;
+		$limit_semesters= 5;
+
+		$total_procedures = EconomicComplementProcedure::all()->count();
+		$limit_semesters = $limit_semesters >= $total_procedures ? $total_procedures - 1 : $limit_semesters;
+		
+		
 		//for  (tramites) last 5 semesters
 			$last_semesters=DB::table('economic_complements')
 			->select(DB::raw("count(*) as quantity, substr(code,position('/' in code)+1,length(code)) as date"))
-			->whereRaw("EXTRACT(year from economic_complements.year ) <= ".$last_year."")
+			->leftjoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+			->whereRaw("EXTRACT(year from eco_com_procedures.year ) <= ".$year."")
 			->groupBy(DB::raw("substr(code,position('/' in code)+1,length(code))"))
 			->orderBy(DB::raw("substr(substr(code,position('/' in code)+1,length(code)),length(substr(code,position('/' in code)+1,length(code)))-4, length(substr(code,position('/' in code)+1,length(code))))"),'desc')
 			->orderBy('date','desc')
@@ -258,8 +257,9 @@ class DashboardController extends Controller
 		//for (total) last 5 semesters
 		$sum_last_semesters=DB::table('economic_complements')
 			->select(DB::raw("sum(economic_complements.total) as quantity, substr(code,position('/' in code)+1,length(code)) as date"))
-			->whereRaw("EXTRACT(year from economic_complements.year) <= ".$last_year."")
-			->where('economic_complements.total','>',0)
+			->leftjoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+			->whereRaw("EXTRACT(year from eco_com_procedures.year) <= ".$year."")
+			->where('economic_complements.total','>',0)	
 			->groupBy(DB::raw("substr(code,position('/' in code)+1,length(code))"))
 			->orderBy(DB::raw("substr(substr(code,position('/' in code)+1,length(code)),length(substr(code,position('/' in code)+1,length(code)))-4, length(substr(code,position('/' in code)+1,length(code))))"),'desc')
 			->orderBy('date','desc')
@@ -407,8 +407,9 @@ class DashboardController extends Controller
 			'economic_complement_cities'=>array(array_keys($economic_complement_cities_data),array_values($economic_complement_cities_data)),
 			'last_semesters'=>array(array_keys($last_semesters_data_reverse),array_values($last_semesters_data_reverse)),
 			'sum_last_semesters'=>array(array_keys($sum_last_semesters_data_reverse),array_values($sum_last_semesters_data_reverse)),
-			'last_economic_complement'=>$last_economic_complement,
-			'last_year'=>$last_year,
+			'year'=>$year,
+			'semester'=>$semester,
+			'limit_semesters'=>$limit_semesters,
 			'wf_states_bar'=>$wf_states_bar,
 			'eco_com_states_pie'=>$eco_com_states_pie,
 			'eco_com_observations_pie'=>$eco_com_observations_pie,
