@@ -879,12 +879,21 @@
             <div class="box box-danger box-solid">
                 <div class="box-header with-border">
                   <h3 class="box-title"><span class="glyphicon glyphicon-eye-open"></span> Observaciones</h3>
+                  <div class="box-tools pull-right">
+                        <div data-toggle="tooltip" data-placement="right" data-original-title="Ver Observaciones Eliminadas">
+                            <div class="togglebutton">
+                                <label>
+                                    <input type="checkbox" id="seeObservations"> 
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
                   <div class="box-group" id="accordion">
                     <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
-                   
+                    
                     <div class="panel box box-danger">
                       <div class="box-header with-border">
                         <h4 class="box-title">
@@ -911,7 +920,7 @@
                                                     <th class="col-md-2">Fecha </th>
                                                     <th class="col-md-3">Tipo </th>
                                                     <th class="col-md-5">Descripción </th>
-                                                    <th class="col-md-1">Habilitado</th>
+                                                    <th class="col-md-1">Estado</th>
                                                     <th class="col-md-1">Opciones</th>
                                                 </tr>
                                             </thead>
@@ -920,7 +929,7 @@
                                         </div>
                                     </div>
                             </div>
-                        </div>
+                    </div>
                     <div class="panel box panel-primary">
                       <div class="box-header with-border">
                         <h4 class="box-title">
@@ -949,6 +958,39 @@
                                                     <th class="col-md-2">Fecha </th>
                                                     <th class="col-md-9">Descripción </th>
                                                     <th class="col-md-1">Opciones</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                
+                                </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="panel box panel-primary observer">
+                      <div class="box-header with-border">
+                        <h4 class="box-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#observations_eliminated">
+                                Eliminados  <span class="badge">{{ $observations_eliminated }}</span>
+                          </a>
+                         
+                        </h4>
+                       
+                   
+                      </div>
+                        <div id="observations_eliminated" class="panel-collapse collapse">
+                        <div class="box-body">
+                                <div class="row">
+                                       
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered table-hover table-striped" id="eliminated-table">
+                                            <thead>
+                                                <tr class="success">
+                                                        <th class="col-md-2">Fecha </th>
+                                                        <th class="col-md-3">Tipo </th>
+                                                        <th class="col-md-5">Descripción </th>
+                                                        <th class="col-md-1">Estado</th>
                                                 </tr>
                                             </thead>
                                         </table>
@@ -3265,7 +3307,42 @@ $(document).ready(function() {
                 { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
             ]
         });
+    $('#eliminated-table').DataTable({
+            "dom": '<"top">t<"bottom"p>',
+            processing: true,
+            serverSide: true,
+            pageLength: 8,
+            autoWidth: false,
+            ajax: {
+            url: '{!! route('get_complement_obsevations_eliminated') !!}',
+                data: function (d) {                  
+                d.economic_complement_id={{  $economic_complement->id}},
+                d.notes=1
+                }
+            },
+            columns: [
+
+                { data: 'deleted_at', bSortable: false },
+                { data: 'type',name:"type" },
+                { data: 'message', bSortable: false },
+                { data: 'is_enabled', bSortable: false },
+                // { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
+            ]
+        });
         
+    var see = false;
+    $('.observer').hide();
+    $('#seeObservations').change(function(){
+        
+            see = !see;
+            if(see)
+            {
+                $('.observer').show();
+            }else{
+                $('.observer').hide();
+            }
+        // console.log(see);
+    });
         
    //funciones modal de observaciones al affiliado
     $('#observationEditModal').on('show.bs.modal', function (event) {

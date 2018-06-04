@@ -303,7 +303,14 @@ class AffiliateController extends Controller
             $has_second_eco_com = "disabled";
         }
 
-        $affi_observations = AffiliateObservation::where('affiliate_id',$affiliate->id)->first();
+        $affi_observations = AffiliateObservation::where('affiliate_id',$affiliate->id)
+                            ->where('observation_type_id','<>',11)
+                            ->select(['id','affiliate_id','date','message','is_enabled','observation_type_id'])->get();
+        $observations_eliminated=AffiliateObservation::where('affiliate_id',$affiliate->id)
+                            ->whereNotNull('deleted_at')
+                            ->withTrashed()
+                            ->select('id','affiliate_id','deleted_at','message','observation_type_id')->get();
+
 
         if (EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first()) {
             $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first();   
@@ -370,7 +377,8 @@ class AffiliateController extends Controller
             'eco_com_submitted_documents' => $eco_com_submitted_documents,
             'status_documents' => $status_documents,
             'observations_types' => $observation_types_list,
-            'affi_observations' => $affi_observations,
+            'observations_quantity' => $affi_observations->count(),
+            'observations_eliminated' => $observations_eliminated->count(),
             // 'paid_states' =>$paid_states,
             'percentage_list' => $percentages_list,
             'devolution' => $devolution,

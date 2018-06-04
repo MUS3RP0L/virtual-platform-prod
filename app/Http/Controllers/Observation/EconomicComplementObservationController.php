@@ -168,6 +168,30 @@ class EconomicComplementObservationController extends Controller
         })
         ->make(true);
     }
+    public function eliminated(Request $request)
+    {
+        $observations = EconomicComplementObservation::where('economic_complement_id',$request->economic_complement_id)
+                                                        ->whereNotNull('deleted_at')
+                                                        ->withTrashed()
+                                                        ->get();
+        return Datatables::of($observations)
+        ->editColumn('deleted_at', '{!! $deleted_at !!}')
+        ->addColumn('type',function ($observation){
+            return $observation->observationType->name;
+        })
+        ->editColumn('is_enabled',function ($observation)
+        {
+            if($observation->observation_type_id ==11)
+            {
+                return '<span class="label label-info">Nota</span>';
+            }
+            if ($observation->is_enabled) {
+            return '<span class="label label-success">Subsanado</span>';
+            }
+            return '<span class="label label-danger">Vigente</span>';
+        })
+        ->make(true);
+    }
     public function delete(Request $request)
     {
         $observation = EconomicComplementObservation::find($request->observation_id); 

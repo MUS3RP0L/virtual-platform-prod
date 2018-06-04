@@ -188,14 +188,16 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('export_observation_bank',array('as'=>'export_observation_bank', 'uses'=>'EconomicComplement\EconomicComplementImportExportController@export_observation_bank'));
 	
 
-	//Routecfor Observations
+	//Route for Observations
 	Route::resource('observation','Observation\AffiliateObservationController');
 	Route::get('get_observations',['as'=>'get_observations','uses'=>'Observation\AffiliateObservationController@showOfAffiliate']);
+	Route::get('get_observations_eliminated',['as'=>'get_observations_eliminated','uses'=>'Observation\AffiliateObservationController@eliminated']);
 	Route::get('observation/deleteOb/{id}',['as'=>'deleteOb','uses'=>'Observation\AffiliateObservationController@deleteOb']);
 	Route::post('observation/update',['as'=>'updateObservation','uses'=>'Observation\AffiliateObservationController@update']);
 	Route::post('observation_delete',['as'=>'observation_delete','uses'=>'Observation\AffiliateObservationController@delete']);
 
 	Route::get('get_complement_obsevations','Observation\EconomicComplementObservationController@getComplementObservation')->name('get_complement_obsevations');
+	Route::get('get_complement_obsevations_eliminated','Observation\EconomicComplementObservationController@eliminated')->name('get_complement_obsevations_eliminated');
 	Route::resource('complement_observation','Observation\EconomicComplementObservationController');
 	Route::post('complement_observation_delete','Observation\EconomicComplementObservationController@delete')->name('complement_observation_delete');
 	//Routes for inbox

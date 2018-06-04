@@ -16,7 +16,8 @@ class AffiliateObservation extends Model
 		'affiliate_id',
 		'observation_type_id',
 		'date',
-		'message'
+		'message',
+		'deleted_at'
 
 	];
 	protected $guarded = ['id'];
