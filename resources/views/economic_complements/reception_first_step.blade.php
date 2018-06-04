@@ -287,7 +287,7 @@
                 self.has_legal_guardian.subscribe(function(){
 
 
-                    console.log('cechus y anita');
+                    console.log('');
 
                 });
 

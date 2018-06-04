@@ -299,7 +299,7 @@ class AffiliateController extends Controller
             ->first();
             $has_second_eco_com = $second_economic_complement ? "edit" : "create";
         }else{
-            $eco_com_current_procedure_secondd='';
+            $eco_com_current_procedure_second='';
             $has_second_eco_com = "disabled";
         }
 

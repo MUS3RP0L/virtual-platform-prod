@@ -1,4 +1,4 @@
-@extends('globalprint.print')
+@extends('globalprint.wkhtml')
 @section('title2')
 
 @endsection

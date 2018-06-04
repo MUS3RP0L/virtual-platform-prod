@@ -15,8 +15,7 @@
             <br />
             <div class="box-body">
                     <div class="row">
-                        <form method="POST" id="search-form" role="form" class="form-horizontal">
-
+                        {!! Form::open(['method' => 'POST', 'route' => ['print_average'], 'class' => 'form-horizontal' ]) !!}
                                 <div class="col-md-4 col-md-offset-2">
                                     <div class="form-group">
                                         {!! Form::label('year', 'Gestión', ['class' => 'col-md-4 control-label']) !!}
@@ -41,24 +40,21 @@
                                 <div class="row text-center">
                                     <div class="form-group">
                                         <div class="col-md-12">
-                                            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir" style="margin:0px;">
+                                            {{-- <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir" style="margin:0px;">
                                                 <a  href="{!! url('print_average') !!}" class="btn btn-raised btn-success dropdown-toggle enabled" data-toggle="tooltip">
                                                     &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
                                                 </a>
-                                            </div>
+                                            </div> --}}
+                                            &nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Imprimir">&nbsp;<span class="glyphicon glyphicon-refresh"></span>&nbsp;</button>
 
-                                            &nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Generar">&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;</button>
-                                            
+                                            &nbsp;&nbsp;<button type="button" id="refresh" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Generar">&nbsp;<span class="glyphicon glyphicon-refresh"></span>&nbsp;</button>
                                             &nbsp;&nbsp;
-
-                                            <a data-bind="attr: { href: urlText }" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Generar"><i class="glyphicon glyphicon-import glyphicon-lg"></i></a>
-                                            
-
+                                            {{-- <a data-bind="attr: { href: urlText }" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Generar"><i class="glyphicon glyphicon-import glyphicon-lg"></i></a> --}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        {!! Form::close() !!}
 
                                 <div class="col-md-12">
                                     <table class="table table-bordered table-hover" id="average_table">
@@ -126,7 +122,7 @@
         ]
     });
 
-    $('#search-form').on('submit', function(e) {
+    $('#refresh').on('click', function(e) {
         oTable.draw();
         e.preventDefault();
     });

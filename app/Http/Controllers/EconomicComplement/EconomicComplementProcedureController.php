@@ -50,16 +50,17 @@ class EconomicComplementProcedureController extends Controller
     public function create()
     {   
 
-        $economic_complement_procedure=EconomicComplementProcedure::all()->last();
+        $economic_complement_procedure=Util::getCurrentProcedure();
         $normal_start_date=Carbon::parse($economic_complement_procedure->normal_start_date)->format('d/m/Y');
         $normal_end_date=Carbon::parse($economic_complement_procedure->normal_end_date)->format('d/m/Y');
         $lagging_start_date = Carbon::parse($economic_complement_procedure->lagging_start_date)->format('d/m/Y');
         $lagging_end_date = Carbon::parse($economic_complement_procedure->lagging_end_date)->format('d/m/Y');
         $additional_start_date = Carbon::parse($economic_complement_procedure->additional_start_date)->format('d/m/Y');
         $additional_end_date = Carbon::parse($economic_complement_procedure->additional_end_date)->format('d/m/Y');
-        $year = Util::getCurrentYear();
+
+        $year = $economic_complement_procedure->semester == 'Primer' ? Carbon::parse($economic_complement_procedure->year)->year : Carbon::parse($economic_complement_procedure->year)->year + 1;
         $indicator = $economic_complement_procedure->indicator;
-        $semester = Util::getCurrentSemester();
+        $semester = $economic_complement_procedure->semester == 'Primer' ? 'Segundo' : 'Primer';
         return view('economic_complements.procedure.create',compact('normal_start_date','normal_end_date','lagging_start_date','lagging_end_date','additional_start_date','additional_end_date','year','semester'));
     }
 
@@ -83,7 +84,9 @@ class EconomicComplementProcedureController extends Controller
                 $eco_com_pro = EconomicComplementProcedure::find($eco_com_pro_id);
             }else{
                 $message = "Rango de Fechas Creado con éxito";
+                $current_procedure = Util::getCurrentProcedure();
                 $eco_com_pro = new EconomicComplementProcedure();
+                $eco_com_pro->sequence = $current_procedure->sequence + 1;
             }
             $eco_com_pro->year = Util::datePickYear($request->year);
             $eco_com_pro->user_id = Auth::user()->id;

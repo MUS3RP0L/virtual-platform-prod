@@ -48,7 +48,6 @@ class ExportRentDiffAPS extends Command
         global $diffs,$diff_olds;
         $count=0;
         $diff=0;
-        $this->info("cechus y anita ");
         $eco_coms=EconomicComplement::where('eco_com_procedure_id','=', 6)->leftJoin('affiliates', 'economic_complements.affiliate_id','=', 'affiliates.id')
         ->whereIn('affiliates.pension_entity_id',[1,2,3,4])->select('economic_complements.id')->get()->pluck('id')
         ;  

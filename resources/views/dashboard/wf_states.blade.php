@@ -1,6 +1,6 @@
 <div class="box box-info">
 	<div class="box-header with-border">
-		<h3 class="box-title">Ubicación de los Trámites del {!! $last_economic_complement->semester !!} semestre de {!! $last_year !!}</h3>
+		<h3 class="box-title">Ubicación de los Trámites del {!! $semester !!} semestre de {!! $year !!}</h3>
 	</div>
 	<div class="box-body" style="width: 95%">
 		<canvas id="bar-wf-states" width="450px" height="150"></canvas>
