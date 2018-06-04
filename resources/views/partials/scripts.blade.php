@@ -73,8 +73,8 @@
 	        },
 	        optgroups: [
 	            {value: 'affiliate', label: 'Titular:'},
-	            {value: 'eco_com_applicant', label: 'Derechohabiente:'},
-	            {value: 'spouse', label: 'Derechohabiente:'},
+	            {value: 'eco_com_applicant', label: 'Jubilación:'},
+	            {value: 'spouse', label: 'Viudedad:'},
 			],
 	        optgroupField: 'class',
 	        load: function(query, callback) {				
