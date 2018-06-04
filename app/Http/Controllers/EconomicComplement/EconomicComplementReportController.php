@@ -39,6 +39,7 @@ use Muserpol\AffiliateObservation;
 use DB;
 use stdClass;
 use Log;
+use Illuminate\Auth\EloquentUserProvider;
 
 class EconomicComplementReportController extends Controller
 {
@@ -845,22 +846,54 @@ class EconomicComplementReportController extends Controller
             ->where('semester', '=', $request->semester)
             ->first();
         if(!$eco_com_procedure){return "Error";}
-        $average_list = DB::table('eco_com_applicants')
-                       ->select(DB::raw("degrees.id as degree_id,degrees.shortened as degree,eco_com_types.id as type_id, eco_com_types.name as type,min(economic_complements.total) as rmin, max(economic_complements.total) as rmax,round((max(economic_complements.total)+ min(economic_complements.total))/2,2) as average"))
-                       ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
-                       ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
-                       ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
-                       ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
-                       ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
-                       ->where('economic_complements.eco_com_procedure_id', '=', $eco_com_procedure->id)
-                       ->whereNotNull('economic_complements.review_date')
-                       ->groupBy('degrees.id','eco_com_types.id')
-                       ->orderBy('degrees.id','ASC')->get();
-        return \PDF::loadView('economic_complements.print.average_report', compact('header1', 'header2', 'title', 'date', 'type', 'hour', 'average_list', 'user', 'user_role'))
+        $average_list = EconomicComplementRent::select(DB::raw("degrees.shortened as degree, eco_com_types.name as type,eco_com_rents.minor as rmin,eco_com_rents.higher as rmax, eco_com_rents.average as average "))
+            ->leftJoin('eco_com_types', 'eco_com_rents.eco_com_type_id', '=', 'eco_com_types.id')
+            ->leftJoin('degrees', 'eco_com_rents.degree_id', '=', 'degrees.id')
+            ->whereYear('eco_com_rents.year', '=', $request->year)
+            ->where('eco_com_rents.semester', '=', $request->semester)
+            ->orderBy('degrees.correlative', 'ASC')
+            ->orderBy('eco_com_types.id', 'ASC')
+            ->get();
+                           
+        // $average_list = DB::table('eco_com_applicants')
+        //                ->select(DB::raw("degrees.id as degree_id,degrees.shortened as degree,eco_com_types.id as type_id, eco_com_types.name as type,min(economic_complements.total) as rmin, max(economic_complements.total) as rmax,round((max(economic_complements.total)+ min(economic_complements.total))/2,2) as average"))
+        //                ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+        //                ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+        //                ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
+        //                ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+        //                ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+        //                ->where('economic_complements.eco_com_procedure_id', '=', $eco_com_procedure->id)
+        //             //    ->whereNotNull('economic_complements.review_date')
+        //                 ->where('economic_complements.total_rent', '>', 0)
+        //                 ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+        //                 ->whereNull('economic_complements.aps_disability')
+        //                 ->groupBy('degrees.id','eco_com_types.id')
+        //                ->orderBy('degrees.id','ASC')->get();
+        if (! sizeOf($average_list) > 0 ) {
+            if($request->file_type == 'pdf'){
+                return \PDF::loadHTML('<h1>No hay registros</h1>')
                     ->setPaper('letter')
-                    ->setOPtion('footer-right', 'Pagina [page] de [toPage]')
-                    ->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')
-                    ->stream('promedios.pdf');
+                    ->setOption('footer-right', 'Pagina [page] de [toPage]')
+                    ->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')
+                    ->stream('zero.pdf');
+            }
+            return redirect()->back()
+                ->with("message", "No hay registros");
+        }
+        if ($request->file_type == 'pdf') {
+            return \PDF::loadView('economic_complements.print.average_report', compact('header1', 'header2', 'title', 'date', 'type', 'hour', 'average_list', 'user', 'user_role'))
+                ->setPaper('letter')
+                ->setOPtion('footer-right', 'Pagina [page] de [toPage]')
+                ->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')
+                ->stream('promedios.pdf');
+        }else{
+            if ($request->file_type == 'excel') {
+                
+                Util::excelDownload('Promedios','Promedios', $average_list->toArray(), ['c','d','e']);
+            }else{
+                return "error file tye not found.";
+            }
+        }
    }
    public function export_average($year,$semester)
    {

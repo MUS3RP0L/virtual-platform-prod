@@ -15,7 +15,7 @@
             <br />
             <div class="box-body">
                     <div class="row">
-                        {!! Form::open(['method' => 'POST', 'route' => ['print_average'], 'class' => 'form-horizontal' ]) !!}
+                        {!! Form::open(['method' => 'GET', 'route' => ['print_average'], 'class' => 'form-horizontal', 'id'=>'form' ]) !!}
                                 <div class="col-md-4 col-md-offset-2">
                                     <div class="form-group">
                                         {!! Form::label('year', 'Gestión', ['class' => 'col-md-4 control-label']) !!}
@@ -34,6 +34,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <input type="hidden" name="file_type" id="file-type">
 
                             <br>
                             <div class="col-md-12">
@@ -45,11 +46,23 @@
                                                     &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
                                                 </a>
                                             </div> --}}
-                                            &nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Imprimir">&nbsp;<span class="glyphicon glyphicon-refresh"></span>&nbsp;</button>
+                                            {{-- &nbsp;&nbsp;<button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Imprimir">&nbsp;<span class="glyphicon glyphicon-refresh"></span>&nbsp;</button> --}}
+                                            <a href="" >
+                                                <img src="/img/file-xsl-download.svg" width="40px" alt="" data-toggle="tooltip" data-placement="bottom" title="Descargar en Excel">
+                                            </a>
+                                            <a href="" >
+                                                <img src="/img/file-pdf-download.svg" width="40px" alt="" data-toggle="tooltip" data-placement="bottom" title="Descargar en PDF">
+                                            </a>
 
-                                            &nbsp;&nbsp;<button type="button" id="refresh" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Generar">&nbsp;<span class="glyphicon glyphicon-refresh"></span>&nbsp;</button>
-                                            &nbsp;&nbsp;
+                                            <button type="button" id="refresh" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Generar">&nbsp;<span class="glyphicon glyphicon-refresh"></span>&nbsp;</button>
                                             {{-- <a data-bind="attr: { href: urlText }" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Generar"><i class="glyphicon glyphicon-import glyphicon-lg"></i></a> --}}
+
+                                            <button class="btn btn-raised" type="button" id="pdf-button" data-toggle="tooltip" data-placement="bottom" title="Descargar en PDF">
+                                                <img src="/img/file-pdf-download.svg" width="20px"> <span class="text-danger"> <strong>PDF</strong></span>
+                                            </button>
+                                            <button class="btn btn-raised" type="button" id="excel-button" data-toggle="tooltip" data-placement="bottom" title="Descargar en Excel">
+                                                <img src="/img/file-xsl-download.svg" width="20px"> <span class="text-success"> <strong>EXCEL</strong></span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -126,6 +139,16 @@
         oTable.draw();
         e.preventDefault();
     });
+    $("#pdf-button").on("click", function( event ){
+        $('#file-type').val('pdf');
 
+        printJS({printable: $('#form').attr('action')+'?'+$('#form').serialize() , type:'pdf', showModal:true})
+        // $('#form').submit();
+        // event.preventDefault();
+    });
+    $("#excel-button").on("click", function( event ){
+        $('#file-type').val('excel');
+        $('#form').submit();
+    });
 </script>
 @endpush

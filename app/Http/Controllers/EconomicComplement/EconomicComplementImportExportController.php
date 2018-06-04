@@ -3718,10 +3718,6 @@ public function export_wfamort_total_contabilidad(Request $request) // EXPORTAR 
               ->whereRaw('devolutions.total > devolutions.balance')
               ->select('affiliates.identity_card as ci','cities.first_shortened as extension','affiliates.first_name as primer_nombre','affiliates.second_name as segundo_nombre','affiliates.last_name as paterno','affiliates.mothers_last_name as materno','cities2.name as ciudad','degrees.name as grado','categories.name as categoria','devolutions.total','devolutions.balance as deuda')
               ->get()->toArray();
-        if (! sizeOf($afiliados) > 0){
-          return redirect()->back()
-          ->with("message","No hay registros");
-        }
         Util::excelDownload('Amortizados', 'Amortizados', $afiliados, ['J','k']);
 
          Excel::create('Amortizados_'.date("Y-m-d H:i:s"), function($excel) {

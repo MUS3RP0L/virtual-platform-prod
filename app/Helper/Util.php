@@ -721,7 +721,7 @@ class Util
     }
     public static function excelDownload($file_name, $sheet_name, $data=[], $columns_number_format=[])
     {
-		if(! sizeOf($data) > 0){ return "error";}
+		if(! sizeOf($data) > 0){ return "error no hay registros para generare el archivo excel";}
 
 		Excel::create($file_name .'_'.date("Y-m-d H:i:s"), function ($excel) use ($data, $sheet_name, $columns_number_format) {
 
@@ -735,7 +735,7 @@ class Util
 				$keys = (array_map(function ($value)
 				{
 					return mb_strtoupper(mb_strtolower($value));
-				}, array_keys($data[0])));
+				}, array_keys(is_array($data[0]) ? $data[0] : (array)$data[0] )));
 				$letter_max_column= self::columnLetter(sizeOf($keys));
 				$sheet->setAutoSize(true);
 				$sheet->prependRow(1, $keys);
