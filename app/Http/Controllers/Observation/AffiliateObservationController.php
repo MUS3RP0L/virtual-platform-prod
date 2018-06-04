@@ -93,16 +93,16 @@ class AffiliateObservationController extends Controller
 
       }
 
-      $affiliate = Affiliate::where('id',$request->affiliate_id)->first();
-      $aff_record = new AffiliateRecord;
+      // $affiliate = Affiliate::where('id',$request->affiliate_id)->first();
+      // $aff_record = new AffiliateRecord;
      
-      if (Auth::user()) {$user_id = Auth::user()->id;}else{$user_id = 1;}
-      $aff_record->user_id = $user_id;
-      $aff_record->affiliate_id = $affiliate->id;
-      $aff_record->date = Carbon::now();
-      $aff_record->type_id = 6;// 6 es por la observacion
-      $aff_record->message = Auth::user()->getFullname()." creo la Observación ".$observation->observationType->name;
-      $aff_record->save();
+      // if (Auth::user()) {$user_id = Auth::user()->id;}else{$user_id = 1;}
+      // $aff_record->user_id = $user_id;
+      // $aff_record->affiliate_id = $affiliate->id;
+      // $aff_record->date = Carbon::now();
+      // $aff_record->type_id = 6;// 6 es por la observacion
+      // $aff_record->message = Auth::user()->getFullname()." creo la Observación ".$observation->observationType->name;
+      // $aff_record->save();
 
       return redirect('affiliate/'.$request->affiliate_id);
     }
