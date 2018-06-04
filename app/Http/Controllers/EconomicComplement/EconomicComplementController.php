@@ -530,19 +530,7 @@ class EconomicComplementController extends Controller
 
     public function ReceptionSecondStep($economic_complement_id)
     {
-        $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
-        $observations = $affiliate->observations->where('observation_type_id',6)->where('is_enabled',true);
-        if($observations->count() > 0)
-        {
-            $messages = '';
-            foreach($observations as $observation)
-            {
-                $messages.= "<br>".$observation->message;
-            }            
-            Session::flash('message', 'Debe subsanar las siguientes observaciones:'.$messages);
-            return redirect('affiliate/'.$affiliate_id);
-        }
-        return $observations;
+        $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();                
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
 
         $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
@@ -647,6 +635,7 @@ class EconomicComplementController extends Controller
         $affiliate = Affiliate::idIs($affiliate_id)->first();
         if($affiliate->getServiceYears()<16)
         {
+            Session::flash('message', 'Tiene menos de 16 años de servicio');
             return redirect('affiliate/'.$affiliate_id);
         }
         $observations = $affiliate->observations->where('observation_type_id',6)->where('is_enabled',true);
@@ -658,6 +647,10 @@ class EconomicComplementController extends Controller
                 $messages.= "<br>".$observation->message;
             }            
             Session::flash('message', 'Debe subsanar las siguientes observaciones:'.$messages);
+            return redirect('affiliate/'.$affiliate_id);
+        }
+        if($affiliate->observations->where('observation_type_id',10)->where('is_enabled',true)->count() > 0){
+            Session::flash('message', 'Excluido por salario');
             return redirect('affiliate/'.$affiliate_id);
         }
 
