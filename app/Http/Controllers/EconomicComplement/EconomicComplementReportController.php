@@ -91,12 +91,10 @@ class EconomicComplementReportController extends Controller
        foreach ($semester1 as $item) {
            $semester1_list[$item]=$item;
        }
-
-       $current_year = Util::getCurrentYear();
-       $year_list =[$current_year => $current_year];
-       $eco_com_year = EconomicComplement::distinct()->select('year')->orderBy('year', 'desc')->get();
+    //    $eco_com_year = EconomicComplement::distinct()->select('year')->orderBy('year', 'desc')->get();
+       $eco_com_year = EconomicComplementProcedure::distinct()->select('year')->orderBy('year', 'desc')->get()->pluck('year');
        foreach ($eco_com_year as $item) {
-           $year_list[Util::getYear($item->year)] = Util::getYear($item->year);
+           $year_list[Util::getYear($item)] = Util::getYear($item);
        }
 
        $report_type =
@@ -842,22 +840,27 @@ class EconomicComplementReportController extends Controller
        $type = "user";
        $current_date = Carbon::now();
        $hour = Carbon::parse($current_date)->toTimeString();
-       $average_list = DB::table('eco_com_applicants')
+
+       $eco_com_procedure = EconomicComplementProcedure::whereYear('year', '=', $request->year)
+            ->where('semester', '=', $request->semester)
+            ->first();
+        if(!$eco_com_procedure){return "Error";}
+        $average_list = DB::table('eco_com_applicants')
                        ->select(DB::raw("degrees.id as degree_id,degrees.shortened as degree,eco_com_types.id as type_id, eco_com_types.name as type,min(economic_complements.total) as rmin, max(economic_complements.total) as rmax,round((max(economic_complements.total)+ min(economic_complements.total))/2,2) as average"))
                        ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                        ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
                        ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
                        ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
                        ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
-                       ->whereYear('economic_complements.year', '=', $request->year)
-                       ->where('economic_complements.semester', '=', $request->semester)
+                       ->where('economic_complements.eco_com_procedure_id', '=', $eco_com_procedure->id)
                        ->whereNotNull('economic_complements.review_date')
                        ->groupBy('degrees.id','eco_com_types.id')
                        ->orderBy('degrees.id','ASC')->get();
-        $view = \View::make('economic_complements.print.average_report', compact('header1','header2','title','date','type','hour','average_list'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view)->setPaper('letter');
-        return $pdf->stream();
+        return \PDF::loadView('economic_complements.print.average_report', compact('header1', 'header2', 'title', 'date', 'type', 'hour', 'average_list', 'user', 'user_role'))
+                    ->setPaper('letter')
+                    ->setOPtion('footer-right', 'Pagina [page] de [toPage]')
+                    ->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')
+                    ->stream('promedios.pdf');
    }
    public function export_average($year,$semester)
    {
