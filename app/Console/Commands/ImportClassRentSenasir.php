@@ -369,7 +369,7 @@ class ImportClassRentSenasir extends Command
             $this->info("Encontrados por vejes ".sizeof($id_vd));
          //  dd("............................................................");
 
-            $this->info("Cechus y Anita 2017 ® ™");
+            
             $this->info("vejes: ".$vejes );
             $this->info("viudeda: ".$viudeda );
             $this->info("orfandad: ".$orfandad );

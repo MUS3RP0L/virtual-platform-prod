@@ -3720,7 +3720,7 @@ public function export_wfamort_total_contabilidad(Request $request) // EXPORTAR 
               ->get();
          Excel::create('Amortizados_'.date("Y-m-d H:i:s"), function($excel) {
 
-           $excel->sheet('Amortizados Cechus y karen',function($sheet){
+           $excel->sheet('Amortizados',function($sheet){
                 global $afiliados;
                 $sheet->fromArray($afiliados);
                 $sheet->cells('A1:I1', function($cells) {
