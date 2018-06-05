@@ -14,7 +14,7 @@ class AddTypeObservationType extends Migration
     {
         //
         Schema::table('observation_types', function (Blueprint $table) {
-            $table->enum('type', ['A', 'AT','T'])->default('A');      
+            $table->enum('type', ['A', 'AT','T','N'])->default('A');      
          });
     }
 
