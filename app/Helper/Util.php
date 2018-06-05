@@ -693,7 +693,23 @@ class Util
     	$subst = ' ';
     	$result = preg_replace($re, $subst, $text);
     	return $result;
-    }
+	}
+	public static function columnLetter($c)
+	{
+
+		$c = intval($c);
+		if ($c <= 0) { return '';}
+
+		$letter = '';
+
+		while ($c != 0) {
+			$p = ($c - 1) % 26;
+			$c = intval(($c - $p) / 26);
+			$letter = chr(65 + $p) . $letter;
+		}
+		return $letter;
+	}
+
     public static function excel($file_name, $sheet_name, $data)
     {	
 
@@ -702,6 +718,36 @@ class Util
     			$sheet->fromArray($data);
     		});
     	})->export('xls');  
+    }
+    public static function excelDownload($file_name, $sheet_name, $data=[], $columns_number_format=[])
+    {
+		if(! sizeOf($data) > 0){ return "error no hay registros para generare el archivo excel";}
+
+		Excel::create($file_name .'_'.date("Y-m-d H:i:s"), function ($excel) use ($data, $sheet_name, $columns_number_format) {
+
+			$excel->sheet($sheet_name, function ($sheet) use ($data, $columns_number_format) {
+				foreach ($columns_number_format as $value) {
+					$sheet->setColumnFormat(array(
+						$value => '#,##0.00', //1.000,10 (depende de windows)
+						// 'J' => \PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1  //1.000,10
+					));
+				}
+				$keys = (array_map(function ($value)
+				{
+					return mb_strtoupper(mb_strtolower($value));
+				}, array_keys(is_array($data[0]) ? $data[0] : (array)$data[0] )));
+				$letter_max_column= self::columnLetter(sizeOf($keys));
+				$sheet->setAutoSize(true);
+				$sheet->prependRow(1, $keys);
+				$sheet->rows($data);
+				$sheet->cells('A1:'. $letter_max_column.'1', function ($cells) {
+					$cells->setBackground('#03ad52');
+					$cells->setFontColor('#ffffff');
+					$cells->setFontWeight('bold');
+				});
+			});
+
+		})->download('xlsx');
     }
     public static function excelSave($file_name, $sheet_name, $data, $folder_out)
     {	

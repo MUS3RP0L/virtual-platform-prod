@@ -3717,13 +3717,20 @@ public function export_wfamort_total_contabilidad(Request $request) // EXPORTAR 
 
               ->whereRaw('devolutions.total > devolutions.balance')
               ->select('affiliates.identity_card as ci','cities.first_shortened as extension','affiliates.first_name as primer_nombre','affiliates.second_name as segundo_nombre','affiliates.last_name as paterno','affiliates.mothers_last_name as materno','cities2.name as ciudad','degrees.name as grado','categories.name as categoria','devolutions.total','devolutions.balance as deuda')
-              ->get();
+              ->get()->toArray();
+        Util::excelDownload('Amortizados', 'Amortizados', $afiliados, ['J','k']);
+
          Excel::create('Amortizados_'.date("Y-m-d H:i:s"), function($excel) {
 
            $excel->sheet('Amortizados',function($sheet){
                 global $afiliados;
-                $sheet->fromArray($afiliados);
-                $sheet->cells('A1:I1', function($cells) {
+                $sheet->setColumnFormat(array(
+                  'J' => '#,##0.00', //1.000,10 (depende de windows)
+                  // 'J' => \PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1  //1.000,10
+                ));
+                $sheet->prependRow(1, array_keys($afiliados[0]));
+                $sheet->rows($afiliados);
+                $sheet->cells('A1:K1', function($cells) {
                   $cells->setBackground('#058A37');
                   $cells->setFontColor('#ffffff');  
                   $cells->setFontWeight('bold');
