@@ -158,11 +158,8 @@ class AffiliateController extends Controller
             }
         }
 
-        $observations_types = ObservationType::all();
-        $observation_types_list = array('' => '');
-        foreach ($observations_types as $item) {
-            $observation_types_list[$item->id]=$item->name;
-        }
+       
+       
 
         $gender_list = ['' => '', 'C' => 'CASADO(A)', 'S' => 'SOLTERO(A)', 'V' => 'VIUDO(A)', 'D' => 'DIVORCIADO(A)'];
 
@@ -175,7 +172,6 @@ class AffiliateController extends Controller
             'pension_entities_list' => $pension_entities_list,
             'units_list' => $units_list,
             'categories_list' => $categories_list,
-            'observation_types_list' => $observation_types_list,
             'gender_list' => $gender_list
         ];
     }
@@ -270,11 +266,10 @@ class AffiliateController extends Controller
 
         // $moduleObservation=Auth::user()->roles()->first()->module->id;
         // $observations_types = $moduleObservation == 1 ? ObservationType::all() : ObservationType::where('module_id',$moduleObservation)->get();
-        $observations_types = ObservationType::where('module_id',Util::getRol()->module_id)->where('id','<>',11)->where('type','<>','T')->get();
-        $observation_types_list = array('' => '');
-        foreach ($observations_types as $item) {
-            $observation_types_list[$item->id]=$item->name;
-        }
+        $observations_types = ObservationType::where('module_id',Util::getRol()->module_id)
+                                                ->whereIn('type',['AT','A'])
+                                                ->get();
+      
         $year = Util::getCurrentYear();
         $semester = Util::getCurrentSemester();
         $eco_com_current_procedure_first = EconomicComplementProcedure::whereYear('year', '=',$year)
@@ -311,6 +306,9 @@ class AffiliateController extends Controller
                             ->withTrashed()
                             ->select('id','affiliate_id','deleted_at','message','observation_type_id')->get();
 
+        $notes_quantity = AffiliateObservation::where('affiliate_id',$affiliate->id)
+                                                ->where('observation_type_id','=',11)
+                                                ->select(['id','affiliate_id','date','message','is_enabled','observation_type_id'])->get();
 
         if (EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first()) {
             $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first();   
@@ -376,9 +374,10 @@ class AffiliateController extends Controller
             'last_ecocom' => $last_ecocom,
             'eco_com_submitted_documents' => $eco_com_submitted_documents,
             'status_documents' => $status_documents,
-            'observations_types' => $observation_types_list,
+            'observations_types' => $observations_types,
             'observations_quantity' => $affi_observations->count(),
             'observations_eliminated' => $observations_eliminated->count(),
+            'notes_quantity' => $notes_quantity->count(),
             // 'paid_states' =>$paid_states,
             'percentage_list' => $percentages_list,
             'devolution' => $devolution,
