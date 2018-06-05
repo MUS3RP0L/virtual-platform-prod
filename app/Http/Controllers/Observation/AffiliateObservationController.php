@@ -137,6 +137,24 @@ class AffiliateObservationController extends Controller
       return back();
     }
 
+    public function eliminated(Request $request)
+    {
+      $observations_list=AffiliateObservation::where('affiliate_id',$request->affiliate_id)
+                                              ->whereNotNull('deleted_at')
+                                              ->withTrashed()
+                                              ->select('id','affiliate_id','deleted_at','message','observation_type_id')->get();
+      
+
+      return Datatables::of($observations_list)
+      ->editColumn('deleted_at', '{!! $deleted_at !!}')
+      ->addColumn('type',function ($observation){
+        return $observation->observationType->name;
+      })
+      
+      ->make(true);
+      
+    }
+
     public function showOfAffiliate(Request $request)
     {
       // if (isset($request->economic_complement_id)) {
@@ -151,14 +169,11 @@ class AffiliateObservationController extends Controller
       // } else {
         $observations_list=AffiliateObservation::where('affiliate_id',$request->affiliate_id)
                                                 ->where('observation_type_id','<>',11)
-                                                ->select(['id','affiliate_id','date','message','is_enabled','observation_type_id'])->get();
+                                                ->select(['id','affiliate_id','created_at','message','is_enabled','observation_type_id'])->get();
       // }
 
       return Datatables::of($observations_list)
-        ->editColumn('date',function ($observation)
-        {
-          return Util::getDateShort($observation->date);
-        })
+        ->editColumn('created_at', '{!! $created_at !!}')
         ->addColumn('type',function ($observation){
           return $observation->observationType->name;
         })

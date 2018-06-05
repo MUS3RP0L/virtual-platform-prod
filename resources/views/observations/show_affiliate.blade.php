@@ -1,18 +1,92 @@
 <div class="box box-warning box-solid">
     <div class="box-header with-border">
-        <h3 class="box-title"><span class="glyphicon glyphicon-eye-open"></span> Observaciones</h3>
-            <div class="box-tools pull-right">
+        <h3 class="box-title"><span class="fa fa-eye" ></span> Observaciones</h3>
+        <div class="box-tools pull-right">
             @can("eco_com_review_reception_calification_contabilidad")
-                <div data-toggle="tooltip" data-placement="left" data-original-title="Añadir">
-                        <a href="" class="btn btn-sm bg-yellow btn-raised" data-toggle="modal" data-target="#observationModal">
-                            <span class="fa fa-lg fa-plus" aria-hidden="true"></span>
-                        </a>
+                <div data-toggle="tooltip" data-placement="right" data-original-title="Ver Observaciones Eliminadas">
+                    <div class="togglebutton">
+                        <label>
+                            <input type="checkbox" id="seeObservations"> 
+                        </label>
+                    </div>
                 </div>
             @endcan
         </div>
     </div>
     <div class="box-body">
-        <div class="row">
+        <div class="box-group" id="accordion">
+            <div class="panel box box-danger">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#affiliate_observations">
+                            Afiliado <span class="badge ">{{ $observations_quantity }}</span>
+                        </a>
+                        </h4>
+                        <div class="box-tools pull-right">
+                                <div class="box-tools pull-right">
+                                    @can("eco_com_review_reception_calification_contabilidad")
+                                        <div data-toggle="tooltip" data-placement="left" data-original-title="Añadir">
+                                                <a href="" class="btn btn-sm bg-yellow btn-raised" data-toggle="modal" data-target="#observationModal">
+                                                    <span class="fa fa-lg fa-plus" aria-hidden="true"></span>
+                                                </a>
+                                        </div>
+                                    @endcan
+                                </div>
+                        </div>
+                    </div>
+                    <div id="affiliate_observations" class="panel-collapse collapse in">
+                        <div class="box-body">
+                        <div class="row">
+                                <div class="col-md-12">
+                                    
+                                    <table class="table table-bordered table-hover table-striped" id="observations-table">
+                                        <thead>
+                                            <tr class="success">
+                                                <th class="col-md-2">Fecha </th>
+                                                <th class="col-md-3">Tipo </th>
+                                                <th class="col-md-5">Descripción </th>
+                                                <th class="col-md-1">Opciones</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="panel box panel-primary observer">
+                <div class="box-header with-border">
+                    <h4 class="box-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#observations_eliminated">
+                        Eliminados <span class="badge">{{ $observations_eliminated }}</span>
+                    </a>
+                    
+                    </h4>
+                    
+                </div>
+                    <div id="observations_eliminated" class="panel-collapse collapse">
+                    <div class="box-body">
+                        <div class="row">
+                                
+                            <div class="col-md-12">
+                                <table class="table table-bordered table-hover table-striped" id="eliminated-table">
+                                    <thead>
+                                        <tr class="success">
+                                            <th class="col-md-2">Fecha </th>
+                                            <th class="col-md-3">Tipo </th>
+                                            <th class="col-md-9">Descripción </th>
+                                            {{-- <th class="col-md-1">Opciones</th> --}}
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {{-- <div class="row">
             @if(isset($affi_observations))
                 <div class="col-md-12">
                     <table class="table table-bordered table-hover table-striped" id="observations-table">
@@ -35,7 +109,7 @@
                     </div>
                 </div>
             @endif
-        </div>
+        </div> --}}
     </div>
 </div>
 
@@ -112,12 +186,49 @@
             },
             columns: [
 
-                { data: 'date', bSortable: false },
+                { data: 'created_at', bSortable: false },
                 { data: 'type',name:"type" },
                 { data: 'message', bSortable: false },
                 { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
             ]
         });
+            
+        $('#eliminated-table').DataTable({
+            "dom": '<"top">t<"bottom"p>',
+            processing: true,
+            serverSide: true,
+            pageLength: 8,
+            autoWidth: false,
+            ajax: {
+                url: '{!! route('get_observations_eliminated') !!}',
+                data: function (d) {
+                 
+                    d.affiliate_id={{$affiliate->id}}
+                }
+            },
+            columns: [
+
+                { data: 'deleted_at', bSortable: false },
+                { data: 'type',name:"type" },
+                { data: 'message', bSortable: false },
+                // { data: 'action', name: 'action', orderable: false, searchable: false, bSortable: false, sClass: 'text-center' }
+            ]
+        });
+
+    var see = false;
+    $('.observer').hide();
+    $('#seeObservations').change(function(){
+        
+            see = !see;
+            if(see)
+            {
+                $('.observer').show();
+            }else{
+                $('.observer').hide();
+            }
+        // console.log(see);
+    });
+
     $(document).ready(function() {
         // edit observations
         $(document).on('click', '.editObservation', function(event) {
@@ -138,6 +249,9 @@
             });
             event.preventDefault();
         });
+        
+
+
     });
 </script>
 @endpush

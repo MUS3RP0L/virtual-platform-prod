@@ -404,6 +404,7 @@ class EconomicComplementController extends Controller
         // $moduleObservation=Auth::user()->roles()->first()->module->id;
         // $observations_types = $moduleObservation == 1 ? ObservationType::all() : ObservationType::where('module_id',$moduleObservation)->get();
         $observations_types = ObservationType::where('module_id',Util::getRol()->module_id)->where('type','T')->where('id','<>',11)->get();
+       
         // $observation_types_list = array('' => '');
         //     foreach ($observations_types as $item) {
         //         $observation_types_list[$item->id]=$item->name;
@@ -1335,6 +1336,10 @@ class EconomicComplementController extends Controller
 
         $class_rent =DB::table('eco_com_kind_rent')->where('id',$economic_complement->eco_com_kind_rent_id)->first();
         $observations_quantity = EconomicComplementObservation::where('economic_complement_id',$economic_complement->id)->where('observation_type_id','<>',11)->get()->count();
+        $observations_eliminated = EconomicComplementObservation::where('economic_complement_id',$economic_complement->id)
+        ->whereNotNull('deleted_at')
+        ->withTrashed()
+        ->get();
         $notes_quantity = EconomicComplementObservation::where('economic_complement_id',$economic_complement->id)->where('observation_type_id',11)->get()->count();
         $data = [
 
@@ -1378,6 +1383,7 @@ class EconomicComplementController extends Controller
         'devolution_amount_total' => $devolution_amount_total,
         'complement_observations' => $economic_complement->observations,
         'observations_quantity' =>$observations_quantity,
+        'observations_eliminated' => $observations_eliminated->count(),
         'notes_quantity' =>$notes_quantity,
         ];
         // return $data;
