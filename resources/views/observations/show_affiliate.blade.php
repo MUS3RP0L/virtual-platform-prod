@@ -169,7 +169,7 @@
                     <select class="form-control  selItem" name="observation_type_id" id='observation_type_id_edit'  >
                         <option value=''> </option>
                         @foreach($observations_types as $observation_type)
-                            <option value='{{ $observation_type->id }}'> {{ $observation_type->name }} </option>
+                            <option value='{{ $observation_type->id }}'> {{ '['.$observation_type->type.'] '.$observation_type->name }} </option>
                         @endforeach
                     </select>
                 </div>
@@ -198,6 +198,7 @@
     </div>
 </div>
 <!-- Delete Observation Modal -->
+
 <div class="modal fade" id="observationDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -208,15 +209,22 @@
             </div>
             <div class="modal-body">
                 {!! Form::token() !!}
-                {!! Form::hidden('affiliate_id', $affiliate->id,['id'=>'affiliate_id_delete']) !!}
+                {!! Form::hidden('complement_id', $affiliate->id,['id'=>'complement_id_delete']) !!}
                 {!! Form::hidden('observation_id','',['id'=>'observation_id_delete']) !!}
-                <div class="text-center">
-                    <a href="#" data-dismiss="modal" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
-                    &nbsp;&nbsp;&nbsp;
-                    <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
+                <div class="row">
+                        &nbsp;&nbsp;&nbsp; <strong id="observation_name"></strong>
                 </div>
+                <br>
+                <div class="row">
+                    <div class="text-center">
+                        <a href="#" data-dismiss="modal" class="btn btn-raised btn-warning">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;</a>
+                        &nbsp;&nbsp;&nbsp;
+                        <button type="submit" class="btn btn-raised btn-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Guardar">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
+                    </div>
+                </div>
+                
             </div>
-                {!! Form::close() !!}
+            {!! Form::close() !!}
         </div>
     </div>
 </div>
@@ -399,6 +407,19 @@
         
         modal.find('.modal-body .isNote').hide()   
               
+    });
+
+    $('#observationDeleteModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var observation_id = button.data('observation-id')
+                var observation_name = button.data('observation-name')
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var modal = $(this)
+                // console.log(observation_id)
+             
+                modal.find('.modal-body #observation_id_delete').val(observation_id)
+                modal.find('.modal-body #observation_name').text(observation_name)
     });
 
 </script>

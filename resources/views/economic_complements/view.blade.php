@@ -975,9 +975,7 @@
                                 Eliminados  <span class="badge">{{ $observations_eliminated }}</span>
                           </a>
                          
-                        </h4>
-                       
-                   
+                        </h4>          
                       </div>
                         <div id="observations_eliminated" class="panel-collapse collapse">
                         <div class="box-body">
@@ -2917,7 +2915,7 @@
                         <select class="form-control  selItem" name="observation_type_id" id='observation_type_id_edit'  >
                             <option value=''> </option>
                             @foreach($observations_types as $observation_type)
-                                <option value='{{ $observation_type->id }}'> {{ $observation_type->name }} </option>
+                                <option value='{{ $observation_type->id }}'> {{ '['.$observation_type->type.'] '.$observation_type->name }} </option>
                             @endforeach
                         </select>
                     </div>

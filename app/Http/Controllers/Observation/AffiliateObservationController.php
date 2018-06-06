@@ -72,8 +72,8 @@ class AffiliateObservationController extends Controller
             $message="Observacion Actualizada";
         }
        
+        $nota = ObservationType::where('type','N')->where('module_id',Util::getRol()->module_id)->first();
        
-
         $observation->user_id=Auth::user()->id;
         $observation->affiliate_id=$request->affiliate_id;
         $observation->date=Carbon::now();
@@ -82,7 +82,13 @@ class AffiliateObservationController extends Controller
         $observation->message=$request->message;
 
         if($request->has('is_note')){
-            $observation->observation_type_id = 11;
+            $observation->observation_type_id = $nota->id;
+            if($message == 'Observacion Creada'){
+              $message = 'Nota Creada';
+            }else{
+              $message = 'Nota Actualizada';
+            }
+
         }
 
         $observation->save();
@@ -163,14 +169,18 @@ class AffiliateObservationController extends Controller
 
     public function showOfAffiliate(Request $request)
     {
+      // Log::info(Util::getRol());
+      $nota = ObservationType::where('type','N')->where('module_id',Util::getRol()->module_id)->first();
+    
+      // Log::info($nota);
       if($request->type =='A')
       {
         $observations_list=AffiliateObservation::where('affiliate_id',$request->affiliate_id)
-                                                  ->where('observation_type_id','<>',11)
+                                                  ->where('observation_type_id','<>',$nota->id)
                                                   ->select(['id','affiliate_id','created_at','message','is_enabled','observation_type_id'])->get();
       }else{
         $observations_list=AffiliateObservation::where('affiliate_id',$request->affiliate_id)
-                                                  ->where('observation_type_id','=',11)
+                                                  ->where('observation_type_id','=',$nota->id)
                                                   ->select(['id','affiliate_id','created_at','message','is_enabled','observation_type_id'])->get(); 
       }
       
