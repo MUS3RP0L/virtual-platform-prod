@@ -13,6 +13,7 @@ use Log;
 use Datatables;
 use Util;
 use Auth;
+use Session;
 class EconomicComplementObservationController extends Controller
 {
     /**
@@ -45,6 +46,7 @@ class EconomicComplementObservationController extends Controller
     {
         //
         // $observation = EconomicComplementObservation::where('id',$request->observation_id)->first();
+        $nota = ObservationType::where('type','N')->where('module_id',Util::getRol()->module_id)->first();
         // return EconomicComplementObservation::find(2);
         if($request->observation_id=='')
         {

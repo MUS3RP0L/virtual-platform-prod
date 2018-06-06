@@ -11,24 +11,25 @@ use Muserpol\EconomicComplementObservation;
 use Muserpol\AffiliateObservation;
 use Muserpol\Observers\EcoComObservationObserver;
 use Muserpol\Observers\AffiliateObservationObserver;
+use Muserpol\Observers\EconomicComplementObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap any application services.
+     * Bootstrap any application services.s
      *
      * @return void
      */
     public function boot()
     {
-        EconomicComplement::created(function ($economic_complement)
-        {
-            WorkflowRecord::creatingEconomicComplement($economic_complement);
-        });
-        EconomicComplement::updating(function ($economic_complement)
-        {
-            WorkflowRecord::updatedEconomicComplement($economic_complement);
-        });
+        // EconomicComplement::created(function ($economic_complement)
+        // {
+        //     WorkflowRecord::creatingEconomicComplement($economic_complement);
+        // });
+        // EconomicComplement::updating(function ($economic_complement)
+        // {
+        //     WorkflowRecord::updatedEconomicComplement($economic_complement);
+        // });
         Validator::extend('not_zero', function($attribute, $value, $parameters, $validator) {
             
             return !($value=="0.00" || $value=='0' || $value=='');
@@ -39,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
 
         EconomicComplementObservation::observe(EcoComObservationObserver::class);
         AffiliateObservation::observe(AffiliateObservationObserver::class);
-        
+        EconomicComplement::observe(EconomicComplementObserver::class);
     }
 
     /**

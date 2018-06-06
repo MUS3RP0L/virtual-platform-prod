@@ -493,14 +493,14 @@ class EconomicComplement extends Model
     }
 }
 
-EconomicComplement::created(function($ecomplement)
-{
-    Activity::createdEconomicComplement($ecomplement);
-});
+// EconomicComplement::created(function($ecomplement)
+// {
+//     Activity::createdEconomicComplement($ecomplement);
+// });
 
-EconomicComplement::updated(function($ecomplement)
-{
-    Activity::updateEconomicComplement($ecomplement);
-    WorkflowRecord::updatedEconomicComplement($ecomplement);
+// EconomicComplement::updated(function($ecomplement)
+// {
+//     Activity::updateEconomicComplement($ecomplement);
+//     WorkflowRecord::updatedEconomicComplement($ecomplement);
 
-});
+// });
