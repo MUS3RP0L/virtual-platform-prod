@@ -50,20 +50,31 @@ class EconomicComplementObservationController extends Controller
         {
             $observation = new EconomicComplementObservation;
             $observation->observation_type_id = $request->observation_type_id;
+            $message="Observacion Creada";
         }
         else{
             $observation = EconomicComplementObservation::find($request->observation_id);
+            $message="Observacion Actualizada";
         }
        
-        if($request->has('is_note')){
-            $observation->observation_type_id = 11;
-        }
-        $observation->message = $request->message;
         $observation->economic_complement_id = $request->economic_complement_id;
+        $observation->message = $request->message;
         $observation->user_id = Auth::user()->id;
         $observation->is_enabled = $request->has('is_enabled')?true:false;
-        $observation->save();
+
+        if($request->has('is_note')){
+            $observation->observation_type_id = $nota->id;
+            if($message == 'Observacion Creada'){
+              $message = 'Nota Creada';
+            }else{
+              $message = 'Nota Actualizada';
+            }
+
+        }
         
+        $observation->save();
+        Session::flash('message', $message);
+
         return back();
     }
 
@@ -114,7 +125,9 @@ class EconomicComplementObservationController extends Controller
     }
     public function getComplementObservation(Request $request)
     {   
-        Log::info($request->notes);
+        // Log::info($request->notes);
+        
+      
         if($request->notes==1)
         {
             $observations = EconomicComplementObservation::where('economic_complement_id',$request->economic_complement_id)
@@ -142,27 +155,27 @@ class EconomicComplementObservationController extends Controller
           return '<span class="label label-danger">Vigente</span>';
         })
         ->addColumn('action', function ($observation) {
-            $note = $observation->observation_type_id==11?'1':'0';
-            $color = $observation->observation_type_id==11?'info':'danger';
+            $note = $observation->observationType->type=='N' ?'1':'0';
+            $color = $observation->observationType->type=='N' ?'info':'danger';
             $options = '';
             if($observation->observationType->type =='T'){
                 $options = '<div class="btn-group" style="margin:-3px 0;">
                 <button type="button" class="btn btn-'.$color.' btn-raised btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="/print_observations/'.$observation->affiliate_id.'/'.$observation->observation_type_id.'"><i class="glyphicon glyphicon-print"></i> Imprimir</a></li>'.
+                <ul class="dropdown-menu">'.
+                    // <li><a href="/print_observations/'.$observation->affiliate_id.'/'.$observation->observation_type_id.'"><i class="glyphicon glyphicon-print"></i> Imprimir</a></li>'.
                      ((Util::getRol()->module_id == $observation->observationType->module_id) ? '<li><a data-observation-id="'.$observation->id.'"  role="button" data-toggle="modal" data-target="#observationEditModal"  data-observation-type-id="'.$observation->observation_type_id.'" data-observation-name="'.$observation->observationType->name.'" data-observation-message="'.$observation->message.'" data-observation-enabled="'.$observation->is_enabled.'" data-notes="'.$note.'" ><i class="fa fa-pencil" ></i> Editar</a></li>'.
                     '<li><a data-toggle="modal" data-target="#observationDeleteModal" data-observation-id="'.$observation->id.'" data-observation-name="'.$observation->observationType->name.'"  class="deleteObservation" href="#"> <i class="fa fa-times-circle"></i> Eliminar</a></li>':'').'
                   </ul>
                 </div>';
             }else{
                 $options = '<div class="btn-group" style="margin:-3px 0;">
-                <button type="button" class="btn btn-'.$color.' btn-raised btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="/print_observations/'.$observation->affiliate_id.'/'.$observation->observation_type_id.'"><i class="glyphicon glyphicon-print"></i> Imprimir</a></li>'.
-                     ((Util::getRol()->module_id == $observation->observationType->module_id) ? '<li><a data-observation-id="'.$observation->id.'" data-observation-name="'.$observation->observationType->name.'"  role="button" data-toggle="modal" data-target="#observationEditModal"  data-observation-type-id="'.$observation->observation_type_id.'" data-observation-message="'.$observation->message.'" data-observation-enabled="'.$observation->is_enabled.'" data-notes="'.$note.'" ><i class="fa fa-pencil" ></i> Editar</a></li>'.
-                    '':'').'
-                  </ul>
-                </div>';
+              <button type="button" class="btn btn-'.$color.' btn-raised btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="caret"></span></button>
+              <ul class="dropdown-menu">'.
+                  // <li><a href="/print_observations/'.$observation->affiliate_id.'/'.$observation->observation_type_id.'"><i class="glyphicon glyphicon-print"></i> Imprimir</a></li>'.
+                  ((Util::getRol()->module_id == $observation->observationType->module_id) ? '<li><a data-observation-id="'.$observation->id.'"  role="button" data-toggle="modal" data-target="#observationEditModal"  data-observation-type-id="'.$observation->observation_type_id.'" data-observation-name="'.$observation->observationType->name.'" data-observation-message="'.$observation->message.'" data-observation-enabled="'.$observation->is_enabled.'" data-notes="'.$note.'" ><i class="fa fa-pencil" ></i> Editar</a></li>'.
+                  '<li><a data-toggle="modal" data-target="#observationDeleteModal" data-observation-id="'.$observation->id.'" data-observation-name="'.$observation->observationType->name.'"  class="deleteObservation" href="#"> <i class="fa fa-times-circle"></i> Eliminar</a></li>':'').' 
+                </ul>
+              </div>';
             }
           return $options;
         })
