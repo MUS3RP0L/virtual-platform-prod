@@ -913,6 +913,24 @@ class EconomicComplementController extends Controller
                     // $economic_complement->base_wage_id = $base_wage->id;
                     // $economic_complement->complementary_factor_id = $complementary_factor->id;
                     $economic_complement->save();
+
+                    Log::info('ingresando al metodo hdpo');
+                    Log::info($economic_complement);
+                    $observations = AffiliateObservation::where('affiliate_id',$economic_complement->affiliate_id)->get();
+                    Log::info('mostrando observaciones ----------------------------_>');
+                    Log::info($observations);
+                    foreach($observations as $observation){
+                        Log::info($observation);
+                        if($observation->observationType->type=='AT')
+                        {
+                            $eco_com_observation = new EconomicComplementObservation;
+                            $eco_com_observation->user_id = Auth::user()->id;
+                            $eco_com_observation->economic_complement_id = $economic_complement->id;
+                            $eco_com_observation->observation_type_id = $observation->observation_type_id;
+                            $eco_com_observation->message = $observation->message;
+                            $eco_com_observation->save();
+                        }
+                    }
                 }
                 return $this->save($request, $economic_complement);
 

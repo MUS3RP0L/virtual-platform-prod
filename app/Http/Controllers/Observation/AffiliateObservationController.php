@@ -188,7 +188,7 @@ class AffiliateObservationController extends Controller
       return Datatables::of($observations_list)
         ->editColumn('created_at', '{!! $created_at !!}')
         ->addColumn('type',function ($observation){
-          return $observation->observationType->name;
+          return '<span class="label label-info">'. $observation->observationType->type.'</span> '. $observation->observationType->name;
         })
         ->addColumn('action', function ($observation) {
 
