@@ -147,7 +147,7 @@ class EconomicComplementObservationController extends Controller
           return Util::getDateShort($observation->created_at);
         })
         ->addColumn('type',function ($observation){
-          return $observation->observationType->name;
+          return '<span class="label label-info">'. $observation->observationType->type.'</span> '.$observation->observationType->name;
         })
         ->editColumn('is_enabled',function ($observation)
         {

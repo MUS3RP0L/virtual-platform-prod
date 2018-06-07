@@ -2920,7 +2920,7 @@
                         </select>
                     </div>
                     {!! Form::label('message', 'Mensaje:', []) !!}
-                    <textarea name="message" id="message_edit" cols="50" rows="10" required="required" class="form-control"></textarea>
+                    <textarea name="message" id="message_edit" cols="50" rows="10"  class="form-control"></textarea>
 
                     <div class="form-group">
                         <div class="togglebutton note">
