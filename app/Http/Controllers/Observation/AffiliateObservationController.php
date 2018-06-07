@@ -51,8 +51,8 @@ class AffiliateObservationController extends Controller
       $messages = [
       // 'observation_type_id.required' => 'El campo tipo de observacion es requerido',
 
-      'message.required' => 'El campo mensaje es requerido',
-      'message.min' => 'El mínimo de caracteres permitidos en mensaje es 3'
+      // 'message.required' => 'El campo mensaje es requerido',
+      // 'message.min' => 'El mínimo de caracteres permitidos en mensaje es 3'
       ];
       $validator = Validator::make($request->all(), $rules, $messages);
       if ($validator->fails()) {
