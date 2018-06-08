@@ -128,17 +128,17 @@ class EconomicComplementObservationController extends Controller
     public function getComplementObservation(Request $request)
     {   
         // Log::info($request->notes);
-        
+        $nota = ObservationType::where('type','N')->where('module_id',Util::getRol()->module_id)->first();
       
         if($request->notes==1)
         {
             $observations = EconomicComplementObservation::where('economic_complement_id',$request->economic_complement_id)
-                                                        ->where('observation_type_id',11)  
+                                                        ->where('observation_type_id',$nota->id)  
                                                         ->get();
         }else{  
 
             $observations = EconomicComplementObservation::where('economic_complement_id',$request->economic_complement_id)
-                                                        ->where('observation_type_id','<>',11)                                              
+                                                        ->where('observation_type_id','<>',$nota->id)                                              
                                                         ->get();
         }   
         return Datatables::of($observations)
