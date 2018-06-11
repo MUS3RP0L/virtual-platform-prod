@@ -10,7 +10,7 @@
       text-align: right;
     }
     td{
-      font-size:10px;
+      font-size:13px;
     }
     .p-19{
       padding: 0px 19px;
@@ -301,7 +301,7 @@
         </td>
       </tr>
     </table>
-    <span style="position: absolute; bottom:0%" class="size-6">PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018</span>
+    {{-- <span style="position: absolute; bottom:0%" class="size-6">PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018</span> --}}
       
   </div>
   <div class="main-right">
@@ -402,7 +402,7 @@
         <td class="no-border"></td>
       </tr>
     </table>
-    <span style="position: absolute; bottom:0%" class="size-6">PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018</span>
+    {{-- <span style="position: absolute; bottom:0%" class="size-6">PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018</span> --}}
   </div>
 </div>
 @endsection
