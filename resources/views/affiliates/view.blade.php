@@ -116,11 +116,6 @@
         @endcan --}}
             <!-- button of Observations -->
             @can('eco_com_review_and_reception')
-            <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Observaciones" style="margin: 0;">
-                <a href="" class="btn btn-success btn-raised bg-red" data-toggle="modal" data-target="#observationModal"><i class="fa fa-eye fa-lg"></i></a>
-            </div>
-            @endcan
-            @can('eco_com_review_and_reception')
                 @if($devolution)
                     @if($devolution->total > 0 )
                         <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Devoluciones" style="margin: 0;">
@@ -134,7 +129,7 @@
 
 @endsection
 @section('main-content')
-@include('observations.create')
+
 
     <div class="row">
         <div class="col-md-6">

@@ -403,7 +403,6 @@ class EconomicComplementController extends Controller
 
         // $moduleObservation=Auth::user()->roles()->first()->module->id;
         // $observations_types = $moduleObservation == 1 ? ObservationType::all() : ObservationType::where('module_id',$moduleObservation)->get();
-        $observations_types = ObservationType::where('module_id',Util::getRol()->module_id)->where('type','T')->where('id','<>',11)->get();
        
         // $observation_types_list = array('' => '');
         //     foreach ($observations_types as $item) {
@@ -419,7 +418,7 @@ class EconomicComplementController extends Controller
             'pension_entities_list' => $pension_entities_list,
             'cities_list' => $cities_list,
             'cities_list_short' => $cities_list_short,
-            'observations_types' => $observations_types,
+           
             'months' => $months,
         ];
     }
@@ -913,6 +912,24 @@ class EconomicComplementController extends Controller
                     // $economic_complement->base_wage_id = $base_wage->id;
                     // $economic_complement->complementary_factor_id = $complementary_factor->id;
                     $economic_complement->save();
+
+                    Log::info('ingresando al metodo hdpo');
+                    Log::info($economic_complement);
+                    $observations = AffiliateObservation::where('affiliate_id',$economic_complement->affiliate_id)->get();
+                    Log::info('mostrando observaciones ----------------------------_>');
+                    Log::info($observations);
+                    foreach($observations as $observation){
+                        Log::info($observation);
+                        if($observation->observationType->type=='AT')
+                        {
+                            $eco_com_observation = new EconomicComplementObservation;
+                            $eco_com_observation->user_id = Auth::user()->id;
+                            $eco_com_observation->economic_complement_id = $economic_complement->id;
+                            $eco_com_observation->observation_type_id = $observation->observation_type_id;
+                            $eco_com_observation->message = $observation->message;
+                            $eco_com_observation->save();
+                        }
+                    }
                 }
                 return $this->save($request, $economic_complement);
 
@@ -1341,6 +1358,27 @@ class EconomicComplementController extends Controller
         ->withTrashed()
         ->get();
         $notes_quantity = EconomicComplementObservation::where('economic_complement_id',$economic_complement->id)->where('observation_type_id',11)->get()->count();
+
+
+        $observations_types = ObservationType::where('module_id',Util::getRol()->module_id)->where('type','T')->where('id','<>',11)->get();
+        
+        $affiliate_observations = AffiliateObservation::where('affiliate_id',$economic_complement->affiliate_id)->get();
+        foreach($affiliate_observations as $observation){
+            if($observation->observationType->type=='AT')
+            {
+                $eco_com_observation = EconomicComplementObservation::where('economic_complement_id',$economic_complement->id)
+                ->where('observation_type_id',$observation->observation_type_id)
+                ->first();
+                if(!$eco_com_observation)
+                {
+                    $new_observation = ObservationType::find($observation->observation_type_id);
+                    $observations_types->push($new_observation);
+                    // ($observations_types,$new_observation);   
+                }
+            }
+        }
+        // return $observations_types;
+        
         $data = [
 
         'affiliate' => $affiliate,
@@ -1385,6 +1423,7 @@ class EconomicComplementController extends Controller
         'observations_quantity' =>$observations_quantity,
         'observations_eliminated' => $observations_eliminated->count(),
         'notes_quantity' =>$notes_quantity,
+        'observations_types' => $observations_types,
         ];
         // return $data;
         // dd($eco_com_submitted_documents_ar);

@@ -13,6 +13,7 @@ use Log;
 use Datatables;
 use Util;
 use Auth;
+use Session;
 class EconomicComplementObservationController extends Controller
 {
     /**
@@ -45,6 +46,7 @@ class EconomicComplementObservationController extends Controller
     {
         //
         // $observation = EconomicComplementObservation::where('id',$request->observation_id)->first();
+        $nota = ObservationType::where('type','N')->where('module_id',Util::getRol()->module_id)->first();
         // return EconomicComplementObservation::find(2);
         if($request->observation_id=='')
         {
@@ -126,17 +128,17 @@ class EconomicComplementObservationController extends Controller
     public function getComplementObservation(Request $request)
     {   
         // Log::info($request->notes);
-        
+        $nota = ObservationType::where('type','N')->where('module_id',Util::getRol()->module_id)->first();
       
         if($request->notes==1)
         {
             $observations = EconomicComplementObservation::where('economic_complement_id',$request->economic_complement_id)
-                                                        ->where('observation_type_id',11)  
+                                                        ->where('observation_type_id',$nota->id)  
                                                         ->get();
         }else{  
 
             $observations = EconomicComplementObservation::where('economic_complement_id',$request->economic_complement_id)
-                                                        ->where('observation_type_id','<>',11)                                              
+                                                        ->where('observation_type_id','<>',$nota->id)                                              
                                                         ->get();
         }   
         return Datatables::of($observations)
@@ -145,7 +147,7 @@ class EconomicComplementObservationController extends Controller
           return Util::getDateShort($observation->created_at);
         })
         ->addColumn('type',function ($observation){
-          return $observation->observationType->name;
+          return '<span class="label label-info">'. $observation->observationType->type.'</span> '.$observation->observationType->name;
         })
         ->editColumn('is_enabled',function ($observation)
         {

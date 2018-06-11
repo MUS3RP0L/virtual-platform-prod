@@ -51,8 +51,8 @@ class AffiliateObservationController extends Controller
       $messages = [
       // 'observation_type_id.required' => 'El campo tipo de observacion es requerido',
 
-      'message.required' => 'El campo mensaje es requerido',
-      'message.min' => 'El mínimo de caracteres permitidos en mensaje es 3'
+      // 'message.required' => 'El campo mensaje es requerido',
+      // 'message.min' => 'El mínimo de caracteres permitidos en mensaje es 3'
       ];
       $validator = Validator::make($request->all(), $rules, $messages);
       if ($validator->fails()) {
@@ -188,7 +188,7 @@ class AffiliateObservationController extends Controller
       return Datatables::of($observations_list)
         ->editColumn('created_at', '{!! $created_at !!}')
         ->addColumn('type',function ($observation){
-          return $observation->observationType->name;
+          return '<span class="label label-info">'. $observation->observationType->type.'</span> '. $observation->observationType->name;
         })
         ->addColumn('action', function ($observation) {
 
