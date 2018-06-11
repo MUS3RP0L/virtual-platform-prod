@@ -1282,7 +1282,15 @@ class EconomicComplementReportController extends Controller
         ];
         // dd(Util:: str_replace(',', '.', (str_replace('.', '', Util::formatMoney($temp_total)))));
         $data = array_merge($data, $second_data);
-        return \PDF::loadView('economic_complements.print.print_total', $data)->setOption('page-width', '215.9')->setOption('page-height', '330')->setOption('margin-bottom', 0)->setOption('margin-left', 5)->setOption('margin-right', 5)/*->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')*/->stream('print_total.pdf');
+        // return view('economic_complements.print.print_total', $data);
+        return \PDF::loadView('economic_complements.print.print_total', $data)
+                    ->setOption('page-width', '216')
+                    ->setOption('page-height', '328')
+                    ->setOption('margin-bottom', 0)
+                    ->setOption('margin-left', 5)
+                    ->setOption('margin-right', 5)
+                    /*->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')*/
+                    ->stream('print_total.pdf');
 
         // ->setOption('page-width', '215.9')->setOption('page-height', '330')
 

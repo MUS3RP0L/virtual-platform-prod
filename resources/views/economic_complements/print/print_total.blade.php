@@ -217,7 +217,7 @@
         <td colspan="2" class="no-border"></td>
       </tr>
       <tr class="tableh1">
-        <th colspan="2" style="width: 50%;border: 0px;padding-top:10px" class="size-6">
+        <th colspan="2" style="width: 50%;border: 0px;padding-top:10px" class="size-8">
           <b>MUTUAL DE SERVICIOS AL POLICÍA<br>
             {!! $header1 !!}<br>{!! $header2 !!}
             @yield('title')
@@ -301,7 +301,7 @@
         </td>
       </tr>
     </table>
-    <span style="position: absolute; bottom:3%" class="size-6">PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018</span>
+    <span style="position: absolute; bottom:0%" class="size-6">PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018</span>
       
   </div>
   <div class="main-right">
@@ -310,7 +310,7 @@
         <td colspan="4" class="no-border"></td>
       </tr>
       <tr class="tableh1">
-        <th colspan="4" style="width: 50%;border: 0px;padding-top:10px" class="size-6">
+        <th colspan="4" style="width: 50%;border: 0px;padding-top:10px" class="size-8">
           <b>MUTUAL DE SERVICIOS AL POLICÍA<br>
             {!! $header1 !!}<br>{!! $header2 !!}
             @yield('title')
@@ -402,7 +402,7 @@
         <td class="no-border"></td>
       </tr>
     </table>
-    <span style="position: absolute; bottom:3%" class="size-6">PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018</span>
+    <span style="position: absolute; bottom:0%" class="size-6">PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018</span>
   </div>
 </div>
 @endsection
