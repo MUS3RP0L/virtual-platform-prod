@@ -266,22 +266,22 @@ hr.cut-line {
   text-align: center;
 }
 .main1{
-  height: 757px;
-  // background:#3b5998;
+  height: 1020px;
+  /* // background:#3b5998; */
 }
 .main-left{
   height: 253px;
-  width: 257px;
-  // background:red;
+  width: 317px;
+  /* background:red; */
   display: inline-block;
-  margin-right: 30px;
+  margin-right: 75px;
 }
 .main-right{
   height: 253px;
   margin:0; 
-  width: 450px;
+  width: 550px;
   display: inline-block;
-  // background:green;
+  /* background:green; */
 }
 .border-radius{
   border-radius: 5px;
