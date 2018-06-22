@@ -1902,12 +1902,13 @@ class EconomicComplementReportController extends Controller
             $file_name = $name.' '.date("Y-m-d H:i:s");
             $query = Affiliate::select(DB::raw(
                         "row_number() OVER () AS NRO," .
-                            Affiliate::basic_info_columns() . ",city_user.name as u_regional"
+                            Affiliate::basic_info_columns() . ",city_user.name as u_regional,degrees.name as grado"
                     ))
                     ->leftJoin("affiliate_observations", "affiliates.id",  '=',  "affiliate_observations.affiliate_id")
                     ->leftJoin("observation_types", "affiliate_observations.observation_type_id",  "=",  "observation_types.id")
                     ->leftJoin("users", "affiliate_observations.user_id",  "=",  "users.id")
                     ->leftJoin("cities as city_user", "users.city_id",  "=", "city_user.id")
+                    ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
                     ->where("observation_types.id",  '=', 16)
                     ->get();
             $data = $query;
