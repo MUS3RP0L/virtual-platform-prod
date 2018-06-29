@@ -1147,6 +1147,25 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    {!! Form::label('due_date', 'Fecha de Vencimiento del CI', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input data-bind ="enable: activo" type="text" id="due_date_mask" class="form-control" name="due_date" value="{!! $affiliate->getEditDueDate() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="col-md-6">
+                                        <div class="togglebutton">
+                                            <label>
+                                                <input type="checkbox" name="is_duedate_undefined"  data-bind="checked: isDateUndifined, click: inputVisible()"> Indefinida
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                             {!! Form::label('gender', 'Género', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
                                         {!! Form::select('gender', ['M'=>'Masculino','F'=>'Femenino'] ,$affiliate->gender, ['class' => 'combobox form-control','required']) !!}
@@ -1819,6 +1838,14 @@
                 self.show_total_percentage(self.total_percentage() == 'true');
                 self.show_total_percentage_radio(self.total_percentage() == 'true');
             });
+
+            //Affiliate due date 
+            self.isDateUndifined = ko.observable({{json_encode($affiliate->is_duedate_undefined)}});
+            self.activo = ko.observable(!{{json_encode($affiliate->is_duedate_undefined)}});
+            self.inputVisible = function(){
+                self.activo(!self.isDateUndifined());  
+            };
+
         }
 
     ko.applyBindings(selectedlModel());
@@ -1937,6 +1964,7 @@
                 $(this).parent().parent().remove();
                 event.preventDefault();
             });
+            $("#due_date_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
         $(document).ready(function() {
             //for category
             //
@@ -1979,3 +2007,4 @@
         });
     </script>
 @endpush
+$("#due_date_affiliate_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
