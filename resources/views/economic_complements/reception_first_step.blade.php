@@ -247,12 +247,12 @@
                 self.isApsVisible = ko.observable(true);
                 self.enteSelected.subscribe(function(id_value){
 
-                    if(id_value == '5')
-                    {
+                    // if(id_value == '5')
+                    // {
                         self.isApsVisible(false);
-                    }else{
-                        self.isApsVisible(true);
-                    }
+                    // }else{
+                    //     self.isApsVisible(true);
+                    // }
                     console.log("id "+id_value+" "+self.isApsVisible());
                     
 
