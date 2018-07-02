@@ -884,11 +884,14 @@ class EconomicComplementController extends Controller
                     $economic_complement->affiliate_id = $affiliate->id;
                     $economic_complement->eco_com_modality_id = $eco_com_modality->id;
                     $economic_complement->eco_com_procedure_id = $eco_com_pro->id;
-                    if ($request->semester == 'Primer' || $request->semester == 'Segundo') { 
-                        $economic_complement->workflow_id = 3;
-                    }else{
-                        $economic_complement->workflow_id = 1;
-                    }
+                    /*TODO
+                    corregir
+                     */
+                    // if ($request->semester == 'Primer' || $request->semester == 'Segundo') { 
+                    //     $economic_complement->workflow_id = 3;
+                    // }else{
+                    $economic_complement->workflow_id = 1;
+                    // }
                     $economic_complement->wf_current_state_id = $wf->id;
                     $economic_complement->eco_com_state_id = 16;
                     $economic_complement->city_id = trim($request->city);
