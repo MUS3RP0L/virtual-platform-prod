@@ -10,13 +10,13 @@ Formulario Nº 4
  <strong>DIRECTOR (A) GENERAL EJECUTIVO</strong><br />
  <strong>MUTUAL DE SERVICIOS AL POLICÍA</strong><br />
  Presente.-<br /><br />
- <p><strong>REF: SOLICITUD PAGO COMPLEMENTO ECONÓMICO {!! strtoupper($economic_complement->semester) !!} SEMESTRE DE LA GESTIÓN 2017 COMO BENEFICIARIO HABITUAL</strong></p><br />
+ <p><strong>REF: SOLICITUD PAGO COMPLEMENTO ECONÓMICO {!! strtoupper($economic_complement->economic_complement_procedure->semester) !!} SEMESTRE DE LA GESTIÓN {!! strtoupper(Util::getYear($economic_complement->economic_complement_procedure->year)) !!} COMO BENEFICIARIO HABITUAL</strong></p><br />
 
  <p>Distinguido (a) Director (a): </p>
- <p align="justify">La presente tiene por objeto solicitar a su autoridad pueda instruir por la unidad correspondiente hacerme el <strong>&nbsp;&nbsp; PAGO DEL BENEFICIO DEL COMPLEMENTO ECONÓMICO DEL {!! strtoupper($economic_complement->semester) !!} SEMESTRE DE LA GESTIÓN 2017, </strong>en razón que mi persona fue beneficiario en el semestre anterior.</p>
+ <p align="justify">La presente tiene por objeto solicitar a su autoridad pueda instruir por la unidad correspondiente hacerme el <strong>&nbsp;&nbsp; PAGO DEL BENEFICIO DEL COMPLEMENTO ECONÓMICO DEL {!! strtoupper($economic_complement->economic_complement_procedure->semester) !!} SEMESTRE DE LA GESTIÓN {!! strtoupper(Util::getYear($economic_complement->economic_complement_procedure->year)) !!}, </strong>en razón que mi persona fue beneficiario en el semestre anterior.</p>
  <p>Para tal efecto, adjunto los requisitos exigidos de acuerdo al siguiente detalle:</p>
  <div class="title2"><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong><strong class="code">Nº Afiliado: {!! $affiliate->id !!} </strong></div>
- <table class="table" style="width:100%;">
+ <table class="table" style="width:100%; font-size:14px">
      <tr>
        <td colspan="6" class="grand info_title">
          INFORMACIÓN DEL BENEFICIARIO
@@ -44,7 +44,7 @@ Formulario Nº 4
      </tr>
    </table>
  {{--Información del trámite--}}
- <table>
+ <table style="font-size:14px">
    <tr>
      <td colspan="6" class="grand info_title">INFORMACIÓN DEL TRÁMITE</td>
    </tr>
@@ -94,10 +94,10 @@ Formulario Nº 4
   <tr>
     <th class="no-border" style="width:33%">&nbsp;</th>
     <th class="info" style="border: 0px;text-align:center;"><p>&nbsp;</p><br>
-      ----------------------------------------------------------------------<br>
+      ----------------------------------------------------<br>
       <strong>{!! $eco_com_applicant->getFullName() ?? '' !!}<br />C.I.: {!! $eco_com_applicant->identity_card !!} {!! isset($eco_com_applicant->city_identity_card->first_shortened) ?  $eco_com_applicant->city_identity_card->first_shortened.'.' : '' !!} <br /> Teléfono: {!! $eco_com_applicant->getPhone() !!}</strong>
     </th>
-    <th class="no-border"> <div class="info" style="border: 1px solid  #3c3c3c!IMPORTANT;text-align:center;width: 150px;"><p>&nbsp;</p><br><br><br><br></div><br><span class="info" style="border: 0px;text-align:center;">Impresión Digital Pulgar Derecho</span></th>
+    <th class="no-border"> <div class="info" style="border: 1px solid  #3c3c3c!IMPORTANT;text-align:center;width: 285px;"><p>&nbsp;</p><br><br><br><br></div><br><span class="info" style="border: 0px;text-align:center;">Impresión Digital Pulgar Derecho</span></th>
   </tr>
 </table>
 
