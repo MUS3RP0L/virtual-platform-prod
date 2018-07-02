@@ -53,7 +53,7 @@
   <footer>
     <table class="no-border">
       <td>
-        PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICÍA - 2017
+        PLATAFORMA VIRTUAL DE LA MUTUAL DE SERVICIOS AL POLICÍA - 2018
       </td>
       <td class="no-border text-right">
         {{-- @if($title != 'NOTIFICACIÓN')

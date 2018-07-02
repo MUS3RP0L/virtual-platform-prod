@@ -2,17 +2,11 @@
 
 @section('content')
 
-<style type="text/css">
-  body{
-    font-size: 10px
-  }
-</style>
-
 <div class="title2"><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite: Nº {!! $economic_complement->code !!}</strong><strong class="code">Nº Afiliado: {!! $affiliate->id !!} </strong></div>
 <div id="project">
         {{--Información beneficiario--}}
   @if($economic_complement->economic_complement_modality->economic_complement_type->id > 1)
-  <table class="table" style="width:100%;">
+  <table class="table" style="width:100%; font-size:14px">
     <tr>
       <td colspan="8" class="grand info_title">
         INFORMACIÓN DEL AFILIADO 
@@ -32,7 +26,7 @@
   </table>
   @endif
   {{--Información derechohabiente--}}
-  <table class="table" style="width:100%;">
+  <table class="table" style="width:100%; font-size:14px">
     <tr>
       <td colspan="6" class="grand info_title">
         INFORMACIÓN DEL BENEFICIARIO
@@ -67,7 +61,7 @@
     y hábil por derecho; consiente de la responsabilidad que asumo ante la Mutual de Servicios al Policía – MUSERPOL,
     de manera voluntaria y sin que medie ningún tipo de presión, mediante la presente, <strong>DECLARO LO SIGUIENTE:</strong>
   </p>
-  <table>
+  <table style="font-size:14px">
     <tr>
       <td>1</td>
       <td style="text-align:justify;">No percibo una pensión de jubilación por Riesgo Común y/o Profesional e Invalidez Común y/o Profesional o Muerte, por lo cual, la pensión en curso de pago que percibo por parte de las Administradoras del Fondo de Pensiones (AFP’S), Aseguradoras o del Sistema de Reparto corresponde a una <strong>PRESTACIÓN POR VIUDEDAD DERIVADA DE VEJEZ DEL CAUSAHABIENTE.</strong> Sin embargo, puedo acceder al beneficio cumpliendo lo establecido por el <strong>D.S. 3231 de 28 de junio de 2017, que modifica el Artículo Nº 17, Parágrafo I del Decreto Supremo Nº 1446 de 19 de diciembre de 2012.</strong></td>
@@ -106,7 +100,7 @@
   <table>
             
           <tr>
-              <th class="no-border"> <img src="http://chart.apis.google.com/chart?cht=qr&chs=110x110&chl=<?php echo (($title ?? '').' || '.'Trámite Nº: '.($economic_complement->code).' || '.$eco_com_applicant->getFullName().' || '.'Carnet de Identidad: '.$eco_com_applicant->identity_card.' '.($eco_com_applicant->city_identity_card->first_shortened ?? '').' || '.'Regional: '.($economic_complement->city->name ?? '') .' || '.'Fecha: '.($date ?? '') .' || '.$user->id); ?>&chld=L|0"></th>
+              <th class="no-border" style="width:33%"></th>
               <th class="info" style="border: 0px;text-align:center; width:60%"><p>&nbsp;</p><br>----------------------------------------------------
                 <strong>
                 <br>
@@ -115,7 +109,7 @@
                 C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened ?? ''!!}
                 </strong>
               </th>
-              <th class="no-border"> <div class="info" style="border: 1px solid  #3c3c3c!IMPORTANT;text-align:center;width: 150px;"><p>&nbsp;</p><br><br><br><br></div><br><span class="info" style="border: 0px;text-align:center;">Impresión Digital Pulgar Derecho</span></th>
+              <th class="no-border"> <div class="info" style="border: 1px solid  #3c3c3c!IMPORTANT;text-align:center;width: 285px;"><p>&nbsp;</p><br><br><br><br></div><br><span class="info" style="border: 0px;text-align:center;">Impresión Digital Pulgar Derecho</span></th>
 
           </tr>
         
