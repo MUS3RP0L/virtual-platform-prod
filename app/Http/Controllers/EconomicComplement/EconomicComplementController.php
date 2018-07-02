@@ -106,11 +106,12 @@ class EconomicComplementController extends Controller
                     'economic_complements.wf_current_state_id',
                     'economic_complements.city_id',
                     'economic_complements.eco_com_procedure_id',
-                    'affiliates.first_name',
-                    'affiliates.last_name',
-                    'affiliates.mothers_last_name'
+                    'eco_com_applicants.first_name',
+                    'eco_com_applicants.last_name',
+                    'eco_com_applicants.mothers_last_name'
                     ])
-            ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+            //->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+            ->leftJoin('eco_com_applicants','eco_com_applicants.economic_complement_id','=','economic_complements.id')
             ->orderBy('created_at','desc');
         //return $economic_complements->get();        
         try {
@@ -430,11 +431,11 @@ class EconomicComplementController extends Controller
 
         $affiliate = Affiliate::idIs($affiliate_id)->first();
 
-        if($affiliate->getServiceYears()<16)
-        {
-            Session::flash('message', 'Tiene menos de 16 años de servicio');
-            return redirect('affiliate/'.$affiliate_id);
-        }
+        // if($affiliate->getServiceYears()<16)
+        // {
+        //     Session::flash('message', 'Tiene menos de 16 años de servicio');
+        //     return redirect('affiliate/'.$affiliate_id);
+        // }
         $observations = $affiliate->observations->where('observation_type_id',6)->where('is_enabled',true);
         if($observations->count() > 0)
         {
@@ -633,11 +634,11 @@ class EconomicComplementController extends Controller
         $getViewModel = self::getViewModel();
 
         $affiliate = Affiliate::idIs($affiliate_id)->first();
-        if($affiliate->getServiceYears()<16)
-        {
-            Session::flash('message', 'Tiene menos de 16 años de servicio');
-            return redirect('affiliate/'.$affiliate_id);
-        }
+        // if($affiliate->getServiceYears()<16)
+        // {
+        //     Session::flash('message', 'Tiene menos de 16 años de servicio');
+        //     return redirect('affiliate/'.$affiliate_id);
+        // }
         $observations = $affiliate->observations->where('observation_type_id',6)->where('is_enabled',true);
         if($observations->count() > 0)
         {
