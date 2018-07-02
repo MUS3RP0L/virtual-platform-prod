@@ -1686,8 +1686,7 @@ class EconomicComplementController extends Controller
                     $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number_applicant));
                     $eco_com_applicant->date_death = Util::datePick($request->date_death);
                     $eco_com_applicant->reason_death = trim($request->reason_death);
-                    $eco_com_applicant->death_certificate_number = trim($request->death_certificate_number);
-                    
+                    $eco_com_applicant->death_certificate_number = trim($request->death_certificate_number);                   
                 }else{
                     $eco_com_applicant->phone_number = trim(implode(",", $request->phone_number));
                     $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number));
@@ -2466,7 +2465,6 @@ class EconomicComplementController extends Controller
                 // $pdf = \App::make('dompdf.wrapper');
                 // $pdf->loadHTML($view)->setPaper('legal');
                 // return $pdf->stream();
-
                 return \PDF::loadView('economic_complements.print.sworn_declaration1', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->stream('report_edited.pdf');
             case 'viudedad':
                 $spouse = Spouse::where('affiliate_id',$affiliate->id)->first();
