@@ -4,7 +4,7 @@
 
 <div class="title2"><strong class="code">DOC - {!! $doc_number !!} </strong><strong class="code">Trámite Nº: {!! $economic_complement->code !!} </strong><strong class="code">Nº Afiliado: {!! $affiliate->id !!} </strong></div>
 <div id="project">
-  <table class="table" style="width:100%;">
+  <table class="table" style="width:100%; font-size:14px;">
     <tr>
       <td colspan="7" class="grand info_title">
         INFORMACIÓN DEL BENEFICIARIO
@@ -74,8 +74,11 @@
 <table>
             
           <tr>
-              <th class="no-border"> <img src="http://chart.apis.google.com/chart?cht=qr&chs=110x110&chl=<?php echo (($title ?? '').' || '.'Trámite Nº: '.($economic_complement->code).' || '.$eco_com_applicant->getFullName().' || '.'Carnet de Identidad: '.$eco_com_applicant->identity_card.' '.($eco_com_applicant->city_identity_card->first_shortened ?? '').' || '.'Regional: '.($economic_complement->city->name ?? '') .' || '.'Fecha: '.($date ?? '') .' || '.$user->id); ?>&chld=L|0"></th>
-              <th class="info" style="border: 0px;text-align:center; width:60%"><p>&nbsp;</p><br>----------------------------------------------------
+              <th class="no-border" style="width:33%"> 
+                
+                &nbsp;
+              </th>
+              <th class="info" style="border: 0px;text-align:center; width:33%"><p>&nbsp;</p><br>----------------------------------------------------
                 <strong>
                 <br>
                 {!! $eco_com_applicant->getTitleNameFull() !!}
@@ -83,7 +86,14 @@
                 C.I. {!! $eco_com_applicant->identity_card !!} {!! $eco_com_applicant->city_identity_card->first_shortened ?? ''!!}
                 </strong>
               </th>
-              <th class="no-border"> <div class="info" style="border: 1px solid  #3c3c3c!IMPORTANT;text-align:center;width: 150px;"><p>&nbsp;</p><br><br><br><br></div><br><span class="info" style="border: 0px;text-align:center;">Impresión Digital Pulgar Derecho</span></th>
+              <th class="no-border" style="width:33%;">
+                <div  style="border: 1px solid  #3c3c3c!IMPORTANT;text-align:center;width: 285px;">
+                  <p>&nbsp;</p>
+                  <br><br><br><br>
+                </div>
+                <br>
+                <span class="info" style="border: 0px;text-align:center;">Impresión Digital Pulgar Derecho</span>
+              </th>
 
           </tr>
         

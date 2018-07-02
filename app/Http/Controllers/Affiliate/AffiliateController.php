@@ -367,7 +367,7 @@ class AffiliateController extends Controller
             'info_address' => $info_address,
             'info_spouse' => $info_spouse,
             'first_economic_complement' => $first_economic_complement,
-            'second_economic_complement' => $second_economic_complement,
+            'second_economic_complement' => $second_economic_complement ?? null,
             'has_first_eco_com' => $has_first_eco_com,
             'has_second_eco_com' => $has_second_eco_com,
             'available_create_eco_com' => $available_create_eco_com,
