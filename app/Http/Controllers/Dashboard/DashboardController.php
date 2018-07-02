@@ -481,20 +481,28 @@ class DashboardController extends Controller
 			$data = $affiliates;
 		}
 		else{
-			$eco_com_applicant = EconomicComplementApplicant::where('eco_com_applicants.identity_card','like', $query)
-				->leftJoin('economic_complements','economic_complements.id','=','eco_com_applicants.economic_complement_id')
-				->select('economic_complements.affiliate_id as id','eco_com_applicants.identity_card', 'eco_com_applicants.last_name', 'eco_com_applicants.first_name')
-				->orderBy('eco_com_applicants.last_name','asc')
-				->take(1)
-				->get(array('id','eco_com_applicants.identity_card', 'eco_com_applicants.last_name', 'eco_com_applicants.first_name'))
-				->toArray();
+			// $eco_com_applicant = EconomicComplementApplicant::where('eco_com_applicants.identity_card','like', $query)
+			// 	->leftJoin('economic_complements','economic_complements.id','=','eco_com_applicants.economic_complement_id')
+			// 	->select('economic_complements.affiliate_id as id','eco_com_applicants.identity_card', 'eco_com_applicants.last_name', 'eco_com_applicants.first_name')
+			// 	->orderBy('eco_com_applicants.last_name','asc')
+			// 	->take(1)
+			// 	->get(array('id','eco_com_applicants.identity_card', 'eco_com_applicants.last_name', 'eco_com_applicants.first_name'))
+			// 	->toArray();
+
+			
+				$eco_com_applicant = Affiliate::where('identity_card','like',$query)
+					->orderBy('first_name','asc')
+					->take(1)
+					->get(array('affiliates.id','affiliates.identity_card', 'affiliates.first_name', 'affiliates.last_name'))
+					->toArray();
+
 				$eco_com_applicant  = $this->appendURLaffiliate($eco_com_applicant, 'affiliate');
-				$eco_com_applicant = $this->appendValue($eco_com_applicant, 'eco_com_applicant', 'class');
+				$eco_com_applicant = $this->appendValue($eco_com_applicant, 'eco_com_applicant', 'class');				
 								
 				$spouse = Spouse::where('identity_card','like', $query)
 					//->leftJoin('economic_complements','economic_complements.id','=','eco_com_applicants.economic_complement_id')
 					->orderBy('first_name','asc')
-					->take(3)
+					->take(1)
 					->get(array('spouses.affiliate_id','spouses.identity_card', 'spouses.first_name', 'spouses.last_name'))
 					->toArray();
 

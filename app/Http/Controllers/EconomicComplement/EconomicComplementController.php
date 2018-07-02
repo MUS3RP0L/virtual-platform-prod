@@ -431,11 +431,11 @@ class EconomicComplementController extends Controller
 
         $affiliate = Affiliate::idIs($affiliate_id)->first();
 
-        if($affiliate->getServiceYears()<16)
-        {
-            Session::flash('message', 'Tiene menos de 16 años de servicio');
-            return redirect('affiliate/'.$affiliate_id);
-        }
+        // if($affiliate->getServiceYears()<16)
+        // {
+        //     Session::flash('message', 'Tiene menos de 16 años de servicio');
+        //     return redirect('affiliate/'.$affiliate_id);
+        // }
         $observations = $affiliate->observations->where('observation_type_id',6)->where('is_enabled',true);
         if($observations->count() > 0)
         {
@@ -634,11 +634,11 @@ class EconomicComplementController extends Controller
         $getViewModel = self::getViewModel();
 
         $affiliate = Affiliate::idIs($affiliate_id)->first();
-        if($affiliate->getServiceYears()<16)
-        {
-            Session::flash('message', 'Tiene menos de 16 años de servicio');
-            return redirect('affiliate/'.$affiliate_id);
-        }
+        // if($affiliate->getServiceYears()<16)
+        // {
+        //     Session::flash('message', 'Tiene menos de 16 años de servicio');
+        //     return redirect('affiliate/'.$affiliate_id);
+        // }
         $observations = $affiliate->observations->where('observation_type_id',6)->where('is_enabled',true);
         if($observations->count() > 0)
         {
