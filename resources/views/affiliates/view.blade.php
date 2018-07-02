@@ -2007,4 +2007,3 @@
         });
     </script>
 @endpush
-$("#due_date_affiliate_mask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
