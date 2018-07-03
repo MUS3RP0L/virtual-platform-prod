@@ -610,7 +610,11 @@
                                                     <strong>Fecha de Vencimiento CI:</strong>
                                                 </div>
                                                 <div class="col-md-6">
+                                                @if($spouse->is_duedate_undefined)
+                                                    INDEFINIDO
+                                                @else
                                                     {!! $spouse->getShortDueDate() !!}
+                                                @endif
                                                 </div>
                                             </div>
                                         </td>
