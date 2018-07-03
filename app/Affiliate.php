@@ -451,7 +451,6 @@ class Affiliate extends Model
             $last_year_first = Util::getCurrentYear() ;
             $last_year_second = $last_year_first -1;
         }
-        Log::info("affilate ".$affiliate_id);
         $eco_com_reception_type = 'Inclusion';
         $last_procedure_second = EconomicComplementProcedure::whereYear('year', '=', $last_year_second)->where('semester','like',$last_semester_second)->first();
         if (sizeOf($last_procedure_second) > 0) {
@@ -465,7 +464,6 @@ class Affiliate extends Model
                 $eco_com_reception_type = 'Habitual';
             }
         }
-        Log::info($eco_com_reception_type. " afiiliate");
         return $eco_com_reception_type;
     }
     public static function basic_info_columns()
