@@ -140,11 +140,11 @@
                             <h3 class="box-title"><i class="fa fa-{{$affiliate->gender=='M'?'male':'female'  }}"></i> Información Personal</h3>
                         </div>
                         <div class="col-md-2 text-right">
-                            <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
-                                <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-personal">
-                                    <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
-                                </a>
-                            </div>
+                                {{-- <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                    <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-personal">
+                                        <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
+                                    </a>
+                                </div> --}}
                         </div>
                     </div>
                 </div>
@@ -497,11 +497,11 @@
                         @if($info_spouse)
                             @can("eco_com_review_and_reception")
                             <div class="col-md-2 text-right">
-                                <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                {{-- <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                     <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-spouse">
                                         <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
                                     </a>
-                                </div>
+                                </div> --}}
                             </div>
                             @endcan
                         @endif
@@ -610,7 +610,11 @@
                                                     <strong>Fecha de Vencimiento CI:</strong>
                                                 </div>
                                                 <div class="col-md-6">
+                                                @if($spouse->is_duedate_undefined)
+                                                    INDEFINIDO
+                                                @else
                                                     {!! $spouse->getShortDueDate() !!}
+                                                @endif
                                                 </div>
                                             </div>
                                         </td>
@@ -722,9 +726,9 @@
                             <h3 class="box-title"><span class="glyphicon glyphicon-briefcase"></span> Información Policial Actual</h3>
                         </div>
                         <div class="col-md-4 text-right">
-                            <span data-toggle="modal" data-target="#policeModal">
+                            {{-- <span data-toggle="modal" data-target="#policeModal">
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa-pencil"></i></a>
-                            </span>
+                            </span> --}}
                             
                             <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Imprimir Historial" onclick="printJS({printable:'{!! url("history_print/" . $affiliate->id ) !!}', type:'pdf', showModal:true})"><i aria-hidden="true" class="fa fa-lg fa-print"></i></a>
                             <span data-toggle="modal" data-target="#myModal-record">
@@ -1568,7 +1572,8 @@
                                         {!! Form::label('date_entry', 'Fecha de Ingreso a la Institución Policial', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
                                         <div class="input-group">
-                                            <input type="text" id="date_entry" class="form-control" name="date_entry" value="{!! $affiliate->date_entry !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                            {{$affiliate->date}}
+                                            <input type="text" id="date_entry" class="form-control" name="date_entry" value="{!! $affiliate->getEditDateEntry() !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                             <div class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </div>

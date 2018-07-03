@@ -1711,6 +1711,8 @@ class EconomicComplementController extends Controller
                     $affiliate->nua = $request->nua>0 ? $request->nua : 0;
                     $affiliate->gender = $request->gender;
                     $affiliate->civil_status = $request->civil_status;
+                    $affiliate->due_date = Util::datePick($request->due_date);
+                    $affiliate->is_duedate_undefined = !$request->is_duedate_undefined?false:true;
                     $affiliate->birth_date = Util::datePick($request->birth_date);
                     $affiliate->date_death = Util::datePick($request->date_death);
                     $affiliate->reason_death = trim($request->reason_death);
@@ -1745,6 +1747,8 @@ class EconomicComplementController extends Controller
                             $spouse->birth_date = Util::datePick($request->birth_date);
                             $spouse->date_death = Util::datePick($request->date_death);
                             $spouse->reason_death = trim($request->reason_death);
+                            $spouse->due_date = Util::datePick($request->due_date);
+                            $spouse->is_duedate_undefined = !$request->is_duedate_undefined?false:true;
                             $spouse->death_certificate_number = trim($request->death_certificate_number);
                             $affiliate->nua = ($request->nua == null) ? 0 : $request->nua;
                             $spouse->registration=Util::CalcRegistration(Util::datePick($request->birth_date),trim($request->last_name),trim($request->mothers_last_name), trim($request->first_name),Util::getGender($affiliate->gender));
