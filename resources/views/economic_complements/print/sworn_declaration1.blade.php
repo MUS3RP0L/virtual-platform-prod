@@ -87,7 +87,7 @@
                 </strong>
               </th>
               <th class="no-border" style="width:33%;">
-                <div  style="border: 1px solid  #3c3c3c!IMPORTANT;text-align:center;width: 285px;">
+                <div  style="border: 1px solid  #3c3c3c!IMPORTANT;text-align:center;width: 100%;">
                   <p>&nbsp;</p>
                   <br><br><br><br>
                 </div>
