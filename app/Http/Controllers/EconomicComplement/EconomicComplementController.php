@@ -699,12 +699,14 @@ class EconomicComplementController extends Controller
             $last_semester_second = 'Segundo';
         
         $eco_com_reception_type = 'Inclusion';
+        
         $last_procedure_second = EconomicComplementProcedure::whereYear('year', '=', $last_year_second)->where('semester','like',$last_semester_second)->first();
         if (sizeOf($last_procedure_second) > 0) {
             if ($last_procedure_second->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
                 $eco_com_reception_type = 'Habitual';
             }
         }
+
         $last_procedure_first = EconomicComplementProcedure::whereYear('year', '=', $last_year_first)->where('semester','like',$last_semester_first)->first();
         if (sizeOf($last_procedure_first) > 0) {
             if ($last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
