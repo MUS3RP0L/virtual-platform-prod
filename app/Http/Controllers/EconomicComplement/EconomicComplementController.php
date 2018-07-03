@@ -712,6 +712,7 @@ class EconomicComplementController extends Controller
                 $eco_com_reception_type = 'Habitual';
             }
         }
+        Log::info($eco_com_reception_type. " ecocom ");
         $reception_types =  array('Inclusion' => 'Inclusion', 'Habitual' => 'Habitual');
         $semesters =  array('Segundo' => 'Segundo');
         $data = [
