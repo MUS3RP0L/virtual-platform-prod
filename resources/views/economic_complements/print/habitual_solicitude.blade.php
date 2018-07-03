@@ -128,5 +128,5 @@ Formulario Nº 4
   </tr>
 </table>
 </div>
-<p align="justify"><strong class="size-10">Los datos insertos en la presente solicitud son plena responsabilidad del solicitante, mismos que podrán ser verificados mediante el Servicio de Registro Cívico, Servicio General de Identificación Personal y otras instancias de ser necesario.</strong></p>
+<p align="justify"><strong class="size-10">Los datos insertos en la presente solicitud son plena responsabilidad del solicitante, mismos que podrán ser verificados mediante SERECI, SEGIP y otras instancias de ser necesario.</strong></p>
 @endsection
