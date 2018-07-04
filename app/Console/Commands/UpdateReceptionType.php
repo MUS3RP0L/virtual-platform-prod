@@ -56,7 +56,7 @@ class UpdateReceptionType extends Command implements SelfHandling
                     $reception_type = 'Inclusion';
                     $affiliate_id = $eco->affiliate_id;
                     $last_procedure_second = EconomicComplementProcedure::whereYear('year', '=', $last_year_second)->where('semester','like',$last_semester_second)->first();
-                    if (sizeof($last_procedure_second)>0) {
+                    if (isset($last_procedure_second->id)) {
                         if ($old_eco = $last_procedure_second->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
                             // Log::info('SECOND '.$last_procedure_second->year."  ".$last_procedure_second->semester);
                             $reception_type = 'Habitual';
@@ -74,7 +74,7 @@ class UpdateReceptionType extends Command implements SelfHandling
                         $count_inc++;
                     }
                     $last_procedure_first = EconomicComplementProcedure::whereYear('year', '=', $last_year_first)->where('semester','like',$last_semester_first)->first();
-                    if (sizeof($last_procedure_first)>0) {
+                    if (isset($last_procedure_first->id)) {
                         if ($old_eco = $last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
                             // Log::info('FIRST '.$last_procedure_first->year."  ".$last_procedure_first->semester);
                             $reception_type = 'Habitual';
