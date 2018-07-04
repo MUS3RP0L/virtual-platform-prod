@@ -76,7 +76,7 @@ class AffiliateController extends Controller
                 ->orWhere('spouses.mothers_last_name','like',"%".$mothers_last_name."%");
             });
         }
-      
+
         if ($request->has('second_name'))
         {
             $second_name = strtoupper(trim($request->get('second_name')));
@@ -86,7 +86,7 @@ class AffiliateController extends Controller
             });
         }
 
-        if ($request->has('identity_card'))
+        if ($request->has('num_identity_card'))
         {
             $identity_card = strtoupper(trim($request->get('identity_card')));
             $affiliates->where(function($affiliates) use ($identity_card){
@@ -105,7 +105,7 @@ class AffiliateController extends Controller
         }
 
         return Datatables::of($affiliates)
-        
+
         ->addColumn('action', function ($affiliate) { return
             '<div class="btn-group" style="margin:-3px 0;">
                 <a href="affiliate/'.$affiliate->id.'" class="btn btn-primary btn-raised btn-sm">&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;</a>
@@ -120,7 +120,7 @@ class AffiliateController extends Controller
         foreach ($cities as $item) {
             $cities_list[$item->id] = $item->name;
         }
-            
+
         $cities_list_short = ['' => ''];
         foreach ($cities as $item) {
             $cities_list_short[$item->id] = $item->first_shortened;
@@ -158,8 +158,8 @@ class AffiliateController extends Controller
             }
         }
 
-       
-       
+
+
 
         $gender_list = ['' => '', 'C' => 'CASADO(A)', 'S' => 'SOLTERO(A)', 'V' => 'VIUDO(A)', 'D' => 'DIVORCIADO(A)'];
 
@@ -186,9 +186,9 @@ class AffiliateController extends Controller
     public function getData($affiliate)
     {
         $affiliate_address = AffiliateAddress::affiliateidIs($affiliate->id)->first();
-        
+
         if (!$affiliate_address) { $affiliate_address = new AffiliateAddress; }
-        
+
         $spouse = Spouse::affiliateidIs($affiliate->id)->first();
 
         if (!$spouse) { $spouse = new Spouse; }
@@ -269,7 +269,7 @@ class AffiliateController extends Controller
         $observations_types = ObservationType::where('module_id',Util::getRol()->module_id)
                                                 ->whereIn('type',['AT','A'])
                                                 ->get();
-      
+
         $year = Util::getCurrentYear();
         $semester = Util::getCurrentSemester();
         $eco_com_current_procedure_first = EconomicComplementProcedure::whereYear('year', '=',$year)
@@ -311,7 +311,7 @@ class AffiliateController extends Controller
                                                 ->select(['id','affiliate_id','date','message','is_enabled','observation_type_id'])->get();
 
         if (EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first()) {
-            $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first();   
+            $last_ecocom = EconomicComplement::where('affiliate_id', $affiliate->id)->whereYear('year','=', 2016)->where('semester','=', 'Segundo')->first();
 
             if (EconomicComplementSubmittedDocument::economicComplementIs($last_ecocom->id)->first()) {
                 if ($last_ecocom->economic_complement_modality->economic_complement_type->name == 'Vejez') {
@@ -538,7 +538,7 @@ class AffiliateController extends Controller
                             $affiliate->due_date = $request->due_date?$request->due_date:null;
                             $affiliate->is_duedate_undefined= false;
                         }
-                   
+
                         $affiliate->save();
                         $message = "Información Afiliado creado con éxito";
                     }else{
@@ -575,16 +575,16 @@ class AffiliateController extends Controller
 
                     $devolution = Devolution::where('affiliate_id','=',$affiliate->id)->where('observation_type_id','=',13)->first();
 
-                    
+
                     if ($devolution) {
                         if ($request->immediate_voluntary_return == 'on') {
-                            $devolution->deposit_number = $request->deposit_number; 
+                            $devolution->deposit_number = $request->deposit_number;
                             $devolution->payment_amount = floatval(str_replace(',','',$request->amount));
-                            $devolution->payment_date = Util::datePick($request->payment_date); 
+                            $devolution->payment_date = Util::datePick($request->payment_date);
                         }else{
                             $devolution->payment_amount = null;
                             $devolution->deposit_number = null;
-                            $devolution->payment_date = null; 
+                            $devolution->payment_date = null;
                         }
                         if ($request->total_percentage == 'true') {
                             $devolution->percentage = $request->percentage;
@@ -638,7 +638,7 @@ class AffiliateController extends Controller
                     }else{
                         $economic_complement->category_id = $economic_complement->category_id;
                     }
-                    
+
                     $economic_complement->save();
                     //$affiliate->affiliate_state_id = $request->state;
                     //  $affiliate->type = $request->affiliate_type;
@@ -666,7 +666,7 @@ class AffiliateController extends Controller
                         $affiliate->category_id = $affiliate->category_id;
                     }
                     $affiliate->save();
-                    if ($economic_complement->total_rent > 0 ) {   
+                    if ($economic_complement->total_rent > 0 ) {
                         EconomicComplement::calculate($economic_complement,$economic_complement->total_rent, $economic_complement->sub_total_rent, $economic_complement->reimbursement, $economic_complement->dignity_pension, $economic_complement->aps_total_fsa, $economic_complement->aps_total_cc, $economic_complement->aps_total_fs, $economic_complement->aps_disability);
                     }
                     $message = "Información del Policía actualizada correctamente.";
@@ -771,7 +771,7 @@ class AffiliateController extends Controller
             'current_year'=>$current_year,
             'yearcomplement'=>$yearcomplement,
             'procedure'=>$procedure
-        
+
         ];
         switch ($type) {
             //OBSERVACIONES AL AFILIADO
@@ -781,14 +781,14 @@ class AffiliateController extends Controller
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
-            
+
             //prestamos
             case '2':
                 $view = \View::make('affiliates.print.wallet_arrear', $data)->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
-            
+
             //juridica
             case '3':
                 $view = \View::make('affiliates.print.legal_action', $data)->render();
@@ -803,7 +803,7 @@ class AffiliateController extends Controller
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
-            
+
             //Fuera de plazo 120 dias
             case '5':
                 $view = \View::make('affiliates.print.out_of_time120', $data)->render();
@@ -814,33 +814,33 @@ class AffiliateController extends Controller
              //Inclumplimiento de requisitos de inclusión
              case '6':
                 Session::flash('message', 'Se tiene registrado la observación respectiva');
-            
+
             //Falta de requisitos habitual inclusión
             case '7':
                 $view = \View::make('affiliates.print.print_miss_requiriments_habinc', $data)->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
-            
-           
-            
+
+
+
             //Menor a 16 años de servicio
             case '8':
                 $view = \View::make('affiliates.print.less_16', $data)->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
-            
+
             //Por invalidez
             case '9':
                 $view = \View::make('affiliates.print.invalidity', $data)->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
-            
+
             //Por salario
             case '10':
-                $nextSemester = $eco_com_applicant->semester == 'Primer' ? 'Segundo' : 'Primer'; 
+                $nextSemester = $eco_com_applicant->semester == 'Primer' ? 'Segundo' : 'Primer';
                 $nextYear = $eco_com_applicant->semester == 'Segundo' ? Util::getYear($eco_com_applicant->year) : $eco_com_applicant->year;
                 array_push($data, $nextSemester);
                 array_push($data, $nextYear);
@@ -869,18 +869,18 @@ class AffiliateController extends Controller
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
-            
-            //Inconsistencia por grado    
+
+            //Inconsistencia por grado
             case '15':
-            
-                $view = \View::make('affiliates.print.inconsistency_degree',$data)->render(); 
+
+                $view = \View::make('affiliates.print.inconsistency_degree',$data)->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream(); 
+                return $pdf->stream();
 
             //Salario por concurrencia
             case '16':
-                $nextSemester = $eco_com_applicant->semester == 'Primer' ? 'Segundo' : 'Primer'; 
+                $nextSemester = $eco_com_applicant->semester == 'Primer' ? 'Segundo' : 'Primer';
                 $nextYear = $eco_com_applicant->semester == 'Segundo' ? Util::getYear($eco_com_applicant->year) : $eco_com_applicant->year;
                 array_push($data, $nextSemester);
                 array_push($data, $nextYear);
@@ -888,11 +888,11 @@ class AffiliateController extends Controller
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
                 return $pdf->stream();
-            
+
             //Calificación correcta
-            
+
             case '17':
-                $nextSemester = $eco_com_applicant->semester == 'Primer' ? 'Segundo' : 'Primer'; 
+                $nextSemester = $eco_com_applicant->semester == 'Primer' ? 'Segundo' : 'Primer';
                 $nextYear = $eco_com_applicant->semester == 'Segundo' ? Util::getYear($eco_com_applicant->year) : $eco_com_applicant->year;
                 array_push($data, $nextSemester);
                 array_push($data, $nextYear);
@@ -903,19 +903,19 @@ class AffiliateController extends Controller
 
             //Solicitud fuera de plazo (90 dias) incuplimiento de requisitos
             //case '18':
-            #code    
+            #code
 
             //Solicitud presentada fuera de plazo (120 dias) Amortización de deuda
             //case '19':
-            #code 
+            #code
 
             //nota por concurrencia
             /*case '20':
                 $view = \View::make('affiliates.print.notice_of_concurrence', $data)->render();
                 $pdf = \App::make('dompdf.wrapper');
                 $pdf->loadHTML($view)->setPaper('legal');
-                return $pdf->stream();        
-            */    
+                return $pdf->stream();
+            */
         }
     }
 
@@ -948,13 +948,13 @@ class AffiliateController extends Controller
                    ->where('to','>=',$service_year)
                    ->first();
         if ($category) {
-            return $category; 
+            return $category;
         }
         return "error";
     }
     public function history_print($affiliate_id)
     {
-        
+
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header2 = "UNIDAD DE OTORGACIÓN DE FONDO DE RETIRO POLICIAL, CUOTA Y AUXILIO MORTUORIO";
         $date = Util::getDateEdit(date('Y-m-d'));
@@ -993,7 +993,7 @@ class AffiliateController extends Controller
 
         // $debts = $affiliate->debts()->orderBy('created_at')->get( );
         $economic_complements = $affiliate->economic_complements()->select('id', 'code','amount_loan', 'amount_replacement', 'amount_accounting');
-        
+
         return Datatables::of($economic_complements)
             ->editColumn('amount_loan',function ($economic_complement)
             {
@@ -1010,8 +1010,8 @@ class AffiliateController extends Controller
             ->make(true);
     }
     public function devolution_print($devolution)
-    {        
-        
+    {
+
         $devolution=Devolution::where('id','=',$devolution)->first();
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
         $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
