@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Muserpol\Helper\Util;
 use DB;
 use DateTime;
-
+use Log;
 class Affiliate extends Model
 {
     use SoftDeletes;
@@ -453,13 +453,13 @@ class Affiliate extends Model
         }
         $eco_com_reception_type = 'Inclusion';
         $last_procedure_second = EconomicComplementProcedure::whereYear('year', '=', $last_year_second)->where('semester','like',$last_semester_second)->first();
-        if ($last_procedure_second->count() > 0) {
+        if (sizeOf($last_procedure_second) > 0) {
             if ($last_procedure_second->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
                 $eco_com_reception_type = 'Habitual';
             }
         }
         $last_procedure_first = EconomicComplementProcedure::whereYear('year', '=', $last_year_first)->where('semester','like',$last_semester_first)->first();
-        if ($last_procedure_first->count() > 0) {
+        if (sizeOf($last_procedure_first) > 0) {
             if ($last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
                 $eco_com_reception_type = 'Habitual';
             }
