@@ -431,6 +431,17 @@ class EconomicComplementController extends Controller
 
         $affiliate = Affiliate::idIs($affiliate_id)->first();
 
+        //validaciones por exclusion
+        $observaciones= AffiliateObservation::where('affiliate_id',$affiliate->id)->get();
+        
+        foreach($observaciones as $observacion)
+        {
+            if($observacion->observationType->type == 'A')
+            {
+                Session::flash('message','Para crear el tramite debe subsanar la(s) observaciones por exclusion');
+                return redirect('affiliate/'.$affiliate_id); 
+            }
+        }
         // if($affiliate->getServiceYears()<16)
         // {
         //     Session::flash('message', 'Tiene menos de 16 años de servicio');
@@ -499,13 +510,13 @@ class EconomicComplementController extends Controller
         }
         $eco_com_reception_type = 'Inclusion';
         $last_procedure_second = EconomicComplementProcedure::whereYear('year', '=', $last_year_second)->where('semester','like',$last_semester_second)->first();
-        if (sizeOf($last_procedure_second) > 0) {
+        if (isset($last_procedure_second->id)) {
             if ($last_procedure_second->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
                 $eco_com_reception_type = 'Habitual';
             }
         }
         $last_procedure_first = EconomicComplementProcedure::whereYear('year', '=', $last_year_first)->where('semester','like',$last_semester_first)->first();
-        if (sizeOf($last_procedure_first) > 0) {
+        if (isset($last_procedure_first->id)) {
             if ($last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
                 $eco_com_reception_type = 'Habitual';
             }
@@ -532,7 +543,18 @@ class EconomicComplementController extends Controller
     {
         $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();                
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
-
+        
+         //validaciones por exclusion
+         $observaciones= AffiliateObservation::where('affiliate_id',$affiliate->id)->get();
+        
+         foreach($observaciones as $observacion)
+         {
+             if($observacion->observationType->type == 'A')
+             {
+                 Session::flash('message','Para crear el tramite debe subsanar la(s) observaciones por exclusion');
+                 return redirect('affiliate/'.$affiliate_id); 
+             }
+         }
         $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
 
         if ($economic_complement->has_legal_guardian) {
@@ -630,6 +652,17 @@ class EconomicComplementController extends Controller
     //second semester
     public function ReceptionFirstStepSecond($affiliate_id)
     {
+         //validaciones por exclusion
+         $observaciones= AffiliateObservation::where('affiliate_id',$affiliate->id)->get();
+        
+         foreach($observaciones as $observacion)
+         {
+             if($observacion->observationType->type == 'A')
+             {
+                 Session::flash('message','Para crear el tramite debe subsanar la(s) observaciones por exclusion');
+                 return redirect('affiliate/'.$affiliate_id); 
+             }
+         }
         $getViewModel = self::getViewModel();
 
         $affiliate = Affiliate::idIs($affiliate_id)->first();
@@ -701,14 +734,14 @@ class EconomicComplementController extends Controller
         $eco_com_reception_type = 'Inclusion';
         
         $last_procedure_second = EconomicComplementProcedure::whereYear('year', '=', $last_year_second)->where('semester','like',$last_semester_second)->first();
-        if (sizeOf($last_procedure_second) > 0) {
+        if (isset($last_procedure_second->id)) {
             if ($last_procedure_second->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
                 $eco_com_reception_type = 'Habitual';
             }
         }
 
         $last_procedure_first = EconomicComplementProcedure::whereYear('year', '=', $last_year_first)->where('semester','like',$last_semester_first)->first();
-        if (sizeOf($last_procedure_first) > 0) {
+        if (isset($last_procedure_first->id)) {
             if ($last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
                 $eco_com_reception_type = 'Habitual';
             }
@@ -735,6 +768,18 @@ class EconomicComplementController extends Controller
         $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
 
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+
+         //validaciones por exclusion
+         $observaciones= AffiliateObservation::where('affiliate_id',$affiliate->id)->get();
+        
+         foreach($observaciones as $observacion)
+         {
+             if($observacion->observationType->type == 'A')
+             {
+                 Session::flash('message','Para crear el tramite debe subsanar la(s) observaciones por exclusion');
+                 return redirect('affiliate/'.$affiliate_id); 
+             }
+         }
 
         $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
 
@@ -788,6 +833,17 @@ class EconomicComplementController extends Controller
         $economic_complement = EconomicComplement::idIs($economic_complement_id)->first();
 
         $affiliate = Affiliate::idIs($economic_complement->affiliate_id)->first();
+         //validaciones por exclusion
+         $observaciones= AffiliateObservation::where('affiliate_id',$affiliate->id)->get();
+        
+         foreach($observaciones as $observacion)
+         {
+             if($observacion->observationType->type == 'A')
+             {
+                 Session::flash('message','Para crear el tramite debe subsanar la(s) observaciones por exclusion');
+                 return redirect('affiliate/'.$affiliate_id); 
+             }
+         }
 
         $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type;
 
@@ -2615,7 +2671,7 @@ class EconomicComplementController extends Controller
         }
         $reception_type = 'Inclusion';
         $last_procedure_second = EconomicComplementProcedure::whereYear('year', '=', $last_year_second)->where('semester','like',$last_semester_second)->first();
-        if (sizeof($last_procedure_second)>0) {
+        if (isset($last_procedure_second->id)) {
             if ($old_eco = $last_procedure_second->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
                 $reception_type = 'Habitual';
                 if ($old_eco->economic_complement_modality->economic_complement_type->id == 1 && ($new_modality_id == 2 || $new_modality_id == 3)) {
@@ -2626,7 +2682,7 @@ class EconomicComplementController extends Controller
             }
         }
         $last_procedure_first = EconomicComplementProcedure::whereYear('year', '=', $last_year_first)->where('semester','like',$last_semester_first)->first();
-        if (sizeof($last_procedure_first)>0) {
+        if (isset($last_procedure_second->id)) {
             if ($old_eco = $last_procedure_first->economic_complements()->where('affiliate_id','=',$affiliate_id)->first()) {
                 $reception_type = 'Habitual';
                 if ($old_eco->economic_complement_modality->economic_complement_type->id == 1 && ($new_modality_id == 2 || $new_modality_id == 3)) {
