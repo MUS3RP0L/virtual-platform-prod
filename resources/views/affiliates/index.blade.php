@@ -13,14 +13,14 @@
                     <a  href="" class="btn btn bg-olive" data-toggle="modal" data-target="#myModal-personal">
                         <span class="fa fa-lg fa-plus" aria-hidden="true"></span>
                     </a>
-                </span> 
+                </span>
                 @endcan
 
                 <a data-toggle="tooltip" data-placement="top" data-original-title="Observados" href="{{url('observations')}}" class="btn btn bg-olive" >
                     <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                 </a>
             </div>
-         
+
         </div>
     </div>
 
@@ -39,22 +39,22 @@
     border-right: 0px;
     border-left: 0px;
     width: 100%;
-      
+
 }
 </style>
 
     <div class="row">
         <div class="col-md-12">
             <div class="box box-warning">
-                {{--<div class="box-header with-border">
+                {{-- <div class="box-header with-border">
                     <h3 class="box-title"><span class="glyphicon glyphicon-search"></span> Búsqueda</h3>
-                </div>--}}
+                </div> --}}
                 <div class="box-body">
-                    
+
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table table-bordered table-hover" id="affiliates-table">
-                                <thead style="display:table-row-group;">
+                                <thead style="display:table-row-group">
                                     <tr class="success">
                                         <th>ID</th>
                                         <th>Núm. Carnet</th>
@@ -67,9 +67,9 @@
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
-                                <tfoot  style="display: table-header-group;">
-                                    <tr>
-                                        <th></th>
+                                <tfoot  style="display: table-header-group">
+                                    <tr class="warning">
+                                        <th>  </th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -109,7 +109,7 @@
                                     </div>
                                         {!! Form::select('city_identity_card_id', $cities_list_short,'', ['class' => 'col-md-2 combobox form-control', 'required']) !!}
                                 </div>
-                                
+
                                 <div class="form-group">
                                         {!! Form::label('last_name', 'Apellido Paterno', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
@@ -225,7 +225,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    
+
                                     <div class="col-md-5">
                                         <div class="togglebutton">
                                             <label>
@@ -355,23 +355,23 @@
                    event.preventDefault();
                });
 
-            var selectedlModel = function() {        
+            var selectedlModel = function() {
                 var self = this;
                 self.isDateUndifined = ko.observable(false);
                 self.activo = ko.observable(true);
                 self.inputVisible = function(){
-                    self.activo(!self.isDateUndifined());  
+                    self.activo(!self.isDateUndifined());
                 };
 
             };
              ko.applyBindings(selectedlModel());
-   
+
 
 
         });
 
         var oTable = $('#affiliates-table').DataTable({
-            
+
             dom: "<'row'<'col-xs-12'<'col-xs-6'l>>t>"+
             "<'row'<'col-xs-12't>>"+
             "<'row'<'col-xs-12'<'col-xs-6'i><'col-xs-6'p>>>",
@@ -380,7 +380,7 @@
             serverSide: true,
             pageLength: 8,
             autoWidth: false,
-            
+
 
 
             ajax: {
@@ -407,14 +407,14 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false, sClass: 'text-center' }
             ],
             initComplete: function(){
+
             this.api().columns('0,1,2,3,4,5,6,7').every(function(){
                 var column = this;
                 var input = document.createElement('input');
                 input.setAttribute('class','inputSearch');
                 //input.setAttribute('size','10');
-                $(input).appendTo($(column.footer()).empty()).on(
-                    'keyup change',function(){
-                        column.search($(this).val()).draw();
+                $(input).appendTo($(column.footer()).empty()).on('keyup change',function(){
+                        column.search($(this).val().trim()).draw();
                     });
             });
 
