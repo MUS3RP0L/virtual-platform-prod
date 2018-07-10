@@ -1647,9 +1647,9 @@ class EconomicComplementController extends Controller
                 $eco_com_applicant->save();
                 $eco_com_modality = EconomicComplementModality::typeidIs(trim($request->eco_com_type))->first();
                 //crear logica para el segundo semestre hdp 
-                // $economic_complement->aps_total_cc = $request->aps_total_cc;
-                // $economic_complement->aps_total_fsa = $request->aps_total_fsa;
-                // $economic_complement->aps_total_fs = $request->aps_total_fs;
+                $economic_complement->aps_total_cc = $request->aps_total_cc;
+                $economic_complement->aps_total_fsa = $request->aps_total_fsa;
+                $economic_complement->aps_total_fs = $request->aps_total_fs;
 
                 $economic_complement->eco_com_modality_id=$eco_com_modality->id;
                 $economic_complement->city_id = trim($request->city);
