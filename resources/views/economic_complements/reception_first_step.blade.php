@@ -187,9 +187,6 @@
                                     </div>
                                     <div class="form-group">
                                          <div class="col-md-8">
-
-                                            
-                                            
                                              <div class="callout callout-warning">
                                                 <strong>Renta Boleta: {{$economic_complement->total_rent}} </strong>
                                              </div>
@@ -234,8 +231,8 @@
                                         <div class="form-group">
                                             <div class="togglebutton">
                                                 <label class="col-md-5 control-label">
-                                                                                        <input type="checkbox" data-bind="checked: concurrenceCheck" name="concurrenceCheck"> Concurrencia
-                                                                                    </label>
+                                                    <input type="checkbox" data-bind="checked: concurrenceCheck" name="concurrenceCheck"> Concurrencia
+                                                </label>
                                             </div>
                                         </div>
                                         <div data-bind='visible: concurrenceCheck'>
