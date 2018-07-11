@@ -1651,6 +1651,24 @@ class EconomicComplementController extends Controller
                 $economic_complement->aps_total_fsa = $request->aps_total_fsa;
                 $economic_complement->aps_total_fs = $request->aps_total_fs;
 
+
+                $economic_complement->sub_total_rent = null;
+                $economic_complement->reimbursement = null;
+                $economic_complement->dignity_pension = null;
+                $economic_complement->aps_disability = null;
+                $economic_complement->total_rent = null;
+
+                if ($request->pension_entity == 5) {
+                    $economic_complement->sub_total_rent = floatval(str_replace(',', '', $request->sub_total_rent));
+                    $economic_complement->reimbursement = floatval(str_replace(',', '', $request->reimbursement));
+                    $economic_complement->dignity_pension = floatval(str_replace(',', '', $request->dignity_pension));
+                    $economic_complement->aps_disability = floatval(str_replace(',', '', $request->aps_disability));
+                    $economic_complement->total_rent = floatval(str_replace(',', '', $request->total_rent));
+                    $economic_complement->aps_total_cc = null;
+                    $economic_complement->aps_total_fsa = null;
+                    $economic_complement->aps_total_fs = null;
+                }
+
                 $economic_complement->eco_com_modality_id=$eco_com_modality->id;
                 $economic_complement->city_id = trim($request->city);
                
