@@ -147,7 +147,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4 col-md-offset-1">
-                                @if(isset($last_complement->aps_disability))
+                                {{-- @if(isset($last_complement->aps_disability))
                                     @if($last_complement->aps_disability > 0)
                                     <div class="col-md-8">
                                         <div class="callout callout-danger">
@@ -155,7 +155,7 @@
                                         </div>
                                     </div>
                                     @endif
-                                @endif
+                                @endif --}}
                                 <div data-bind="visible: isApsVisible">
                                     
                                     <div class="form-group">
@@ -196,6 +196,60 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div data-bind="visible: isApsVisible() == false">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            {!! Form::label('sub_total_rent', 'Renta Total Boleta', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-6">
+                                                {!! Form::text('sub_total_rent', null, ['class' => 'form-control rent', "data-inputmask"=>"'alias':
+                                                'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"])
+                                                !!}
+                                                <span class="help-block">Escriba la Renta total boleta</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            {!! Form::label('reimbursement', 'Reintegro', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-6">
+                                                {!! Form::text('reimbursement', null, ['class'=> 'form-control rent',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator':
+                                                ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                                <span class="help-block">Escriba el reintegro</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            {!! Form::label('dignity_pension', 'Renta Dignidad', ['class' => 'col-md-5 control-label',"data-inputmask"=>"'alias': 'numeric',
+                                            'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                            <div class="col-md-6">
+                                                {!! Form::text('dignity_pension', null, ['class'=> 'form-control rent',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator':
+                                                ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                                <span class="help-block">Escriba la renta dignidad</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            {!! Form::label('total_rent', 'Total Renta', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-6">
+                                                {!! Form::text('total_rent', null, ['class' => 'form-control',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator': ',',
+                                                'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'", 'readonly']) !!}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="togglebutton">
+                                                <label class="col-md-5 control-label">
+                                                                                        <input type="checkbox" data-bind="checked: concurrenceCheck" name="concurrenceCheck"> Concurrencia
+                                                                                    </label>
+                                            </div>
+                                        </div>
+                                        <div data-bind='visible: concurrenceCheck'>
+                                            <div class="form-group">
+                                                {!! Form::label('aps_disability', 'Concurrencia - Renta Invalidez', ['class' => 'col-md-5 control-label']) !!}
+                                                <div class="col-md-6">
+                                                    {!! Form::text('aps_disability', null, ['class' => 'form-control aps_disability',"data-inputmask"=>"'alias': 'numeric', 'groupSeparator':
+                                                    ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false,'placeholder': '0'"]) !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -218,6 +272,40 @@
     <script type="text/javascript">
 
         $(document).ready(function(){
+            function parseCurrency(mount) {
+                return (isNaN(mount) || mount !='')  ? parseFloat(mount.toString().replace(/,/g,'')):0;
+            }
+            $("#aps_total_fsa").inputmask();
+            $("#aps_total_fs").inputmask();
+            $("#aps_total_cc").inputmask();
+            $("#sub_total_rent").inputmask();
+            $("#reimbursement").inputmask();
+            $("#dignity_pension").inputmask();
+            $("#aps_disability").inputmask();
+            $('#total_frac').inputmask();
+            $('.rent').keyup(function (event) {
+                var sub_total_rent=parseCurrency($("#sub_total_rent").val());
+                var reimbursement=parseCurrency($("#reimbursement").val());
+                var dignity_pension=parseCurrency($("#dignity_pension").val());
+                var aps_disability=parseCurrency($("#aps_disability").val());
+                var total=sub_total_rent - reimbursement - dignity_pension + aps_disability;
+                $('#total_rent').val(total.toFixed(2));
+                total_rent = parseCurrency($('#total_rent').val());
+            });
+
+
+            $('.aps_disability').keyup(function (event) {
+                var aps_disability = parseCurrency($(this).val());
+                var sub_total_rent=parseCurrency($("#sub_total_rent").val());
+                var reimbursement=parseCurrency($("#reimbursement").val());
+                var dignity_pension=parseCurrency($("#dignity_pension").val());
+                var aps_disability=parseCurrency($("#aps_disability").val());
+                var total=sub_total_rent - reimbursement - dignity_pension + aps_disability;
+                $('#total_rent').val(total.toFixed(2));
+            });
+
+
+
             $('.combobox').combobox();
             $('[data-toggle="tooltip"]').tooltip();
             $('input:radio').change(function () {
@@ -254,9 +342,9 @@
                         self.isApsVisible(true);
                     }
                     console.log("id "+id_value+" "+self.isApsVisible());
-                    
 
                 });
+                    self.concurrenceCheck = ko.observable({{ ($economic_complement->aps_disability > 0 ) ? true:false }});
 
                 self.total = ko.computed(function(){
 
