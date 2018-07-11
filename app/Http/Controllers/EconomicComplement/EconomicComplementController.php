@@ -476,12 +476,6 @@ class EconomicComplementController extends Controller
             $eco_com_modality_type_id = false;
             $economic_complement->semester =  $eco_com_procedure->semester;
             $economic_complement->year = Carbon::now()->year;
-            $economic_complement->aps_total_cc = $last_complement->aps_total_cc ?? null;
-            $economic_complement->aps_total_fsa = $last_complement->aps_total_fsa ?? null;
-            $economic_complement->aps_total_fs = $last_complement->aps_total_fs ?? null;
-            $economic_complement->total_rent = $last_complement->total_rent ?? null;
-
-          
         }else{
             $eco_com_type = $economic_complement->economic_complement_modality->economic_complement_type->name;
             $eco_com_modality = $economic_complement->economic_complement_modality->name;
