@@ -1330,6 +1330,12 @@
                         </span>
 
                         @endcan
+                       
+                        <span data-toggle="tooltip" data-placement="top" data-original-title="Editar Rentar">
+                            <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#EditRentas">&nbsp;&nbsp;
+                                <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
+                            </a>
+                        </span>
                     </div>
                 </div>
                 <div class="box-body">
@@ -3248,7 +3254,127 @@
 
     </form>
 
+   
+
     @endif
+
+     <form  action="{{url('editar_rentas')}}" method="POST">
+            
+        
+        <div id="EditRentas" class="modal fade modal-default" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">  
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Editar Rentas </h4>
+                    <input type="hidden" name="economic_complement_id" value="{{$economic_complement->id}}">
+                    <input type="hidden" name="pension_entity_id" value="{{$affiliate->pension_entity_id}}">
+                    </div>
+                    <div class="modal-body">
+                        @if($affiliate->pension_entity_id==5)
+
+                        <div class="col-md-12">
+                           
+                            <div class="row">
+                                <div class="col-md-6"> {!! Form::label('sub_total_rent', 'Renta Total Boleta', ['class' => 'col-md-5 control-label']) !!} </div>
+                                <div class="col-md-6">
+                                        <input type="number" step="0.01" name="sub_total_rent" class="form-control" data-bind="value: sub_total_rent">            
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">{!! Form::label('reimbursement', 'Reintegro', ['class' => 'col-md-5 control-label']) !!}</div>
+                                <div class="col-md-6">
+                                        <input type="number" step="0.01" name="reimbursement" class="form-control" data-bind="value: reimbursement">           
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"> 
+                                    
+                                        {!! Form::label('dignity_pension', 'Renta Dignidad', ['class' => 'col-md-5 control-label',"data-inputmask"=>"'alias': 'numeric',
+                                        'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'"]) !!}
+                                </div>
+                                <div class="col-md-6">
+                                        <input type="number" step="0.01" name="dignity_pension" class="form-control" data-bind="value: dignity_pension">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"> </div>
+                                <div class="col-md-6"> <strong data-bind="text: total_senasir"> </strong></div>
+                            </div>
+                           
+                            <div class="row">
+                               
+                                        <div class="togglebutton">
+                                            <label class="col-md-6 control-label">
+                                                <input type="checkbox" data-bind="checked: concurrenceCheck" name="concurrenceCheck"> Concurrencia
+                                            </label>
+                                        </div>
+                                  
+                            </div>
+                            <div class="row" data-bind='visible: concurrenceCheck'>
+                                <div class="col-md-6">  {!! Form::label('aps_disability', 'Concurrencia - Renta Invalidez', ['class' => 'col-md-5 control-label']) !!} </div>
+                                <div class="col-md-6">
+                                        <input type="number"  step="0.01" name="aps_disability" class="form-control" data-bind="value: aps_disability">
+                                </div>
+                            </div>
+                               
+
+                            
+                        </div>
+                        @else
+
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6"> {!! Form::label('aps_total_fsa_label', 'Fracción de Saldo Acumulado', []) !!}</div>
+                                <div class="col-md-6">  <input type="number" step="0.01" name="aps_total_fsa" class="form-control" data-bind="value: fsa"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"> {!! Form::label('aps_total_cc_label', 'Fracción de Cotización', []) !!}</div>
+                                <div class="col-md-6"> <input type="number" step="0.01" name="aps_total_cc" class="form-control " data-bind="value: cc ,valueAllowUnset:0 "></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"> {!! Form::label('aps_total_fs_label', 'Fracción Solidaria', []) !!}</div>
+                                <div class="col-md-6"><input type="number"  step="0.01" name="aps_total_fs" class="form-control" data-bind="value: fs"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"> </div>
+                                <div class="col-md-6"> <strong data-bind="text: total"> </strong></div>
+                            </div>
+                       
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="togglebutton">
+                                        <label class="col-md-6 control-label">
+                                            <input type="checkbox" data-bind="checked: concurrenceCheck" name="concurrenceCheck"> Concurrencia
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="row" data-bind='visible: concurrenceCheck'>
+                                <div class="col-md-6">{!! Form::label('aps_disability', 'Renta Invalidez', ['class' => 'col-md-5 control-label']) !!} </div>
+                                <div class="col-md-6"> 
+                                        <input type="number"  step="0.01" name="aps_disability" class="form-control" data-bind="value: aps_disability">
+                                </div>
+                            </div>
+                        </div>
+
+                        @endif
+   
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-raised btn-default " data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-raised btn-success btn-lg" >Guardar</button>
+                    </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+        
+            </form>
+              
 
 {{-- @include('observations.create') --}}
 
@@ -3574,7 +3700,6 @@ $(document).ready(function() {
         @else
             self.selected = ko.observable(false);
         @endif
-
         //affiliate
         self.is_affiliate_duedate_undefined = ko.observable({{ json_encode($affiliate->is_duedate_undefined)}});
         self.affiliate_activo = ko.observable(!{{json_encode($affiliate->is_duedate_undefined) }});
@@ -3638,12 +3763,89 @@ $(document).ready(function() {
     };
     @endif
 
-   
+    function APS()
+    {
+
+        self = this;
+        self.cc = ko.observable({{$economic_complement->aps_total_cc}});
+        self.fsa = ko.observable({{$economic_complement->aps_total_fsa}});
+        self.fs = ko.observable({{$economic_complement->aps_total_fs}});
+        self.aps_disability = ko.observable({{$economic_complement->aps_disability}});
+        
+        //para el senasir hdp
+        self.sub_total_rent = ko.observable({{$economic_complement->sub_total_rent}});
+        self.reimbursement = ko.observable({{$economic_complement->reimbursement}});
+        self.dignity_pension = ko.observable({{$economic_complement->dignity_pension}});
+
+
+        self.enteSelected = ko.observable({{$affiliate->pension_entity_id}});
+        self.isApsVisible = ko.observable(true);
+        
+        self.concurrenceCheck = ko.observable({{ ($economic_complement->aps_disability > 0 ) ? true:false }});
+
+        self.total_senasir  = ko.computed(function(){
+
+            if(isNaN(self.sub_total_rent()) || self.sub_total_rent() =='' )
+            {
+                self.sub_total_rent(0);
+            }
+            if(isNaN(self.reimbursement()) || self.reimbursement() =='' )
+            {
+                self.reimbursement(0);
+            }
+            if(isNaN(self.dignity_pension()) || self.dignity_pension() =='' )
+            {
+                self.dignity_pension(0);
+            }
+            return "Total: "+(parseFloat(self.sub_total_rent()) - parseFloat(self.reimbursement()) + parseFloat(self.dignity_pension())+ parseFloat(self.aps_disability()) ).toFixed(2);
+        });
+
+        self.total = ko.computed(function(){
+
+
+
+                if(isNaN(self.cc()) || self.cc() =='' )
+                {
+                    self.cc(0);
+                }
+                if(isNaN(self.fsa()) || self.fsa() =='' )
+                {
+                    self.fsa(0);
+                }
+                if(isNaN(self.fs()) || self.fs() =='' )
+                {
+                    self.fs(0);
+                }
+                if(isNaN(self.aps_disability()) || self.aps_disability() =='' )
+                {
+                    self.aps_disability(0);
+                }
+
+                
+
+            return "Total: "+(parseFloat(self.cc()) + parseFloat(self.fsa()) + parseFloat(self.fs())+ parseFloat(self.aps_disability()) ).toFixed(2);
+
+        });
+
+        //apoderado solicitante cobrador
+        self.has_legal_guardian = ko.observable({{json_encode($economic_complement->has_legal_guardian?true:false)}});
+
+        //self.checkGuardian = ko.observable();
+
+        self.has_legal_guardian.subscribe(function(){
+
+
+            console.log('');
+
+        });
+
+        //console.log(self.total());
+    }
     console.log("no existe");
     @if($has_edit_state)
-    ko.applyBindings(model,selectedlModel(),StateModel());
+    ko.applyBindings(model,selectedlModel(),StateModel(),APS());
     @else
-    ko.applyBindings(model,selectedlModel());
+    ko.applyBindings(model,selectedlModel(),APS());
     @endif
 
     });

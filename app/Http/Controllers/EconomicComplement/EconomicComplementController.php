@@ -77,6 +77,39 @@ class EconomicComplementController extends Controller
 
         return view('economic_complements.index', array_merge($data, self::getViewModel()));
     }
+    public function editarRentas(Request $request)
+    {   
+        $eco_com = EconomicComplement::find($request->get('economic_complement_id'));
+        
+        if($request->pension_entity_id =="5") //si es senasir
+        {   
+            $eco_com->sub_total_rent = $request->sub_total_rent;
+            $eco_com->reimbursement = $request->reimbursement;
+            $eco_com->dignity_pension = $request->dignity_pension;
+            $total_rent  =   $eco_com->sub_total_rent -  $eco_com->reimbursement - $eco_com->dignity_pension;
+            if($request->has('concurrenceCheck')){
+                $eco_com->aps_disability = $request->aps_disability;
+                $total_rent = $total_rent + $eco_com->aps_disability;
+            }
+            $eco_com->total_rent = $total_rent;
+        }else{
+
+            $eco_com->aps_total_fsa = $request->aps_total_fsa;
+            $eco_com->aps_total_cc = $request->aps_total_cc;
+            $eco_com->aps_total_fs = $request->aps_total_fs;
+            $total_rent  =   $eco_com->aps_total_fsa +  $eco_com->aps_total_cc +$eco_com->aps_total_fs;
+            if($request->has('concurrenceCheck')){
+                $eco_com->aps_disability = $request->aps_disability;
+                $total_rent = $total_rent + $eco_com->aps_disability;
+            }
+            $eco_com->total_rent = $total_rent;
+            
+        }
+        $eco_com->save();
+        // $eco_com->
+        return back();
+        // return $request->all();
+    }
 
     public function getEconomicComplementType(Request $request, $id)
     {
