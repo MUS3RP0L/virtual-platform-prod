@@ -1330,12 +1330,13 @@
                         </span>
 
                         @endcan
-                       
-                        <span data-toggle="tooltip" data-placement="top" data-original-title="Editar Rentar">
+                        @if($affiliate->pension_entity_id!='5')
+                        <span data-toggle="tooltip" data-placement="top" data-original-title="Editar Rentas">
                             <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#EditRentas">&nbsp;&nbsp;
                                 <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>&nbsp;&nbsp;
                             </a>
                         </span>
+                        @endif
                     </div>
                 </div>
                 <div class="box-body">
