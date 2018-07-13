@@ -58,6 +58,7 @@ class EconomicComplementImportExportController extends Controller
           $afi;
           $found=0;
           $nofound=0;
+          $distinct=0;
           $procedure = EconomicComplementProcedure::whereYear('year','=',$year)->where('semester','=',$semester)->first();
           foreach ($results as $datos) {
             
@@ -75,8 +76,8 @@ class EconomicComplementImportExportController extends Controller
                   ->whereRaw("ltrim(trim(eco_com_applicants.identity_card),'0') ='".ltrim(trim($ci),'0')."'")
                   ->where('eco_com_types.id','=', 2)
                   ->where('affiliates.pension_entity_id','=', 5)
-                  ->whereYear('economic_complements.year', '=', $year)
-                  ->where('economic_complements.semester', '=', $semester)->first();
+                  ->where('economic_complements.eco_com_procedure_id', '=', $procedure->id)
+                  ->first();
             }
             elseif($datos->renta == "TITULAR")
             {
@@ -90,8 +91,8 @@ class EconomicComplementImportExportController extends Controller
                   // ->whereRaw("LTRIM(eco_com_applicants.identity_card,'0') ='".rtrim($datos->carnet.''.$ext)."'")                
                   ->where('eco_com_types.id','=', 1)
                   ->where('affiliates.pension_entity_id','=', 5)
-                  ->whereYear('economic_complements.year', '=', $year)
-                  ->where('economic_complements.semester', '=', $semester)->first();
+                  ->where('economic_complements.eco_com_procedure_id', '=', $procedure->id)
+                  ->first();
             }
             else
             {
@@ -105,8 +106,8 @@ class EconomicComplementImportExportController extends Controller
                   // ->whereRaw("LTRIM(eco_com_applicants.identity_card,'0') ='".rtrim($datos->carnet.''.$ext)."'")                
                   ->where('eco_com_types.id','=', 3)
                   ->where('affiliates.pension_entity_id','=', 5)
-                  ->whereYear('economic_complements.year', '=', $year)
-                  ->where('economic_complements.semester', '=', $semester)->first();
+                  ->where('economic_complements.eco_com_procedure_id', '=', $procedure->id)
+                  ->first();
             } 
             $procedure = EconomicComplementProcedure::whereYear('year','=',$year)->where('semester','=',$semester)->first();          
             if ($comp && $procedure->indicator > 0)
@@ -138,6 +139,10 @@ class EconomicComplementImportExportController extends Controller
                   $ecomplement->rent_type ='Automatico';
                   $ecomplement->save();                
                   $found ++;
+                }else{
+                  if ($ecomplement->total_rent != $total_rent) {
+                    $distinct++;
+                  }
                 }
                   
             }
@@ -148,7 +153,7 @@ class EconomicComplementImportExportController extends Controller
             }
           }          
               
-          Session::flash('message', "Importación Exitosa"." F:".$found." NF:".$nofound);
+          Session::flash('message', "Importación Exitosa"." F:".$found." NF:".$nofound, ' RENTAS DISTINTAS: '.$distinct);
           return redirect('economic_complement');
         }
         return back();
