@@ -142,6 +142,7 @@ class EconomicComplementImportExportController extends Controller
                 }else{
                   if ($ecomplement->total_rent != $total_rent) {
                     $distinct++;
+                    Log::info($ecomplement->id.' '.$ecomplement->affiliate->identity_card);
                   }
                 }
                   
