@@ -193,7 +193,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div data-bind="visible: isApsVisible() == false">
+                                {{-- <div data-bind="visible: isApsVisible() == false">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             {!! Form::label('sub_total_rent', 'Renta Total Boleta', ['class' => 'col-md-5 control-label']) !!}
@@ -246,7 +246,7 @@
                                         </div>
                                     
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
 
