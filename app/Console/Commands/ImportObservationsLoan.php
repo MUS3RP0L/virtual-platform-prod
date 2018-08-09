@@ -46,9 +46,15 @@ class ImportObservationsLoan extends Command
     {
         //
        
-        $this->info("Ejecutando Observados por prestamo");   
+        $this->info("Ejecutando Observados por Prestamos");
+        
+        //$estados = DB::connection('sqlsrv')->table('EstCivil')->get(); 
+        //$this->info(json_encode($estados));
+        //$path = storage_path('no_conciliados.xlsx');
 
-        $path = storage_path('excel/imports/mota_total.xlsx');
+        $path = storage_path('excel/imports/mora_total.xls');
+      
+      //  $path = storage_path('excel/imports/PRESTAMOS_EN_MORA (2).xlsx');
         // $path = str_replace('\\', '/', $o_path);
         $this->info("path: ".$path);
 
@@ -70,8 +76,8 @@ class ImportObservationsLoan extends Command
 
                 # code...
             // $this->info("c ".$fila);
-            // $afiliado = DB::table('affiliates')->where('identity_card','=',trim($fila->ci))->first();
-            $afiliado = Affiliate::where('identity_card','=',trim($fila->ci))->first();
+            $afiliado = DB::table('affiliates')->where('identity_card','=',trim($fila->ci))->first();
+           //$afiliado = Affiliate::where('identity_card','=',trim($fila->ci))->first();
             // $afiliado = DB::table('affiliates')->where('identity_card','=',$fila->ci)->first();
 
                 //$this->info($afiliado);
@@ -82,7 +88,7 @@ class ImportObservationsLoan extends Command
                 $eco_com = EconomicComplement::where('eco_com_procedure_id',7)->where('affiliate_id',$afiliado->id) ->first();
                 $this->info($eco_com);
                 if(isset($eco_com)){
-
+                    
                         $eco_observacion = new EconomicComplementObservation;
                         $eco_observacion->user_id = 1;//user alejandro XD
                         $eco_observacion->economic_complement_id = $eco_com->id;
@@ -99,16 +105,10 @@ class ImportObservationsLoan extends Command
                 $observacion->affiliate_id= $afiliado->id;
                 $observacion->observation_type_id = 2;
                 $observacion->date = date("Y-m-d");
-                $observacion->message="Prestatario en situación de mora total.";
+                $observacion->message="Prestatario en situación de mora.";
                 $observacion->save();
 
-                // $tramites = EconomicComplement::where("affiliate_id","=",$afiliado->id)->where("eco_com_procedure_id","=","2")->get();
-                // Log::info("tramites : ".sizeof($tramites));
-                // foreach ($tramites as $tramite) {
-                //     # code...
-                //      $tramite->amortization = 0.5;
-                //      $tramite->save();
-                // }
+     
 
             }
             else{
@@ -125,7 +125,7 @@ class ImportObservationsLoan extends Command
         {
 
         global $rows;
-                $excel->sheet('Mora total',function($sheet) {
+                $excel->sheet('observados',function($sheet) {
 
                         global $rows;
 

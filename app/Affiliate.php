@@ -361,10 +361,10 @@ class Affiliate extends Model
         return Util::getdateforEditPeriod($this->fech_fin_reco);
     }
 
-    // public function getFullName()
-    // {
-    // return $this->degree->name . ' ' . $this->last_name. ' ' . $this->mothers_last_name . ' ' . $this->surname_husband . ' ' . $this->first_name . ' ' . $this->second_name;
-    // }
+    public function getFullName()
+    {
+    return $this->degree->name . ' ' . $this->last_name. ' ' . $this->mothers_last_name . ' ' . $this->surname_husband . ' ' . $this->first_name . ' ' . $this->second_name;
+    }
     public function getFullNamePrintTotal()
     {
         $name = ($this->first_name)." ".($this->second_name)." ".($this->last_name)." ".($this->mothers_last_name)." ".($this->surname_husband);
