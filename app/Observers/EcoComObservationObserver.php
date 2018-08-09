@@ -8,20 +8,26 @@ use Muserpol\EconomicComplementRecord;
 use Muserpol\Helper\Util;
 use Auth;
 use Carbon\Carbon;
+use Muserpol\User;
 class EcoComObservationObserver
 {
     public function created(EconomicComplementObservation $observation)
     {
         // Log::info('created');
-        // Log::info($observation);
+        //Log::info($observation);
+
+        if (Auth::user()) {$user_id = Auth::user()->id;}else{$user_id = 1;}
+        $user = User::find($user_id);
+
         $record = new EconomicComplementRecord;
         $record->economic_complement_id = $observation->economic_complement_id;
-        $record->user_id = Auth::user()->id;
+        $record->user_id = $user->id;
+        
         if( $observation->observation_type_id==11 )
         {
-            $record->message = 'El usuario '.Auth::user()->username.' creó una Nota ';
+            $record->message = 'El usuario '.$user->username.' creó una Nota ';
         }else{
-            $record->message = 'El usuario '.Auth::user()->username.' creó la observación '.$observation->observationType->name.'. ';
+            $record->message = 'El usuario '.$user->username.' creó la observación '.$observation->observationType->name.'. ';
         }
 
         $record->save();
@@ -30,6 +36,7 @@ class EcoComObservationObserver
     {
         // Log::info('borrando');
         // Log::info($observation);
+        
         $record = new EconomicComplementRecord;
         $record->economic_complement_id = $observation->economic_complement_id;
         $record->user_id = Auth::user()->id;
