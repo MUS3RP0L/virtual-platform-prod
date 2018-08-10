@@ -805,7 +805,7 @@ class Util
 
 	public static function getCurrentYear()
 	{
-		return Carbon::parse(EconomicComplementProcedure::get()->last()->year)->year;
+		return Carbon::parse(EconomicComplementProcedure::orderBy('sequence')->get()->last()->year)->year;
 	}
 
 	public static function getCurrentSemester()

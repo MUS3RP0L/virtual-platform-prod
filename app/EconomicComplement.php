@@ -446,7 +446,11 @@ class EconomicComplement extends Model
     }
     public static function basic_info_affiliates()
     {
-        return "affiliates.gender as genero, affiliates.first_name as primer_nombre_causahabiente, affiliates.second_name as segundo_nombre_causahabiente, affiliates.last_name as ap_paterno_causahabiente, affiliates.mothers_last_name as ap_materno_causahabiente, affiliates.surname_husband as ape_casada_causahabiente, affiliates.birth_date as fecha_nacimiento, affiliates.nua as codigo_nua_cua";
+        return "affiliates.gender as genero_causahabiente, affiliates.first_name as primer_nombre_causahabiente, affiliates.second_name as segundo_nombre_causahabiente, affiliates.last_name as ap_paterno_causahabiente, affiliates.mothers_last_name as ap_materno_causahabiente, affiliates.surname_husband as ape_casada_causahabiente, affiliates.birth_date as fecha_nacimiento, affiliates.nua as codigo_nua_cua";
+    }
+    public static function basic_info_legal_guardian()
+    {
+        return "eco_com_legal_guardians.first_name as primer_nombre_apoderado, eco_com_legal_guardians.second_name as segundo_nombre_apoderado, eco_com_legal_guardians.last_name as ap_paterno_apoderado, eco_com_legal_guardians.mothers_last_name as ap_materno_apoderado, eco_com_legal_guardians.surname_husband as ape_casada_apoderado, eco_com_legal_guardians.identity_card as ci_apoderado, city_legal_guardian_identity_card.first_shortened as ci_exp_apoderado, CASE WHEN economic_complements.has_legal_guardian_s = true THEN 'solicitante' ELSE 'cobrador' END";
     }
     
     public function scopeEcocominfo($query)
@@ -461,6 +465,11 @@ class EconomicComplement extends Model
     {
         return $query->leftJoin('eco_com_applicants', 'economic_complements.id', '=', 'eco_com_applicants.economic_complement_id')
             ->leftJoin('cities as city_applicant_identity_card', 'eco_com_applicants.city_identity_card_id', '=', 'city_applicant_identity_card.id');
+    }
+    public function scopeLegalguardianinfo($query)
+    {
+        return $query->leftJoin('eco_com_legal_guardians', 'economic_complements.id', '=', 'eco_com_legal_guardians.economic_complement_id')
+            ->leftJoin('cities as city_legal_guardian_identity_card', 'eco_com_legal_guardians.city_identity_card_id', '=', 'city_legal_guardian_identity_card.id');
     }
     public function scopeAffiliateinfo($query)
     {
