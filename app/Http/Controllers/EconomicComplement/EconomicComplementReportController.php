@@ -1677,12 +1677,13 @@ class EconomicComplementReportController extends Controller
           $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
           ->ecocominfo()
           ->applicantinfo()
+          ->legalguardianinfo()
           ->affiliateinfo()
           ->ecocomstates()
           ->wfstates()
           ->affiliateobservations()
-          ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
-          ->whereRaw('economic_complements.has_legal_guardian = true and economic_complements.has_legal_guardian_s = false')
+          ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_legal_guardian().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
+          ->whereRaw('economic_complements.has_legal_guardian = true or economic_complements.has_legal_guardian_s = true')
           ->get();
           
           $data = $economic_complements;
