@@ -52,7 +52,7 @@ class ImportObservationsLoan extends Command
         //$this->info(json_encode($estados));
         //$path = storage_path('no_conciliados.xlsx');
 
-        $path = storage_path('excel/imports/prestamos_junio_mora.xls');
+        $path = storage_path('excel/imports/garantes_mora.xls');
       
       //  $path = storage_path('excel/imports/PRESTAMOS_EN_MORA (2).xlsx');
         // $path = str_replace('\\', '/', $o_path);
@@ -128,7 +128,7 @@ class ImportObservationsLoan extends Command
 
          });
        
-        Excel::create('Informe_observados_1_2018',function($excel)
+        Excel::create('Informe_observados_1_2018_gar',function($excel)
         {
             global $rows,$rows_not_found,$row_empy_capital;
                     $excel->sheet('Observados',function($sheet) {
