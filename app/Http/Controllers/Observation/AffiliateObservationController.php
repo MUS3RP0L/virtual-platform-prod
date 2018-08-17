@@ -21,6 +21,7 @@ use Datatables;
 use Session;
 use Validator;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AffiliateObservationController extends Controller
 {
@@ -262,7 +263,7 @@ class AffiliateObservationController extends Controller
       //return view('affiliates.observations');
     }
     public function getDataObsertaions(Request $request)
-    { 
+    {    
           if($request->observation == -1 && $request->year == -1)
           $afiliados = DB::table('v_observados');
           elseif($request->observation != -1 && $request->year == -1)  
@@ -308,4 +309,516 @@ class AffiliateObservationController extends Controller
         ->make(true);
     }
 
-  }
+
+    //REPORTE AFFILIADOS OBSERVADOS
+    public function afi_observations()
+    {
+      $typeObs = ObservationType::all();        
+      return view('affiliates.affiliateObservations',['typeObs'=>$typeObs]);
+    }
+
+    public function get_afi_observations()
+    {
+      global $AfiObservados, $AfiRendicionCuentas1,$AfiCarteraMora2,$AfiNoCorresponde4,$AfiIncumplimientoRequisitos6,$AfiMenora16Años8,$AfiRiesgoComun9,$AfiMayorSalarioActivo10,$AfiNotasCE11,$AfiReposicionFondos13,$AfiDocumentosPreverificados16,$AfiDadoBaja20,$AfiJudiciales21,$AfiRetencionFondos22,$AfiNuevasNupcias24,$AfiInvalidez25,$InconsistenciaDatos26;    
+      
+      $AfiObservados = DB::table('affiliate_observations')
+      ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+      concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+      ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+      ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+      ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+      ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+      ->whereRaw("affiliate_observations.deleted_at is null")
+      ->get();
+      
+      if(sizeof($AfiObservados) > 0)
+      {
+        Excel::create('Afi_Observados', function($excel)
+        { global $AfiObservados;
+
+          $excel->sheet('AfiliadosObservados', function ($sheet) {
+            global $AfiObservados;
+           
+
+            $rows = array(array('CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));
+            foreach ($AfiObservados as $datos) {    
+              array_push($rows, array($datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+            }
+  
+            $sheet->fromArray($rows, null, 'A1', false, false);
+            $sheet->cells('A1:J1', function ($cells) {
+  
+                              // manipulate the range of cells
+              $cells->setBackground('#058A37');
+              $cells->setFontColor('#ffffff');
+  
+            });
+  
+          }); //FIN TODOS LOS OBSERVADOS
+
+          $excel->sheet('ObservacionContabilidad', function ($sheet) 
+          {
+              global $AfiRendicionCuentas1;
+              $AfiRendicionCuentas1 = DB::table('affiliate_observations')
+              ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+              concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+              ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+              ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+              ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+              ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+              ->whereRaw("affiliate_observations.deleted_at is null")
+              ->where('affiliate_observations.observation_type_id','=',1)
+              ->get();
+
+              $rows = array(array('CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));
+              foreach ($AfiRendicionCuentas1 as $datos) {    
+                array_push($rows, array($datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+              }
+              $sheet->fromArray($rows, null, 'A1', false, false);
+              $sheet->cells('A1:J1', function ($cells) 
+              {
+                // manipulate the range of cells
+                $cells->setBackground('#058A37');
+                $cells->setFontColor('#ffffff');
+              });
+            }); 
+          
+            //MORA PRESTAMOS
+            $excel->sheet('Obs.Mora Prestamos', function ($sheet)  
+            {
+                global $AfiCarteraMora2;
+                $AfiCarteraMora2 = DB::table('affiliate_observations')
+                ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+                concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+                ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+                ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+                ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+                ->whereRaw("affiliate_observations.deleted_at is null")
+                ->where('affiliate_observations.observation_type_id','=',2)
+                ->get();
+  
+                $rows = array(array('CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));
+                foreach ($AfiCarteraMora2 as $datos) {    
+                  array_push($rows, array($datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+                }
+                $sheet->fromArray($rows, null, 'A1', false, false);
+                $sheet->cells('A1:J1', function ($cells) 
+                {
+                  // manipulate the range of cells
+                  $cells->setBackground('#058A37');
+                  $cells->setFontColor('#ffffff');
+                });
+              }); 
+            
+            
+              //SOLICITUD PRESENTADA FUERA DE PLAZO
+            $excel->sheet('Solicitud_Fuera_plazo', function ($sheet)  
+            {
+                global $AfiNoCorresponde4;
+                $AfiNoCorresponde4 = DB::table('affiliate_observations')
+                                  ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+                                  concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+                                  ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+                                  ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+                                  ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                  ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+                                  ->whereRaw("affiliate_observations.deleted_at is null")
+                                  ->where('affiliate_observations.observation_type_id','=',4)
+                                  ->get();
+                            
+                $rows = array(array('CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));
+                foreach ($AfiNoCorresponde4 as $datos) {    
+                  array_push($rows, array($datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+                }
+                $sheet->fromArray($rows, null, 'A1', false, false);
+                $sheet->cells('A1:J1', function ($cells) 
+                {
+                  // manipulate the range of cells
+                  $cells->setBackground('#058A37');
+                  $cells->setFontColor('#ffffff');
+                });
+              });  
+            
+              // OBSERVADOS POR INCUMPLIMIENTO DE REQUISITOS
+              $excel->sheet('Obs_Requisitos', function ($sheet)  
+              {
+                  global $AfiIncumplimientoRequisitos6;
+                  $AfiIncumplimientoRequisitos6 = DB::table('affiliate_observations')
+                                            ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+                                            concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+                                            ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+                                            ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+                                            ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                            ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+                                            ->whereRaw("affiliate_observations.deleted_at is null")
+                                            ->where('affiliate_observations.observation_type_id','=',6)
+                                            ->get();
+                              
+                  $rows = array(array('CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));
+                  foreach ($AfiIncumplimientoRequisitos6 as $datos) {    
+                    array_push($rows, array($datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+                  }
+                  $sheet->fromArray($rows, null, 'A1', false, false);
+                  $sheet->cells('A1:J1', function ($cells) 
+                  {
+                    // manipulate the range of cells
+                    $cells->setBackground('#058A37');
+                    $cells->setFontColor('#ffffff');
+                  });
+                });  
+              
+                // MENOR A 16 AÑOS
+               /* $excel->sheet('Observacion_Menor_diezyseis', function ($sheet)  
+                {
+                    global $AfiMenora16Años8;
+                    $AfiMenora16Años8 = DB::table('affiliate_observations')
+                                    ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+                                    concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+                                    ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+                                    ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+                                    ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                    ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+                                    ->whereRaw("affiliate_observations.deleted_at is null")
+                                    ->where('affiliate_observations.observation_type_id','=',8)
+                                    ->get();
+                                
+                    $rows = array(array('CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));
+                    foreach ($AfiMenora16Años8 as $datos) {    
+                      array_push($rows, array($datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+                    }
+                    $sheet->fromArray($rows, null, 'A1', false, false);
+                    $sheet->cells('A1:J1', function ($cells) 
+                    {
+                      // manipulate the range of cells
+                      $cells->setBackground('#058A37');
+                      $cells->setFontColor('#ffffff');
+                    });
+                  });  */
+              
+                // OBSERVACION RIESGO COMUN
+                $excel->sheet('Obs.RiesgoComun', function ($sheet)  
+                {
+                    global $AfiRiesgoComun9;
+                    $AfiRiesgoComun9 = DB::table('affiliate_observations')
+                                  ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+                                  concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+                                  ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+                                  ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+                                  ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                  ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+                                  ->whereRaw("affiliate_observations.deleted_at is null")
+                                  ->where('affiliate_observations.observation_type_id','=',9)
+                                  ->get();
+                                                          
+                    $rows = array(array('CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));
+                    foreach ($AfiRiesgoComun9 as $datos) {    
+                      array_push($rows, array($datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+                    }
+                    $sheet->fromArray($rows, null, 'A1', false, false);
+                    $sheet->cells('A1:J1', function ($cells) 
+                    {
+                      // manipulate the range of cells
+                      $cells->setBackground('#058A37');
+                      $cells->setFontColor('#ffffff');
+                    });
+                  }); 
+                
+                //SALARIO MAYOR ACTIVO
+                $excel->sheet('Obs.Salario_Mayor_Activo', function ($sheet)  
+                {
+                    global $AfiMayorSalarioActivo10;
+                    $AfiMayorSalarioActivo10 = DB::table('affiliate_observations')
+                                          ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+                                          concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+                                          ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+                                          ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+                                          ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                          ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+                                          ->whereRaw("affiliate_observations.deleted_at is null")
+                                          ->where('affiliate_observations.observation_type_id','=',10)
+                                          ->get();
+                                                          
+                    $rows = array(array('CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));
+                    foreach ($AfiMayorSalarioActivo10 as $datos) {    
+                      array_push($rows, array($datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+                    }
+                    $sheet->fromArray($rows, null, 'A1', false, false);
+                    $sheet->cells('A1:J1', function ($cells) 
+                    {
+                      // manipulate the range of cells
+                      $cells->setBackground('#058A37');
+                      $cells->setFontColor('#ffffff');
+                    });
+                  });  
+              
+                //OBSERVACION NOTAS COMPLEMENTO ECONOMICO
+                $excel->sheet('Observacion_Notas_CE', function ($sheet)  
+                {
+                    global $AfiNotasCE11;
+                    $AfiNotasCE11 = DB::table('affiliate_observations')
+                                  ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+                                  concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+                                  ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+                                  ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+                                  ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                  ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+                                  ->whereRaw("affiliate_observations.deleted_at is null")
+                                  ->where('affiliate_observations.observation_type_id','=',11)
+                                  ->get();
+                                                          
+                    $rows = array(array('CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));
+                    foreach ($AfiNotasCE11 as $datos) {    
+                      array_push($rows, array($datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+                    }
+                    $sheet->fromArray($rows, null, 'A1', false, false);
+                    $sheet->cells('A1:J1', function ($cells) 
+                    {
+                      // manipulate the range of cells
+                      $cells->setBackground('#058A37');
+                      $cells->setFontColor('#ffffff');
+                    });
+                  });
+                
+                 // OBSERVACION REPOSICION DE FONDOS
+                $excel->sheet('Obs.Reposicion_fondos', function ($sheet)  
+                {
+                    global $AfiReposicionFondos13;
+                    $AfiReposicionFondos13 = DB::table('affiliate_observations')
+                                          ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+                                          concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+                                          ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+                                          ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+                                          ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                          ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+                                          ->whereRaw("affiliate_observations.deleted_at is null")
+                                          ->where('affiliate_observations.observation_type_id','=',13)
+                                          ->get();
+                                                          
+                    $rows = array(array('CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));
+                    foreach ($AfiReposicionFondos13 as $datos) {    
+                      array_push($rows, array($datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+                    }
+                    $sheet->fromArray($rows, null, 'A1', false, false);
+                    $sheet->cells('A1:J1', function ($cells) 
+                    {
+                      // manipulate the range of cells
+                      $cells->setBackground('#058A37');
+                      $cells->setFontColor('#ffffff');
+                    });
+                  });
+
+                  // OBSERVADOS DOCUMENTOS PREVERIFICADOS
+                  $excel->sheet('Obs.Preverificados', function ($sheet)  
+                  {
+                      global $AfiDocumentosPreverificados16;
+                      $AfiDocumentosPreverificados16 = DB::table('affiliate_observations')
+                                                  ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+                                                  concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+                                                  ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+                                                  ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+                                                  ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                                  ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+                                                  ->whereRaw("affiliate_observations.deleted_at is null")
+                                                  ->where('affiliate_observations.observation_type_id','=',16)
+                                                  ->get();
+                                                            
+                      $rows = array(array('CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));
+                      foreach ($AfiDocumentosPreverificados16 as $datos) {    
+                        array_push($rows, array($datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+                      }
+                      $sheet->fromArray($rows, null, 'A1', false, false);
+                      $sheet->cells('A1:J1', function ($cells) 
+                      {
+                        // manipulate the range of cells
+                        $cells->setBackground('#058A37');
+                        $cells->setFontColor('#ffffff');
+                      });
+                    });
+
+                  // OBSERVADOS DADOS DE BAJA
+                    $excel->sheet('Obs.Dados_Baja', function ($sheet)  
+                    {
+                        global $AfiDadoBaja20;
+                        $AfiDadoBaja20 = DB::table('affiliate_observations')
+                                    ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+                                    concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+                                    ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+                                    ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+                                    ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                    ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+                                    ->whereRaw("affiliate_observations.deleted_at is null")
+                                    ->where('affiliate_observations.observation_type_id','=',20)
+                                    ->get();
+                                                              
+                        $rows = array(array('CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));
+                        foreach ($AfiDadoBaja20 as $datos) {    
+                          array_push($rows, array($datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+                        }
+                        $sheet->fromArray($rows, null, 'A1', false, false);
+                        $sheet->cells('A1:J1', function ($cells) 
+                        {
+                          // manipulate the range of cells
+                          $cells->setBackground('#058A37');
+                          $cells->setFontColor('#ffffff');
+                        });
+                      });
+                  
+                    // OBSERVACION DE SENTENCIAS Y RESOLUCIONES JUDICIALES
+                      $excel->sheet('Obs.Judiciales', function ($sheet)  
+                      {
+                          global $AfiJudiciales21;
+                          $AfiJudiciales21 = DB::table('affiliate_observations')
+                                          ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+                                          concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+                                          ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+                                          ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+                                          ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                          ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+                                          ->whereRaw("affiliate_observations.deleted_at is null")
+                                          ->where('affiliate_observations.observation_type_id','=',21)
+                                          ->get();
+                                                                
+                          $rows = array(array('CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));
+                          foreach ($AfiJudiciales21 as $datos) {    
+                            array_push($rows, array($datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+                          }
+                          $sheet->fromArray($rows, null, 'A1', false, false);
+                          $sheet->cells('A1:J1', function ($cells) 
+                          {
+                            // manipulate the range of cells
+                            $cells->setBackground('#058A37');
+                            $cells->setFontColor('#ffffff');
+                          });
+                        });
+                      
+                      // OBSERVACION DE RETENCION DE FONDOS
+                       $excel->sheet('Obs.Retencion_Fondos ', function ($sheet)  
+                        {
+                            global $AfiRetencionFondos22;
+                            $AfiRetencionFondos22 = DB::table('affiliate_observations')
+                                                ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+                                                concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+                                                ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+                                                ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+                                                ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                                ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+                                                ->whereRaw("affiliate_observations.deleted_at is null")
+                                                ->where('affiliate_observations.observation_type_id','=',22)
+                                                ->get();
+                                                                  
+                            $rows = array(array('CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));
+                            foreach ($AfiRetencionFondos22 as $datos) {    
+                              array_push($rows, array($datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+                            }
+                            $sheet->fromArray($rows, null, 'A1', false, false);
+                            $sheet->cells('A1:J1', function ($cells) 
+                            {
+                              // manipulate the range of cells
+                              $cells->setBackground('#058A37');
+                              $cells->setFontColor('#ffffff');
+                            });
+                          });
+                      
+
+                          // OBSERVACION POR NUEVAS NUPCIAS
+                        $excel->sheet('Obs.Nupcias', function ($sheet)  
+                          {
+                              global $AfiNuevasNupcias24;
+                              $AfiNuevasNupcias24 = DB::table('affiliate_observations')
+                                                ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+                                                concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+                                                ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+                                                ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+                                                ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                                ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+                                                ->whereRaw("affiliate_observations.deleted_at is null")
+                                                ->where('affiliate_observations.observation_type_id','=',24)
+                                                ->get();
+                                                                    
+                              $rows = array(array('CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));
+                              foreach ($AfiNuevasNupcias24 as $datos) {    
+                                array_push($rows, array($datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+                              }
+                              $sheet->fromArray($rows, null, 'A1', false, false);
+                              $sheet->cells('A1:J1', function ($cells) 
+                              {
+                                // manipulate the range of cells
+                                $cells->setBackground('#058A37');
+                                $cells->setFontColor('#ffffff');
+                              });
+                            });
+                        
+                          // OBSERVACION EXCLUIDO POR INVALIDEZ
+                            $excel->sheet('Obs.Invalidez', function ($sheet)  
+                            {
+                                global $AfiInvalidez25;
+                                $AfiInvalidez25 = DB::table('affiliate_observations')
+                                                  ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+                                                  concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+                                                  ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+                                                  ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+                                                  ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                                  ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+                                                  ->whereRaw("affiliate_observations.deleted_at is null")
+                                                  ->where('affiliate_observations.observation_type_id','=',25)
+                                                  ->get();
+                                                                      
+                                $rows = array(array('CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));
+                                foreach ($AfiInvalidez25 as $datos) {    
+                                  array_push($rows, array($datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+                                }
+                                $sheet->fromArray($rows, null, 'A1', false, false);
+                                $sheet->cells('A1:J1', function ($cells) 
+                                {
+                                  // manipulate the range of cells
+                                  $cells->setBackground('#058A37');
+                                  $cells->setFontColor('#ffffff');
+                                });
+                              });
+
+                          //OBSERVACION POR INCONSISTENCIA DE DATOS
+                              $excel->sheet('Obs.Inconsistencia', function ($sheet)  
+                              {
+                                  global $InconsistenciaDatos26;
+                                  $InconsistenciaDatos26 = DB::table('affiliate_observations')
+                                                    ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+                                                    concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+                                                    ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+                                                    ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+                                                    ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                                                    ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+                                                    ->whereRaw("affiliate_observations.deleted_at is null")
+                                                    ->where('affiliate_observations.observation_type_id','=',26)
+                                                    ->get();
+                                                                        
+                                  $rows = array(array('CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));
+                                  foreach ($InconsistenciaDatos26 as $datos) {    
+                                    array_push($rows, array($datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+                                  }
+                                  $sheet->fromArray($rows, null, 'A1', false, false);
+                                  $sheet->cells('A1:J1', function ($cells) 
+                                  {
+                                    // manipulate the range of cells
+                                    $cells->setBackground('#058A37');
+                                    $cells->setFontColor('#ffffff');
+                                  });
+                                });
+                    
+                  
+                
+
+
+          })->download('xlsx');
+         Session::flash('message', "Exportación Exitosa");
+        return redirect('afi_observations');
+      }
+      else
+      {
+        Session::flash('message', "No existen registros");
+        return redirect('afi_observations');
+      } 
+    
+    }
+    
+}
