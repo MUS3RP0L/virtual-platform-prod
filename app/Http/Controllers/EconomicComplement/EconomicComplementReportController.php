@@ -1527,8 +1527,9 @@ class EconomicComplementReportController extends Controller
             ->leftJoin('affiliates as af','af.id','=','economic_complements.affiliate_id')
              ->leftJoin( DB::raw('(SELECT afob.affiliate_id, STRING_AGG (afob.message, \'||\') as observaciones
                                    FROM affiliates AS af
-		                           LEFT JOIN affiliate_observations as afob ON(afob.affiliate_id = af.id)
-                                   GROUP BY afob.affiliate_id
+		                           LEFT JOIN affiliate_observations as afob ON(afob.affiliate_id = af.id )
+                               where afob.deleted_at is null
+                                   GROUP BY afob.affiliate_id 
           ) as afobs'),'afobs.affiliate_id','=','af.id')
             ->leftJoin('eco_com_states as ecs','ecs.id','=','economic_complements.eco_com_state_id')
             ->leftJoin('cities as ci_ben','eca.city_identity_card_id','=','ci_ben.id')
