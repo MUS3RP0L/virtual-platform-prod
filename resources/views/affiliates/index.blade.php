@@ -19,6 +19,9 @@
                 <a data-toggle="tooltip" data-placement="top" data-original-title="Observados" href="{{url('observations')}}" class="btn btn bg-olive" >
                     <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                 </a>
+                <a data-toggle="tooltip" data-placement="top" data-original-title="Observados" href="{{url('afi_observations')}}" class="btn btn bg-olive" >
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                </a>
             </div>
 
         </div>

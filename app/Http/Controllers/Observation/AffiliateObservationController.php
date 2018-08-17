@@ -21,6 +21,7 @@ use Datatables;
 use Session;
 use Validator;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AffiliateObservationController extends Controller
 {
@@ -262,7 +263,7 @@ class AffiliateObservationController extends Controller
       //return view('affiliates.observations');
     }
     public function getDataObsertaions(Request $request)
-    { 
+    {    
           if($request->observation == -1 && $request->year == -1)
           $afiliados = DB::table('v_observados');
           elseif($request->observation != -1 && $request->year == -1)  
@@ -308,4 +309,76 @@ class AffiliateObservationController extends Controller
         ->make(true);
     }
 
-  }
+
+    //REPORTE AFFILIADOS OBSERVADOS
+    public function afi_observations()
+    {
+      $typeObs = ObservationType::all();        
+      return view('affiliates.affiliateObservations',['typeObs'=>$typeObs]);
+    }
+
+    public function get_afi_observations()
+    {
+      global $AfiObservados;
+      //return $request->observation;
+      //if($request->observation == -1 )
+      //{
+      
+        $AfiObservados = DB::table('affiliate_observations')
+        ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+        concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+        ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+        ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+        ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+        ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+        ->whereRaw("affiliate_observations.deleted_at is null")
+        ->get();
+     /* }
+      //elseif($request->observation != -1)
+      //{
+        $affiliados = DB::table('affiliate_observations')
+        ->select(DB::raw("DISTINCT on (affiliates.id) affiliates.id, affiliates.identity_card, affiliates.registration, degrees.shortened,  concat(affiliates.first_name, ' ', affiliates.second_name) AS names,
+        concat(affiliates.last_name, ' ', affiliates.mothers_last_name) AS surnames,affiliate_states.name AS state,affiliate_observations.observation_type_id,observation_types.name AS observation"))
+        ->leftJoin('affiliates','affiliate_observations.affiliate_id','=','affiliates.id')
+        ->leftJoin('observation_types','affiliate_observations.observation_type_id','=','observation_types.id')
+        ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+        ->leftJoin('affiliate_states','affiliates.affiliate_state_id','=','affiliate_states.id')
+        ->whereRaw("affiliate_observations.deleted_at is null")
+        ->where('affiliate_observations.observation_type_id ', '=', 1)        
+        ->get();
+      }*/
+     // return $AfiObservados;
+
+      if(sizeof($AfiObservados) > 0)
+      {
+        Excel::create('Afi_Observados', function($excel)
+        { global $AfiObservados;
+          $excel->sheet("AfiObservados", function($sheet)
+          {
+            global $i,$j,$AfiObservados;
+            $i=1;
+            $j=2;
+            $sheet->row(1, array('NRO','CI','MATRICULA','GRADO','NOMBRES','APELLIDOS', 'ESTADO','OBSERVACION'));     
+
+            foreach ($AfiObservados as $datos) 
+            {  
+              
+              $sheet->row($j,array($i, $datos->identity_card, $datos->registration, $datos->shortened,$datos->names,$datos->surnames,$datos->state,$datos->observation));
+              $j++;
+              $i++;
+            }
+
+
+          });
+        })->export('xlsx');
+         Session::flash('message', "Exportación Exitosa");
+        return redirect('afi_observations');
+      }
+      else
+      {
+        Session::flash('message', "No existen registros");
+        return redirect('economic_complement');
+      } 
+    
+    }
+}

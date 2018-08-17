@@ -154,6 +154,11 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('export_excel_general','EconomicComplement\EconomicComplementImportExportController@export_excel_general');
 	Route::get('observations','Observation\AffiliateObservationController@lista_observados');
 	Route::get('getdataobservations',['as'=>'getdataobservations','uses'=>'Observation\AffiliateObservationController@getDataObsertaions']);
+
+	Route::get('afi_observations','Observation\AffiliateObservationController@afi_observations'); //index de observados
+	Route::get('get_afi_observations',['as'=>'get_afi_observations','uses'=>'Observation\AffiliateObservationController@get_afi_observations']);//get afi observados
+
+
 	Route::get('export_excel_observations','EconomicComplement\EconomicComplementImportExportController@export_excel_observations');
 	Route::get('export_not_review','EconomicComplement\EconomicComplementImportExportController@export_not_review');
 	Route::get('export_amortizados_reposicion','EconomicComplement\EconomicComplementImportExportController@export_amortizados_reposicion');
