@@ -1936,7 +1936,6 @@ class EconomicComplementReportController extends Controller
             ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements().",".EconomicComplement::basic_info_legal_guardian()))
             ->get();
             $data = $query;
-            dd($data->first());
             Util::excel($file_name, 'validados area tec',$data);
         break;
 
