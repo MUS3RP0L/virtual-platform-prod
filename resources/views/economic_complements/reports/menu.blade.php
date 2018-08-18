@@ -20,7 +20,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3" data-bind="visible: optionSelected()<12?true:false">
+                <div class="col-md-3" data-bind="visible: optionSelected()<22?true:false">
                     <div class="form-group">
                         {!! Form::label('year', 'Gestión', ['class' => 'col-md-3 control-label']) !!}
                         <div class="col-md-8">
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3" data-bind="visible: optionSelected()<12?true:false">
+                <div class="col-md-3" data-bind="visible: optionSelected()<22?true:false">
                     <div class="form-group">
                         {!! Form::label('semester', 'Semestre', ['class' => 'col-md-3 control-label']) !!}
                         <div class="col-md-8">
