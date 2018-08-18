@@ -63,9 +63,13 @@ class EconomicComplementReportController extends Controller
         '14' => 'Afiliados en Disponibilidad',
         '15' => 'Afiliados Observados por Documentos Preverificados 2018',
         '16' => 'Tràmites con pago a domicilio',
-
         // '2' => 'Trámites Inclusiones',
         // '3' => 'Trámites habituales',
+        '18' => 'Todos los tramites Validados del Area Tecnica',
+        '19' => 'Todos los tramites SIN Validar del Area Tecnica',
+        '20' => 'Todos los tramites Validados del Area de Recepcion',
+        '21' => 'Todos los tramites SIN Validar del Area Recepcion',
+        
       ];
     }
     public function index()
@@ -1919,7 +1923,6 @@ class EconomicComplementReportController extends Controller
             $data = $query;
             Util::excel($file_name, 'afi obs por Documentos Prev',$data);
         break;
-
         case '16':  //REPORTE DE TRAMITES CON PAGO A DOMICILIO
         //dd($eco_com_procedure_id);
         $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable,eco_observations.observations as observaciones';  //observations.observations as observaciones
@@ -1941,6 +1944,70 @@ class EconomicComplementReportController extends Controller
         $data = $economic_complements;
         Util::excel($file_name, 'hoja', $data);
        break;
+       
+
+        case '18':
+            $columns = '';
+            $file_name = $name.' '.date("Y-m-d H:i:s");
+            $query = EconomicComplement::where('eco_com_procedure_id',$eco_com_procedure_id)
+            ->ecocominfo()
+            ->applicantinfo()
+            ->affiliateinfo()
+            ->legalguardianinfo()
+            ->where('economic_complements.wf_current_state_id', 3)
+            ->where('economic_complements.state', 'Edited')
+            ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements().",".EconomicComplement::basic_info_legal_guardian()))
+            ->get();
+            $data = $query;
+            Util::excel($file_name, 'validados area tec',$data);
+        break;
+
+        case '19':
+            $columns = '';
+            $file_name = $name.' '.date("Y-m-d H:i:s");
+            $query = EconomicComplement::where('eco_com_procedure_id',$eco_com_procedure_id)
+            ->ecocominfo()
+            ->applicantinfo()
+            ->affiliateinfo()
+            ->legalguardianinfo()
+            ->where('economic_complements.wf_current_state_id', 3)
+            ->where('economic_complements.state', 'Received')
+            ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements().",".EconomicComplement::basic_info_legal_guardian()))
+            ->get();
+            $data = $query;
+            Util::excel($file_name, 'sin validar area tec',$data);
+        break;
+        
+        case '20':
+            $columns = '';
+            $file_name = $name.' '.date("Y-m-d H:i:s");
+            $query = EconomicComplement::where('eco_com_procedure_id',$eco_com_procedure_id)
+            ->ecocominfo()
+            ->applicantinfo()
+            ->affiliateinfo()
+            ->legalguardianinfo()
+            ->whereIn('economic_complements.wf_current_state_id', [1,13,14,15,16,17,18])
+            ->where('economic_complements.state', 'Edited')
+            ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements().",".EconomicComplement::basic_info_legal_guardian()))
+            ->get();
+            $data = $query;
+            Util::excel($file_name, 'validados area recep',$data);
+        break;
+        case '21':
+            $columns = '';
+            $file_name = $name.' '.date("Y-m-d H:i:s");
+            $query = EconomicComplement::where('eco_com_procedure_id',$eco_com_procedure_id)
+            ->ecocominfo()
+            ->applicantinfo()
+            ->affiliateinfo()
+            ->legalguardianinfo()
+            ->whereIn('economic_complements.wf_current_state_id', [1,13,14,15,16,17,18])
+            ->where('economic_complements.state', 'Received')
+            ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements().",".EconomicComplement::basic_info_legal_guardian()))
+            ->get();
+            $data = $query;
+            Util::excel($file_name, 'sin validar area recep',$data);
+        break;
         default:
 
         break;
