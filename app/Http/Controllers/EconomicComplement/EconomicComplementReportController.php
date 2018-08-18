@@ -27,6 +27,7 @@ use Muserpol\EconomicComplementApplicantType;
 use Muserpol\EconomicComplementLegalGuardian;
 use Muserpol\EconomicComplementRequirement;
 use Muserpol\EconomicComplementSubmittedDocument;
+use Muserpol\EconomicComplementObservation;
 use Muserpol\Affiliate;
 use Muserpol\Spouse;
 use Muserpol\PensionEntity;
@@ -61,6 +62,7 @@ class EconomicComplementReportController extends Controller
         '13' => 'Afiliados del sector Pasivo',
         '14' => 'Afiliados en Disponibilidad',
         '15' => 'Afiliados Observados por Documentos Preverificados 2018',
+        '16' => 'Tràmites con pago a domicilio',
 
         // '2' => 'Trámites Inclusiones',
         // '3' => 'Trámites habituales',
@@ -1898,6 +1900,7 @@ class EconomicComplementReportController extends Controller
             $data = $affiliates;
             Util::excel($file_name,'afiliados en disponibilidad',$data);
         break;
+
         case '15':
             $columns = '';
             $file_name = $name.' '.date("Y-m-d H:i:s");
@@ -1915,6 +1918,28 @@ class EconomicComplementReportController extends Controller
             $data = $query;
             Util::excel($file_name, 'afi obs por Documentos Prev',$data);
         break;
+
+        case '16':  //REPORTE DE TRAMITES CON PAGO A DOMICILIO
+        //dd($eco_com_procedure_id);
+        $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable,eco_observations.observations as observaciones';  //observations.observations as observaciones
+        $file_name = $name.' '.date("Y-m-d H:i:s");
+        $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+        ->ecocominfo()
+        ->applicantinfo()
+        //->legalguardianinfo()
+        ->affiliateinfo()
+        ->ecocomstates()
+        ->wfstates()
+        ->affiliateObservations()
+        ->Observations()
+        ->ecoComObservations()
+        ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
+        ->where('eco_com_observations.observation_type_id','=',30)
+        ->get();
+
+        $data = $economic_complements;
+        Util::excel($file_name, 'hoja', $data);
+       break;
         default:
 
         break;
