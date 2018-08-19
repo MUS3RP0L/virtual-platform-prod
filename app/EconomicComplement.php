@@ -453,7 +453,11 @@ class EconomicComplement extends Model
     {
         return "eco_com_legal_guardians.first_name as primer_nombre_apoderado, eco_com_legal_guardians.second_name as segundo_nombre_apoderado, eco_com_legal_guardians.last_name as ap_paterno_apoderado, eco_com_legal_guardians.mothers_last_name as ap_materno_apoderado, eco_com_legal_guardians.surname_husband as ape_casada_apoderado, eco_com_legal_guardians.identity_card as ci_apoderado, city_legal_guardian_identity_card.first_shortened as ci_exp_apoderado, CASE WHEN economic_complements.has_legal_guardian_s = true THEN 'solicitante' ELSE 'cobrador' END";
     }
-    
+    public static function basic_info_user()
+    {
+        return "user_created.username as usuario_que_creo, user_current.username as usuario_actual";
+    }
+
     public function scopeEcocominfo($query)
     {
         return $query->leftJoin('cities', 'economic_complements.city_id', '=', 'cities.id')
@@ -513,6 +517,16 @@ class EconomicComplement extends Model
                             where eco_com_observations.deleted_at is null
                             GROUP BY economic_complements.id) as eco_observations"),'economic_complements.id','=','eco_observations.id')
                 ;
+    }
+    public function scopeUserCreated($query)
+    {
+        return $query->leftJoin('eco_com_records', 'economic_complements.id', '=', 'eco_com_records.economic_complement_id')
+                    ->leftJoin('users as user_created', 'eco_com_records.user_id', '=','user_created.id')
+                    ->where('eco_com_records.message', 'like', '%creó el trámite%');
+    }
+    public function scopeUserCurrent($query)
+    {
+        return $query->leftJoin('users as user_current', 'economic_complements.user_id', '=','user_current.id');
     }
 }
 
