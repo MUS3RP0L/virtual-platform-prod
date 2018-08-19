@@ -1954,9 +1954,11 @@ class EconomicComplementReportController extends Controller
             ->applicantinfo()
             ->affiliateinfo()
             ->legalguardianinfo()
+            ->userCreated()
+            ->userCurrent()
             ->where('economic_complements.wf_current_state_id', 3)
             ->where('economic_complements.state', 'Edited')
-            ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements().",".EconomicComplement::basic_info_legal_guardian()))
+            ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_user().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements().",".EconomicComplement::basic_info_legal_guardian()))
             ->get();
             $data = $query;
             Util::excel($file_name, 'validados area tec',$data);
@@ -1970,9 +1972,11 @@ class EconomicComplementReportController extends Controller
             ->applicantinfo()
             ->affiliateinfo()
             ->legalguardianinfo()
+            ->userCreated()
+            ->userCurrent()
             ->where('economic_complements.wf_current_state_id', 3)
             ->where('economic_complements.state', 'Received')
-            ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements().",".EconomicComplement::basic_info_legal_guardian()))
+            ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_user().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements().",".EconomicComplement::basic_info_legal_guardian()))
             ->get();
             $data = $query;
             Util::excel($file_name, 'sin validar area tec',$data);
@@ -1986,9 +1990,11 @@ class EconomicComplementReportController extends Controller
             ->applicantinfo()
             ->affiliateinfo()
             ->legalguardianinfo()
+            ->userCreated()
+            ->userCurrent()
             ->whereIn('economic_complements.wf_current_state_id', [1,13,14,15,16,17,18])
             ->where('economic_complements.state', 'Edited')
-            ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements().",".EconomicComplement::basic_info_legal_guardian()))
+            ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_user().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements().",".EconomicComplement::basic_info_legal_guardian()))
             ->get();
             $data = $query;
             Util::excel($file_name, 'validados area recep',$data);
@@ -2001,9 +2007,11 @@ class EconomicComplementReportController extends Controller
             ->applicantinfo()
             ->affiliateinfo()
             ->legalguardianinfo()
+            ->userCreated()
+            ->userCurrent()
             ->whereIn('economic_complements.wf_current_state_id', [1,13,14,15,16,17,18])
             ->where('economic_complements.state', 'Received')
-            ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements().",".EconomicComplement::basic_info_legal_guardian()))
+            ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_user().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements().",".EconomicComplement::basic_info_legal_guardian()))
             ->get();
             $data = $query;
             Util::excel($file_name, 'sin validar area recep',$data);
