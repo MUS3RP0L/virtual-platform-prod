@@ -377,7 +377,8 @@
                       <div class="modal-body">
                       
                             Esta seguro de enviar el o los tramites a  <strong data-bind="text: secuenciaActualAtras().name"></strong>
-                            <textarea class="form-control" name="nota" placeholder=" Nota"></textarea>
+                            <textarea class="form-control" id="nota" name="nota" rows="5" placeholder=" Nota"></textarea>
+                            <span id="chars-left"></span> Caracteres Restantes
                             <input type="hidden" name="wf_state_id" data-bind="value: secuenciaActualAtras().id">
                       </div>
                       <div class="modal-footer">
@@ -419,6 +420,13 @@
 <script>
 
 $(document).ready(function (){
+  var maxLength = 300;
+  $('#chars-left').text(maxLength);
+  $('#nota').attr('maxlength', maxLength);
+  $('#nota').keyup(function() {
+      var textlen = maxLength - $(this).val().length;
+      $('#chars-left').text(textlen);
+  });
   $('#planilla').hide();
   $('#received_quantity').text({!! json_encode($wf_received); !!}.reduce((total, c)=>{
     return total + c.quantity;

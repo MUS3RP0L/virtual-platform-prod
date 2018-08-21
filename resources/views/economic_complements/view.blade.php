@@ -2915,9 +2915,8 @@
                     <h4 class="modal-title" id="editModalTitle">Editando Observación</h4>
                 </div>
                 <div class="modal-body">
-                   <h4> <span id="observation_name" class="label label-danger"></span> </h4>
+                    <h4> <span id="observation_name" class="label label-danger"></span> </h4>
                     {!! Form::label('observation_type_id_edit', 'Tipo', ['class'=>'selItem']) !!}
-                       
                     <div class="form-group">
                         <select class="form-control  selItem" name="observation_type_id" id='observation_type_id_edit'  >
                             <option value=''> </option>
@@ -2928,7 +2927,8 @@
                     </div>
                     {!! Form::label('message', 'Mensaje:', []) !!}
                     <textarea name="message" id="message_edit" cols="50" rows="10"  class="form-control"></textarea>
-
+                    <span id="chars-left"></span> Caracteres Restantes
+                    <br>
                     <div class="form-group">
                         <div class="togglebutton note">
                             <label>
@@ -3468,7 +3468,13 @@ $(document).ready(function() {
             }
         // console.log(see);
     });
-        
+    var maxLength = 339;
+    $('#chars-left').text(maxLength);
+    $('#message_edit').attr('maxlength', maxLength);
+    $('#message_edit').keyup(function() {
+        var textlen = maxLength - $(this).val().length;
+        $('#chars-left').text(textlen);
+    });
    //funciones modal de observaciones al affiliado
     $('#observationEditModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget) // Button that triggered the modal
