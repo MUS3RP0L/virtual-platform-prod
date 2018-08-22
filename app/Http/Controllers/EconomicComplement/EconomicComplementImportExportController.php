@@ -353,8 +353,9 @@ class EconomicComplementImportExportController extends Controller
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
 			->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
 			->leftJoin('degrees', 'economic_complements.degree_id', '=', 'degrees.id')
-			->whereYear('economic_complements.year', '=', $year)
-			->where('economic_complements.semester', '=', $semester)
+			->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+			->whereYear('eco_com_procedures.year', '=', $year)
+			->where('eco_com_procedures.semester', '=', $semester)
 			->where('economic_complements.workflow_id', '=', 1)
 			->where('economic_complements.wf_current_state_id', '=', 3)
 			->where('economic_complements.state', 'Edited')
@@ -402,9 +403,14 @@ class EconomicComplementImportExportController extends Controller
 							$sheet->row($j, array($datos->regional, $legal1->identity_card . " " . $legal1->city_identity_card->first_shortened, $legal1->getFullName(), $import, "1", $datos->modality . " - " . $datos->degree . " - " . $datos->category, $datos->affiliate_id, $semester1));
 
 						} else {
+							if ($economic->is_paid_spouse) {
+								$spo = EconomicComplement::find($datos->id)->affiliate->spouse;
+								$sheet->row($j, array($datos->regional, $spo->identity_card . " " . $spo->ext, $spo->getFullName(), $import, "1", $datos->modality . " - " . $datos->degree . " - " . $datos->category, $datos->affiliate_id, $semester1));
+							}else{
 
-							$apl = EconomicComplement::find($datos->id)->economic_complement_applicant;
-							$sheet->row($j, array($datos->regional, $datos->identity_card . " " . $datos->ext, $apl->getFullName(), $import, "1", $datos->modality . " - " . $datos->degree . " - " . $datos->category, $datos->affiliate_id, $semester1));
+								$apl = EconomicComplement::find($datos->id)->economic_complement_applicant;
+								$sheet->row($j, array($datos->regional, $datos->identity_card . " " . $datos->ext, $apl->getFullName(), $import, "1", $datos->modality . " - " . $datos->degree . " - " . $datos->category, $datos->affiliate_id, $semester1));
+							}
 
 						}
 
@@ -1356,15 +1362,19 @@ class EconomicComplementImportExportController extends Controller
 			->leftJoin('pension_entities', 'affiliates.pension_entity_id', '=', 'pension_entities.id')
 			->leftJoin('categories', 'categories.id', '=', 'economic_complements.category_id')
 			->leftJoin('cities as cities2', 'affiliates.city_identity_card_id', '=', 'cities2.id')
-			->whereYear('economic_complements.year', '=', '2017')
-			->where('economic_complements.semester', '=', 'Segundo')
+			->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+			->whereYear('eco_com_procedures.year', '=', '2018')
+			->where('eco_com_procedures.semester', '=', 'Primer')
 			->where('economic_complements.workflow_id', '=', 1)
 			->where('economic_complements.wf_current_state_id', '=', 3)
 			->where('economic_complements.state', 'Edited')
 			->where('economic_complements.total', '>', 0)
 			->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
-			->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(1,2,3,12,13,14,15) and affiliate_observations.is_enabled = false and affiliate_observations.deleted_at is null)")        
-          //->whereNotNull('economic_complements.review_date')
+			->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = 		affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(8,9,20,21,24,25) and affiliate_observations.is_enabled = false and affiliate_observations.deleted_at is null) ")
+			->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
+					WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+				  	eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND
+				  	eco_com_observations.is_enabled = FALSE AND eco_com_observations.deleted_at is null)")
 			->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
 
 			->get();
