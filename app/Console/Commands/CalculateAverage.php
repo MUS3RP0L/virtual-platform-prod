@@ -34,6 +34,7 @@ class CalculateAverage extends Command implements SelfHandling
                 $year = $this->ask('Enter the year');
                 $semester = $this->ask('Enter the semester');
 
+                /*todo add search procwedure */
                 if($year > 0 and $semester != null)
                 {   $time_start = microtime(true);
                     $this->info("Working...\n");
@@ -41,22 +42,33 @@ class CalculateAverage extends Command implements SelfHandling
                     $Progress->setFormat("%current%/%max% [%bar%] %percent:3s%%");
                     $Progress->advance();
 
+                    
+                    $eco_com_rents = EconomicComplementRent::whereYear("year", '=',$year)->where('semester', $semester)->get();
+                    foreach ($eco_com_rents as $value) {
+                        $value->delete();
+                    }
                     $average_list = DB::table('eco_com_applicants')
                                     ->select(DB::raw("affiliates.degree_id as degree_id,economic_complements.eco_com_modality_id,min(economic_complements.total_rent) as rmin, max(economic_complements.total_rent) as rmax,round((max(economic_complements.total_rent)+ min(economic_complements.total_rent))/2,2) as average"))
                                     ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                                     ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
                                     ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
                                     ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                                    ->leftJoin('eco_com_procedures','economic_complements.eco_com_procedure_id','=','eco_com_procedures.id')
                                     ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
-                                    ->whereYear('economic_complements.year', '=', $year)
-                                    ->where('economic_complements.semester', '=', $semester)
-                                    ->where('economic_complements.total_rent','>', 0)
+                                    ->leftJoin('base_wages','economic_complements.degree_id','=','base_wages.degree_id')
+                                    ->where('economic_complements.eco_com_procedure_id', '=', 7)
+                                    ->whereYear('base_wages.month_year', '=', $year)
+                                    ->whereRaw("economic_complements.total_rent::numeric >= eco_com_procedures.indicator::numeric")
+                                    //->whereRaw('economic_complements.total_rent::numeric <= base_wages.amount::numeric') //MAL                                   
                                     ->whereIN('economic_complements.eco_com_modality_id',[1,2])
-                                    ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
-                                    ->whereNull('economic_complements.aps_disability')
+                                    ->where(function ($query)
+                                    {
+                                        $query->whereNull('economic_complements.aps_disability')
+                                        ->orWhere('economic_complements.aps_disability', '=','0');
+                                     })
                                     ->groupBy('affiliates.degree_id','economic_complements.eco_com_modality_id')
                                     ->orderBy('affiliates.degree_id','ASC')->get();
-                    
+//                    dd($average_list);
                     if($average_list)
                     {
                         foreach($average_list as $item) {

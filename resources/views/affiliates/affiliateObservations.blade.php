@@ -15,6 +15,10 @@
           <div class="btn-group"  data-toggle="tooltip" data-original-title="Afiliados Observados" style="margin: 0;">
                     <a href="{!! url('get_afi_observations') !!}" class="btn btn-success btn-raised bg-blue" ><i class="glyphicon glyphicon-save glyphicon-lg"></i></a>
           </div>
+          <div class="btn-group"  data-toggle="tooltip" data-original-title="Comparar Complemento 2018 y 2017" style="margin: 0;">
+                    <a href="{!! url('get_eco_com_compare2018_2017') !!}" class="btn btn-success btn-raised bg-blue" ><i class="glyphicon glyphicon-save glyphicon-lg"></i></a>
+          </div>
+          
           
         </div>          
     </div>

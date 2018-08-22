@@ -43,9 +43,9 @@ class AutomaticCalculation extends Command implements SelfHandling
                     $Progress = $this->output->createProgressBar();
                     $Progress->setFormat("%current%/%max% [%bar%] %percent:3s%%");                   
 
-                    	//$economic_complements=EconomicComplement::whereYear('year','=',$year)->where('semester','=',$semester)->where('total_rent','>',0)->get();
+                    	$economic_complements=EconomicComplement::whereYear('year','=',$year)->where('semester','=',$semester)->where('total_rent','>',0)->get();
                     	//$economic_complements=EconomicComplement::whereYear('year','=',$year)->where('semester','=',$semester)->where('total_rent','>',0)->whereNull('total')->get(); //original
-                    	$economic_complements=EconomicComplement::whereYear('year','=',$year)->where('semester','=',$semester)->where('workflow_id','=',3)->where('total_rent','>',0)->get();
+                    	//$economic_complements=EconomicComplement::whereYear('year','=',$year)->where('semester','=',$semester)->where('workflow_id','=',3)->where('total_rent','>',0)->get();
 		    			//$economic_complements=EconomicComplement::whereYear('year','=',$year)->where('semester','=',$semester)->get();  //original
 			    		$economic_complement_rent_temp = EconomicComplementRent::whereYear('year','=',$year)->where('semester','=',$semester)->get();	
 			    		$procedure = EconomicComplementProcedure::whereYear('year','=',$year)->where('semester','=',$semester)->first();

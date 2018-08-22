@@ -86,6 +86,7 @@ class Kernel extends ConsoleKernel
         \Muserpol\Console\Commands\RentasApsSegundoSemestre::class,
         \Muserpol\Console\Commands\AffiliateWithIdReport::class,
         \Muserpol\Console\Commands\ImportObservationsLoan::class,
+        \Muserpol\Console\Commands\ReportComponent::class,
     ];
 
     protected function schedule(Schedule $schedule)
