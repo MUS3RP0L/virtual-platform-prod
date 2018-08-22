@@ -817,8 +817,101 @@ class AffiliateObservationController extends Controller
       {
         Session::flash('message', "No existen registros");
         return redirect('afi_observations');
-      } 
-    
+      }
+      
+        
+    }
+
+
+
+    public function get_eco_com_compare2018_2017()
+    {global $result;
+
+      $eco2018= DB::table('eco_com_applicants')
+                    ->select(DB::raw("economic_complements.id,eco_com_applicants.identity_card as bene_ci, eco_com_applicants.first_name bene_nombre,eco_com_applicants.last_name as bene_paterno,eco_com_applicants.mothers_last_name as bene_materno, economic_complements.code as codigo, economic_complements.reception_date as fecha, economic_complements.year as ano, economic_complements.semester as semestre, economic_complements.total_rent as renta, economic_complements.aps_total_cc,economic_complements.aps_total_fsa, economic_complements.aps_total_fs,  economic_complements.aps_disability as renta_invalidez, affiliates.identity_card as afi_ci, affiliates.first_name as afi_nombre,affiliates.last_name as paterno, affiliates.mothers_last_name as materno, pension_entities.name as ente_gestor, eco_com_types.name as modalidad"))
+                    ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                    ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                    ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
+                    ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+                    ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
+                    ->where('pension_entities.id', '<>', 5)
+                    ->where('economic_complements.eco_com_procedure_id', '=', 7)
+                    ->where('economic_complements.total_rent', '>', 0)->get();
+
+        foreach($eco2018 as $item2018) 
+        {
+            $eco2017= DB::table('eco_com_applicants')
+                    ->select(DB::raw("economic_complements.id,eco_com_applicants.identity_card as bene_ci, eco_com_applicants.first_name bene_nombre,eco_com_applicants.last_name as bene_paterno,eco_com_applicants.mothers_last_name as bene_materno, economic_complements.code as codigo, economic_complements.reception_date as fecha, economic_complements.year as ano, economic_complements.semester as semestre, economic_complements.total_rent as renta, economic_complements.aps_total_cc,economic_complements.aps_total_fsa, economic_complements.aps_total_fs,  economic_complements.aps_disability as renta_invalidez, affiliates.identity_card as afi_ci, affiliates.first_name as afi_nombre,affiliates.last_name as paterno, affiliates.mothers_last_name as materno, pension_entities.name as ente_gestor, eco_com_types.name as modalidad"))
+                    ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                    ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                    ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
+                    ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+                    ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
+                    ->where('pension_entities.id', '<>', 5)
+                    ->where('economic_complements.eco_com_procedure_id', '=', 6)
+                    ->where('economic_complements.total_rent', '>', 0)
+                    ->where('eco_com_applicants.identity_card','=',rtrim($item2018->bene_ci))->first();
+            if($eco2017)
+            {
+
+            
+                    $comp2018=0;
+                    if ($item2018->aps_total_fsa > 0) 
+                    {
+                        $comp2018++;
+                    }
+                    if ($item2018->aps_total_cc > 0) 
+                    {
+                        $comp2018++;
+                    }
+                    if ($item2018->aps_total_fs > 0) 
+                    {
+                        $comp2018++;
+                    }
+                    
+                    $comp2017=0;
+                    if ($eco2017->aps_total_fsa > 0) 
+                    {
+                        $comp2017++;
+                    }
+                    if ($eco2017->aps_total_cc > 0) 
+                    {
+                        $comp2017++;
+                    }
+                    if ($eco2017->aps_total_fs > 0) 
+                    {
+                        $comp2017++;
+                    }	
+                    
+                    if($comp2018 <> $comp2017 )
+                    {
+                        $result[]= (array)$item2018;
+                    }
+                   // Log::info($result);
+            }
+                    
+        }
+       // dd($result);
+       Util::excel('componenetes', 'hoja',$result);
+      // Excel::create('componentes', function($excel)
+      // { global $result;
+
+      //     $excel->sheet('component', function ($sheet) 
+      //     {
+      //       global $result;
+           
+      //      $result1 = (array) $result;
+      //      $rows = array(array('id','bene_ci', 'bene_nombre','bene_paterno','bene_materno', 'codigo', 'fecha', 'ano', 'semestre', 'renta', 'aps_total_cc','aps_total_fsa','aps_total_fs','renta_invalidez','afi_ci','afi_nombre','afi_paterno','afi_materno','ente_gestor','modalidad'));
+              
+      //     //  array_push($rows, array($datos->id, $datos->bene_ci, $datos->bene_nombre,$datos->bene_paterno,$datos->bene_materno,$datos->codigo,$datos->fecha,$datos->ano,$datos->semestre,$datos->renta,$datos->aps_total_cc,$datos->aps_total_fsa,$datos->aps_total_fs,$datos->renta_invalidez,$datos->afi_ci,$datos->afi_nombre,$datos->paterno,$datos->materno,$datos->ente_gestor,$datos->modalidad));
+      //       array_push($rows,array($result1));
+  
+      //       $sheet->fromArray((array) $rows, null, 'A1', false, false);          
+  
+      //     }); //FIN 
+      //   })->download('xlsx');
+        Session::flash('message', "Exportación Exitosa");
+       return redirect('afi_observations');
     }
     
 }
