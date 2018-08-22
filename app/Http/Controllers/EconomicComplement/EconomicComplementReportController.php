@@ -1690,9 +1690,11 @@ class EconomicComplementReportController extends Controller
           ->wfstates()
           ->affiliateobservations()
           ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_legal_guardian().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
-          ->whereRaw('economic_complements.has_legal_guardian = true or economic_complements.has_legal_guardian_s = true')
+          ->where(function ($query){
+            $query->where('economic_complements.has_legal_guardian', '=', true)
+            ->orWhere('economic_complements.has_legal_guardian_s', '=', true);
+          })
           ->get();
-          
           $data = $economic_complements;
           Util::excel($file_name, 'hoja', $data);
          break;
