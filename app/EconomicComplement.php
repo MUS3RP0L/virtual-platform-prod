@@ -509,13 +509,15 @@ class EconomicComplement extends Model
 
     public function scopeEcoComObservations($query)
     {
-        return $query->leftJoin( 'eco_com_observations', 'economic_complements.id', '=', 'eco_com_observations.economic_complement_id')
-                    ->leftJoin(DB::raw("(SELECT economic_complements.id, string_agg(observation_types.name, ' | ') as observations 
+        return $query->leftJoin('eco_com_observations', 'economic_complements.id', '=', 'eco_com_observations.economic_complement_id')
+                    ->leftJoin('observation_types', 'eco_com_observations.observation_type_id', '=', 'observation_types.id')
+                    ->leftJoin(DB::raw("(SELECT distinct on (economic_complements.id) economic_complements.id, string_agg(observation_types.name, ' | ') as observations 
                             FROM economic_complements
                             LEFT JOIN eco_com_observations on economic_complements.id = eco_com_observations.economic_complement_id
                             LEFT JOIN observation_types on eco_com_observations.observation_type_id = observation_types.id
                             where eco_com_observations.deleted_at is null
                             GROUP BY economic_complements.id) as eco_observations"),'economic_complements.id','=','eco_observations.id')
+                
                 ;
     }
     public function scopeUserCreated($query)

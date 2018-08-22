@@ -107,11 +107,11 @@
                 <ul class="dropdown-menu">
                     <li><a href="" data-toggle="modal" data-target="#myModal-exportbanco" style="padding:3px 5px;"><i class="fa fa-money"></i>Banco</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="{{url('export_planilla_general_bank')}}"  style="padding:3px 5px;"><i class="fa  fa-file-excel-o"></i>Planilla General Banco</a></li>  
+                    {{-- <li><a href="{{url('export_planilla_general_bank')}}"  style="padding:3px 5px;"><i class="fa  fa-file-excel-o"></i>Planilla General Banco</a></li>  
                      <li role="separator" class="divider"></li>
                     <li><a href="" data-toggle="modal" data-target="#myModal-exporbydepartment-bank" style="padding:3px 5px;"><i class="fa  fa-file-excel-o"></i>Planilla por Departamento</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="{{url('export_payroll_legal_guardian_bank')}}"  style="padding:3px 5px;"><i class="fa  fa-shield"></i>Planilla de Apoderados</a></li>
+                    <li><a href="{{url('export_payroll_legal_guardian_bank')}}"  style="padding:3px 5px;"><i class="fa  fa-shield"></i>Planilla de Apoderados</a></li> --}}
                     {{-- <li role="separator" class="divider"></li> 
                     <li><a href="" data-toggle="modal" data-target="#myModal-exportobservados-bank" style="padding:3px 5px;"><i class="fa fa-money"></i>Observados(Reposición,Prestamos,Cont.)</a></li>      --}}          
                     
