@@ -97,7 +97,14 @@ class Spouse extends Model
     }
     public function getFullName()
     {
-        return $this->last_name . ' ' . $this->mothers_last_name. ' ' . $this->first_name. ' ' .$this->second_name;
+        $name = ($this->first_name)." ".($this->second_name)." ".($this->last_name)." ".($this->mothers_last_name)." ".($this->surname_husband);
+        $re = '/\s+/';
+        $subst = ' ';
+        $result = preg_replace($re, $subst, $name);
+        if ($result) {
+            return trim($result);
+        }
+        return null;
     }
 
     public function city_birth()
