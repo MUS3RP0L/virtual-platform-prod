@@ -914,4 +914,13 @@ class AffiliateObservationController extends Controller
        return redirect('afi_observations');
     }
     
+
+
+   
+
+
+
+
+
+
 }
