@@ -3538,4 +3538,96 @@ class EconomicComplementImportExportController extends Controller
 		})->download('xlsx');
 
 	}
+
+
+
+
+
+
+
+
+
+
+
+	//VERIFICANDO COMPONENTES REGISTRADOS MANUALMENTE EN BD CON EL EXCEL DE APS
+
+	public static function check_aps_excel(Request $request)
+	{
+
+		if ($request->hasFile('archive')) 
+		{
+			global $year, $semester, $results, $i, $afi, $list;
+			$reader = $request->file('archive');
+			$filename = $reader->getRealPath();
+			$year = $request->year;
+			$semester = $request->semester;
+			Excel::load($filename, function ($reader) 
+			{
+				global $results, $i, $afi, $list;
+				ini_set('memory_limit', '-1');
+				ini_set('max_execution_time', '-1');
+				ini_set('max_input_time', '-1');
+				set_time_limit('-1');
+				$results = collect($reader->get());
+			});
+
+			$afi;
+			$found = 0;
+			$nofound = 0;
+			$procedure = EconomicComplementProcedure::whereYear('year', '=', $year)->where('semester', '=', $semester)->first();
+			foreach ($results as $datos) 
+			{
+				$nua = ltrim((string)$datos->nrosip_titular, "0");
+				$ci = explode("-", ltrim($datos->nro_identificacion, "0"));
+				$ci1 = $ci[0];
+				$afi = DB::table('economic_complements')
+					->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.reception_date,economic_complements.total_rent,economic_complements.aps_total_cc,economic_complements.aps_total_fsa,economic_complements.aps_total_fs,economic_complements.total, eco_com_types.id as type,affiliates.identity_card as ci_afi,affiliates.first_name as afi_nombres,affiliates.last_name as afi_paterno,affiliates.mother_last_nameas afi_materno'))
+					->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+					->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+					->leftJoin('eco_com_types', 'eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
+					->whereRaw("split_part(LTRIM(affiliates.identity_card,'0'), '-',1) = '" . $ci1 . "'")
+					->whereRaw("LTRIM(affiliates.nua::text,'0') ='" . $nua . "'")
+					->where('affiliates.pension_entity_id', '!=', 5)
+					->where('economic_complements.eco_com_procedure_id','',$procedure->id)
+					->where('economic_complements.total_rent','>',0)
+					->first();
+				if ($afi) 
+				{
+					//$ecomplement = EconomicComplement::where('id', '=', $afi->id)->first();
+					if($afi->total_rent == $datos->total_pension && $afi->aps_total_cc == $datos->total_cc && $afi->aps_total_fsa == $datos->total_fsa && $afi->aps_total_fs == $datos->total_fs)                
+					{	$found++;
+						/*$ecomplement->total_rent = $datos->total_pension;
+						$ecomplement->aps_total_cc = $datos->total_cc;
+						$ecomplement->aps_total_fsa = $datos->total_fsa;
+						$ecomplement->aps_total_fs = $datos->total_fs;
+						$ecomplement->rent_type = 'Automatico';
+						$ecomplement->save();
+						
+						Log::info($ci);*/
+					}
+					else
+					{
+						$nofound++;
+						$list[] = $afi;
+						Log::info($afi->ci_afi);
+						
+					}
+				} 
+				
+
+		}
+			Util::excel('componenetes_erroneos', 'hoja',$list);
+			Session::flash('message', "Veificacion completada" . " BIEN:" . $found . " MAL:" . $nofound);
+			return redirect('afi_observations');
+	}
+}
+	
+
+
+
+
+
+
+
+
 }
