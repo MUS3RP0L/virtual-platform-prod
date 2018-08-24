@@ -3656,7 +3656,7 @@ public function get_eco_com_diferencia2017_2018()
             if($eco2017)
             {                  
                     if ($item2018->total2018 < $eco2017->total2017)              {
-						$result1[] = array("id" => $item2018->id,"bene_ci" => $item2018->bene_ci ,"bene_nombre" => $item2018->bene_nombre,"bene_paterno" => $item2018->bene_paterno,"bene_materno" => $item2018->bene_materno, "renta2017" => $eco2017->renta2017,"renta2018" => $item2018->renta2018,"total2017" =>$eco2017->total2017,"total2018" => $item2018->total2018,"grado" => $item2018->grado,"categoria" => $item2018->categoria);
+						$result1[] = array("id" => $item2018->id,"bene_ci" => $item2018->bene_ci ,"bene_nombre" => $item2018->bene_nombre,"bene_paterno" => $item2018->bene_paterno,"bene_materno" => $item2018->bene_materno, "renta2017" => $eco2017->renta2017,"renta2018" => $item2018->renta2018,"total2017" =>$eco2017->total2017,"total2018" => $item2018->total2018,"grado" => $item2018->grado,"categoria" => $item2018->categoria,"modalidad" => $item2018->modalidad );
                     }
                    
             }
