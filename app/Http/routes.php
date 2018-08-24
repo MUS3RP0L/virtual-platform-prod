@@ -159,6 +159,9 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('get_afi_observations',['as'=>'get_afi_observations','uses'=>'Observation\AffiliateObservationController@get_afi_observations']);//get afi observados
 	Route::get('get_eco_com_compare2018_2017',['as'=>'get_eco_com_compare2018_2017','uses'=>'Observation\AffiliateObservationController@get_eco_com_compare2018_2017']);//get afi observados
 	Route::post('get_check_excel_aps',['as'=>'get_check_excel_aps','uses'=>'EconomicComplement\EconomicComplementImportExportController@check_aps_excel']);//comparacion componentes de ala BD y el excel de APS
+	Route::get('get_eco_com_diferencia2017_2018',['as'=>'get_eco_com_diferencia2017_2018','uses'=>'EconomicComplement\EconomicComplementImportExportController@get_eco_com_diferencia2017_2018']);//comparacion de diferencia del total complemento 2018 y 2017
+
+	
 
 
 	Route::get('export_excel_observations','EconomicComplement\EconomicComplementImportExportController@export_excel_observations');

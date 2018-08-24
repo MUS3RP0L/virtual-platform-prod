@@ -23,6 +23,10 @@
                    
                     <a href="" data-toggle="modal" data-target="#myModal-check" style="padding:3px 5px;"><i class="fa fa-bank"></i>VERIFICACION</a>
           </div>
+
+           <div class="btn-group"  data-toggle="tooltip" data-original-title="Diferencia de complementos 2017 y 2018" style="margin: 0;">
+                    <a href="{!! url('get_eco_com_diferencia2017_2018') !!}" class="btn btn-success btn-raised bg-blue" ><i class="glyphicon glyphicon-save glyphicon-lg"></i></a>
+          </div>
           
           
         </div>          

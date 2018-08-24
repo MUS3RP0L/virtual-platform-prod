@@ -3581,20 +3581,20 @@ class EconomicComplementImportExportController extends Controller
 				$ci = explode("-", ltrim($datos->nro_identificacion, "0"));
 				$ci1 = $ci[0];
 				$afi = DB::table('economic_complements')
-					->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.reception_date,economic_complements.total_rent,economic_complements.aps_total_cc,economic_complements.aps_total_fsa,economic_complements.aps_total_fs,economic_complements.total, eco_com_types.id as type,affiliates.identity_card as ci_afi,affiliates.first_name as afi_nombres,affiliates.last_name as afi_paterno,affiliates.mother_last_nameas afi_materno'))
+					->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.reception_date,economic_complements.total_rent,economic_complements.aps_total_cc,economic_complements.aps_total_fsa,economic_complements.aps_total_fs,economic_complements.total, eco_com_types.id as type,affiliates.identity_card as ci_afi,affiliates.first_name as afi_nombres,affiliates.last_name as afi_paterno,affiliates.mothers_last_name as afi_materno'))
 					->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 					->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
 					->leftJoin('eco_com_types', 'eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
 					->whereRaw("split_part(LTRIM(affiliates.identity_card,'0'), '-',1) = '" . $ci1 . "'")
 					->whereRaw("LTRIM(affiliates.nua::text,'0') ='" . $nua . "'")
 					->where('affiliates.pension_entity_id', '!=', 5)
-					->where('economic_complements.eco_com_procedure_id','',$procedure->id)
+					->where('economic_complements.eco_com_procedure_id','=',$procedure->id)
 					->where('economic_complements.total_rent','>',0)
 					->first();
 				if ($afi) 
 				{
 					//$ecomplement = EconomicComplement::where('id', '=', $afi->id)->first();
-					if($afi->total_rent == $datos->total_pension && $afi->aps_total_cc == $datos->total_cc && $afi->aps_total_fsa == $datos->total_fsa && $afi->aps_total_fs == $datos->total_fs)                
+					if((float)$afi->total_rent == (float)$datos->total_pension && (float)$afi->aps_total_cc == (float)$datos->total_cc && (float)$afi->aps_total_fsa == (float)$datos->total_fsa && (float)$afi->aps_total_fs == (float)$datos->total_fs)                
 					{	$found++;
 						/*$ecomplement->total_rent = $datos->total_pension;
 						$ecomplement->aps_total_cc = $datos->total_cc;
@@ -3608,7 +3608,7 @@ class EconomicComplementImportExportController extends Controller
 					else
 					{
 						$nofound++;
-						$list[] = $afi;
+						$list[] = (array)$afi;
 						Log::info($afi->ci_afi);
 						
 					}
@@ -3622,6 +3622,50 @@ class EconomicComplementImportExportController extends Controller
 	}
 }
 	
+
+public function get_eco_com_diferencia2017_2018()
+{
+	global $result;
+
+      $eco2018= DB::table('eco_com_applicants')
+                    ->select(DB::raw("economic_complements.id,eco_com_applicants.identity_card as bene_ci, eco_com_applicants.first_name bene_nombre,eco_com_applicants.last_name as bene_paterno,eco_com_applicants.mothers_last_name as bene_materno, economic_complements.code as codigo, economic_complements.reception_date as fecha, economic_complements.year as ano, economic_complements.semester as semestre, economic_complements.total_rent as renta, economic_complements.aps_total_cc,economic_complements.aps_total_fsa, economic_complements.aps_total_fs,  economic_complements.aps_disability as renta_invalidez,economic_complements.total, affiliates.identity_card as afi_ci, affiliates.first_name as afi_nombre,affiliates.last_name as paterno, affiliates.mothers_last_name as materno, pension_entities.name as ente_gestor, eco_com_types.name as modalidad"))
+                    ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                    ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                    ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
+                    ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+                    ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
+                    ->where('pension_entities.id', '<>', 5)
+                    ->where('economic_complements.eco_com_procedure_id', '=', 7)
+                    ->where('economic_complements.total_rent', '>', 0)->get();
+
+        foreach($eco2018 as $item2018) 
+        {
+            $eco2017= DB::table('eco_com_applicants')
+                    ->select(DB::raw("economic_complements.id,eco_com_applicants.identity_card as bene_ci, eco_com_applicants.first_name bene_nombre,eco_com_applicants.last_name as bene_paterno,eco_com_applicants.mothers_last_name as bene_materno, economic_complements.code as codigo, economic_complements.reception_date as fecha, economic_complements.year as ano, economic_complements.semester as semestre, economic_complements.total_rent as renta, economic_complements.aps_total_cc,economic_complements.aps_total_fsa, economic_complements.aps_total_fs,  economic_complements.aps_disability as renta_invalidez,economic_complements.total, affiliates.identity_card as afi_ci, affiliates.first_name as afi_nombre,affiliates.last_name as paterno, affiliates.mothers_last_name as materno, pension_entities.name as ente_gestor, eco_com_types.name as modalidad"))
+                    ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
+                    ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
+                    ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
+                    ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+                    ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
+                    ->where('pension_entities.id', '<>', 5)
+                    ->where('economic_complements.eco_com_procedure_id', '=', 6)
+                    ->where('economic_complements.total_rent', '>', 0)
+                    ->where('eco_com_applicants.identity_card','=',rtrim($item2018->bene_ci))->first();
+            if($eco2017)
+            {                  
+                    if ($item2018->total < $eco2017->total)
+                    {
+						$result[]= (array)$item2018;
+                    }
+                   
+            }
+                    
+        }
+       // dd($result);
+       Util::excel('CE_diferencias2018y2017', 'hoja',$result);
+	   Session::flash('message', "Diferencia de Total CE" . " BIEN:" . $found . " MAL:" . $nofound);
+	   return redirect('afi_observations');
+	}
 
 
 
