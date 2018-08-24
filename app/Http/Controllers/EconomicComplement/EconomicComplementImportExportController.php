@@ -3594,7 +3594,7 @@ class EconomicComplementImportExportController extends Controller
 				if ($afi) 
 				{
 					//$ecomplement = EconomicComplement::where('id', '=', $afi->id)->first();
-					if((float)$afi->total_rent == (float)$datos->total_pension && (float)$afi->aps_total_cc == (float)$datos->total_cc && (float)$afi->aps_total_fsa == (float)$datos->total_fsa && (float)$afi->aps_total_fs == (float)$datos->total_fs)                
+					if((float)$afi->total_rent === (float)$datos->total_pension && (float)$afi->aps_total_cc === (float)$datos->total_cc && (float)$afi->aps_total_fsa === (float)$datos->total_fsa && (float)$afi->aps_total_fs === (float)$datos->total_fs)                
 					{	$found++;
 						/*$ecomplement->total_rent = $datos->total_pension;
 						$ecomplement->aps_total_cc = $datos->total_cc;
@@ -3606,7 +3606,7 @@ class EconomicComplementImportExportController extends Controller
 						Log::info($ci);*/
 					}
 					else
-					{
+					{  // dd($afi->total_rent."=".$datos->total_pension);
 						$nofound++;
 						$list[] = (array)$afi;
 						Log::info($afi->ci_afi);
