@@ -3628,11 +3628,13 @@ public function get_eco_com_diferencia2017_2018()
 	global $result,$result1;
 
       $eco2018= DB::table('eco_com_applicants')
-                    ->select(DB::raw("economic_complements.id,eco_com_applicants.identity_card as bene_ci, eco_com_applicants.first_name bene_nombre,eco_com_applicants.last_name as bene_paterno,eco_com_applicants.mothers_last_name as bene_materno, economic_complements.code as codigo, economic_complements.reception_date as fecha, economic_complements.year as ano, economic_complements.semester as semestre, economic_complements.total_rent as renta2018, economic_complements.aps_total_cc,economic_complements.aps_total_fsa, economic_complements.aps_total_fs,  economic_complements.aps_disability as renta_invalidez, affiliates.identity_card as afi_ci, affiliates.first_name as afi_nombre,affiliates.last_name as paterno, affiliates.mothers_last_name as materno, pension_entities.name as ente_gestor, eco_com_types.name as modalidad,economic_complements.total as total2018"))
+                    ->select(DB::raw("economic_complements.id,eco_com_applicants.identity_card as bene_ci, eco_com_applicants.first_name bene_nombre,eco_com_applicants.last_name as bene_paterno,eco_com_applicants.mothers_last_name as bene_materno, economic_complements.code as codigo, economic_complements.reception_date as fecha, economic_complements.year as ano, economic_complements.semester as semestre, economic_complements.total_rent as renta2018, economic_complements.aps_total_cc,economic_complements.aps_total_fsa, economic_complements.aps_total_fs,  economic_complements.aps_disability as renta_invalidez, affiliates.identity_card as afi_ci, affiliates.first_name as afi_nombre,affiliates.last_name as paterno, affiliates.mothers_last_name as materno, pension_entities.name as ente_gestor, eco_com_types.name as modalidad,economic_complements.total as total2018,degrees.shortened as grado,categories.percentage as categoria"))
                     ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                     ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
                     ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
-                    ->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+					->leftJoin('affiliates','economic_complements.affiliate_id','=','affiliates.id')
+					->leftJoin('degrees', 'degrees.id', '=', 'economic_complements.degree_id')
+					->leftJoin('categories', 'categories.id', '=', 'economic_complements.category_id')
                     ->leftJoin('pension_entities','affiliates.pension_entity_id','=','pension_entities.id')
                     ->where('pension_entities.id', '<>', 5)
                     ->where('economic_complements.eco_com_procedure_id', '=', 7)
@@ -3654,7 +3656,7 @@ public function get_eco_com_diferencia2017_2018()
             if($eco2017)
             {                  
                     if ($item2018->total2018 < $eco2017->total2017)              {
-						$result1[] = array("id" => $item2018->id,"bene_ci" => $item2018->bene_ci ,"bene_nombre" => $item2018->bene_nombre,"bene_paterno" => $item2018->bene_paterno,"bene_materno" => $item2018->bene_materno, "renta2017" => $eco2017->renta2017,"renta2018" => $item2018->renta2018,"total2017" =>$eco2017->total2017,"total2018" => $item2018->total2018);
+						$result1[] = array("id" => $item2018->id,"bene_ci" => $item2018->bene_ci ,"bene_nombre" => $item2018->bene_nombre,"bene_paterno" => $item2018->bene_paterno,"bene_materno" => $item2018->bene_materno, "renta2017" => $eco2017->renta2017,"renta2018" => $item2018->renta2018,"total2017" =>$eco2017->total2017,"total2018" => $item2018->total2018,"grado" => $item2018->grado,"categoria" => $item2018->categoria);
                     }
                    
             }
