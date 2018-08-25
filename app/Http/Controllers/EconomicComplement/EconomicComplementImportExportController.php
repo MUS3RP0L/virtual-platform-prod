@@ -3583,7 +3583,7 @@ class EconomicComplementImportExportController extends Controller
 				$ci = explode("-", ltrim($datos->nro_identificacion, "0"));
 				$ci1 = $ci[0];
 				$afi = DB::table('economic_complements')
-					->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.reception_date,economic_complements.total_rent,economic_complements.aps_disability,economic_complements.aps_total_cc,economic_complements.aps_total_fsa,economic_complements.aps_total_fs,economic_complements.total, eco_com_types.id as type,affiliates.identity_card as ci_afi,affiliates.first_name as afi_nombres,affiliates.last_name as afi_paterno,affiliates.mothers_last_name as afi_materno'))
+					->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.reception_date,economic_complements.total_rent,economic_complements.aps_disability as invalidez,economic_complements.aps_total_cc,economic_complements.aps_total_fsa,economic_complements.aps_total_fs,economic_complements.total, eco_com_types.id as type,affiliates.identity_card as ci_afi,affiliates.first_name as afi_nombres,affiliates.last_name as afi_paterno,affiliates.mothers_last_name as afi_materno'))
 					->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 					->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
 					->leftJoin('eco_com_types', 'eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
@@ -3596,7 +3596,7 @@ class EconomicComplementImportExportController extends Controller
 				if ($afi) 
 				{
 					//$ecomplement = EconomicComplement::where('id', '=', $afi->id)->first();
-					if((float)$afi->total_rent == (float)round($datos->total_pension,2) && (float)$afi->aps_total_cc == (float)round($datos->total_cc,2) && (float)$afi->aps_total_fsa == (float)round($datos->total_fsa,2) && (float)$afi->aps_total_fs == (float)round($datos->total_fs,2))
+				/*	if((float)$afi->total_rent == (float)round($datos->total_pension,2) && (float)$afi->aps_total_cc == (float)round($datos->total_cc,2) && (float)$afi->aps_total_fsa == (float)round($datos->total_fsa,2) && (float)$afi->aps_total_fs == (float)round($datos->total_fs,2))
 					{	$found++;
 						if($afi->aps_disability >0 ){
 							Log::info($afi->ci_afi." tiene disability TRUE");
@@ -3615,6 +3615,12 @@ class EconomicComplementImportExportController extends Controller
 
 						
 						
+					}*/
+
+					if((float)$afi->total_rent != (float)round($datos->total_pension,2) || (float)$afi->aps_total_cc != (float)round($datos->total_cc,2) || (float)$afi->aps_total_fsa != (float)round($datos->total_fsa,2) || (float)$afi->aps_total_fs != (float)round($datos->total_fs,2))
+					{	$found++;
+						Log::info($afi->ci_afi . ' '.(float)$afi->total_rent. ' == '. (float)round($datos->total_pension,2) . ' ---- '. (float)$afi->aps_total_cc . ' == '. (float)round($datos->total_cc,2). ' ----- '. (float)$afi->aps_total_fsa. ' == '.  (float)round($datos->total_fsa,2). ' ----- '. (float)$afi->aps_total_fs . ' == '. (float)round($datos->total_fs));
+						$list[] = (array)$afi;
 					}
 				} 
 				
