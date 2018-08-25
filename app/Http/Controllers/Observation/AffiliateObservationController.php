@@ -970,7 +970,7 @@ class AffiliateObservationController extends Controller
             }
         }
    
-			Util::excel('Rentas No Existen', 'Noexisten',$list);
+			Util::excel('Rentas No Existen', 'Noexisten',(array)$list);
 		//	Session::flash('message', "Veificacion completada" . " BIEN:" . $found . " MAL:" . $nofound);
 			return redirect('afi_observations');
     }
