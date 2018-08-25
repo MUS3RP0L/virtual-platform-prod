@@ -948,7 +948,7 @@ class AffiliateObservationController extends Controller
         
         foreach($ec as $datos)
         {
-            foreach($result as $dexcel)
+            foreach($results as $dexcel)
             {
               $nua_e1 = ltrim((string)$dexcel->nrosip_titular, "0");
               $ci_e1 = explode("-", ltrim($dexcel->nro_identificacion, "0"));
