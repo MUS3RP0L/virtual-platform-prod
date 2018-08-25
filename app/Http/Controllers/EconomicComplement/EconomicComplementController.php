@@ -1295,7 +1295,7 @@ class EconomicComplementController extends Controller
             switch (Util::getRol()->id) {
                 case 7:
                 case 4:
-                    if(Util::getRol()->module_id == 2 && $observation->is_enabled == false)
+                    if(Util::getRol()->module_id == 2)
                     {
                         $hasObservation = true;
                     }  
@@ -1303,7 +1303,7 @@ class EconomicComplementController extends Controller
 
                     break;
                 case 16:
-                    if(Util::getRol()->module_id == $observation->observationType->module_id && $observation->is_enabled == false)
+                    if(Util::getRol()->module_id == $observation->observationType->module_id )
                     {
                         $hasObservation = true;
                     } 
@@ -1318,7 +1318,7 @@ class EconomicComplementController extends Controller
         switch (Util::getRol()->id) {
            
             case 16:
-           
+                
                 if($hasObservation)
                 {
                                       
@@ -1338,7 +1338,7 @@ class EconomicComplementController extends Controller
                 break;
              case 4:
              case 7:
-                
+               
                 if($hasObservation)
                 {
                     $has_repocision_observation = false;
