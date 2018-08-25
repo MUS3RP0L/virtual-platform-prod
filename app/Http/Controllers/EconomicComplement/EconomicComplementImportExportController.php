@@ -3561,6 +3561,7 @@ class EconomicComplementImportExportController extends Controller
 			$filename = $reader->getRealPath();
 			$year = $request->year;
 			$semester = $request->semester;
+			Log::info("Reading excel ...");
 			Excel::load($filename, function ($reader) 
 			{
 				global $results, $i, $afi, $list;
@@ -3570,6 +3571,7 @@ class EconomicComplementImportExportController extends Controller
 				set_time_limit('-1');
 				$results = collect($reader->get());
 			});
+			Log::info("done read excel");
 
 			$afi;
 			$found = 0;
@@ -3581,7 +3583,7 @@ class EconomicComplementImportExportController extends Controller
 				$ci = explode("-", ltrim($datos->nro_identificacion, "0"));
 				$ci1 = $ci[0];
 				$afi = DB::table('economic_complements')
-					->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.reception_date,economic_complements.total_rent,economic_complements.aps_total_cc,economic_complements.aps_total_fsa,economic_complements.aps_total_fs,economic_complements.total, eco_com_types.id as type,affiliates.identity_card as ci_afi,affiliates.first_name as afi_nombres,affiliates.last_name as afi_paterno,affiliates.mothers_last_name as afi_materno'))
+					->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.reception_date,economic_complements.total_rent,economic_complements.aps_disability,economic_complements.aps_total_cc,economic_complements.aps_total_fsa,economic_complements.aps_total_fs,economic_complements.total, eco_com_types.id as type,affiliates.identity_card as ci_afi,affiliates.first_name as afi_nombres,affiliates.last_name as afi_paterno,affiliates.mothers_last_name as afi_materno'))
 					->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 					->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
 					->leftJoin('eco_com_types', 'eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')
@@ -3594,22 +3596,24 @@ class EconomicComplementImportExportController extends Controller
 				if ($afi) 
 				{
 					//$ecomplement = EconomicComplement::where('id', '=', $afi->id)->first();
-					if((float)$afi->total_rent === (float)$datos->total_pension && (float)$afi->aps_total_cc === (float)$datos->total_cc && (float)$afi->aps_total_fsa === (float)$datos->total_fsa && (float)$afi->aps_total_fs === (float)$datos->total_fs)                
+					if((float)$afi->total_rent == (float)round($datos->total_pension,2) && (float)$afi->aps_total_cc == (float)round($datos->total_cc,2) && (float)$afi->aps_total_fsa == (float)round($datos->total_fsa,2) && (float)$afi->aps_total_fs == (float)round($datos->total_fs,2))
 					{	$found++;
-						/*$ecomplement->total_rent = $datos->total_pension;
-						$ecomplement->aps_total_cc = $datos->total_cc;
-						$ecomplement->aps_total_fsa = $datos->total_fsa;
-						$ecomplement->aps_total_fs = $datos->total_fs;
-						$ecomplement->rent_type = 'Automatico';
-						$ecomplement->save();
-						
-						Log::info($ci);*/
+						if($afi->aps_disability >0 ){
+							Log::info($afi->ci_afi." tiene disability TRUE");
+						}
 					}
 					else
 					{  // dd($afi->total_rent."=".$datos->total_pension);
+						if($afi->aps_disability >0 ){
+							Log::info($afi->ci_afi." tiene disability ");
+						}else{
+							Log::info($afi->ci_afi . ' '.(float)$afi->total_rent. ' == '. (float)round($datos->total_pension,2) . ' ---- '. (float)$afi->aps_total_cc . ' == '. (float)round($datos->total_cc,2). ' ----- '. (float)$afi->aps_total_fsa. ' == '.  (float)round($datos->total_fsa,2). ' ----- '. (float)$afi->aps_total_fs . ' == '. (float)round($datos->total_fs));
 						$nofound++;
+						//dd($afi);
 						$list[] = (array)$afi;
-						Log::info($afi->ci_afi);
+						}
+
+						
 						
 					}
 				} 
@@ -3628,7 +3632,7 @@ public function get_eco_com_diferencia2017_2018()
 	global $result,$result1;
 
       $eco2018= DB::table('eco_com_applicants')
-                    ->select(DB::raw("economic_complements.id,eco_com_applicants.identity_card as bene_ci, eco_com_applicants.first_name bene_nombre,eco_com_applicants.last_name as bene_paterno,eco_com_applicants.mothers_last_name as bene_materno, economic_complements.code as codigo, economic_complements.reception_date as fecha, economic_complements.year as ano, economic_complements.semester as semestre, economic_complements.total_rent as renta2018, economic_complements.aps_total_cc,economic_complements.aps_total_fsa, economic_complements.aps_total_fs,  economic_complements.aps_disability as renta_invalidez, affiliates.identity_card as afi_ci, affiliates.first_name as afi_nombre,affiliates.last_name as paterno, affiliates.mothers_last_name as materno, pension_entities.name as ente_gestor, eco_com_types.name as modalidad,economic_complements.total as total2018,degrees.shortened as grado,categories.percentage as categoria"))
+                    ->select(DB::raw("economic_complements.id,eco_com_applicants.identity_card as bene_ci, eco_com_applicants.first_name bene_nombre,eco_com_applicants.last_name as bene_paterno,eco_com_applicants.mothers_last_name as bene_materno, economic_complements.code as codigo, economic_complements.reception_date as fecha, economic_complements.year as ano, economic_complements.semester as semestre, economic_complements.total_rent as renta2018, economic_complements.aps_total_cc,economic_complements.aps_total_fsa, economic_complements.aps_total_fs,  economic_complements.aps_disability as renta_invalidez, affiliates.identity_card as afi_ci, affiliates.first_name as afi_nombre,affiliates.last_name as paterno, affiliates.mothers_last_name as materno, pension_entities.name as ente_gestor,eco_com_modalities.shortened as tipo_prestacion, eco_com_types.name as modalidad,economic_complements.total as total2018,degrees.shortened as grado,categories.percentage as categoria"))
                     ->leftJoin('economic_complements','eco_com_applicants.economic_complement_id','=','economic_complements.id')
                     ->leftJoin('eco_com_modalities','economic_complements.eco_com_modality_id','=','eco_com_modalities.id')
                     ->leftJoin('eco_com_types','eco_com_modalities.eco_com_type_id','=','eco_com_types.id')
@@ -3656,7 +3660,7 @@ public function get_eco_com_diferencia2017_2018()
             if($eco2017)
             {                  
                     if ($item2018->total2018 < $eco2017->total2017)              {
-						$result1[] = array("id" => $item2018->id,"bene_ci" => $item2018->bene_ci ,"bene_nombre" => $item2018->bene_nombre,"bene_paterno" => $item2018->bene_paterno,"bene_materno" => $item2018->bene_materno, "renta2017" => $eco2017->renta2017,"renta2018" => $item2018->renta2018,"total2017" =>$eco2017->total2017,"total2018" => $item2018->total2018,"grado" => $item2018->grado,"categoria" => $item2018->categoria,"modalidad" => $item2018->modalidad );
+						$result1[] = array("id" => $item2018->id,"bene_ci" => $item2018->bene_ci ,"bene_nombre" => $item2018->bene_nombre,"bene_paterno" => $item2018->bene_paterno,"bene_materno" => $item2018->bene_materno, "renta2017" => $eco2017->renta2017,"renta2018" => $item2018->renta2018,"total2017" =>$eco2017->total2017,"total2018" => $item2018->total2018,"grado" => $item2018->grado,"categoria" => $item2018->categoria,"tipo_prestacion" => $item2018->tipo_prestacion,"modalidad" => $item2018->modalidad );
                     }
                    
             }
