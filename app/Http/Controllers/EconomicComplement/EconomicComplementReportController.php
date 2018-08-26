@@ -70,7 +70,9 @@ class EconomicComplementReportController extends Controller
         '20' => 'Todos los tramites Validados del Area de Recepcion',
         '21' => 'Todos los tramites SIN Validar del Area Recepcion',
         '22' => 'PLANILLA GENERAL',
+        '23' => 'PLANILLA BANCO UNION',
       ];
+      
     }
     public function index()
     {
@@ -2725,6 +2727,612 @@ class EconomicComplementReportController extends Controller
                 });
 
             })->download('xls');
+        break;
+        case '23':
+        // AFFILIADOS SIN OBSERVACION
+            $columns = '';
+            $file_name = $name.' '.date("Y-m-d H:i:s");
+            ini_set('memory_limit', '-1');
+            ini_set('max_execution_time', '-1');
+            ini_set('max_input_time', '-1');
+            set_time_limit('-1');
+            global $rows, $obs_mora, $obs_cont, $obs_repfo, $obs_juz,$cump_deuda, $legal_gua,$dom, $viudas, $concu, $doble;
+            
+            $afis = DB::table('eco_com_applicants')
+            ->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
+            ->leftJoin('cities as cities0', 'economic_complements.city_id', '=', 'cities0.id')
+            ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+            ->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+            ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
+            ->leftJoin('degrees', 'economic_complements.degree_id', '=', 'degrees.id')
+            ->leftJoin('pension_entities', 'affiliates.pension_entity_id', '=', 'pension_entities.id')
+            ->leftJoin('categories', 'categories.id', '=', 'economic_complements.category_id')
+            ->leftJoin('cities as cities2', 'affiliates.city_identity_card_id', '=', 'cities2.id')
+            ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+            ->whereYear('eco_com_procedures.year', '=', '2018')
+            ->where('eco_com_procedures.semester', '=', 'Primer')
+            ->where('economic_complements.workflow_id', '=', 1)
+            ->where('economic_complements.wf_current_state_id', '=', 3)
+            ->where('economic_complements.state', 'Edited')
+            ->where('economic_complements.total', '>', 0)
+            ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+            ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
+                    WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+                    eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13,22,26,30)  AND eco_com_observations.deleted_at is null)")
+            ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
+            ->get();
+        $rows = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil','primer_nombre_apoderado','segundo_nombre_apoderado','ap_paterno_apoderado','ap_materno_apoderado','ape_casada_apoderado','ci_apoderado','ci_exp_apoderado','tipo_de_apoderado','Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
+        $i = 1;
+        foreach ($afis as $a) {
+            switch ($a->modality_id) {
+                case '1':
+                case '4':
+                case '6':
+                case '8':
+                    $afiliado_ci = "";
+                    $afiliado_ext = "";
+                    $afiliado_first_name = "";
+                    $afiliado_second_name = "";
+                    $afiliado_last_nme = "";
+                    $afiliado_mother_last_name = "";
+                    $afiliado_surname_husband = "";
+                    break;
+                default:
+                    $afiliado_ci = $a->ci_afiliado;
+                    $afiliado_ext = $a->ext_afiliado;
+                    $afiliado_first_name = $a->pn_afiliado;
+                    $afiliado_second_name = $a->sn_afiliado;
+                    $afiliado_last_nme = $a->ap_afiliado;
+                    $afiliado_mother_last_name = $a->am_afiliado;
+                    $afiliado_surname_husband = $a->ap_casado_afiliado;
+                    break;
+            }
+            $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0));
+            if ($amortization == 0) {
+                $amortization = null;
+            }
+            $total_temp = str_replace(',', '', ($amortization + $a->total));
+            array_push($rows, array($i, $a->code, $a->identity_card, $a->ext, $a->first_name, $a->second_name, $a->last_name, $a->mothers_last_name, $a->surname_husband, $afiliado_ci, $afiliado_ext, $afiliado_first_name, $afiliado_second_name, $afiliado_last_nme, $afiliado_mother_last_name, $afiliado_surname_husband, $a->birth_date, $a->civil_status,$a->regional, $a->degree, $a->modality, $a->gestor, $a->renta_boleta, $a->reintegro, $a->dignity_pension, $a->renta_neta, $a->neto, $a->category, $a->salary_reference, $a->antiguedad, $a->salary_quotable, $a->difference, $a->total_amount_semester, $a->complementary_factor, $a->total, $amortization, $total_temp, $a->tipo_tramite));
+            $i++;
+        }
+
+
+            // con poder 
+            $legal_gua1 = DB::table('eco_com_applicants')
+                    ->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
+                    ->leftJoin('cities as cities0', 'economic_complements.city_id', '=', 'cities0.id')
+                    ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+                    ->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+                    ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
+                    ->leftJoin('degrees', 'economic_complements.degree_id', '=', 'degrees.id')
+                    ->leftJoin('pension_entities', 'affiliates.pension_entity_id', '=', 'pension_entities.id')
+                    ->leftJoin('categories', 'categories.id', '=', 'economic_complements.category_id')
+                    ->leftJoin('cities as cities2', 'affiliates.city_identity_card_id', '=', 'cities2.id')
+                    ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+                    ->leftJoin('eco_com_legal_guardians', 'economic_complements.id', '=', 'eco_com_legal_guardians.economic_complement_id')
+                    ->leftJoin('cities as city_legal_guardian_identity_card', 'eco_com_legal_guardians.city_identity_card_id', '=', 'city_legal_guardian_identity_card.id')
+                    ->whereYear('eco_com_procedures.year', '=', '2018')
+                    ->where('eco_com_procedures.semester', '=', 'Primer')
+                    ->where('economic_complements.workflow_id', '=', 1)
+                    ->where('economic_complements.wf_current_state_id', '=', 3)
+                    ->where('economic_complements.state', 'Edited')
+                    ->where('economic_complements.total', '>', 0)
+                    ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+                    ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
+                            WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+                            eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13,22,26,30) AND
+                            eco_com_observations.is_enabled = FALSE AND eco_com_observations.deleted_at is null)")
+                    ->where(function ($query) {
+                        $query->where('economic_complements.has_legal_guardian', '=', true)
+                            ->orWhere('economic_complements.has_legal_guardian_s', '=', true);
+                    })
+                    ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,eco_com_legal_guardians.first_name as primer_nombre_apoderado, eco_com_legal_guardians.second_name as segundo_nombre_apoderado, eco_com_legal_guardians.last_name as ap_paterno_apoderado, eco_com_legal_guardians.mothers_last_name as ap_materno_apoderado, eco_com_legal_guardians.surname_husband as ape_casada_apoderado, eco_com_legal_guardians.identity_card as ci_apoderado, city_legal_guardian_identity_card.first_shortened as ci_exp_apoderado, (CASE WHEN economic_complements.has_legal_guardian_s = true THEN 'solicitante' ELSE 'cobrador' END) as tipo_apoderado,
+                    cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
+                    ->get();
+                $legal_gua = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil','primer_nombre_apoderado','segundo_nombre_apoderado','ap_paterno_apoderado','ap_materno_apoderado','ape_casada_apoderado','ci_apoderado','ci_exp_apoderado','tipo_de_apoderado','Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
+                $i = 1;
+                foreach ($legal_gua1 as $a) {
+                    switch ($a->modality_id) {
+                        case '1':
+                        case '4':
+                        case '6':
+                        case '8':
+                            $afiliado_ci = "";
+                            $afiliado_ext = "";
+                            $afiliado_first_name = "";
+                            $afiliado_second_name = "";
+                            $afiliado_last_nme = "";
+                            $afiliado_mother_last_name = "";
+                            $afiliado_surname_husband = "";
+                            break;
+                        default:
+                            $afiliado_ci = $a->ci_afiliado;
+                            $afiliado_ext = $a->ext_afiliado;
+                            $afiliado_first_name = $a->pn_afiliado;
+                            $afiliado_second_name = $a->sn_afiliado;
+                            $afiliado_last_nme = $a->ap_afiliado;
+                            $afiliado_mother_last_name = $a->am_afiliado;
+                            $afiliado_surname_husband = $a->ap_casado_afiliado;
+                            break;
+                    }
+                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0));
+                    if ($amortization == 0) {
+                        $amortization = null;
+                    }
+                    $total_temp = str_replace(',', '', ($amortization + $a->total));
+                    array_push($legal_gua, array($i, $a->code, $a->identity_card, $a->ext, $a->first_name, $a->second_name, $a->last_name, $a->mothers_last_name, $a->surname_husband, $afiliado_ci, $afiliado_ext, $afiliado_first_name, $afiliado_second_name, $afiliado_last_nme, $afiliado_mother_last_name, $afiliado_surname_husband, $a->birth_date, $a->civil_status,$a->primer_nombre_apoderado,$a->segundo_nombre_apoderado,$a->ap_paterno_apoderado,$a->ap_materno_apoderado,$a->ape_casada_apoderado,$a->ci_apoderado,$a->ci_exp_apoderado,$a->tipo_apoderado,$a->regional, $a->degree, $a->modality, $a->gestor, $a->renta_boleta, $a->reintegro, $a->dignity_pension, $a->renta_neta, $a->neto, $a->category, $a->salary_reference, $a->antiguedad, $a->salary_quotable, $a->difference, $a->total_amount_semester, $a->complementary_factor, $a->total, $amortization, $total_temp, $a->tipo_tramite));
+                    $i++;
+                }
+
+
+            //observados prestamos
+            $obs_mora1 = DB::table('eco_com_applicants')
+            ->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
+            ->leftJoin('cities as cities0', 'economic_complements.city_id', '=', 'cities0.id')
+            ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+            ->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+            ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
+            ->leftJoin('degrees', 'economic_complements.degree_id', '=', 'degrees.id')
+            ->leftJoin('pension_entities', 'affiliates.pension_entity_id', '=', 'pension_entities.id')
+            ->leftJoin('categories', 'categories.id', '=', 'economic_complements.category_id')
+            ->leftJoin('cities as cities2', 'affiliates.city_identity_card_id', '=', 'cities2.id')
+            ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+            ->whereYear('eco_com_procedures.year', '=', '2018')
+            ->where('eco_com_procedures.semester', '=', 'Primer')
+            ->where('economic_complements.workflow_id', '=', 1)
+            ->where('economic_complements.wf_current_state_id', '=', 3)
+            ->where('economic_complements.state', 'Edited')
+            ->where('economic_complements.total', '>', 0)
+            ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+            ->whereRaw("exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
+        WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+        eco_com_observations.observation_type_id IN (2) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
+            ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
+            ->get();
+        $obs_mora = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
+        $i = 1;
+        foreach ($obs_mora1 as $a) {
+            switch ($a->modality_id) {
+                case '1':
+                case '4':
+                case '6':
+                case '8':
+                    $afiliado_ci = "";
+                    $afiliado_ext = "";
+                    $afiliado_first_name = "";
+                    $afiliado_second_name = "";
+                    $afiliado_last_nme = "";
+                    $afiliado_mother_last_name = "";
+                    $afiliado_surname_husband = "";
+                    break;
+                default:
+                    $afiliado_ci = $a->ci_afiliado;
+                    $afiliado_ext = $a->ext_afiliado;
+                    $afiliado_first_name = $a->pn_afiliado;
+                    $afiliado_second_name = $a->sn_afiliado;
+                    $afiliado_last_nme = $a->ap_afiliado;
+                    $afiliado_mother_last_name = $a->am_afiliado;
+                    $afiliado_surname_husband = $a->ap_casado_afiliado;
+                    break;
+            }
+            $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0));
+            if ($amortization == 0) {
+                $amortization = null;
+            }
+            $total_temp = str_replace(',', '', ($amortization + $a->total));
+            array_push($obs_mora, array($i, $a->code, $a->identity_card, $a->ext, $a->first_name, $a->second_name, $a->last_name, $a->mothers_last_name, $a->surname_husband, $afiliado_ci, $afiliado_ext, $afiliado_first_name, $afiliado_second_name, $afiliado_last_nme, $afiliado_mother_last_name, $afiliado_surname_husband, $a->birth_date, $a->civil_status, $a->regional, $a->degree, $a->modality, $a->gestor, $a->renta_boleta, $a->reintegro, $a->dignity_pension, $a->renta_neta, $a->neto, $a->category, $a->salary_reference, $a->antiguedad, $a->salary_quotable, $a->difference, $a->total_amount_semester, $a->complementary_factor, $a->total, $amortization, $total_temp, $a->tipo_tramite));
+            $i++;
+        }
+         //amortizaccion de cuentas
+           $obs_cont1 = DB::table('eco_com_applicants')
+         ->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
+         ->leftJoin('cities as cities0', 'economic_complements.city_id', '=', 'cities0.id')
+         ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+         ->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+         ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
+         ->leftJoin('degrees', 'economic_complements.degree_id', '=', 'degrees.id')
+         ->leftJoin('pension_entities', 'affiliates.pension_entity_id', '=', 'pension_entities.id')
+         ->leftJoin('categories', 'categories.id', '=', 'economic_complements.category_id')
+         ->leftJoin('cities as cities2', 'affiliates.city_identity_card_id', '=', 'cities2.id')
+         ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+         ->whereYear('eco_com_procedures.year', '=', '2018')
+         ->where('eco_com_procedures.semester', '=', 'Primer')
+         ->where('economic_complements.workflow_id', '=', 1)
+         ->where('economic_complements.wf_current_state_id', '=', 3)
+         ->where('economic_complements.state', 'Edited')
+         ->where('economic_complements.total', '>', 0)
+         ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+         ->whereRaw("exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
+     WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+     eco_com_observations.observation_type_id IN (1) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
+         ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
+         ->get();
+     $obs_cont = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
+     $i = 1;
+     foreach ($obs_cont1 as $a) {
+         switch ($a->modality_id) {
+             case '1':
+             case '4':
+             case '6':
+             case '8':
+                 $afiliado_ci = "";
+                 $afiliado_ext = "";
+                 $afiliado_first_name = "";
+                 $afiliado_second_name = "";
+                 $afiliado_last_nme = "";
+                 $afiliado_mother_last_name = "";
+                 $afiliado_surname_husband = "";
+                 break;
+             default:
+                 $afiliado_ci = $a->ci_afiliado;
+                 $afiliado_ext = $a->ext_afiliado;
+                 $afiliado_first_name = $a->pn_afiliado;
+                 $afiliado_second_name = $a->sn_afiliado;
+                 $afiliado_last_nme = $a->ap_afiliado;
+                 $afiliado_mother_last_name = $a->am_afiliado;
+                 $afiliado_surname_husband = $a->ap_casado_afiliado;
+                 break;
+         }
+         $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0));
+         if ($amortization == 0) {
+             $amortization = null;
+         }
+         $total_temp = str_replace(',', '', ($amortization + $a->total));
+         array_push($obs_cont, array($i, $a->code, $a->identity_card, $a->ext, $a->first_name, $a->second_name, $a->last_name, $a->mothers_last_name, $a->surname_husband, $afiliado_ci, $afiliado_ext, $afiliado_first_name, $afiliado_second_name, $afiliado_last_nme, $afiliado_mother_last_name, $afiliado_surname_husband, $a->birth_date, $a->civil_status, $a->regional, $a->degree, $a->modality, $a->gestor, $a->renta_boleta, $a->reintegro, $a->dignity_pension, $a->renta_neta, $a->neto, $a->category, $a->salary_reference, $a->antiguedad, $a->salary_quotable, $a->difference, $a->total_amount_semester, $a->complementary_factor, $a->total, $amortization, $total_temp, $a->tipo_tramite));
+         $i++;
+     }
+
+        //amortiz repfon
+        $obs_repfo1 = DB::table('eco_com_applicants')
+        ->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
+        ->leftJoin('cities as cities0', 'economic_complements.city_id', '=', 'cities0.id')
+        ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+        ->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+        ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
+        ->leftJoin('degrees', 'economic_complements.degree_id', '=', 'degrees.id')
+        ->leftJoin('pension_entities', 'affiliates.pension_entity_id', '=', 'pension_entities.id')
+        ->leftJoin('categories', 'categories.id', '=', 'economic_complements.category_id')
+        ->leftJoin('cities as cities2', 'affiliates.city_identity_card_id', '=', 'cities2.id')
+        ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+        ->whereYear('eco_com_procedures.year', '=', '2018')
+        ->where('eco_com_procedures.semester', '=', 'Primer')
+        ->where('economic_complements.workflow_id', '=', 1)
+        ->where('economic_complements.wf_current_state_id', '=', 3)
+        ->where('economic_complements.state', 'Edited')
+        ->where('economic_complements.total', '>', 0)
+        ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+        ->whereRaw("exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
+    WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+    eco_com_observations.observation_type_id IN (13) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
+        ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
+        ->get();
+    $obs_repfo = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
+    $i = 1;
+    foreach ($obs_repfo1 as $a) {
+        switch ($a->modality_id) {
+            case '1':
+            case '4':
+            case '6':
+            case '8':
+                $afiliado_ci = "";
+                $afiliado_ext = "";
+                $afiliado_first_name = "";
+                $afiliado_second_name = "";
+                $afiliado_last_nme = "";
+                $afiliado_mother_last_name = "";
+                $afiliado_surname_husband = "";
+                break;
+            default:
+                $afiliado_ci = $a->ci_afiliado;
+                $afiliado_ext = $a->ext_afiliado;
+                $afiliado_first_name = $a->pn_afiliado;
+                $afiliado_second_name = $a->sn_afiliado;
+                $afiliado_last_nme = $a->ap_afiliado;
+                $afiliado_mother_last_name = $a->am_afiliado;
+                $afiliado_surname_husband = $a->ap_casado_afiliado;
+                break;
+        }
+        $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0));
+        if ($amortization == 0) {
+            $amortization = null;
+        }
+        $total_temp = str_replace(',', '', ($amortization + $a->total));
+        array_push($obs_repfo, array($i, $a->code, $a->identity_card, $a->ext, $a->first_name, $a->second_name, $a->last_name, $a->mothers_last_name, $a->surname_husband, $afiliado_ci, $afiliado_ext, $afiliado_first_name, $afiliado_second_name, $afiliado_last_nme, $afiliado_mother_last_name, $afiliado_surname_husband, $a->birth_date, $a->civil_status, $a->regional, $a->degree, $a->modality, $a->gestor, $a->renta_boleta, $a->reintegro, $a->dignity_pension, $a->renta_neta, $a->neto, $a->category, $a->salary_reference, $a->antiguedad, $a->salary_quotable, $a->difference, $a->total_amount_semester, $a->complementary_factor, $a->total, $amortization, $total_temp, $a->tipo_tramite));
+        $i++;
+    }
+
+        //viudas 
+        $viudas1 = DB::table('eco_com_applicants')
+        ->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
+        ->leftJoin('cities as cities0', 'economic_complements.city_id', '=', 'cities0.id')
+        ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+        ->leftJoin('spouses', 'affiliates.id', '=', 'spouses.affiliate_id')
+        ->leftJoin('cities as cities_spouse', 'spouses.city_identity_card_id', '=', 'cities_spouse.id')
+        ->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+        ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
+        ->leftJoin('degrees', 'economic_complements.degree_id', '=', 'degrees.id')
+        ->leftJoin('pension_entities', 'affiliates.pension_entity_id', '=', 'pension_entities.id')
+        ->leftJoin('categories', 'categories.id', '=', 'economic_complements.category_id')
+        ->leftJoin('cities as cities2', 'affiliates.city_identity_card_id', '=', 'cities2.id')
+        ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+        ->whereYear('eco_com_procedures.year', '=', '2018')
+        ->where('eco_com_procedures.semester', '=', 'Primer')
+        ->where('economic_complements.workflow_id', '=', 1)
+        ->where('economic_complements.wf_current_state_id', '=', 3)
+        ->where('economic_complements.state', 'Edited')
+        ->where('economic_complements.total', '>', 0)
+        ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+        ->where('economic_complements.is_paid_spouse', '=',true)
+        ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
+    WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+    eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false AND eco_com_observations.deleted_at is null)")
+        ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,spouses.identity_card as identity_card_spouse,cities_spouse.first_shortened as ext_spouse,spouses.first_name as first_name_spouse,spouses.second_name as second_name_spouse,spouses.last_name as last_name_spouse,spouses.mothers_last_name as mothers_last_name_spouse,spouses.surname_husband as surname_husband_spouse,spouses.birth_date as birth_date_spouse,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
+        ->get();
+    $viudas = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Ci Esposa', 'Ext Ci esposa', 'Primer Nombre Esposa', 'Segundo Nombre Esposa', "Apellido Paterno Esposa", "Apellido Materno Esposa", 'Apellido de casas Esposa', 'Fecha Nac Esposa',  'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
+    $i = 1;
+    foreach ($viudas1 as $a) {
+        switch ($a->modality_id) {
+            case '1':
+            case '4':
+            case '6':
+            case '8':
+                $afiliado_ci = "";
+                $afiliado_ext = "";
+                $afiliado_first_name = "";
+                $afiliado_second_name = "";
+                $afiliado_last_nme = "";
+                $afiliado_mother_last_name = "";
+                $afiliado_surname_husband = "";
+                break;
+            default:
+                $afiliado_ci = $a->ci_afiliado;
+                $afiliado_ext = $a->ext_afiliado;
+                $afiliado_first_name = $a->pn_afiliado;
+                $afiliado_second_name = $a->sn_afiliado;
+                $afiliado_last_nme = $a->ap_afiliado;
+                $afiliado_mother_last_name = $a->am_afiliado;
+                $afiliado_surname_husband = $a->ap_casado_afiliado;
+                break;
+        }
+        $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0));
+        if ($amortization == 0) {
+            $amortization = null;
+        }
+        $total_temp = str_replace(',', '', ($amortization + $a->total));
+        array_push($viudas, array($i, $a->code, $a->identity_card, $a->ext, $a->first_name, $a->second_name, $a->last_name, $a->mothers_last_name, $a->surname_husband, $afiliado_ci, $afiliado_ext, $afiliado_first_name, $afiliado_second_name, $afiliado_last_nme, $afiliado_mother_last_name, $afiliado_surname_husband, $a->birth_date, $a->civil_status, $a->identity_card_spouse, $a->ext_spouse, $a->first_name_spouse, $a->second_name_spouse, $a->last_name_spouse, $a->mothers_last_name_spouse, $a->surname_husband_spouse,  $a->birth_date_spouse,  $a->regional, $a->degree, $a->modality, $a->gestor, $a->renta_boleta, $a->reintegro, $a->dignity_pension, $a->renta_neta, $a->neto, $a->category, $a->salary_reference, $a->antiguedad, $a->salary_quotable, $a->difference, $a->total_amount_semester, $a->complementary_factor, $a->total, $amortization, $total_temp, $a->tipo_tramite));
+        $i++;
+    }
+    // concurrencia
+    $concu1 = DB::table('eco_com_applicants')
+    ->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
+    ->leftJoin('cities as cities0', 'economic_complements.city_id', '=', 'cities0.id')
+    ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+    ->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+    ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
+    ->leftJoin('degrees', 'economic_complements.degree_id', '=', 'degrees.id')
+    ->leftJoin('pension_entities', 'affiliates.pension_entity_id', '=', 'pension_entities.id')
+    ->leftJoin('categories', 'categories.id', '=', 'economic_complements.category_id')
+    ->leftJoin('cities as cities2', 'affiliates.city_identity_card_id', '=', 'cities2.id')
+    ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+    ->whereYear('eco_com_procedures.year', '=', '2018')
+    ->where('eco_com_procedures.semester', '=', 'Primer')
+    ->where('economic_complements.workflow_id', '=', 1)
+    ->where('economic_complements.wf_current_state_id', '=', 3)
+    ->where('economic_complements.state', 'Edited')
+    ->where('economic_complements.total', '>', 0)
+    ->where('economic_complements.aps_disability', '>', 0)
+    ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+    ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
+WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false  AND eco_com_observations.deleted_at is null)")
+    ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
+    ->get();
+$concu = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
+$i = 1;
+foreach ($concu1 as $a) {
+    switch ($a->modality_id) {
+        case '1':
+        case '4':
+        case '6':
+        case '8':
+            $afiliado_ci = "";
+            $afiliado_ext = "";
+            $afiliado_first_name = "";
+            $afiliado_second_name = "";
+            $afiliado_last_nme = "";
+            $afiliado_mother_last_name = "";
+            $afiliado_surname_husband = "";
+            break;
+        default:
+            $afiliado_ci = $a->ci_afiliado;
+            $afiliado_ext = $a->ext_afiliado;
+            $afiliado_first_name = $a->pn_afiliado;
+            $afiliado_second_name = $a->sn_afiliado;
+            $afiliado_last_nme = $a->ap_afiliado;
+            $afiliado_mother_last_name = $a->am_afiliado;
+            $afiliado_surname_husband = $a->ap_casado_afiliado;
+            break;
+    }
+    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0));
+    if ($amortization == 0) {
+        $amortization = null;
+    }
+    $total_temp = str_replace(',', '', ($amortization + $a->total));
+    array_push($concu, array($i, $a->code, $a->identity_card, $a->ext, $a->first_name, $a->second_name, $a->last_name, $a->mothers_last_name, $a->surname_husband, $afiliado_ci, $afiliado_ext, $afiliado_first_name, $afiliado_second_name, $afiliado_last_nme, $afiliado_mother_last_name, $afiliado_surname_husband, $a->birth_date, $a->civil_status, $a->regional, $a->degree, $a->modality, $a->gestor, $a->renta_boleta, $a->reintegro, $a->dignity_pension, $a->renta_neta, $a->neto, $a->category, $a->salary_reference, $a->antiguedad, $a->salary_quotable, $a->difference, $a->total_amount_semester, $a->complementary_factor, $a->total, $amortization, $total_temp, $a->tipo_tramite));
+    $i++;
+}
+// doble percepcion
+
+        $doble2 = DB::table('economic_complements')->select('eco_com_applicants.identity_card')->leftJoin('eco_com_applicants', 'economic_complements.id', '=','eco_com_applicants.economic_complement_id')
+        ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+        ->whereYear('eco_com_procedures.year', '=', '2018')
+        ->where('eco_com_procedures.semester', '=', 'Primer')
+        ->where('economic_complements.workflow_id', '=', 1)
+        ->where('economic_complements.wf_current_state_id', '=', 3)
+        ->where('economic_complements.state', 'Edited')
+        ->where('economic_complements.total', '>', 0)
+        ->groupBy('eco_com_applicants.identity_card')
+        ->havingRaw('count(*) > 1')
+        ->get();
+        $doble = array();
+        foreach($doble2 as $d){
+            array_push($doble, $d->identity_card);
+        }
+        
+
+        
+        $doble1 = DB::table('eco_com_applicants')
+    ->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
+    ->leftJoin('cities as cities0', 'economic_complements.city_id', '=', 'cities0.id')
+    ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+    ->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+    ->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
+    ->leftJoin('degrees', 'economic_complements.degree_id', '=', 'degrees.id')
+    ->leftJoin('pension_entities', 'affiliates.pension_entity_id', '=', 'pension_entities.id')
+    ->leftJoin('categories', 'categories.id', '=', 'economic_complements.category_id')
+    ->leftJoin('cities as cities2', 'affiliates.city_identity_card_id', '=', 'cities2.id')
+    ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+    ->whereYear('eco_com_procedures.year', '=', '2018')
+    ->where('eco_com_procedures.semester', '=', 'Primer')
+    ->where('economic_complements.workflow_id', '=', 1)
+    ->where('economic_complements.wf_current_state_id', '=', 3)
+    ->where('economic_complements.state', 'Edited')
+    ->where('economic_complements.total', '>', 0)
+    ->whereIn('eco_com_applicants.identity_card', $doble)
+    ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+    ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
+WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false  AND eco_com_observations.deleted_at is null)")
+    ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
+    ->get();
+$doble = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
+$i = 1;
+foreach ($doble1 as $a) {
+    switch ($a->modality_id) {
+        case '1':
+        case '4':
+        case '6':
+        case '8':
+            $afiliado_ci = "";
+            $afiliado_ext = "";
+            $afiliado_first_name = "";
+            $afiliado_second_name = "";
+            $afiliado_last_nme = "";
+            $afiliado_mother_last_name = "";
+            $afiliado_surname_husband = "";
+            break;
+        default:
+            $afiliado_ci = $a->ci_afiliado;
+            $afiliado_ext = $a->ext_afiliado;
+            $afiliado_first_name = $a->pn_afiliado;
+            $afiliado_second_name = $a->sn_afiliado;
+            $afiliado_last_nme = $a->ap_afiliado;
+            $afiliado_mother_last_name = $a->am_afiliado;
+            $afiliado_surname_husband = $a->ap_casado_afiliado;
+            break;
+    }
+    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0));
+    if ($amortization == 0) {
+        $amortization = null;
+    }
+    $total_temp = str_replace(',', '', ($amortization + $a->total));
+    array_push($doble, array($i, $a->code, $a->identity_card, $a->ext, $a->first_name, $a->second_name, $a->last_name, $a->mothers_last_name, $a->surname_husband, $afiliado_ci, $afiliado_ext, $afiliado_first_name, $afiliado_second_name, $afiliado_last_nme, $afiliado_mother_last_name, $afiliado_surname_husband, $a->birth_date, $a->civil_status, $a->regional, $a->degree, $a->modality, $a->gestor, $a->renta_boleta, $a->reintegro, $a->dignity_pension, $a->renta_neta, $a->neto, $a->category, $a->salary_reference, $a->antiguedad, $a->salary_quotable, $a->difference, $a->total_amount_semester, $a->complementary_factor, $a->total, $amortization, $total_temp, $a->tipo_tramite));
+    $i++;
+}
+
+        Excel::create('Planilla Banco Union' . date("Y-m-d H:i:s"), function ($excel) 
+        {
+
+            global $rows, $obs_mora, $obs_cont, $obs_repfo, $obs_juz, $cump_deuda, $legal_gua, $dom, $viudas, $concu, $doble;
+            $excel->sheet('afiliados sin observaciones', function ($sheet) {
+
+                global $rows;
+
+                $sheet->fromArray($rows, null, 'A1', false, false);
+                $sheet->cells('A1:AL1', function ($cells) {
+
+                    // manipulate the range of cells
+                    $cells->setBackground('#058A37');
+                    $cells->setFontColor('#ffffff');
+                    $cells->setFontWeight('bold');
+
+                });
+            });
+            $excel->sheet('apoderados', function ($sheet) {
+
+                global $legal_gua;
+
+                $sheet->fromArray($legal_gua, null, 'A1', false, false);
+                $sheet->cells('A1:AL1', function ($cells) {
+                    // manipulate the range of cells
+                    $cells->setBackground('#058A37');
+                    $cells->setFontColor('#ffffff');
+                    $cells->setFontWeight('bold');
+                });
+            });
+            $excel->sheet('amortizacion prestamos', function ($sheet) {
+
+                global $obs_mora;
+
+                $sheet->fromArray($obs_mora, null, 'A1', false, false);
+                $sheet->cells('A1:AL1', function ($cells) {
+                    // manipulate the range of cells
+                    $cells->setBackground('#058A37');
+                    $cells->setFontColor('#ffffff');
+                    $cells->setFontWeight('bold');
+                });
+            });
+            $excel->sheet('amortizacion cuentas', function ($sheet) {
+                global $obs_cont;
+                $sheet->fromArray($obs_cont, null, 'A1', false, false);
+                $sheet->cells('A1:AL1', function ($cells) {
+                    // manipulate the range of cells
+                    $cells->setBackground('#058A37');
+                    $cells->setFontColor('#ffffff');
+                    $cells->setFontWeight('bold');
+                });
+            });
+
+            $excel->sheet('amortizacion rep', function ($sheet) {
+                global $obs_repfo;
+                $sheet->fromArray($obs_repfo, null, 'A1', false, false);
+                $sheet->cells('A1:AL1', function ($cells) {
+                    // manipulate the range of cells
+                    $cells->setBackground('#058A37');
+                    $cells->setFontColor('#ffffff');
+                    $cells->setFontWeight('bold');
+                });
+            });
+            $excel->sheet('viudas unica vez', function ($sheet) {
+                global $viudas;
+                $sheet->fromArray($viudas, null, 'A1', false, false);
+                $sheet->cells('A1:AL1', function ($cells) {
+                    // manipulate the range of cells
+                    $cells->setBackground('#058A37');
+                    $cells->setFontColor('#ffffff');
+                    $cells->setFontWeight('bold');
+                });
+            });
+            $excel->sheet('concurrencia', function ($sheet) {
+                global $concu;
+                $sheet->fromArray($concu, null, 'A1', false, false);
+                $sheet->cells('A1:AL1', function ($cells) {
+                    $cells->setBackground('#058A37');
+                    $cells->setFontColor('#ffffff');
+                    $cells->setFontWeight('bold');
+                });
+            });
+            $excel->sheet('doble percepcion', function ($sheet) {
+                global $doble;
+                $sheet->fromArray($doble, null, 'A1', false, false);
+                $sheet->cells('A1:AL1', function ($cells) {
+                    $cells->setBackground('#058A37');
+                    $cells->setFontColor('#ffffff');
+                    $cells->setFontWeight('bold');
+                });
+            });
+        })->download('xls');
+
         break;
         default:
 
