@@ -404,7 +404,7 @@ class EconomicComplementImportExportController extends Controller
 						} else {
 							if ($economic->is_paid_spouse) {
 								$spo = EconomicComplement::find($datos->id)->affiliate->spouse;
-								$sheet->row($j, array($datos->regional, $spo->identity_card . " " . $spo->ext, $spo->getFullName(), $import, "1", $datos->modality . " - " . $datos->degree . " - " . $datos->category, $datos->affiliate_id, $semester1));
+								$sheet->row($j, array($datos->regional, $spo->identity_card . " " . $spo->city_identity_card->first_shortened, $spo->getFullName(), $import, "1", $datos->modality . " - " . $datos->degree . " - " . $datos->category, $datos->affiliate_id, $semester1));
 							}else{
 
 								$apl = EconomicComplement::find($datos->id)->economic_complement_applicant;
