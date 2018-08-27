@@ -361,14 +361,13 @@ class EconomicComplementImportExportController extends Controller
 			->where('economic_complements.state', 'Edited')
 			->where('economic_complements.total', '>', 0)
 			->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
-			->whereRaw("not exists(select affiliates.id from affiliate_observations where affiliates.id = 		affiliate_observations.affiliate_id and affiliate_observations.observation_type_id IN(8,9,20,21,24,25) and affiliate_observations.is_enabled = false and affiliate_observations.deleted_at is null) ")
 			->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
 					WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
 				  	eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13,22,26,30) AND
 				  	eco_com_observations.is_enabled = FALSE AND eco_com_observations.deleted_at is null)")->get();
 
           //->whereNotNull('economic_complements.review_date')->get();     
-     		//dd($afi);
+     		// dd(sizeof($afi));
 
 		if ($afi) {
 			if ($semester == "Primer") {
@@ -405,7 +404,7 @@ class EconomicComplementImportExportController extends Controller
 						} else {
 							if ($economic->is_paid_spouse) {
 								$spo = EconomicComplement::find($datos->id)->affiliate->spouse;
-								$sheet->row($j, array($datos->regional, $spo->identity_card . " " . $spo->ext, $spo->getFullName(), $import, "1", $datos->modality . " - " . $datos->degree . " - " . $datos->category, $datos->affiliate_id, $semester1));
+								$sheet->row($j, array($datos->regional, $spo->identity_card . " " . $spo->city_identity_card->first_shortened, $spo->getFullName(), $import, "1", $datos->modality . " - " . $datos->degree . " - " . $datos->category, $datos->affiliate_id, $semester1));
 							}else{
 
 								$apl = EconomicComplement::find($datos->id)->economic_complement_applicant;

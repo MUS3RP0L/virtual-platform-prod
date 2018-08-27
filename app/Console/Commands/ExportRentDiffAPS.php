@@ -48,7 +48,7 @@ class ExportRentDiffAPS extends Command
         global $diffs,$diff_olds;
         $count=0;
         $diff=0;
-        $eco_coms=EconomicComplement::where('eco_com_procedure_id','=', 6)->leftJoin('affiliates', 'economic_complements.affiliate_id','=', 'affiliates.id')
+        $eco_coms=EconomicComplement::where('eco_com_procedure_id','=', 7)->leftJoin('affiliates', 'economic_complements.affiliate_id','=', 'affiliates.id')
         ->whereIn('affiliates.pension_entity_id',[1,2,3,4])->select('economic_complements.id')->get()->pluck('id')
         ;  
         $columns = ', economic_complements.affiliate_id as afi_id,        economic_complements.aps_total_cc,economic_complements.aps_total_fs,economic_complements.aps_total_fsa, (        economic_complements.aps_total_cc+economic_complements.aps_total_fs+economic_complements.aps_total_fsa) as renta_total';
@@ -62,7 +62,7 @@ class ExportRentDiffAPS extends Command
         $this->info("eco_coms: ".$eco_coms->count());
          $eco_final=array();
         foreach ($eco_coms as $index => $eco) {
-            $eco_old=Affiliate::where('id','=',$eco->afi_id)->first()->economic_complements()->where('eco_com_procedure_id', '=',2)->whereRaw('economic_complements.aps_disability is null')->first();
+            $eco_old=Affiliate::where('id','=',$eco->afi_id)->first()->economic_complements()->where('eco_com_procedure_id', '=',6)->whereRaw('economic_complements.aps_disability is null')->first();
             if ($eco_old) {
 
 
