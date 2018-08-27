@@ -3015,15 +3015,15 @@
         
         
         <div id="amortization-modal" class="modal fade" tabindex="-1" role="dialog">
-          <div class="modal-dialog" role="document"observation_id_delete>
+          <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
                  <input type="hidden" name="_token" value="{{ csrf_token() }}">  
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Amortizar<observation_id_delete/h4>
+                <h4 class="modal-title">Amortizar</h4>
               </div>
               <div class="modal-body">
-                <div class="row">observation_id_delete
+                <div class="row">
                     @if(!$devolution)
                         <label>Monto</label>
                         <input type="number" required  step="any" name="amount_amortization" class="form-control" value="{{ $amount_amortization }}">

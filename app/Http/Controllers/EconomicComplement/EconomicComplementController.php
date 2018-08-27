@@ -1295,10 +1295,14 @@ class EconomicComplementController extends Controller
             switch (Util::getRol()->id) {
                 case 7:
                 case 4:
+                    if(Util::getRol()->module_id == 9 && $observation->is_enabled == false)
+                    {
+                        $hasObservation = true;
+                    }
                     if(Util::getRol()->module_id == 2 && $observation->is_enabled == false)
                     {
                         $hasObservation = true;
-                    }  
+                    }
                     # code...
 
                     break;
