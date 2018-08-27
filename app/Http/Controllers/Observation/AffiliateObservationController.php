@@ -172,20 +172,21 @@ class AffiliateObservationController extends Controller
     {
       // Log::info(Util::getRol());
       $nota = ObservationType::where('type','N')->where('module_id',Util::getRol()->module_id)->first();
-    
+      
       // Log::info($nota);
       if($request->type =='A')
       {
-        $observations_list=AffiliateObservation::where('affiliate_id',$request->affiliate_id)
-                                                  ->where('observation_type_id','<>',$nota->id)
+        $observations_list=AffiliateObservation::where('affiliate_id',intval($request->affiliate_id))
+                                                  ->where('observation_type_id','<>',$nota->id ?? 11)
                                                   ->select(['id','affiliate_id','created_at','message','is_enabled','observation_type_id'])->get();
       }else{
-        $observations_list=AffiliateObservation::where('affiliate_id',$request->affiliate_id)
-                                                  ->where('observation_type_id','=',$nota->id)
+        $observations_list=AffiliateObservation::where('affiliate_id',intval($request->affiliate_id))
+                                                  ->where('observation_type_id','=',$nota->id ?? 11)
                                                   ->select(['id','affiliate_id','created_at','message','is_enabled','observation_type_id'])->get(); 
       }
+      // dd("role ".Util::getRol(),Util::getRol()->module_id,$observations_list->first()->observationType->module_id);
       
-
+      
       return Datatables::of($observations_list)
         ->editColumn('created_at', '{!! $created_at !!}')
         ->addColumn('type',function ($observation){
@@ -964,13 +965,13 @@ class AffiliateObservationController extends Controller
               }
               else
               {
-                $list[] = $datos;
+                $list[] = (array)$datos;
               }
 
             }
         }
    
-			Util::excel('Rentas No Existen', 'Noexisten',(array)$list);
+			Util::excel('RentasNoExisten', 'Noexisten',$list);
 		//	Session::flash('message', "Veificacion completada" . " BIEN:" . $found . " MAL:" . $nofound);
 			return redirect('afi_observations');
     }

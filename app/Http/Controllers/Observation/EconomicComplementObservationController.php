@@ -133,12 +133,12 @@ class EconomicComplementObservationController extends Controller
         if($request->notes==1)
         {
             $observations = EconomicComplementObservation::where('economic_complement_id',$request->economic_complement_id)
-                                                        ->where('observation_type_id',$nota->id)  
+                                                        ->where('observation_type_id',$nota->id ?? 11)  
                                                         ->get();
         }else{  
 
             $observations = EconomicComplementObservation::where('economic_complement_id',$request->economic_complement_id)
-                                                        ->where('observation_type_id','<>',$nota->id)                                              
+                                                        ->where('observation_type_id','<>',$nota->id ??11)                                              
                                                         ->get();
         }   
         return Datatables::of($observations)
