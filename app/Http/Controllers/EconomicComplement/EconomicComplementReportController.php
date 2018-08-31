@@ -2715,9 +2715,7 @@ class EconomicComplementReportController extends Controller
                     });
                 });
                 $excel->sheet('concurrencia', function ($sheet) {
-
                     global $concu;
-
                     $sheet->fromArray($concu, null, 'A1', false, false);
                     $sheet->cells('A1:AL1', function ($cells) {
                         // manipulate the range of cells
@@ -2725,6 +2723,7 @@ class EconomicComplementReportController extends Controller
                         $cells->setFontColor('#ffffff');
                         $cells->setFontWeight('bold');
                     });
+                
                 });
 
             })->download('xls');
