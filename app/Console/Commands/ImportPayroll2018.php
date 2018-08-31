@@ -145,24 +145,26 @@ class ImportPayroll2018 extends Command
                                     default://Comando
                                         $afi->type = 'Comando';
                                  }
-                                 $afi->unit_id = $unit_id;
-                                 $afi->degree_id = $degree_id;
-                                 $afi->category_id = $category_id;
-                                 $afi->user_id = 1;
-                                 $afi->last_name = Util::replaceCharacter($last_name);
-                                 $afi->mothers_last_name = Util::replaceCharacter($mothers_last_name);
-                                 $afi->surname_husband = Util::replaceCharacter($surname_husband);
-                                 $afi->first_name = Util::replaceCharacter($first_name);
-                                 $afi->second_name = Util::replaceCharacter($second_name);
-                                 $afi->civil_status = $civil_status;
-                                 $afi->gender = $gender;
-                                 $afi->item = $item;
-                                 $afi->afp = Util::getAfp(trim($result->afp));
-                                 $afi->birth_date = $birth_date;
-                                 $afi->date_entry = $date_entry;
-                                 $afi->nua = $nua;
-                                 $afi->registration = null;
-                                 $afi->save();
+                                 if(! $afi->economic_complement()->where('eco_com_procedure_id', 7)->first()){
+                                    $afi->unit_id = $unit_id;
+                                    $afi->degree_id = $degree_id;
+                                    $afi->category_id = $category_id;
+                                    $afi->user_id = 1;
+                                    $afi->last_name = Util::replaceCharacter($last_name);
+                                    $afi->mothers_last_name = Util::replaceCharacter($mothers_last_name);
+                                    $afi->surname_husband = Util::replaceCharacter($surname_husband);
+                                    $afi->first_name = Util::replaceCharacter($first_name);
+                                    $afi->second_name = Util::replaceCharacter($second_name);
+                                    $afi->civil_status = $civil_status;
+                                    $afi->gender = $gender;
+                                    $afi->item = $item;
+                                    $afi->afp = Util::getAfp(trim($result->afp));
+                                    $afi->birth_date = $birth_date;
+                                    $afi->date_entry = $date_entry;
+                                    $afi->nua = $nua;
+                                    $afi->registration = null;
+                                    $afi->save();
+                                }
 
                                  if (Util::decimal($result->sue)<> 0) {
 
