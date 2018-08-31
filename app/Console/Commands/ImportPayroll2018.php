@@ -145,7 +145,7 @@ class ImportPayroll2018 extends Command
                                     default://Comando
                                         $afi->type = 'Comando';
                                  }
-                                 if(! $afi->economic_complement()->where('eco_com_procedure_id', 7)->first()){
+                                 if(! $afi->economic_complements()->where('eco_com_procedure_id', 7)->first()){
                                     $afi->unit_id = $unit_id;
                                     $afi->degree_id = $degree_id;
                                     $afi->category_id = $category_id;
