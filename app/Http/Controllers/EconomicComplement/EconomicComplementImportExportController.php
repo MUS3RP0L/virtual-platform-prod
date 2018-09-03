@@ -109,7 +109,7 @@ class EconomicComplementImportExportController extends Controller
 				if ($comp && $procedure->indicator > 0) {
 
 					$ecomplement = EconomicComplement::where('id', '=', $comp->id)->first();
-					// if ((is_null($ecomplement->total_rent) || $ecomplement->total_rent == 0) && $procedure->indicator > 0) {
+					if ((is_null($ecomplement->total_rent) || $ecomplement->total_rent == 0) && $procedure->indicator > 0) {
 						$reimbursements = $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
 						$discount = $datos->renta_dignidad + $datos->reintegro_renta_dignidad + $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
 						$total_rent = $datos->total_ganado - $discount;
@@ -131,7 +131,8 @@ class EconomicComplementImportExportController extends Controller
 						$ecomplement->rent_type = 'Automatico';
 						$ecomplement->save();
 						$found++;
-					// } else {
+					} 
+					// else {
 					// 	$reimbursements = $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
 					// 	$discount = $datos->renta_dignidad + $datos->reintegro_renta_dignidad + $datos->reintegro_importe_adicional + $datos->reintegro_inc_gestion;
 					// 	$total_rent = $datos->total_ganado - $discount;
