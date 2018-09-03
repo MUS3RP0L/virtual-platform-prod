@@ -172,20 +172,21 @@ class AffiliateObservationController extends Controller
     {
       // Log::info(Util::getRol());
       $nota = ObservationType::where('type','N')->where('module_id',Util::getRol()->module_id)->first();
-    
+      
       // Log::info($nota);
       if($request->type =='A')
       {
-        $observations_list=AffiliateObservation::where('affiliate_id',$request->affiliate_id)
-                                                  ->where('observation_type_id','<>',$nota->id)
+        $observations_list=AffiliateObservation::where('affiliate_id',intval($request->affiliate_id))
+                                                  ->where('observation_type_id','<>',$nota->id ?? 11)
                                                   ->select(['id','affiliate_id','created_at','message','is_enabled','observation_type_id'])->get();
       }else{
-        $observations_list=AffiliateObservation::where('affiliate_id',$request->affiliate_id)
-                                                  ->where('observation_type_id','=',$nota->id)
+        $observations_list=AffiliateObservation::where('affiliate_id',intval($request->affiliate_id))
+                                                  ->where('observation_type_id','=',$nota->id ?? 11)
                                                   ->select(['id','affiliate_id','created_at','message','is_enabled','observation_type_id'])->get(); 
       }
+      // dd("role ".Util::getRol(),Util::getRol()->module_id,$observations_list->first()->observationType->module_id);
       
-
+      
       return Datatables::of($observations_list)
         ->editColumn('created_at', '{!! $created_at !!}')
         ->addColumn('type',function ($observation){
@@ -913,5 +914,76 @@ class AffiliateObservationController extends Controller
         Session::flash('message', "Exportación Exitosa");
        return redirect('afi_observations');
     }
+
+
+    public function get_eco_com_sin_rentas(Request $request)
+    {  global $year, $semester, $results, $i, $afi, $list;
+      if ($request->hasFile('archive')) 
+		  {
+       
+        $reader = $request->file('archive');
+        $filename = $reader->getRealPath();
+        $year = $request->year;
+        $semester = $request->semester;
+        Log::info("Reading excel ...");
+        Excel::load($filename, function ($reader) 
+        {
+          global $results, $i, $afi, $list;
+          ini_set('memory_limit', '-1');
+          ini_set('max_execution_time', '-1');
+          ini_set('max_input_time', '-1');
+          set_time_limit('-1');
+          $results = collect($reader->get());
+        });
+        Log::info("done read excel");
+
+        $afi;
+        $found = 0;
+        $nofound = 0;
+        $procedure = EconomicComplementProcedure::whereYear('year', '=', $year)->where('semester', '=', $semester)->first();
+        $ec = EconomicComplement::where('eco_com_procedure_id','=', $procedure->id)
+            ->select(DB::raw('economic_complements.id,economic_complements.code,economic_complements.reception_date,economic_complements.total_rent,economic_complements.aps_disability as invalidez,economic_complements.aps_total_cc,economic_complements.aps_total_fsa,economic_complements.aps_total_fs,economic_complements.total, eco_com_types.id as type,affiliates.identity_card as ci_afi,affiliates.first_name as afi_nombres,affiliates.last_name as afi_paterno,affiliates.mothers_last_name as afi_materno,affiliates.nua'))
+            ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+            ->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+            ->leftJoin('eco_com_types', 'eco_com_modalities.eco_com_type_id', '=', 'eco_com_types.id')->get();
+        
+        foreach($ec as $datos)
+        {
+            foreach($results as $dexcel)
+            {
+              $nua_e1 = ltrim((string)$dexcel->nrosip_titular, "0");
+              $ci_e1 = explode("-", ltrim($dexcel->nro_identificacion, "0"));
+              $ci1 = $ci_e1[0];
+
+              $nua_db1 = ltrim((string)$datos->nua, "0");
+              $ci_db1 = explode("-", ltrim($datos->ci_afi, "0"));
+              $cidb = $ci_db1[0];
+             
+              if($cidb == $ci1 && $nua_db1 == $nua_db1)
+              {
+                
+              }
+              else
+              {
+                $list[] = (array)$datos;
+              }
+
+            }
+        }
+   
+			Util::excel('RentasNoExisten', 'Noexisten',$list);
+		//	Session::flash('message', "Veificacion completada" . " BIEN:" . $found . " MAL:" . $nofound);
+			return redirect('afi_observations');
+    }
+  }
     
+
+
+   
+
+
+
+
+
+
 }

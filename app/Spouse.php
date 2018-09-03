@@ -44,6 +44,10 @@ class Spouse extends Model
     {
         return $this->belongsTo('Muserpol\City');
     }
+    public function city_identity_card()
+    {
+        return $this->belongsTo('Muserpol\City','city_identity_card_id');
+    }
 
     public function scopeAffiliateidIs($query, $id)
     {
