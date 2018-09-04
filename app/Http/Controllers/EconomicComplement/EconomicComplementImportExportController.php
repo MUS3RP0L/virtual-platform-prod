@@ -432,6 +432,100 @@ class EconomicComplementImportExportController extends Controller
 
 
 	}
+	public function export_to_bank_two(Request $request)
+	{
+		$eco_com_state_paid_bank = 24;
+		global $year, $semester, $i, $afi, $semester1, $abv, $she;
+		$year = $request->year;
+		$semester = $request->semester;
+		$afi = DB::table('eco_com_applicants')
+			->select(DB::raw("economic_complements.id,economic_complements.affiliate_id,economic_complements.semester,cities0.second_shortened as regional,eco_com_applicants.identity_card,cities1.first_shortened as ext,concat_ws(' ', NULLIF(eco_com_applicants.first_name,null), NULLIF(eco_com_applicants.second_name, null), NULLIF(eco_com_applicants.last_name, null), NULLIF(eco_com_applicants.mothers_last_name, null), NULLIF(eco_com_applicants.surname_husband, null)) as full_name,economic_complements.total as importe,eco_com_modalities.shortened as modality,degrees.shortened as degree,categories.name as category"))
+			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
+			->leftJoin('categories', 'economic_complements.category_id', '=', 'categories.id')
+			->leftJoin('cities as cities0', 'economic_complements.city_id', '=', 'cities0.id')
+			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
+			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
+			->leftJoin('cities as cities1', 'eco_com_applicants.city_identity_card_id', '=', 'cities1.id')
+			->leftJoin('degrees', 'economic_complements.degree_id', '=', 'degrees.id')
+			->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+			->whereYear('eco_com_procedures.year', '=', $year)
+			->where('eco_com_procedures.semester', '=', $semester)
+			->where('economic_complements.workflow_id', '=', 1)
+			->where('economic_complements.wf_current_state_id', '=', 3)
+			->where('economic_complements.state', 'Edited')
+			->where('economic_complements.total', '>', 0)
+			->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+			->where('economic_complements.eco_com_state_id','!=' ,$eco_com_state_paid_bank)
+			->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
+					WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+				  	eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13,22,26,30) AND
+				  	eco_com_observations.is_enabled = FALSE AND eco_com_observations.deleted_at is null)")->get();
+
+          //->whereNotNull('economic_complements.review_date')->get();     
+     		// dd(sizeof($afi));
+
+		if ($afi) {
+			if ($semester == "Primer") {
+				$semester1 = "MUSERPOL PAGO COMPLEMENTO ECONOMICO 1ER SEM " . $year;
+				$abv = "Pago_Banco_Union_1ER_SEM_" . $year;
+				$she = "BANCO_1ER_SEM" . $year;
+			} else {
+				$semester1 = "MUSERPOL PAGO COMPLEMENTO ECONOMICO 2DO SEM " . $year;
+				$abv = "Export_for_Banco_Union_2DO_SEM_" . $year;
+				$she = "BANCO_2DO_SEM" . $year;
+			}
+			Excel::create($abv, function ($excel) {
+				global $year, $semester, $afi, $j, $semester1, $abv, $she;
+				$j = 2;
+				$excel->sheet($she . $year, function ($sheet) {
+					$sheet->setColumnFormat(array(
+						'D' => '#,##0.00' //1.000,10 (depende de windows)
+                     // 'D' => \PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1  //1.000,10
+					));
+					global $year, $semester, $afi, $j, $i, $semester1;
+					$i = 1;
+					$sheet->row(1, array('DEPARTAMENTO', 'IDENTIFICACION', 'NOMBRE_Y_APELLIDO', 'IMPORTE_A_PAGAR', 'MONEDA_DEL_IMPORTE', 'DESCRIPCION_1', 'DESCRIPCION_2', 'DESCRIPCION_3'));
+
+					foreach ($afi as $datos) {
+						$economic = EconomicComplement::idIs($datos->id)->first();
+
+                    //$import = number_format($datos->importe, 2, ',', '.');
+						$import = $datos->importe;
+						if ($economic->has_legal_guardian == true && $economic->has_legal_guardian_s == false) {
+
+							$legal1 = EconomicComplementLegalGuardian::where('economic_complement_id', '=', $economic->id)->first();
+							$sheet->row($j, array($datos->regional, $legal1->identity_card . " " . $legal1->city_identity_card->first_shortened, $legal1->getFullName(), $import, "1", $datos->modality . " - " . $datos->degree . " - " . $datos->category, $datos->affiliate_id, $semester1));
+
+						} else {
+							if ($economic->is_paid_spouse) {
+								$spo = EconomicComplement::find($datos->id)->affiliate->spouse;
+								$sheet->row($j, array($datos->regional, $spo->identity_card . " " . $spo->city_identity_card->first_shortened, $spo->getFullName(), $import, "1", $datos->modality . " - " . $datos->degree . " - " . $datos->category, $datos->affiliate_id, $semester1));
+							}else{
+
+								$apl = EconomicComplement::find($datos->id)->economic_complement_applicant;
+								$sheet->row($j, array($datos->regional, $datos->identity_card . " " . $datos->ext, $apl->getFullName(), $import, "1", $datos->modality . " - " . $datos->degree . " - " . $datos->category, $datos->affiliate_id, $semester1));
+							}
+
+						}
+
+						$j++;
+
+					}
+
+				});
+			})->export('xls');
+			return redirect('economic_complement');
+			Session::flash('message', "Importación Exitosa");
+
+		} else {
+
+			Session::flash('message', "No existen registros para exportar");
+			return redirect('economic_complement');
+
+		}
+
+
+	}
 
     /* David */
 	public function export_excel()
