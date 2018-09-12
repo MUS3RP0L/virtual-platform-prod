@@ -57,7 +57,7 @@ class ImportSentBank extends Command implements SelfHandling
                                                       ->where('eco_com_procedure_id','=', 7)->first();
                             if ($ecom)
                             {       
-                                    $ecom->eco_com_state_id = 24;  //Enviado a banco
+                                    $ecom->eco_com_state_id = 25;  //Enviado a banco
                                     $ecom->save();
                                     $found++;                  
                             }
