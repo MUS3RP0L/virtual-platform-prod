@@ -136,6 +136,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('export_aps', array('as'=>'export_aps', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_aps'));
 	Route::post('export_bank', array('as'=>'export_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_bank'));
 	Route::post('export_bank_two', array('as'=>'export_bank_two', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_bank_two'));
+	Route::post('export_bank_three', array('as'=>'export_bank_three', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_to_bank_three'));
 	Route::get('export_aps_availability','EconomicComplement\EconomicComplementImportExportController@export_aps_availability');  //APS AVAILABILIT
 	Route::post('export_by_department_bank', array('as'=>'export_by_department_bank', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_by_department_bank'));
 	Route::post('export_by_department', array('as'=>'export_by_department', 'uses'=> 'EconomicComplement\EconomicComplementImportExportController@export_by_department'));
