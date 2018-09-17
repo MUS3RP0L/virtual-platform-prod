@@ -140,11 +140,13 @@
                             <h3 class="box-title"><i class="fa fa-{{$affiliate->gender=='M'?'male':'female'  }}"></i> Información Personal</h3>
                         </div>
                         <div class="col-md-2 text-right">
-                                {{-- <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                            @if(! $affiliate->economic_complements->count())
+                                <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                     <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-personal">
                                         <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
                                     </a>
-                                </div> --}}
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -497,11 +499,13 @@
                         @if($info_spouse)
                             @can("eco_com_review_and_reception")
                             <div class="col-md-2 text-right">
-                                {{-- <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
+                                @if(! $affiliate->economic_complements->count())
+                                <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                     <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-spouse">
                                         <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
                                     </a>
-                                </div> --}}
+                                </div>
+                                @endif
                             </div>
                             @endcan
                         @endif
@@ -726,9 +730,11 @@
                             <h3 class="box-title"><span class="glyphicon glyphicon-briefcase"></span> Información Policial Actual</h3>
                         </div>
                         <div class="col-md-4 text-right">
-                            {{-- <span data-toggle="modal" data-target="#policeModal">
+                            @if(! $affiliate->economic_complements->count())
+                            <span data-toggle="modal" data-target="#policeModal">
                                 <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Editar"><i class="fa fa-lg fa-pencil"></i></a>
-                            </span> --}}
+                            </span>
+                            @endif
                             
                             <a href="#" class="btn btn-sm bg-olive"  data-toggle="tooltip"  data-placement="top" data-original-title="Imprimir Historial" onclick="printJS({printable:'{!! url("history_print/" . $affiliate->id ) !!}', type:'pdf', showModal:true})"><i aria-hidden="true" class="fa fa-lg fa-print"></i></a>
                             <span data-toggle="modal" data-target="#myModal-record">
