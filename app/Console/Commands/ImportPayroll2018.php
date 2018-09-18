@@ -115,7 +115,7 @@ class ImportPayroll2018 extends Command
                                  $category_id = Category::where('percentage', Util::CalcCategory(Util::decimal($result->cat),Util::decimal($result->sue)))->first()->id;
 
                                  $afi = Affiliate::whereRaw("ltrim(trim(identity_card),'0') ='".ltrim(trim($ci),'0')."'")->first();
-
+                                 
                                  if ($afi) {
                                      $aficount++;
                                  }else{
@@ -164,6 +164,7 @@ class ImportPayroll2018 extends Command
                                     $afi->nua = $nua;
                                     $afi->registration = null;
                                     $afi->save();
+                                    Log::info($afi->id.' esto');
                                 }
 
                                  if (Util::decimal($result->sue)<> 0) {
