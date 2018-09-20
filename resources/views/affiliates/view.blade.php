@@ -603,6 +603,33 @@
                                             </div>
                                         </td>
                                     </tr> --}}
+                                    @if($spouse->official)
+                                    <tr>
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <strong>Libro:</strong>
+                                                </div>
+                                                <div class="col-md-6">                                            
+                                                     {!! $spouse->book !!}                                                  
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                     <tr>
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <strong>Fecha de Matrimonio:</strong>
+                                                </div>
+                                                <div class="col-md-6">                                            
+                                                     {!! $spouse->marriage_date !!}                                                  
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                  @endif
                                 </table>
                             </div>
                             <div class="col-md-6">
@@ -700,6 +727,35 @@
                                             </td>
                                         </tr>
                                     @endif
+                                    
+                                    @if($spouse->official)
+                                     <tr>
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <strong>Oficialia:</strong>
+                                                </div>
+                                                <div class="col-md-6">                                            
+                                                     {!! $spouse->official !!}                                                  
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                     <tr>
+                                        <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <strong>Partida:</strong>
+                                                </div>
+                                                <div class="col-md-6">                                            
+                                                     {!! $spouse->departure !!}                                                  
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endif
+
                                 </table>
 
                             </div>

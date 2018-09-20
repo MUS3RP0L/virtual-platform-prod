@@ -520,6 +520,50 @@
 										</td>
 									</tr>
 									@endif
+                                
+                                @if($eco_com_applicant->official)
+                                <tr>
+                                    <td style="border-top:0px;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Oficialia:</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                
+                                                    {!! $eco_com_applicant->official !!}                                                 
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="border-top:0px;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Libro:</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                
+                                                    {!! $eco_com_applicant->book !!}                                                 
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="border-top:0px;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Fecha de Matrimonio:</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                
+                                                    {!! $eco_com_applicant->marriage_date !!}                                                 
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                              @endif
 
                             </table>
                         </div>
@@ -664,6 +708,22 @@
 													</td>
 											</tr>
 									@endif
+
+                                <tr>
+                                    <td style="border-top:0px;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Partida:</strong>
+                                            </div>
+                                            <div class="col-md-6">
+                                                
+                                                    {!! $eco_com_applicant->departure !!}                                                 
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+
                             </table>
                         </div>
                     </div>
@@ -1577,6 +1637,7 @@
         <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/inclusion') !!}" id="iFramePdfReportInclusion" ></iframe>
         <iframe src="{!! url('print_eco_com_reports/' . $economic_complement->id . '/habitual') !!}" id="iFramePdfReportHabitual" ></iframe> --}}
     </div>
+
     <div id="myModal-personal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -2061,7 +2122,48 @@
                                         </div>
                                     </div>
                             	</div>
+                                @if($economic_complement->economic_complement_modality->economic_complement_type->id == 2)    
+                                <div class="col-md-6">
+                                 <fieldset>
+                                        <legend>Información de SERECI:</legend>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                                {!! Form::label('oficialia', 'Oficialia', ['class' => 'col-md-5 control-label']) !!}
+                                            <div class="col-md-5">
+                                                {!! Form::text('oficialia',$eco_com_applicant->official, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                                <span class="help-block">Oficialia</span>
+                                            </div>                                                
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                            {!! Form::label('libro', 'Libro', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-6">
+                                            {!! Form::text('libro',$eco_com_applicant->book, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                            <span class="help-block">Libro</span>
+                                        </div>
+                                    </div>
 
+                                     <div class="form-group">
+                                            {!! Form::label('partida', 'Partida', ['class' => 'col-md-5 control-label']) !!}
+                                        <div class="col-md-6">
+                                            {!! Form::text('partida', $eco_com_applicant->departure, ['class'=> 'form-control', 'onkeyup' => 'this.value=this.value.toUpperCase()']) !!}
+                                            <span class="help-block">Partida</span>
+                                        </div>
+                                    </div>                                   
+
+                                        {!! Form::label('date_marriage', 'Fecha Matrimonio', ['class' => 'col-md-5 control-label']) !!}
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <input type="text" id="fecha_matri" class="form-control" name="fecha_matri" value="{!! $spouse?$spouse->getEditMarriageDate():null !!}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask >
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </fieldset>
+                                </div>
+                                @endif
                         </div>
 
                         <div class="row text-center">

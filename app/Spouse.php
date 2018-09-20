@@ -71,6 +71,11 @@ class Spouse extends Model
     {
         return Util::getDateEdit($this->birth_date);
     }
+
+    public function getEditMarriageDate()
+    {
+        return Util::getDateEdit($this->marriage_date);
+    }
     public function getEditDateDeath()
     {
         return Util::getDateEdit($this->date_death);
