@@ -1776,7 +1776,7 @@ class EconomicComplementController extends Controller
                 $economic_complement = EconomicComplement::idIs($economic_complement->id)->first();
 
                 $eco_com_applicant = EconomicComplementApplicant::economicComplementIs($economic_complement->id)->first();
-
+               // dd('update applicant');
                 $eco_com_applicant->identity_card = $request->identity_card;
                 if ($request->city_identity_card_id) { $eco_com_applicant->city_identity_card_id = $request->city_identity_card_id; } else { $eco_com_applicant->city_identity_card_id = null; }
                 $eco_com_applicant->last_name = $request->last_name;
@@ -1801,6 +1801,10 @@ class EconomicComplementController extends Controller
                     $eco_com_applicant->cell_phone_number = trim(implode(",", $request->cell_phone_number));
                 }
                 $eco_com_applicant->nua = ($request->nua == null) ? 0 : $request->nua;
+                $eco_com_applicant->official = ($request->oficialia == null) ? null : $request->oficialia;
+                $eco_com_applicant->book = ($request->libro == null) ? null : $request->libro;
+                $eco_com_applicant->departure = ($request->partida == null) ? null : $request->partida;
+                $eco_com_applicant->marriage_date = ($request->fecha_matri == null) ? null : $request->fecha_matri;
                 $eco_com_applicant->save();
                 switch ($economic_complement->economic_complement_modality->economic_complement_type->id) {
 
@@ -1859,6 +1863,10 @@ class EconomicComplementController extends Controller
                             $affiliate->nua = ($request->nua == null) ? 0 : $request->nua;
                             $spouse->registration=Util::CalcRegistration(Util::datePick($request->birth_date),trim($request->last_name),trim($request->mothers_last_name), trim($request->first_name),Util::getGender($affiliate->gender));
                             $spouse->city_birth_id = $request->city_birth_id == "" ? null : $request->city_birth_id;
+                            $spouse->official =$request->oficialia == "" ? null : $request->oficialia;
+                            $spouse->book =$request->libro == "" ? null : $request->libro;
+                            $spouse->departure =$request->partida == "" ? null : $request->partida;
+                            $spouse->marriage_date =$request->fecha_matri == "" ? null : $request->fecha_matri;
                             $spouse->save();
                             $affiliate->save();
                         }
