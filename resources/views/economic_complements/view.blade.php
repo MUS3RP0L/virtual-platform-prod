@@ -708,7 +708,7 @@
 													</td>
 											</tr>
 									@endif
-
+                                @if($eco_com_applicant->departure)
                                 <tr>
                                     <td style="border-top:0px;">
                                         <div class="row">
@@ -723,7 +723,7 @@
                                     </td>
                                 </tr>
 
-
+                            @endif
                             </table>
                         </div>
                     </div>
