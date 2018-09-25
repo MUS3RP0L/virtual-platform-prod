@@ -2755,11 +2755,13 @@ class EconomicComplementReportController extends Controller
             ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
             ->whereYear('eco_com_procedures.year', '=', '2018')
             ->where('eco_com_procedures.semester', '=', 'Primer')
-            ->where('economic_complements.workflow_id', '=', 1)
+            /*->where('economic_complements.workflow_id', '=', 1)
             ->where('economic_complements.wf_current_state_id', '=', 3)
             ->where('economic_complements.state', 'Edited')
             ->where('economic_complements.total', '>', 0)
-            ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+            ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')     */  
+            ->where('economic_complements.eco_com_state_id', '=', 24)
+            ->whereNotIn('economic_complements.eco_com_state_id',[25,26])    
             ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
                     WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
                     eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13,22,26,30)  AND eco_com_observations.deleted_at is null)")
@@ -2799,8 +2801,6 @@ class EconomicComplementReportController extends Controller
             array_push($rows, array($i, $a->code, $a->identity_card, $a->ext, $a->first_name, $a->second_name, $a->last_name, $a->mothers_last_name, $a->surname_husband, $afiliado_ci, $afiliado_ext, $afiliado_first_name, $afiliado_second_name, $afiliado_last_nme, $afiliado_mother_last_name, $afiliado_surname_husband, $a->birth_date, $a->civil_status,$a->regional, $a->degree, $a->modality, $a->gestor, $a->renta_boleta, $a->reintegro, $a->dignity_pension, $a->renta_neta, $a->neto, $a->category, $a->salary_reference, $a->antiguedad, $a->salary_quotable, $a->difference, $a->total_amount_semester, $a->complementary_factor, $a->total, $amortization, $total_temp, $a->tipo_tramite));
             $i++;
         }
-
-
             // con poder 
             $legal_gua1 = DB::table('eco_com_applicants')
                     ->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
@@ -2817,15 +2817,17 @@ class EconomicComplementReportController extends Controller
                     ->leftJoin('cities as city_legal_guardian_identity_card', 'eco_com_legal_guardians.city_identity_card_id', '=', 'city_legal_guardian_identity_card.id')
                     ->whereYear('eco_com_procedures.year', '=', '2018')
                     ->where('eco_com_procedures.semester', '=', 'Primer')
-                    ->where('economic_complements.workflow_id', '=', 1)
+                    /*->where('economic_complements.workflow_id', '=', 1)
                     ->where('economic_complements.wf_current_state_id', '=', 3)
                     ->where('economic_complements.state', 'Edited')
                     ->where('economic_complements.total', '>', 0)
-                    ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+                    ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')                   
                     ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
                             WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
                             eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13,22,26,30) AND
-                            eco_com_observations.is_enabled = FALSE AND eco_com_observations.deleted_at is null)")
+                            eco_com_observations.is_enabled = FALSE AND eco_com_observations.deleted_at is null)")*/
+                    ->where('economic_complements.eco_com_state_id', '=', 24)
+                    ->whereNotIn('economic_complements.eco_com_state_id',[25,26])
                     ->where(function ($query) {
                         $query->where('economic_complements.has_legal_guardian', '=', true)
                             ->orWhere('economic_complements.has_legal_guardian_s', '=', true);
@@ -2883,11 +2885,13 @@ class EconomicComplementReportController extends Controller
             ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
             ->whereYear('eco_com_procedures.year', '=', '2018')
             ->where('eco_com_procedures.semester', '=', 'Primer')
-            ->where('economic_complements.workflow_id', '=', 1)
+            /*->where('economic_complements.workflow_id', '=', 1)
             ->where('economic_complements.wf_current_state_id', '=', 3)
             ->where('economic_complements.state', 'Edited')
             ->where('economic_complements.total', '>', 0)
-            ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+            ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')*/
+            ->where('economic_complements.eco_com_state_id', '=', 24)
+            ->whereNotIn('economic_complements.eco_com_state_id',[25,26])
             ->whereRaw("exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
         WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
         eco_com_observations.observation_type_id IN (2) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
@@ -2944,14 +2948,17 @@ class EconomicComplementReportController extends Controller
          ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
          ->whereYear('eco_com_procedures.year', '=', '2018')
          ->where('eco_com_procedures.semester', '=', 'Primer')
-         ->where('economic_complements.workflow_id', '=', 1)
+         /*->where('economic_complements.workflow_id', '=', 1)
          ->where('economic_complements.wf_current_state_id', '=', 3)
          ->where('economic_complements.state', 'Edited')
          ->where('economic_complements.total', '>', 0)
-         ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
-         ->whereRaw("exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-     WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-     eco_com_observations.observation_type_id IN (1) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
+         ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')*/
+        ->where('economic_complements.eco_com_state_id', '=', 24)
+        ->whereNotIn('economic_complements.eco_com_state_id',[25,26])
+        ->whereRaw("exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
+            WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+            eco_com_observations.observation_type_id IN (1) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
+
         ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
         WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
         eco_com_observations.observation_type_id IN (2, 6, 10, 13,22,26,30) AND
@@ -3007,11 +3014,13 @@ class EconomicComplementReportController extends Controller
         ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
         ->whereYear('eco_com_procedures.year', '=', '2018')
         ->where('eco_com_procedures.semester', '=', 'Primer')
-        ->where('economic_complements.workflow_id', '=', 1)
+        /*->where('economic_complements.workflow_id', '=', 1)
         ->where('economic_complements.wf_current_state_id', '=', 3)
         ->where('economic_complements.state', 'Edited')
         ->where('economic_complements.total', '>', 0)
-        ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+        ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')*/
+        ->where('economic_complements.eco_com_state_id', '=', 24)
+        ->whereNotIn('economic_complements.eco_com_state_id',[25,26])
         ->whereRaw("exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
     WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
     eco_com_observations.observation_type_id IN (13) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
@@ -3071,15 +3080,17 @@ class EconomicComplementReportController extends Controller
         ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
         ->whereYear('eco_com_procedures.year', '=', '2018')
         ->where('eco_com_procedures.semester', '=', 'Primer')
-        ->where('economic_complements.workflow_id', '=', 1)
+        /*->where('economic_complements.workflow_id', '=', 1)
         ->where('economic_complements.wf_current_state_id', '=', 3)
         ->where('economic_complements.state', 'Edited')
         ->where('economic_complements.total', '>', 0)
-        ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+        ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')*/
+        ->where('economic_complements.eco_com_state_id', '=', 24)
+        ->whereNotIn('economic_complements.eco_com_state_id',[25,26])
         ->where('economic_complements.is_paid_spouse', '=',true)
-        ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-    WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-    eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false AND eco_com_observations.deleted_at is null)")
+        /*->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
+        WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+        eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false AND eco_com_observations.deleted_at is null)")*/
         ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,spouses.identity_card as identity_card_spouse,cities_spouse.first_shortened as ext_spouse,spouses.first_name as first_name_spouse,spouses.second_name as second_name_spouse,spouses.last_name as last_name_spouse,spouses.mothers_last_name as mothers_last_name_spouse,spouses.surname_husband as surname_husband_spouse,spouses.birth_date as birth_date_spouse,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
         ->get();
     $viudas = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Ci Esposa', 'Ext Ci esposa', 'Primer Nombre Esposa', 'Segundo Nombre Esposa', "Apellido Paterno Esposa", "Apellido Materno Esposa", 'Apellido de casas Esposa', 'Fecha Nac Esposa',  'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -3130,15 +3141,17 @@ class EconomicComplementReportController extends Controller
     ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
     ->whereYear('eco_com_procedures.year', '=', '2018')
     ->where('eco_com_procedures.semester', '=', 'Primer')
-    ->where('economic_complements.workflow_id', '=', 1)
+    /*->where('economic_complements.workflow_id', '=', 1)
     ->where('economic_complements.wf_current_state_id', '=', 3)
     ->where('economic_complements.state', 'Edited')
     ->where('economic_complements.total', '>', 0)
-    ->where('economic_complements.aps_disability', '>', 0)
     ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
     ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false  AND eco_com_observations.deleted_at is null)")
+    WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+    eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false  AND eco_com_observations.deleted_at is null)")*/
+    ->where('economic_complements.aps_disability', '>', 0)
+    ->where('economic_complements.eco_com_state_id', '=', 24)
+    ->whereNotIn('economic_complements.eco_com_state_id',[25,26])
     ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
     ->get();
 $concu = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -3181,21 +3194,22 @@ foreach ($concu1 as $a) {
         ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
         ->whereYear('eco_com_procedures.year', '=', '2018')
         ->where('eco_com_procedures.semester', '=', 'Primer')
-        ->where('economic_complements.workflow_id', '=', 1)
+        /*->where('economic_complements.workflow_id', '=', 1)
         ->where('economic_complements.wf_current_state_id', '=', 3)
         ->where('economic_complements.state', 'Edited')
-        ->where('economic_complements.total', '>', 0)
+        ->where('economic_complements.total', '>', 0)*/
+        ->where('economic_complements.eco_com_state_id', '=', 24)
+        ->whereNotIn('economic_complements.eco_com_state_id',[25,26])
         ->groupBy('eco_com_applicants.identity_card')
         ->havingRaw('count(*) > 1')
         ->get();
         $doble = array();
         foreach($doble2 as $d){
             array_push($doble, $d->identity_card);
-        }
-        
+        }       
 
         
-        $doble1 = DB::table('eco_com_applicants')
+    $doble1 = DB::table('eco_com_applicants')
     ->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
     ->leftJoin('cities as cities0', 'economic_complements.city_id', '=', 'cities0.id')
     ->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
@@ -3208,15 +3222,18 @@ foreach ($concu1 as $a) {
     ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
     ->whereYear('eco_com_procedures.year', '=', '2018')
     ->where('eco_com_procedures.semester', '=', 'Primer')
-    ->where('economic_complements.workflow_id', '=', 1)
+    /*->where('economic_complements.workflow_id', '=', 1)
     ->where('economic_complements.wf_current_state_id', '=', 3)
     ->where('economic_complements.state', 'Edited')
     ->where('economic_complements.total', '>', 0)
-    ->whereIn('eco_com_applicants.identity_card', $doble)
     ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
-    ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false  AND eco_com_observations.deleted_at is null)")
+     ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
+    WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+    eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false  AND eco_com_observations.deleted_at is null)")
+   */
+    ->where('economic_complements.eco_com_state_id', '=', 24)
+    ->whereNotIn('economic_complements.eco_com_state_id',[25,26])
+    ->whereIn('eco_com_applicants.identity_card', $doble)    
     ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
     ->get();
 $doble = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -3254,7 +3271,7 @@ foreach ($doble1 as $a) {
     $i++;
 }
 
-        Excel::create('Planilla Banco Union' . date("Y-m-d H:i:s"), function ($excel) 
+        Excel::create('Planilla Banco Union1' . date("Y-m-d H:i:s"), function ($excel) 
         {
 
             global $rows, $obs_mora, $obs_cont, $obs_repfo, $obs_juz, $cump_deuda, $legal_gua, $dom, $viudas, $concu, $doble;
@@ -4093,15 +4110,16 @@ foreach ($doble1 as $a) {
             ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
             ->whereYear('eco_com_procedures.year', '=', '2018')
             ->where('eco_com_procedures.semester', '=', 'Primer')
-            ->where('economic_complements.workflow_id', '=', 1)
+            /*->where('economic_complements.workflow_id', '=', 1)
             ->where('economic_complements.wf_current_state_id', '=', 3)
             ->where('economic_complements.state', 'Edited')
             ->where('economic_complements.total', '>', 0)
-            ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+            ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')*/
+            ->where('economic_complements.eco_com_state_id', '=', 25)
+            ->whereNotIn('economic_complements.eco_com_state_id',[24,26])
             ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
                     WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
                     eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13,22,26,30)  AND eco_com_observations.deleted_at is null)")
-            ->where('economic_complements.eco_com_state_id','!=' ,$eco_com_state_paid_bank)
             ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
             ->get();
         $rows = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil','primer_nombre_apoderado','segundo_nombre_apoderado','ap_paterno_apoderado','ap_materno_apoderado','ape_casada_apoderado','ci_apoderado','ci_exp_apoderado','tipo_de_apoderado','Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -4156,7 +4174,7 @@ foreach ($doble1 as $a) {
                     ->leftJoin('cities as city_legal_guardian_identity_card', 'eco_com_legal_guardians.city_identity_card_id', '=', 'city_legal_guardian_identity_card.id')
                     ->whereYear('eco_com_procedures.year', '=', '2018')
                     ->where('eco_com_procedures.semester', '=', 'Primer')
-                    ->where('economic_complements.workflow_id', '=', 1)
+                    /*->where('economic_complements.workflow_id', '=', 1)
                     ->where('economic_complements.wf_current_state_id', '=', 3)
                     ->where('economic_complements.state', 'Edited')
                     ->where('economic_complements.total', '>', 0)
@@ -4164,12 +4182,13 @@ foreach ($doble1 as $a) {
                     ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
                             WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
                             eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13,22,26,30) AND
-                            eco_com_observations.is_enabled = FALSE AND eco_com_observations.deleted_at is null)")
+                            eco_com_observations.is_enabled = FALSE AND eco_com_observations.deleted_at is null)")*/
+                    ->where('economic_complements.eco_com_state_id', '=', 25)
+                    ->whereNotIn('economic_complements.eco_com_state_id',[24,26])                   
                     ->where(function ($query) {
                         $query->where('economic_complements.has_legal_guardian', '=', true)
                             ->orWhere('economic_complements.has_legal_guardian_s', '=', true);
                     })
-                    ->where('economic_complements.eco_com_state_id','!=' ,$eco_com_state_paid_bank)
                     ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,eco_com_legal_guardians.first_name as primer_nombre_apoderado, eco_com_legal_guardians.second_name as segundo_nombre_apoderado, eco_com_legal_guardians.last_name as ap_paterno_apoderado, eco_com_legal_guardians.mothers_last_name as ap_materno_apoderado, eco_com_legal_guardians.surname_husband as ape_casada_apoderado, eco_com_legal_guardians.identity_card as ci_apoderado, city_legal_guardian_identity_card.first_shortened as ci_exp_apoderado, (CASE WHEN economic_complements.has_legal_guardian_s = true THEN 'solicitante' ELSE 'cobrador' END) as tipo_apoderado,
                     cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
                     ->get();
@@ -4223,18 +4242,19 @@ foreach ($doble1 as $a) {
             ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
             ->whereYear('eco_com_procedures.year', '=', '2018')
             ->where('eco_com_procedures.semester', '=', 'Primer')
-            ->where('economic_complements.workflow_id', '=', 1)
+            /*->where('economic_complements.workflow_id', '=', 1)
             ->where('economic_complements.wf_current_state_id', '=', 3)
             ->where('economic_complements.state', 'Edited')
             ->where('economic_complements.total', '>', 0)
-            ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+            ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')*/
+            ->where('economic_complements.eco_com_state_id', '=', 25)
+            ->whereNotIn('economic_complements.eco_com_state_id',[24,26]) 
             ->whereRaw("exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-        WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-        eco_com_observations.observation_type_id IN (2) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
+                WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+                eco_com_observations.observation_type_id IN (2) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
             ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-        WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-        eco_com_observations.observation_type_id IN (1,6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false AND eco_com_observations.deleted_at is null)")
-            ->where('economic_complements.eco_com_state_id','!=' ,$eco_com_state_paid_bank)
+                WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+                eco_com_observations.observation_type_id IN (1,6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false AND eco_com_observations.deleted_at is null)")
             ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
             ->get();
         $obs_mora = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -4285,19 +4305,20 @@ foreach ($doble1 as $a) {
          ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
          ->whereYear('eco_com_procedures.year', '=', '2018')
          ->where('eco_com_procedures.semester', '=', 'Primer')
-         ->where('economic_complements.workflow_id', '=', 1)
+        /* ->where('economic_complements.workflow_id', '=', 1)
          ->where('economic_complements.wf_current_state_id', '=', 3)
          ->where('economic_complements.state', 'Edited')
          ->where('economic_complements.total', '>', 0)
-         ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+         ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')*/
+         ->where('economic_complements.eco_com_state_id', '=', 25)
+         ->whereNotIn('economic_complements.eco_com_state_id',[24,26]) 
          ->whereRaw("exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-     WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-     eco_com_observations.observation_type_id IN (1) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
+            WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+            eco_com_observations.observation_type_id IN (1) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
         ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-        WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-        eco_com_observations.observation_type_id IN (2, 6, 10, 13,22,26,30) AND
-        eco_com_observations.is_enabled = FALSE AND eco_com_observations.deleted_at is null)")
-         ->where('economic_complements.eco_com_state_id','!=' ,$eco_com_state_paid_bank)
+            WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+            eco_com_observations.observation_type_id IN (2, 6, 10, 13,22,26,30) AND
+            eco_com_observations.is_enabled = FALSE AND eco_com_observations.deleted_at is null)")
          ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
          ->get();
      $obs_cont = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -4349,18 +4370,19 @@ foreach ($doble1 as $a) {
         ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
         ->whereYear('eco_com_procedures.year', '=', '2018')
         ->where('eco_com_procedures.semester', '=', 'Primer')
-        ->where('economic_complements.workflow_id', '=', 1)
+        /*->where('economic_complements.workflow_id', '=', 1)
         ->where('economic_complements.wf_current_state_id', '=', 3)
         ->where('economic_complements.state', 'Edited')
         ->where('economic_complements.total', '>', 0)
-        ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+        ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric') */
+        ->where('economic_complements.eco_com_state_id', '=', 25)
+        ->whereNotIn('economic_complements.eco_com_state_id',[24,26])
         ->whereRaw("exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-    WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-    eco_com_observations.observation_type_id IN (13) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
+            WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+            eco_com_observations.observation_type_id IN (13) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
         ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-        WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-        eco_com_observations.observation_type_id IN (1, 2, 6, 10, 22, 26, 30) AND eco_com_observations.is_enabled = false AND eco_com_observations.deleted_at is null)")
-        ->where('economic_complements.eco_com_state_id','!=' ,$eco_com_state_paid_bank)
+            WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+            eco_com_observations.observation_type_id IN (1, 2, 6, 10, 22, 26, 30) AND eco_com_observations.is_enabled = false AND eco_com_observations.deleted_at is null)")
         ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
         ->get();
     $obs_repfo = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -4414,16 +4436,17 @@ foreach ($doble1 as $a) {
         ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
         ->whereYear('eco_com_procedures.year', '=', '2018')
         ->where('eco_com_procedures.semester', '=', 'Primer')
-        ->where('economic_complements.workflow_id', '=', 1)
+        /*->where('economic_complements.workflow_id', '=', 1)
         ->where('economic_complements.wf_current_state_id', '=', 3)
         ->where('economic_complements.state', 'Edited')
         ->where('economic_complements.total', '>', 0)
-        ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+        ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')*/
+        ->where('economic_complements.eco_com_state_id', '=', 25)
+        ->whereNotIn('economic_complements.eco_com_state_id',[24,26])
         ->where('economic_complements.is_paid_spouse', '=',true)
         ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-    WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-    eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false AND eco_com_observations.deleted_at is null)")
-        ->where('economic_complements.eco_com_state_id','!=' ,$eco_com_state_paid_bank)
+            WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+            eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false AND eco_com_observations.deleted_at is null)")
         ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,spouses.identity_card as identity_card_spouse,cities_spouse.first_shortened as ext_spouse,spouses.first_name as first_name_spouse,spouses.second_name as second_name_spouse,spouses.last_name as last_name_spouse,spouses.mothers_last_name as mothers_last_name_spouse,spouses.surname_husband as surname_husband_spouse,spouses.birth_date as birth_date_spouse,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
         ->get();
     $viudas = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Ci Esposa', 'Ext Ci esposa', 'Primer Nombre Esposa', 'Segundo Nombre Esposa', "Apellido Paterno Esposa", "Apellido Materno Esposa", 'Apellido de casas Esposa', 'Fecha Nac Esposa',  'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -4474,16 +4497,17 @@ foreach ($doble1 as $a) {
     ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
     ->whereYear('eco_com_procedures.year', '=', '2018')
     ->where('eco_com_procedures.semester', '=', 'Primer')
-    ->where('economic_complements.workflow_id', '=', 1)
+    /*->where('economic_complements.workflow_id', '=', 1)
     ->where('economic_complements.wf_current_state_id', '=', 3)
     ->where('economic_complements.state', 'Edited')
-    ->where('economic_complements.total', '>', 0)
-    ->where('economic_complements.aps_disability', '>', 0)
+    ->where('economic_complements.total', '>', 0)    
     ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
     ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false  AND eco_com_observations.deleted_at is null)")
-    ->where('economic_complements.eco_com_state_id','!=' ,$eco_com_state_paid_bank)
+    WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+    eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false  AND eco_com_observations.deleted_at is null)")*/
+    ->where('economic_complements.aps_disability', '>', 0)
+    ->where('economic_complements.eco_com_state_id', '=', 25)
+    ->whereNotIn('economic_complements.eco_com_state_id',[24,26])    
     ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
     ->get();
 $concu = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -4526,11 +4550,12 @@ foreach ($concu1 as $a) {
         ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
         ->whereYear('eco_com_procedures.year', '=', '2018')
         ->where('eco_com_procedures.semester', '=', 'Primer')
-        ->where('economic_complements.workflow_id', '=', 1)
+        /*->where('economic_complements.workflow_id', '=', 1)
         ->where('economic_complements.wf_current_state_id', '=', 3)
         ->where('economic_complements.state', 'Edited')
-        ->where('economic_complements.total', '>', 0)
-        ->where('economic_complements.eco_com_state_id','!=' ,$eco_com_state_paid_bank)
+        ->where('economic_complements.total', '>', 0)*/
+        ->where('economic_complements.eco_com_state_id', '=', 25)
+        ->whereNotIn('economic_complements.eco_com_state_id',[24,26])
         ->groupBy('eco_com_applicants.identity_card')
         ->havingRaw('count(*) > 1')
         ->get();
@@ -4554,16 +4579,19 @@ foreach ($concu1 as $a) {
     ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
     ->whereYear('eco_com_procedures.year', '=', '2018')
     ->where('eco_com_procedures.semester', '=', 'Primer')
-    ->where('economic_complements.workflow_id', '=', 1)
+    /*->where('economic_complements.workflow_id', '=', 1)
     ->where('economic_complements.wf_current_state_id', '=', 3)
     ->where('economic_complements.state', 'Edited')
-    ->where('economic_complements.total', '>', 0)
-    ->whereIn('eco_com_applicants.identity_card', $doble)
-    ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+    ->where('economic_complements.total', '>', 0)    
+    ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric') 
+    
     ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false  AND eco_com_observations.deleted_at is null)")
-    ->where('economic_complements.eco_com_state_id','!=' ,$eco_com_state_paid_bank)
+        WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+        eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false  AND eco_com_observations.deleted_at is null)")
+    */
+    ->whereIn('eco_com_applicants.identity_card', $doble)
+    ->where('economic_complements.eco_com_state_id', '=', 25)
+    ->whereNotIn('economic_complements.eco_com_state_id',[24,26])
     ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
     ->get();
 $doble = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -5441,15 +5469,15 @@ foreach ($doble1 as $a) {
             ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
             ->whereYear('eco_com_procedures.year', '=', '2018')
             ->where('eco_com_procedures.semester', '=', 'Primer')
-            ->where('economic_complements.workflow_id', '=', 1)
+            /*->where('economic_complements.workflow_id', '=', 1)
             ->where('economic_complements.wf_current_state_id', '=', 3)
             ->where('economic_complements.state', 'Edited')
             ->where('economic_complements.total', '>', 0)
-            ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+            ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')*/
+            ->where('economic_complements.eco_com_state_id', '=', 26)
+            ->whereNotIn('economic_complements.eco_com_state_id',[24,25])
             ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-                    WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-                    eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13,22,26,30)  AND eco_com_observations.deleted_at is null)")
-            ->whereNotIn('economic_complements.eco_com_state_id',$eco_com_state_paid_bank)
+                    WHERE economic_complements.id = eco_com_observations.economic_complement_id AND eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13,22,26,30)  AND eco_com_observations.deleted_at is null)")
             ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
             ->get();
         $rows = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil','primer_nombre_apoderado','segundo_nombre_apoderado','ap_paterno_apoderado','ap_materno_apoderado','ape_casada_apoderado','ci_apoderado','ci_exp_apoderado','tipo_de_apoderado','Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -5504,20 +5532,21 @@ foreach ($doble1 as $a) {
                     ->leftJoin('cities as city_legal_guardian_identity_card', 'eco_com_legal_guardians.city_identity_card_id', '=', 'city_legal_guardian_identity_card.id')
                     ->whereYear('eco_com_procedures.year', '=', '2018')
                     ->where('eco_com_procedures.semester', '=', 'Primer')
-                    ->where('economic_complements.workflow_id', '=', 1)
+                    /*->where('economic_complements.workflow_id', '=', 1)
                     ->where('economic_complements.wf_current_state_id', '=', 3)
                     ->where('economic_complements.state', 'Edited')
                     ->where('economic_complements.total', '>', 0)
-                    ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+                    ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric') 
                     ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
                             WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
                             eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13,22,26,30) AND
-                            eco_com_observations.is_enabled = FALSE AND eco_com_observations.deleted_at is null)")
+                            eco_com_observations.is_enabled = FALSE AND eco_com_observations.deleted_at is null)")*/
+                    ->where('economic_complements.eco_com_state_id', '=', 26)
+                    ->whereNotIn('economic_complements.eco_com_state_id',[24,25])                    
                     ->where(function ($query) {
                         $query->where('economic_complements.has_legal_guardian', '=', true)
                             ->orWhere('economic_complements.has_legal_guardian_s', '=', true);
                     })
-                    ->whereNotIn('economic_complements.eco_com_state_id',$eco_com_state_paid_bank)
                     ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,eco_com_legal_guardians.first_name as primer_nombre_apoderado, eco_com_legal_guardians.second_name as segundo_nombre_apoderado, eco_com_legal_guardians.last_name as ap_paterno_apoderado, eco_com_legal_guardians.mothers_last_name as ap_materno_apoderado, eco_com_legal_guardians.surname_husband as ape_casada_apoderado, eco_com_legal_guardians.identity_card as ci_apoderado, city_legal_guardian_identity_card.first_shortened as ci_exp_apoderado, (CASE WHEN economic_complements.has_legal_guardian_s = true THEN 'solicitante' ELSE 'cobrador' END) as tipo_apoderado,
                     cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
                     ->get();
@@ -5571,18 +5600,19 @@ foreach ($doble1 as $a) {
             ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
             ->whereYear('eco_com_procedures.year', '=', '2018')
             ->where('eco_com_procedures.semester', '=', 'Primer')
-            ->where('economic_complements.workflow_id', '=', 1)
+            /*->where('economic_complements.workflow_id', '=', 1)
             ->where('economic_complements.wf_current_state_id', '=', 3)
             ->where('economic_complements.state', 'Edited')
             ->where('economic_complements.total', '>', 0)
-            ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+            ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric') */
+            ->where('economic_complements.eco_com_state_id', '=', 26)
+            ->whereNotIn('economic_complements.eco_com_state_id',[24,25])
             ->whereRaw("exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-        WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-        eco_com_observations.observation_type_id IN (2) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
+                WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+                eco_com_observations.observation_type_id IN (2) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
             ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-        WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-        eco_com_observations.observation_type_id IN (1,6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false AND eco_com_observations.deleted_at is null)")
-            ->whereNotIn('economic_complements.eco_com_state_id',$eco_com_state_paid_bank)
+                WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+                eco_com_observations.observation_type_id IN (1,6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false AND eco_com_observations.deleted_at is null)")
             ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
             ->get();
         $obs_mora = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -5633,19 +5663,17 @@ foreach ($doble1 as $a) {
          ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
          ->whereYear('eco_com_procedures.year', '=', '2018')
          ->where('eco_com_procedures.semester', '=', 'Primer')
-         ->where('economic_complements.workflow_id', '=', 1)
+         /*->where('economic_complements.workflow_id', '=', 1)
          ->where('economic_complements.wf_current_state_id', '=', 3)
          ->where('economic_complements.state', 'Edited')
          ->where('economic_complements.total', '>', 0)
-         ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
-         ->whereRaw("exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-     WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-     eco_com_observations.observation_type_id IN (1) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
-        ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-        WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-        eco_com_observations.observation_type_id IN (2, 6, 10, 13,22,26,30) AND
-        eco_com_observations.is_enabled = FALSE AND eco_com_observations.deleted_at is null)")
-         ->whereNotIn('economic_complements.eco_com_state_id',$eco_com_state_paid_bank)
+         ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric') */
+        ->where('economic_complements.eco_com_state_id', '=', 26)
+        ->whereNotIn('economic_complements.eco_com_state_id',[24,25])
+        ->whereRaw("exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+            eco_com_observations.observation_type_id IN (1) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
+        ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+            eco_com_observations.observation_type_id IN (2, 6, 10, 13,22,26,30) AND eco_com_observations.is_enabled = FALSE AND eco_com_observations.deleted_at is null)")
          ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
          ->get();
      $obs_cont = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -5697,18 +5725,19 @@ foreach ($doble1 as $a) {
         ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
         ->whereYear('eco_com_procedures.year', '=', '2018')
         ->where('eco_com_procedures.semester', '=', 'Primer')
-        ->where('economic_complements.workflow_id', '=', 1)
+        /*->where('economic_complements.workflow_id', '=', 1)
         ->where('economic_complements.wf_current_state_id', '=', 3)
         ->where('economic_complements.state', 'Edited')
         ->where('economic_complements.total', '>', 0)
-        ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+        ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric') */
+        ->where('economic_complements.eco_com_state_id', '=', 26)
+        ->whereNotIn('economic_complements.eco_com_state_id',[24,25])
         ->whereRaw("exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-    WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-    eco_com_observations.observation_type_id IN (13) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
+            WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+            eco_com_observations.observation_type_id IN (13) AND eco_com_observations.is_enabled = true AND eco_com_observations.deleted_at is null)")
         ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-        WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-        eco_com_observations.observation_type_id IN (1, 2, 6, 10, 22, 26, 30) AND eco_com_observations.is_enabled = false AND eco_com_observations.deleted_at is null)")
-        ->whereNotIn('economic_complements.eco_com_state_id',$eco_com_state_paid_bank)
+            WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+            eco_com_observations.observation_type_id IN (1, 2, 6, 10, 22, 26, 30) AND eco_com_observations.is_enabled = false AND eco_com_observations.deleted_at is null)")
         ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
         ->get();
     $obs_repfo = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -5762,16 +5791,17 @@ foreach ($doble1 as $a) {
         ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
         ->whereYear('eco_com_procedures.year', '=', '2018')
         ->where('eco_com_procedures.semester', '=', 'Primer')
-        ->where('economic_complements.workflow_id', '=', 1)
+        /*->where('economic_complements.workflow_id', '=', 1)
         ->where('economic_complements.wf_current_state_id', '=', 3)
         ->where('economic_complements.state', 'Edited')
         ->where('economic_complements.total', '>', 0)
-        ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
+        ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')*/
+        ->where('economic_complements.eco_com_state_id', '=', 26)
+        ->whereNotIn('economic_complements.eco_com_state_id',[24,25])
         ->where('economic_complements.is_paid_spouse', '=',true)
-        ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-    WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-    eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false AND eco_com_observations.deleted_at is null)")
-        ->whereNotIn('economic_complements.eco_com_state_id',$eco_com_state_paid_bank)
+        /*->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
+        WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+        eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false AND eco_com_observations.deleted_at is null)")*/
         ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,spouses.identity_card as identity_card_spouse,cities_spouse.first_shortened as ext_spouse,spouses.first_name as first_name_spouse,spouses.second_name as second_name_spouse,spouses.last_name as last_name_spouse,spouses.mothers_last_name as mothers_last_name_spouse,spouses.surname_husband as surname_husband_spouse,spouses.birth_date as birth_date_spouse,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
         ->get();
     $viudas = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Ci Esposa', 'Ext Ci esposa', 'Primer Nombre Esposa', 'Segundo Nombre Esposa', "Apellido Paterno Esposa", "Apellido Materno Esposa", 'Apellido de casas Esposa', 'Fecha Nac Esposa',  'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -5822,16 +5852,17 @@ foreach ($doble1 as $a) {
     ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
     ->whereYear('eco_com_procedures.year', '=', '2018')
     ->where('eco_com_procedures.semester', '=', 'Primer')
-    ->where('economic_complements.workflow_id', '=', 1)
+   /* ->where('economic_complements.workflow_id', '=', 1)
     ->where('economic_complements.wf_current_state_id', '=', 3)
     ->where('economic_complements.state', 'Edited')
-    ->where('economic_complements.total', '>', 0)
+    ->where('economic_complements.total', '>', 0)    
+    ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric') */
     ->where('economic_complements.aps_disability', '>', 0)
-    ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
-    ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false  AND eco_com_observations.deleted_at is null)")
-    ->whereNotIn('economic_complements.eco_com_state_id',$eco_com_state_paid_bank)
+    ->where('economic_complements.eco_com_state_id', '=', 26)
+    ->whereNotIn('economic_complements.eco_com_state_id',[24,25])
+   /* ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
+    WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+    eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false  AND eco_com_observations.deleted_at is null)")*/
     ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
     ->get();
 $concu = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -5875,10 +5906,11 @@ foreach ($concu1 as $a) {
         ->whereYear('eco_com_procedures.year', '=', '2018')
         ->where('eco_com_procedures.semester', '=', 'Primer')
         ->where('economic_complements.workflow_id', '=', 1)
-        ->where('economic_complements.wf_current_state_id', '=', 3)
+        /*->where('economic_complements.wf_current_state_id', '=', 3)
         ->where('economic_complements.state', 'Edited')
-        ->where('economic_complements.total', '>', 0)
-        ->whereNotIn('economic_complements.eco_com_state_id',$eco_com_state_paid_bank)
+        ->where('economic_complements.total', '>', 0)*/
+        ->where('economic_complements.eco_com_state_id', '=', 26)
+        ->whereNotIn('economic_complements.eco_com_state_id',[24,25])
         ->groupBy('eco_com_applicants.identity_card')
         ->havingRaw('count(*) > 1')
         ->get();
@@ -5902,16 +5934,17 @@ foreach ($concu1 as $a) {
     ->leftJoin('eco_com_procedures', 'economic_complements.eco_com_procedure_id', '=', 'eco_com_procedures.id')
     ->whereYear('eco_com_procedures.year', '=', '2018')
     ->where('eco_com_procedures.semester', '=', 'Primer')
-    ->where('economic_complements.workflow_id', '=', 1)
+    /*->where('economic_complements.workflow_id', '=', 1)
     ->where('economic_complements.wf_current_state_id', '=', 3)
     ->where('economic_complements.state', 'Edited')
     ->where('economic_complements.total', '>', 0)
-    ->whereIn('eco_com_applicants.identity_card', $doble)
-    ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')
-    ->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
-WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
-eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false  AND eco_com_observations.deleted_at is null)")
-    ->whereNotIn('economic_complements.eco_com_state_id',$eco_com_state_paid_bank)
+    ->whereRaw('economic_complements.total_rent::numeric < economic_complements.salary_quotable::numeric')*/ 
+    ->where('economic_complements.eco_com_state_id', '=', 26)
+    ->whereNotIn('economic_complements.eco_com_state_id',[24,25])
+    ->whereIn('eco_com_applicants.identity_card', $doble)    
+    /*->whereRaw("not exists(SELECT eco_com_observations.economic_complement_id FROM eco_com_observations
+        WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
+        eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND eco_com_observations.is_enabled = false  AND eco_com_observations.deleted_at is null)")*/
     ->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
     ->get();
 $doble = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -5949,7 +5982,7 @@ foreach ($doble1 as $a) {
     $i++;
 }
 
-        Excel::create('Planilla Banco Union' . date("Y-m-d H:i:s"), function ($excel) 
+        Excel::create('Planilla Banco Union3' . date("Y-m-d H:i:s"), function ($excel) 
         {
 
             global $rows, $obs_mora, $obs_cont, $obs_repfo, $obs_juz, $cump_deuda, $legal_gua, $dom, $viudas, $concu, $doble;
