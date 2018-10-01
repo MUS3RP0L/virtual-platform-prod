@@ -5,7 +5,7 @@ namespace Muserpol\Console\Commands;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Console\Command;
 use Maatwebsite\Excel\Facades\Excel;
-use Muserpol\Helper\Util;
+//use Muserpol\Helper\Util;
 use Carbon\Carbon;
 
 use Muserpol\Affiliate;
@@ -17,9 +17,9 @@ use Log;
 
 class ImportBank extends Command implements SelfHandling
 {
-    protected $signature = 'import:bank';
+    protected $signature = 'import:bank1';
    
-    protected $description = 'Comando par aimportar pagados';
+    protected $description = 'Comando para importar pagados';
 
     public function handle()
     {   
@@ -31,7 +31,6 @@ class ImportBank extends Command implements SelfHandling
         {
 
             $FolderName = $this->ask('Enter the name of the folder you want to import');
-
             if ($this->confirm('Are you sure to import the folder "' . $FolderName . '" ? [y|N]') && $FolderName) 
             {
                 $time_start = microtime(true);
@@ -51,10 +50,11 @@ class ImportBank extends Command implements SelfHandling
                         $Progress->advance();
 
                         
-                       //Log::info($result->descripcion2);
+                            //Log::info($result->descripcion2);
+                            Log::info($result->fecha_pago);
                      
                             $ecom = EconomicComplement::where('affiliate_id','=', trim($result->descripcion2))                                                     
-                                                      ->where('eco_com_procedure_id','=', 6)->first();
+                                                      ->where('eco_com_procedure_id','=', 7)->first();
                             if ($ecom)
                             {       
                                     $ecom->eco_com_state_id = 1;  //pagado banco
