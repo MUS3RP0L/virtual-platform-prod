@@ -292,4 +292,4 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('automatic_validation', array('as'=>'automatic_validation', 'uses'=> 'EconomicComplement\EconomicComplementController@automatic_validation'));
 });
 
-//define('ACCESS', env('ACCESS_PASS'));
+define('ACCESS', env('ACCESS_PASS'));
