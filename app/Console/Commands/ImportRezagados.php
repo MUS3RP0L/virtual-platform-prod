@@ -19,7 +19,7 @@ class ImportRezagados extends Command implements SelfHandling
 {
     protected $signature = 'import:rezagados';
    
-    protected $description = 'Comando par aimportar rezagados';
+    protected $description = 'Comando para importar rezagados';
 
     public function handle()
     {   
@@ -49,24 +49,21 @@ class ImportRezagados extends Command implements SelfHandling
                         set_time_limit('-1');
                         $Progress->advance();
 
-                        $ecom = EconomicComplement::where('affiliate_id','=', $result->descripcion2)
-                                                    ->whereYear('year','=', 2017)
-                                                    ->where('semester','=', 'Segundo')->first();
+                        $ecom = EconomicComplement::where('affiliate_id','=', trim($result->descripcion2))
+                                                    ->where('eco_com_procedure_id','=', 7)->first();
                         if($ecom)
                         {
                             if ($ecom->eco_com_state_id == 1 ) //or $ecom->eco_com_state_id == 17
-                            {                                   
-                              
+                            {                                 
                               $pagados ++;                     
                             }
                             else
                             { 
                               if($ecom->total == $result->importeapagar)                               
                               {
-                                 $ecom->workflow_id= 2;
-                                 $ecom->wf_current_state_id = 3;
-                                 $ecom->eco_com_state_id = 15;
-
+                                $ecom->workflow_id= 2;
+                                $ecom->wf_current_state_id = 3;
+                                $ecom->eco_com_state_id = 15;
                                 $ecom->save();
                                 $rezagados ++;
                               }
