@@ -1024,7 +1024,7 @@ class AffiliateController extends Controller
         $title = "COMPROMISO DE DEVOLUCIÓN POR PAGOS EN DEFECTO DEL COMPLEMENTO ECONÓMICO";
         $affiliate = Affiliate::where('id', '=', $devolution->affiliate_id)->first();
         $address = $affiliate->affiliate_address->first();
-        $eco_com = $affiliate->economic_complements()->whereIn('eco_com_procedure_id',[2,6])->get()->last();
+        $eco_com = $affiliate->lastEconomicComplement();
         $eco_com_applicant = null;
         $city = null;
         if (!$eco_com) {
