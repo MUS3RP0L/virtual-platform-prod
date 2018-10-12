@@ -679,6 +679,7 @@ class EconomicComplementController extends Controller
     //second semester
     public function ReceptionFirstStepSecond($affiliate_id)
     {
+         $affiliate = Affiliate::idIs($affiliate_id)->first();
          //validaciones por exclusion
          $observaciones= AffiliateObservation::where('affiliate_id',$affiliate->id)->get();
         
