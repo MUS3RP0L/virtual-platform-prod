@@ -357,7 +357,8 @@ class AffiliateController extends Controller
         // $paid_states=DB::table('paid_affiliates')->where('affiliate_id', '=',$affiliate->id)->get();
 
 
-        $available_create_eco_com = (Carbon::now() <=  Carbon::parse(EconomicComplementProcedure::orderBy('sequence','desc')->first()->additional_end_date));
+        // $available_create_eco_com = (Carbon::now() <=  Carbon::parse(EconomicComplementProcedure::orderBy('sequence','desc')->first()->additional_end_date));
+        $available_create_eco_com = true;
         $data = [
             'affiliate' => $affiliate,
             'affiliate_address' => $affiliate_address,

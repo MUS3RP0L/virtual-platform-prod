@@ -71,41 +71,41 @@ class ImportTotalDuesRF extends Command
                                 $d=new Devolution();
                                 $d->affiliate_id = $affi->id; 
                                 $d->observation_type_id = 13; 
-                                $d->start_eco_com_procedure_id = 2; 
+                                $d->start_eco_com_procedure_id = 13;
                                 $d->save();
                             }
-                                if (!Due::where('devolution_id','=',$d->id)->where('eco_com_procedure_id','=',5)->first()) {
+                                if (!Due::where('devolution_id','=',$d->id)->where('eco_com_procedure_id','=',11)->first()) {
                                     $due = new Due();
                                     $due->devolution_id=$d->id;
-                                    $due->eco_com_procedure_id=5;
-                                    $due->amount=$result->p_2015;
+                                    $due->eco_com_procedure_id=11;
+                                    $due->amount=$result->p_2013;
                                     $due->save();
                                 }
-                                if (!Due::where('devolution_id','=',$d->id)->where('eco_com_procedure_id','=',4)->first()) {
+                                if (!Due::where('devolution_id','=',$d->id)->where('eco_com_procedure_id','=',12)->first()) {
                                     $due = new Due();
                                     $due->devolution_id=$d->id;
-                                    $due->eco_com_procedure_id=4;
-                                    $due->amount=$result->s_2015;
+                                    $due->eco_com_procedure_id=12;
+                                    $due->amount=$result->s_2013;
                                     $due->save();
                                 }
-                                if (!Due::where('devolution_id','=',$d->id)->where('eco_com_procedure_id','=',3)->first()) {
+                                if (!Due::where('devolution_id','=',$d->id)->where('eco_com_procedure_id','=',9)->first()) {
                                     $due = new Due();
                                     $due->devolution_id=$d->id;
-                                    $due->eco_com_procedure_id=3;
-                                    $due->amount=$result->p_2016;
+                                    $due->eco_com_procedure_id=9;
+                                    $due->amount=$result->p_2014;
                                     $due->save();
                                 }
-                                if (!Due::where('devolution_id','=',$d->id)->where('eco_com_procedure_id','=',1)->first()) {
+                                if (!Due::where('devolution_id','=',$d->id)->where('eco_com_procedure_id','=',10)->first()) {
                                     $due = new Due();
                                     $due->devolution_id=$d->id;
-                                    $due->eco_com_procedure_id=1;
-                                    $due->amount=$result->s_2016;
+                                    $due->eco_com_procedure_id=10;
+                                    $due->amount=$result->s_2014;
                                     $due->save();
                                 }
                                 $total_dues=$d->dues()->sum('amount');
-                                $d->total = $total_dues; 
-                                $d->balance = $total_dues; 
-                                $d->save(); 
+                                $d->total = ($d->total ?? 0) + $total_dues;
+                                $d->balance = $total_dues;
+                                $d->save();
                                 $affi_succ++;
                          }else{
                             $this->info($ci);
