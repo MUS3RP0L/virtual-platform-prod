@@ -45,15 +45,20 @@
   <table>
     <tr>
       <td>1</td>
-      <td style="text-align:justify">No percibo una pensión de jubilación por Riesgo Común y/o Profesional e Invalidez Común y/o Profesional o Muerte, por lo cual, la pensión en curso de pago que percibo por parte de las Administradoras del Fondo de Pensiones (AFP’S), Aseguradoras o Sistema de Reparto corresponde a una <strong>PRESTACIÓN POR VEJEZ.</strong> Sin embargo puedo acceder al beneficio cumpliendo lo establecido por el <strong>D.S. 3231 de 28 de junio de 2017, que modifica el Artículo N° 17, Parágrafo I del Decreto Supremo N° 1446 de 19 de diciembre de 2012.</strong></td>
+      <td style="text-align:justify">
+        No percibo una pensión de jubilación por Riesgo Común y/o Profesional o Invalidez Común y/o Profesional, por lo cual, la prestación o renta en curso de pago que percibo por parte de las Administradoras del Fondo de Pensiones (AFP’s), Aseguradoras o Sistema de Reparto corresponde a una <strong>PRESTACIÓN POR VEJEZ O RENTA DE JUBILACIÓN</strong>, por lo que estaré a la espera de la respectiva valoración de la documentación presentada a efecto que se determine si mi prestación se enmarca en la normativa de acceso al beneficio del Complemento Económico, detallado en detallado en los Decreto Supremo N° 1446, 3231 y otros.
+      </td>
     </tr>
     <tr>
       <td>2</td>
-      <td style="text-align:justify">Pertenezco al sector pasivo de la Policía Boliviana y acredito en la Certificación de Años de Servicio emitido por el Comando General de la Policía Boliviana como mínimo de 16 años de servicio, asimismo, <strong>No</strong> fui dado de baja en forma obligatoria o voluntaria de la Policía Boliviana.</td>
+      <td style="text-align:justify">
+        Pertenezco al sector pasivo de la Policía Boliviana y acredito con la Certificación de Años de Servicio emitido por el Comando General de la Policía Boliviana como mínimo de 16 años de servicio, asimismo, <strong>No</strong> fui dado de baja en forma obligatoria o voluntaria de la Policía Boliviana.
+      </td>
     </tr>
     <tr>
       <td>3</td>
-      <td style="text-align:justify">La información y documentación proporcionada por mi persona, tanto verbal como la contenida en documentos respecto a los requisitos mínimos para acceder al Beneficio del Complemento Económico, es totalmente <strong>real y fidedigna</strong>, por lo que me hago totalmente responsable de la misma.
+      <td style="text-align:justify">
+        La información y documentación proporcionada por mi persona, tanto verbal como la contenida en documentos respecto a los requisitos mínimos para acceder al Beneficio del Complemento Económico, es totalmente <strong>legal y fidedigna</strong>, por lo que me hago totalmente responsable de la misma.
       </td>
     </tr>
     <tr>
@@ -62,11 +67,21 @@
     </tr>
     <tr>
       <td>5</td>
-      <td style="text-align:justify">Estoy consciente de que existe la probabilidad de ser excluido (a) por salario, por percibir una prestación por vejez <strong>IGUAL O SUPERIOR</strong> al haber básico más categoría que perciban los miembros del servicio activo de la Policía Boliviana en el grado correspondiente, tal como lo señala en el Decreto Supremo N° 1446, Artículo 17, Parágrafo I y el Reglamento del Beneficio del Complemento Económico.</td>
+      <td style="text-align:justify">
+        Estoy consciente de que existe la probabilidad de ser excluido (a) por salario, por percibir una prestación por vejez <strong>IGUAL O SUPERIOR</strong> al haber básico más categoría que perciban los miembros del servicio activo de la Policía Boliviana en el grado correspondiente, tal como lo señala en el Decreto Supremo N° 1446, modificado mediante Decreto Supremo N° 3231 de 28 de junio de 2017, Artículo 17, Parágrafo I y el Reglamento del Beneficio del Complemento Económico.
+      </td>
     </tr>
     <tr>
       <td>6</td>
-      <td style="text-align:justify">Estoy de acuerdo en proceder con la devolución de montos cobrados indebidamente en caso de producirse alguna inconsistencia a causa del contenido de la documentación presentada, información proporcionada por entidades externas, error del sistema u otros que se presenten.</td>
+      <td style="text-align:justify">
+        En caso de no informar oportunamente que percibo una prestación por vejez o solidaria de vejez y simultáneamente una prestación por invalidez (concurrencia), me comprometo y acepto a proceder con la devolución de posibles pagos en defecto determinados a través de la Contrastación de información proporcionada por la Autoridad competente.
+      </td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td style="text-align:justify">
+        Estoy de acuerdo en proceder con la devolución de montos cobrados indebidamente o subsanar cualquier observación en caso de producirse alguna inconsistencia a causa del contenido de la documentación presentada, información proporcionada por entidades externas, error del sistema u otros que se presenten, conforme prevé el Art. 28° del reglamento del Complemento Económico.
+      </td>
     </tr>
   </table>
 <p align="justify">En mérito de los datos registrados en forma precedente, el interesado aprueba y ratifica su tenor de manera íntegra, quien en señal de conformidad en forma expresa y voluntaria firma el presente documento en la ciudad de {{ $user->city->name ?? 'La Paz' }}, {!! $date !!}.</p>

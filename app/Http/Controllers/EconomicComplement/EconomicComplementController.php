@@ -2592,7 +2592,8 @@ class EconomicComplementController extends Controller
                 $spouse = Spouse::where('affiliate_id',$affiliate->id)->first();
                 array_push($data, $spouse);
                 return \PDF::loadView('economic_complements.print.sworn_declaration2', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->stream('report_edited.pdf');
-
+            case 'orfandad':
+                return \PDF::loadView('economic_complements.print.sworn_declaration3', $data)->setPaper('letter')->setOPtion('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')->stream('report_edited.pdf');
                 // $view = \View::make('economic_complements.print.sworn_declaration2', $data)->render();
                 // $pdf = \App::make('dompdf.wrapper');
                 // $pdf->loadHTML($view)->setPaper('legal');

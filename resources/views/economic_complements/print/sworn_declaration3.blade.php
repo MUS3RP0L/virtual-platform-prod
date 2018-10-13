@@ -65,7 +65,7 @@
     <tr>
       <td>1</td>
       <td style="text-align:justify;">
-        No percibo una pensión por Riesgo Común y/o Profesional o Invalidez Común y/o Profesional o Muerte, por lo cual, por lo cual, la prestación o renta en curso de pago que percibo por parte de las Administradoras del Fondo de Pensiones (AFP’S), Aseguradoras o del Sistema de Reparto corresponde a una <strong>PRESTACIÓN POR VIUDEDAD O RENTA DE JUBILACIÓN</strong> por lo que estaré a la espera de la respectiva valoración de la documentación presentada a efecto que se determine si mi prestación se enmarca en la normativa de acceso al beneficio del Complemento Económico, detallado en los Decreto Supremo N° 1446, 3231 y otros.
+        No percibo una pensión de jubilación por Riesgo Común y/o Profesional e Invalidez Común y/o Profesional o Muerte, por lo cual, la pensión en curso de pago que percibo por parte de las Administradoras del Fondo de Pensiones (AFP’S), Aseguradoras o del Sistema de Reparto corresponde a una <strong>PRESTACIÓN POR ORFANDAD DERIVADA DE VEJEZ DEL CAUSAHABIENTE</strong>. por lo que estaré a la espera de la respectiva valoración de la documentación presentada a efecto que se determine si mi prestación se enmarca en la normativa de acceso al beneficio del Complemento Económico, detallado en los Decreto Supremo N° 1446, 3231 y otros.
       </td>
     </tr>
     <tr>
@@ -77,7 +77,7 @@
     <tr>
       <td>3</td>
       <td style="text-align:justify;">
-        La información y documentación proporcionada por mi persona, tanto verbal como la contenida en documentos respecto a los requisitos mínimos para acceder al Beneficio del Complemento Económico, es  totalmente <strong>legal y fidedigna</strong>, por  lo  que  me  hago totalmente responsable de la misma.
+        La información y documentación proporcionada por mi persona, tanto verbal como la contenida en documentos respecto a los requisitos mínimos para acceder al Beneficio del Complemento Económico, es totalmente <strong>legal y fidedigna</strong>, por lo que me hago totalmente responsable de la misma.
       </td>
     </tr>
     <tr>
@@ -87,31 +87,25 @@
     <tr>
       <td>5</td>
       <td style="text-align:justify;">
-        No he contraído nuevo matrimonio y/o registro de partidas de Unión Libre; estado que será verificado según certificación original de verificación de partidas matrimoniales y partida de Unión Libre emitida por el SERECI y a través de la Contrastación de información respectiva, de ser necesario me comprometo a presentar el Certificado de Estado Civil y el Certificado de Matrimonio Actualizado.
+        Estoy consciente de que existe la probabilidad de ser excluido (a) por salario, por percibir una prestación por vejez <strong>IGUAL O SUPERIOR</strong> al haber básico más categoría que perciban los miembros del servicio activo de la Policía Boliviana en el grado correspondiente, tal como lo señala en el Decreto Supremo N° 1446, Artículo 17, Parágrafo I y el Reglamento del Beneficio del Complemento Económico.
       </td>
     </tr>
     <tr>
       <td>6</td>
       <td style="text-align:justify;">
-        Estoy consciente de que existe la probabilidad de ser excluido (a) por salario, por percibir una prestación por vejez <strong>IGUAL O SUPERIOR</strong> al haber básico más categoría que perciban los miembros del servicio activo de la Policía Boliviana en el grado correspondiente, tal como lo señala en el Decreto Supremo N° 1446, Artículo 17, Parágrafo I y el Reglamento del Beneficio del Complemento Económico.
+        En caso de no informar oportunamente que percibo una prestación por Orfandad Absoluta derivada de vejez o solidaria de vejez y simultáneamente una prestación por Riesgo Común y/o Profesional e Invalidez Común y/o Profesional o Muerte, me comprometo y acepto a proceder con la devolución de posibles pagos en defecto determinados a través de la Contrastación de información proporcionada por la Autoridad competente,
       </td>
     </tr>
     <tr>
       <td>7</td>
       <td style="text-align:justify;">
-        En caso de no informar oportunamente que percibo una prestación por Viudedad derivada de vejez o solidaria de vejez y simultáneamente una prestación por Riesgo Común y/o Profesional e Invalidez Común y/o Profesional o Muerte, me comprometo y acepto a proceder con la devolución de posibles pagos en defecto determinados a través de la Contrastación de información proporcionada por la Autoridad competente.
+        Estoy de acuerdo en proceder con la devolución de montos percibidos indebidamente en caso de producirse alguna inconsistencia a causa del contenido de la documentación presentada, información proporcionada por entidades externas, error del sistema u otros que se presenten.
       </td>
     </tr>
     <tr>
       <td>8</td>
       <td style="text-align:justify;">
-        Estoy de acuerdo en proceder con la devolución de montos percibidos indebidamente en caso de producirse alguna inconsistencia a causa del contenido de la documentación presentada, información proporcionada por entidades externas, error del sistema u otros que se presenten, conforme prevé el Art. 28° del reglamento del Complemento Económico.
-      </td>
-    </tr>
-    <tr>
-      <td>9</td>
-      <td style="text-align:justify;">
-        De presentarse una tercera persona que acredite igual o mayor derecho para acceder al Beneficio del Complemento Económico por mi causahabiente, estoy de acuerdo en que la Mutual de Servicios al Policía no se hace responsable por la suspensión del mencionado Beneficio y estoy de acuerdo a realizar devolución de montos cobrados.
+        De presentarse una tercera persona que acredite igual o mayor derecho para acceder al Beneficio del Complemento Económico por mi causahabiente ya que se encuentra debidamente regulado por ley, la Mutual de Servicios al Policía no se hace responsable por la suspensión del mencionado Beneficio y estoy de acuerdo a realizar devolución de montos cobrados.
       </td>
     </tr>
   </table>

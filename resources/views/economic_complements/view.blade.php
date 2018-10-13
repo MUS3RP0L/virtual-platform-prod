@@ -23,14 +23,20 @@
          @if( $economic_complement->reception_type == 'Inclusion' )
 
             <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir Declaración Jurada" style="margin:0px;">
-                @if($economic_complement->economic_complement_modality->economic_complement_type->id>1)
+                @if($economic_complement->economic_complement_modality->economic_complement_type->id == 2)
                     <a href="" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printJS({printable:'{!! url('print_sworn_declaration/' . $economic_complement->id . '/viudedad') !!}', type:'pdf', showModal:true})">
                         &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                    </a> 
-                @else
+                    </a>
+                @endif
+                @if($economic_complement->economic_complement_modality->economic_complement_type->id == 1)
                     <a href="" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printJS({printable:'{!! url('print_sworn_declaration/' . $economic_complement->id . '/vejez') !!}', type:'pdf', showModal:true})">
                         &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
-                    </a> 
+                    </a>
+                @endif
+                @if($economic_complement->economic_complement_modality->economic_complement_type->id == 3)
+                    <a href="" class="btn btn-sm btn-raised btn-success dropdown-toggle enabled" data-toggle="modal" value="Print" onclick="printJS({printable:'{!! url('print_sworn_declaration/' . $economic_complement->id . '/orfandad') !!}', type:'pdf', showModal:true})">
+                        &nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;
+                    </a>
                 @endif
             </div>
         @endif
