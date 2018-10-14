@@ -118,9 +118,12 @@
             @can('eco_com_review_and_reception')
                 @if($devolution)
                     @if($devolution->total > 0 )
-                        <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Devoluciones" style="margin: 0;">
+                        {{-- <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Devoluciones" style="margin: 0;">
                             <a href="" class="btn btn-info btn-raised" data-toggle="modal" data-target="#devolutionModal"><i class="fa fa-circle-o-notch" aria-hidden="true"></i></a>
-                        </div>
+                        </div> --}}
+                        <button class="btn btn-info btn-raised" data-toggle="tooltip" data-placement="top" data-original-title="imprimir compromiso de devolucion" style="margin: 0;" onclick="printJS({printable:'{!! url('temp_devolution_print/' . $devolution->id) !!}', type:'pdf', showModal:true})" >
+                            <i class="fa fa-print"></i>
+                        </button>
                     @endif
                 @endif
             @endcan
@@ -1738,16 +1741,17 @@
                     <table class="table table-bordered" style="width:100%;">
                         <tr class="success" >
                             <td class="text-center" style="width:25%"><strong>GESTIÓN</strong></td><td class="text-center" style="width:25%"><strong>MONTO ADEUDADO</strong></td>
-                            <td class="text-center" style="width:25%"><strong>GESTIÓN</strong></td><td class="text-center" style="width:25%"><strong>MONTO ADEUDADO</strong></td>
+                            {{-- <td class="text-center" style="width:25%"><strong>GESTIÓN</strong></td><td class="text-center" style="width:25%"><strong>MONTO ADEUDADO</strong></td> --}}
                         </tr>
-                            @foreach($devolution->dues as $index=>$due)
-                            @if($index%2 == 0)
+                            @foreach($devolution->dues()->whereIn('eco_com_procedure_id', [1,2])->get() as $index=>$due)
+                            {{-- @if($index%2 == 0) --}}
                                 <tr>
-                            @endif
-                                <td>{{ $due->eco_com_procedure->getShortenedName() }}</td><td class="text-right"><strong>Bs. </strong>  {!! Util::formatMoney($due->amount) ?? '0.00' !!}</td>
-                            @if($index%2 == 1)
+                            {{-- @endif --}}
+                                <td>{{ $due->eco_com_procedure->getShortenedName() }}</td>
+                                <td class="text-right"><strong>Bs. </strong>  {!! Util::formatMoney($due->amount) ?? '0.00' !!}</td>
+                            {{-- @if($index%2 == 1) --}}
                                 </tr>
-                            @endif
+                            {{-- @endif --}}
                             @endforeach
                         </tr>
                     </table>
