@@ -470,6 +470,7 @@ class Affiliate extends Model
     {
         return "
             affiliates.identity_card as ci,
+            affiliate_city_identity_card.first_shortened as exp,
             affiliates.first_name as primer_nombre,
             affiliates.second_name as segundo_nombre,
             affiliates.last_name as ap_paterno,
