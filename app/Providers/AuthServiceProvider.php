@@ -75,7 +75,7 @@ class AuthServiceProvider extends ServiceProvider
         });
         $gate->define('eco_com_reception',function($user){
             // foreach ($user->roles as $role) {
-                if(Util::getRol()->id == 2 || Util::getRol()->id == 22 || Util::getRol()->id == 23 || Util::getRol()->id == 24 || Util::getRol()->id == 25 || Util::getRol()->id == 26 || Util::getRol()->id == 27 ){
+                if(Util::getRol()->id == 2 || Util::getRol()->id == 22 || Util::getRol()->id == 23 || Util::getRol()->id == 24 || Util::getRol()->id == 25 || Util::getRol()->id == 26 || Util::getRol()->id == 27 || Util::getRol()->id == 52){
                     return true;
                 }
             // }
