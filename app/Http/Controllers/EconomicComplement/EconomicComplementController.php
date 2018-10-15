@@ -933,6 +933,7 @@ class EconomicComplementController extends Controller
                 case 25:
                 case 26:
                 case 27:
+                case 52:
                     # code...
                     $can_create = true;
                     break;
