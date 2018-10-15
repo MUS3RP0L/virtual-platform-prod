@@ -1910,6 +1910,7 @@ class EconomicComplementReportController extends Controller
                 Affiliate::basic_info_columns().$columns
                 ))
                 ->leftJoin('affiliate_states','affiliates.affiliate_state_id', '=', 'affiliate_states.id')
+                ->leftJoin("cities as affiliate_city_identity_card", "affiliates.city_identity_card_id",  "=", "affiliate_city_identity_card.id")
                 ->whereIn('affiliates.id', $query)
                 ->get();
             $data = $affiliates;
@@ -1927,7 +1928,9 @@ class EconomicComplementReportController extends Controller
                     ->leftJoin("observation_types", "affiliate_observations.observation_type_id",  "=",  "observation_types.id")
                     ->leftJoin("users", "affiliate_observations.user_id",  "=",  "users.id")
                     ->leftJoin("cities as city_user", "users.city_id",  "=", "city_user.id")
+                    ->leftJoin("cities as affiliate_city_identity_card", "affiliates.city_identity_card_id",  "=", "affiliate_city_identity_card.id")
                     ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+
                     ->where("observation_types.id",  '=', 16)
                     ->get();
             $data = $query;
