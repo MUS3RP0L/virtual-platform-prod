@@ -18,6 +18,10 @@ class Devolution extends Model
     {
         return $this->hasMany(Due::class);
     }
+    public function eco_com_procedures()
+    {
+        return $this->belongsToMany(EconomicComplementProcedure::class, 'devolution_eco_com_procedure', 'devolution_id', 'eco_com_procedure_id');
+    }
     public function totalAmountProcedures($eco_com_procedure_ids = [])
     {
         if (!(sizeof($eco_com_procedure_ids) > 0)) {

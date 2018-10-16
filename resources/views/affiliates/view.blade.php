@@ -118,12 +118,9 @@
             @can('eco_com_review_and_reception')
                 @if($devolution)
                     @if($devolution->total > 0 )
-                        {{-- <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Devoluciones" style="margin: 0;">
+                        <div class="btn-group" data-toggle="tooltip" data-placement="top" data-original-title="Devoluciones" style="margin: 0;">
                             <a href="" class="btn btn-info btn-raised" data-toggle="modal" data-target="#devolutionModal"><i class="fa fa-circle-o-notch" aria-hidden="true"></i></a>
-                        </div> --}}
-                        <button class="btn btn-info btn-raised" data-toggle="tooltip" data-placement="top" data-original-title="imprimir compromiso de devolucion" style="margin: 0;" onclick="printJS({printable:'{!! url('temp_devolution_print/' . $devolution->id) !!}', type:'pdf', showModal:true})" >
-                            <i class="fa fa-print"></i>
-                        </button>
+                        </div>
                     @endif
                 @endif
             @endcan
@@ -1738,23 +1735,19 @@
                     <h4 class="modal-title">Datos del compromiso de Devolucion por pagos en demasia</h4>
                 </div>
                 <div class="modal-body">
-                    <table class="table table-bordered" style="width:100%;">
-                        <tr class="success" >
-                            <td class="text-center" style="width:25%"><strong>GESTIÓN</strong></td><td class="text-center" style="width:25%"><strong>MONTO ADEUDADO</strong></td>
-                            {{-- <td class="text-center" style="width:25%"><strong>GESTIÓN</strong></td><td class="text-center" style="width:25%"><strong>MONTO ADEUDADO</strong></td> --}}
-                        </tr>
-                            @foreach($devolution->dues()->whereIn('eco_com_procedure_id', [1,2])->get() as $index=>$due)
-                            {{-- @if($index%2 == 0) --}}
-                                <tr>
-                            {{-- @endif --}}
-                                <td>{{ $due->eco_com_procedure->getShortenedName() }}</td>
-                                <td class="text-right"><strong>Bs. </strong>  {!! Util::formatMoney($due->amount) ?? '0.00' !!}</td>
-                            {{-- @if($index%2 == 1) --}}
-                                </tr>
-                            {{-- @endif --}}
-                            @endforeach
-                        </tr>
-                    </table>
+                        <table class="table table-bordered">
+                            <tr class="success" >
+                                <td class="text-center" style="width:25%"><strong>GESTIÓN</strong></td><td class="text-center" style="width:25%"><strong>MONTO ADEUDADO</strong></td>
+                                {{-- <td class="text-center" style="width:25%"><strong>GESTIÓN</strong></td><td class="text-center" style="width:25%"><strong>MONTO ADEUDADO</strong></td> --}}
+                            </tr>
+                                @foreach($devolution->dues()->leftJoin('eco_com_procedures', 'dues.eco_com_procedure_id', '=','eco_com_procedures.id')->orderBy('eco_com_procedures.sequence')->get() as $index=>$due)
+                                    <tr>
+                                        <td>{{ $due->eco_com_procedure->getShortenedName() }}</td>
+                                        <td class="text-right"><strong>Bs. </strong>  {!! Util::formatMoney($due->amount) ?? '0.00' !!}</td>
+                                    </tr>
+                                @endforeach
+                            </tr>
+                        </table>
                     <hr>
                     {!! Form::model($affiliate, ['method' => 'PATCH', 'route' => ['affiliate.update', $affiliate], 'class' => 'form-horizontal']) !!}
                     <input type="hidden" name="type" value="devolutions"/>
@@ -1838,7 +1831,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6"></div>
+                            <br>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-md-3">Semestres que saldran en la impresion</label>
+                                    <div class="col-md-9">
+                                        @foreach ($dues as $value)
+                                            <div class="checkbox">
+                                                <label>
+                                                    {!! Form::checkbox('eco_com_procedures[]', $value->eco_com_procedure->id, array_search($value->eco_com_procedure->id,$default_procedures) === false ? false : true) !!}
+                                                    {!! $value->eco_com_procedure->getShortenedName() !!}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="row text-center">
                             <div class="form-group">

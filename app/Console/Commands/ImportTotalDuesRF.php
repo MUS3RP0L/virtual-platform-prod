@@ -102,9 +102,9 @@ class ImportTotalDuesRF extends Command
                                     $due->amount=$result->s_2014;
                                     $due->save();
                                 }
-                                $total_dues=$d->dues()->sum('amount');
+                                $total_dues=$d->dues()->whereIn('eco_com_procedure_id',[9,10,11,12])->sum('amount');
                                 $d->total = ($d->total ?? 0) + $total_dues;
-                                $d->balance = $total_dues;
+                                $d->balance = ($d->balance ?? 0) + $total_dues;
                                 $d->save();
                                 $affi_succ++;
                          }else{
