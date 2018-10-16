@@ -11,7 +11,7 @@
     tr {page-break-inside: avoid; }
 
 </style>
-<div class="title2"><strong class="code">REGIONAL: {!! $city !!} </strong><strong class="code">Nº: {!! $devolution->id !!}/2017 </strong></div>
+<div class="title2"><strong class="code">REGIONAL: {!! $city !!} </strong><strong class="code">Nº: {!! $devolution->id !!}/2018 </strong></div>
 
    <div id="project">
     <table class="table" style="width:100%;">
