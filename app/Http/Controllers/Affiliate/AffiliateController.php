@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Muserpol\Http\Requests;
 use Muserpol\Http\Controllers\Controller;
 
+use Log;
 use DB;
 use Auth;
 use Validator;
@@ -354,6 +355,16 @@ class AffiliateController extends Controller
         '1'=>'100%',
         );
         $devolution = Devolution::where('affiliate_id','=', $affiliate->id)->where('observation_type_id','=',13)->first();
+        if ($devolution) {
+            $dues = $devolution->dues()
+            ->with('eco_com_procedure')
+            ->leftJoin('eco_com_procedures', 'dues.eco_com_procedure_id', '=', 'eco_com_procedures.id')
+            ->orderBy('eco_com_procedures.sequence')
+            ->get();
+        }else{
+            $dues = [];
+        }
+        $default_procedures = [9, 10, 11, 12];
         // $paid_states=DB::table('paid_affiliates')->where('affiliate_id', '=',$affiliate->id)->get();
 
 
@@ -382,6 +393,8 @@ class AffiliateController extends Controller
             // 'paid_states' =>$paid_states,
             'percentage_list' => $percentages_list,
             'devolution' => $devolution,
+            'dues' => $dues,
+            'default_procedures' => $default_procedures,
             // 'total_gain' => $total_gain,
             // 'total_public_security_bonus' => $total_public_security_bonus,
             // 'total_quotable' => $total_quotable,
@@ -566,7 +579,6 @@ class AffiliateController extends Controller
 
                 break;
                 case 'devolutions':
-
                     $address=$affiliate->affiliate_address->first();
                     if (!$address) {
                         $message = "Debe Actualizar la información de domicilio del afiliado.";
@@ -593,6 +605,7 @@ class AffiliateController extends Controller
                             $devolution->percentage = null;
                         }
                         $devolution->save();
+                        $devolution->eco_com_procedures()->sync($request->eco_com_procedures);
                     return redirect()->route('devolution_print',$devolution->id);
                     }else{
                         $message="El afiliado no tiene deudas.";
@@ -1035,7 +1048,8 @@ class AffiliateController extends Controller
         }
         //aumentar restriccion q solo tome las deudas de I/II/2015 y I/II/2016
         // $total_dues=$devolution->dues()->sum('amount');
-        $total = $devolution->total;
+        $dues = $devolution->dues()->whereIn('eco_com_procedure_id', $devolution->eco_com_procedures->pluck('id'))->get();
+        $total = $devolution->totalAmountProcedures($devolution->eco_com_procedures->pluck('id'));
         $total_dues_literal = Util::convertir($total);
         $data = [
             'date' => $date,
@@ -1046,6 +1060,7 @@ class AffiliateController extends Controller
         ];
         $second_data = [
             'devolution' => $devolution,
+            'dues' => $dues,
             'economic_complement' => $eco_com,
             'city' => $city,
             'eco_com_applicant' => $eco_com_applicant,
@@ -1059,58 +1074,5 @@ class AffiliateController extends Controller
         ];
         $data = array_merge($data, $second_data);
         return \PDF::loadView('affiliates.print.devolution_print', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')/*->setOption('footer-right', 'Pagina [page] de [toPage]')*/->stream('affiliate_devolution.pdf');
-    }
-    public function temp_devolution_print($devolution)
-    {
-
-        $devolution=Devolution::where('id','=',$devolution)->first();
-        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-        $header1 = "DIRECCIÓN DE BENEFICIOS ECONÓMICOS";
-        $header2 = "UNIDAD DE OTORGACIÓN DEL COMPLEMENTO ECONÓMICO";
-        $date = Util::getDateEdit(date('Y-m-d'));
-        setlocale(LC_ALL, "es_ES.UTF-8");
-        $date = strftime("%e de %B de %Y",strtotime(Carbon::createFromFormat('d/m/Y',$date)));
-        $current_date = Carbon::now();
-        $hour = Carbon::parse($current_date)->toTimeString();
-        $title = "COMPROMISO DE DEVOLUCIÓN POR PAGOS EN DEFECTO DEL COMPLEMENTO ECONÓMICO";
-        $affiliate = Affiliate::where('id', '=', $devolution->affiliate_id)->first();
-        $address = $affiliate->affiliate_address->first();
-        if(!$address){
-            return "error debe registrar la direccion";
-        }
-        $eco_com = $affiliate->lastEconomicComplement();
-        $eco_com_applicant = null;
-        $city = null;
-        if (!$eco_com) {
-        }else{
-            $eco_com_applicant=$eco_com->economic_complement_applicant;
-            $city=$eco_com->city->name;
-        }
-        //aumentar restriccion q solo tome las deudas de I/II/2015 y I/II/2016
-        // $total_dues=$devolution->dues()->sum('amount');
-        $total = $devolution->totalAmountProcedures([9,10,11,12]);
-        $total_dues_literal = Util::convertir($total);
-        $data = [
-            'date' => $date,
-            'hour' => $hour,
-            'header1' => $header1,
-            'header2' => $header2,
-            'title' => $title,
-        ];
-        $second_data = [
-            'devolution' => $devolution,
-            'economic_complement' => $eco_com,
-            'city' => $city,
-            'eco_com_applicant' => $eco_com_applicant,
-            // 'total_dues' => $total_dues,
-            'total_dues_literal' => $total_dues_literal,
-            'total' => $total,
-            'affiliate' => $affiliate,
-            'address' => $address,
-            'user' => Auth::user(),
-            'user_role' =>Util::getRol()->name
-        ];
-        $data = array_merge($data, $second_data);
-        return \PDF::loadView('affiliates.print.temp_devolution_print', $data)->setPaper('letter')->setOption('footer-left', 'PLATAFORMA VIRTUAL DE LA MUSERPOL - 2018')/*->setOption('footer-right', 'Pagina [page] de [toPage]')*/->stream('affiliate_devolution.pdf');
     }
 }

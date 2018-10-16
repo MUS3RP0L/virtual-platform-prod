@@ -68,7 +68,6 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('history_print/{affiliate_id}','Affiliate\AffiliateController@history_print');
 	
 	Route::get('devolution_print/{devolution_id}',['as'=>'devolution_print','uses'=>'Affiliate\AffiliateController@devolution_print']);
-	Route::get('temp_devolution_print/{devolution_id}',['as'=>'temp_devolution_print','uses'=>'Affiliate\AffiliateController@temp_devolution_print']);
 
 	// Spouses
 	Route::resource('spouse', 'Affiliate\SpouseController');
