@@ -98,20 +98,20 @@ class Util
 			$month_second = substr($nac_month, 1, 1);
 
 			if($pat  <> ''){
-				$pat_first = substr($pat, 0, 1);
+				$pat_first = mb_substr($pat, 0, 1);
 			}
 			else{
 				$pat_first = '';
 			}
 			if($mat <> ''){
-				$mat_first = substr($mat, 0, 1);
+				$mat_first = mb_substr($mat, 0, 1);
 			}
 			else{
 				//preguntar
-				$mat_first = substr($pat, 1, 1);
+				$mat_first = mb_substr($pat, 1, 1);
 			}
 			if($nom<> ''){
-				$nom_first = substr($nom, 0, 1);
+				$nom_first = mb_substr($nom, 0, 1);
 			}
 			else{
 				$nom_first = '';
