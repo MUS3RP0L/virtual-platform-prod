@@ -2757,7 +2757,21 @@ class EconomicComplementController extends Controller
 
     public function save_amortization(Request $request)
     {
-        
+        $eco_com_state_validation = EconomicComplement::where('id',$request->id_complemento)->first();
+
+        if ($eco_com_state_validation->eco_com_state_id == 1 ||
+            $eco_com_state_validation->eco_com_state_id == 2 ||
+            $eco_com_state_validation->eco_com_state_id == 17 ||
+            $eco_com_state_validation->eco_com_state_id == 21 ||
+            $eco_com_state_validation->eco_com_state_id == 24 ||
+            $eco_com_state_validation->eco_com_state_id == 25 ||
+            $eco_com_state_validation->eco_com_state_id == 26) {
+              $StateObject = EconomicComplementState::where('id',$eco_com_state_validation->eco_com_state_id)->first();
+              $MessageState = $StateObject->name;
+          Session::flash('message', 'No se puede realizar la amortizacion porque el trámite '.$eco_com_state_validation->id.' se encuentra en estado de '.$MessageState);
+          return back()->withInput();
+        }
+
         $start_procedure = EconomicComplementProcedure::where('id','=', 2)->first();
         $rol = Util::getRol();
         if($request->amount_amortization > 0)
