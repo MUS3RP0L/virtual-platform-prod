@@ -108,7 +108,7 @@
 		  <tr>
 		    <td>FACTOR DE COMPLEMENTACIÓN</td><td class="number">{{ Util::formatMoney($old_eco_com->complementary_factor) }} %</td><td></td>
 		  </tr>
-		  @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 )
+		  @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 || $economic_complement->amount_credit >0 )
 		  <tr>
 		  <td class="grand service text-left"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BS. (CALIFICADO)</strong></td><td class="number"><strong>{{$temp_total}}</strong></td><td></td>
 		  </tr>
@@ -128,8 +128,13 @@
 		    <td> – AMORTIZACIÓN POR REPOSICIÓN DE FONDOS</td><td></td><td class="number" >{{Util::formatMoney($old_eco_com->amount_replacement)}}</td>
 		  </tr>
 		  @endif
+		  @if($old_eco_com->amount_credit)
 		  <tr>
-		  @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 )
+		    <td> – PAGO A FUTURO</td><td></td><td class="number" >{{Util::formatMoney($old_eco_com->amount_credit)}}</td>
+		  </tr>
+		  @endif
+		  <tr>
+		  @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 || $economic_complement->credit >0 )
 		  <td class="grand service text-left"><strong>TOTAL LIQUIDO A PAGAR EN BS.</strong></td><td class="number"><strong>{{ Util::formatMoney($old_eco_com->total) }}</strong></td><td></td>
 		  @else
 		  <td class="grand service text-left"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BS.</strong></td><td class="number"><strong>{{ Util::formatMoney($old_eco_com->total) }}</strong></td><td></td>
