@@ -2283,7 +2283,7 @@ class EconomicComplementController extends Controller
           case 'rent':
           // dd($request->sub_total_rent);
             $rules = [
-                'sub_total_rent' => 'min:1|number_comma_dot|not_zero',
+                // 'sub_total_rent' => 'min:1|number_comma_dot|not_zero',
             ];
             $messages = [
                 'sub_total_rent.min' => 'Debe de ingresar un monto mayor a 1 en la renta.',

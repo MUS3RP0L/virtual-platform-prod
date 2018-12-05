@@ -64,7 +64,7 @@
         <tr>
           <td>FACTOR DE COMPLEMENTACIÓN</td><td class="number">{{ intval($economic_complement->complementary_factor) }} %</td><td></td>
         </tr>
-        @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 )
+        @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 || $economic_complement->amount_credit >0 )
         <tr>
           <td class="grand service text-left"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BOLIVIANOS {{ $economic_complement->old_eco_com ? '(RECALIFICADO)':'' }}</strong></td><td class="number"><strong>{{Util::formatMoney($temp_total)}}</strong></td><td></td>
         </tr>
@@ -79,6 +79,11 @@
           <td> – AMORTIZACIÓN POR CUENTAS POR COBRAR</td><td></td><td class="number" >{{Util::formatMoney($economic_complement->amount_accounting)}}</td>
         </tr>
         @endif
+        @if($economic_complement->amount_credit)
+        <tr>
+          <td> – PAGO A FUTURO</td><td></td><td class="number" >{{Util::formatMoney($economic_complement->amount_credit)}}</td>
+        </tr>
+        @endif
         @if($economic_complement->amount_replacement)
         <tr>
           @if($economic_complement->affiliate->devolution->first())
@@ -89,7 +94,7 @@
         </tr>
         @endif
         <tr>
-          @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 )
+          @if($economic_complement->amount_loan  > 0 || $economic_complement->amount_accounting > 0|| $economic_complement->amount_replacement >0 || $economic_complement->amount_replacement >0 || $economic_complement->amount_credit >0)
           <td class="grand service text-left"><strong>TOTAL LIQUIDO A PAGAR EN BOLIVIANOS</strong></td><td class="number"><strong>{{$total}}</strong></td><td></td>
           @else
           <td class="grand service text-left"><strong>TOTAL COMPLEMENTO ECONÓMICO EN BOLIVIANOS{{-- {{ $economic_complement->economic_complement_procedure->getShortenedNameTwo() }} --}}</strong></td><td class="number"><strong>{{$total}}</strong></td><td></td>

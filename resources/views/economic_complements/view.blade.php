@@ -1515,7 +1515,7 @@
 
                                     </tbody>
                                 </table>
-                                @if( $economic_complement->amount_loan > 0 || $economic_complement->amount_accounting > 0 || $economic_complement->amount_replacement > 0  )
+                                @if( $economic_complement->amount_loan > 0 || $economic_complement->amount_accounting > 0 || $economic_complement->amount_replacement > 0  || $economic_complement->amount_credit > 0  )
                                 <table class="table table-bordered table-hover" style="width:100%;font-size: 14px">
                                     <tbody>
                                         <tr>
@@ -1538,6 +1538,10 @@
                                         <tr>
                                             <td style="width: 70%" class="bg-danger" >Amortización por Reposición de Fondos</td>
                                             <td  style="text-align: right" class="bg-danger" >{!! Util::formatMoney($economic_complement->amount_replacement) !!}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 70%" class="bg-danger" >Amortización por pago a futuro</td>
+                                            <td  style="text-align: right" class="bg-danger" >{!! Util::formatMoney($economic_complement->amount_credit) !!}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -2915,6 +2919,7 @@
                                 <th></th>
                                 <th>{{ Util::formatMoney($devolution->total ?? null) }}</th>
                                 <th></th>
+                                <th></th>
                             </tr>
                             <tr class="success">
                                 {{-- <th>Tipo de Observación</th> --}}
@@ -2922,6 +2927,7 @@
                                 <th>Prestamos</th>
                                 <th>Rep. de Fondos</th>
                                 <th>Cuentas por Cobrar</th>
+                                <th>Creditos</th>
                                 {{-- <th>Saldo</th> --}}
                             </tr>
                         </thead>
@@ -2931,9 +2937,11 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
+                                <th></th>
                             </tr>
                             <tr>
                                 <th>Total Balance</th>
+                                <th></th>
                                 <th></th>
                                 <th>{{ Util::formatMoney($devolution->balance ?? null) }}</th>
                                 <th></th>
@@ -4161,12 +4169,13 @@ $(document).ready(function() {
         });
 
         //temp calc
-        @if($economic_complement->amount_loan > 0 || $economic_complement->amount_accounting > 0 || $economic_complement->amount_replacement > 0)
+        @if($economic_complement->amount_loan > 0 || $economic_complement->amount_accounting > 0 || $economic_complement->amount_replacement > 0 || $economic_complement->amount_credit > 0)
         var amount_loan = {{ $economic_complement->amount_loan ??  0}} ;
         var amount_accounting = {{ $economic_complement->amount_accounting ??  0}};
         var amount_replacement = {{ $economic_complement->amount_replacement ??  0}};
+        var amount_credit = {{ $economic_complement->amount_credit ??  0}};
         var total = {{ $economic_complement->total ?? 0 }};
-        var temp_total = total + amount_loan + amount_accounting + amount_replacement;
+        var temp_total = total + amount_loan + amount_accounting + amount_replacement + amount_credit;
         $('#tempTotal').text(temp_total.formatMoney(2,',','.'));
         @endif
 
@@ -4233,6 +4242,7 @@ $(document).ready(function() {
                 { data: 'amount_loan', bSortable: false },
                 { data: 'amount_replacement', bSortable: false },
                 { data: 'amount_accounting', bSortable: false },
+                { data: 'amount_credit', bSortable: false },
                 // { data: 'balance', bSortable: false },
             ],
             "footerCallback": function ( row, data, start, end, display ) {
