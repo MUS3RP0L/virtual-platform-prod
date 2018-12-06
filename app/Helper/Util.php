@@ -675,12 +675,12 @@ class Util
 			$eco = EconomicComplement::find($value);
 			if ($eco->old_eco_com) {
 				if ($eco->eco_com_state_id == 15){
-					$total = $total + ($eco->total + ($eco->amount_loan ?? 0) + ($eco->amount_accounting ?? 0) + ($eco->amount_replacement ?? 0));
+					$total = $total + ($eco->total + ($eco->amount_loan ?? 0) + ($eco->amount_accounting ?? 0) + ($eco->amount_replacement ?? 0) + ($eco->amount_credit ?? 0));
 				}else{
-					$total = $total + ($eco->total_repay + ($eco->amount_loan ?? 0) + ($eco->amount_accounting ?? 0) + ($eco->amount_replacement ?? 0));
+					$total = $total + ($eco->total_repay + ($eco->amount_loan ?? 0) + ($eco->amount_accounting ?? 0) + ($eco->amount_replacement ?? 0) + ($eco->amount_credit ?? 0));
 				}
 			}else{
-				$total = $total + ($eco->total + ($eco->amount_loan ?? 0) + ($eco->amount_accounting ?? 0) + ($eco->amount_replacement ?? 0));
+				$total = $total + ($eco->total + ($eco->amount_loan ?? 0) + ($eco->amount_accounting ?? 0) + ($eco->amount_replacement ?? 0) + ($eco->amount_credit ?? 0) );
 			}
 		}
 		return $total;

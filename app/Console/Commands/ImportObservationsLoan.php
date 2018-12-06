@@ -52,7 +52,7 @@ class ImportObservationsLoan extends Command
         //$this->info(json_encode($estados));
         //$path = storage_path('no_conciliados.xlsx');
 
-        $path = storage_path('excel/imports/garantes_mora.xls');
+        $path = storage_path('excel/imports/Mora 2018-11-08T17_50_58-04_00.xls');
       
       //  $path = storage_path('excel/imports/PRESTAMOS_EN_MORA (2).xlsx');
         // $path = str_replace('\\', '/', $o_path);
@@ -62,14 +62,14 @@ class ImportObservationsLoan extends Command
 
         $rows = array();
         $rows_not_found = array();
-        array_push($rows,array('nro_prestamo','ci','matricula','primer_nombre','segundo_nombre','paterno','materno','apellido_casada'));
-        array_push($rows_not_found,array('nro_prestamo','ci','matricula','primer_nombre','segundo_nombre','paterno','materno','apellido_casada'));
+        array_push($rows,array('nro_prestamo','ci','primer_nombre','segundo_nombre','paterno','materno','complemento','id_complemento'));
+        array_push($rows_not_found,array('nro_prestamo','ci','primer_nombre','segundo_nombre','paterno','materno'));
         Excel::selectSheetsByIndex(0)->load($path, function($reader) {
 
         global $Progress,$rows,$rows_not_found;
             Log::info("ingreso a la lectura");
 
-            $archivo = $reader->select(array('nro_prestamo','ci','matricula','primer_nombre','segundo_nombre','paterno','materno','apellido_casada'))->get();
+            $archivo = $reader->select(array('nro_prestamo','ci','primer_nombre','segundo_nombre','paterno','materno'))->get();
             Log::info($archivo);
             // $this->info($archivo);
             $hoja = $archivo;
@@ -97,7 +97,7 @@ class ImportObservationsLoan extends Command
                 }
                 
                 //$this->info("ingresando a metodo");
-                $eco_com = EconomicComplement::where('eco_com_procedure_id',7)->where('affiliate_id',$afiliado->id) ->first();
+                $eco_com = EconomicComplement::where('eco_com_procedure_id',13)->where('affiliate_id',$afiliado->id) ->first();
                 $this->info($eco_com);
                 if(isset($eco_com)){
 
@@ -111,16 +111,22 @@ class ImportObservationsLoan extends Command
                             $eco_observacion->message = "Prestatario en situación de mora";
                             $eco_observacion->save();
                         }
+
+                        array_push($rows, array($row->nro_prestamo,$row->ci,$row->primer_nombre,$row->segundo_nombre,$row->paterno,$row->materno,$eco_com->code,$eco_com->id));
+                }else{
+
+                    array_push($rows, array($row->nro_prestamo,$row->ci,$row->primer_nombre,$row->segundo_nombre,$row->paterno,$row->materno));
                 }
                 $this->info($afiliado->identity_card);    
-                array_push($rows, array($row->nro_prestamo,$row->ci,$row->matricula,$row->primer_nombre,$row->segundo_nombre,$row->paterno,$row->materno,$row->apellido_casada));
+                
+                
 
              
             }
             else{
 
                 $this->info($row->ci." Afiliado No encontrado");
-                array_push($rows_not_found,array($row->nro_prestamo,$row->ci,$row->matricula,$row->primer_nombre,$row->segundo_nombre,$row->paterno,$row->materno,$row->apellido_casada));
+                array_push($rows_not_found,array($row->nro_prestamo,$row->ci,$row->primer_nombre,$row->segundo_nombre,$row->paterno,$row->materno));
                 
             }
             
@@ -128,7 +134,7 @@ class ImportObservationsLoan extends Command
 
          });
        
-        Excel::create('Informe_observados_1_2018_gar',function($excel)
+        Excel::create('Informe_observados_2_2018_gar',function($excel)
         {
             global $rows,$rows_not_found,$row_empy_capital;
                     $excel->sheet('Observados',function($sheet) {

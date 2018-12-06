@@ -1562,7 +1562,7 @@ class EconomicComplementImportExportController extends Controller
 					WHERE economic_complements.id = eco_com_observations.economic_complement_id AND
 				  	eco_com_observations.observation_type_id IN (1, 2, 6, 10, 13, 22, 26, 30) AND
 				  	eco_com_observations.is_enabled = FALSE AND eco_com_observations.deleted_at is null)")
-			->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
+			->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting, economic_complements.amount_credit"))
 
 			->get();
 		$rows = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
@@ -1591,7 +1591,7 @@ class EconomicComplementImportExportController extends Controller
 					$afiliado_surname_husband = $a->ap_casado_afiliado;
 					break;
 			}
-			$amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0));
+			$amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
 			if ($amortization == 0) {
 				$amortization = null;
 			}
@@ -1646,7 +1646,7 @@ class EconomicComplementImportExportController extends Controller
 			->where('economic_complements.wf_current_state_id', 2)
 			->where('economic_complements.state', 'Edited')
 			->whereNotNull('economic_complements.review_date')
-			->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting"))
+			->select(DB::raw("economic_complements.id,economic_complements.code,eco_com_applicants.identity_card,cities1.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.birth_date,eco_com_applicants.civil_status,cities0.name as regional,degrees.shortened as degree,eco_com_modalities.shortened as modality,pension_entities.name as gestor,economic_complements.sub_total_rent as renta_boleta,economic_complements.reimbursement as reintegro,economic_complements.dignity_pension,economic_complements.total_rent as renta_neta,economic_complements.total_rent_calc as neto,categories.name as category,economic_complements.salary_reference,economic_complements.seniority as antiguedad,economic_complements.salary_quotable,economic_complements.difference,economic_complements.total_amount_semester,economic_complements.complementary_factor,economic_complements.total,reception_type as tipo_tramite,affiliates.identity_card as ci_afiliado, cities2.first_shortened as ext_afiliado,affiliates.first_name as pn_afiliado,affiliates.second_name as sn_afiliado,affiliates.last_name as ap_afiliado,affiliates.mothers_last_name as am_afiliado,affiliates.surname_husband as ap_casado_afiliado,eco_com_modalities.id as modality_id, economic_complements.amount_loan , economic_complements.amount_replacement, economic_complements.amount_accounting, economic_complements.amount_credit"))
 			->get();
 		$rows = array(array('Nro', 'Nro Tramite', 'C.I.', 'Ext', 'Primer Nombre', 'Segundo Nombre', 'Apellido Paterno', 'Apellido Materno', 'Apellido de Casado', 'Ci Causahabiente', 'Ext', 'Primer Nombre Causahabiente', 'Segundo Nombre Causahabiente', 'Apellido Paterno Causahabiente', ' Apellido Materno Causahabiente', 'Apellido Casado Causahabiente', 'Fecha de Nacimiento', 'Estado Civil', 'Regional', 'Grado', 'Tipo de Renta', 'Ente Gestor', 'Renta Boleta', 'Reintegro', 'Renta Dignidad', 'Renta Total Neta', 'Neto', 'Categoria', 'Referente Salarial', 'Antiguedad', 'Cotizable', 'Diferencia', 'Total Semestre', 'Factor de Complementacion', 'Complemento Economico final', 'Amortizacion', 'Complemento sin Amortizacion', 'Tipo de tramite'));
 
@@ -1675,7 +1675,7 @@ class EconomicComplementImportExportController extends Controller
 					$afiliado_surname_husband = $a->ap_casado_afiliado;
 					break;
 			}
-			$amortization = str_replace(',', '', ($a->amount_loan ?? 0 + $a->amount_replacement ?? 0 + $a->amount_accounting ?? 0));
+			$amortization = str_replace(',', '', ($a->amount_loan ?? 0 + $a->amount_replacement ?? 0 + $a->amount_accounting ?? 0 + $a->amount_credit ?? 0));
 			if ($amortization == 0) {
 				$amortization = null;
 			}
@@ -1749,7 +1749,7 @@ class EconomicComplementImportExportController extends Controller
 			foreach ($list as $datos) {
 				$economic = EconomicComplement::idIs($datos->id)->first();                    
                     //$import = $datos->importe;
-				$amortization = str_replace(',', '', ($economic->amount_loan ?? 0 + $economic->amount_replacement ?? 0 + $economic->amount_accounting ?? 0));
+				$amortization = str_replace(',', '', ($economic->amount_loan ?? 0 + $economic->amount_replacement ?? 0 + $economic->amount_accounting ?? 0 $economic->amount_credit ?? 0));
 				if ($amortization == 0) {
 					$amortization = null;
 				}
@@ -1886,7 +1886,7 @@ class EconomicComplementImportExportController extends Controller
 			$tja[] = $encb;
 			foreach ($list as $datos) {
 				$economic = EconomicComplement::idIs($datos->id)->first();
-				$amortization = str_replace(',', '', ($economic->amount_loan ?? 0 + $economic->amount_replacement ?? 0 + $economic->amount_accounting ?? 0));
+				$amortization = str_replace(',', '', ($economic->amount_loan ?? 0 + $economic->amount_replacement ?? 0 + $economic->amount_accounting ?? 0 + $economic->amount_credit ?? 0));
 				if ($amortization == 0) {
 					$amortization = null;
 				}
@@ -2432,7 +2432,7 @@ class EconomicComplementImportExportController extends Controller
 		global $j, $ecom;
 		$j = 2;
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_credit,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -2454,10 +2454,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("Pagado_banco", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -2480,7 +2480,7 @@ class EconomicComplementImportExportController extends Controller
 		global $j, $ecom;
 		$j = 2;
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_credit,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -2501,10 +2501,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("Rezagados", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -2526,7 +2526,7 @@ class EconomicComplementImportExportController extends Controller
 		global $j, $ecom;
 		$j = 2;
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -2547,10 +2547,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("Pagados_Domicilio", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -2572,7 +2572,7 @@ class EconomicComplementImportExportController extends Controller
 		global $j, $ecom;
 		$j = 2;
 		$ecom0 = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -2588,7 +2588,7 @@ class EconomicComplementImportExportController extends Controller
 			->get();
 
 		$ecom1 = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -2610,10 +2610,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("Planilla_Gral_Banco", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -2638,7 +2638,7 @@ class EconomicComplementImportExportController extends Controller
 		global $j, $ecom;
 		$j = 2;
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -2659,10 +2659,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("Tramite_Adicionales", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -2683,7 +2683,7 @@ class EconomicComplementImportExportController extends Controller
 		global $j, $ecom;
 		$j = 2;
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -2706,10 +2706,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("Pagados_poder_banco", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -2730,7 +2730,7 @@ class EconomicComplementImportExportController extends Controller
 		global $j, $ecom;
 		$j = 2;
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -2753,10 +2753,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("Pagados_amort_prestamos", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -2778,7 +2778,7 @@ class EconomicComplementImportExportController extends Controller
 		global $j, $ecom;
 		$j = 2;
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -2801,10 +2801,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("Pagados_amort_fondos", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -2825,7 +2825,7 @@ class EconomicComplementImportExportController extends Controller
 		global $j, $ecom;
 		$j = 2;
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -2848,10 +2848,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("Pagados_amort_contabi", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -2872,7 +2872,7 @@ class EconomicComplementImportExportController extends Controller
 		global $j, $ecom;
 		$j = 2;
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -2898,10 +2898,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("Pagados_Normal", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -2935,7 +2935,7 @@ class EconomicComplementImportExportController extends Controller
 			array_push($afff, $val->id);
 		}
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -2961,10 +2961,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("susp_repo_fondos", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -2997,7 +2997,7 @@ class EconomicComplementImportExportController extends Controller
 			array_push($afff, $val->id);
 		}
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -3023,10 +3023,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("susp_prestamos", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -3059,7 +3059,7 @@ class EconomicComplementImportExportController extends Controller
 			array_push($afff, $val->id);
 		}
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -3085,10 +3085,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("suspendidos", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -3121,7 +3121,7 @@ class EconomicComplementImportExportController extends Controller
 			array_push($afff, $val->id);
 		}
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -3147,10 +3147,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("susp_cont", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -3184,7 +3184,7 @@ class EconomicComplementImportExportController extends Controller
 			array_push($afff, $val->id);
 		}
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.phone_number as phone,eco_com_applicants.cell_phone_number as cell_phone,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.phone_number as phone,eco_com_applicants.cell_phone_number as cell_phone,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -3209,10 +3209,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("rez_cont", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'TELEFONO', 'CELULAR', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'TELEFONO', 'CELULAR', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->phone, $datos->cell_phone, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->phone, $datos->cell_phone, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -3245,7 +3245,7 @@ class EconomicComplementImportExportController extends Controller
 			array_push($afff, $val->id);
 		}
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.phone_number as phone,eco_com_applicants.cell_phone_number as cell_phone,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.phone_number as phone,eco_com_applicants.cell_phone_number as cell_phone,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -3271,10 +3271,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("rez_prestamos", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'TELEFONO', 'CELULAR', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'TELEFONO', 'CELULAR', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->phone, $datos->cell_phone, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->phone, $datos->cell_phone, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -3307,7 +3307,7 @@ class EconomicComplementImportExportController extends Controller
 			array_push($afff, $val->id);
 		}
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.phone_number as phone,eco_com_applicants.cell_phone_number as cell_phone,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.phone_number as phone,eco_com_applicants.cell_phone_number as cell_phone,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -3333,10 +3333,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("rez_rep_fondos", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'TELEFONO', 'CELULAR', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'TELEFONO', 'CELULAR', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->phone, $datos->cell_phone, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->phone, $datos->cell_phone, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -3369,7 +3369,7 @@ class EconomicComplementImportExportController extends Controller
 			array_push($afff, $val->id);
 		}
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.phone_number as phone,eco_com_applicants.cell_phone_number as cell_phone,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.phone_number as phone,eco_com_applicants.cell_phone_number as cell_phone,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -3395,10 +3395,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("rez_normal", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'TELEFONO', 'CELULAR', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'TELEFONO', 'CELULAR', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->phone, $datos->cell_phone, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->phone, $datos->cell_phone, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -3420,7 +3420,7 @@ class EconomicComplementImportExportController extends Controller
 		$j = 2;
 
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.phone_number as phone,eco_com_applicants.cell_phone_number as cell_phone,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,eco_com_applicants.phone_number as phone,eco_com_applicants.cell_phone_number as cell_phone,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -3444,10 +3444,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("rezagados", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'TELEFONO', 'CELULAR', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'TELEFONO', 'CELULAR', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->phone, $datos->cell_phone, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->phone, $datos->cell_phone, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -3468,7 +3468,7 @@ class EconomicComplementImportExportController extends Controller
 		global $j, $ecom;
 		$j = 2;
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -3489,10 +3489,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("Amortizados_100_porciento", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -3513,7 +3513,7 @@ class EconomicComplementImportExportController extends Controller
 		global $j, $ecom;
 		$j = 2;
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -3535,10 +3535,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("Amortizado_total_prestamos", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -3559,7 +3559,7 @@ class EconomicComplementImportExportController extends Controller
 		global $j, $ecom;
 		$j = 2;
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -3581,10 +3581,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("Amortizado_total_reposicion", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}
@@ -3605,7 +3605,7 @@ class EconomicComplementImportExportController extends Controller
 		global $j, $ecom;
 		$j = 2;
 		$ecom = DB::table('eco_com_applicants')
-			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting,  economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
+			->Select(DB::raw('economic_complements.code,eco_com_applicants.identity_card,cities2.first_shortened as ext,eco_com_applicants.first_name,eco_com_applicants.second_name,eco_com_applicants.last_name,eco_com_applicants.mothers_last_name,eco_com_applicants.surname_husband,cities1.name as regional,degrees.shortened as degree,categories.name as category,eco_com_modalities.shortened as modality,pension_entities.name as pension_entity,economic_complements.total,economic_complements.amount_loan,economic_complements.amount_accounting, economic_complements.amount_credit, economic_complements.amount_replacement, (coalesce(economic_complements.total,0) + coalesce(economic_complements.amount_loan,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_accounting,0) + coalesce(economic_complements.amount_replacement,0)) as subtotal'))
 			->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
 			->leftJoin('affiliates', 'economic_complements.affiliate_id', '=', 'affiliates.id')
 			->leftJoin('eco_com_modalities', 'economic_complements.eco_com_modality_id', '=', 'eco_com_modalities.id')
@@ -3627,10 +3627,10 @@ class EconomicComplementImportExportController extends Controller
 				$excel->sheet("Amortizado_total_contabilidad", function ($sheet) {
 					global $i, $j, $ecom;
 					$i = 1;
-					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'REPOSICION_FONDO', 'TOTAL'));
+					$sheet->row(1, array('NRO', 'CODIGO_TRAMITE', 'CI', 'EXT', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'PATERNO', 'MATERNO', 'APELLIDO_DE_CASADO', 'REGIONAL', 'GRADO', 'CATEGORIA', 'TIPO_RENTA', 'ENTE_GESTOR', 'SUBTOTAL', 'AMORTIZACION_PRESTAMOS', 'AMORTIZACION_CONTABILIDAD', 'AMORTIZACION_PAGO_A_FUTURO', 'REPOSICION_FONDO', 'TOTAL'));
 
 					foreach ($ecom as $datos) {
-						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_replacement, $datos->total));
+						$sheet->row($j, array($i, $datos->code, $datos->identity_card, $datos->ext, $datos->first_name, $datos->second_name, $datos->last_name, $datos->mothers_last_name, $datos->surname_husband, $datos->regional, $datos->degree, $datos->category, $datos->modality, $datos->pension_entity, $datos->subtotal, $datos->amount_loan, $datos->amount_accounting, $datos->amount_credit, $datos->amount_replacement, $datos->total));
 						$j++;
 						$i++;
 					}

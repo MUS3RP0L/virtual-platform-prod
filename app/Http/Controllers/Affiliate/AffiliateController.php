@@ -1004,9 +1004,10 @@ class AffiliateController extends Controller
         $loan = $affiliate->economic_complements()->sum('amount_loan');
         $replacement = $affiliate->economic_complements()->sum('amount_replacement');
         $accounting = $affiliate->economic_complements()->sum('amount_accounting');
+        $credit = $affiliate->economic_complements()->sum('amount_credit');
 
         // $debts = $affiliate->debts()->orderBy('created_at')->get( );
-        $economic_complements = $affiliate->economic_complements()->select('id', 'code','amount_loan', 'amount_replacement', 'amount_accounting');
+        $economic_complements = $affiliate->economic_complements()->select('id', 'code','amount_loan', 'amount_replacement', 'amount_accounting', 'amount_credit');
 
         return Datatables::of($economic_complements)
             ->editColumn('amount_loan',function ($economic_complement)
@@ -1020,6 +1021,10 @@ class AffiliateController extends Controller
             ->editColumn('amount_accounting',function ($economic_complement)
             {
                 return $economic_complement->amount_accounting;
+            })
+            ->editColumn('amount_credit',function ($economic_complement)
+            {
+                return $economic_complement->amount_credit;
             })
             ->make(true);
     }

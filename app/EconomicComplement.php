@@ -404,6 +404,10 @@ class EconomicComplement extends Model
             {
                 $total  = $total - $economic_complement->amount_replacement;
             }
+            if($economic_complement->amount_credit > 0)
+            {
+                $total  = $total - $economic_complement->amount_credit;
+            }
 
             $economic_complement->total = $total;
             $economic_complement->base_wage_id = $base_wage->id;
@@ -412,7 +416,7 @@ class EconomicComplement extends Model
             if ($economic_complement->old_eco_com) {
                 $old_total=json_decode($economic_complement->old_eco_com)->total;
                 // dd($total." ".$old_total);
-                $economic_complement->total_repay =  floatval($total) - (floatval($old_total) + (floatval(json_decode($economic_complement->old_eco_com)->amount_loan) + floatval(json_decode($economic_complement->old_eco_com)->amount_replacement) + floatval(json_decode($economic_complement->old_eco_com)->amount_accounting)));
+                $economic_complement->total_repay =  floatval($total) - (floatval($old_total) + (floatval(json_decode($economic_complement->old_eco_com)->amount_loan) + floatval(json_decode($economic_complement->old_eco_com)->amount_replacement) + floatval(json_decode($economic_complement->old_eco_com)->amount_accounting) + floatval(json_decode($economic_complement->old_eco_com)->amount_credit) ));
                 $economic_complement->user_id = Auth::user()->id;
                 $economic_complement->state = 'Edited';
                 if (WorkflowState::where('role_id', '=', Util::getRol()->id)->first()) {

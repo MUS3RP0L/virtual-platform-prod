@@ -10,7 +10,7 @@ use Carbon\Carbon;
 
 class WorkflowRecord extends Model
 {
-    protected $table = 'wf_records';
+    protected $table = 'wf_records_bck';
     protected $fillable = [
         'date',
         'user_id',

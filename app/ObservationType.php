@@ -12,7 +12,8 @@ class ObservationType extends Model
     protected $fillable = [
         'module_id',
         'name',
-        'description'
+        'description',
+        'type'
     ];
     protected $guarded = ['id'];
 
