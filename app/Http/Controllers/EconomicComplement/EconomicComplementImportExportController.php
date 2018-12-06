@@ -1749,7 +1749,7 @@ class EconomicComplementImportExportController extends Controller
 			foreach ($list as $datos) {
 				$economic = EconomicComplement::idIs($datos->id)->first();                    
                     //$import = $datos->importe;
-				$amortization = str_replace(',', '', ($economic->amount_loan ?? 0 + $economic->amount_replacement ?? 0 + $economic->amount_accounting ?? 0 $economic->amount_credit ?? 0));
+				$amortization = str_replace(',', '', ($economic->amount_loan ?? 0 + $economic->amount_replacement ?? 0 + $economic->amount_accounting ?? 0 + $economic->amount_credit ?? 0));
 				if ($amortization == 0) {
 					$amortization = null;
 				}
