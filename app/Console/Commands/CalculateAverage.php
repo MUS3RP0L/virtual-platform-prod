@@ -56,7 +56,7 @@ class CalculateAverage extends Command implements SelfHandling
                                     ->leftJoin('eco_com_procedures','economic_complements.eco_com_procedure_id','=','eco_com_procedures.id')
                                     ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
                                     ->leftJoin('base_wages','economic_complements.degree_id','=','base_wages.degree_id')
-                                    ->where('economic_complements.eco_com_procedure_id', '=', 7)
+                                    ->where('economic_complements.eco_com_procedure_id', '=', 13)
                                     ->whereYear('base_wages.month_year', '=', $year)
                                     ->whereRaw("economic_complements.total_rent::numeric >= eco_com_procedures.indicator::numeric")
                                     //->whereRaw('economic_complements.total_rent::numeric <= base_wages.amount::numeric') //MAL                                   
