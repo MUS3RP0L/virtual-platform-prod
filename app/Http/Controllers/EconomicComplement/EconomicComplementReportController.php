@@ -2036,7 +2036,7 @@ class EconomicComplementReportController extends Controller
             ini_set('max_execution_time', '-1');
             ini_set('max_input_time', '-1');
             set_time_limit('-1');
-            global $rows, $obs_mora, $obs_cont, $obs_repfo, $obs_juz,$cump_deuda, $legal_gua,$dom, $viudas, $concu;
+            global $rows, $obs_mora, $obs_cont, $obs_repfo, $obs_juz,$cump_deuda, $legal_gua,$dom, $viudas, $concu, $credit;
             //planilla banco
             $afis = DB::table('eco_com_applicants')
                 ->leftJoin('economic_complements', 'eco_com_applicants.economic_complement_id', '=', 'economic_complements.id')
@@ -2660,7 +2660,6 @@ class EconomicComplementReportController extends Controller
                     array_push($credit, array($i, $a->code, $a->identity_card, $a->ext, $a->first_name, $a->second_name, $a->last_name, $a->mothers_last_name, $a->surname_husband, $afiliado_ci, $afiliado_ext, $afiliado_first_name, $afiliado_second_name, $afiliado_last_nme, $afiliado_mother_last_name, $afiliado_surname_husband, $a->birth_date, $a->civil_status, $a->regional, $a->degree, $a->modality, $a->gestor, $a->renta_boleta, $a->reintegro, $a->dignity_pension, $a->renta_neta, $a->neto, $a->category, $a->salary_reference, $a->antiguedad, $a->salary_quotable, $a->difference, $a->total_amount_semester, $a->complementary_factor, $a->amount_credit, $a->total, $amortization, $total_temp, $a->tipo_tramite));
                     $i++;
                 }
-
             Excel::create('Planilla General Banco' . date("Y-m-d H:i:s"), function ($excel) {
 
                 global $rows, $obs_mora, $obs_cont, $obs_repfo, $obs_juz, $cump_deuda, $legal_gua, $dom, $viudas, $credit;
@@ -2791,7 +2790,7 @@ class EconomicComplementReportController extends Controller
                 $excel->sheet('pago a futuro', function ($sheet) {
                     global $credit;
                     $sheet->fromArray($credit, null, 'A1', false, false);
-                    $sheet->cells('A1:AM1', function ($cells) {
+                    $sheet->cells('A1:AL1', function ($cells) {
                         // manipulate the range of cells
                         $cells->setBackground('#058A37');
                         $cells->setFontColor('#ffffff');
