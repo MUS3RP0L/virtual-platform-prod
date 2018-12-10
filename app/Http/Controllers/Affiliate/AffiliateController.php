@@ -571,8 +571,10 @@ class AffiliateController extends Controller
                     //falta registrar los anios de servicio
                     $affiliate->category_id = $request->category;
                     $affiliate->pension_entity_id=$request->affiliate_entity_pension;
-                    $affiliate->service_years=$request->service_years <> "" ? $request->service_years:null;
-                    $affiliate->service_months=$request->service_months <> "" ? $request->service_months : null;
+                    if ($request->service_years >= 0 || $request->service_months >= 0) {
+                        $affiliate->service_years=$request->service_years <> "" ? $request->service_years : 0;
+                        $affiliate->service_months=$request->service_months <> "" ? $request->service_months : 0;
+                    }
                     $affiliate->save();
                     $message = "Información del Policía actualizada correctamente.";
                     Session::flash('message', $message);
@@ -638,7 +640,7 @@ class AffiliateController extends Controller
                     // /recalculate
                     $economic_complement->city_id = $request->regional;
                     $economic_complement->degree_id = $request->degree;
-                    if($request->service_months || $request->service_years){
+                    if($request->service_months >= 0 || $request->service_years >= 0){
                         $cat = $this->getCategory($request);
                         if ($cat == "error") {
                             return redirect('economic_complement/' . $economic_complement->id)
@@ -661,11 +663,10 @@ class AffiliateController extends Controller
                     $affiliate->date_entry = Util::datePick($request->date_entry);
                     $affiliate->item = $request->item > 0 ? $request->item: 0 ;
                     $affiliate->pension_entity_id=$request->affiliate_entity_pension;
-                    $affiliate->service_years=$request->service_years <> "" ? $request->service_years:null;
-                    $affiliate->service_months=$request->service_months <> "" ? $request->service_months : null;
                     $affiliate->death_certificate_number=$request->death_certificate_number;
-
-                    if ($request->service_months || $request->service_years) {
+                    if ($request->service_years >= 0 || $request->service_months >= 0) {
+                        $affiliate->service_years=$request->service_years <> "" ? $request->service_years : 0;
+                        $affiliate->service_months=$request->service_months <> "" ? $request->service_months : 0;
                         $cat = $this->getCategory($request);
                         if ($cat == "error") {
                             return redirect('economic_complement/' . $economic_complement->id)
