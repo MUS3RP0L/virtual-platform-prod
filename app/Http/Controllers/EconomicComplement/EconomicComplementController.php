@@ -1438,13 +1438,12 @@ class EconomicComplementController extends Controller
         $devolution_amount_total = null;
         if($devolution){   
             if ($devolution->percentage && $economic_complement->total > 0) {
-                 $devolution_amount_percetage = floatval($economic_complement->total * $devolution->percentage);
+                 $devolution_amount_percetage = round(floatval($economic_complement->total * $devolution->percentage),2);
             }elseif ($economic_complement->total > 0 && !$devolution->percentage) {
                 $devolution_amount_total = $devolution->total;
             }
 
         }
-
         $class_rent =DB::table('eco_com_kind_rent')->where('id',$economic_complement->eco_com_kind_rent_id)->first();
         $observations_quantity = EconomicComplementObservation::where('economic_complement_id',$economic_complement->id)->where('observation_type_id','<>',11)->get()->count();
         $observations_eliminated = EconomicComplementObservation::where('economic_complement_id',$economic_complement->id)
