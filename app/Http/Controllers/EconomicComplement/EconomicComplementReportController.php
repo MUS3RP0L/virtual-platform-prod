@@ -2090,7 +2090,7 @@ class EconomicComplementReportController extends Controller
                         $afiliado_surname_husband = $a->ap_casado_afiliado;
                         break;
                 }
-                $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                 if ($amortization == 0) {
                     $amortization = null;
                 }
@@ -2147,7 +2147,7 @@ class EconomicComplementReportController extends Controller
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -2203,7 +2203,7 @@ class EconomicComplementReportController extends Controller
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -2259,7 +2259,7 @@ class EconomicComplementReportController extends Controller
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -2314,7 +2314,7 @@ class EconomicComplementReportController extends Controller
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -2370,7 +2370,7 @@ class EconomicComplementReportController extends Controller
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -2430,7 +2430,7 @@ class EconomicComplementReportController extends Controller
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -2487,7 +2487,7 @@ class EconomicComplementReportController extends Controller
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -2542,7 +2542,7 @@ class EconomicComplementReportController extends Controller
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -2597,7 +2597,7 @@ class EconomicComplementReportController extends Controller
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -2652,7 +2652,7 @@ class EconomicComplementReportController extends Controller
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -2861,7 +2861,7 @@ class EconomicComplementReportController extends Controller
                     $afiliado_surname_husband = $a->ap_casado_afiliado;
                     break;
             }
-            $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+            $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
             if ($amortization == 0) {
                 $amortization = null;
             }
@@ -2929,7 +2929,7 @@ class EconomicComplementReportController extends Controller
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -2994,7 +2994,7 @@ class EconomicComplementReportController extends Controller
                     $afiliado_surname_husband = $a->ap_casado_afiliado;
                     break;
             }
-            $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+            $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
             if ($amortization == 0) {
                 $amortization = null;
             }
@@ -3059,7 +3059,7 @@ class EconomicComplementReportController extends Controller
                  $afiliado_surname_husband = $a->ap_casado_afiliado;
                  break;
          }
-         $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+         $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
          if ($amortization == 0) {
              $amortization = null;
          }
@@ -3123,7 +3123,7 @@ class EconomicComplementReportController extends Controller
                 $afiliado_surname_husband = $a->ap_casado_afiliado;
                 break;
         }
-        $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+        $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
         if ($amortization == 0) {
             $amortization = null;
         }
@@ -3187,7 +3187,7 @@ class EconomicComplementReportController extends Controller
                 $afiliado_surname_husband = $a->ap_casado_afiliado;
                 break;
         }
-        $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+        $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
         if ($amortization == 0) {
             $amortization = null;
         }
@@ -3248,7 +3248,7 @@ foreach ($concu1 as $a) {
             $afiliado_surname_husband = $a->ap_casado_afiliado;
             break;
     }
-    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
     if ($amortization == 0) {
         $amortization = null;
     }
@@ -3330,7 +3330,7 @@ foreach ($doble1 as $a) {
             $afiliado_surname_husband = $a->ap_casado_afiliado;
             break;
     }
-    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
     if ($amortization == 0) {
         $amortization = null;
     }
@@ -3497,7 +3497,7 @@ foreach ($doble1 as $a) {
                         $afiliado_surname_husband = $a->ap_casado_afiliado;
                         break;
                 }
-                $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                 if ($amortization == 0) {
                     $amortization = null;
                 }
@@ -3555,7 +3555,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -3612,7 +3612,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -3669,7 +3669,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -3725,7 +3725,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -3782,7 +3782,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -3843,7 +3843,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -3901,7 +3901,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -3957,7 +3957,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -4013,7 +4013,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -4216,7 +4216,7 @@ foreach ($doble1 as $a) {
                     $afiliado_surname_husband = $a->ap_casado_afiliado;
                     break;
             }
-            $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+            $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
             if ($amortization == 0) {
                 $amortization = null;
             }
@@ -4286,7 +4286,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -4351,7 +4351,7 @@ foreach ($doble1 as $a) {
                     $afiliado_surname_husband = $a->ap_casado_afiliado;
                     break;
             }
-            $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+            $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
             if ($amortization == 0) {
                 $amortization = null;
             }
@@ -4415,7 +4415,7 @@ foreach ($doble1 as $a) {
                  $afiliado_surname_husband = $a->ap_casado_afiliado;
                  break;
          }
-         $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+         $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
          if ($amortization == 0) {
              $amortization = null;
          }
@@ -4479,7 +4479,7 @@ foreach ($doble1 as $a) {
                 $afiliado_surname_husband = $a->ap_casado_afiliado;
                 break;
         }
-        $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+        $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
         if ($amortization == 0) {
             $amortization = null;
         }
@@ -4543,7 +4543,7 @@ foreach ($doble1 as $a) {
                 $afiliado_surname_husband = $a->ap_casado_afiliado;
                 break;
         }
-        $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+        $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
         if ($amortization == 0) {
             $amortization = null;
         }
@@ -4604,7 +4604,7 @@ foreach ($concu1 as $a) {
             $afiliado_surname_husband = $a->ap_casado_afiliado;
             break;
     }
-    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
     if ($amortization == 0) {
         $amortization = null;
     }
@@ -4688,7 +4688,7 @@ foreach ($doble1 as $a) {
             $afiliado_surname_husband = $a->ap_casado_afiliado;
             break;
     }
-    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
     if ($amortization == 0) {
         $amortization = null;
     }
@@ -4856,7 +4856,7 @@ foreach ($doble1 as $a) {
                         $afiliado_surname_husband = $a->ap_casado_afiliado;
                         break;
                 }
-                $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                 if ($amortization == 0) {
                     $amortization = null;
                 }
@@ -4914,7 +4914,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -4971,7 +4971,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -5028,7 +5028,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -5084,7 +5084,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -5141,7 +5141,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -5202,7 +5202,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -5260,7 +5260,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -5316,7 +5316,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -5372,7 +5372,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -5574,7 +5574,7 @@ foreach ($doble1 as $a) {
                     $afiliado_surname_husband = $a->ap_casado_afiliado;
                     break;
             }
-            $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+            $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
             if ($amortization == 0) {
                 $amortization = null;
             }
@@ -5644,7 +5644,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -5709,7 +5709,7 @@ foreach ($doble1 as $a) {
                     $afiliado_surname_husband = $a->ap_casado_afiliado;
                     break;
             }
-            $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+            $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
             if ($amortization == 0) {
                 $amortization = null;
             }
@@ -5770,7 +5770,7 @@ foreach ($doble1 as $a) {
                  $afiliado_surname_husband = $a->ap_casado_afiliado;
                  break;
          }
-         $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+         $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
          if ($amortization == 0) {
              $amortization = null;
          }
@@ -5834,7 +5834,7 @@ foreach ($doble1 as $a) {
                 $afiliado_surname_husband = $a->ap_casado_afiliado;
                 break;
         }
-        $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+        $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
         if ($amortization == 0) {
             $amortization = null;
         }
@@ -5898,7 +5898,7 @@ foreach ($doble1 as $a) {
                 $afiliado_surname_husband = $a->ap_casado_afiliado;
                 break;
         }
-        $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+        $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
         if ($amortization == 0) {
             $amortization = null;
         }
@@ -5959,7 +5959,7 @@ foreach ($concu1 as $a) {
             $afiliado_surname_husband = $a->ap_casado_afiliado;
             break;
     }
-    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
     if ($amortization == 0) {
         $amortization = null;
     }
@@ -6041,7 +6041,7 @@ foreach ($doble1 as $a) {
             $afiliado_surname_husband = $a->ap_casado_afiliado;
             break;
     }
-    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
     if ($amortization == 0) {
         $amortization = null;
     }
@@ -6205,7 +6205,7 @@ foreach ($doble1 as $a) {
                     $afiliado_surname_husband = $a->ap_casado_afiliado;
                     break;
             }
-            $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+            $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
             if ($amortization == 0) {
                 $amortization = null;
             }
@@ -6274,7 +6274,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -6338,7 +6338,7 @@ foreach ($doble1 as $a) {
                     $afiliado_surname_husband = $a->ap_casado_afiliado;
                     break;
             }
-            $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+            $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
             if ($amortization == 0) {
                 $amortization = null;
             }
@@ -6398,7 +6398,7 @@ foreach ($doble1 as $a) {
                  $afiliado_surname_husband = $a->ap_casado_afiliado;
                  break;
          }
-         $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+         $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
          if ($amortization == 0) {
              $amortization = null;
          }
@@ -6461,7 +6461,7 @@ foreach ($doble1 as $a) {
                 $afiliado_surname_husband = $a->ap_casado_afiliado;
                 break;
         }
-        $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+        $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
         if ($amortization == 0) {
             $amortization = null;
         }
@@ -6524,7 +6524,7 @@ foreach ($doble1 as $a) {
                 $afiliado_surname_husband = $a->ap_casado_afiliado;
                 break;
         }
-        $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+        $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
         if ($amortization == 0) {
             $amortization = null;
         }
@@ -6584,7 +6584,7 @@ foreach ($concu1 as $a) {
             $afiliado_surname_husband = $a->ap_casado_afiliado;
             break;
     }
-    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
     if ($amortization == 0) {
         $amortization = null;
     }
@@ -6664,7 +6664,7 @@ foreach ($doble1 as $a) {
             $afiliado_surname_husband = $a->ap_casado_afiliado;
             break;
     }
-    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
     if ($amortization == 0) {
         $amortization = null;
     }
@@ -6827,7 +6827,7 @@ foreach ($doble1 as $a) {
                     $afiliado_surname_husband = $a->ap_casado_afiliado;
                     break;
             }
-            $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+            $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
             if ($amortization == 0) {
                 $amortization = null;
             }
@@ -6896,7 +6896,7 @@ foreach ($doble1 as $a) {
                             $afiliado_surname_husband = $a->ap_casado_afiliado;
                             break;
                     }
-                    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+                    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
                     if ($amortization == 0) {
                         $amortization = null;
                     }
@@ -6960,7 +6960,7 @@ foreach ($doble1 as $a) {
                     $afiliado_surname_husband = $a->ap_casado_afiliado;
                     break;
             }
-            $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+            $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
             if ($amortization == 0) {
                 $amortization = null;
             }
@@ -7020,7 +7020,7 @@ foreach ($doble1 as $a) {
                  $afiliado_surname_husband = $a->ap_casado_afiliado;
                  break;
          }
-         $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+         $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
          if ($amortization == 0) {
              $amortization = null;
          }
@@ -7083,7 +7083,7 @@ foreach ($doble1 as $a) {
                 $afiliado_surname_husband = $a->ap_casado_afiliado;
                 break;
         }
-        $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+        $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
         if ($amortization == 0) {
             $amortization = null;
         }
@@ -7146,7 +7146,7 @@ foreach ($doble1 as $a) {
                 $afiliado_surname_husband = $a->ap_casado_afiliado;
                 break;
         }
-        $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+        $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
         if ($amortization == 0) {
             $amortization = null;
         }
@@ -7206,7 +7206,7 @@ foreach ($concu1 as $a) {
             $afiliado_surname_husband = $a->ap_casado_afiliado;
             break;
     }
-    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
     if ($amortization == 0) {
         $amortization = null;
     }
@@ -7286,7 +7286,7 @@ foreach ($doble1 as $a) {
             $afiliado_surname_husband = $a->ap_casado_afiliado;
             break;
     }
-    $amortization = str_replace(',', '', ($a->amount_loan ?? 0.0 + $a->amount_replacement ?? 0.0 + $a->amount_accounting ?? 0.0 + $a->amount_credit ?? 0.0));
+    $amortization = str_replace(',', '', (($a->amount_loan ?? 0.0) + ($a->amount_replacement ?? 0.0) + ($a->amount_accounting ?? 0.0) + ($a->amount_credit ?? 0.0)));
     if ($amortization == 0) {
         $amortization = null;
     }
