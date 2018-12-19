@@ -70,11 +70,11 @@ class EconomicComplementReportController extends Controller
         '20' => 'Todos los tramites Validados del Area de Recepcion',
         '21' => 'Todos los tramites SIN Validar del Area Recepcion',
         '22' => 'PLANILLA GENERAL',
-        '23' => 'PLANILLA BANCO UNION',
-        //'24' => 'PLANILLA GENERAL 2',
-        '25' => 'PLANILLA BANCO UNION 2',
+       // '23' => 'PLANILLA BANCO UNION',
+        //'24' => 'PLANILLA GENERAL 2',   //no sirve
+       // '25' => 'PLANILLA BANCO UNION 2',
         // '26' => 'PLANILLA GENERAL 3',
-        '27' => 'PLANILLA BANCO UNION 3',
+      //  '27' => 'PLANILLA BANCO UNION 3',
         '28' => 'PAGADOS EN BANCO UNION',
         '29' => 'REZAGADOS DE BANCO UNION'
       ];
