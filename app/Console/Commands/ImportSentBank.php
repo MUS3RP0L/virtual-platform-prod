@@ -54,10 +54,10 @@ class ImportSentBank extends Command implements SelfHandling
                        Log::info($result->descripcion_2);
                      
                             $ecom = EconomicComplement::where('affiliate_id','=', trim($result->descripcion_2))                                                     
-                                                      ->where('eco_com_procedure_id','=', 7)->first();
+                                                      ->where('eco_com_procedure_id','=', 13)->first();
                             if ($ecom)
                             {       
-                                    $ecom->eco_com_state_id = 26;  //Enviado a banco
+                                    $ecom->eco_com_state_id = 24;  //Enviado a banco
                                     $ecom->save();
                                     $found++;                  
                             }
