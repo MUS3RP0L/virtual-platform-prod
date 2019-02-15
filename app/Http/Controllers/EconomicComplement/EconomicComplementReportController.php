@@ -1639,6 +1639,7 @@ class EconomicComplementReportController extends Controller
           break;
 
         case '6':
+        // no va funcionar aqui semester all and years all
           $eco_com_procedure_current = EconomicComplementProcedure::find($eco_com_procedure_id);
           $eco_com_procedure_old = EconomicComplementProcedure::find(Util::semesterAgo($year, $semester));
           if (!$eco_com_procedure_old) { return;  }
@@ -1666,6 +1667,7 @@ class EconomicComplementReportController extends Controller
           
           break;
           case '7':
+          // no va funcionar aqui semester all and years all
           $eco_com_procedure_current = EconomicComplementProcedure::find($eco_com_procedure_id);
           $eco_com_procedure_old = EconomicComplementProcedure::find(Util::semesterAgo($year, $semester));
           if (!$eco_com_procedure_old) { return;  }
