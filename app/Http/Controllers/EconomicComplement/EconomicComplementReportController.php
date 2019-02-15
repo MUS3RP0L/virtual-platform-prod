@@ -63,6 +63,7 @@ class EconomicComplementReportController extends Controller
         '14' => 'Afiliados en Disponibilidad',
         '15' => 'Afiliados Observados por Documentos Preverificados 2018',
         '16' => 'Tràmites con pago a domicilio',
+        '17' => 'Trámites con Amortizacion (Reposición de Fondos)',
         // '2' => 'Trámites Inclusiones',
         // '3' => 'Trámites habituales',
         '18' => 'Todos los tramites Validados del Area Tecnica',
@@ -1490,8 +1491,10 @@ class EconomicComplementReportController extends Controller
     foreach ($eco_com_pro_years as $key => $value) {
       $years[]=array(Util::getYear($value) => Util::getYear($value));
     }
+    $years[] = array('all' => 'Todos');
     $current_year = Util::getCurrentYear();
     $semesters = EconomicComplementProcedure::orderBy('semester')->get()->pluck('semester', 'semester');
+    $semesters[] = array('all' => 'Todos');
     $current_semester = Util::getCurrentSemester();
     $reports_list=self::reports_lists();
     
@@ -1503,12 +1506,18 @@ class EconomicComplementReportController extends Controller
     $data;
     $type = $request->type;
     $year = $request->year;
-    $semester = $request->semester;
-    $eco_com_procedure_id = EconomicComplementProcedure::whereYear('year','=',$year)->where('semester','like',$semester)->first();
+    $semester = $request->semester == 'all' ? '%%' : $request->semester;
+    Log::info($year);
+    Log::info($semester);
+    $eco_com_procedure_id = EconomicComplementProcedure::where('semester','like',$semester);
+    if($year != 'all'){
+        $eco_com_procedure_id = $eco_com_procedure_id->whereYear('year','=',$year);
+    }
+    $eco_com_procedure_id = $eco_com_procedure_id->get();
     if (!$eco_com_procedure_id) {
       return 'error';
     }
-    $eco_com_procedure_id=$eco_com_procedure_id->id;
+    $eco_com_procedure_id=$eco_com_procedure_id->pluck('id');
     //dd($eco_com_procedure_id);
     $name = self::reports_lists()[$type];
     switch ($type) {
@@ -1516,7 +1525,7 @@ class EconomicComplementReportController extends Controller
         //tramites con fracion solidaria
         $columns = ',economic_complements.aps_total_fs as fraccion_solidaria';
         $file_name = $name.' '.date("Y-m-d H:i:s");
-        $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+        $economic_complements=EconomicComplement::whereIn('eco_com_procedure_id',$eco_com_procedure_id)
         ->ecocominfo()
         ->applicantinfo()
         ->affiliateinfo()
@@ -1535,7 +1544,7 @@ class EconomicComplementReportController extends Controller
           //$columns = ', pension_entities.type as tipo_de_ente_gestor, economic_complements.reception_type as tipo_de_recepcion, eco_com_states.name as estado, wf_states.name as ubicacion';
           $file_name = $name.' '.date("Y-m-d H:i:s");
           //dd(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_complements().",".EconomicComplement::basic_info_affiliates()));
-          $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+          $economic_complements=EconomicComplement::whereIn('eco_com_procedure_id',$eco_com_procedure_id)
             ->leftJoin('eco_com_applicants as eca','eca.economic_complement_id','=','economic_complements.id')
             ->leftJoin('eco_com_modalities as ecm','ecm.id','=','economic_complements.eco_com_modality_id')
             ->leftJoin('affiliates as af','af.id','=','economic_complements.affiliate_id')
@@ -1599,7 +1608,7 @@ class EconomicComplementReportController extends Controller
         case '4':
           $columns = ',economic_complements.aps_disability as concurrencia';
           $file_name = $name.' '.date("Y-m-d H:i:s");
-          $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+          $economic_complements=EconomicComplement::whereIn('eco_com_procedure_id',$eco_com_procedure_id)
           ->ecocominfo()
           ->applicantinfo()
           ->affiliateinfo()
@@ -1615,7 +1624,7 @@ class EconomicComplementReportController extends Controller
         case '5':
           $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable';
           $file_name = $name.' '.date("Y-m-d H:i:s");
-          $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+          $economic_complements=EconomicComplement::whereIn('eco_com_procedure_id',$eco_com_procedure_id)
           ->ecocominfo()
           ->applicantinfo()
           ->affiliateinfo()
@@ -1689,7 +1698,7 @@ class EconomicComplementReportController extends Controller
         case '8':
           $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable, observations.observations as observaciones';
           $file_name = $name.' '.date("Y-m-d H:i:s");
-          $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+          $economic_complements=EconomicComplement::whereIn('eco_com_procedure_id',$eco_com_procedure_id)
           ->ecocominfo()
           ->applicantinfo()
           ->legalguardianinfo()
@@ -1710,7 +1719,7 @@ class EconomicComplementReportController extends Controller
         case '9':  //VALIDADOS CON OBSERVACION
           $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable, observations.observations as observaciones';
           $file_name = $name.' '.date("Y-m-d H:i:s");
-          $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+          $economic_complements=EconomicComplement::whereIn('eco_com_procedure_id',$eco_com_procedure_id)
           ->ecocominfo()
           ->applicantinfo()
           ->affiliateinfo()
@@ -1728,7 +1737,7 @@ class EconomicComplementReportController extends Controller
         case '10': //NO VALIDADOS CON OBSERVACIONES
           $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable, observations.observations as observaciones';
           $file_name = $name.' '.date("Y-m-d H:i:s");
-          $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+          $economic_complements=EconomicComplement::whereIn('eco_com_procedure_id',$eco_com_procedure_id)
           ->ecocominfo()
           ->applicantinfo()
           ->affiliateinfo()
@@ -1746,7 +1755,7 @@ class EconomicComplementReportController extends Controller
          case '11': //REPORTE DE AMORTIZACION
           $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable,economic_complements.amount_loan as amortizacion_prestamos,economic_complements.amount_accounting as amortizacion_contabilidad, economic_complements.amount_replacement as amortizacón_resposicion,  observations.observations as observaciones, economic_complements.has_legal_guardian,economic_complements.has_legal_guardian_s';
           $file_name = $name.' '.date("Y-m-d H:i:s");
-          $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+          $economic_complements=EconomicComplement::whereIn('eco_com_procedure_id',$eco_com_procedure_id)
           ->ecocominfo()
           ->applicantinfo()
           ->affiliateinfo()
@@ -1768,7 +1777,7 @@ class EconomicComplementReportController extends Controller
         // $columns = ',economic_complements.reception_type as tipo_de_recepcion';
 
         // $file_name = $name.' '.date("Y-m-d H:i:s");
-        // $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+        // $economic_complements=EconomicComplement::whereIn('eco_com_procedure_id',$eco_com_procedure_id)
         // ->ecocominfo()
         // ->applicantinfo()
         // ->affiliateinfo()
@@ -1784,7 +1793,7 @@ class EconomicComplementReportController extends Controller
         // $columns = ',economic_complements.reception_type as tipo_de_recepcion';
 
         // $file_name = $name.' '.date("Y-m-d H:i:s");
-        // $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+        // $economic_complements=EconomicComplement::whereIn('eco_com_procedure_id',$eco_com_procedure_id)
         // ->ecocominfo()
         // ->applicantinfo()
         // ->affiliateinfo()
@@ -1940,7 +1949,7 @@ class EconomicComplementReportController extends Controller
         //dd($eco_com_procedure_id);
         $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable,eco_observations.observations as observaciones';  //observations.observations as observaciones
         $file_name = $name.' '.date("Y-m-d H:i:s");
-        $economic_complements=EconomicComplement::where('eco_com_procedure_id','=',$eco_com_procedure_id)
+        $economic_complements=EconomicComplement::whereIn('eco_com_procedure_id',$eco_com_procedure_id)
         ->ecocominfo()
         ->applicantinfo()
         //->legalguardianinfo()
@@ -1954,10 +1963,25 @@ class EconomicComplementReportController extends Controller
         ->where('eco_com_observations.observation_type_id','=',30)
         ->get();
 
-        $data = $economic_complements;
+        $data = $economic_complements->first;
         Util::excel($file_name, 'hoja', $data);
        break;
-       
+        case '17': // REPORTTE DE TRAMITES QUE AMORTIZARON Rep fon
+            $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable, economic_complements.amount_replacement as amortizacion_rep_fon';
+            $file_name = $name.' '.date("Y-m-d H:i:s");
+            $economic_complements=EconomicComplement::whereIn('eco_com_procedure_id',$eco_com_procedure_id)
+            ->ecocominfo()
+            ->applicantinfo()
+            ->affiliateinfo()
+            ->ecocomstates()
+            ->wfstates()
+            ->select(DB::raw(EconomicComplement::basic_info_colums().",".EconomicComplement::basic_info_affiliates().",".EconomicComplement::basic_info_complements()."".$columns))
+            ->where('economic_complements.amount_replacement','>',0)
+            ->get();
+
+            $data = $economic_complements;
+            Util::excel($file_name, 'hoja', $data);
+        break;
 
         case '18':
             $columns = '';
