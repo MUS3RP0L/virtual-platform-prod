@@ -1967,7 +1967,7 @@ class EconomicComplementReportController extends Controller
         Util::excel($file_name, 'hoja', $data);
        break;
         case '17': // REPORTTE DE TRAMITES QUE AMORTIZARON Rep fon
-            $columns = ',economic_complements.total_rent as total_renta,economic_complements.salary_quotable as salario_cotizable, economic_complements.amount_replacement as amortizacion_rep_fon';
+            $columns = ', economic_complements.amount_replacement as amortizacion_rep_fon';
             $file_name = $name.' '.date("Y-m-d H:i:s");
             $economic_complements=EconomicComplement::whereIn('eco_com_procedure_id',$eco_com_procedure_id)
             ->ecocominfo()
