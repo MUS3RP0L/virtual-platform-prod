@@ -153,7 +153,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $gate->define('accounting',function($user){
             // foreach ($user->roles as $role) {
-                if(Util::getRol()->id == 7){
+                if(Util::getRol()->id == 7 || Util::getRol()->module_id == 2){
                     return true;
                 }
             // }
