@@ -71,7 +71,7 @@
             
             <h4 class="control-sidebar-heading"><b>Reportes del Beneficio</b></h4>
             <ul class="control-sidebar-menu">
-                @can('economic_complement')
+                
                     <li>
                       <a href="{!! url('report_complement') !!}">
                         <div class="menu">
@@ -107,7 +107,7 @@
                             </div>
                         </a>
                     </li>
-                @endcan
+             
             </ul>
         </div>
     </div>
