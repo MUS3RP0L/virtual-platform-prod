@@ -38,12 +38,12 @@
         por un importe de Bs. {{ Util::formatMoney($total) }}  ({{ $total_dues_literal }} BOLIVIANOS),
         <strong>
           @if($devolution->percentage)
-          expreso mi conformidad de manera voluntaria para que se efectúe el descuento con el {{ $devolution->percentage * 100 }}% del beneficio del Complemento Económico a partir del {{ Util::getCurrentSemester() }} Semestre de la gestión {{ Util::getCurrentYear() }}, hasta cubrir el monto determinado.
+          expreso mi conformidad de manera voluntaria para que se efectúe el descuento con el {{ $devolution->percentage * 100 }}% del beneficio del Complemento Económico a partir del {{-- Util::getCurrentSemester() --}} Primer Semestre de la gestión {{ Util::getCurrentYear() }}, hasta cubrir el monto determinado.
           @else
             @if($devolution->deposit_number && $devolution->payment_date)
               expreso mi conformidad de manera voluntaria para efectuar la devolución del total del monto en defecto inicialmente determinado.
             @else
-              expreso mi conformidad de manera voluntaria para que se efectúe el descuento del total del monto en defecto inicialmente determinado, con el beneficio del Complemento Económico del {{ Util::getCurrentSemester() }} semestre de la gestión {{ Util::getCurrentYear() }}.
+              expreso mi conformidad de manera voluntaria para que se efectúe el descuento del total del monto en defecto inicialmente determinado, con el beneficio del Complemento Económico del {{-- Util::getCurrentSemester() --}} Primer semestre de la gestión {{ Util::getCurrentYear() }}.
             @endif
           @endif
         </strong>
