@@ -1242,7 +1242,7 @@ class EconomicComplementReportController extends Controller
         }
         $total_literal= Util::convertir($economic_complement->total);
         $temp_total=null;
-        if ($economic_complement->amount_loan || $economic_complement->amount_accounting || $economic_complement->amount_replacement) {
+        if ($economic_complement->amount_loan || $economic_complement->amount_accounting || $economic_complement->amount_replacement || $economic_complement->amount_credit) {
           $temp_total=$economic_complement->total +  ($economic_complement->amount_loan ?? 0) + ($economic_complement->amount_accounting ?? 0) + ($economic_complement->amount_replacement ?? 0)+ ($economic_complement->amount_credit ?? 0);
         }
         // dd($temp_total);
