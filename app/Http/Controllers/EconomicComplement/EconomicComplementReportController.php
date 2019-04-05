@@ -61,7 +61,7 @@ class EconomicComplementReportController extends Controller
         '12' => 'Todos los derechohabiente y afiliados.(todos los semestres)',
         '13' => 'Afiliados del sector Pasivo',
         '14' => 'Afiliados en Disponibilidad',
-        '15' => 'Afiliados Observados por Documentos Preverificados 2018',
+        '15' => 'Afiliados Observados por Documentos Preverificados 2019',
         '16' => 'Tràmites con pago a domicilio',
         '17' => 'Trámites con Amortizacion (Reposición de Fondos)',
         // '2' => 'Trámites Inclusiones',
@@ -1942,7 +1942,7 @@ class EconomicComplementReportController extends Controller
                     ->leftJoin("cities as affiliate_city_identity_card", "affiliates.city_identity_card_id",  "=", "affiliate_city_identity_card.id")
                     ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
 
-                    ->where("observation_types.id",  '=', 16)
+                    ->where("observation_types.id",  '=', 33)
                     ->get();
             $data = $query;
             Util::excel($file_name, 'afi obs por Documentos Prev',$data);
