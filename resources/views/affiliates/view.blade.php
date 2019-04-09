@@ -810,8 +810,8 @@
                                             <div class="col-md-6">
                                                 <strong>Estado:</strong>
                                             </div>
-                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->affiliate_state->affiliate_state_type->name !!}">
-                                                {!! $affiliate->affiliate_state->name !!}
+                                            <div class="col-md-6" data-toggle="tooltip" data-placement="bottom" data-original-title="{!! $affiliate->affiliate_state->affiliate_state_type->name ?? ' ' !!}">
+                                                {!! $affiliate->affiliate_state->name ?? ' ' !!}
                                             </div>
                                         </div>
                                     </td>
@@ -906,11 +906,12 @@
                                             <div class="col-md-6">
                                                 <strong>Categoria:</strong>
                                             </div>
-                                            <div class="col-md-6">{!! $affiliate->category->name !!}
+                                            <div class="col-md-6">{!! $affiliate->category->name ?? ' ' !!}
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
+                                @if($affiliate->degree_id)
                                 <tr>
                                     <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
                                         <div class="row">
@@ -923,6 +924,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                                @endif
                                 @if($affiliate->pension_entity)
                                 <tr>
                                    <td style="border-top:0px;border-bottom:1px solid #f4f4f4;">
@@ -1619,7 +1621,7 @@
                                 <div class="form-group">
                                         {!! Form::label('state', 'Estado', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('state',$affiliate_states_list, $affiliate->affiliate_state->id , ['class'=> 'combobox form-control', 'required']) !!}
+                                        {!! Form::select('state',$affiliate_states_list, $affiliate->affiliate_state->id ?? ' ' , ['class'=> 'combobox form-control', 'required']) !!}
                                         <span class="help-block">Seleccione un estado del policía</span>
                                     </div>
                                 </div>
@@ -1675,7 +1677,7 @@
                                 <div class="form-group">
                                         {!! Form::label('degree', 'Grado', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        {!! Form::select('degree',$degrees_list, $affiliate->degree->id , ['class'=> 'combobox form-control', 'required']) !!}
+                                        {!! Form::select('degree',$degrees_list, $affiliate->degree->id ?? ' ' , ['class'=> 'combobox form-control', 'required']) !!}
                                         <span class="help-block">Seleccione un grado del policía</span>
                                     </div>
                                 </div>
