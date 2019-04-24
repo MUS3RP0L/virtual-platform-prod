@@ -40,7 +40,7 @@
     <table >
       <tr>
         <td class="izq no-border size-10">
-         <strong>Fecha de Emisi&#243n: </strong>{!! $date !!} - {!! $hour !!}
+         <strong>Fecha de Emisi&#243n: </strong>26 de marzo de 2019 - 17:28:02
         </td>
         <td class="der no-border size-10">
           @if(isset($user))
