@@ -30,7 +30,7 @@
     <table class="table">
       <tr>
         <td style="border: 0px;text-align:left;">
-          <div class="title"><b>Fecha Emisión: </b> 26 de marzo de 2019 - 17:28:02<br></div>
+          <div class="title"><b>Fecha Emisión: </b>{{ $user->city->name ?? 'La Paz'}}, {!! $date !!} - {!! $hour !!}<br></div>
         </td>
         @if(isset($user))
         <td style="border: 0px;text-align:right;">
