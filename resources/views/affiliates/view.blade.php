@@ -140,13 +140,13 @@
                             <h3 class="box-title"><i class="fa fa-{{$affiliate->gender=='M'?'male':'female'  }}"></i> Información Personal</h3>
                         </div>
                         <div class="col-md-2 text-right">
-                            @if(! $affiliate->economic_complements->count())
+                            {{-- @if(! $affiliate->economic_complements->count()) --}}
                                 <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                     <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-personal">
                                         <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
                                     </a>
                                 </div>
-                            @endif
+                            {{-- @endif --}}
                         </div>
                     </div>
                 </div>
@@ -499,13 +499,13 @@
                         @if($info_spouse)
                             @can("eco_com_review_and_reception")
                             <div class="col-md-2 text-right">
-                                @if(! $affiliate->economic_complements->count())
+                                {{-- @if(!$affiliate->economic_complements->count()) --}} 
                                 <div data-toggle="tooltip" data-placement="left" data-original-title="Editar">
                                     <a href="" class="btn btn-sm bg-olive" data-toggle="modal" data-target="#myModal-spouse">
                                         <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
                                     </a>
                                 </div>
-                                @endif
+                                {{-- @endif --}}
                             </div>
                             @endcan
                         @endif
