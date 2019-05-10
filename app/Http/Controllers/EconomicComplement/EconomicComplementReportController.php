@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Muserpol\Helper\Util;
 use Maatwebsite\Excel\Facades\Excel;
 
+
 use Muserpol\EconomicComplement;
 use Muserpol\EconomicComplementProcedure;
 use Muserpol\EconomicComplementRent;
@@ -1933,7 +1934,7 @@ class EconomicComplementReportController extends Controller
             $file_name = $name.' '.date("Y-m-d H:i:s");
             $query = Affiliate::select(DB::raw(
                         "row_number() OVER () AS NRO," .
-                            Affiliate::basic_info_columns() . ",city_user.name as u_regional,degrees.name as grado"
+                            Affiliate::basic_info_columns() . ",city_user.name as u_regional,degrees.name as grado,spouses.identity_card as v_ci,spouses.first_name as v_1erNombre,spouses.second_name as v_2doNombre,spouses.last_name as_v_paterno,spouses.mothers_last_name as materno,spouses.surname_husband as v_apcasada"
                     ))
                     ->leftJoin("affiliate_observations", "affiliates.id",  '=',  "affiliate_observations.affiliate_id")
                     ->leftJoin("observation_types", "affiliate_observations.observation_type_id",  "=",  "observation_types.id")
@@ -1941,10 +1942,12 @@ class EconomicComplementReportController extends Controller
                     ->leftJoin("cities as city_user", "users.city_id",  "=", "city_user.id")
                     ->leftJoin("cities as affiliate_city_identity_card", "affiliates.city_identity_card_id",  "=", "affiliate_city_identity_card.id")
                     ->leftJoin('degrees','affiliates.degree_id','=','degrees.id')
+                    ->leftJoin('spouses','affiliates.id','=','spouses.affiliate_id')
 
                     ->where("observation_types.id",  '=', 33)
                     ->get();
             $data = $query;
+            //Log::info($data);
             Util::excel($file_name, 'afi obs por Documentos Prev',$data);
         break;
         case '16':  //REPORTE DE TRAMITES CON PAGO A DOMICILIO
