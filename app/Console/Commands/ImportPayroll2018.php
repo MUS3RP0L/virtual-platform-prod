@@ -161,8 +161,8 @@ class ImportPayroll2018 extends Command
                                     //$afi->afp = Util::getAfp(trim($result->afp));
                                     $afi->birth_date = $birth_date;
                                     $afi->date_entry = $date_entry;
-                                    $afi->nua = $nua;
-                                    $afi->registration = null;
+                                    //$afi->nua = $nua;
+                                    //$afi->registration = null;
                                     $afi->save();
                                     Log::info($afi->id.' esto');
                                 }
