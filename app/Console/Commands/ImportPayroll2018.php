@@ -81,8 +81,8 @@ class ImportPayroll2018 extends Command
 
                                  $gender = $result->sex ? trim($result->sex) : null;
                                  $civil_status = $result->eciv ? trim($result->eciv) : null;
-                                 $item = $result->item ? trim($result->item) : null;
-                                 $nua = $result->nua ? trim($result->nua) : null;
+                                 //$item = $result->item ? trim($result->item) : null;
+                                 //$nua = $result->nua ? trim($result->nua) : null;
 
 
                                  $month = $result->mes ? intval($result->mes) : 0;
@@ -158,7 +158,7 @@ class ImportPayroll2018 extends Command
                                     $afi->civil_status = $civil_status;
                                     $afi->gender = $gender;
                                     $afi->item = $item;
-                                    $afi->afp = Util::getAfp(trim($result->afp));
+                                    //$afi->afp = Util::getAfp(trim($result->afp));
                                     $afi->birth_date = $birth_date;
                                     $afi->date_entry = $date_entry;
                                     $afi->nua = $nua;
@@ -191,14 +191,14 @@ class ImportPayroll2018 extends Command
                                          $contribution->east_bonus = Util::decimal($result->ori);
                                          $contribution->public_security_bonus = Util::decimal($result->bseg);
 
-                                         $contribution->deceased = $result->dfu;
-                                         $contribution->natality = $result->nat;
-                                         $contribution->lactation = $result->lac;
-                                         $contribution->prenatal = $result->pre;
-                                         $contribution->subsidy = Util::decimal($result->sub);
+                                         //$contribution->deceased = $result->dfu;
+                                         //$contribution->natality = $result->nat;
+                                         //$contribution->lactation = $result->lac;
+                                         //$contribution->prenatal = $result->pre;
+                                         //$contribution->subsidy = Util::decimal($result->sub);
 
                                          $contribution->gain = Util::decimal($result->gan);
-                                         $contribution->payable_liquid = Util::decimal($result->pag);
+                                         $contribution->payable_liquid = Util::decimal($result->lpag);
                                          $contribution->quotable = (FLOAT)$contribution->base_wage +
                                                                    (FLOAT)$contribution->seniority_bonus +
                                                                    (FLOAT)$contribution->study_bonus +
