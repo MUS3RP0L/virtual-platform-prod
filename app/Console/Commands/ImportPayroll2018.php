@@ -157,7 +157,7 @@ class ImportPayroll2018 extends Command
                                     $afi->second_name = Util::replaceCharacter($second_name);
                                     $afi->civil_status = $civil_status;
                                     $afi->gender = $gender;
-                                    $afi->item = $item;
+                                    //$afi->item = $item;
                                     //$afi->afp = Util::getAfp(trim($result->afp));
                                     $afi->birth_date = $birth_date;
                                     $afi->date_entry = $date_entry;
@@ -181,7 +181,7 @@ class ImportPayroll2018 extends Command
                                          $contribution->breakdown_id = $breakdown_id;
                                          $contribution->degree_id = $degree_id;
                                          $contribution->category_id = $category_id;
-                                         $contribution->item = $item;
+                                         //$contribution->item = $item;
 
                                          $contribution->base_wage = Util::decimal($result->sue);
                                          $contribution->seniority_bonus = Util::decimal($result->cat);
