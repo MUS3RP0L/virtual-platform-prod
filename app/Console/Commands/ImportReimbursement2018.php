@@ -79,8 +79,7 @@ class ImportReimbursement2018 extends Command
                                  ini_set('max_input_time', '-1');
                                  set_time_limit('-1');
 
-                                 $ci=$result->car;                                 
-                                 $item = $result->item ? trim($result->item) : null;                              
+                                 $ci=$result->car;                                                             
                                  $month = $result->mes ? (($result->mes=="re") ? 6 : intval($result->mes)) : 0;
                                  $year = $result->a_o ? intval($result->a_o)+2000: 0;
                                  $month_year = Carbon::createFromDate($year, $month, 1)->toDateString();
@@ -94,7 +93,7 @@ class ImportReimbursement2018 extends Command
                                  if ($afi) {
 
 
-                                    if (is_null($result->desg)) {$result->desg = 0;}
+                                    if (is_null($result->desg)) {$+->desg = 0;}
                                     $breakdown_id = Breakdown::select('id')->where('code', $result->desg)->first()->id;
    
                                     if ($breakdown_id == 1) {
@@ -133,7 +132,6 @@ class ImportReimbursement2018 extends Command
                                               $contribution->breakdown_id = $breakdown_id;
                                               $contribution->degree_id = $degree_id;
                                             //   $contribution->category_id = $category_id;
-                                              $contribution->item = $item;
                                               
                                               $contribution->base_wage = Util::decimal($result->sue);
                                               $contribution->seniority_bonus = Util::decimal($result->cat);
@@ -142,13 +140,7 @@ class ImportReimbursement2018 extends Command
                                               $contribution->border_bonus = Util::decimal($result->fro);
                                               $contribution->east_bonus = Util::decimal($result->ori);
                                               $contribution->public_security_bonus = Util::decimal($result->bseg);
-                                              
-                                              $contribution->deceased = $result->dfu;
-                                              $contribution->natality = $result->nat;
-                                              $contribution->lactation = $result->lac;
-                                              $contribution->prenatal = $result->pre;
-                                              $contribution->subsidy = Util::decimal($result->sub);
-                                              
+
                                              $contribution->gain = Util::decimal($result->gan);
                                              $contribution->payable_liquid = Util::decimal($result->pag);
                                              $contribution->quotable = (FLOAT)$contribution->base_wage +
