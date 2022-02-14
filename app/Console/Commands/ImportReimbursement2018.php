@@ -93,7 +93,7 @@ class ImportReimbursement2018 extends Command
                                  if ($afi) {
 
 
-                                    if (is_null($result->desg)) {$+->desg = 0;}
+                                    if (is_null($result->desg)) {$result->desg = 0;}
                                     $breakdown_id = Breakdown::select('id')->where('code', $result->desg)->first()->id;
    
                                     if ($breakdown_id == 1) {
