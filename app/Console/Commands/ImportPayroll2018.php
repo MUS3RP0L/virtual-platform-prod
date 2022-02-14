@@ -127,7 +127,6 @@ class ImportPayroll2018 extends Command
                                      $afi->identity_card = ltrim(trim($ci),'0');
                                  }
 
-                                 $afi->change_date = $month_year;
                                  switch ($result->desg) {
                                     case '1'://Disponibilidad
                                         $afi->affiliate_state_id = 3;
